@@ -1,0 +1,134 @@
+{
+  "checks": [
+    {
+      "detail": {
+        "unclassified_resource_ids": []
+      },
+      "name": "all_registry_resources_have_a_primary_role",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "every_primary_role_is_from_the_approved_vocabulary",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "actual": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ],
+        "expected": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ]
+      },
+      "name": "memory_foundation_is_exactly_the_four_approved_datasets",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "no_attack_resource_in_memory_foundation",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "no_sleeper_resource_in_memory_foundation",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "evaluation_violations": [],
+        "workload_violations": []
+      },
+      "name": "no_workload_or_evaluation_resource_in_memory_foundation",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "every_resource_retains_source_provenance",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "availability_is_represented_honestly",
+      "status": "PASS"
+    },
+    {
+      "detail": {},
+      "name": "organization_is_deterministic_across_independent_runs",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "source_check": {
+          "detail": {
+            "unified_counts": {
+              "conversation_chronicles": 822762,
+              "locomo": 5882,
+              "longmemeval": 210365,
+              "msc": 227185
+            }
+          },
+          "name": "record_counts_match_phase1_processed_output",
+          "status": "PASS"
+        }
+      },
+      "name": "phase1_processed_data_not_mutated_by_phase2_4",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_records": 1266194
+      },
+      "name": "phase2_2_unified_memory_validation_still_passes",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_records": 1266194
+      },
+      "name": "phase2_3_temporal_validation_still_passes",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "expected_per_dataset": {
+          "conversation_chronicles": 822762,
+          "locomo": 5882,
+          "longmemeval": 210365,
+          "msc": 227185
+        },
+        "expected_total": 1266194,
+        "violations": []
+      },
+      "name": "umr_schema_temporal_policy_and_record_counts_unchanged",
+      "status": "PASS"
+    }
+  ],
+  "generated_at": "2026-08-16T13:21:13Z",
+  "overall_status": "PASS",
+  "resource_count_by_role": {
+    "attack": 6,
+    "evaluation": 7,
+    "memory": 4,
+    "sleeper": 2,
+    "workload": 9
+  },
+  "schema_version": "1.0.0",
+  "total_resources_organized": 28
+}

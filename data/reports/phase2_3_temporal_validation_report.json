@@ -1,0 +1,89 @@
+{
+  "checks": [
+    {
+      "detail": {
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "temporal_provenance_values_are_from_known_vocabulary",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "no_accidental_fabrication_source_absolute_vs_normalized_timestamp",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "ordering_consistency_within_session_and_across_sessions",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "sample_size_per_dataset": 200,
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "determinism_recompute_matches_stored_and_is_stable",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "missing_temporal_information_never_silently_invented",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "identical_source_timestamps_never_parse_inconsistently",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "per_dataset_provenance_counts": {
+          "conversation_chronicles": {
+            "source_relative": 822762
+          },
+          "locomo": {
+            "source_absolute": 5882
+          },
+          "longmemeval": {
+            "source_absolute": 210365
+          },
+          "msc": {
+            "source_relative": 227185
+          }
+        }
+      },
+      "name": "all_four_core_datasets_produce_temporal_fields",
+      "status": "PASS"
+    }
+  ],
+  "duplicate_source_timestamp_occurrences_by_dataset": {
+    "conversation_chronicles": 0,
+    "locomo": 5611,
+    "longmemeval": 194424,
+    "msc": 0
+  },
+  "normalization_policy_version": "2.3.0",
+  "overall_status": "PASS",
+  "per_dataset_counts": {
+    "conversation_chronicles": 822762,
+    "locomo": 5882,
+    "longmemeval": 210365,
+    "msc": 227185
+  },
+  "schema_version": "1.0.0",
+  "total_records": 1266194
+}

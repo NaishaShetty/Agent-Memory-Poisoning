@@ -1,0 +1,60 @@
+# Phase 1 preprocessing pipeline configuration.
+# All paths are relative to the repository root unless absolute.
+
+seed: 20260101
+
+paths:
+  raw_dir: data/raw
+  interim_dir: data/interim
+  processed_dir: data/processed
+  metadata_dir: data/metadata
+  reports_dir: data/reports
+  logs_dir: data/logs
+
+datasets:
+  locomo:
+    enabled: true
+    raw_files:
+      - locomo/locomo10.json
+      - locomo/LICENSE.txt
+
+  longmemeval:
+    enabled: true
+    raw_files:
+      - longmemeval/longmemeval_oracle.json
+      - longmemeval/longmemeval_s_cleaned.json
+      - longmemeval/README.md
+    # longmemeval_m_cleaned.json (~2.7GB) is intentionally not fetched in
+    # Phase 1 for repository-size reasons. See dataset_manifest.json and the
+    # Phase 1 report "Deviations" section.
+    optional_raw_files:
+      - longmemeval/longmemeval_m_cleaned.json
+
+  msc:
+    enabled: true
+    raw_files:
+      - msc/msc_v0.1.tar.gz
+    extracted_subdir: msc/msc
+
+  conversation_chronicles:
+    enabled: true
+    raw_files:
+      - conversation_chronicles/train.jsonl
+      - conversation_chronicles/valid.jsonl
+      - conversation_chronicles/test.jsonl
+      - conversation_chronicles/README.md
+    options:
+      # Conversation Chronicles has 200,000 episodes (160k/20k/20k train/
+      # valid/test) at ~59 turns/episode, i.e. ~11.8M turns if processed in
+      # full -- roughly 50x larger than LoCoMo+LongMemEval+MSC combined, and
+      # would dominate the memory substrate rather than complement it (see
+      # research-plan "IMPORTANT DATASET PRINCIPLE": multiple sources should
+      # prevent overfitting to one dataset's structure, not entrench one).
+      # A deterministic, seeded reservoir sample is taken instead. This is a
+      # documented Phase 1 scoping decision, not a silent truncation: the
+      # exact caps and the resulting drop counts are recorded in the
+      # inspection report, removal log, and Phase 1 completion report.
+      episode_sample_caps:
+        train.jsonl: 10000
+        valid.jsonl: 2000
+        test.jsonl: 2000

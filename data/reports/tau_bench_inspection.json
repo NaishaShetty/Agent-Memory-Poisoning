@@ -1,0 +1,61 @@
+{
+  "domains": [
+    "airline",
+    "retail"
+  ],
+  "env_data_files": [
+    {
+      "found": true,
+      "label": "airline_flights",
+      "num_entries": 300,
+      "source_file": "data\\raw\\tau_bench\\envs\\airline\\data\\flights.json"
+    },
+    {
+      "found": true,
+      "label": "airline_reservations",
+      "num_entries": 2000,
+      "source_file": "data\\raw\\tau_bench\\envs\\airline\\data\\reservations.json"
+    },
+    {
+      "found": true,
+      "label": "airline_users",
+      "num_entries": 500,
+      "source_file": "data\\raw\\tau_bench\\envs\\airline\\data\\users.json"
+    },
+    {
+      "found": true,
+      "label": "retail_orders",
+      "num_entries": 1000,
+      "source_file": "data\\raw\\tau_bench\\envs\\retail\\data\\orders.json"
+    },
+    {
+      "found": true,
+      "label": "retail_products",
+      "num_entries": 50,
+      "source_file": "data\\raw\\tau_bench\\envs\\retail\\data\\products.json"
+    },
+    {
+      "found": true,
+      "label": "retail_users",
+      "num_entries": 500,
+      "source_file": "data\\raw\\tau_bench\\envs\\retail\\data\\users.json"
+    }
+  ],
+  "note": "Task definitions (tasks.py) are Python source, not JSON; counted statically via string search, NOT executed/imported, per research plan instruction not to execute repository code.",
+  "num_records_total": 8,
+  "resource": "tau_bench",
+  "task_definition_files": [
+    {
+      "approx_task_count_static": 0,
+      "found": true,
+      "label": "airline_tasks",
+      "source_file": "data\\raw\\tau_bench\\envs\\airline\\tasks.py"
+    },
+    {
+      "approx_task_count_static": 0,
+      "found": true,
+      "label": "retail_tasks",
+      "source_file": "data\\raw\\tau_bench\\envs\\retail\\tasks.py"
+    }
+  ]
+}

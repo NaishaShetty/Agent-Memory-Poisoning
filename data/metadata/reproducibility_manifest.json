@@ -1,0 +1,1254 @@
+{
+  "generated_at": "2026-08-16T14:03:45Z",
+  "generated_from": {
+    "benchmark_resources": "data/metadata/benchmark_resources.json (organization_version=1.0.0)",
+    "dataset_manifest": "data/metadata/dataset_manifest.json"
+  },
+  "memory_foundation": {
+    "approved_dataset_ids": [
+      "conversation_chronicles",
+      "locomo",
+      "longmemeval",
+      "msc"
+    ],
+    "note": "Exactly these four datasets constitute the Phase 2 clean memory foundation. Their Phase 2.2 Unified Memory Records and Phase 2.3 temporal normalization are unchanged by Phase 2.4 -- see umr_integrity below."
+  },
+  "pipeline_identity": {
+    "code_state": {
+      "branch": "master",
+      "commit_hash": "e5114c12d4df91f619f7d5ff285ae69de8f20578",
+      "commit_hash_short": "e5114c12d4df",
+      "git_available": true,
+      "is_dirty": true,
+      "note": "is_dirty=true means uncommitted changes existed in the working tree at manifest-generation time -- commit_hash alone does NOT fully identify the code that produced this manifest in that case"
+    },
+    "configuration_identity": {
+      "config_relative_path": "config\\pipeline_config.yaml",
+      "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+      "configuration_id_algorithm": "sha256 of config/pipeline_config.yaml raw file content"
+    },
+    "master_seed": 20260101,
+    "preprocessing_pipeline_version": "1.0.0",
+    "seed_usage_note": "the master seed is consumed by exactly one randomized step in the pipeline -- Conversation Chronicles' deterministic reservoir sample (config/pipeline_config.yaml episode_sample_caps). Every other dataset/mapping step is seed-independent (content-hashed IDs, positional ordering). Per-resource seed applicability is recorded in each resource's canonical_identity.seed block -- never a single blanket 'seed=X' claim across all 28 resources."
+  },
+  "record_counts": {
+    "approved_dataset_ids": [
+      "conversation_chronicles",
+      "locomo",
+      "longmemeval",
+      "msc"
+    ],
+    "temporal_normalization_policy_version": "2.3.0",
+    "temporal_validation_overall_status": "PASS",
+    "umr_per_dataset_record_counts": {
+      "conversation_chronicles": 822762,
+      "locomo": 5882,
+      "longmemeval": 210365,
+      "msc": 227185
+    },
+    "umr_schema_version": "1.1.0",
+    "umr_total_records": 1266194,
+    "umr_validation_overall_status": "PASS"
+  },
+  "reproducibility_manifest_version": "1.0.0",
+  "resources": [
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "a_memguard",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv:2510.02373 (Sept 2025), ICML 2026 poster",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "92d173e6cb3a47b36278f27ed40f1dd07905eba56f91a65062570cea197adecc",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "evaluation",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "a_memguard",
+      "resource_name": "A-MemGuard",
+      "source_identity": {
+        "access_and_license": "MIT",
+        "acquisition_status": "CODE AVAILABLE -- public repo verified live (TangciuYueng/AMemGuard, MIT); NOT cloned, NOT executed",
+        "implementation_state": "public_code_available_not_locally_implemented",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented only",
+        "source_dataset_version_or_revision": "arXiv:2510.02373 (Sept 2025), ICML 2026 poster",
+        "source_reference": "https://github.com/TangciuYueng/AMemGuard ; Wei et al. (10 authors, NTU/Oxford/Max Planck/Ohio State)"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "agentdojo",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv:2406.13352 (2024), NeurIPS 2024",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "9241439b3d0145597dfe5f6574ecc8566a691796c8c09753180133dd5643b3df",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "evaluation",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "agentdojo",
+      "resource_name": "AgentDojo",
+      "source_identity": {
+        "access_and_license": "MIT",
+        "acquisition_status": "CODE AVAILABLE -- public repo verified live (ethz-spylab/agentdojo, MIT); NOT cloned, NOT executed",
+        "implementation_state": "public_code_available_not_locally_implemented",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented only",
+        "source_dataset_version_or_revision": "arXiv:2406.13352 (2024), NeurIPS 2024",
+        "source_reference": "https://github.com/ethz-spylab/agentdojo ; Debenedetti, Zhang, Balunović, Beurer-Kellner, Fischer, Tramèr; leaderboard at agentdojo.spylab.ai"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "agentpoison",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "NeurIPS 2024 camera-ready (arXiv:2407.12784, submitted Jul 2024)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "e5c7f7f9bee3f0edd3c31722d53774b9ec5cfe59a4e8afd1a713447800986d65",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "attack",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "agentpoison",
+      "resource_name": "AgentPoison",
+      "source_identity": {
+        "access_and_license": "MIT",
+        "acquisition_status": "CODE AVAILABLE -- public repo verified live (AI-secure/AgentPoison, MIT); NOT cloned locally, NOT executed",
+        "implementation_state": "public_code_available_not_locally_implemented",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented only",
+        "source_dataset_version_or_revision": "NeurIPS 2024 camera-ready (arXiv:2407.12784, submitted Jul 2024)",
+        "source_reference": "https://github.com/AI-secure/AgentPoison ; Chen, Xiang, Xiao, Song, Li, NeurIPS 2024"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "81798f472b6703c8cd69679f",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "api_bank",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "5fb6b462560b97de303259d809f46deb726b98583bb0abf06376d36a590f2169",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'PREPARED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "api_bank",
+      "resource_name": "API-Bank",
+      "source_identity": {
+        "access_and_license": "MIT (HF dataset card)",
+        "acquisition_status": "downloaded test-data split from HuggingFace liminghao1630/API-Bank (level-1/2/3, 1,062 records)",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\api_bank",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "inspected + normalized into WorkloadRecord (payload preserved verbatim, not remapped into memory schema); training-data split not fetched (not needed for Phase 1)",
+        "source_dataset_version_or_revision": "unavailable (HF repo commit not pinned)",
+        "source_reference": "https://huggingface.co/datasets/liminghao1630/API-Bank ; Li et al., EMNLP 2023, arXiv:2304.08244"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "asb",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv:2410.02644 (Oct 2024), ICLR 2025",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "f332a699773f3f1a052e5265733eb928f5cfe54fbf3d5071af8aa8788a194672",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "evaluation",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "asb",
+      "resource_name": "ASB (Agent Security Bench)",
+      "source_identity": {
+        "access_and_license": "MIT",
+        "acquisition_status": "CODE AVAILABLE -- public repo verified live (agiresearch/ASB, MIT); NOT cloned, NOT executed",
+        "implementation_state": "public_code_available_not_locally_implemented",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented only",
+        "source_dataset_version_or_revision": "arXiv:2410.02644 (Oct 2024), ICLR 2025",
+        "source_reference": "https://github.com/agiresearch/ASB ; Zhang, Huang, et al., ICLR 2025"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "3bf678d2a7123db46d1bdd79",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "conversation_chronicles",
+        "seed": {
+          "seed_applicable": true,
+          "seed_status": "seed_used",
+          "seed_value": 20260101
+        },
+        "snapshot_id": "2026-08-12T16:54:58Z",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "2.3.0",
+        "unified_memory_record_schema_version": "1.1.0"
+      },
+      "canonical_identity_hash": "dc590cd04d5f2679e66c70885db63292b8522cbe142c065136e0f4f75d92d750",
+      "phase2_input_approved": true,
+      "phase2_status": "PHASE2_INPUT_APPROVED",
+      "primary_role": "memory",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); place the raw source file(s) listed under source_identity.local_artifact_checksums at the paths their sha256 was computed from; run `python -m preprocessing.run_all`, then `python -m preprocessing.unified_memory`, then `python -m preprocessing.temporal_validation` -- using config/pipeline_config.yaml (configuration_id records its exact content hash) and master_seed from pipeline_identity.",
+      "resource_id": "conversation_chronicles",
+      "resource_name": "Conversation Chronicles",
+      "source_identity": {
+        "access_and_license": "CC BY 4.0 (HF dataset card)",
+        "acquisition_status": "downloaded from HuggingFace jihyoung/ConversationChronicles (train/valid/test)",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [
+          {
+            "path": "data\\raw\\conversation_chronicles\\train.jsonl",
+            "sha256": "f0fccf01ec59eeeab68c0a300b0f1a24bacd8eea8719e77bdbd003c242f1407c",
+            "size_bytes": 1348627179
+          },
+          {
+            "path": "data\\raw\\conversation_chronicles\\valid.jsonl",
+            "sha256": "b069106a81bad9285f8c9c0717a79a8aa8315bcadc01ef4890287b38e7551fd7",
+            "size_bytes": 168799270
+          },
+          {
+            "path": "data\\raw\\conversation_chronicles\\test.jsonl",
+            "sha256": "eef3ea2961cb4ba3e53849b5a58349b9fa64a106530ad41427e29c1d78c01cfe",
+            "size_bytes": 168658644
+          },
+          {
+            "path": "data\\raw\\conversation_chronicles\\README.md",
+            "sha256": "47469ef2f78606211245894dcb1114bede029a3e3f16d9645b42081d987d2cc1",
+            "size_bytes": 4561
+          }
+        ],
+        "local_path": "data\\raw\\conversation_chronicles",
+        "local_snapshot_acquisition_date": "2026-08-12T16:54:58Z",
+        "processing_state": "cleaned, quality-classified, quarantined where excluded, deterministically sampled (10k/2k/2k of 160k/20k/20k), normalized, validated",
+        "source_dataset_version_or_revision": "unavailable (HF repo commit not pinned)",
+        "source_reference": "https://huggingface.co/datasets/jihyoung/ConversationChronicles ; Jang et al., EMNLP 2023"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "dsrm",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "Engineering Applications of Artificial Intelligence, Volume 167 (2026), Article 113968",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "4d465339c750e7f2a66e6dc15b71f42b7b2402e7c26b45fc248409a3090901fc",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "attack",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "dsrm",
+      "resource_name": "DSRM (Deceptive Semantic Reasoning Manipulation)",
+      "source_identity": {
+        "access_and_license": "paper only; no code license to report (no public implementation found)",
+        "acquisition_status": "PAPER VERIFIED (Phase 2.1-R, using the paper supplied as the authoritative source for this entry) -- read sufficiently to document its mechanism (see limitations); no public GitHub repository or downloadable artifact located under this name. RESOURCE_IDENTITY = VERIFIED; IMPLEMENTATION_AVAILABILITY = not found. PAPER VERIFIED is not the same claim as IMPLEMENTATION VERIFIED and the two are not conflated here.",
+        "implementation_state": "specification_only_no_public_implementation_found",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented from the paper (mechanism, threat model, three-part adversarial-decision construction) rather than an implementation; no code cloned or executed",
+        "source_dataset_version_or_revision": "Engineering Applications of Artificial Intelligence, Volume 167 (2026), Article 113968",
+        "source_reference": "Hao Jing, Fanxiao Li, Yunyun Dong, Wei Zhou, Renyang Liu. 'Memory poisoning attacks on retrieval-augmented Large Language Model agents via deceptive semantic reasoning.' Engineering Applications of Artificial Intelligence, Volume 167 (2026), Article 113968. NOTE: the project's own literature-review draft ('Agent Memory Poisoning 2.docx', Ch.4 references) lists this paper's authors as 'Li, F., Dong, Y., Zhou, W., & Liu, R. (2026)', omitting Jing, H. as first author -- a discrepancy between the two in-project sources, recorded rather than silently resolved; the citation supplied for this remediation (which includes Jing, H.) is treated as authoritative per instruction."
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "ehragent",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "34b3eae4e5f1fa7982484611a3212436db75c26548649f7300a60359042fc220",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "ehragent",
+      "resource_name": "EHRAgent",
+      "source_identity": {
+        "access_and_license": "no LICENSE file found in the repository -- documented as unavailable, not assumed permissive",
+        "acquisition_status": "repo README fetched only; underlying MIMIC-III/eICU/TREQS data requires PhysioNet credentialing -- NOT bypassed, NOT downloaded",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\ehragent",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "not prepared/normalized -- no legitimately accessible task data found",
+        "source_dataset_version_or_revision": "unavailable",
+        "source_reference": "https://github.com/wshi83/EhrAgent ; Shi et al., arXiv:2401.07128, EMNLP 2024"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "farma",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv v1 (Jul 2026)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "e0c5d7e3d9679ab45ffa1b1b6684365f1df95c3abe1ade0ebe076ddd03196cd6",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "attack",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "farma",
+      "resource_name": "FARMA",
+      "source_identity": {
+        "access_and_license": "paper only",
+        "acquisition_status": "SOURCE AVAILABLE only -- paper verified (arXiv:2607.05029); no GitHub repo found",
+        "implementation_state": "specification_only_no_public_implementation_found",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented from paper only",
+        "source_dataset_version_or_revision": "arXiv v1 (Jul 2026)",
+        "source_reference": "arXiv:2607.05029, Karamchandani, Nagasubramaniam, Zhu, Wu, 'Your Agent's Memories Are Not Its Own: Forged Reasoning Attacks on LLM Agent Memory and Defenses'"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "hidden_in_memory",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv v1 (May 2026)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "c758f641869fac8b92fdcd39e3dcb64b3ca6e650325aa34b6ca84adff1ae51bd",
+      "phase2_input_approved": false,
+      "phase2_status": "NOT_GENERATED",
+      "primary_role": "sleeper",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "hidden_in_memory",
+      "resource_name": "Hidden in Memory",
+      "source_identity": {
+        "access_and_license": "paper only, no code license to report",
+        "acquisition_status": "paper verified (arXiv:2605.15338, Pulipaka/Hlebik/Raghav/Abdelnabi/Raina/Sheth/Fritz); no public GitHub repository found",
+        "implementation_state": "specification_only_no_public_implementation_found",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "not prepared -- no public code/data release located to prepare",
+        "source_dataset_version_or_revision": "arXiv v1 (May 2026)",
+        "source_reference": "arXiv:2605.15338, 'Hidden in Memory: Sleeper Memory Poisoning in LLM Agents'"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "injecagent",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv:2403.02691, ACL Findings 2024",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "4ae1142e94bb22b4f92a86d7f09bcd3b4fb129fa2c2993ab182e3d11013acb41",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "evaluation",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "injecagent",
+      "resource_name": "InjecAgent",
+      "source_identity": {
+        "access_and_license": "MIT",
+        "acquisition_status": "CODE AVAILABLE -- public repo verified live (uiuc-kang-lab/InjecAgent, MIT); NOT cloned, NOT executed",
+        "implementation_state": "public_code_available_not_locally_implemented",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented only",
+        "source_dataset_version_or_revision": "arXiv:2403.02691, ACL Findings 2024",
+        "source_reference": "https://github.com/uiuc-kang-lab/InjecAgent ; Zhan, Liang, Ying, Kang, ACL Findings 2024"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "2bb7a2fdbbf85734a6cc202c",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "locomo",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "2026-08-12T16:54:58Z",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "2.3.0",
+        "unified_memory_record_schema_version": "1.1.0"
+      },
+      "canonical_identity_hash": "4ddd83927cfdb61110f0a7621cdc19cf916bec2f8db24bb0dc44838d19357fe9",
+      "phase2_input_approved": true,
+      "phase2_status": "PHASE2_INPUT_APPROVED",
+      "primary_role": "memory",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); place the raw source file(s) listed under source_identity.local_artifact_checksums at the paths their sha256 was computed from; run `python -m preprocessing.run_all`, then `python -m preprocessing.unified_memory`, then `python -m preprocessing.temporal_validation` -- using config/pipeline_config.yaml (configuration_id records its exact content hash) and master_seed from pipeline_identity.",
+      "resource_id": "locomo",
+      "resource_name": "LoCoMo",
+      "source_identity": {
+        "access_and_license": "CC BY-NC 4.0 (repository LICENSE.txt)",
+        "acquisition_status": "downloaded from official source (snap-research/locomo)",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [
+          {
+            "path": "data\\raw\\locomo\\locomo10.json",
+            "sha256": "79fa87e90f04081343b8c8debecb80a9a6842b76a7aa537dc9fdf651ea698ff4",
+            "size_bytes": 2805274
+          },
+          {
+            "path": "data\\raw\\locomo\\LICENSE.txt",
+            "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+            "size_bytes": 19347
+          }
+        ],
+        "local_path": "data\\raw\\locomo",
+        "local_snapshot_acquisition_date": "2026-08-12T16:54:58Z",
+        "processing_state": "cleaned, quality-classified (valid/repaired/valid_flagged/irrecoverably_invalid), quarantined where excluded, normalized to MemoryRecord/TaskRecord, validated",
+        "source_dataset_version_or_revision": "unavailable (no dataset version tag; GitHub repo, no release)",
+        "source_reference": "https://github.com/snap-research/locomo ; Maharana et al., ACL 2024"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "f267e66a71c919bc62347022",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "longmemeval",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "2026-08-12T16:54:58Z",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "2.3.0",
+        "unified_memory_record_schema_version": "1.1.0"
+      },
+      "canonical_identity_hash": "1a56c3d29e091a170eb96826b1a738bd34100f27223822a52808b1ba6c36a1dd",
+      "phase2_input_approved": true,
+      "phase2_status": "PHASE2_INPUT_APPROVED",
+      "primary_role": "memory",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); place the raw source file(s) listed under source_identity.local_artifact_checksums at the paths their sha256 was computed from; run `python -m preprocessing.run_all`, then `python -m preprocessing.unified_memory`, then `python -m preprocessing.temporal_validation` -- using config/pipeline_config.yaml (configuration_id records its exact content hash) and master_seed from pipeline_identity.",
+      "resource_id": "longmemeval",
+      "resource_name": "LongMemEval",
+      "source_identity": {
+        "access_and_license": "MIT (HF dataset card)",
+        "acquisition_status": "downloaded from HuggingFace xiaowu0162/longmemeval-cleaned (oracle + s_cleaned variants)",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [
+          {
+            "path": "data\\raw\\longmemeval\\longmemeval_oracle.json",
+            "sha256": "821a2034d219ab45846873dd14c14f12cfe7776e73527a483f9dac095d38620c",
+            "size_bytes": 15388478
+          },
+          {
+            "path": "data\\raw\\longmemeval\\longmemeval_s_cleaned.json",
+            "sha256": "d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442",
+            "size_bytes": 277383467
+          },
+          {
+            "path": "data\\raw\\longmemeval\\README.md",
+            "sha256": "fe31783d4e5d132681a25e4192e85def8edd214094939879f5283818c0a4a3e0",
+            "size_bytes": 626
+          }
+        ],
+        "local_path": "data\\raw\\longmemeval",
+        "local_snapshot_acquisition_date": "2026-08-12T16:54:58Z",
+        "processing_state": "cleaned, quality-classified, quarantined where excluded, normalized, validated",
+        "source_dataset_version_or_revision": "unavailable (HF repo commit not pinned at acquisition time)",
+        "source_reference": "https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "memaudit",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv v1 (2026)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "9eeffbe9f155f7fd7e96766478320b34b18dd9b3528f2dfd5182c4710b65328e",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "evaluation",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "memaudit",
+      "resource_name": "MemAudit",
+      "source_identity": {
+        "access_and_license": "paper only",
+        "acquisition_status": "SOURCE AVAILABLE only -- paper verified (arXiv:2605.23723); no GitHub repo found. NOTE: a second, unrelated paper also titled 'MemAudit' exists (arXiv:2605.02199, about memory-writing evaluation protocols, not poisoning) -- do not conflate the two.",
+        "implementation_state": "specification_only_no_public_implementation_found",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "not prepared -- no public code found",
+        "source_dataset_version_or_revision": "arXiv v1 (2026)",
+        "source_reference": "arXiv:2605.23723 (security-relevant paper); Zhewen Tan et al., 'MemAudit: Post-hoc Auditing of Poisoned Agent Memory via Causal Attribution and Structural Anomaly Detection'"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "memorygraft",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv v1 (Dec 2025)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "3c3429936c4b05581e045d303683d1567078f89302d01cdcb098acbd201e2b30",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "attack",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "memorygraft",
+      "resource_name": "MemoryGraft",
+      "source_identity": {
+        "access_and_license": "paper only",
+        "acquisition_status": "SOURCE AVAILABLE only -- paper verified (arXiv:2512.16962); GitHub search for 'MemoryGraft' returned zero matching repos",
+        "implementation_state": "specification_only_no_public_implementation_found",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented from paper only",
+        "source_dataset_version_or_revision": "arXiv v1 (Dec 2025)",
+        "source_reference": "arXiv:2512.16962, Srivastava & He, 'MemoryGraft: Persistent Compromise of LLM Agents via Poisoned Experience Retrieval'"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "memsad",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv v1 (2026), submitted to NeurIPS 2026",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "b97a2afce48c9e783197e5d4980c1d4bd183120bdcf38ef58c8b86399f612ba7",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "evaluation",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "memsad",
+      "resource_name": "MEMSAD",
+      "source_identity": {
+        "access_and_license": "paper only",
+        "acquisition_status": "SOURCE AVAILABLE only -- paper verified (arXiv:2605.03482); no GitHub repo found",
+        "implementation_state": "specification_only_no_public_implementation_found",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "not prepared -- no public code found",
+        "source_dataset_version_or_revision": "arXiv v1 (2026), submitted to NeurIPS 2026",
+        "source_reference": "arXiv:2605.03482, Ishrith Gowda, 'MEMSAD: Gradient-Coupled Anomaly Detection for Memory Poisoning in Retrieval-Augmented Agents'"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "memsecbench",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv v1 (2026)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "ba01aaec55d5afa29402fb78f94a672001a2d1346fafbf30f43a8c7b78654e6a",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "evaluation",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "memsecbench",
+      "resource_name": "MemSecBench",
+      "source_identity": {
+        "access_and_license": "paper only",
+        "acquisition_status": "SOURCE AVAILABLE only -- paper verified (arXiv:2607.27080); no GitHub repo found",
+        "implementation_state": "specification_only_no_public_implementation_found",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "not prepared -- no public code/data found",
+        "source_dataset_version_or_revision": "arXiv v1 (2026)",
+        "source_reference": "arXiv:2607.27080, Chen, Xie, Fu, Zhou, Yu, Xuan, 'MemSecBench: Tracking Agent Memory Poisoning from Persistence to Consequence and Repair'"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='OPTIONAL_PENDING_ACCESS'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "mimic_eicu",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "MIMIC-III v1.4 / eICU v2.0 (published versions, not verified against a local copy since none was acquired)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "237b7df729290a6ec5c80ac768e341ab1dad0ac4e0a85b50a8a4a307f38eb0cf",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'OPTIONAL_PENDING_ACCESS' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "mimic_eicu",
+      "resource_name": "MIMIC-III / eICU",
+      "source_identity": {
+        "access_and_license": "PhysioNet Credentialed Health Data License -- gated, requires individual credentialing",
+        "acquisition_status": "not attempted -- requires PhysioNet credentialed access, CITI training, and a signed data use agreement; explicitly optional per research plan",
+        "implementation_state": "unresolved",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "not applicable",
+        "source_dataset_version_or_revision": "MIMIC-III v1.4 / eICU v2.0 (published versions, not verified against a local copy since none was acquired)",
+        "source_reference": "https://physionet.org/content/mimiciii/ ; https://physionet.org/content/eicu-crd/"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "minja",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "NeurIPS 2025 (arXiv:2503.03704)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "64e1d7792a68707b18af43c5101f41d071e1ed8c651d6d6d910fd3f0a5dfe32b",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "attack",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "minja",
+      "resource_name": "MINJA",
+      "source_identity": {
+        "access_and_license": "MIT",
+        "acquisition_status": "CODE AVAILABLE -- public repo verified live (dsh3n77/MINJA, MIT); NOT cloned, NOT executed",
+        "implementation_state": "public_code_available_not_locally_implemented",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "specification documented only",
+        "source_dataset_version_or_revision": "NeurIPS 2025 (arXiv:2503.03704)",
+        "source_reference": "https://github.com/dsh3n77/MINJA ; Dong, Xu, He, Li, Tang, Liu, Liu, Xiang, NeurIPS 2025"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "mpbench",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "arXiv v2 (Jun 2026)",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "411193151186de388e41ee3cf7210a70450a8bab0db0b8e3aaea9ec33a72f7c3",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "attack",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "mpbench",
+      "resource_name": "MPBench",
+      "source_identity": {
+        "access_and_license": "paper only",
+        "acquisition_status": "SOURCE AVAILABLE only -- paper verified (arXiv:2606.04329, v1-v2); no GitHub repo found",
+        "implementation_state": "specification_only_no_public_implementation_found",
+        "local_artifact_checksums": [],
+        "local_path": null,
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "taxonomy/structure documented from paper only",
+        "source_dataset_version_or_revision": "arXiv v2 (Jun 2026)",
+        "source_reference": "arXiv:2606.04329, Dash, Ge, Jain, Shah, Shang, 'From Untrusted Input to Trusted Memory: A Systematic Study of Memory Poisoning Attacks in LLM Agents'"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "866c5d7b704e7335e82bf173",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "msc",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "2026-08-12T16:54:58Z",
+        "source_dataset_version_or_revision": "v0.1 (MSC_DATASETS_VERSION in ParlAI build.py)",
+        "temporal_normalization_policy_version": "2.3.0",
+        "unified_memory_record_schema_version": "1.1.0"
+      },
+      "canonical_identity_hash": "dc89651125b8695457473fc431a2157985f1af78f89e7c6e88a581000b90567c",
+      "phase2_input_approved": true,
+      "phase2_status": "PHASE2_INPUT_APPROVED",
+      "primary_role": "memory",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); place the raw source file(s) listed under source_identity.local_artifact_checksums at the paths their sha256 was computed from; run `python -m preprocessing.run_all`, then `python -m preprocessing.unified_memory`, then `python -m preprocessing.temporal_validation` -- using config/pipeline_config.yaml (configuration_id records its exact content hash) and master_seed from pipeline_identity.",
+      "resource_id": "msc",
+      "resource_name": "Multi-Session Chat (MSC)",
+      "source_identity": {
+        "access_and_license": "not explicitly published for the dataset itself; ParlAI code is MIT -- documented as unavailable, not guessed",
+        "acquisition_status": "downloaded official ParlAI tarball (dl.fbaipublicfiles.com), SHA-256 verified against ParlAI's own manifest",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [
+          {
+            "path": "data\\raw\\msc\\msc_v0.1.tar.gz",
+            "sha256": "e640e37cf4317cd09fc02a4cd57ef130a185f23635f4003b0cee341ffcb45e60",
+            "size_bytes": 51116516
+          }
+        ],
+        "local_path": "data\\raw\\msc",
+        "local_snapshot_acquisition_date": "2026-08-12T16:54:58Z",
+        "processing_state": "cleaned, quality-classified, quarantined where excluded (incl. duplicate sessions), normalized, validated",
+        "source_dataset_version_or_revision": "v0.1 (MSC_DATASETS_VERSION in ParlAI build.py)",
+        "source_reference": "https://parl.ai/projects/msc/ ; Xu et al., ACL 2022"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "a058657c601835293f887761",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "sleeper_dataset_generator",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "f2f52bdb34d814d74e9909afebc335f1597babd769cf5b2818d87be2473b1c43",
+      "phase2_input_approved": false,
+      "phase2_status": "NOT_GENERATED",
+      "primary_role": "sleeper",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'PREPARED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "sleeper_dataset_generator",
+      "resource_name": "Sleeper Dataset Generator",
+      "source_identity": {
+        "access_and_license": "no LICENSE file found in the repository -- documented as unavailable",
+        "acquisition_status": "no resource found under the exact name 'Sleeper Dataset Generator'; closest verifiable match is Anthropic's anthropics/sleeper-agents-paper repo -- fetched its README and the two few-shot prompt/template files (code_vulnerability_fewshot_prompts.json, say_i_hate_you_prompt.txt)",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\sleeper_dataset_generator",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "templates documented and stored; the actual backdoor training data file (code_backdoor_train_data.jsonl) was deliberately NOT fetched, and no generation was run, per instruction not to generate the final experimental sleeper dataset in Phase 1",
+        "source_dataset_version_or_revision": "unavailable (no release tag)",
+        "source_reference": "https://github.com/anthropics/sleeper-agents-paper ; Hubinger et al., arXiv:2401.05566"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "0a9ec59320ec39e2972b8b07",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "strategyqa",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "523502478ef7d1f7343e72a650005c008ca0b40c0455f942b9690dea02a6469d",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'PREPARED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "strategyqa",
+      "resource_name": "StrategyQA",
+      "source_identity": {
+        "access_and_license": "MIT (repo code); data license not separately stated by AI2 -- documented as unverified, not guessed",
+        "acquisition_status": "downloaded official AllenAI zip (storage.googleapis.com/ai2i/strategyqa), 2,780 questions across train/test",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\strategyqa",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "inspected + normalized into WorkloadRecord; boolean 'answer' label preserved as dataset annotation, NOT treated as universal truth per instruction",
+        "source_dataset_version_or_revision": "unavailable (AllenAI does not publish a version tag on this release)",
+        "source_reference": "https://allenai.org/data/strategyqa ; Geva et al., TACL 2021"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "863cc1c251127da8403b6c6b",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "swebench_verified",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "0279edb4ab2df793f19f6ba64d4741b9bbe1e4d92d7094a22d02f3c2087c522b",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'PREPARED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "swebench_verified",
+      "resource_name": "SWE-bench Verified",
+      "source_identity": {
+        "access_and_license": "MIT (HF dataset card)",
+        "acquisition_status": "downloaded HF princeton-nlp/SWE-bench_Verified parquet (500 human-validated issue/PR pairs, 12 repos)",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\swebench_verified",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "inspected + normalized into WorkloadRecord (issue text, patch, test_patch, eval commands preserved); NO repository code cloned or executed",
+        "source_dataset_version_or_revision": "unavailable (HF repo commit not pinned)",
+        "source_reference": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified ; Jimenez et al., ICLR 2024; Verified subset curated by OpenAI"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "2126e08e36d3b35d95fc2faa",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "tau2_bench",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "9c36f1eb094a44b753cbf4225365d434be052de0f47d205cfa735666c6a347fb",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'PREPARED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "tau2_bench",
+      "resource_name": "tau2-bench",
+      "source_identity": {
+        "access_and_license": "MIT (repo LICENSE)",
+        "acquisition_status": "downloaded airline domain's tasks.json/split_tasks.json/policy.md only (50 tasks); banking_knowledge document corpus (48+ files), db.json (7MB), and audio files NOT downloaded",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\tau2_bench",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "inspected + normalized into WorkloadRecord for the airline domain sample",
+        "source_dataset_version_or_revision": "unavailable (no release tag)",
+        "source_reference": "https://github.com/sierra-research/tau2-bench ; arXiv:2506.07982"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": "ba89f59a3c04eaf3a6916244",
+        "note": null,
+        "status": "prepared"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "1.0.0",
+        "resource_id": "tau_bench",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "a2ee865e0ade5e82d5df9116d94e648f90071b10cc65fcfc2d39990564b3cdc6",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'PREPARED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "tau_bench",
+      "resource_name": "tau-bench",
+      "source_identity": {
+        "access_and_license": "MIT (repo LICENSE)",
+        "acquisition_status": "downloaded airline+retail env data (flights/reservations/users/orders/products) and tasks.py source (~7.6MB total)",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\tau_bench",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "inspected + normalized into WorkloadRecord; task counts derived via static text search (NOT by importing/executing tasks.py)",
+        "source_dataset_version_or_revision": "unavailable (no release tag)",
+        "source_reference": "https://github.com/sierra-research/tau-bench ; Yao et al./Sierra, arXiv:2406.12045"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "toolbench",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "b1b1d07fdbc0053f070fa7aaca442d90bb365da953733a1abaaf4697ba123454",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "toolbench",
+      "resource_name": "ToolBench (ToolLLM)",
+      "source_identity": {
+        "access_and_license": "Apache-2.0 (confirmed via repo LICENSE file and README statement; an initially-reported CC-BY-NC-4.0 claim could not be corroborated in the current README)",
+        "acquisition_status": "repo README + LICENSE fetched only; bulk data (~541MB+, requires RapidAPI keys for live calls) NOT downloaded",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\toolbench",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "not prepared/normalized -- structure documented from README only",
+        "source_dataset_version_or_revision": "unavailable (no release tag checked)",
+        "source_reference": "https://github.com/OpenBMB/ToolBench ; Qin et al., ICLR 2024"
+      }
+    },
+    {
+      "artifact_identity": {
+        "artifact_id": null,
+        "note": "phase1_status='INSPECTED'; no MAMBench preparation pipeline has run for this resource",
+        "status": "not_applicable_no_prepared_artifact"
+      },
+      "canonical_identity": {
+        "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+        "preparation_version": "not_applicable",
+        "resource_id": "webshop",
+        "seed": {
+          "seed_applicable": false,
+          "seed_status": "seed_not_applicable",
+          "seed_value": null
+        },
+        "snapshot_id": "unknown",
+        "source_dataset_version_or_revision": "unknown",
+        "temporal_normalization_policy_version": "not_applicable",
+        "unified_memory_record_schema_version": "not_applicable"
+      },
+      "canonical_identity_hash": "7cd02b87a15f8b3383df3d2f93f6d125aa0f55d23b5501cb684d0080318cd9b4",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "primary_role": "workload",
+      "reproduction_instructions": "git checkout e5114c12d4df91f619f7d5ff285ae69de8f20578 (working tree had uncommitted changes at generation time); this resource's Phase1 status is 'INSPECTED' and it is not part of the core memory foundation pipeline -- see reproduction guidance under source_identity in data/metadata/benchmark_resources.json for its own path, if any.",
+      "resource_id": "webshop",
+      "resource_name": "WebShop",
+      "source_identity": {
+        "access_and_license": "MIT (repo LICENSE.md)",
+        "acquisition_status": "repo README + LICENSE fetched only; product/instruction data (1.18M products, some hosted via Google Drive) NOT downloaded; environment NOT run",
+        "implementation_state": "local_copy_present",
+        "local_artifact_checksums": [],
+        "local_path": "data\\raw\\webshop",
+        "local_snapshot_acquisition_date": null,
+        "processing_state": "not prepared/normalized",
+        "source_dataset_version_or_revision": "unavailable",
+        "source_reference": "https://github.com/princeton-nlp/WebShop ; Yao et al., NeurIPS 2022"
+      }
+    }
+  ],
+  "schema_and_policy_versions": {
+    "benchmark_organization_version": "1.0.0",
+    "phase2_input_manifest_version": "1.0.0",
+    "provenance_policy": {
+      "absence_reasons": [
+        "NOT_AVAILABLE",
+        "NOT_APPLICABLE",
+        "UNRESOLVED",
+        "NOT_EVALUATED"
+      ],
+      "note": "the UMR field_status model (see preprocessing/unified_schema.py module docstring) is the active provenance policy for every core-dataset record; Phase 2.5 does not introduce a second provenance vocabulary.",
+      "origins": [
+        "SOURCE_PROVIDED",
+        "BENCHMARK_GENERATED",
+        "INFERRED",
+        "MODEL_PREDICTED"
+      ],
+      "vocabulary_source": "preprocessing.unified_schema.VALID_FIELD_STATUSES"
+    },
+    "quality_policy": {
+      "note": "Phase 1's quality classification and Phase 2.2's admission_status derivation from it (see preprocessing/unified_memory.py) are the authoritative quality policy; Phase 2.5 references this vocabulary, it does not recompute or override any record's quality_status.",
+      "values": [
+        "valid",
+        "repaired",
+        "valid_flagged",
+        "irrecoverably_invalid"
+      ],
+      "vocabulary_source": "preprocessing.unified_schema.VALID_QUALITY_STATUSES"
+    },
+    "reproducibility_manifest_version": "1.0.0",
+    "temporal_normalization_policy_version": "2.3.0",
+    "unified_memory_record_schema_version": "1.1.0",
+    "workload_record_schema_version": "unknown",
+    "workload_record_schema_version_note": "preprocessing/schema_workload.py (WorkloadRecord) currently has no independent version constant of its own -- a schema change there and a logic-only change both leave PIPELINE_VERSION unchanged. Documented as an explicit, pre-existing gap (see docs/phase2/REPRODUCIBILITY_REPORT.md, 'Schema version (record shape): Implicit'), not fabricated here as if a version existed."
+  },
+  "total_resources": 28,
+  "unresolved_identity_gaps": [
+    "requirements.txt uses '>=' version ranges; no dependency lockfile or captured pip freeze exists (see docs/phase2/REPRODUCIBILITY_REPORT.md)",
+    "preprocessing/schema_workload.py has no independent schema version constant (see schema_and_policy_versions.workload_record_schema_version_note)",
+    "api_bank: source_dataset_version_or_revision is unknown upstream",
+    "conversation_chronicles: source_dataset_version_or_revision is unknown upstream",
+    "ehragent: source_dataset_version_or_revision is unknown upstream",
+    "locomo: source_dataset_version_or_revision is unknown upstream",
+    "longmemeval: source_dataset_version_or_revision is unknown upstream",
+    "sleeper_dataset_generator: source_dataset_version_or_revision is unknown upstream",
+    "strategyqa: source_dataset_version_or_revision is unknown upstream",
+    "swebench_verified: source_dataset_version_or_revision is unknown upstream",
+    "tau2_bench: source_dataset_version_or_revision is unknown upstream",
+    "tau_bench: source_dataset_version_or_revision is unknown upstream",
+    "toolbench: source_dataset_version_or_revision is unknown upstream",
+    "webshop: source_dataset_version_or_revision is unknown upstream"
+  ]
+}

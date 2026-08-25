@@ -1,0 +1,279 @@
+{
+  "dataset": "conversation_chronicles",
+  "dialogue_speaker_length_mismatches": 0,
+  "duplicate_data_ids": 0,
+  "empty_text_turns": 3517,
+  "files": [
+    {
+      "num_episodes": 160000,
+      "num_turns": 9394336,
+      "source_file": "C:\\Agent Memory Poisoning\\data\\raw\\conversation_chronicles\\train.jsonl"
+    },
+    {
+      "num_episodes": 20000,
+      "num_turns": 1175582,
+      "source_file": "C:\\Agent Memory Poisoning\\data\\raw\\conversation_chronicles\\valid.jsonl"
+    },
+    {
+      "num_episodes": 20000,
+      "num_turns": 1173741,
+      "source_file": "C:\\Agent Memory Poisoning\\data\\raw\\conversation_chronicles\\test.jsonl"
+    }
+  ],
+  "known_limitations": [
+    "Conversations are synthetic (LLM-generated episodes), not naturally occurring; complements MSC's human-human data rather than replacing it.",
+    "Speaker role labels vary in casing/pluralization for the same underlying role (e.g. 'Classmate A' vs 'classmates A') — preserved verbatim in source_role rather than silently canonicalized, since canonicalization could obscure a real annotation quality issue relevant to later provenance work.",
+    "Raw dataset has 200000 episodes total; Phase 1 normalization samples a deterministic subset per config/pipeline_config.yaml (options.episode_sample_caps) because the full dataset (~11.8M turns) would be ~50x larger than LoCoMo+LongMemEval+MSC combined and dominate rather than complement the memory substrate. This is a documented Phase 1 scoping decision, not a silent drop."
+  ],
+  "num_episodes_total": 200000,
+  "num_files": 3,
+  "num_turns_total": 11743659,
+  "provenance_information": {
+    "conversation_id_source": "dataID (source-provided)",
+    "turn_id_source": "DERIVED positional index within session (no native turn id)"
+  },
+  "quality_issues": {
+    "speaker_role_label_casing_inconsistency": {
+      "child": [
+        "CHILD",
+        "Child",
+        "child"
+      ],
+      "classmates a": [
+        "classmates A",
+        "Classmates A"
+      ],
+      "classmates b": [
+        "Classmates B",
+        "classmates B"
+      ],
+      "classmates b's mom": [
+        "Classmates B's mom",
+        "Classmates B's Mom"
+      ],
+      "co-worker a": [
+        "Co-worker A",
+        "Co-Worker A"
+      ],
+      "co-worker b": [
+        "Co-worker B",
+        "Co-Worker B"
+      ],
+      "co-workers a": [
+        "Co-workers A",
+        "Co-Workers A"
+      ],
+      "co-workers b": [
+        "Co-workers B",
+        "Co-Workers B"
+      ],
+      "husband": [
+        "HUSBAND",
+        "Husband"
+      ],
+      "mentee": [
+        "Mentee",
+        "MENTEE"
+      ],
+      "mentor": [
+        "MENTOR",
+        "Mentor"
+      ],
+      "neighbors b's mom": [
+        "Neighbors B's mom",
+        "Neighbors B's Mom"
+      ],
+      "neighbors b's parents": [
+        "Neighbors B's parents",
+        "Neighbors B's Parents"
+      ],
+      "parent": [
+        "PARENT",
+        "Parent",
+        "parent"
+      ],
+      "student": [
+        "Student",
+        "student"
+      ],
+      "teacher": [
+        "teacher",
+        "Teacher"
+      ],
+      "wife": [
+        "WIFE",
+        "Wife"
+      ]
+    }
+  },
+  "relationship_type_distribution": {
+    "Athlete and Coach": 2689,
+    "Classmates": 66090,
+    "Co-workers": 28856,
+    "Employee and Boss": 4811,
+    "Husband and Wife": 13486,
+    "Mentee and Mentor": 16035,
+    "Neighbors": 49521,
+    "Parent and Child": 6514,
+    "Patient and Doctor": 6980,
+    "Student and Teacher": 5018
+  },
+  "sampling": {
+    "applied_in_normalization": true,
+    "episode_sample_caps": {
+      "test.jsonl": 2000,
+      "train.jsonl": 10000,
+      "valid.jsonl": 2000
+    },
+    "note": "This inspection report scans the FULL raw files (counts above are true raw totals). Normalization applies a deterministic seeded reservoir sample per file per episode_sample_caps below — see known_limitations and the removal log for exact kept/dropped counts.",
+    "seed": 20260101
+  },
+  "sessions_per_episode": 5,
+  "temporal_information": {
+    "available": false,
+    "note": "time_interval is a free-text relative description between sessions (e.g. 'A few weeks after'); no absolute timestamps exist. Preserved verbatim, not parsed into dates.",
+    "sample_values": [
+      "Start",
+      "A few weeks after",
+      "A couple of years after",
+      "A few hours after",
+      "A few days after",
+      "A few months after",
+      "A couple of years"
+    ]
+  },
+  "unique_speaker_role_labels": [
+    " Classmates A",
+    " Classmates B",
+    " HUSBAND ",
+    " Student ",
+    " WIFE ",
+    "(Classmates A)",
+    "(Classmates B)",
+    "(Husband)",
+    "(Wife)",
+    "- Classmates A",
+    "- Classmates B",
+    "- Co-workers A",
+    "- Co-workers B",
+    "- Neighbors A",
+    "- Neighbors B",
+    "-Classmates A",
+    "-Classmates B",
+    "-Doctor",
+    "-Patient",
+    "A",
+    "A couple of years ago, This is a topic that Parent and Child discussed",
+    "A few hours after the last topic, This is a topic that Classmates A and Classmates B discussed",
+    "A few hours after the last topic, This is a topic that Co-workers A and Co-workers B discussed",
+    "A few hours after the last topic, This is a topic that Employee and Boss discussed",
+    "A few months after the last topic, This is a topic that Co-workers A and Co-workers B discussed",
+    "A few months after the last topic, This is a topic that Parent and Child discussed",
+    "A few months after the last topic, This is the topic Classmates A and Classmates B are talking about today",
+    "A few months after the last topic, this is a topic that Classmates A and Classmates B discussed",
+    "A few weeks after the last topic, This is a topic that Employee and Boss discussed",
+    "A few weeks after the last topic, This is the topic Classmates A and Classmates B are talking about today",
+    "A few weeks after the last topic, this is a topic that Classmates A and Classmates B discussed",
+    "Athlete",
+    "B",
+    "Best Friend",
+    "Boss",
+    "CHILD",
+    "Child",
+    "Class",
+    "Classmate",
+    "Classmate A",
+    "Classmate B",
+    "Classmates A",
+    "Classmates A ",
+    "Classmates A starts",
+    "Classmates B",
+    "Classmates B ",
+    "Classmates B responds",
+    "Classmates B's Mom",
+    "Classmates B's mom",
+    "Classmates B's mother",
+    "Classmates B's parents",
+    "Classmates C",
+    "ClassmatesA",
+    "ClassmatesB",
+    "Co-Worker A",
+    "Co-Worker B",
+    "Co-Workers A",
+    "Co-Workers B",
+    "Co-worker",
+    "Co-worker A",
+    "Co-worker B",
+    "Co-workers A",
+    "Co-workers B",
+    "Co-workers C",
+    "Coach",
+    "Coworkers A",
+    "Coworkers B",
+    "Doctor",
+    "Doctor ",
+    "Employee",
+    "HUSBAND",
+    "Husband",
+    "Jack",
+    "Joe",
+    "Justin",
+    "Link to past conversation topic",
+    "MENTEE",
+    "MENTOR",
+    "Mentee",
+    "Mentee Mentee",
+    "Mentor",
+    "Mentor Mentor",
+    "N",
+    "N eighbors A",
+    "N eighbors B",
+    "N/A",
+    "N/B",
+    "N1",
+    "N2",
+    "NA",
+    "NB",
+    "Neighbor A",
+    "Neighbor B",
+    "Neighbors A",
+    "Neighbors A's source",
+    "Neighbors B",
+    "Neighbors B's Mom",
+    "Neighbors B's Parents",
+    "Neighbors B's co-worker",
+    "Neighbors B's father",
+    "Neighbors B's mom",
+    "Neighbors B's mother",
+    "Neighbors B's neighbor",
+    "Neighbors B's parents",
+    "Neighbors B's roommate",
+    "Neighbors B's wife",
+    "Neighbors B’s neighbor",
+    "Neighbors C",
+    "Neighbours A",
+    "Neighbours B",
+    "Niema",
+    "Old Friend",
+    "Owner",
+    "PARENT",
+    "Parent",
+    "Patient",
+    "Patient ",
+    "Person",
+    "Person on the phone",
+    "Sarah",
+    "Student",
+    "Teacher",
+    "Today's topic",
+    "Travel Agent",
+    "WIFE",
+    "Wife",
+    "child",
+    "classmates A",
+    "classmates B",
+    "parent",
+    "student",
+    "teacher"
+  ]
+}

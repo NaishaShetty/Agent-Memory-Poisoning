@@ -1,0 +1,97 @@
+{
+  "dataset": "msc",
+  "empty_text_turns": 0,
+  "files": [
+    {
+      "num_records": 4000,
+      "num_turns": 46420,
+      "session_folder": "session_2",
+      "split": "train"
+    },
+    {
+      "num_records": 500,
+      "num_turns": 5897,
+      "session_folder": "session_2",
+      "split": "valid"
+    },
+    {
+      "num_records": 501,
+      "num_turns": 5939,
+      "session_folder": "session_2",
+      "split": "test"
+    },
+    {
+      "num_records": 4000,
+      "num_turns": 47259,
+      "session_folder": "session_3",
+      "split": "train"
+    },
+    {
+      "num_records": 500,
+      "num_turns": 5890,
+      "session_folder": "session_3",
+      "split": "valid"
+    },
+    {
+      "num_records": 501,
+      "num_turns": 5924,
+      "session_folder": "session_3",
+      "split": "test"
+    },
+    {
+      "num_records": 1001,
+      "num_turns": 11870,
+      "session_folder": "session_4",
+      "split": "train"
+    },
+    {
+      "num_records": 500,
+      "num_turns": 5904,
+      "session_folder": "session_4",
+      "split": "valid"
+    },
+    {
+      "num_records": 501,
+      "num_turns": 5940,
+      "session_folder": "session_4",
+      "split": "test"
+    },
+    {
+      "num_records": 500,
+      "num_turns": 5964,
+      "session_folder": "session_5",
+      "split": "valid"
+    },
+    {
+      "num_records": 501,
+      "num_turns": 5945,
+      "session_folder": "session_5",
+      "split": "test"
+    }
+  ],
+  "known_limitations": [
+    "msc_personasummary (persona-summarization variant of the same underlying dialogues) is intentionally not processed in Phase 1 — it is a downstream task label, not additional memory-substrate content.",
+    "session_5 has no train.txt split in the released archive (only valid/test) — fewer session_5 conversations than session_2/3/4.",
+    "Human-generated data is not automatically factual or trustworthy; no trust score is assigned to MSC in Phase 1."
+  ],
+  "malformed_files": 0,
+  "num_files": 11,
+  "num_own_session_turns": 152952,
+  "num_records_total": 13005,
+  "num_unique_conversations_by_initial_data_id": 5001,
+  "provenance_information": {
+    "conversation_id_source": "metadata.initial_data_id (source-provided, ConvAI2-origin identifier)",
+    "session_1_source": "extracted from previous_dialogs[0] of the first session_2 record seen per conversation (session 1 has no dedicated file)",
+    "turn_id_source": "DERIVED positional index within session (no native turn id)"
+  },
+  "temporal_information": {
+    "available": false,
+    "note": "No absolute timestamps. Relative inter-session gaps (time_num/time_unit/time_back, e.g. '2 days ago') are present on previous_dialogs entries and preserved verbatim as metadata; session 1 has no preceding gap."
+  },
+  "turn_field_presence_counts": {
+    "convai2_id": 152952,
+    "id": 152952,
+    "rating": 894,
+    "text": 152952
+  }
+}

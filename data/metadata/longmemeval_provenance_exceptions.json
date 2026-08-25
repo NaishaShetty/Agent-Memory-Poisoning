@@ -1,0 +1,59 @@
+{
+  "case_study_version": "1.0.0",
+  "description": "Phase 2.1-R provenance/integrity case study for the two LongMemEval records that fail the Phase 1 encoding_correctness validation check. See docs/phase2/LONGMEMEVAL_PROVENANCE_CASE_STUDY.md for full discussion. These records are NOT part of the trusted clean-memory baseline (see preprocessing/trusted_baseline.py) and are NOT labeled as poisoned.",
+  "generated_at": "2026-08-16T08:05:44Z",
+  "records": [
+    {
+      "admission_status": "QUARANTINED",
+      "conversation_id": "sharegpt_FYhsZ0Q_0",
+      "data_quality": [
+        "turn_id_derived_positional",
+        "source_encoding_replacement_char"
+      ],
+      "evidence": {
+        "raw_bytes_hex_around_defect": "727669636573204163745c6e446f204e6f7420547261636b206c656769736c6174696f6e5c6e655072697661637920526567756c6174696f6e5c6e4555efbfbdefbfbd5553205072697661637920536869656c645c6e4575726f7065616e20446174612050726f74656374696f6e20426f617264202845445042295c6e47",
+        "raw_file_byte_offset": 204854949,
+        "raw_file_contains_replacement_bytes_verbatim": true,
+        "verification_method": "byte-level search of the raw source file"
+      },
+      "issue_type": "ENCODING_INTEGRITY_UNCERTAIN",
+      "memory_id": "d2435a9b16c870ba3022e52f",
+      "not_poisoning_rationale": "The defect is a byte-identical match to a well-known class of pre-existing dataset corruption (mojibake: a multi-byte punctuation character, most plausibly a smart quote or dash given surrounding context, lost during an upstream encoding/decoding round-trip prior to this project's acquisition) verified present verbatim in the raw source file at a specific byte offset. It is symmetric, content-non-targeted (appears in ordinary punctuation positions in two unrelated news/legal articles used as LongMemEval haystack content, not in any position that would advantage an attacker), and consistent with routine encoding trouble reported for large scraped-text corpora. There is no evidence of intentional semantic manipulation, targeted payload insertion, or trigger-conditioned behavior -- the properties that would distinguish a poisoning attack from ordinary data corruption.",
+      "provenance_status": "VERIFIED_WITH_ISSUE",
+      "quality_status": "valid_flagged",
+      "repair_attempted": false,
+      "repair_rationale": "No authoritative alternate copy of this exact session/turn was located: the acquired longmemeval_oracle.json variant does not contain this conversation_id (checked by exact haystack_session_ids membership), and longmemeval_m_cleaned.json was never acquired in Phase 1 (see dataset_manifest.json known_limitations) and, being derived from the same upstream 'cleaned' release, would not constitute an independent source even if it were acquired. Once a byte sequence has been replaced with U+FFFD, the original bytes are informationally lost from this file, not merely obscured -- there is no deterministic, non-guessing transformation that recovers them. Any reconstruction would require semantic guessing of the missing character(s), which Section 5/6 of this remediation explicitly prohibits.",
+      "replacement_char_count_in_content": 2,
+      "source_dataset": "longmemeval",
+      "source_file": "data\\raw\\longmemeval\\longmemeval_s_cleaned.json",
+      "source_record_id": "852ce960",
+      "turn_id": "sharegpt_FYhsZ0Q_0:0"
+    },
+    {
+      "admission_status": "QUARANTINED",
+      "conversation_id": "sharegpt_vXNQZ2I_0",
+      "data_quality": [
+        "turn_id_derived_positional",
+        "source_encoding_replacement_char"
+      ],
+      "evidence": {
+        "raw_bytes_hex_around_defect": "6d696e6973747261746f7273206f6e207265636f7665726965732ee2809d5c6e412073706f6b65736d616e20666f72204b726f6c6c2c204172656e61efbfbdefbfbd732061646d696e6973747261746f722c206465636c696e656420746f20636f6d6d656e742e220a202020202020202020202020202020207d2c0a",
+        "raw_file_byte_offset": 29579121,
+        "raw_file_contains_replacement_bytes_verbatim": true,
+        "verification_method": "byte-level search of the raw source file"
+      },
+      "issue_type": "ENCODING_INTEGRITY_UNCERTAIN",
+      "memory_id": "d6198c013c7fe0fbad262a75",
+      "not_poisoning_rationale": "The defect is a byte-identical match to a well-known class of pre-existing dataset corruption (mojibake: a multi-byte punctuation character, most plausibly a smart quote or dash given surrounding context, lost during an upstream encoding/decoding round-trip prior to this project's acquisition) verified present verbatim in the raw source file at a specific byte offset. It is symmetric, content-non-targeted (appears in ordinary punctuation positions in two unrelated news/legal articles used as LongMemEval haystack content, not in any position that would advantage an attacker), and consistent with routine encoding trouble reported for large scraped-text corpora. There is no evidence of intentional semantic manipulation, targeted payload insertion, or trigger-conditioned behavior -- the properties that would distinguish a poisoning attack from ordinary data corruption.",
+      "provenance_status": "VERIFIED_WITH_ISSUE",
+      "quality_status": "valid_flagged",
+      "repair_attempted": false,
+      "repair_rationale": "No authoritative alternate copy of this exact session/turn was located: the acquired longmemeval_oracle.json variant does not contain this conversation_id (checked by exact haystack_session_ids membership), and longmemeval_m_cleaned.json was never acquired in Phase 1 (see dataset_manifest.json known_limitations) and, being derived from the same upstream 'cleaned' release, would not constitute an independent source even if it were acquired. Once a byte sequence has been replaced with U+FFFD, the original bytes are informationally lost from this file, not merely obscured -- there is no deterministic, non-guessing transformation that recovers them. Any reconstruction would require semantic guessing of the missing character(s), which Section 5/6 of this remediation explicitly prohibits.",
+      "replacement_char_count_in_content": 2,
+      "source_dataset": "longmemeval",
+      "source_file": "data\\raw\\longmemeval\\longmemeval_s_cleaned.json",
+      "source_record_id": "311778f1",
+      "turn_id": "sharegpt_vXNQZ2I_0:0"
+    }
+  ]
+}

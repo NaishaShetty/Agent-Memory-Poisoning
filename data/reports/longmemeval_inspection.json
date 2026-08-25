@@ -1,0 +1,85 @@
+{
+  "dataset": "longmemeval",
+  "files": [
+    {
+      "empty_content_turns": 0,
+      "has_answer_flag_present": true,
+      "num_qa_instances": 500,
+      "num_turn_occurrences_across_all_haystacks": 10960,
+      "num_unique_session_ids": 940,
+      "qa_instances_missing_answer": 0,
+      "question_type_distribution": {
+        "knowledge-update": 78,
+        "multi-session": 133,
+        "single-session-assistant": 56,
+        "single-session-preference": 30,
+        "single-session-user": 70,
+        "temporal-reasoning": 133
+      },
+      "source_file": "C:\\Agent Memory Poisoning\\data\\raw\\longmemeval\\longmemeval_oracle.json",
+      "temporal_information": {
+        "available": true,
+        "field": "haystack_dates (aligned by index with haystack_session_ids)",
+        "format": "'YYYY/MM/DD (Dow) HH:MM', not ISO-8601",
+        "granularity": "per-session (applies to all turns in that session)",
+        "sample_values": [
+          "2023/04/10 (Mon) 17:50",
+          "2023/04/10 (Mon) 14:47",
+          "2023/04/10 (Mon) 17:15",
+          "2023/05/28 (Sun) 21:04",
+          "2023/05/28 (Sun) 07:17"
+        ]
+      },
+      "turn_field_presence_counts": {
+        "content": 10960,
+        "has_answer": 10960,
+        "role": 10960
+      }
+    },
+    {
+      "empty_content_turns": 12,
+      "has_answer_flag_present": true,
+      "num_qa_instances": 500,
+      "num_turn_occurrences_across_all_haystacks": 246750,
+      "num_unique_session_ids": 19195,
+      "qa_instances_missing_answer": 0,
+      "question_type_distribution": {
+        "knowledge-update": 78,
+        "multi-session": 133,
+        "single-session-assistant": 56,
+        "single-session-preference": 30,
+        "single-session-user": 70,
+        "temporal-reasoning": 133
+      },
+      "source_file": "C:\\Agent Memory Poisoning\\data\\raw\\longmemeval\\longmemeval_s_cleaned.json",
+      "temporal_information": {
+        "available": true,
+        "field": "haystack_dates (aligned by index with haystack_session_ids)",
+        "format": "'YYYY/MM/DD (Dow) HH:MM', not ISO-8601",
+        "granularity": "per-session (applies to all turns in that session)",
+        "sample_values": [
+          "2023/05/20 (Sat) 02:21",
+          "2023/05/20 (Sat) 02:57",
+          "2023/05/20 (Sat) 03:51",
+          "2023/05/20 (Sat) 05:50",
+          "2023/05/20 (Sat) 10:58"
+        ]
+      },
+      "turn_field_presence_counts": {
+        "content": 246750,
+        "has_answer": 10960,
+        "role": 246750
+      }
+    }
+  ],
+  "known_limitations": [
+    "longmemeval_m_cleaned.json (~2.7GB, ~500 sessions/question) was not acquired in Phase 1 for repository-size reasons; documented in the dataset manifest as acquirable-but-not-fetched, not fabricated.",
+    "Sessions are shared across question instances (same session_id can appear in multiple haystacks); deduplicated by session_id per file during normalization to avoid duplicate memory records.",
+    "'has_answer' per-turn flag is present only in the oracle variant."
+  ],
+  "num_files": 2,
+  "provenance_information": {
+    "conversation_id_source": "DERIVED = session_id (no native higher-level conversation identifier exists in this dataset)",
+    "turn_id_source": "DERIVED positional index within session (no native turn id)"
+  }
+}

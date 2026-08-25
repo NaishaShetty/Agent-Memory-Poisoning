@@ -1,0 +1,37 @@
+{
+  "files": [
+    {
+      "found": true,
+      "label": "level-1-api",
+      "num_records": 399,
+      "source_file": "data\\raw\\api_bank\\test-data\\level-1-api.json"
+    },
+    {
+      "found": true,
+      "label": "level-1-response",
+      "num_records": 375,
+      "source_file": "data\\raw\\api_bank\\test-data\\level-1-response.json"
+    },
+    {
+      "found": true,
+      "label": "level-2-api",
+      "num_records": 135,
+      "source_file": "data\\raw\\api_bank\\test-data\\level-2-api.json"
+    },
+    {
+      "found": true,
+      "label": "level-2-response",
+      "num_records": 103,
+      "source_file": "data\\raw\\api_bank\\test-data\\level-2-response.json"
+    },
+    {
+      "found": true,
+      "label": "level-3",
+      "num_records": 50,
+      "source_file": "data\\raw\\api_bank\\test-data\\level-3.json"
+    }
+  ],
+  "note": "Level-1/2 test files contain API-calling instruction/response pairs; level-3 contains multi-turn tool-use dialogues. Only the released test-data split was fetched (not the larger training-data split) -- sufficient to inspect task/tool structure without unnecessary bulk download.",
+  "num_records_total": 1062,
+  "resource": "api_bank"
+}

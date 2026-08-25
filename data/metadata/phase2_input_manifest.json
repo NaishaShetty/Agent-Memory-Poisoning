@@ -1,0 +1,929 @@
+{
+  "core_memory_foundation": [
+    "conversation_chronicles",
+    "locomo",
+    "longmemeval",
+    "msc"
+  ],
+  "generated_at": "2026-08-16T08:12:55Z",
+  "generated_from": {
+    "dataset_manifest": "data/metadata/dataset_manifest.json (manifest_version=1.0.0)",
+    "phase1_validation_report": "data/reports/phase1_validation_report.json (overall_status=FAIL)",
+    "resource_registry": "data/metadata/resource_registry.json (registry_version=1.0.0)"
+  },
+  "phase1_overall_status": "PASS WITH ISSUES",
+  "phase1_validation_overall_status": "FAIL",
+  "phase2_input_approved_resource_ids": [
+    "conversation_chronicles",
+    "locomo",
+    "longmemeval",
+    "msc"
+  ],
+  "phase2_manifest_version": "1.0.0",
+  "resources": [
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": true,
+        "processed_files_on_disk": [
+          "data\\processed\\locomo\\memory_records.jsonl",
+          "data\\processed\\locomo\\qa_reconciled.jsonl",
+          "data\\processed\\locomo\\task_records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [
+        {
+          "path": "data\\raw\\locomo\\locomo10.json",
+          "sha256": "79fa87e90f04081343b8c8debecb80a9a6842b76a7aa537dc9fdf651ea698ff4",
+          "size_bytes": 2805274
+        },
+        {
+          "path": "data\\raw\\locomo\\LICENSE.txt",
+          "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+          "size_bytes": 19347
+        }
+      ],
+      "dataset_version_or_revision": "unavailable (no dataset version tag; GitHub repo, no release)",
+      "intended_later_phase": "Phase 2 (unified memory representation) / Phase 4 (benchmark)",
+      "intended_project_role": "Primary long-term conversational memory substrate with native multi-hop/temporal QA task structure.",
+      "known_issues": [
+        "QA answers/evidence are dataset-annotated (LLM/human), not verified ground truth.",
+        "QA answers/evidence are dataset-annotated (LLM/human) and not verified ground truth."
+      ],
+      "licensing_or_access_status": "CC BY-NC 4.0 (repository LICENSE.txt)",
+      "local_artifact_location": "data\\raw\\locomo",
+      "phase1_status": "PROCESSED",
+      "phase2_1_scope_note": "part of the Phase 2.1 clean memory foundation",
+      "phase2_input_approved": true,
+      "phase2_status": "PHASE2_INPUT_APPROVED",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "cleaned, quality-classified (valid/repaired/valid_flagged/irrecoverably_invalid), quarantined where excluded, normalized to MemoryRecord/TaskRecord, validated",
+      "provenance_status": "provenance dataclass populated + validated (see phase1_validation_report.json: valid_provenance PASS)",
+      "resource_category": "memory_data",
+      "resource_id": "locomo",
+      "resource_name": "LoCoMo",
+      "schema_version": "preprocessing.schema (MemoryRecord/TaskRecord/Provenance) v1",
+      "snapshot_identifier": "2026-08-12T16:54:58Z",
+      "source": "https://github.com/snap-research/locomo ; Maharana et al., ACL 2024"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": true,
+        "processed_files_on_disk": [
+          "data\\processed\\longmemeval\\memory_records.jsonl",
+          "data\\processed\\longmemeval\\task_records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [
+        {
+          "path": "data\\raw\\longmemeval\\longmemeval_oracle.json",
+          "sha256": "821a2034d219ab45846873dd14c14f12cfe7776e73527a483f9dac095d38620c",
+          "size_bytes": 15388478
+        },
+        {
+          "path": "data\\raw\\longmemeval\\longmemeval_s_cleaned.json",
+          "sha256": "d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442",
+          "size_bytes": 277383467
+        },
+        {
+          "path": "data\\raw\\longmemeval\\README.md",
+          "sha256": "fe31783d4e5d132681a25e4192e85def8edd214094939879f5283818c0a4a3e0",
+          "size_bytes": 626
+        }
+      ],
+      "dataset_version_or_revision": "unavailable (HF repo commit not pinned at acquisition time)",
+      "intended_later_phase": "Phase 2 / Phase 4",
+      "intended_project_role": "Long-term memory QA evaluation task structure and its underlying haystack session substrate.",
+      "known_issues": [
+        "m_cleaned variant (~2.7GB) not acquired for repository-size reasons; documented, not silently dropped.",
+        "longmemeval_m_cleaned.json (~2.7GB) was not downloaded in Phase 1 for repository-size reasons; acquisition command is documented in config/pipeline_config.yaml.",
+        "2 record(s) classified valid_flagged (quality_status_distribution={'repaired': 8159, 'valid': 202204, 'valid_flagged': 2})",
+        "10 record(s) quarantined; see data/logs/quarantine_log.jsonl and data/interim/longmemeval/quarantine.jsonl for full traceability",
+        "phase1_validation_report.json: encoding_correctness check FAILED (2 record(s) with U+FFFD replacement characters, sample IDs ['d6198c013c7fe0fbad262a75', 'd2435a9b16c870ba3022e52f']) -- pre-existing source-data mojibake, deliberately preserved rather than guessed-and-repaired; NOT silently resolved here"
+      ],
+      "licensing_or_access_status": "MIT (HF dataset card)",
+      "local_artifact_location": "data\\raw\\longmemeval",
+      "phase1_status": "PROCESSED",
+      "phase2_1_scope_note": "part of the Phase 2.1 clean memory foundation",
+      "phase2_input_approved": true,
+      "phase2_status": "PHASE2_INPUT_APPROVED",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "cleaned, quality-classified, quarantined where excluded, normalized, validated",
+      "provenance_status": "provenance dataclass populated + validated (see phase1_validation_report.json: valid_provenance PASS)",
+      "resource_category": "memory_data",
+      "resource_id": "longmemeval",
+      "resource_name": "LongMemEval",
+      "schema_version": "preprocessing.schema (MemoryRecord/TaskRecord/Provenance) v1",
+      "snapshot_identifier": "2026-08-12T16:54:58Z",
+      "source": "https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": true,
+        "processed_files_on_disk": [
+          "data\\processed\\msc\\memory_records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [
+        {
+          "path": "data\\raw\\msc\\msc_v0.1.tar.gz",
+          "sha256": "e640e37cf4317cd09fc02a4cd57ef130a185f23635f4003b0cee341ffcb45e60",
+          "size_bytes": 51116516
+        }
+      ],
+      "dataset_version_or_revision": "v0.1 (MSC_DATASETS_VERSION in ParlAI build.py)",
+      "intended_later_phase": "Phase 2 / Phase 4",
+      "intended_project_role": "Human-human, non-LLM-generated multi-session conversational memory substrate for distributional diversity.",
+      "known_issues": [
+        "No absolute timestamps, only relative inter-session gaps. Human-generated is not automatically trustworthy -- no trust score assigned.",
+        "No absolute timestamps, only relative inter-session gaps. Human-generated is not automatically factual or trustworthy — no trust score assigned.",
+        "1 record(s) quarantined; see data/logs/quarantine_log.jsonl and data/interim/msc/quarantine.jsonl for full traceability"
+      ],
+      "licensing_or_access_status": "not explicitly published for the dataset itself; ParlAI code is MIT -- documented as unavailable, not guessed",
+      "local_artifact_location": "data\\raw\\msc",
+      "phase1_status": "PROCESSED",
+      "phase2_1_scope_note": "part of the Phase 2.1 clean memory foundation",
+      "phase2_input_approved": true,
+      "phase2_status": "PHASE2_INPUT_APPROVED",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "cleaned, quality-classified, quarantined where excluded (incl. duplicate sessions), normalized, validated",
+      "provenance_status": "provenance dataclass populated + validated (see phase1_validation_report.json: valid_provenance PASS)",
+      "resource_category": "memory_data",
+      "resource_id": "msc",
+      "resource_name": "Multi-Session Chat (MSC)",
+      "schema_version": "preprocessing.schema (MemoryRecord/TaskRecord/Provenance) v1",
+      "snapshot_identifier": "2026-08-12T16:54:58Z",
+      "source": "https://parl.ai/projects/msc/ ; Xu et al., ACL 2022"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": true,
+        "processed_files_on_disk": [
+          "data\\processed\\conversation_chronicles\\memory_records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [
+        {
+          "path": "data\\raw\\conversation_chronicles\\train.jsonl",
+          "sha256": "f0fccf01ec59eeeab68c0a300b0f1a24bacd8eea8719e77bdbd003c242f1407c",
+          "size_bytes": 1348627179
+        },
+        {
+          "path": "data\\raw\\conversation_chronicles\\valid.jsonl",
+          "sha256": "b069106a81bad9285f8c9c0717a79a8aa8315bcadc01ef4890287b38e7551fd7",
+          "size_bytes": 168799270
+        },
+        {
+          "path": "data\\raw\\conversation_chronicles\\test.jsonl",
+          "sha256": "eef3ea2961cb4ba3e53849b5a58349b9fa64a106530ad41427e29c1d78c01cfe",
+          "size_bytes": 168658644
+        },
+        {
+          "path": "data\\raw\\conversation_chronicles\\README.md",
+          "sha256": "47469ef2f78606211245894dcb1114bede029a3e3f16d9645b42081d987d2cc1",
+          "size_bytes": 4561
+        }
+      ],
+      "dataset_version_or_revision": "unavailable (HF repo commit not pinned)",
+      "intended_later_phase": "Phase 2 / Phase 4",
+      "intended_project_role": "Additional synthetic multi-session conversational source for cross-dataset robustness.",
+      "known_issues": [
+        "93% of raw episodes deliberately excluded via documented sampling cap (full dataset would be ~50x larger than the other three combined). Speaker-role casing inconsistent, preserved verbatim.",
+        "Speaker role label casing/pluralization is inconsistent for the same underlying role; no absolute timestamps, only free-text relative time_interval descriptions.",
+        "218 record(s) quarantined; see data/logs/quarantine_log.jsonl and data/interim/conversation_chronicles/quarantine.jsonl for full traceability"
+      ],
+      "licensing_or_access_status": "CC BY 4.0 (HF dataset card)",
+      "local_artifact_location": "data\\raw\\conversation_chronicles",
+      "phase1_status": "PROCESSED",
+      "phase2_1_scope_note": "part of the Phase 2.1 clean memory foundation",
+      "phase2_input_approved": true,
+      "phase2_status": "PHASE2_INPUT_APPROVED",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "cleaned, quality-classified, quarantined where excluded, deterministically sampled (10k/2k/2k of 160k/20k/20k), normalized, validated",
+      "provenance_status": "provenance dataclass populated + validated (see phase1_validation_report.json: valid_provenance PASS)",
+      "resource_category": "memory_data",
+      "resource_id": "conversation_chronicles",
+      "resource_name": "Conversation Chronicles",
+      "schema_version": "preprocessing.schema (MemoryRecord/TaskRecord/Provenance) v1",
+      "snapshot_identifier": "2026-08-12T16:54:58Z",
+      "source": "https://huggingface.co/datasets/jihyoung/ConversationChronicles ; Jang et al., EMNLP 2023"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [
+          "data\\processed\\api_bank\\records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable (HF repo commit not pinned)",
+      "intended_later_phase": "Phase 4 (unified attack benchmark, tool-use pathway)",
+      "intended_project_role": "Tool/API-calling task representation for later agent-memory-poisoning-of-tool-use experiments.",
+      "known_issues": [
+        "Only the released test-data split acquired; evaluator scripts (evaluator.py) not run, per instruction not to inject or execute attacks/arbitrary code."
+      ],
+      "licensing_or_access_status": "MIT (HF dataset card)",
+      "local_artifact_location": "data\\raw\\api_bank",
+      "phase1_status": "PREPARED",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "inspected + normalized into WorkloadRecord (payload preserved verbatim, not remapped into memory schema); training-data split not fetched (not needed for Phase 1)",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "api_bank",
+      "resource_name": "API-Bank",
+      "schema_version": "preprocessing.schema_workload (WorkloadRecord) v1",
+      "snapshot_identifier": null,
+      "source": "https://huggingface.co/datasets/liminghao1630/API-Bank ; Li et al., EMNLP 2023, arXiv:2304.08244"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable (no release tag checked)",
+      "intended_later_phase": "Phase 4, if tool-use scale beyond API-Bank is needed",
+      "intended_project_role": "Large-scale tool-use benchmark (16,000+ APIs) for tool/API task representation.",
+      "known_issues": [
+        "Full dataset acquisition deferred: large size, and live evaluation requires RapidAPI keys this project does not have configured. Deliberate scoping decision, not a silent omission."
+      ],
+      "licensing_or_access_status": "Apache-2.0 (confirmed via repo LICENSE file and README statement; an initially-reported CC-BY-NC-4.0 claim could not be corroborated in the current README)",
+      "local_artifact_location": "data\\raw\\toolbench",
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "not prepared/normalized -- structure documented from README only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "toolbench",
+      "resource_name": "ToolBench (ToolLLM)",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/OpenBMB/ToolBench ; Qin et al., ICLR 2024"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [
+          "data\\processed\\strategyqa\\records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable (AllenAI does not publish a version tag on this release)",
+      "intended_later_phase": "Phase 4 (reasoning-task pathway for tool/knowledge-agent poisoning)",
+      "intended_project_role": "Multi-hop strategy question-answering task representation (reasoning-over-facts workload).",
+      "known_issues": [
+        "strategyqa_train_paragraphs.json (supporting Wikipedia paragraphs corpus) downloaded but not parsed in Phase 1 -- large auxiliary corpus, deferred."
+      ],
+      "licensing_or_access_status": "MIT (repo code); data license not separately stated by AI2 -- documented as unverified, not guessed",
+      "local_artifact_location": "data\\raw\\strategyqa",
+      "phase1_status": "PREPARED",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "inspected + normalized into WorkloadRecord; boolean 'answer' label preserved as dataset annotation, NOT treated as universal truth per instruction",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "strategyqa",
+      "resource_name": "StrategyQA",
+      "schema_version": "preprocessing.schema_workload (WorkloadRecord) v1",
+      "snapshot_identifier": null,
+      "source": "https://allenai.org/data/strategyqa ; Geva et al., TACL 2021"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable",
+      "intended_later_phase": "Phase 4, if a web-agent/embodied pathway is added",
+      "intended_project_role": "Web shopping agent environment: task definitions, actions, observations for embodied/web-agent workload representation.",
+      "known_issues": [
+        "Full product corpus and search-index build deliberately not acquired (large, partly off-GitHub hosting, and running the environment was explicitly out of scope for Phase 1)."
+      ],
+      "licensing_or_access_status": "MIT (repo LICENSE.md)",
+      "local_artifact_location": "data\\raw\\webshop",
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "not prepared/normalized",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "webshop",
+      "resource_name": "WebShop",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/princeton-nlp/WebShop ; Yao et al., NeurIPS 2022"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [
+          "data\\processed\\swebench_verified\\records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable (HF repo commit not pinned)",
+      "intended_later_phase": "Phase 4, if a code-agent pathway is added",
+      "intended_project_role": "Real-world GitHub issue/patch resolution task representation for code-agent workload.",
+      "known_issues": [
+        "Metadata only. Actual repositories at base_commit are not cloned; running the patches/tests (requires Docker) is explicitly out of scope for Phase 1."
+      ],
+      "licensing_or_access_status": "MIT (HF dataset card)",
+      "local_artifact_location": "data\\raw\\swebench_verified",
+      "phase1_status": "PREPARED",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "inspected + normalized into WorkloadRecord (issue text, patch, test_patch, eval commands preserved); NO repository code cloned or executed",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "swebench_verified",
+      "resource_name": "SWE-bench Verified",
+      "schema_version": "preprocessing.schema_workload (WorkloadRecord) v1",
+      "snapshot_identifier": null,
+      "source": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified ; Jimenez et al., ICLR 2024; Verified subset curated by OpenAI"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [
+          "data\\processed\\tau_bench\\records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable (no release tag)",
+      "intended_later_phase": "Phase 4, if a policy-constrained tool-use pathway is added",
+      "intended_project_role": "Agentic tool-use benchmark (airline/retail domains) with policies and expected outcomes.",
+      "known_issues": [
+        "Task definitions are Python source, not data files -- kept distinct from tau2-bench per instruction (Section B.10). historical_trajectories/ (pre-recorded agent runs) not fetched."
+      ],
+      "licensing_or_access_status": "MIT (repo LICENSE)",
+      "local_artifact_location": "data\\raw\\tau_bench",
+      "phase1_status": "PREPARED",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "inspected + normalized into WorkloadRecord; task counts derived via static text search (NOT by importing/executing tasks.py)",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "tau_bench",
+      "resource_name": "tau-bench",
+      "schema_version": "preprocessing.schema_workload (WorkloadRecord) v1",
+      "snapshot_identifier": null,
+      "source": "https://github.com/sierra-research/tau-bench ; Yao et al./Sierra, arXiv:2406.12045"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [
+          "data\\processed\\tau2_bench\\records.jsonl"
+        ],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable (no release tag)",
+      "intended_later_phase": "Phase 4, if dual-control/voice-agent pathway is added",
+      "intended_project_role": "Dual-control conversational agent benchmark (airline/telecom/banking domains), successor to tau-bench.",
+      "known_issues": [
+        "Deliberately partial acquisition (1 of 3+ domains) to avoid unnecessary bulk download of a 926-file data directory; documented, not silent. Kept as a distinct resource from tau-bench per instruction."
+      ],
+      "licensing_or_access_status": "MIT (repo LICENSE)",
+      "local_artifact_location": "data\\raw\\tau2_bench",
+      "phase1_status": "PREPARED",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "inspected + normalized into WorkloadRecord for the airline domain sample",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "tau2_bench",
+      "resource_name": "tau2-bench",
+      "schema_version": "preprocessing.schema_workload (WorkloadRecord) v1",
+      "snapshot_identifier": null,
+      "source": "https://github.com/sierra-research/tau2-bench ; arXiv:2506.07982"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable",
+      "intended_later_phase": "Phase 4, ONLY if credentialed access is obtained; otherwise excluded from the benchmark",
+      "intended_project_role": "Few-shot complex tabular reasoning over electronic health records for a clinical-domain agent workload.",
+      "known_issues": [
+        "Cannot prepare task data without PhysioNet credentialed access and a signed data use agreement for MIMIC-III/eICU, which this project does not have. This is not a Phase 1 gap to silently fix -- it is a genuine external access requirement."
+      ],
+      "licensing_or_access_status": "no LICENSE file found in the repository -- documented as unavailable, not assumed permissive",
+      "local_artifact_location": "data\\raw\\ehragent",
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "not prepared/normalized -- no legitimately accessible task data found",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "ehragent",
+      "resource_name": "EHRAgent",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/wshi83/EhrAgent ; Shi et al., arXiv:2401.07128, EMNLP 2024"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "MIMIC-III v1.4 / eICU v2.0 (published versions, not verified against a local copy since none was acquired)",
+      "intended_later_phase": "Phase 4, only if pursued and access obtained",
+      "intended_project_role": "Underlying clinical database(s) EHRAgent (and potentially other clinical-domain work) depends on.",
+      "known_issues": [
+        "Optional dependency, not mandatory for Phase 1 or the core memory-poisoning benchmark. Only relevant if a clinical-domain attack pathway (via EHRAgent) is pursued later."
+      ],
+      "licensing_or_access_status": "PhysioNet Credentialed Health Data License -- gated, requires individual credentialing",
+      "local_artifact_location": null,
+      "phase1_status": "OPTIONAL_PENDING_ACCESS",
+      "phase2_1_scope_note": "task/workload resource; available as a future benchmark-construction reference (Phase 4+), not part of the frozen Phase 2.1 memory foundation, so not approved as a Phase 2 input here",
+      "phase2_input_approved": false,
+      "phase2_status": "CONDITIONALLY_AVAILABLE",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "not applicable",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "task_workload",
+      "resource_id": "mimic_eicu",
+      "resource_name": "MIMIC-III / eICU",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://physionet.org/content/mimiciii/ ; https://physionet.org/content/eicu-crd/"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv v1 (May 2026)",
+      "intended_later_phase": "Phase 4/6 (sleeper/dormant poisoning), pending discovery of a public implementation or an in-house reimplementation decision",
+      "intended_project_role": "Sleeper/dormant memory-poisoning evaluation resource -- delayed-trigger attacks that persist in agent memory.",
+      "known_issues": [
+        "SOURCE AVAILABLE only. Do not claim any implementation exists; this entry documents the threat model (delayed/dormant memory poisoning, 60-89% reported success on successful retrievals) from the paper abstract only."
+      ],
+      "licensing_or_access_status": "paper only, no code license to report",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "sleeper resource; final experimental sleeper dataset is explicitly not generated until a later phase (Phase 4/8)",
+      "phase2_input_approved": false,
+      "phase2_status": "NOT_GENERATED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "not prepared -- no public code/data release located to prepare",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "sleeper",
+      "resource_id": "hidden_in_memory",
+      "resource_name": "Hidden in Memory",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "arXiv:2605.15338, 'Hidden in Memory: Sleeper Memory Poisoning in LLM Agents'"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": true
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "unavailable (no release tag)",
+      "intended_later_phase": "Phase 4 (sleeper dataset construction, not before)",
+      "intended_project_role": "Generator interface/templates for constructing trigger-based sleeper/backdoor datasets.",
+      "known_issues": [
+        "Name in the original research plan does not exactly match any found resource -- flagged as a probable paraphrase of the Anthropic repo; verify against the project's original citation before treating this mapping as authoritative."
+      ],
+      "licensing_or_access_status": "no LICENSE file found in the repository -- documented as unavailable",
+      "local_artifact_location": "data\\raw\\sleeper_dataset_generator",
+      "phase1_status": "PREPARED",
+      "phase2_1_scope_note": "sleeper resource; final experimental sleeper dataset is explicitly not generated until a later phase (Phase 4/8)",
+      "phase2_input_approved": false,
+      "phase2_status": "NOT_GENERATED",
+      "preparation_pipeline_version": "preprocessing.PIPELINE_VERSION == 1.0.0",
+      "preparation_status": "templates documented and stored; the actual backdoor training data file (code_backdoor_train_data.jsonl) was deliberately NOT fetched, and no generation was run, per instruction not to generate the final experimental sleeper dataset in Phase 1",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "sleeper",
+      "resource_id": "sleeper_dataset_generator",
+      "resource_name": "Sleeper Dataset Generator",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/anthropics/sleeper-agents-paper ; Hubinger et al., arXiv:2401.05566"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "NeurIPS 2024 camera-ready (arXiv:2407.12784, submitted Jul 2024)",
+      "intended_later_phase": "Phase 4 (unified attack benchmark) -- candidate attack to reimplement or adapt",
+      "intended_project_role": "Red-teaming LLM agents by poisoning RAG/knowledge-base memory via optimized trigger phrases.",
+      "known_issues": [
+        "SOURCE AVAILABLE + CODE AVAILABLE, but NOT a LOCAL COPY and NOT IMPLEMENTED here. Threat model: white-box-ish embedding-space trigger optimization + a handful of poisoned demonstrations injected into agent memory/RAG (driving/QA/EHR-agent targets)."
+      ],
+      "licensing_or_access_status": "MIT",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "attack resource; attack/poisoned-memory generation is out of scope for Phase 2.1 (Task 11) regardless of acquisition state",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "attack",
+      "resource_id": "agentpoison",
+      "resource_name": "AgentPoison",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/AI-secure/AgentPoison ; Chen, Xiang, Xiao, Song, Li, NeurIPS 2024"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "NeurIPS 2025 (arXiv:2503.03704)",
+      "intended_later_phase": "Phase 4 -- candidate attack, complements AgentPoison's white-box assumption with a black-box one",
+      "intended_project_role": "Black-box memory injection via query-only interaction (no direct memory-store access needed).",
+      "known_issues": [
+        "Threat model: black-box attacker poisons memory purely via crafted queries/observations ('bridging steps' + indication-prompt + progressive-shortening); reported 98.2% injection success / 76.8% ASR in the paper -- not independently verified."
+      ],
+      "licensing_or_access_status": "MIT",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "attack resource; attack/poisoned-memory generation is out of scope for Phase 2.1 (Task 11) regardless of acquisition state",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "attack",
+      "resource_id": "minja",
+      "resource_name": "MINJA",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/dsh3n77/MINJA ; Dong, Xu, He, Li, Tang, Liu, Liu, Xiang, NeurIPS 2025"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "Engineering Applications of Artificial Intelligence, Volume 167 (2026), Article 113968",
+      "intended_later_phase": "Phase 4 (unified attack benchmark) -- reconstructable from the published methodology as a declarative payload generator per the project's own reconstruction approach (Methodology.pdf Section 5.1), since no original implementation exists to reuse directly; any such reconstruction must be explicitly disclosed as a reconstruction, not presented as equivalent to an attack with a public reference implementation",
+      "intended_project_role": "Attack targeting RAG-based tool-using agents: manipulates which tool an agent selects (its actions), not merely its stated output, by disguising an adversarial decision as a natural, well-justified extension of the user's own task.",
+      "known_issues": [
+        "Threat model: black-box or white-box attacker who cannot access the agent's core LLM but can insert content into its knowledge base (via compromised sources, or by posing as a benign user across crafted dialogs to induce the agent to store a poisoned 'past experience'); goal is to make the agent select an attacker-controlled tool. Mechanism: constructs an adversarial decision as three parts -- Planning Text, Tool Selection, Reasoning Text -- refined in two stages: a Self-Refine Module (SRM) iteratively increases the planning text's embedding similarity to the user's task until a threshold is crossed (disguise), and a CoT-Strategy Reasoning Module (CSRM) builds a 3-step chain-of-thought justification for the tool choice (persuasion). Retrieval construction differs by access setting: black-box concatenates the query and tool set directly; white-box optimizes retrieval text via a contrastive loss with HotFlip-style token substitution against the retriever's parameters. Persistence: the paper reports poisoned decisions remain effective after the knowledge base is diluted with up to 1,000 additional benign entries. Evaluation environment: the DSRM paper reproduces baseline attacks including Naive-Attack, PoisonedRAG, an ASB (Agent Security Bench)-methodology attack, and a Corpus Poisoning Attack for comparison -- it uses ASB's attack methodology as one of several reproduced baselines, not as its own evaluation harness; this project does not claim DSRM's evaluation environment is ASB. This documentation is drawn from the project's own prior literature-review chapter on this paper (Ch.4.3 of the project's draft manuscript), which is treated as a project-internal secondary source rather than independently re-derived from the primary paper by this remediation pass. No implementation is claimed to exist where none was found."
+      ],
+      "licensing_or_access_status": "paper only; no code license to report (no public implementation found)",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "attack resource; attack/poisoned-memory generation is out of scope for Phase 2.1 (Task 11) regardless of acquisition state",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented from the paper (mechanism, threat model, three-part adversarial-decision construction) rather than an implementation; no code cloned or executed",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "attack",
+      "resource_id": "dsrm",
+      "resource_name": "DSRM (Deceptive Semantic Reasoning Manipulation)",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "Hao Jing, Fanxiao Li, Yunyun Dong, Wei Zhou, Renyang Liu. 'Memory poisoning attacks on retrieval-augmented Large Language Model agents via deceptive semantic reasoning.' Engineering Applications of Artificial Intelligence, Volume 167 (2026), Article 113968. NOTE: the project's own literature-review draft ('Agent Memory Poisoning 2.docx', Ch.4 references) lists this paper's authors as 'Li, F., Dong, Y., Zhou, W., & Liu, R. (2026)', omitting Jing, H. as first author -- a discrepancy between the two in-project sources, recorded rather than silently resolved; the citation supplied for this remediation (which includes Jing, H.) is treated as authoritative per instruction."
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv v1 (Dec 2025)",
+      "intended_later_phase": "Phase 4 -- would require an in-house reimplementation if pursued",
+      "intended_project_role": "Persistent compromise of LLM agents by grafting one poisoned 'successful experience' into long-term memory.",
+      "known_issues": [
+        "No public implementation found. Threat model: single-shot indirect attack implants one poisoned 'successful experience' that the agent imitates persistently across sessions (validated on MetaGPT's DataInterpreter + GPT-4o in the paper)."
+      ],
+      "licensing_or_access_status": "paper only",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "attack resource; attack/poisoned-memory generation is out of scope for Phase 2.1 (Task 11) regardless of acquisition state",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented from paper only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "attack",
+      "resource_id": "memorygraft",
+      "resource_name": "MemoryGraft",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "arXiv:2512.16962, Srivastava & He, 'MemoryGraft: Persistent Compromise of LLM Agents via Poisoned Experience Retrieval'"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv v1 (Jul 2026)",
+      "intended_later_phase": "Phase 4 (attack) and Phase 6 (SENTINEL as a defense baseline)",
+      "intended_project_role": "Forged reasoning-trace attack on agent memory (paired with a proposed defense, SENTINEL, in the same paper).",
+      "known_issues": [
+        "No public implementation found. Threat model: forges reasoning traces (not factual claims) with evasive phrasing to dodge keyword filters, then self-reinforces to defeat consensus defenses; paper also proposes the SENTINEL defense (relevant to Phase 6)."
+      ],
+      "licensing_or_access_status": "paper only",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "attack resource; attack/poisoned-memory generation is out of scope for Phase 2.1 (Task 11) regardless of acquisition state",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented from paper only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "attack",
+      "resource_id": "farma",
+      "resource_name": "FARMA",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "arXiv:2607.05029, Karamchandani, Nagasubramaniam, Zhu, Wu, 'Your Agent's Memories Are Not Its Own: Forged Reasoning Attacks on LLM Agent Memory and Defenses'"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv v2 (Jun 2026)",
+      "intended_later_phase": "Phase 4 (unified attack benchmark) -- candidate taxonomy to align scenario coverage against",
+      "intended_project_role": "Systematic 6-class taxonomy + benchmark for memory-poisoning attacks in LLM agents.",
+      "known_issues": [
+        "No public code/data release found under 'MPBench'. Tested (per paper) on the OpenClaw agent; a second target name reported by one research pass could not be independently confirmed in the paper text and is NOT included here."
+      ],
+      "licensing_or_access_status": "paper only",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "attack resource; attack/poisoned-memory generation is out of scope for Phase 2.1 (Task 11) regardless of acquisition state",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "taxonomy/structure documented from paper only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "attack",
+      "resource_id": "mpbench",
+      "resource_name": "MPBench",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "arXiv:2606.04329, Dash, Ge, Jain, Shah, Shang, 'From Untrusted Input to Trusted Memory: A Systematic Study of Memory Poisoning Attacks in LLM Agents'"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv v1 (2026)",
+      "intended_later_phase": "Phase 5/10 (baseline evaluation, cross-benchmark comparison), pending code/data availability",
+      "intended_project_role": "Task-grounded benchmark tracking agent memory poisoning from persistence to consequence and repair.",
+      "known_issues": [
+        "310 cases / 48 contexts across 24 agent-harness/memory-backend/LLM combinations per the paper; no dataset/code release located to actually reuse or compare against yet."
+      ],
+      "licensing_or_access_status": "paper only",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "comparison/evaluation resource; relevant to later baseline comparison phases (5/6/7/10), not the Phase 2.1 foundation",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "not prepared -- no public code/data found",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "security_benchmark",
+      "resource_id": "memsecbench",
+      "resource_name": "MemSecBench",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "arXiv:2607.27080, Chen, Xie, Fu, Zhou, Yu, Xuan, 'MemSecBench: Tracking Agent Memory Poisoning from Persistence to Consequence and Repair'"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv v1 (2026), submitted to NeurIPS 2026",
+      "intended_later_phase": "Phase 6 (common lifecycle-aware defense) -- candidate baseline/related-work comparison",
+      "intended_project_role": "Gradient-coupled anomaly detection defense for memory poisoning in RAG agents.",
+      "known_issues": [
+        "Calibration-based anomaly detector grounded in a gradient-coupling theorem; no public implementation to compare against as a baseline yet."
+      ],
+      "licensing_or_access_status": "paper only",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "comparison/evaluation resource; relevant to later baseline comparison phases (5/6/7/10), not the Phase 2.1 foundation",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "not prepared -- no public code found",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "security_benchmark",
+      "resource_id": "memsad",
+      "resource_name": "MEMSAD",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "arXiv:2605.03482, Ishrith Gowda, 'MEMSAD: Gradient-Coupled Anomaly Detection for Memory Poisoning in Retrieval-Augmented Agents'"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv v1 (2026)",
+      "intended_later_phase": "Phase 7 (attack-origin attribution + forensic reconstruction) -- closest conceptual match found in the literature",
+      "intended_project_role": "Post-hoc auditing of poisoned agent memory via causal attribution + structural anomaly detection.",
+      "known_issues": [
+        "Directly relevant to this project's Phase 7 goal (attack-origin attribution / forensic reconstruction) -- worth close reading later even without code, but nothing to reuse or run in Phase 1."
+      ],
+      "licensing_or_access_status": "paper only",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "comparison/evaluation resource; relevant to later baseline comparison phases (5/6/7/10), not the Phase 2.1 foundation",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "not prepared -- no public code found",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "security_benchmark",
+      "resource_id": "memaudit",
+      "resource_name": "MemAudit",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "arXiv:2605.23723 (security-relevant paper); Zhewen Tan et al., 'MemAudit: Post-hoc Auditing of Poisoned Agent Memory via Causal Attribution and Structural Anomaly Detection'"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv:2510.02373 (Sept 2025), ICML 2026 poster",
+      "intended_later_phase": "Phase 5 (baseline defense comparison) / Phase 6 (informs the common defense design)",
+      "intended_project_role": "Proactive defense combining consensus-based validation and a dual-memory 'lessons' structure.",
+      "known_issues": [
+        "Reports >95% attack-success-rate reduction (not independently verified). Strong candidate DEFENSE BASELINE for Phase 5/6, given it has a public, MIT-licensed implementation."
+      ],
+      "licensing_or_access_status": "MIT",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "comparison/evaluation resource; relevant to later baseline comparison phases (5/6/7/10), not the Phase 2.1 foundation",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "security_benchmark",
+      "resource_id": "a_memguard",
+      "resource_name": "A-MemGuard",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/TangciuYueng/AMemGuard ; Wei et al. (10 authors, NTU/Oxford/Max Planck/Ohio State)"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv:2410.02644 (Oct 2024), ICLR 2025",
+      "intended_later_phase": "Phase 5 (baseline evaluation) / Phase 10 (cross-attack generalization)",
+      "intended_project_role": "Formalized benchmark of attacks and defenses in LLM-based agents (10 scenarios, 400+ tools, ~90,000 test cases).",
+      "known_issues": [
+        "Broad scope (27 attack/defense methods across many agent types), including memory-poisoning and backdoor attacks specifically -- a strong candidate for cross-attack generalization comparisons in Phase 10."
+      ],
+      "licensing_or_access_status": "MIT",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "comparison/evaluation resource; relevant to later baseline comparison phases (5/6/7/10), not the Phase 2.1 foundation",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "security_benchmark",
+      "resource_id": "asb",
+      "resource_name": "ASB (Agent Security Bench)",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/agiresearch/ASB ; Zhang, Huang, et al., ICLR 2025"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv:2406.13352 (2024), NeurIPS 2024",
+      "intended_later_phase": "Phase 4 (benchmark harness design reference) / Phase 10 (cross-attack generalization)",
+      "intended_project_role": "Dynamic evaluation environment for prompt-injection attacks on AI agents (97 tasks + 629 security test cases).",
+      "known_issues": [
+        "Focused on prompt injection rather than memory poisoning specifically, but the dynamic-environment design is a useful reference for Phase 4's benchmark harness."
+      ],
+      "licensing_or_access_status": "MIT",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "comparison/evaluation resource; relevant to later baseline comparison phases (5/6/7/10), not the Phase 2.1 foundation",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "security_benchmark",
+      "resource_id": "agentdojo",
+      "resource_name": "AgentDojo",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/ethz-spylab/agentdojo ; Debenedetti, Zhang, Balunović, Beurer-Kellner, Fischer, Tramèr; leaderboard at agentdojo.spylab.ai"
+    },
+    {
+      "artifact_presence_on_disk": {
+        "interim_present_on_disk": false,
+        "processed_files_on_disk": [],
+        "raw_present_on_disk": false
+      },
+      "checksums": [],
+      "dataset_version_or_revision": "arXiv:2403.02691, ACL Findings 2024",
+      "intended_later_phase": "Phase 10 (cross-attack generalization)",
+      "intended_project_role": "First benchmark for indirect prompt injection in tool-integrated agents (1,054 cases, 17 user / 62 attacker tools).",
+      "known_issues": [
+        "Indirect prompt injection via tool outputs, adjacent to but distinct from memory-persistence attacks -- useful as a related-work / cross-attack-family comparison point."
+      ],
+      "licensing_or_access_status": "MIT",
+      "local_artifact_location": null,
+      "phase1_status": "INSPECTED",
+      "phase2_1_scope_note": "comparison/evaluation resource; relevant to later baseline comparison phases (5/6/7/10), not the Phase 2.1 foundation",
+      "phase2_input_approved": false,
+      "phase2_status": "INSPECTED",
+      "preparation_pipeline_version": "not applicable",
+      "preparation_status": "specification documented only",
+      "provenance_status": "not applicable at Phase 1 (not run through the memory-record provenance pipeline)",
+      "resource_category": "security_benchmark",
+      "resource_id": "injecagent",
+      "resource_name": "InjecAgent",
+      "schema_version": "not applicable",
+      "snapshot_identifier": null,
+      "source": "https://github.com/uiuc-kang-lab/InjecAgent ; Zhan, Liang, Ying, Kang, ACL Findings 2024"
+    }
+  ],
+  "resources_by_phase2_status": {
+    "CONDITIONALLY_AVAILABLE": 6,
+    "INSPECTED": 16,
+    "NOT_GENERATED": 2,
+    "PHASE2_INPUT_APPROVED": 4
+  },
+  "scope_decision": "phase2_input_approved is true ONLY for the four core memory datasets (locomo, longmemeval, msc, conversation_chronicles), matching the Phase 2.1 objective of freezing the clean memory foundation. All other resources (workload/sleeper/attack/security-benchmark) are registered with an explicit status but are NOT approved Phase 2 inputs here -- approval for those belongs to the later phase that actually consumes them.",
+  "total_resources": 28
+}

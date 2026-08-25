@@ -1,0 +1,129 @@
+{
+  "datasets": {
+    "conversation_chronicles": {
+      "acquisition_date": "2026-08-12T16:54:58Z",
+      "dataset_id": "conversation_chronicles",
+      "dataset_name": "Conversation Chronicles",
+      "files": [
+        {
+          "path": "data\\raw\\conversation_chronicles\\train.jsonl",
+          "sha256": "f0fccf01ec59eeeab68c0a300b0f1a24bacd8eea8719e77bdbd003c242f1407c",
+          "size_bytes": 1348627179
+        },
+        {
+          "path": "data\\raw\\conversation_chronicles\\valid.jsonl",
+          "sha256": "b069106a81bad9285f8c9c0717a79a8aa8315bcadc01ef4890287b38e7551fd7",
+          "size_bytes": 168799270
+        },
+        {
+          "path": "data\\raw\\conversation_chronicles\\test.jsonl",
+          "sha256": "eef3ea2961cb4ba3e53849b5a58349b9fa64a106530ad41427e29c1d78c01cfe",
+          "size_bytes": 168658644
+        },
+        {
+          "path": "data\\raw\\conversation_chronicles\\README.md",
+          "sha256": "47469ef2f78606211245894dcb1114bede029a3e3f16d9645b42081d987d2cc1",
+          "size_bytes": 4561
+        }
+      ],
+      "intended_research_role": "Additional synthetic multi-session conversational source for cross-dataset robustness; fixed 5-session structure with relational/temporal variety",
+      "known_limitations": "Speaker role label casing/pluralization is inconsistent for the same underlying role; no absolute timestamps, only free-text relative time_interval descriptions.",
+      "language": "en",
+      "license": "CC BY 4.0 (from HF dataset card)",
+      "paper": "Jang et al., 'Conversation Chronicles: Towards Diverse Temporal and Relational Dynamics in Multi-Session Conversations', EMNLP 2023",
+      "source": "https://huggingface.co/datasets/jihyoung/ConversationChronicles",
+      "split_structure": "train / valid / test (native HF splits)",
+      "version_or_revision": "unavailable (HF repo commit not pinned at acquisition time)"
+    },
+    "locomo": {
+      "acquisition_date": "2026-08-12T16:54:58Z",
+      "dataset_id": "locomo",
+      "dataset_name": "LoCoMo (Long Conversational Memory)",
+      "files": [
+        {
+          "path": "data\\raw\\locomo\\locomo10.json",
+          "sha256": "79fa87e90f04081343b8c8debecb80a9a6842b76a7aa537dc9fdf651ea698ff4",
+          "size_bytes": 2805274
+        },
+        {
+          "path": "data\\raw\\locomo\\LICENSE.txt",
+          "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+          "size_bytes": 19347
+        }
+      ],
+      "intended_research_role": "Long-term conversational memory substrate with native multi-hop/temporal QA task structure",
+      "known_limitations": "QA answers/evidence are dataset-annotated (LLM/human) and not verified ground truth.",
+      "language": "en",
+      "license": "CC BY-NC 4.0 (from repository LICENSE.txt)",
+      "paper": "Maharana et al., 'Evaluating Very Long-Term Conversational Memory of LLM Agents', ACL 2024",
+      "source": "https://github.com/snap-research/locomo (data/locomo10.json)",
+      "split_structure": "unavailable (no train/val/test split; 10 long conversations released as a single evaluation set)",
+      "version_or_revision": "unavailable (no explicit dataset version tag; GitHub repo has no dataset release tags as of acquisition date)"
+    },
+    "longmemeval": {
+      "acquisition_date": "2026-08-12T16:54:58Z",
+      "dataset_id": "longmemeval",
+      "dataset_name": "LongMemEval (cleaned)",
+      "files": [
+        {
+          "path": "data\\raw\\longmemeval\\longmemeval_oracle.json",
+          "sha256": "821a2034d219ab45846873dd14c14f12cfe7776e73527a483f9dac095d38620c",
+          "size_bytes": 15388478
+        },
+        {
+          "path": "data\\raw\\longmemeval\\longmemeval_s_cleaned.json",
+          "sha256": "d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442",
+          "size_bytes": 277383467
+        },
+        {
+          "path": "data\\raw\\longmemeval\\README.md",
+          "sha256": "fe31783d4e5d132681a25e4192e85def8edd214094939879f5283818c0a4a3e0",
+          "size_bytes": 626
+        }
+      ],
+      "intended_research_role": "Long-term memory QA evaluation task structure and its underlying haystack session substrate",
+      "known_limitations": "longmemeval_m_cleaned.json (~2.7GB) was not downloaded in Phase 1 for repository-size reasons; acquisition command is documented in config/pipeline_config.yaml.",
+      "language": "en",
+      "license": "MIT (from HF dataset card)",
+      "paper": "Wu et al., 'LongMemEval: Benchmarking Chat Assistants on Long-Term Interactive Memory', ICLR 2025 (this HF repo is the authors' cleaned revision of the original release)",
+      "source": "https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned",
+      "split_structure": "oracle / s_cleaned / m_cleaned variants (not train/val/test splits); m_cleaned not acquired in Phase 1, see below",
+      "version_or_revision": "HF repo commit unavailable at acquisition time via anonymous download; see data/raw/longmemeval/README.md"
+    },
+    "msc": {
+      "acquisition_date": "2026-08-12T16:54:58Z",
+      "dataset_id": "msc",
+      "dataset_name": "Multi-Session Chat (MSC)",
+      "extracted_files": [
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_2\\test.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_2\\train.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_2\\valid.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_3\\test.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_3\\train.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_3\\valid.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_4\\test.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_4\\train.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_4\\valid.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_5\\test.txt",
+        "data\\raw\\msc\\msc\\msc_dialogue\\session_5\\valid.txt"
+      ],
+      "files": [
+        {
+          "path": "data\\raw\\msc\\msc_v0.1.tar.gz",
+          "sha256": "e640e37cf4317cd09fc02a4cd57ef130a185f23635f4003b0cee341ffcb45e60",
+          "size_bytes": 51116516
+        }
+      ],
+      "intended_research_role": "Human-human, non-LLM-generated multi-session conversational memory substrate (distribution diversity vs. LoCoMo/LongMemEval/Conversation Chronicles, which are LLM-involved)",
+      "known_limitations": "No absolute timestamps, only relative inter-session gaps. Human-generated is not automatically factual or trustworthy — no trust score assigned.",
+      "language": "en",
+      "license": "unavailable / not explicitly published for the dataset itself; ParlAI framework code is MIT, dataset built on PersonaChat/ConvAI2 — see https://opensource.facebook.com/legal/terms and the ParlAI MSC project page (https://parl.ai/projects/msc/) for the authoritative terms. Do not assume a license not explicitly stated.",
+      "paper": "Xu et al., 'Beyond Goldfish Memory: Long-Term Open-Domain Conversation', ACL 2022",
+      "source": "https://dl.fbaipublicfiles.com/parlai/msc/msc_v0.1.tar.gz (official ParlAI download; resolved from parlai/tasks/msc/build.py)",
+      "split_structure": "train/valid/test per session (session_1 has no dedicated file; sessions 2-5, session_5 has no train split)",
+      "version_or_revision": "v0.1 (MSC_DATASETS_VERSION in ParlAI build.py)"
+    }
+  },
+  "generated_at": "2026-08-12T16:54:58Z",
+  "manifest_version": "1.0.0"
+}

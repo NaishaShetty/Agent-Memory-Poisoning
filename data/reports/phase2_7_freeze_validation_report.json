@@ -1,0 +1,189 @@
+{
+  "canonical_phase2_identity": {
+    "canonical_phase2_identity_hash": "b7905cadbede1c696851b141b3ae19a4f4fba0fb651e3f98ab5bdf9045e465d7",
+    "fields": {
+      "benchmark_organization_version": "1.0.0",
+      "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+      "memory_foundation_dataset_ids": [
+        "conversation_chronicles",
+        "locomo",
+        "longmemeval",
+        "msc"
+      ],
+      "memory_record_counts": {
+        "conversation_chronicles": 822762,
+        "locomo": 5882,
+        "longmemeval": 210365,
+        "msc": 227185
+      },
+      "memory_record_total": 1266194,
+      "per_resource_canonical_identity_hashes": {
+        "a_memguard": "92d173e6cb3a47b36278f27ed40f1dd07905eba56f91a65062570cea197adecc",
+        "agentdojo": "9241439b3d0145597dfe5f6574ecc8566a691796c8c09753180133dd5643b3df",
+        "agentpoison": "e5c7f7f9bee3f0edd3c31722d53774b9ec5cfe59a4e8afd1a713447800986d65",
+        "api_bank": "5fb6b462560b97de303259d809f46deb726b98583bb0abf06376d36a590f2169",
+        "asb": "f332a699773f3f1a052e5265733eb928f5cfe54fbf3d5071af8aa8788a194672",
+        "conversation_chronicles": "dc590cd04d5f2679e66c70885db63292b8522cbe142c065136e0f4f75d92d750",
+        "dsrm": "4d465339c750e7f2a66e6dc15b71f42b7b2402e7c26b45fc248409a3090901fc",
+        "ehragent": "34b3eae4e5f1fa7982484611a3212436db75c26548649f7300a60359042fc220",
+        "farma": "e0c5d7e3d9679ab45ffa1b1b6684365f1df95c3abe1ade0ebe076ddd03196cd6",
+        "hidden_in_memory": "c758f641869fac8b92fdcd39e3dcb64b3ca6e650325aa34b6ca84adff1ae51bd",
+        "injecagent": "4ae1142e94bb22b4f92a86d7f09bcd3b4fb129fa2c2993ab182e3d11013acb41",
+        "locomo": "4ddd83927cfdb61110f0a7621cdc19cf916bec2f8db24bb0dc44838d19357fe9",
+        "longmemeval": "1a56c3d29e091a170eb96826b1a738bd34100f27223822a52808b1ba6c36a1dd",
+        "memaudit": "9eeffbe9f155f7fd7e96766478320b34b18dd9b3528f2dfd5182c4710b65328e",
+        "memorygraft": "3c3429936c4b05581e045d303683d1567078f89302d01cdcb098acbd201e2b30",
+        "memsad": "b97a2afce48c9e783197e5d4980c1d4bd183120bdcf38ef58c8b86399f612ba7",
+        "memsecbench": "ba01aaec55d5afa29402fb78f94a672001a2d1346fafbf30f43a8c7b78654e6a",
+        "mimic_eicu": "237b7df729290a6ec5c80ac768e341ab1dad0ac4e0a85b50a8a4a307f38eb0cf",
+        "minja": "64e1d7792a68707b18af43c5101f41d071e1ed8c651d6d6d910fd3f0a5dfe32b",
+        "mpbench": "411193151186de388e41ee3cf7210a70450a8bab0db0b8e3aaea9ec33a72f7c3",
+        "msc": "dc89651125b8695457473fc431a2157985f1af78f89e7c6e88a581000b90567c",
+        "sleeper_dataset_generator": "f2f52bdb34d814d74e9909afebc335f1597babd769cf5b2818d87be2473b1c43",
+        "strategyqa": "523502478ef7d1f7343e72a650005c008ca0b40c0455f942b9690dea02a6469d",
+        "swebench_verified": "0279edb4ab2df793f19f6ba64d4741b9bbe1e4d92d7094a22d02f3c2087c522b",
+        "tau2_bench": "9c36f1eb094a44b753cbf4225365d434be052de0f47d205cfa735666c6a347fb",
+        "tau_bench": "a2ee865e0ade5e82d5df9116d94e648f90071b10cc65fcfc2d39990564b3cdc6",
+        "toolbench": "b1b1d07fdbc0053f070fa7aaca442d90bb365da953733a1abaaf4697ba123454",
+        "webshop": "7cd02b87a15f8b3383df3d2f93f6d125aa0f55d23b5501cb684d0080318cd9b4"
+      },
+      "phase2_freeze_version": "2.7.0",
+      "preprocessing_pipeline_version": "1.0.0",
+      "reproducibility_manifest_version": "1.0.0",
+      "resource_role_counts": {
+        "attack": 6,
+        "evaluation": 7,
+        "memory": 4,
+        "sleeper": 2,
+        "workload": 9
+      },
+      "substrate_validation_version": "1.0.0",
+      "temporal_normalization_policy_version": "2.3.0",
+      "total_resources": 28,
+      "umr_schema_version": "1.1.0"
+    }
+  },
+  "checks": [
+    {
+      "detail": {
+        "failed_checks": [],
+        "total_checks": 29
+      },
+      "name": "phase2_6_benchmark_substrate_validation_passes_fresh",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "actual": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ],
+        "expected": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ]
+      },
+      "name": "canonical_memory_foundation_matches_expected",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "actual_total": 1266194,
+        "expected_total": 1266194
+      },
+      "name": "canonical_record_counts_match_expected",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "org": "1.0.0",
+        "temporal": "2.3.0",
+        "umr": "1.1.0"
+      },
+      "name": "canonical_versions_match_expected",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "actual": {
+          "attack": 6,
+          "evaluation": 7,
+          "memory": 4,
+          "sleeper": 2,
+          "workload": 9
+        },
+        "expected": {
+          "attack": 6,
+          "evaluation": 7,
+          "memory": 4,
+          "sleeper": 2,
+          "workload": 9
+        }
+      },
+      "name": "canonical_resource_counts_match_expected",
+      "status": "PASS"
+    },
+    {
+      "detail": {},
+      "name": "canonical_phase2_identity_is_deterministic",
+      "status": "PASS"
+    },
+    {
+      "detail": {},
+      "name": "canonical_phase2_identity_unaffected_by_generated_at",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "missing": []
+      },
+      "name": "all_referenced_manifests_exist",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "missing": []
+      },
+      "name": "all_referenced_validation_reports_exist",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "final_scope_scan_zero_forbidden_functionality",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "code_state": {
+          "branch": "master",
+          "commit_hash": "e5114c12d4df91f619f7d5ff285ae69de8f20578",
+          "commit_hash_short": "e5114c12d4df",
+          "git_available": true,
+          "is_dirty": true,
+          "note": "is_dirty=true means uncommitted changes existed in the working tree at manifest-generation time -- commit_hash alone does NOT fully identify the code that produced this manifest in that case"
+        }
+      },
+      "name": "git_code_state_captured",
+      "status": "PASS"
+    }
+  ],
+  "code_state": {
+    "branch": "master",
+    "commit_hash": "e5114c12d4df91f619f7d5ff285ae69de8f20578",
+    "commit_hash_short": "e5114c12d4df",
+    "git_available": true,
+    "is_dirty": true,
+    "note": "is_dirty=true means uncommitted changes existed in the working tree at manifest-generation time -- commit_hash alone does NOT fully identify the code that produced this manifest in that case"
+  },
+  "generated_at": "2026-08-16T17:54:25Z",
+  "overall_status": "PASS",
+  "phase2_freeze_version": "2.7.0",
+  "schema_version": "1.0.0",
+  "total_checks": 11
+}

@@ -1,0 +1,92 @@
+{
+  "checks": [
+    {
+      "detail": {
+        "duplicate_ids_sample": [],
+        "total": 1266194,
+        "unique": 1266194
+      },
+      "name": "unique_memory_ids",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "collisions_sample": {}
+      },
+      "name": "no_cross_dataset_id_collision",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "files_checked": 17,
+        "missing": []
+      },
+      "name": "valid_source_references",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "invalid_count": 0,
+        "sample": []
+      },
+      "name": "valid_provenance",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "broken_count": 0,
+        "sample": []
+      },
+      "name": "no_broken_task_evidence_links",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "expected_cross_file_overlap_count": 940,
+        "expected_cross_file_overlap_note": "sessions shared across LongMemEval's oracle/s_cleaned/m_cleaned variant files; not a failure, see _EXPECTED_MULTI_FILE_SESSION_DATASETS",
+        "inconsistent_count": 0,
+        "sample": {}
+      },
+      "name": "session_conversation_consistency",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "invalid_group_count": 0,
+        "sample": []
+      },
+      "name": "valid_event_ordering",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "replacement_char_count": 2,
+        "sample": [
+          "d6198c013c7fe0fbad262a75",
+          "d2435a9b16c870ba3022e52f"
+        ]
+      },
+      "name": "encoding_correctness",
+      "status": "FAIL"
+    },
+    {
+      "detail": {
+        "invalid_count": 0,
+        "sample": []
+      },
+      "name": "schema_consistency",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "leaked_conversation_count": 0,
+        "sample": {}
+      },
+      "name": "no_train_test_leakage",
+      "status": "PASS"
+    }
+  ],
+  "overall_status": "FAIL",
+  "total_memory_records": 1266194,
+  "total_task_records": 2986
+}

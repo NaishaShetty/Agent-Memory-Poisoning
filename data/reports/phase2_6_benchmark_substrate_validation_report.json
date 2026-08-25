@@ -1,0 +1,395 @@
+{
+  "canonical_state": {
+    "benchmark_organization_version": "1.0.0",
+    "memory_foundation": [
+      "conversation_chronicles",
+      "locomo",
+      "longmemeval",
+      "msc"
+    ],
+    "memory_record_counts": {
+      "conversation_chronicles": 822762,
+      "locomo": 5882,
+      "longmemeval": 210365,
+      "msc": 227185
+    },
+    "memory_record_total": 1266194,
+    "reproducibility_manifest_version": "1.0.0",
+    "resource_role_counts": {
+      "attack": 6,
+      "evaluation": 7,
+      "memory": 4,
+      "sleeper": 2,
+      "workload": 9
+    },
+    "temporal_normalization_policy_version": "2.3.0",
+    "total_resources": 28,
+    "umr_schema_version": "1.1.0"
+  },
+  "checks": [
+    {
+      "detail": {
+        "actual": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ],
+        "expected": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ]
+      },
+      "name": "domain1_memory_foundation_exactly_four_approved_datasets",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "benchmark_organization_layer": {
+          "conversation_chronicles": 822762,
+          "locomo": 5882,
+          "longmemeval": 210365,
+          "msc": 227185
+        },
+        "expected_per_dataset": {
+          "conversation_chronicles": 822762,
+          "locomo": 5882,
+          "longmemeval": 210365,
+          "msc": 227185
+        },
+        "expected_total": 1266194,
+        "fresh_umr_validator": {
+          "conversation_chronicles": 822762,
+          "locomo": 5882,
+          "longmemeval": 210365,
+          "msc": 227185
+        },
+        "reproducibility_layer": {
+          "conversation_chronicles": 822762,
+          "locomo": 5882,
+          "longmemeval": 210365,
+          "msc": 227185
+        }
+      },
+      "name": "domain1_memory_foundation_record_counts_match_expected",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "sources": {
+          "benchmark_organization.umr_integrity": "1.1.0",
+          "reproducibility_manifest.schema_and_policy_versions": "1.1.0",
+          "unified_schema.SCHEMA_VERSION": "1.1.0"
+        }
+      },
+      "name": "domain2_umr_schema_version_consistent_across_all_layers",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "failed_checks": []
+      },
+      "name": "domain2_umr_validator_passes_fresh",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "source_check": {
+          "detail": {
+            "collisions_sample": []
+          },
+          "name": "no_cross_dataset_id_collision",
+          "status": "PASS"
+        }
+      },
+      "name": "domain3_no_cross_dataset_memory_id_collisions",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "domain4_provenance_chain_intact_for_memory_foundation",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "domain4_provenance_preserved_for_all_28_resources",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "failed_checks": []
+      },
+      "name": "domain5_temporal_validator_passes_fresh",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "per_dataset_provenance_counts": {
+          "conversation_chronicles": {
+            "source_relative": 822762
+          },
+          "locomo": {
+            "source_absolute": 5882
+          },
+          "longmemeval": {
+            "source_absolute": 210365
+          },
+          "msc": {
+            "source_relative": 227185
+          }
+        },
+        "violations": []
+      },
+      "name": "domain6_temporal_provenance_split_matches_each_datasets_documented_signal",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "source_check": {
+          "detail": {
+            "violation_count": 0,
+            "violations": []
+          },
+          "name": "no_accidental_fabrication_source_absolute_vs_normalized_timestamp",
+          "status": "PASS"
+        }
+      },
+      "name": "domain6_no_fabricated_source_absolute_timestamps",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "actual": {
+          "attack": 6,
+          "evaluation": 7,
+          "memory": 4,
+          "sleeper": 2,
+          "workload": 9
+        },
+        "expected": {
+          "attack": 6,
+          "evaluation": 7,
+          "memory": 4,
+          "sleeper": 2,
+          "workload": 9
+        }
+      },
+      "name": "domain7_resource_role_counts_match_expected",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "domain7_memory_foundation_boundary_enforced",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "dsrm": {
+          "implementation_status": "specification_only_no_public_implementation_found",
+          "phase2_input_approved": false,
+          "primary_role": "attack"
+        }
+      },
+      "name": "domain8_role_status_implementation_activation_kept_separate",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "approved_ids": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ],
+        "expected": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ]
+      },
+      "name": "domain9_resource_availability_honest",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_resources": 28,
+        "violations": []
+      },
+      "name": "domain10_reproducibility_metadata_present_for_all_resources",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "failed_checks": []
+      },
+      "name": "domain10_reproducibility_validator_passes_fresh",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": {}
+      },
+      "name": "domain11_cross_manifest_resource_id_consistency",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "domain11_cross_manifest_role_and_status_agree",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "domain12_version_consistency_across_layers",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "benchmark_organization": 1266194,
+        "expected": 1266194,
+        "fresh_umr_validator": 1266194,
+        "reproducibility_manifest": 1266194
+      },
+      "name": "domain13_record_count_consistency_across_layers",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "mismatches": [],
+        "missing_files": [],
+        "rehashed_files": [
+          "data/raw/conversation_chronicles/README.md",
+          "data/raw/locomo/locomo10.json",
+          "data/raw/locomo/LICENSE.txt",
+          "data/raw/longmemeval/README.md"
+        ],
+        "size_only_checked_files": [
+          "data/raw/conversation_chronicles/train.jsonl",
+          "data/raw/conversation_chronicles/valid.jsonl",
+          "data/raw/conversation_chronicles/test.jsonl",
+          "data/raw/longmemeval/longmemeval_oracle.json",
+          "data/raw/longmemeval/longmemeval_s_cleaned.json",
+          "data/raw/msc/msc_v0.1.tar.gz"
+        ]
+      },
+      "name": "domain14_raw_file_integrity_targeted_checksums",
+      "scope": "targeted_sample",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "watched_file_count": 5
+      },
+      "name": "domain14_frozen_output_files_untouched_by_phase2_builders",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "scanned_stems": [
+          "poison",
+          "attack",
+          "sleeper",
+          "propagat",
+          "lifecycle",
+          "defense",
+          "defence",
+          "mitigat",
+          "contain",
+          "attribut",
+          "gnn",
+          "gln"
+        ],
+        "violations": []
+      },
+      "name": "domain18_no_later_phase_functionality_implemented",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "domain19_experimental_activation_boundary_respected",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "missing": []
+      },
+      "name": "domain20_phase2_component_artifacts_all_present",
+      "scope": "artifact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_records": 1266194
+      },
+      "name": "domain21_phase2_2_regression",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_records": 1266194
+      },
+      "name": "domain22_phase2_3_regression",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_resources_organized": 28
+      },
+      "name": "domain23_phase2_4_regression",
+      "scope": "full_corpus",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_resources": 28
+      },
+      "name": "domain24_phase2_5_regression",
+      "scope": "full_corpus",
+      "status": "PASS"
+    }
+  ],
+  "generated_at": "2026-08-16T14:28:49Z",
+  "overall_status": "PASS",
+  "schema_version": "1.0.0",
+  "substrate_validation_version": "1.0.0",
+  "total_checks": 29
+}

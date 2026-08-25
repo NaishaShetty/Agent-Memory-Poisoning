@@ -1,0 +1,94 @@
+{
+  "checks": [
+    {
+      "detail": {
+        "total_checked": 1266194,
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "schema_conformance",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "collisions_sample": [],
+        "total": 1266194,
+        "unique": 1266194
+      },
+      "name": "unique_memory_ids_within_dataset_and_across_datasets",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "collisions_sample": []
+      },
+      "name": "no_cross_dataset_id_collision",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "source_dataset_field_matches_containing_file",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "admission_counts_by_dataset": {
+          "conversation_chronicles": {
+            "ADMISSIBLE": 822762
+          },
+          "locomo": {
+            "ADMISSIBLE": 5882
+          },
+          "longmemeval": {
+            "ADMISSIBLE": 210363,
+            "QUARANTINED": 2
+          },
+          "msc": {
+            "ADMISSIBLE": 227185
+          }
+        }
+      },
+      "name": "admission_status_values_are_from_known_vocabulary",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "quarantined_records_never_trusted_clean",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violation_count": 0,
+        "violations": []
+      },
+      "name": "field_status_values_are_from_known_vocabulary",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "unified_counts": {
+          "conversation_chronicles": 822762,
+          "locomo": 5882,
+          "longmemeval": 210365,
+          "msc": 227185
+        }
+      },
+      "name": "record_counts_match_phase1_processed_output",
+      "status": "PASS"
+    }
+  ],
+  "overall_status": "PASS",
+  "per_dataset_counts": {
+    "conversation_chronicles": 822762,
+    "locomo": 5882,
+    "longmemeval": 210365,
+    "msc": 227185
+  },
+  "schema_version": "1.0.0",
+  "total_records": 1266194
+}

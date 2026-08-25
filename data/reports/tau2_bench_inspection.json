@@ -1,0 +1,32 @@
+{
+  "domains_fetched": [
+    "airline"
+  ],
+  "domains_not_fetched": [
+    "banking_knowledge",
+    "telecom",
+    "retail (if present)"
+  ],
+  "files": [
+    {
+      "found": true,
+      "label": "airline_tasks",
+      "num_tasks": 50,
+      "source_file": "data\\raw\\tau2_bench\\data\\tau2\\domains\\airline\\tasks.json"
+    },
+    {
+      "found": true,
+      "label": "airline_split_tasks",
+      "source_file": "data\\raw\\tau2_bench\\data\\tau2\\domains\\airline\\split_tasks.json",
+      "structure": "dict"
+    },
+    {
+      "found": true,
+      "label": "airline_policy",
+      "source_file": "data\\raw\\tau2_bench\\data\\tau2\\domains\\airline\\policy.md"
+    }
+  ],
+  "note": "Only the airline domain's tasks/split/policy were fetched as a representative sample; the full data/ directory (926 files including a large banking_knowledge document corpus and a 7MB db.json) was NOT bulk-downloaded, per research plan instruction not to unnecessarily download huge repositories. This is a deliberate scoping decision, documented here, not a silent gap.",
+  "num_records_total": 50,
+  "resource": "tau2_bench"
+}

@@ -1,0 +1,93 @@
+# MAMBench .gitignore
+#
+# Policy: track code, configuration, schemas, small metadata/manifests,
+# reports, logs that are unique provenance records, tests, and
+# documentation. Exclude large/regenerable/restricted data, secrets, and
+# machine-specific files. See docs/phase2/DATA_VERSIONING_POLICY.md for
+# the full rationale and for how excluded datasets are still identified,
+# checksummed, and made reproducible without being committed.
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+*.egg
+build/
+dist/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# --- Secrets / credentials (never commit) ---
+.env
+.env.*
+*.pem
+*.key
+*api_key*
+*credentials*
+secrets.json
+
+# --- Claude Code local session/permission cache (machine-specific) ---
+.claude/settings.local.json
+
+# --- Raw and derived dataset content (large, several with restricted or
+# unpublished licenses -- LoCoMo CC BY-NC-4.0, MSC license unpublished,
+# LongMemEval/Conversation Chronicles multi-hundred-MB to multi-GB).
+# Never committed. Identity/checksum/acquisition instructions for these
+# live in data/metadata/dataset_manifest.json, which IS tracked. ---
+data/raw/
+data/interim/
+data/processed/
+
+# --- Ephemeral, regenerable per-run pipeline logs. Canonical, unique
+# provenance logs (data/logs/quarantine_log.jsonl,
+# data/logs/removal_log.jsonl) are NOT covered by this pattern and ARE
+# tracked -- only the timestamped per-run text logs are excluded. ---
+data/logs/run_all_*.log
+
+# --- Future benchmark-generated / attack / sleeper / poisoned-memory
+# data (Phase 4+). Does not exist yet; excluded by default so it can
+# never be accidentally committed as if it were source data. Phase 4+
+# will define its own tracking/versioning policy for this directory
+# when it is actually created. ---
+data/generated/
+
+# --- Model checkpoints / large binary artifacts (none exist yet; no
+# Phase 9 GNN/GLN training has occurred). Excluded by default; a later
+# phase should use Git LFS or an external artifact store rather than
+# removing this rule. ---
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+checkpoints/
+
+# --- Phase 3 historical/reference archive. Large (includes a ~4.7GB
+# Qwen model checkpoint and full experiment result trees) and explicitly
+# out-of-scope for the public repo -- kept local-only for reference
+# during the Phase 3 restart. See phase3_reference/README.md. ---
+phase3_reference/
+
+# --- Office documents / PDFs / process docs and their backups. Never
+# pushed to GitHub -- these are working documentation artifacts, not
+# source. ---
+*.docx
+*.doc
+*.pptx
+*.xlsx
+*.pdf
+*.docx.bak*
+*.bak
+
+# --- Claude Code local session/tool state (machine-specific, not part
+# of the project). ---
+.claude/

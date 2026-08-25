@@ -1,0 +1,22 @@
+{
+  "files": [
+    {
+      "found": true,
+      "num_records": 2290,
+      "source_file": "data\\raw\\strategyqa\\extracted\\strategyqa_train.json",
+      "split": "train"
+    },
+    {
+      "found": true,
+      "num_records": 490,
+      "source_file": "data\\raw\\strategyqa\\extracted\\strategyqa_test.json",
+      "split": "test"
+    }
+  ],
+  "missing_decomposition_count": 490,
+  "missing_facts_count": 490,
+  "note": "answer is a boolean label from the original annotation, not treated as universal truth (per research plan instruction); 'facts'/'decomposition'/'evidence' are dataset-provided reasoning annotations, preserved verbatim in payload, not verified here.",
+  "num_records_total": 2780,
+  "resource": "strategyqa",
+  "test_split_has_no_answers": true
+}

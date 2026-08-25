@@ -1,0 +1,187 @@
+{
+  "checks": [
+    {
+      "detail": {
+        "extra": [],
+        "missing": [],
+        "total": 28
+      },
+      "name": "check_1_every_phase2_4_resource_has_identity_metadata",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "count": 28,
+        "unique_count": 28
+      },
+      "name": "check_2_resource_ids_are_unique",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_3_role_consistency_with_phase2_4",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "actual": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ],
+        "expected": [
+          "conversation_chronicles",
+          "locomo",
+          "longmemeval",
+          "msc"
+        ]
+      },
+      "name": "check_4_memory_foundation_consistency",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_5_source_identity_present_or_explicitly_unknown",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_6_version_honesty_no_invented_source_versions",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_7_preparation_identity_for_prepared_resources",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "expected": "1.1.0",
+        "violations": []
+      },
+      "name": "check_8_schema_consistency_umr",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "expected": "2.3.0",
+        "violations": []
+      },
+      "name": "check_9_temporal_policy_consistency",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_10_seed_semantics_only_where_applicable",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "configuration_identity": {
+          "config_relative_path": "config\\pipeline_config.yaml",
+          "configuration_id": "0f01c9ac40443b55403f65e260e386656c15e41f82554ae21545fcbe0653efc8",
+          "configuration_id_algorithm": "sha256 of config/pipeline_config.yaml raw file content"
+        }
+      },
+      "name": "check_11_configuration_identity_unique_and_reproducible",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_12_canonical_identity_determinism",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_13_path_independence_of_canonical_identity",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "actual": 1266194,
+        "actual_per_dataset": {
+          "conversation_chronicles": 822762,
+          "locomo": 5882,
+          "longmemeval": 210365,
+          "msc": 227185
+        },
+        "expected_per_dataset": {
+          "conversation_chronicles": 822762,
+          "locomo": 5882,
+          "longmemeval": 210365,
+          "msc": 227185
+        },
+        "expected_total": 1266194
+      },
+      "name": "check_14_record_counts_unchanged",
+      "status": "PASS"
+    },
+    {
+      "detail": {},
+      "name": "check_15_provenance_metadata_intact",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_16_availability_honesty",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "check_17_role_status_implementation_activation_kept_separate",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_records": 1266194
+      },
+      "name": "check_18_phase2_2_unified_memory_validation_still_passes",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_records": 1266194
+      },
+      "name": "check_19_phase2_3_temporal_validation_still_passes",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "total_resources_organized": 28
+      },
+      "name": "check_20_phase2_4_benchmark_organization_validation_still_passes",
+      "status": "PASS"
+    },
+    {
+      "detail": {
+        "violations": []
+      },
+      "name": "canonical_identity_independent_of_generated_at",
+      "status": "PASS"
+    }
+  ],
+  "generated_at": "2026-08-16T14:03:45Z",
+  "overall_status": "PASS",
+  "reproducibility_manifest_version": "1.0.0",
+  "schema_version": "1.0.0",
+  "total_resources": 28
+}
