@@ -1,0 +1,21 @@
+{
+  "schema_version": "3.2-b.1",
+  "run_id": "run-retr-0001",
+  "task_id": "task-dog-0001",
+  "dataset": "locomo",
+  "dataset_identity": {
+    "dataset": "locomo",
+    "dataset_version": "phase2-umr-fixture-v1"
+  },
+  "condition": "RETRIEVED_MEMORY",
+  "configuration_identity": {
+    "reasoning_model": "not_pinned_yet_3.2-b_placeholder",
+    "note": "Condition C (retrieved-memory, the actual clean agent) per EVALUATION_CONTRACT.md section 5. Retrieval/reranking/selection are not implemented in 3.2-B; memory_content below is a synthetic stand-in for what a future selection layer would output."
+  },
+  "agent_visible_input_ref": "fixtures/retrieved_memory/agent_visible_context.json",
+  "execution_result_ref": "fixtures/retrieved_memory/agent_execution_result.json",
+  "trace_ref": "fixtures/retrieved_memory/trace_artifact.json",
+  "evaluator_reference_ref": "fixtures/retrieved_memory/evaluator_reference.json",
+  "evaluation_result_ref": "fixtures/retrieved_memory/evaluation_result.json",
+  "created_at": "2026-08-01T00:00:00Z"
+}

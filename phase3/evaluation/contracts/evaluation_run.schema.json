@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase3/evaluation/contracts/evaluation_run.schema.json",
+  "title": "EvaluationRun",
+  "description": "Phase 3.2-B data contract. Identifies a single evaluation run: which task, dataset, and condition it covers, plus opaque references to the other five artifact types produced/consumed for that run. EvaluationRun NEVER embeds agent-visible content, evaluator-only content, execution output, or trace content directly -- it only carries identity fields and *_ref pointers, so that the agent-visible and evaluator-only planes can never be merged into one object by construction. Design choice (not fixed by the contract docs): all *_ref fields are opaque string identifiers, resolved by whichever physical storage/indexing mechanism a later Phase 3 stage defines (per TRACEABILITY_CONTRACT.md section 6, which explicitly leaves this open) -- this schema does not assume a filesystem path, database key, or URI scheme.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "task_id",
+    "dataset_identity",
+    "condition",
+    "configuration_identity",
+    "agent_visible_input_ref",
+    "execution_result_ref",
+    "trace_ref",
+    "evaluator_reference_ref",
+    "evaluation_result_ref",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "3.2-b.1",
+      "description": "Contract version for this object. Convention: '<phase-stage>.<revision>' (e.g. '3.2-b.1'), chosen for Phase 3.2-B and used consistently across all six evaluation contract schemas."
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "IMMUTABLE identity field. Uniquely identifies this evaluation run. Never reassigned or reused, mirroring the memory_id immutability rule in memory_schema.json."
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "IMMUTABLE identity field. Identifies the task (from the frozen Phase 2 dataset substrate) this run executed. Never changes for a given run_id."
+    },
+    "dataset": {
+      "type": "string",
+      "description": "Convenience/display dataset name, e.g. 'locomo', 'longmemeval', 'msc', 'conversation_chronicles'. Redundant with dataset_identity.dataset but kept as a separate top-level field per the 3.2-B task brief; dataset_identity is authoritative if the two ever disagree."
+    },
+    "dataset_identity": {
+      "type": "object",
+      "description": "IMMUTABLE identity field. Pins the exact frozen Phase 2 dataset/version this run's task was drawn from (per REPRODUCIBILITY_CONTRACT.md section 3: 'dataset version/hash, referencing the Phase 2 UMR / dataset manifest'). Never changes for a given run_id.",
+      "required": ["dataset", "dataset_version"],
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "description": "One of the four frozen Phase 3 datasets (see DATASET_CAPABILITY_MATRIX.md)."
+        },
+        "dataset_version": {
+          "type": "string",
+          "description": "Version/hash identifier of the frozen Phase 2 UMR/dataset manifest this task was drawn from."
+        }
+      },
+      "additionalProperties": true
+    },
+    "condition": {
+      "type": "string",
+      "enum": ["NO_MEMORY", "GOLD_EVIDENCE", "RETRIEVED_MEMORY"],
+      "description": "IMMUTABLE identity field. The controlled agent-level condition per EVALUATION_CONTRACT.md section 5: NO_MEMORY = Condition A (no-memory control), GOLD_EVIDENCE = Condition B (gold-evidence control), RETRIEVED_MEMORY = Condition C (the actual clean agent, retrieval+selection). Never changes for a given run_id -- a condition change is a different run."
+    },
+    "configuration_identity": {
+      "type": "object",
+      "description": "Free-form (additionalProperties allowed) pointer/record of the non-frozen configuration used for this run -- e.g. retrieval/reranking/selection parameters, reasoning model identity, prompt template version, decoding configuration (per CLEAN_AGENT_INTERFACES.md section 2.1 and REPRODUCIBILITY_CONTRACT.md section 3). Deliberately NOT tightly typed here: the exact configuration surface (top-K values, fusion formula, thresholds, prompt wording) is explicitly experimental/not-frozen per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 4, so this schema only requires that *some* configuration identity be recorded, not any specific shape.",
+      "minProperties": 1,
+      "additionalProperties": true
+    },
+    "agent_visible_input_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque reference to the AgentVisibleContext artifact used for this run. Points to a document that is structurally forbidden from containing evaluator-only fields -- see agent_visible_context.schema.json."
+    },
+    "execution_result_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque reference to the AgentExecutionResult artifact produced by this run."
+    },
+    "trace_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque reference to the TraceArtifact produced by this run."
+    },
+    "evaluator_reference_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque reference to the EvaluatorReference (gold answer, gold evidence IDs, etc.) for this run's task. This reference is consumed only by the evaluator/scoring path, never by agent execution -- see boundary.py."
+    },
+    "evaluation_result_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque reference to the EvaluationResult artifact produced by scoring this run. In 3.2-B this artifact is a placeholder (no metrics implemented yet) -- see evaluation_result.schema.json."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp when this EvaluationRun record was created."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp of the last update to this record (e.g. when a *_ref was populated after a later pipeline stage completed). Optional: a freshly created run may not have been updated yet."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "3.2-b.1",
+  "description": "Synthetic event log entries for scenario D (derived memory), per relationship_schema.md section 3. Not a JSON-Schema-validated object in 3.2-B (the event log schema itself is narrative-only in relationship_schema.md, no machine schema was published for it in Phase 3.1) -- included here as a hand-authored illustration of the required event fields, and exercised by the relationship fixture test only for basic field-presence, not full schema validation.",
+  "events": [
+    {
+      "event_id": "evt-created-mem-found-A",
+      "event_type": "created",
+      "memory_id": "mem-found-A",
+      "task_id": null,
+      "timestamp": "2026-07-01T00:00:00Z",
+      "actor": "phase2_umr_ingestion",
+      "reason": "foundation memory created from frozen Phase 2 UMR record locomo-umr-0042",
+      "previous_state": null,
+      "new_state": "CREATED"
+    },
+    {
+      "event_id": "evt-created-mem-found-B",
+      "event_type": "created",
+      "memory_id": "mem-found-B",
+      "task_id": null,
+      "timestamp": "2026-07-01T00:05:00Z",
+      "actor": "phase2_umr_ingestion",
+      "reason": "foundation memory created from frozen Phase 2 UMR record locomo-umr-0043",
+      "previous_state": null,
+      "new_state": "CREATED"
+    },
+    {
+      "event_id": "evt-derive-C-from-A-B",
+      "event_type": "derived",
+      "memory_ids": ["mem-found-A", "mem-found-B", "mem-derived-C"],
+      "task_id": null,
+      "timestamp": "2026-07-01T00:10:00Z",
+      "actor": "creation_policy",
+      "reason": "combined two foundation facts about the user's dog into one derived summary",
+      "previous_state": null,
+      "new_state": "CREATED"
+    }
+  ]
+}

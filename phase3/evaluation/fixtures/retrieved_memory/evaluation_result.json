@@ -1,0 +1,16 @@
+{
+  "schema_version": "3.2-b.1",
+  "run_id": "run-retr-0001",
+  "evaluator_version": "3.2-b-envelope-only",
+  "metric_set_version": "none -- 3.2-b placeholder, no metrics implemented",
+  "result_status": "NOT_EVALUATED",
+  "metrics": {},
+  "warnings": ["metric computation not implemented until Phase 3.2-C"],
+  "errors": [],
+  "evaluation_timestamp": "2026-08-01T00:00:00Z",
+  "input_artifact_refs": {
+    "execution_result_ref": "fixtures/retrieved_memory/agent_execution_result.json",
+    "trace_ref": "fixtures/retrieved_memory/trace_artifact.json",
+    "evaluator_reference_ref": "fixtures/retrieved_memory/evaluator_reference.json"
+  }
+}

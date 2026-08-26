@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase3/evaluation/contracts/agent_execution_result.schema.json",
+  "title": "AgentExecutionResult",
+  "description": "Phase 3.2-B data contract. The raw output of running the agent for one EvaluationRun -- the answer produced and the memory identifiers that were retrieved/selected along the way -- with NO metric or scoring fields. Deliberately excludes any evaluator_reference field or gold-comparison field: this operationalizes the requirement that the agent-execution path never imports or depends on EvaluatorReference (see boundary.py's validate_agent_visible(), whose signature likewise never accepts an EvaluatorReference argument, and AUDIT.md's finding that the historical reference_agent.py TaskRunner conflated agent execution with TSR scoring in one function -- this schema keeps them structurally separate: computing metrics from this artifact plus a separately-loaded EvaluatorReference is 3.2-C's job, not this object's).",
+  "type": "object",
+  "required": ["schema_version", "run_id", "task_id", "condition", "execution_status"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "3.2-b.1",
+      "description": "Contract version for this object."
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifies which EvaluationRun this execution result belongs to."
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifies which task was executed. Must match the EvaluationRun's task_id."
+    },
+    "condition": {
+      "type": "string",
+      "enum": ["NO_MEMORY", "GOLD_EVIDENCE", "RETRIEVED_MEMORY"],
+      "description": "Which controlled condition produced this result. Must match the EvaluationRun's condition."
+    },
+    "agent_response": {
+      "type": ["string", "null"],
+      "description": "The raw answer/decision produced by the reasoning layer. Null if execution_status is not a completed status (e.g. ERROR)."
+    },
+    "selected_memory_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "memory_ids that evidence selection chose for this task's reasoning context (the output of the selection layer, per CLEAN_AGENT_INTERFACES.md section 1). Empty for the NO_MEMORY condition. This is the agent's own record of what it used, not a gold-comparison result -- comparing it against EvaluatorReference.gold_evidence_ids (e.g. for strict TSR) is 3.2-C evaluator-side work, performed on a separately-loaded EvaluatorReference document, never inside this object."
+    },
+    "retrieved_memory_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "memory_ids surfaced by candidate discovery before reranking/selection narrowed them down. Distinguishing retrieved from selected supports the candidate-generation-vs-selection-capacity failure split required by EVALUATION_CONTRACT.md section 2 -- but this schema only records the IDs; computing the failure split itself is 3.2-C work."
+    },
+    "reasoning_context_ref": {
+      "type": ["string", "null"],
+      "description": "Opaque reference to the AgentVisibleContext actually assembled and sent to the reasoning layer for this execution."
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": ["SUCCESS", "ERROR", "SKIPPED", "TIMEOUT"],
+      "description": "Whether the agent execution completed. Not a correctness judgment -- SUCCESS means the pipeline ran to completion and produced a response, not that the response is correct (correctness is an EvaluationResult concern, not this object's)."
+    },
+    "error": {
+      "type": ["object", "null"],
+      "description": "Present only if execution_status is ERROR or TIMEOUT.",
+      "properties": {
+        "error_type": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "timing": {
+      "type": "object",
+      "description": "Timing metadata for this execution, per REPRODUCIBILITY_CONTRACT.md's recording requirements.",
+      "properties": {
+        "started_at": { "type": "string", "format": "date-time" },
+        "completed_at": { "type": "string", "format": "date-time" },
+        "duration_ms": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "trace_ref": {
+      "type": ["string", "null"],
+      "description": "Opaque reference to the TraceArtifact for this execution."
+    }
+  },
+  "additionalProperties": false
+}

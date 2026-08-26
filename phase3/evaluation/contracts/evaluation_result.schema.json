@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase3/evaluation/contracts/evaluation_result.schema.json",
+  "title": "EvaluationResult",
+  "description": "Phase 3.2-B data contract. The output artifact of scoring an EvaluationRun. In 3.2-B, `metrics` is a deliberately EMPTY/placeholder object -- no Recall@K, MRR, TSR, evidence-equivalence, precision/recall, provenance, lifecycle, or agent-answer metric is computed or defined as a field anywhere in this schema (that is explicitly 3.2-C/D scope, per EVALUATION_CONTRACT.md and PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 21-22). This object exists now so that 3.2-C can populate `metrics` against a stable envelope (run identity, versions, status, warnings/errors, input provenance) without having to redesign the envelope once metrics land.",
+  "type": "object",
+  "required": ["schema_version", "run_id", "evaluator_version", "metric_set_version", "result_status", "metrics", "evaluation_timestamp"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "3.2-b.1",
+      "description": "Contract version for this object."
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifies which EvaluationRun this result scores."
+    },
+    "evaluator_version": {
+      "type": "string",
+      "description": "Version identifier of the evaluator code that produced this result. In 3.2-B this identifies the (metric-free) envelope-only evaluator; a real value is expected once 3.2-C ships an evaluator that actually computes metrics."
+    },
+    "metric_set_version": {
+      "type": "string",
+      "description": "Version identifier of the metric set/definitions in force when this result was produced. In 3.2-B, records that NO metric set is yet defined (e.g. 'none -- 3.2-b placeholder'); 3.2-C introduces the first real metric_set_version."
+    },
+    "result_status": {
+      "type": "string",
+      "enum": ["NOT_EVALUATED", "PARTIAL", "COMPLETE", "ERROR"],
+      "description": "NOT_EVALUATED is the expected status for every 3.2-B fixture/result, since metric computation does not exist yet. PARTIAL/COMPLETE/ERROR are reserved for when 3.2-C's evaluator runs."
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Placeholder for future metric output. In 3.2-B this MUST be empty ({}) -- it is intentionally under-specified (no named metric properties, additionalProperties left open) so that 3.2-C can populate Recall@K, MRR, TSR, evidence-equivalent success, precision/recall/coverage, provenance/lineage/lifecycle metrics, and agent-level A/B/C accuracy deltas here without a breaking schema change. No metric field is defined or implied by this schema.",
+      "additionalProperties": true
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Non-fatal evaluation warnings (e.g. missing optional trace fields)."
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Fatal evaluation errors, if result_status is ERROR."
+    },
+    "evaluation_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp when this evaluation result was produced."
+    },
+    "input_artifact_refs": {
+      "type": "object",
+      "description": "Opaque references to the artifacts this evaluation consumed, for traceability (TRACEABILITY_CONTRACT.md).",
+      "properties": {
+        "execution_result_ref": { "type": "string" },
+        "trace_ref": { "type": "string" },
+        "evaluator_reference_ref": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

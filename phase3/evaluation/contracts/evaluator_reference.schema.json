@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase3/evaluation/contracts/evaluator_reference.schema.json",
+  "title": "EvaluatorReference",
+  "description": "Phase 3.2-B data contract. Holds every field that is agent-hidden per LEAKAGE_AND_VISIBILITY_CONTRACT.md section 1 and CLEAN_AGENT_INTERFACES.md section 2.4: gold answers, gold evidence IDs, evidence-equivalence references, benchmark task labels/annotations, and internal evaluation metadata. This document is EVALUATOR-ONLY -- it must never be passed to agent execution or the reasoning layer, and must never be merged into the same object as AgentVisibleContext (see agent_visible_context.schema.json's description and boundary.py). This directly addresses the AUDIT.md finding that the historical clean_agent_v1 TaskRunner.run_task computed both the agent trajectory and the TSR judgment inside one function, reading evidence_memory_ids in the same call that produced used_memory_ids -- in this contract set, EvaluatorReference and AgentExecutionResult/AgentVisibleContext are always separate documents, so that conflation cannot happen by construction.",
+  "type": "object",
+  "required": ["schema_version", "task_id", "gold_answer", "gold_evidence_ids"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "3.2-b.1",
+      "description": "Contract version for this object."
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Optional back-reference to the EvaluationRun this reference belongs to."
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifies which task this gold reference data belongs to. Must match the task_id of the corresponding AgentVisibleContext/EvaluationRun, but this document is never read by agent execution."
+    },
+    "gold_answer": {
+      "type": "string",
+      "description": "The benchmark-designated gold answer for the task. Agent-hidden, absolute (CLEAN_AGENT_INTERFACES.md section 2.4). Never present in AgentVisibleContext or AgentExecutionResult."
+    },
+    "gold_evidence_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "The benchmark-designated gold evidence memory_ids for the task (per EVALUATION_CONTRACT.md section 3, 'strict TSR'). Agent-hidden, absolute -- must never reach the reasoning layer even under the GOLD_EVIDENCE condition, which exposes gold evidence CONTENT to the agent but never the literal gold-evidence-ID list (LEAKAGE_AND_VISIBILITY_CONTRACT.md section 1 lists 'gold evidence IDs' as agent-hidden with no condition-based exception)."
+    },
+    "evidence_equivalence_refs": {
+      "type": "array",
+      "description": "References supporting the evidence-equivalent success diagnostic metric (EVALUATION_CONTRACT.md section 4) -- e.g. memory_ids that are equivalent_to or duplicate-of a gold evidence memory. Evaluator-only; no equivalence computation is performed in 3.2-B (that is 3.2-C work) -- this field is a place to record the equivalence *references* the future metric will consume.",
+      "items": {
+        "type": "object",
+        "required": ["memory_id", "relation"],
+        "properties": {
+          "memory_id": { "type": "string" },
+          "relation": {
+            "type": "string",
+            "enum": ["equivalent_to", "duplicate_of"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "task_labels": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Benchmark-only task labels (e.g. dataset-provided category/difficulty tags used for stratified reporting), agent-hidden."
+    },
+    "benchmark_annotations": {
+      "type": "object",
+      "description": "Free-form benchmark-only annotation payload (e.g. dataset-specific fields not otherwise modeled here). Agent-hidden.",
+      "additionalProperties": true
+    },
+    "expected_evidence": {
+      "type": "array",
+      "description": "The gold evidence CONTENT (not just IDs), where the benchmark provides it, for use by evaluator-side evidence-equivalent success scoring in a later stage. Agent-hidden even though it duplicates content that may separately and legitimately appear in AgentVisibleContext under the GOLD_EVIDENCE condition -- the two copies are structurally independent; this field exists so evaluator scoring never needs to read the agent-visible artifact to get gold content.",
+      "items": {
+        "type": "object",
+        "required": ["memory_id", "content"],
+        "properties": {
+          "memory_id": { "type": "string" },
+          "content": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "evaluation_metadata": {
+      "type": "object",
+      "description": "Internal evaluator-only metadata not otherwise modeled (e.g. grading configuration, annotator identity). Agent-hidden.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
