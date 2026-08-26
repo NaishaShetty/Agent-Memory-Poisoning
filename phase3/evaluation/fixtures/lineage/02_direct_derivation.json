@@ -1,0 +1,25 @@
+{
+  "description": "Scenario 2: direct derivation A -> B (B lists A as its sole parent).",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "foundation",
+      "content": {"text": "User mentioned they run marathons."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1010"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-A",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "derived",
+      "content": {"text": "User is a competitive endurance athlete."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-B-from-A"},
+      "parent_ids": ["mem-lin-A"],
+      "creation_event": "evt-derive-B-from-A",
+      "creation_timestamp": "2026-08-01T00:05:00Z",
+      "lifecycle_state": "ACTIVE"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "description": "Scenario 8: equivalence and lineage together as DISTINCT relation types on the same memory set -- A ≡ B (equivalence) and A -> C (lineage/derivation). Equivalence(A,B) must not imply any parent/child relation; lineage(A,C) must not imply equivalence.",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "foundation",
+      "content": {"text": "User's dog is a golden retriever."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1070"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-A",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE",
+      "equivalent_to": ["mem-lin-B"]
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "foundation",
+      "content": {"text": "The user has a golden retriever as their dog."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1071"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-B",
+      "creation_timestamp": "2026-08-01T00:01:00Z",
+      "lifecycle_state": "ACTIVE",
+      "equivalent_to": ["mem-lin-A"]
+    },
+    "mem-lin-C": {
+      "memory_id": "mem-lin-C",
+      "memory_type": "derived",
+      "content": {"text": "User is a dog owner."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-C-from-A"},
+      "parent_ids": ["mem-lin-A"],
+      "creation_event": "evt-derive-C-from-A",
+      "creation_timestamp": "2026-08-01T00:05:00Z",
+      "lifecycle_state": "ACTIVE"
+    }
+  }
+}

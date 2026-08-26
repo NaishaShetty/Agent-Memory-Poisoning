@@ -1,0 +1,35 @@
+{
+  "description": "Scenario 10: a cycle A -> B -> C -> A (each memory lists the previous one as its parent, closing the loop). Must be detected and reported, never silently repaired, and traversal must terminate safely rather than infinite-loop.",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "derived",
+      "content": {"text": "Cyclic memory A (parent: C)."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-A-from-C"},
+      "parent_ids": ["mem-lin-C"],
+      "creation_event": "evt-derive-A-from-C",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "derived",
+      "content": {"text": "Cyclic memory B (parent: A)."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-B-from-A"},
+      "parent_ids": ["mem-lin-A"],
+      "creation_event": "evt-derive-B-from-A",
+      "creation_timestamp": "2026-08-01T00:01:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-C": {
+      "memory_id": "mem-lin-C",
+      "memory_type": "derived",
+      "content": {"text": "Cyclic memory C (parent: B)."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-C-from-B"},
+      "parent_ids": ["mem-lin-B"],
+      "creation_event": "evt-derive-C-from-B",
+      "creation_timestamp": "2026-08-01T00:02:00Z",
+      "lifecycle_state": "ACTIVE"
+    }
+  }
+}

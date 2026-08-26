@@ -1,0 +1,35 @@
+{
+  "description": "Scenario 4: branching derivation A -> B and A -> C (one parent, two distinct children; descendants(A) = {B, C}).",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "foundation",
+      "content": {"text": "User said they adopted a cat named Milo."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1030"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-A",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "derived",
+      "content": {"text": "User is a pet owner."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-B-from-A"},
+      "parent_ids": ["mem-lin-A"],
+      "creation_event": "evt-derive-B-from-A",
+      "creation_timestamp": "2026-08-01T00:05:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-C": {
+      "memory_id": "mem-lin-C",
+      "memory_type": "derived",
+      "content": {"text": "User's household includes a cat."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-C-from-A"},
+      "parent_ids": ["mem-lin-A"],
+      "creation_event": "evt-derive-C-from-A",
+      "creation_timestamp": "2026-08-01T00:06:00Z",
+      "lifecycle_state": "ACTIVE"
+    }
+  }
+}

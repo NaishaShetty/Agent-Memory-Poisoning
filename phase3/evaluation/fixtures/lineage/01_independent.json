@@ -1,0 +1,25 @@
+{
+  "description": "Scenario 1: two independent memories, no relation of any kind (no shared parent, no equivalence).",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "foundation",
+      "content": {"text": "User's favorite color is blue."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1001"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-A",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "foundation",
+      "content": {"text": "User works as a software engineer."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1002"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-B",
+      "creation_timestamp": "2026-08-01T00:01:00Z",
+      "lifecycle_state": "ACTIVE"
+    }
+  }
+}
