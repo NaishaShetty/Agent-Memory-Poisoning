@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase3/evaluation/contracts/trace_artifact.schema.json",
+  "title": "TraceArtifact",
+  "description": "Phase 3.2-B data contract. Structural placeholder for the full task-execution trace chain required by TRACEABILITY_CONTRACT.md section 2: task -> candidate_discovery -> candidate_set -> reranking -> selection -> selected_evidence -> reasoning_context -> reasoning_output -> final_response. Per AUDIT.md section 10, no historical component ever wired a live candidate-discovery/reranking/selection pipeline to a live reasoning layer in one execution, so most of these fields have no producer yet in 3.2-B -- every field except schema_version/task_id/run_id is optional and nullable so this schema can be populated incrementally as later Phase 3 stages implement each layer, without ever needing a breaking schema change. This is a structure-only definition: it carries no metric fields and computes nothing.",
+  "type": "object",
+  "required": ["schema_version", "task_id"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "3.2-b.1",
+      "description": "Contract version for this object."
+    },
+    "run_id": {
+      "type": ["string", "null"],
+      "description": "Back-reference to the EvaluationRun this trace belongs to, where known."
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifies the task this trace reconstructs the execution of."
+    },
+    "task": {
+      "type": ["object", "null"],
+      "description": "Snapshot of the task as presented, for trace reconstruction. Null until a stage populates it.",
+      "additionalProperties": true
+    },
+    "candidate_discovery": {
+      "type": ["object", "null"],
+      "description": "Record of the candidate discovery step (channels used, parameters). Null: candidate discovery is not yet implemented (per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 15/17, this is a distinct, not-yet-built layer).",
+      "additionalProperties": true
+    },
+    "candidate_set": {
+      "type": ["array", "null"],
+      "description": "The candidate memory_ids produced by candidate discovery, before reranking. Null until candidate discovery exists.",
+      "items": { "type": "string" }
+    },
+    "reranking": {
+      "type": ["object", "null"],
+      "description": "Record of the reranking step (e.g. per-candidate scores/order). Null: reranking is not yet implemented as a separated layer.",
+      "additionalProperties": true
+    },
+    "selection": {
+      "type": ["object", "null"],
+      "description": "Record of the evidence selection step (budget/redundancy/independence decisions). Null: selection is not yet implemented as a separated layer.",
+      "additionalProperties": true
+    },
+    "selected_evidence": {
+      "type": ["array", "null"],
+      "description": "The memory_ids evidence selection chose to pass to reasoning. Null until selection exists.",
+      "items": { "type": "string" }
+    },
+    "reasoning_context": {
+      "type": ["object", "null"],
+      "description": "Reference/snapshot of the assembled reasoning context sent to the reasoning layer, subject to LEAKAGE_AND_VISIBILITY_CONTRACT.md. Null: reasoning-context assembly is not yet implemented in 3.2-B.",
+      "additionalProperties": true
+    },
+    "reasoning_output": {
+      "type": ["object", "null"],
+      "description": "Raw reasoning-layer (Qwen3-8B) output record. Null: no reasoning-layer integration exists yet (Qwen integration is explicitly out of scope for 3.2-B).",
+      "additionalProperties": true
+    },
+    "final_response": {
+      "type": ["string", "null"],
+      "description": "The final answer/decision produced. Null until a reasoning layer exists to produce one."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp when this trace record was created/last appended to."
+    }
+  },
+  "additionalProperties": false
+}

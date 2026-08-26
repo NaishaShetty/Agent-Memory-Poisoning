@@ -1,0 +1,28 @@
+{
+  "schema_version": "3.2-b.1",
+  "description": "Synthetic event log entries for scenario F (equivalent memory), per memory_schema.md section 3.3 and relationship_schema.md section 2. mem-equiv-A and mem-equiv-B are two DISTINCT memory identities -- equivalence is an explicit, symmetric equivalent_to relationship between them, and identity is never merged. No scoring/equivalence-confidence value is computed here (that is a future, not-yet-frozen semantic-equivalence-threshold decision per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 4).",
+  "events": [
+    {
+      "event_id": "evt-created-mem-equiv-A",
+      "event_type": "created",
+      "memory_id": "mem-equiv-A",
+      "task_id": null,
+      "timestamp": "2026-06-01T00:00:00Z",
+      "actor": "phase2_umr_ingestion",
+      "reason": "foundation memory created from frozen Phase 2 UMR record locomo-umr-0200",
+      "previous_state": null,
+      "new_state": "CREATED"
+    },
+    {
+      "event_id": "evt-created-mem-equiv-B",
+      "event_type": "created",
+      "memory_id": "mem-equiv-B",
+      "task_id": null,
+      "timestamp": "2026-06-02T00:00:00Z",
+      "actor": "phase2_umr_ingestion",
+      "reason": "foundation memory created from frozen Phase 2 UMR record locomo-umr-0201",
+      "previous_state": null,
+      "new_state": "CREATED"
+    }
+  ]
+}

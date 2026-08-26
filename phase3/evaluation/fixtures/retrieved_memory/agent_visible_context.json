@@ -1,0 +1,27 @@
+{
+  "schema_version": "3.2-b.1",
+  "run_id": "run-retr-0001",
+  "condition": "RETRIEVED_MEMORY",
+  "task": {
+    "task_id": "task-dog-0001",
+    "prompt": "What did the user say about their dog?"
+  },
+  "legitimate_observations": [],
+  "memory_content": [
+    {
+      "memory_id": "mem-a1",
+      "content": "User said their dog likes playing fetch in the park.",
+      "permitted_provenance": {
+        "recorded_during": "conversation session 3"
+      }
+    },
+    {
+      "memory_id": "mem-a7",
+      "content": "User mentioned walking their dog every morning.",
+      "permitted_provenance": {
+        "recorded_during": "conversation session 5"
+      }
+    }
+  ],
+  "legitimate_tool_results": []
+}

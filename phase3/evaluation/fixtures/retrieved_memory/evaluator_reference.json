@@ -1,0 +1,23 @@
+{
+  "schema_version": "3.2-b.1",
+  "run_id": "run-retr-0001",
+  "task_id": "task-dog-0001",
+  "gold_answer": "The user's dog is a golden retriever named Biscuit.",
+  "gold_evidence_ids": ["locomo-mem-8842"],
+  "evidence_equivalence_refs": [
+    { "memory_id": "mem-a1", "relation": "equivalent_to" }
+  ],
+  "task_labels": ["single-hop"],
+  "benchmark_annotations": {
+    "source_session": "session-3"
+  },
+  "expected_evidence": [
+    {
+      "memory_id": "locomo-mem-8842",
+      "content": "User mentioned their golden retriever, Biscuit, loves fetch."
+    }
+  ],
+  "evaluation_metadata": {
+    "annotator": "locomo-dataset-authors"
+  }
+}

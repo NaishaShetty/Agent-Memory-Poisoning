@@ -1,0 +1,39 @@
+{
+  "schema_version": "3.2-b.1",
+  "description": "Synthetic event log entries for scenario E (conflicting memory), per relationship_schema.md sections 2-3 and memory_schema.md section 6. Both memories are preserved -- mem-pref-tea is retired via superseded_by, never deleted.",
+  "events": [
+    {
+      "event_id": "evt-created-mem-pref-tea",
+      "event_type": "created",
+      "memory_id": "mem-pref-tea",
+      "task_id": null,
+      "timestamp": "2026-06-01T00:00:00Z",
+      "actor": "phase2_umr_ingestion",
+      "reason": "foundation memory created from frozen Phase 2 UMR record locomo-umr-0100",
+      "previous_state": null,
+      "new_state": "CREATED"
+    },
+    {
+      "event_id": "evt-created-mem-pref-coffee",
+      "event_type": "created",
+      "memory_id": "mem-pref-coffee",
+      "task_id": null,
+      "timestamp": "2026-06-15T00:00:00Z",
+      "actor": "phase2_umr_ingestion",
+      "reason": "foundation memory created from frozen Phase 2 UMR record locomo-umr-0155",
+      "previous_state": null,
+      "new_state": "CREATED"
+    },
+    {
+      "event_id": "evt-supersede-tea-by-coffee",
+      "event_type": "superseded",
+      "memory_id": "mem-pref-tea",
+      "task_id": null,
+      "timestamp": "2026-06-15T00:00:01Z",
+      "actor": "creation_policy",
+      "reason": "mem-pref-coffee legitimately supersedes mem-pref-tea (updated stated preference)",
+      "previous_state": "ACTIVE",
+      "new_state": "RETIRED"
+    }
+  ]
+}

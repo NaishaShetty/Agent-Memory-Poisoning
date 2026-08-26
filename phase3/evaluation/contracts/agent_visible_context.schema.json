@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase3/evaluation/contracts/agent_visible_context.schema.json",
+  "title": "AgentVisibleContext",
+  "description": "Phase 3.2-B data contract. Everything the reasoning layer (or any agent component making a decision that affects the final answer) may legitimately see, per LEAKAGE_AND_VISIBILITY_CONTRACT.md section 1 and CLEAN_AGENT_INTERFACES.md section 2.3. This schema structurally FORBIDS evaluator-only fields: additionalProperties is false, and gold_answer, gold_evidence_ids, evaluator labels/scores, retrieval ground truth, internal evaluator metadata, attack labels, and hidden benchmark metadata are deliberately NOT listed as properties anywhere below. Any payload carrying one of those keys fails schema validation on additionalProperties alone; boundary.py adds a second, defense-in-depth runtime check (see phase3/evaluation/contracts/boundary.py) so the guarantee does not rest on JSON Schema alone. This object and EvaluatorReference (evaluator_reference.schema.json) are separate JSON documents by construction -- there is no schema anywhere in this contract set that contains both an agent-visible field and an evaluator-only field ('no GodObject').",
+  "type": "object",
+  "required": ["schema_version", "task", "condition"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "3.2-b.1",
+      "description": "Contract version for this object."
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Optional back-reference to the EvaluationRun this context was assembled for. Not itself gold/evaluator information -- an opaque run identifier is not a hidden evaluation field."
+    },
+    "condition": {
+      "type": "string",
+      "enum": ["NO_MEMORY", "GOLD_EVIDENCE", "RETRIEVED_MEMORY"],
+      "description": "Which of the three controlled conditions this context was assembled under. Governs which of the optional fields below are populated (e.g. NO_MEMORY should have empty memory_content and legitimate_observations should be the only other source of information)."
+    },
+    "task": {
+      "type": "object",
+      "description": "The current task as legitimately presented to the agent -- e.g. a question the agent must answer. Must never carry the dataset's gold answer or gold evidence IDs alongside the question text, even though the frozen Phase 1/2 TaskRecord loaders bundle question+answer+evidence together at the dataset-ingestion layer (this is correct at that layer, per AUDIT.md section 5 -- the leakage risk is entirely downstream, in whatever assembles this object).",
+      "required": ["prompt"],
+      "properties": {
+        "task_id": { "type": "string" },
+        "prompt": {
+          "type": "string",
+          "description": "The literal task text presented to the agent (e.g. the question)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "legitimate_observations": {
+      "type": "array",
+      "description": "Legitimate current observations the task provides (per CLEAN_AGENT_INTERFACES.md section 2.3), e.g. a piece of context the task statement itself supplies. Distinct from retrieved memory content.",
+      "items": {
+        "type": "object",
+        "required": ["observation_id", "content"],
+        "properties": {
+          "observation_id": { "type": "string" },
+          "content": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "memory_content": {
+      "type": "array",
+      "description": "The selected/retrieved memory CONTENT (text) actually passed to the reasoning layer -- the output of evidence selection, per CLEAN_AGENT_INTERFACES.md section 2.3. Deliberately content-only: memory_id may be included as an opaque handle (an agent operating for real would know which memory it is looking at), but no gold/evaluator field (e.g. a 'this is gold evidence' flag) may accompany it -- additionalProperties:false on each item enforces this structurally.",
+      "items": {
+        "type": "object",
+        "required": ["memory_id", "content"],
+        "properties": {
+          "memory_id": {
+            "type": "string",
+            "description": "Opaque memory identity handle. Not a gold-evidence-ID disclosure by itself -- a real agent legitimately knows the identity of the memory content it was given. What is forbidden is a *benchmark* gold_evidence_ids list (see evaluator_reference.schema.json), not the agent's own handle on its own selected memories."
+          },
+          "content": {
+            "type": "string",
+            "description": "The memory's text content, as the agent would legitimately see it."
+          },
+          "permitted_provenance": {
+            "type": "object",
+            "description": "Provenance info the agent could legitimately have observed (e.g. 'recorded during conversation session 3'), per LEAKAGE_AND_VISIBILITY_CONTRACT.md section 2. Must never carry benchmark-only metadata (internal scores/ranks, gold-evidence flags).",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "legitimate_tool_results": {
+      "type": "array",
+      "description": "Legitimate tool-call results the task provides, per CLEAN_AGENT_INTERFACES.md section 2.3.",
+      "items": {
+        "type": "object",
+        "required": ["tool_name", "result"],
+        "properties": {
+          "tool_name": { "type": "string" },
+          "result": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

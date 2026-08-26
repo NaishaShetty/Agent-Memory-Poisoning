@@ -1,0 +1,20 @@
+{
+  "schema_version": "3.2-b.1",
+  "run_id": "run-gold-0001",
+  "condition": "GOLD_EVIDENCE",
+  "task": {
+    "task_id": "task-dog-0001",
+    "prompt": "What did the user say about their dog?"
+  },
+  "legitimate_observations": [],
+  "memory_content": [
+    {
+      "memory_id": "evidence-slot-1",
+      "content": "User mentioned their golden retriever, Biscuit, loves fetch.",
+      "permitted_provenance": {
+        "recorded_during": "conversation session 3"
+      }
+    }
+  ],
+  "legitimate_tool_results": []
+}
