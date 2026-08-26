@@ -1,0 +1,35 @@
+{
+  "description": "Scenario 5: multi-parent derivation A -> C and B -> C. C must retain BOTH parent identities; root_origins(C) = {A, B}.",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "foundation",
+      "content": {"text": "User said they have a golden retriever."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1040"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-A",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "foundation",
+      "content": {"text": "User said the dog's name is Biscuit."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1041"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-B",
+      "creation_timestamp": "2026-08-01T00:01:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-C": {
+      "memory_id": "mem-lin-C",
+      "memory_type": "derived",
+      "content": {"text": "User's dog is a golden retriever named Biscuit."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-C-from-A-B"},
+      "parent_ids": ["mem-lin-A", "mem-lin-B"],
+      "creation_event": "evt-derive-C-from-A-B",
+      "creation_timestamp": "2026-08-01T00:10:00Z",
+      "lifecycle_state": "ACTIVE"
+    }
+  }
+}

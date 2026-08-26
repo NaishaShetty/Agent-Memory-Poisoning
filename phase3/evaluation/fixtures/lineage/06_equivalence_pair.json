@@ -1,0 +1,27 @@
+{
+  "description": "Scenario 6: simple equivalence pair A ≡ B, symmetrically declared on both sides, no lineage relation between them.",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "foundation",
+      "content": {"text": "User's dog is a golden retriever."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1050"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-A",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE",
+      "equivalent_to": ["mem-lin-B"]
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "foundation",
+      "content": {"text": "The user has a golden retriever as their dog."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1051"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-B",
+      "creation_timestamp": "2026-08-01T00:01:00Z",
+      "lifecycle_state": "ACTIVE",
+      "equivalent_to": ["mem-lin-A"]
+    }
+  }
+}

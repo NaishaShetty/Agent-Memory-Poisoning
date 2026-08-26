@@ -1,0 +1,38 @@
+{
+  "description": "Scenario 7: equivalence component A ≡ B, B ≡ C (all symmetric pairwise) -> one connected component {A, B, C} via transitive closure, even though A and C never declare each other directly.",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "foundation",
+      "content": {"text": "User prefers working remotely."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1060"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-A",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE",
+      "equivalent_to": ["mem-lin-B"]
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "foundation",
+      "content": {"text": "User would rather work from home."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1061"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-B",
+      "creation_timestamp": "2026-08-01T00:01:00Z",
+      "lifecycle_state": "ACTIVE",
+      "equivalent_to": ["mem-lin-A", "mem-lin-C"]
+    },
+    "mem-lin-C": {
+      "memory_id": "mem-lin-C",
+      "memory_type": "foundation",
+      "content": {"text": "User does not want to commute to an office."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1062"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-C",
+      "creation_timestamp": "2026-08-01T00:02:00Z",
+      "lifecycle_state": "ACTIVE",
+      "equivalent_to": ["mem-lin-B"]
+    }
+  }
+}

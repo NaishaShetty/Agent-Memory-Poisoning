@@ -1,0 +1,36 @@
+{
+  "description": "Scenario 12: A -> B and A -> C (branching lineage), with B and C selected as evidence for a task. Verifies the independence diagnostic detects SHARED_LINEAGE_ORIGIN (both selected memories trace back to the same root, A) rather than reporting them as LINEAGE_INDEPENDENT.",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "foundation",
+      "content": {"text": "User said they adopted a cat named Milo."},
+      "source": {"source_type": "phase2_umr", "reference_id": "locomo-umr-1090"},
+      "parent_ids": [],
+      "creation_event": "evt-created-mem-lin-A",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-B": {
+      "memory_id": "mem-lin-B",
+      "memory_type": "derived",
+      "content": {"text": "User is a pet owner."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-B-from-A"},
+      "parent_ids": ["mem-lin-A"],
+      "creation_event": "evt-derive-B-from-A",
+      "creation_timestamp": "2026-08-01T00:05:00Z",
+      "lifecycle_state": "ACTIVE"
+    },
+    "mem-lin-C": {
+      "memory_id": "mem-lin-C",
+      "memory_type": "derived",
+      "content": {"text": "User's household includes a cat."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-C-from-A"},
+      "parent_ids": ["mem-lin-A"],
+      "creation_event": "evt-derive-C-from-A",
+      "creation_timestamp": "2026-08-01T00:06:00Z",
+      "lifecycle_state": "ACTIVE"
+    }
+  },
+  "selected_memory_ids": ["mem-lin-B", "mem-lin-C"]
+}

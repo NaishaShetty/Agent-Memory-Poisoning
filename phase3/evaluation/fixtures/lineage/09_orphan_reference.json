@@ -1,0 +1,15 @@
+{
+  "description": "Scenario 9: orphan parent reference -- mem-lin-A declares parent_ids referencing mem-lin-X, which does not exist in this memory set. Must be reported as ORPHAN_PARENT_REFERENCE, never repaired or silently dropped.",
+  "memories": {
+    "mem-lin-A": {
+      "memory_id": "mem-lin-A",
+      "memory_type": "derived",
+      "content": {"text": "User is likely a dog owner (derived from a memory that is missing from this set)."},
+      "source": {"source_type": "derivation_event", "reference_id": "evt-derive-A-from-X"},
+      "parent_ids": ["mem-lin-X"],
+      "creation_event": "evt-derive-A-from-X",
+      "creation_timestamp": "2026-08-01T00:00:00Z",
+      "lifecycle_state": "ACTIVE"
+    }
+  }
+}

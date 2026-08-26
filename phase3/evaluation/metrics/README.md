@@ -413,12 +413,202 @@ reproducibility harness, dataset adapters, Qwen integration, or retrieval/rerank
 selection/memory-creation/storage implementations. All of the above remain future Phase 3
 stages' scope.
 
-## Running the tests
+## Running the tests (Phase 3.2-C)
+
+```
+python -m pytest phase3/evaluation/tests/test_evaluation_contracts.py phase3/evaluation/tests/test_core_memory_metrics.py -q
+```
+
+150 tests total (the original 62 `test_evaluation_contracts.py` tests, unmodified, plus 88
+`test_core_memory_metrics.py` tests), all passing, run twice to confirm determinism.
+
+---
+
+# Phase 3.2-D — Evidence Equivalence + Provenance / Lineage
+
+Status: **METRIC IMPLEMENTATION** (additive to 3.2-C — no existing metric in `types.py`,
+`retrieval.py`, `selection.py`, or `evidence.py` was modified). This stage implements
+`equivalence.py` and `provenance.py`: deterministic structural diagnostics over EXPLICIT
+`equivalent_to` and `parent_ids` relationships (per `memory_schema.json` /
+`relationship_schema.md`) — never inferred from content, embeddings, or an LLM.
+
+## The central distinction
+
+```
+MEMORY IDENTITY  ≠  INFORMATION EQUIVALENCE  ≠  EVIDENCE RELEVANCE  ≠  EVIDENCE INDEPENDENCE  ≠  PROVENANCE
+```
+
+Two memory objects can be exact content duplicates and still be two distinct identities
+(`M42` ≠ `M91`). Two distinct identities can be declared equivalent without that implying
+they share a parent, without that implying either is gold evidence for any task, and without
+that implying they are independent corroborating sources. A memory's provenance (where it
+came from) is a separate question from all of the above. This package keeps every one of
+these as its own explicit, separately-computed concept — nothing is merged or inferred across
+them.
+
+## `equivalence.py`
+
+**Representation.** Equivalence is the explicit `equivalent_to` field each memory record may
+carry (`memory_schema.json`), extracted as `(declaring_id, target_id)` edges via
+`extract_equivalence_edges()`. There is no other source of equivalence anywhere in this
+package — no string similarity, no embeddings, no LLM judgment.
+
+**Validation (`validate_equivalence_edges()`).** Reports, per edge, any of:
+`UNKNOWN_MEMORY_REFERENCE` (endpoint not in the supplied memory set), `SELF_EQUIVALENCE_DECLARED`
+(**DECISION E2**: a memory declared equivalent to itself is invalid, not a no-op — identity and
+equivalence are different concepts), `ASYMMETRIC_DECLARATION` (**DECISION E1**: symmetry must be
+explicitly declared on both sides — `A.equivalent_to ∋ B` AND `B.equivalent_to ∋ A` — matching
+how the 3.2-B `equivalent_memory/` fixtures already declare it both ways; a one-sided declaration
+is reported, never silently auto-symmetrized, since that would let a memory unilaterally assert
+equivalence without the other side's agreement).
+
+**Equivalence classes (`equivalence_classes()`).** Deterministic connected components over
+edges declared symmetrically (`require_symmetric=True` default) — e.g. `A≡B`, `B≡C` → one
+component `{A,B,C}`. Every memory in the input set appears in exactly one component (isolated
+memories form singleton components). Output is sorted/deterministic across repeated calls.
+Unknown references (ids not in the supplied memory set) never leak into a component — the
+node universe is exactly the supplied memory set when one is given.
+
+**Identity preservation.** `equivalence_classes()` returns *groups of ids* — never a merged
+or rewritten id. Two equivalent memories remain two distinct identities forever; nothing in
+this package ever collapses `A` and `B` into a single id because `A≡B`.
+
+**What equivalence does NOT imply.** Parent/child relationship, provenance, independent
+origin, or task relevance — each is computed independently, only in `provenance.py`.
+
+## `provenance.py`
+
+**Provenance completeness (`validate_provenance()` / `provenance_completeness_report()`).**
+Three-way classification, never silently coerced to COMPLETE: `PROVENANCE_COMPLETE` (no
+findings), `PROVENANCE_INCOMPLETE` (no hard violation, but a field needed to fully verify
+provenance is missing — currently: a derived memory missing `source.reference_id`),
+`PROVENANCE_INVALID` (a hard structural violation — missing/invalid `memory_type`,
+missing/invalid `source`, a foundation memory falsely claiming parents
+(`FOUNDATION_WITH_PARENTS`), a derived memory with no parents (`DERIVED_WITHOUT_PARENTS`), or
+an orphan parent reference).
+
+**Parent-edge validation (`validate_parent_edges()`) / orphan detection
+(`orphan_parent_count()`).** Every `(parent_id, child_id)` edge implied by `parent_ids` is
+validated independently — multi-parent children (`A→C`, `B→C`) keep both edges separately,
+never collapsed into a family/group id. A parent_id absent from the supplied memory set is
+reported as `ORPHAN_PARENT_REFERENCE`, never repaired or silently dropped.
+
+**Cycle detection (`detect_cycles()`).** Iterative DFS (not recursive — safe against stack
+depth blowups) with `visited`/`in_progress` sets. On finding a repeated in-progress node, it
+reports the cycle and stops descending through it — it does not attempt to route around the
+cycle to keep computing a set, since which edge to drop to "fix" the cycle would be an
+arbitrary, integrity-hiding choice.
+
+**Ancestry (`ancestors()`) / descendants (`descendants()`).** Transitive traversal of
+`parent_ids` edges at query time (never a precomputed/cached "lineage family" object, which
+`relationship_schema.md` explicitly rejects). Excludes the node itself unless
+`include_self=True`. Safe on cyclic input: traversal detects a cycle via the same
+visited/in-progress technique, stops extending through the repeated node, and reports
+`cycle_detected=True` rather than silently returning a possibly-incomplete set with no
+indication anything was wrong.
+
+**Root/origin analysis (`root_origins()`).** All lineage roots (memories with no parents)
+reachable from a node. Multi-parent derivation keeps every root explicit —
+`root_origins(C) = {A, B}` for `A→C`, `B→C` — never arbitrarily picks one.
+
+**Shared-origin detection (`shared_origin_report()`).** For a set of selected memory ids,
+reports which root origins are ancestors of 2+ of them — the structural basis for detecting
+non-independent corroboration due to common lineage (as distinct from equivalence).
+
+**Lineage depth (`lineage_depth()`) — DECISION P1, PROVISIONAL.** `depth(root) = 0`,
+`depth(child) = 1 + depth(parent)`. For multi-parent nodes with parents at different depths,
+this implementation uses **MIN**-depth-of-parents, not max — i.e. the shortest legitimate
+derivation chain. Neither `memory_schema.md`, `relationship_schema.md`, nor
+`TRACEABILITY_CONTRACT.md` specifies min-vs-max for multi-parent derivation, and
+`phase3/evaluation/AUDIT.md` flags derivation depth as a not-yet-frozen choice. MIN was chosen
+because a diagnostic meant to flag anomalously deep derivation chains should not let a single
+short parent path silently understate depth risk in the other direction — but this is
+explicitly **PROVISIONAL**, not canonical; a future contract revision may specify max-depth
+instead, and this function would need to be revisited. Undefined (not computed) for any node
+participating in a cycle.
+
+## Evidence independence diagnostic (`independence_report()`)
+
+**What it is.** A structured (never single-boolean, never a combined score) report over a set
+of selected memory ids, built ONLY from explicit lineage (`parent_ids`) and equivalence
+(`equivalent_to`) relationships. For every pair, exactly one classification applies:
+
+- `EQUIVALENT_INFORMATION` — same equivalence component.
+- `DIRECT_ANCESTOR_DESCENDANT` — one is a lineage ancestor of the other (checked after
+  equivalence, so an equivalent pair is never double-reported as ancestor/descendant).
+- `SHARED_LINEAGE_ORIGIN` — not equivalent, not ancestor/descendant, but their root-origin
+  sets intersect (e.g. `A→B`, `A→C`; `B`,`C` selected → both trace back to `A`).
+- `MULTI_ORIGIN_DERIVED` — a per-item (not pairwise) tag: the item itself has more than one
+  root origin (e.g. `A→C`, `B→C`; `C` selected → `C` is tagged multi-origin-derived, and is
+  never counted as "two memories" — it retains both parent identities explicitly).
+- `LINEAGE_INDEPENDENT` — none of the above hold for this pair.
+- `UNKNOWN` — one or both ids are absent from the supplied memory set.
+
+### ★ `LINEAGE_INDEPENDENT` does NOT mean epistemically independent
+
+This is the single most important semantic boundary in this stage:
+
+> **`LINEAGE_INDEPENDENT` means only: no explicit `parent_ids` or `equivalent_to` edge
+> connects these two memories, and they do not share a detected root origin, in the data
+> available to this function.**
+>
+> It is **NEVER** proof of epistemic/causal independence. Two `LINEAGE_INDEPENDENT` memories
+> could still restate the same underlying fact through a completely undeclared channel (e.g.
+> both hand-authored by the same curator from the same external source, with no
+> `parent_ids`/`equivalent_to` edge ever recorded). This module has no way to see that, by
+> design — there is no semantic model here. Always read this classification as
+> "*lineage*-independent", never as "independent" unqualified.
+
+`detail["per_item"]` reports each selected id's equivalence component, direct parents, and
+root origins; `detail["pairwise"]` reports the per-pair classification. `value` is the count
+of `LINEAGE_INDEPENDENT` pairs — a convenience count only, explicitly **not** an opaque
+"independence score": no combined evidence-quality or independence score is computed anywhere
+in this package.
+
+## CANONICAL / PROVISIONAL / DIAGNOSTIC-ONLY classification
+
+| Diagnostic | Classification | Rationale |
+|---|---|---|
+| `equivalence_classes` / equivalence components | CANONICAL | Directly implements the explicit `equivalent_to` relation defined in `memory_schema.json`/`relationship_schema.md`; connected-components over explicit symmetric edges is the only defensible reading. |
+| `validate_equivalence_edges` findings (unknown ref / self-equivalence / asymmetric) | CANONICAL | Structural validation against the schema's own field semantics; no invented convention beyond DECISION E1/E2, both of which are explicitly documented, non-silent choices grounded in existing fixture conventions. |
+| `validate_parent_edges` / `orphan_parent_count` | CANONICAL | Directly implements `parent_ids` structural validation per `relationship_schema.md` section 2.1's explicit-edges-only rule. |
+| `detect_cycles` | CANONICAL | Lineage is expected acyclic; detecting a cycle is a structural fact, not an invented metric. |
+| `ancestors` / `descendants` / `root_origins` | CANONICAL | Transitive traversal of explicit `parent_ids` edges, exactly as `memory_schema.md` section 5 specifies (no precomputed lineage-family abstraction). |
+| `shared_origin_report` | DIAGNOSTIC ONLY | A derived convenience view (root-origin intersection across a selected set) — useful for corroboration analysis, not itself a frozen contract metric. |
+| `lineage_depth` | **PROVISIONAL** | Min-vs-max for multi-parent depth is not specified anywhere in the Phase 3.1 contracts (see DECISION P1) — this implementation's MIN-depth convention may be superseded by a future contract revision. |
+| `validate_provenance` / `provenance_completeness_report` (COMPLETE/INCOMPLETE/INVALID) | CANONICAL | Structural validation directly against `memory_schema.json`'s required fields per memory type; the three-way split (vs. silently coercing to valid) is the explicit non-negotiable requirement from the 3.2-D task brief. |
+| `independence_report` / `LINEAGE_INDEPENDENT` and sibling classifications | DIAGNOSTIC ONLY | A structural diagnostic built from the CANONICAL primitives above (equivalence components, ancestry, root origins) — explicitly scoped, per DECISION P3, to never claim epistemic independence. The vocabulary (`LINEAGE_INDEPENDENT`, `SHARED_LINEAGE_ORIGIN`, etc.) is this stage's own construction, not a frozen Phase 3.1 term. |
+
+## Why no semantic model is used at this stage
+
+Phase 3.1 intentionally did not freeze a semantic/embedding-based equivalence algorithm — see
+`EVALUATION_CONTRACT.md` and `phase3/evaluation/AUDIT.md`'s findings on evidence-equivalent
+scoring being unimplemented anywhere historically. Inventing one now, inside a stage whose
+purpose is to establish *structural* (identity/lineage/explicit-relation) evaluation, would
+conflate two different scientific questions: "what does the data explicitly assert" (this
+stage) versus "what does the content actually mean" (a future, separately-justified semantic
+method). Using embeddings or an LLM here would also reintroduce exactly the
+kind of unreproducible, model-dependent judgment MAMBench's evaluator is designed to avoid.
+Equivalence, in this package, is **only** what an evaluator explicitly declared — nothing is
+guessed from content.
+
+## Integration with 3.2-C
+
+None of `types.py`, `retrieval.py`, `selection.py`, or `evidence.py` was modified by this
+stage. `provenance.py` and `equivalence.py` are additive modules; a caller who has both a
+3.2-C metric result (e.g. `selected_ids = [A, B, C]`) and a 3.2-D lineage graph (e.g. `A→B`,
+`A→C`) can combine them (e.g. "3 memory ids, but only 1 lineage origin") without either module
+needing to know about the other's existence. If a future stage needs a provenance-aware
+evidence-recall or TSR variant, it should be implemented as a new diagnostic, not a retroactive
+redefinition of the existing 3.2-C metrics.
+
+## Running the tests (Phase 3.2-D)
 
 ```
 python -m pytest phase3/evaluation/tests/ -q
 ```
 
-As of this stage: 150 tests total (the original 62 `test_evaluation_contracts.py` tests,
-unmodified, plus 88 new `test_core_memory_metrics.py` tests), all passing, run twice to
+240 tests total as of this stage: the original 150 (`test_evaluation_contracts.py` +
+`test_core_memory_metrics.py`, both unmodified), plus 90 new tests across
+`test_evidence_equivalence.py` and `test_provenance_lineage.py`, all passing, run twice to
 confirm determinism.
