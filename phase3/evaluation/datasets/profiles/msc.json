@@ -1,0 +1,167 @@
+{
+  "schema_version": "3.2-g.1",
+  "dataset_id": "msc",
+  "canonical_name": "Multi-Session Chat (MSC)",
+  "role": "Lifecycle, provenance, multi-session memory, reuse, and longitudinal behavior. MSC is NOT forced into the strict-TSR / task-QA framework unless and until a legitimate task/workload layer exists for it. Its primary Phase 3 use is exercising the memory lifecycle, provenance, and reuse machinery across sessions -- not literal-answer evaluation. (Quoted/paraphrased from phase3/specification/DATASET_CAPABILITY_MATRIX.md section 2.3.)",
+  "registry_reference": {
+    "manifest_file": "data/metadata/dataset_manifest.json",
+    "dataset_key": "msc",
+    "record_count_reference": "data/metadata/phase2_freeze_manifest.json: memory_foundation.record_counts.msc = 227185 (matches the actual line count of data/processed/msc/memory_records.jsonl, verified in this stage)."
+  },
+  "source_reference": {
+    "processed_files": [
+      { "path": "data/processed/msc/memory_records.jsonl", "total_lines": 227185 },
+      { "path": "data/processed/msc/task_records.jsonl", "total_lines": 0, "note": "File exists on disk (verified via ls -la) and is exactly 0 bytes -- an empty placeholder, not a missing file. This positively confirms 'no native task layer' for MSC rather than leaving it an inference." }
+    ]
+  },
+  "inspection_method": {
+    "description": "Read-only inspection performed in Phase 3.2-G: first 2 lines of memory_records.jsonl read in full for field-shape confirmation; a deterministic 500-line prefix sample of memory_records.jsonl checked programmatically for memory_id uniqueness; task_records.jsonl confirmed to exist as a 0-byte file via `ls -la` (not merely 'no lines read'); the full memory_records.jsonl file (all 227185 lines) was grep-searched for the literal field names parent_ids/equivalent_to/conflicts_with/superseded_by, with zero matches; preprocessing/datasets/msc.py was read to corroborate that the Phase 1 loader code itself has no task/evidence/gold-answer field production logic (grep for evidence_memory_ids/task_id/gold matched zero files under preprocessing/datasets/ other than locomo.py and longmemeval.py).",
+    "sample_based": true,
+    "sample_sizes": {
+      "memory_records_uniqueness_sample": 500,
+      "memory_records_field_name_grep": 227185
+    }
+  },
+  "memory_availability": {
+    "stable_id": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records carry a `memory_id` field (24-hex-char identifier), same convention as the other three datasets.",
+      "grounding": "data/processed/msc/memory_records.jsonl:memory_id"
+    },
+    "unique_id": {
+      "status": "AVAILABLE",
+      "reason": "500/500 sampled memory_id values were unique in the prefix sample.",
+      "grounding": "data/processed/msc/memory_records.jsonl (500-line uniqueness sample)"
+    },
+    "content_available": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records have non-empty `content` strings (e.g. 'I need some advice on where to go on vacation...').",
+      "grounding": "data/processed/msc/memory_records.jsonl:content"
+    },
+    "timestamped": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Sampled records carry `source_timestamp: null` and `timestamp_type: \"unavailable\"` -- MSC has no absolute timestamps, only relative inter-session structure (session_1, session_2, ...), matching data/metadata/dataset_manifest.json's known_limitations note ('No absolute timestamps, only relative inter-session gaps').",
+      "grounding": "data/processed/msc/memory_records.jsonl:source_timestamp,timestamp_type"
+    },
+    "session_linked": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records carry `session_id` (e.g. 'session_1') and `conversation_id` (e.g. 'train:ordered_3537').",
+      "grounding": "data/processed/msc/memory_records.jsonl:session_id,conversation_id"
+    },
+    "typed_foundation_or_derived": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No explicit type tag exists; per phase3/schemas/memory_schema.md, Phase 1/2 UMR-sourced records are foundation memories by construction, but no field asserts this explicitly."
+    },
+    "explicit_parent_ids_present": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Whole-file grep of all 227185 lines for 'parent_ids' returned zero matches.",
+      "grounding": "data/processed/msc/memory_records.jsonl (whole-file grep, 227185 lines)"
+    }
+  },
+  "workload_availability": {
+    "explicit_task_records": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "data/processed/msc/task_records.jsonl is a 0-byte file on disk (confirmed via `ls -la`, not merely absent from a directory listing). This is a positive confirmation of 'no native task layer' matching DATASET_CAPABILITY_MATRIX.md's 'No native task layer' row for MSC.",
+      "grounding": "data/processed/msc/task_records.jsonl (file size confirmed 0 bytes)"
+    },
+    "separate_from_memory": {
+      "status": "UNAVAILABLE",
+      "reason": "There is no workload layer at all to be 'separate from memory' -- the question does not apply because the antecedent (a task layer existing) is false, per explicit_task_records above.",
+      "grounding": "data/processed/msc/task_records.jsonl (0 bytes)"
+    },
+    "query_field": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No query/question field exists anywhere; corroborated by preprocessing/datasets/msc.py containing no query/task-construction logic (grep for 'task_id'/'evidence_memory_ids'/'gold' across preprocessing/datasets/ matched only locomo.py and longmemeval.py)."
+    },
+    "gold_answer_field": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No answer field exists anywhere for MSC; same corroborating evidence as query_field."
+    },
+    "task_id_field": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No task_id field exists anywhere for MSC."
+    },
+    "session_or_conversation_id": {
+      "status": "AVAILABLE",
+      "reason": "Memory-level session_id/conversation_id fields exist and are populated (see memory_availability.session_linked) -- this is a memory-layer capability, independent of the (absent) task layer, and is exactly the kind of structure DATASET_CAPABILITY_MATRIX.md calls MSC's 'primary use case' for (repeated-interaction / lifecycle validation across sessions).",
+      "grounding": "data/processed/msc/memory_records.jsonl:session_id,conversation_id"
+    }
+  },
+  "evidence_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "There is no task/workload layer (task_records.jsonl is 0 bytes) and therefore no gold-evidence-ID field exists anywhere for MSC. This is the single most important field for the Strict-TSR audit: MSC positively lacks it, which is why Strict TSR is UNAVAILABLE (not SUPPORTED_WITH_ADAPTER) in metric_support below -- there is no adapter that manufactures gold evidence where none was ever defined by the source.",
+    "grounding": "data/processed/msc/task_records.jsonl (0 bytes); data/processed/msc/memory_records.jsonl (whole-file grep for evidence-shaped field names, no matches)"
+  },
+  "answer_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No gold-answer field exists anywhere for MSC, for the same reason as evidence_availability.",
+    "grounding": "data/processed/msc/task_records.jsonl (0 bytes)"
+  },
+  "provenance_availability": {
+    "status": "AVAILABLE",
+    "reason": "Sampled memory records carry a full `provenance` object (conversation_id, session_id, source_dataset, source_file, source_record_id, turn_id, extraction_pipeline_version) -- this is exactly the substrate DATASET_CAPABILITY_MATRIX.md calls MSC's 'primary use case' for provenance validation. Note this is the foundation-memory source pointer, not a derived-memory parent-edge structure (see explicit_parent_ids_present, NOT_PROVIDED_BY_SOURCE).",
+    "grounding": "data/processed/msc/memory_records.jsonl:provenance"
+  },
+  "lineage_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No parent_ids edges exist anywhere in the file (whole-file grep, 0 matches); there is no lineage graph to walk today. IMPORTANT DISCREPANCY NOTE: DATASET_CAPABILITY_MATRIX.md lists 'Lifecycle suitability: Primary use case' for MSC, which this profile does NOT contradict -- but at the raw current-file level, MSC's lineage-graph richness (zero explicit parent edges) is identical to all three other datasets (also zero). The matrix's 'primary use case' framing is about MSC's strong repeated-interaction/session structure being well-suited for lifecycle/provenance/reuse machinery once a memory-creation policy starts producing derived memories and events -- it is not a claim that parent_ids/lineage data already exists in the current substrate. This profile flags this distinction explicitly per the 3.2-G task brief's cross-check instruction, rather than silently resolving it either way.",
+    "grounding": "data/processed/msc/memory_records.jsonl (whole-file grep, 227185 lines)"
+  },
+  "equivalence_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "Whole-file grep of all 227185 lines for 'equivalent_to' returned zero matches.",
+    "grounding": "data/processed/msc/memory_records.jsonl (whole-file grep, 227185 lines)"
+  },
+  "temporal_information": {
+    "kind": "ORDERED_SEQUENCE_ONLY",
+    "reason": "source_timestamp is null and timestamp_type is 'unavailable' in sampled records; ordering is available only via session_id (session_1..session_5) and event_order/turn_id within a session, not absolute or relative-duration timestamps. Matches data/metadata/dataset_manifest.json's known_limitations note verbatim."
+  },
+  "metric_support": {
+    "RECALL_AT_K": { "status": "UNAVAILABLE", "reason": "No task layer and no gold evidence IDs exist for MSC (task_records.jsonl is 0 bytes) -- Recall@K requires a gold_id to check membership against, which does not exist here, per DATASET_CAPABILITY_MATRIX.md's explicit 'not forced into the TSR framework' constraint." },
+    "MRR": { "status": "UNAVAILABLE", "reason": "Same absence of gold evidence IDs as RECALL_AT_K." },
+    "STRICT_TSR": { "status": "UNAVAILABLE", "reason": "strict_tsr requires a literal gold evidence memory ID; none exists for MSC (no task layer at all). Per the 3.2-G task brief's explicit instruction, this is UNAVAILABLE, not SUPPORTED_WITH_ADAPTER, because no genuine partial task layer was found in task_records.jsonl (it is 0 bytes) that the matrix doc failed to mention." },
+    "SELECTION_COUNT": { "status": "SUPPORTED", "reason": "selection_count needs only a selected_memory_ids sequence, dataset-agnostic -- does not require a task/gold layer at all. Usable for lifecycle/reuse characterization even without a task layer." },
+    "SELECTION_CAPACITY_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "classify_gold_id_capacity requires a gold_id, which does not exist for MSC." },
+    "EVIDENCE_PRECISION": { "status": "UNAVAILABLE", "reason": "Requires evidence_memory_ids (gold), which do not exist for MSC." },
+    "EVIDENCE_RECALL": { "status": "UNAVAILABLE", "reason": "Same absence of gold evidence IDs." },
+    "EVIDENCE_COVERAGE": { "status": "UNAVAILABLE", "reason": "Same absence of gold evidence IDs." },
+    "IRRELEVANT_MEMORY_RATE": { "status": "UNAVAILABLE", "reason": "Requires a gold-evidence-id basis to classify a selected memory as irrelevant; none exists for MSC." },
+    "REDUNDANCY": { "status": "SUPPORTED", "reason": "Identity-duplicate-only redundancy needs only a selected-memory-id sequence -- dataset-agnostic, usable for MSC's reuse/lifecycle characterization even without a task layer." },
+    "EQUIVALENCE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No explicit equivalent_to edges exist anywhere in the current substrate (whole-file grep, 0 matches). If a future Phase 3 memory-creation policy begins declaring equivalence edges over MSC's strong repeated-interaction structure, this would become SUPPORTED_WITH_ADAPTER -- but no such edges exist today, so it is UNAVAILABLE, not PROVISIONAL (no partial mechanism exists to report on)." },
+    "PROVENANCE_VALIDATION": { "status": "SUPPORTED", "reason": "Every sampled record carries a full `provenance` object; this is exactly the machinery DATASET_CAPABILITY_MATRIX.md calls MSC's 'primary use case,' and validate_provenance/provenance_completeness_report operate on this source-pointer data directly, independent of any task layer." },
+    "LINEAGE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No parent_ids edges exist anywhere in the current substrate (whole-file grep, 0 matches), so ancestors/descendants/lineage_depth/detect_cycles have nothing to operate on today. Per the 3.2-G task brief, this would only become SUPPORTED_WITH_ADAPTER once a memory-creation policy actually produces derived memories with explicit parent_ids over MSC's repeated-interaction structure -- not assumed here." },
+    "AGENT_ANSWER_CORRECTNESS": { "status": "UNAVAILABLE", "reason": "No gold answer exists for MSC (no task layer); answer correctness is undefined without an expected_answer." },
+    "AGENT_SUCCESS": { "status": "UNAVAILABLE", "reason": "Thin wrapper over answer correctness; same absence." },
+    "MEMORY_CONTRIBUTION": { "status": "UNAVAILABLE", "reason": "classify_memory_contribution requires an expected_answer on both sides of a paired comparison, which does not exist for MSC absent a task layer." },
+    "OBSERVED_GOLD_EVIDENCE_CEILING": { "status": "UNAVAILABLE", "reason": "Requires GOLD_EVIDENCE-condition results plus expected answers, neither of which exist for MSC." },
+    "RETRIEVAL_UTILIZATION": { "status": "PROVISIONAL", "reason": "classify_retrieval_utilization technically needs only selected_memory_ids/used_memory_ids from an AgentExecutionResult, not a gold-answer/evidence basis -- so it is mechanically computable even without a task layer, but doing so for MSC would require synthetically constructing an execution result absent any real task to execute, which is why this is marked PROVISIONAL rather than SUPPORTED: the metric's inputs don't strictly require gold data, but there is no legitimate task-driven execution to generate them from for this dataset today." },
+    "FAILURE_STAGE_CLASSIFICATION": { "status": "UNAVAILABLE", "reason": "classify_observed_failure_stage requires gold_evidence_ids and an expected_answer, neither of which exist for MSC." }
+  },
+  "condition_support": {
+    "NO_MEMORY": { "status": "UNDEFINED", "reason": "NO_MEMORY is defined relative to a task ('task-only, no memory content'); with no task layer at all for MSC, there is no task to present under this condition, so it is UNDEFINED rather than SUPPORTED or UNAVAILABLE (the precondition for the question does not hold)." },
+    "GOLD_EVIDENCE": { "status": "UNAVAILABLE", "reason": "Requires gold evidence content selected via evidence_memory_ids, which does not exist for MSC." },
+    "RETRIEVED_MEMORY": { "status": "UNDEFINED", "reason": "RETRIEVED_MEMORY is Condition C, defined as memory retrieved+selected FOR A TASK; with no task layer, 'retrieval for this task' is undefined, not merely unbuilt (contrast with LoCoMo/LongMemEval, where RETRIEVED_MEMORY is SUPPORTED_WITH_ADAPTER because a task exists and only the pipeline is missing)." },
+    "SELECTED_MEMORY_AVAILABLE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "This PROVISIONAL condition (per phase3/evaluation/agent/conditions.py's docstring) does not require the full RETRIEVED_MEMORY task-pipeline semantics -- it only asserts 'some selected memory content is present.' MSC's memory_records.jsonl content can populate this without a task/gold layer, once some selection mechanism (even a synthetic one for diagnostic purposes) exists -- hence SUPPORTED_WITH_ADAPTER rather than UNDEFINED." },
+    "DERIVED_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No derived memories exist in the current substrate (no parent_ids anywhere)." },
+    "CONFLICTING_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No conflicts_with edges exist anywhere in the file (whole-file grep, 0 matches)." }
+  },
+  "adapter_requirements": [
+    "Per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 4 and DATASET_CAPABILITY_MATRIX.md section 4, whether/how a workload/task layer is ever added for MSC is explicitly OUT OF SCOPE for Phase 3.1/3.2 and deferred to a future capability-gap analysis -- this profile does not propose or build one.",
+    "A lifecycle/provenance/reuse test harness that operates directly on memory_records.jsonl's session_id/conversation_id/provenance structure without assuming a task/gold layer -- this is the legitimate current use case per the matrix, and does not itself require an adapter beyond what PROVENANCE_VALIDATION/SELECTION_COUNT/REDUNDANCY already support.",
+    "If a future memory-creation policy (out of scope here, per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 10) begins producing derived memories with explicit parent_ids over MSC's repeated-interaction structure, LINEAGE_DIAGNOSTICS and EQUIVALENCE_DIAGNOSTICS would need to be re-evaluated against the resulting data -- not assumed available now."
+  ],
+  "limitations": [
+    "task_records.jsonl for MSC is confirmed a 0-byte file, not merely 'not sampled' -- this profile treats this as a positive NOT_PROVIDED_BY_SOURCE finding, not an UNKNOWN.",
+    "MSC has no absolute or relative-duration timestamps (only session-ordinal + turn-ordinal structure), per data/metadata/dataset_manifest.json's own known_limitations field, which this profile corroborates directly from the processed file.",
+    "MSC's license status is recorded in data/metadata/dataset_manifest.json as unavailable/not explicitly published for the dataset itself (ParlAI framework code is MIT; the dataset's own terms are not explicitly stated) -- this profile does not attempt to resolve that ambiguity, only reports it as read from the manifest.",
+    "Inspection was sample-based (500/227185 memory records for uniqueness) except for the relationship-field-name greps and the task_records.jsonl file-size check, which covered the whole file/dataset."
+  ],
+  "evidence_notes": [
+    { "claim": "memory_id is present, stable-looking, and unique in a 500-record sample.", "file": "data/processed/msc/memory_records.jsonl", "field": "memory_id", "example": "02ccadac833bc087b81f550c" },
+    { "claim": "task_records.jsonl is a 0-byte file, positively confirming no native task layer.", "file": "data/processed/msc/task_records.jsonl" },
+    { "claim": "source_timestamp is null and timestamp_type is 'unavailable' in sampled records.", "file": "data/processed/msc/memory_records.jsonl", "field": "source_timestamp,timestamp_type" },
+    { "claim": "No memory record anywhere in the file declares parent_ids, equivalent_to, conflicts_with, or superseded_by.", "file": "data/processed/msc/memory_records.jsonl", "field": "(whole-file grep for four literal field-name strings, 227185 lines)" },
+    { "claim": "The Phase 1 loader code for MSC has no task/query/gold-answer/evidence construction logic.", "file": "preprocessing/datasets/msc.py", "field": "(grep for task_id/evidence_memory_ids/gold, zero matches; only locomo.py and longmemeval.py matched)" }
+  ],
+  "profile_status": "REVIEWED"
+}

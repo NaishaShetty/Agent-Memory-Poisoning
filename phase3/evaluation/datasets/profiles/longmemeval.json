@@ -1,0 +1,169 @@
+{
+  "schema_version": "3.2-g.1",
+  "dataset_id": "longmemeval",
+  "canonical_name": "LongMemEval (cleaned)",
+  "role": "Primary large-scale long-term memory and reasoning evaluation. Larger-scale long-horizon memory QA; used for the same pipeline as LoCoMo but at greater memory-store scale, stressing candidate-generation recall at higher corpus sizes. (Quoted/paraphrased from phase3/specification/DATASET_CAPABILITY_MATRIX.md section 2.2.)",
+  "registry_reference": {
+    "manifest_file": "data/metadata/dataset_manifest.json",
+    "dataset_key": "longmemeval",
+    "record_count_reference": "data/metadata/phase2_freeze_manifest.json: memory_foundation.record_counts.longmemeval = 210365 (matches the actual line count of data/processed/longmemeval/memory_records.jsonl, verified in this stage)."
+  },
+  "source_reference": {
+    "processed_files": [
+      { "path": "data/processed/longmemeval/memory_records.jsonl", "total_lines": 210365 },
+      { "path": "data/processed/longmemeval/task_records.jsonl", "total_lines": 1000 }
+    ]
+  },
+  "inspection_method": {
+    "description": "Read-only inspection performed in Phase 3.2-G: first 2 lines of memory_records.jsonl read in full for field-shape confirmation; a deterministic 500-line prefix sample of memory_records.jsonl checked programmatically for memory_id uniqueness; a deterministic 300-line prefix sample of task_records.jsonl checked programmatically for answer/evidence_memory_ids null/empty rates (0/300 null or empty found in this sample); the full memory_records.jsonl file (all 210365 lines) was grep-searched (not fully re-read record-by-record) for the literal field names parent_ids/equivalent_to/conflicts_with/superseded_by, with zero matches. All other claims are sample-based, not exhaustive; a corpus this size (210365 memory records) was never read in full.",
+    "sample_based": true,
+    "sample_sizes": {
+      "memory_records_uniqueness_sample": 500,
+      "task_records_field_population_sample": 300,
+      "memory_records_field_name_grep": 210365
+    }
+  },
+  "memory_availability": {
+    "stable_id": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records carry a `memory_id` field (24-hex-char identifier), same shape/convention as LoCoMo's.",
+      "grounding": "data/processed/longmemeval/memory_records.jsonl:memory_id"
+    },
+    "unique_id": {
+      "status": "AVAILABLE",
+      "reason": "500/500 sampled memory_id values were unique in the prefix sample.",
+      "grounding": "data/processed/longmemeval/memory_records.jsonl (500-line uniqueness sample)"
+    },
+    "content_available": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records have non-empty `content` strings (both user and assistant turns observed in the 2-line sample).",
+      "grounding": "data/processed/longmemeval/memory_records.jsonl:content"
+    },
+    "timestamped": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records carry `source_timestamp` (e.g. '2023/04/10 (Mon) 17:50') and `timestamp_type: \"absolute\"`.",
+      "grounding": "data/processed/longmemeval/memory_records.jsonl:source_timestamp,timestamp_type"
+    },
+    "session_linked": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records carry `session_id` and `conversation_id` (both set to the same haystack-session-style string in the sample, e.g. 'answer_4be1b6b4_2').",
+      "grounding": "data/processed/longmemeval/memory_records.jsonl:session_id,conversation_id"
+    },
+    "typed_foundation_or_derived": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No explicit foundation/derived type tag exists in the file; per phase3/schemas/memory_schema.md, records sourced from the frozen Phase 1/2 UMR substrate are foundation memories by construction, but this is not asserted by an explicit field."
+    },
+    "explicit_parent_ids_present": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Whole-file grep of all 210365 lines for the literal string 'parent_ids' returned zero matches.",
+      "grounding": "data/processed/longmemeval/memory_records.jsonl (whole-file grep, 210365 lines)"
+    }
+  },
+  "workload_availability": {
+    "explicit_task_records": {
+      "status": "AVAILABLE",
+      "reason": "data/processed/longmemeval/task_records.jsonl exists with 1000 records, each with a `task_id` distinct from any `memory_id`.",
+      "grounding": "data/processed/longmemeval/task_records.jsonl"
+    },
+    "separate_from_memory": {
+      "status": "AVAILABLE",
+      "reason": "task_records.jsonl is a physically separate file with a disjoint schema from memory_records.jsonl.",
+      "grounding": "data/processed/longmemeval/task_records.jsonl vs. data/processed/longmemeval/memory_records.jsonl"
+    },
+    "query_field": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled task record carries a non-empty `question` string.",
+      "grounding": "data/processed/longmemeval/task_records.jsonl:question"
+    },
+    "gold_answer_field": {
+      "status": "AVAILABLE",
+      "reason": "0/300 sampled task records had `answer: null` -- every sampled record carried a non-null answer string.",
+      "grounding": "data/processed/longmemeval/task_records.jsonl:answer (300-line sample)"
+    },
+    "task_id_field": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled task record carries a `task_id` field.",
+      "grounding": "data/processed/longmemeval/task_records.jsonl:task_id"
+    },
+    "session_or_conversation_id": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled task record carries `conversation_id`, joinable to memory_records.jsonl.",
+      "grounding": "data/processed/longmemeval/task_records.jsonl:conversation_id"
+    }
+  },
+  "evidence_availability": {
+    "status": "AVAILABLE",
+    "reason": "0/300 sampled task records had empty `evidence_memory_ids`; sampled records carry large gold-evidence-ID lists (one sampled record had 36 gold memory_ids), which is consistent with DATASET_CAPABILITY_MATRIX.md's framing of LongMemEval as stressing candidate-generation recall at scale. This is the single most important field for the Strict-TSR audit and is confirmed populated (with literal memory_id values, not just raw refs) in every sampled record.",
+    "grounding": "data/processed/longmemeval/task_records.jsonl:evidence_memory_ids (300-line sample)"
+  },
+  "answer_availability": {
+    "status": "AVAILABLE",
+    "reason": "See workload_availability.gold_answer_field -- 0/300 sampled records had a null answer.",
+    "grounding": "data/processed/longmemeval/task_records.jsonl:answer (300-line sample)"
+  },
+  "provenance_availability": {
+    "status": "AVAILABLE",
+    "reason": "Sampled memory records carry a `provenance` object (conversation_id, session_id, source_dataset, source_file, source_record_id, turn_id, extraction_pipeline_version) -- the foundation-memory source pointer, not a derived-memory parent-edge structure.",
+    "grounding": "data/processed/longmemeval/memory_records.jsonl:provenance"
+  },
+  "lineage_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No parent_ids edges exist anywhere in the file (whole-file grep, 0 matches); there is no lineage graph to walk.",
+    "grounding": "Derived from memory_availability.explicit_parent_ids_present (whole-file grep, 210365 lines)."
+  },
+  "equivalence_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "Whole-file grep of all 210365 lines for 'equivalent_to' returned zero matches.",
+    "grounding": "data/processed/longmemeval/memory_records.jsonl (whole-file grep, 210365 lines)"
+  },
+  "temporal_information": {
+    "kind": "TIMESTAMPED_ABSOLUTE",
+    "reason": "Sampled records carry `timestamp_type: \"absolute\"` with absolute date/time strings (e.g. '2023/04/10 (Mon) 17:50'), consistent with DATASET_CAPABILITY_MATRIX.md's 'Multi-session, timestamped, long-horizon' row for LongMemEval."
+  },
+  "metric_support": {
+    "RECALL_AT_K": { "status": "SUPPORTED", "reason": "Gold evidence_memory_ids are present and populated (0/300 empty in sample); at 210365 memory records, this dataset is specifically well-suited to stress-test Recall@K at higher corpus size per its DATASET_CAPABILITY_MATRIX.md role." },
+    "MRR": { "status": "SUPPORTED", "reason": "Same gold-ID basis as RECALL_AT_K." },
+    "STRICT_TSR": { "status": "SUPPORTED", "reason": "evidence_memory_ids are literal gold memory IDs in every sampled record -- exactly the strict_tsr() input." },
+    "SELECTION_COUNT": { "status": "SUPPORTED", "reason": "No dataset-specific gold dependency; operates on any future selected_memory_ids sequence." },
+    "SELECTION_CAPACITY_DIAGNOSTICS": { "status": "SUPPORTED", "reason": "Requires gold_id plus retrieved/selected id sequences; gold ids are present." },
+    "EVIDENCE_PRECISION": { "status": "SUPPORTED", "reason": "evidence_memory_ids present and populated in every sampled record." },
+    "EVIDENCE_RECALL": { "status": "SUPPORTED", "reason": "Same basis as EVIDENCE_PRECISION." },
+    "EVIDENCE_COVERAGE": { "status": "SUPPORTED", "reason": "Same gold-ID basis; PROVISIONAL metric per metrics/README.md but computable with the data present." },
+    "IRRELEVANT_MEMORY_RATE": { "status": "SUPPORTED", "reason": "Computable once a selection layer exists; gold ids are present for comparison." },
+    "REDUNDANCY": { "status": "SUPPORTED", "reason": "Identity-duplicate-only redundancy needs only a selected-memory-id sequence, dataset-agnostic." },
+    "EQUIVALENCE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No explicit equivalent_to edges exist anywhere in the file (whole-file grep, 0 matches)." },
+    "PROVENANCE_VALIDATION": { "status": "SUPPORTED", "reason": "Sampled records carry a full `provenance` object; provenance validation does not require parent_ids for a foundation-only substrate." },
+    "LINEAGE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No parent_ids edges exist anywhere in the file (whole-file grep, 0 matches); no lineage graph exists to diagnose." },
+    "AGENT_ANSWER_CORRECTNESS": { "status": "SUPPORTED", "reason": "Gold answers are present in every sampled record (0/300 null)." },
+    "AGENT_SUCCESS": { "status": "SUPPORTED", "reason": "Thin wrapper over answer correctness; same basis." },
+    "MEMORY_CONTRIBUTION": { "status": "SUPPORTED", "reason": "Requires task_id + expected_answer + paired execution results under NO_MEMORY vs. WITH_MEMORY -- both gold answer and gold evidence are present to construct these once a real agent exists." },
+    "OBSERVED_GOLD_EVIDENCE_CEILING": { "status": "SUPPORTED", "reason": "Requires GOLD_EVIDENCE-condition results plus expected answers, both constructible from populated answer/evidence_memory_ids fields." },
+    "RETRIEVAL_UTILIZATION": { "status": "SUPPORTED", "reason": "No dataset-specific gold dependency beyond having a task; supported once execution results exist." },
+    "FAILURE_STAGE_CLASSIFICATION": { "status": "SUPPORTED", "reason": "gold_evidence_ids and expected_answer are both present and populated in the sample; supported once execution results exist." }
+  },
+  "condition_support": {
+    "NO_MEMORY": { "status": "SUPPORTED", "reason": "Needs only task_id/question, present for every task record." },
+    "GOLD_EVIDENCE": { "status": "SUPPORTED", "reason": "Gold evidence CONTENT can be assembled from evidence_memory_ids -> memory_records.jsonl content lookup; every sampled task has a non-empty evidence_memory_ids list." },
+    "RETRIEVED_MEMORY": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires a real candidate-discovery/reranking/selection pipeline over 210365 memory records, which does not exist yet -- see adapter_requirements. This dataset's scale (largest of the four) makes candidate-generation recall the dominant expected stress point, per its DATASET_CAPABILITY_MATRIX.md role and the historical ~72.4% candidate-generation-failure finding in PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 3." },
+    "SELECTED_MEMORY_AVAILABLE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same adapter gap as RETRIEVED_MEMORY." },
+    "DERIVED_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No derived memories exist in the current substrate (no parent_ids anywhere)." },
+    "CONFLICTING_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No conflicts_with edges exist anywhere in the file (whole-file grep, 0 matches)." }
+  },
+  "adapter_requirements": [
+    "A candidate-discovery + reranking + selection pipeline over data/processed/longmemeval/memory_records.jsonl (210365 records) -- not implemented anywhere yet; at this scale, candidate-discovery recall is the primary expected bottleneck per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 3's historical finding.",
+    "A corpus-scale-aware evaluation harness capable of handling 210365 memory records per corpus (vs. LoCoMo's 5882) without assuming small-corpus performance characteristics; this profile only notes the scale difference, it does not build such a harness."
+  ],
+  "limitations": [
+    "The full memory_records.jsonl (210365 lines) was never read record-by-record in this stage -- only a 500-line prefix sample plus a whole-file grep for four specific relationship field names. A different sample could surface edge cases (e.g. a null-evidence task, as observed for a small minority of LoCoMo tasks) not present in the sampled prefix.",
+    "data/metadata/dataset_manifest.json's known_limitations field notes that longmemeval_m_cleaned.json (~2.7GB) was never acquired in Phase 1 -- this profile inherits that scope limitation from the frozen Phase 1/2 substrate; it is documented here for completeness, not resolved.",
+    "Two LongMemEval memory records are flagged in data/metadata/longmemeval_provenance_exceptions.json as QUARANTINED (encoding-integrity-uncertain, not poisoning) -- this profile notes their existence but does not verify whether either falls inside the sampled prefix or any task's gold-evidence set; the exceptions file itself is Phase 2 read-only material and is not modified here."
+  ],
+  "evidence_notes": [
+    { "claim": "memory_id is present, stable-looking, and unique in a 500-record sample.", "file": "data/processed/longmemeval/memory_records.jsonl", "field": "memory_id", "example": "231fce1921e345aa21cf0510" },
+    { "claim": "Gold evidence memory IDs are present and populated (0/300 sampled empty) as literal memory_id lists, some quite large (36 ids observed in one sampled task).", "file": "data/processed/longmemeval/task_records.jsonl", "field": "evidence_memory_ids" },
+    { "claim": "Gold answers are present in every sampled record (0/300 null).", "file": "data/processed/longmemeval/task_records.jsonl", "field": "answer" },
+    { "claim": "No memory record anywhere in the file declares parent_ids, equivalent_to, conflicts_with, or superseded_by.", "file": "data/processed/longmemeval/memory_records.jsonl", "field": "(whole-file grep for four literal field-name strings, 210365 lines)" },
+    { "claim": "Two records are flagged QUARANTINED for an unrelated encoding-integrity issue (not poisoning), per Phase 2's own case study.", "file": "data/metadata/longmemeval_provenance_exceptions.json", "field": "records[].memory_id,admission_status" }
+  ],
+  "profile_status": "REVIEWED"
+}

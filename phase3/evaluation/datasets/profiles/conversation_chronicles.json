@@ -1,0 +1,167 @@
+{
+  "schema_version": "3.2-g.1",
+  "dataset_id": "conversation_chronicles",
+  "canonical_name": "Conversation Chronicles",
+  "role": "Longitudinal memory, lifecycle, provenance, and reuse validation. Same constraint as MSC: not forced into the TSR framework without an appropriate workload/task layer. Used to validate lifecycle transitions, derivation chains, and provenance completeness over long-running conversational histories. (Quoted/paraphrased from phase3/specification/DATASET_CAPABILITY_MATRIX.md section 2.4.)",
+  "registry_reference": {
+    "manifest_file": "data/metadata/dataset_manifest.json",
+    "dataset_key": "conversation_chronicles",
+    "record_count_reference": "data/metadata/phase2_freeze_manifest.json: memory_foundation.record_counts.conversation_chronicles = 822762 (matches the actual line count of data/processed/conversation_chronicles/memory_records.jsonl, verified in this stage)."
+  },
+  "source_reference": {
+    "processed_files": [
+      { "path": "data/processed/conversation_chronicles/memory_records.jsonl", "total_lines": 822762 },
+      { "path": "data/processed/conversation_chronicles/task_records.jsonl", "total_lines": 0, "note": "File exists on disk (verified via ls -la) and is exactly 0 bytes -- an empty placeholder, not a missing file." }
+    ]
+  },
+  "inspection_method": {
+    "description": "Read-only inspection performed in Phase 3.2-G: first 2 lines of memory_records.jsonl read in full for field-shape confirmation; a deterministic 500-line prefix sample of memory_records.jsonl checked programmatically for memory_id uniqueness; task_records.jsonl confirmed to exist as a 0-byte file via `ls -la`; the full memory_records.jsonl file (all 822762 lines) was grep-searched for the literal field names parent_ids/equivalent_to/conflicts_with/superseded_by, with zero matches; preprocessing/datasets/conversation_chronicles.py was read to corroborate the absence of task/gold-answer construction logic (grep for evidence_memory_ids/task_id/gold across preprocessing/datasets/ matched only locomo.py and longmemeval.py).",
+    "sample_based": true,
+    "sample_sizes": {
+      "memory_records_uniqueness_sample": 500,
+      "memory_records_field_name_grep": 822762
+    }
+  },
+  "memory_availability": {
+    "stable_id": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records carry a `memory_id` field (24-hex-char identifier), same convention as the other three datasets.",
+      "grounding": "data/processed/conversation_chronicles/memory_records.jsonl:memory_id"
+    },
+    "unique_id": {
+      "status": "AVAILABLE",
+      "reason": "500/500 sampled memory_id values were unique in the prefix sample.",
+      "grounding": "data/processed/conversation_chronicles/memory_records.jsonl (500-line uniqueness sample)"
+    },
+    "content_available": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records have non-empty `content` strings (e.g. \"Hey there, Neighbors B! How's your day going so far?\").",
+      "grounding": "data/processed/conversation_chronicles/memory_records.jsonl:content"
+    },
+    "timestamped": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Sampled records carry `source_timestamp: null` and `timestamp_type: \"relative\"`; the only temporal information is a free-text `relative_time_interval_before_session` field in `metadata` (e.g. 'Start'). Matches data/metadata/dataset_manifest.json's known_limitations note ('no absolute timestamps, only free-text relative time_interval descriptions').",
+      "grounding": "data/processed/conversation_chronicles/memory_records.jsonl:source_timestamp,timestamp_type,metadata.relative_time_interval_before_session"
+    },
+    "session_linked": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records carry `session_id` (e.g. 'session_1') and `conversation_id` (e.g. 'episode-216135').",
+      "grounding": "data/processed/conversation_chronicles/memory_records.jsonl:session_id,conversation_id"
+    },
+    "typed_foundation_or_derived": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No explicit type tag exists; per phase3/schemas/memory_schema.md, Phase 1/2 UMR-sourced records are foundation memories by construction, but no field asserts this explicitly."
+    },
+    "explicit_parent_ids_present": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Whole-file grep of all 822762 lines for 'parent_ids' returned zero matches.",
+      "grounding": "data/processed/conversation_chronicles/memory_records.jsonl (whole-file grep, 822762 lines)"
+    }
+  },
+  "workload_availability": {
+    "explicit_task_records": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "data/processed/conversation_chronicles/task_records.jsonl is a 0-byte file on disk (confirmed via `ls -la`). Positively confirms 'no native task layer' per DATASET_CAPABILITY_MATRIX.md.",
+      "grounding": "data/processed/conversation_chronicles/task_records.jsonl (file size confirmed 0 bytes)"
+    },
+    "separate_from_memory": {
+      "status": "UNAVAILABLE",
+      "reason": "No workload layer exists at all, so 'separate from memory' does not apply -- the antecedent is false.",
+      "grounding": "data/processed/conversation_chronicles/task_records.jsonl (0 bytes)"
+    },
+    "query_field": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No query/question field exists anywhere; corroborated by preprocessing/datasets/conversation_chronicles.py containing no task-construction logic."
+    },
+    "gold_answer_field": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No answer field exists anywhere for Conversation Chronicles."
+    },
+    "task_id_field": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No task_id field exists anywhere for Conversation Chronicles."
+    },
+    "session_or_conversation_id": {
+      "status": "AVAILABLE",
+      "reason": "Memory-level session_id/conversation_id fields exist and are populated -- a memory-layer capability independent of the (absent) task layer, and exactly the longitudinal/repeated-interaction structure DATASET_CAPABILITY_MATRIX.md calls this dataset's 'primary use case.'",
+      "grounding": "data/processed/conversation_chronicles/memory_records.jsonl:session_id,conversation_id"
+    }
+  },
+  "evidence_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No task/workload layer exists (task_records.jsonl is 0 bytes), so no gold-evidence-ID field exists anywhere. This is the single most important field for the Strict-TSR audit: Conversation Chronicles positively lacks it.",
+    "grounding": "data/processed/conversation_chronicles/task_records.jsonl (0 bytes)"
+  },
+  "answer_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No gold-answer field exists anywhere, for the same reason as evidence_availability.",
+    "grounding": "data/processed/conversation_chronicles/task_records.jsonl (0 bytes)"
+  },
+  "provenance_availability": {
+    "status": "AVAILABLE",
+    "reason": "Sampled memory records carry a full `provenance` object (conversation_id, session_id, source_dataset, source_file, source_record_id, turn_id, extraction_pipeline_version) -- exactly the substrate DATASET_CAPABILITY_MATRIX.md calls this dataset's 'primary use case' for provenance validation. This is the foundation-memory source pointer, not a derived-memory parent-edge structure.",
+    "grounding": "data/processed/conversation_chronicles/memory_records.jsonl:provenance"
+  },
+  "lineage_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No parent_ids edges exist anywhere in the file (whole-file grep, 0 matches). IMPORTANT DISCREPANCY NOTE (same as noted for MSC): DATASET_CAPABILITY_MATRIX.md lists 'Lifecycle suitability: Primary use case' for Conversation Chronicles, which this profile does not contradict -- but at the raw current-file level, this dataset's lineage-graph richness (zero explicit parent edges) is identical to all three other datasets. The matrix's 'primary use case' framing is about this dataset's strong longitudinal/repeated-interaction structure (session_summary and relationship metadata across many sessions per episode) being well-suited for lifecycle/provenance/reuse machinery once a memory-creation policy exists -- not a claim that parent_ids/lineage data already exists in the current substrate.",
+    "grounding": "data/processed/conversation_chronicles/memory_records.jsonl (whole-file grep, 822762 lines)"
+  },
+  "equivalence_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "Whole-file grep of all 822762 lines for 'equivalent_to' returned zero matches.",
+    "grounding": "data/processed/conversation_chronicles/memory_records.jsonl (whole-file grep, 822762 lines)"
+  },
+  "temporal_information": {
+    "kind": "ORDERED_SEQUENCE_ONLY",
+    "reason": "source_timestamp is null and timestamp_type is 'relative' in sampled records; the only temporal signal is a free-text metadata.relative_time_interval_before_session field (e.g. 'Start') plus session/event ordering -- not a machine-comparable absolute or duration timestamp. Matches data/metadata/dataset_manifest.json's known_limitations note."
+  },
+  "metric_support": {
+    "RECALL_AT_K": { "status": "UNAVAILABLE", "reason": "No task layer and no gold evidence IDs exist -- Recall@K requires a gold_id, which does not exist here." },
+    "MRR": { "status": "UNAVAILABLE", "reason": "Same absence of gold evidence IDs as RECALL_AT_K." },
+    "STRICT_TSR": { "status": "UNAVAILABLE", "reason": "strict_tsr requires a literal gold evidence memory ID; none exists for Conversation Chronicles (task_records.jsonl is 0 bytes). Per the 3.2-G task brief, UNAVAILABLE rather than SUPPORTED_WITH_ADAPTER because no partial task layer was found." },
+    "SELECTION_COUNT": { "status": "SUPPORTED", "reason": "selection_count needs only a selected_memory_ids sequence, dataset-agnostic -- usable for lifecycle/reuse characterization without a task layer." },
+    "SELECTION_CAPACITY_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "Requires a gold_id, which does not exist for this dataset." },
+    "EVIDENCE_PRECISION": { "status": "UNAVAILABLE", "reason": "Requires evidence_memory_ids (gold), which do not exist." },
+    "EVIDENCE_RECALL": { "status": "UNAVAILABLE", "reason": "Same absence of gold evidence IDs." },
+    "EVIDENCE_COVERAGE": { "status": "UNAVAILABLE", "reason": "Same absence of gold evidence IDs." },
+    "IRRELEVANT_MEMORY_RATE": { "status": "UNAVAILABLE", "reason": "Requires a gold-evidence-id basis; none exists." },
+    "REDUNDANCY": { "status": "SUPPORTED", "reason": "Identity-duplicate-only redundancy needs only a selected-memory-id sequence -- dataset-agnostic, usable for reuse/lifecycle characterization." },
+    "EQUIVALENCE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No explicit equivalent_to edges exist anywhere (whole-file grep, 0 matches); would become SUPPORTED_WITH_ADAPTER only if a future memory-creation policy declares such edges over this dataset's session_summary/relationship structure -- not the case today." },
+    "PROVENANCE_VALIDATION": { "status": "SUPPORTED", "reason": "Every sampled record carries a full `provenance` object; validate_provenance/provenance_completeness_report operate on this directly, independent of any task layer -- exactly the 'primary use case' DATASET_CAPABILITY_MATRIX.md names." },
+    "LINEAGE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No parent_ids edges exist anywhere in the current substrate (whole-file grep, 0 matches); nothing for ancestors/descendants/lineage_depth/detect_cycles to operate on today." },
+    "AGENT_ANSWER_CORRECTNESS": { "status": "UNAVAILABLE", "reason": "No gold answer exists (no task layer); undefined without an expected_answer." },
+    "AGENT_SUCCESS": { "status": "UNAVAILABLE", "reason": "Thin wrapper over answer correctness; same absence." },
+    "MEMORY_CONTRIBUTION": { "status": "UNAVAILABLE", "reason": "Requires an expected_answer on both sides of a paired comparison, which does not exist." },
+    "OBSERVED_GOLD_EVIDENCE_CEILING": { "status": "UNAVAILABLE", "reason": "Requires GOLD_EVIDENCE-condition results plus expected answers, neither of which exist." },
+    "RETRIEVAL_UTILIZATION": { "status": "PROVISIONAL", "reason": "Mechanically needs only selected_memory_ids/used_memory_ids, not gold data -- but constructing a legitimate execution result absent any real task to execute would be synthetic, hence PROVISIONAL rather than SUPPORTED (same reasoning as MSC's profile)." },
+    "FAILURE_STAGE_CLASSIFICATION": { "status": "UNAVAILABLE", "reason": "Requires gold_evidence_ids and an expected_answer, neither of which exist." }
+  },
+  "condition_support": {
+    "NO_MEMORY": { "status": "UNDEFINED", "reason": "NO_MEMORY is defined relative to a task ('task-only, no memory content'); with no task layer at all, there is no task to present under this condition, so it is UNDEFINED rather than SUPPORTED or UNAVAILABLE." },
+    "GOLD_EVIDENCE": { "status": "UNAVAILABLE", "reason": "Requires gold evidence content selected via evidence_memory_ids, which does not exist." },
+    "RETRIEVED_MEMORY": { "status": "UNDEFINED", "reason": "RETRIEVED_MEMORY is Condition C, defined as memory retrieved+selected FOR A TASK; with no task layer, 'retrieval for this task' is undefined, not merely unbuilt." },
+    "SELECTED_MEMORY_AVAILABLE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "This PROVISIONAL condition does not require the full RETRIEVED_MEMORY task-pipeline semantics -- it only asserts 'some selected memory content is present,' which memory_records.jsonl content can populate once some selection mechanism exists." },
+    "DERIVED_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No derived memories exist in the current substrate (no parent_ids anywhere)." },
+    "CONFLICTING_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No conflicts_with edges exist anywhere in the file (whole-file grep, 0 matches)." }
+  },
+  "adapter_requirements": [
+    "Per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 4 and DATASET_CAPABILITY_MATRIX.md section 4, whether/how a workload/task layer is ever added for Conversation Chronicles is explicitly OUT OF SCOPE for Phase 3.1/3.2 and deferred to a future capability-gap analysis -- this profile does not propose or build one.",
+    "A longitudinal lifecycle/provenance/reuse test harness operating directly on memory_records.jsonl's session_id/conversation_id/provenance/session_summary structure without assuming a task/gold layer -- the legitimate current use case per the matrix.",
+    "If a future memory-creation policy begins producing derived memories with explicit parent_ids over this dataset's session_summary/relationship structure, LINEAGE_DIAGNOSTICS and EQUIVALENCE_DIAGNOSTICS would need re-evaluation against the resulting data -- not assumed available now."
+  ],
+  "limitations": [
+    "task_records.jsonl is confirmed a 0-byte file, not merely 'not sampled' -- treated as a positive NOT_PROVIDED_BY_SOURCE finding, not UNKNOWN.",
+    "Conversation Chronicles has no absolute or numerically-comparable relative timestamps, only free-text relative_time_interval_before_session descriptions (e.g. 'Start') -- per data/metadata/dataset_manifest.json's own known_limitations field, corroborated directly from the processed file.",
+    "data/metadata/dataset_manifest.json also notes 'Speaker role label casing/pluralization is inconsistent for the same underlying role' -- this profile does not attempt to normalize or verify that inconsistency; it is inherited, read-only, from the frozen Phase 1/2 substrate.",
+    "Inspection was sample-based (500/822762 memory records for uniqueness) except for the relationship-field-name greps and the task_records.jsonl file-size check, which covered the whole file/dataset."
+  ],
+  "evidence_notes": [
+    { "claim": "memory_id is present, stable-looking, and unique in a 500-record sample.", "file": "data/processed/conversation_chronicles/memory_records.jsonl", "field": "memory_id", "example": "599478c93f1e0a61d430f0c0" },
+    { "claim": "task_records.jsonl is a 0-byte file, positively confirming no native task layer.", "file": "data/processed/conversation_chronicles/task_records.jsonl" },
+    { "claim": "source_timestamp is null and timestamp_type is 'relative' in sampled records; only a free-text relative_time_interval_before_session metadata field exists.", "file": "data/processed/conversation_chronicles/memory_records.jsonl", "field": "source_timestamp,timestamp_type,metadata.relative_time_interval_before_session" },
+    { "claim": "No memory record anywhere in the file declares parent_ids, equivalent_to, conflicts_with, or superseded_by.", "file": "data/processed/conversation_chronicles/memory_records.jsonl", "field": "(whole-file grep for four literal field-name strings, 822762 lines)" },
+    { "claim": "The Phase 1 loader code for Conversation Chronicles has no task/query/gold-answer/evidence construction logic.", "file": "preprocessing/datasets/conversation_chronicles.py", "field": "(grep for task_id/evidence_memory_ids/gold, zero matches; only locomo.py and longmemeval.py matched)" }
+  ],
+  "profile_status": "REVIEWED"
+}
