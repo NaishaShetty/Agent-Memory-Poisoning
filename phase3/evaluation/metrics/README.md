@@ -612,3 +612,24 @@ python -m pytest phase3/evaluation/tests/ -q
 `test_core_memory_metrics.py`, both unmodified), plus 90 new tests across
 `test_evidence_equivalence.py` and `test_provenance_lineage.py`, all passing, run twice to
 confirm determinism.
+
+---
+
+# Phase 3.2-E — Agent Evaluation Conditions
+
+Status: **DIAGNOSTIC IMPLEMENTATION, MOSTLY PROVISIONAL** (additive to 3.2-D — no existing
+module in this `metrics/` package was modified). This stage implements agent-level
+evaluation conditions, agent success classification, paired-condition comparison, and
+memory-contribution/failure-stage diagnostics, in a new sibling package,
+`phase3/evaluation/agent/`, NOT inside `phase3/evaluation/metrics/` -- because it answers a
+structurally different question ("did the full agent succeed?" vs. this package's "did the
+memory subsystem do its job?", per `EVALUATION_CONTRACT.md` sections 1 and 5).
+
+See **`phase3/evaluation/agent/README.md`** for the full write-up, including the worked
+"agent success ≠ Strict TSR" counter-examples (both directions), the condition vocabulary
+(3 schema-canonical + 3 provisional extensions), and the CANONICAL/PROVISIONAL/
+DIAGNOSTIC-ONLY table for every new condition/status/diagnostic introduced there.
+
+334 tests total as of this stage: the original 240 above, plus 94 new tests in
+`phase3/evaluation/tests/test_agent_evaluation.py`, all passing, run twice to confirm
+determinism.
