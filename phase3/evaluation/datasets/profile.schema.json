@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mambench.local/phase3/evaluation/datasets/profile.schema.json",
+  "title": "DatasetEvaluationProfile",
+  "description": "Phase 3.2-G data contract. One common schema for all four frozen-dataset evaluation profiles (LoCoMo, LongMemEval, MSC, Conversation Chronicles -- see phase3/specification/DATASET_CAPABILITY_MATRIX.md). This is a descriptive capability-mapping layer, not a preprocessing artifact and not a competing dataset registry: registry_reference points into the existing data/metadata/dataset_manifest.json rather than duplicating its content. Every non-trivial capability claim must be grounded in evidence_notes citing an actual inspected file/field.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "canonical_name",
+    "role",
+    "registry_reference",
+    "source_reference",
+    "inspection_method",
+    "memory_availability",
+    "workload_availability",
+    "evidence_availability",
+    "answer_availability",
+    "provenance_availability",
+    "lineage_availability",
+    "equivalence_availability",
+    "temporal_information",
+    "metric_support",
+    "condition_support",
+    "adapter_requirements",
+    "limitations",
+    "evidence_notes",
+    "profile_status"
+  ],
+  "$defs": {
+    "capabilityState": {
+      "type": "string",
+      "enum": ["AVAILABLE", "PARTIAL", "UNAVAILABLE", "UNKNOWN", "NOT_PROVIDED_BY_SOURCE", "PROVISIONAL"]
+    },
+    "supportState": {
+      "type": "string",
+      "enum": ["SUPPORTED", "SUPPORTED_WITH_ADAPTER", "UNAVAILABLE", "UNDEFINED", "PROVISIONAL"]
+    },
+    "capabilityField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason"],
+      "properties": {
+        "status": { "$ref": "#/$defs/capabilityState" },
+        "reason": { "type": "string", "minLength": 1 },
+        "grounding": {
+          "type": "string",
+          "description": "Optional pointer to the specific file/field that grounds this claim (e.g. 'data/processed/locomo/task_records.jsonl:evidence_memory_ids'). Free text, not a formal ref scheme, per the same 'refs are opaque, not over-typed' convention as evaluation_run.schema.json's *_ref fields."
+        }
+      }
+    },
+    "supportField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason"],
+      "properties": {
+        "status": { "$ref": "#/$defs/supportState" },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidenceNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim", "file"],
+      "properties": {
+        "claim": { "type": "string", "minLength": 1 },
+        "file": { "type": "string", "minLength": 1 },
+        "field": { "type": "string" },
+        "example": { "type": "string" }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "3.2-g.1"
+    },
+    "dataset_id": {
+      "type": "string",
+      "enum": ["locomo", "longmemeval", "msc", "conversation_chronicles"],
+      "description": "Must match a key under data/metadata/dataset_manifest.json's `datasets` map -- the profile never invents a competing identity."
+    },
+    "canonical_name": { "type": "string", "minLength": 1 },
+    "role": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Quoted/paraphrased from DATASET_CAPABILITY_MATRIX.md section 2 -- must not contradict that document."
+    },
+    "registry_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest_file", "dataset_key"],
+      "properties": {
+        "manifest_file": { "type": "string", "const": "data/metadata/dataset_manifest.json" },
+        "dataset_key": { "type": "string", "minLength": 1 },
+        "record_count_reference": {
+          "type": "string",
+          "description": "Pointer to the authoritative record-count source (e.g. data/metadata/phase2_freeze_manifest.json's memory_record_counts), never a restated/duplicated count claimed as canonical here."
+        }
+      }
+    },
+    "source_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["processed_files"],
+      "properties": {
+        "processed_files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "total_lines"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "total_lines": { "type": ["integer", "null"] },
+              "note": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "inspection_method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "sample_based"],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "sample_based": { "type": "boolean" },
+        "sample_sizes": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        }
+      }
+    },
+    "memory_availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stable_id",
+        "unique_id",
+        "content_available",
+        "timestamped",
+        "session_linked",
+        "typed_foundation_or_derived",
+        "explicit_parent_ids_present"
+      ],
+      "properties": {
+        "stable_id": { "$ref": "#/$defs/capabilityField" },
+        "unique_id": { "$ref": "#/$defs/capabilityField" },
+        "content_available": { "$ref": "#/$defs/capabilityField" },
+        "timestamped": { "$ref": "#/$defs/capabilityField" },
+        "session_linked": { "$ref": "#/$defs/capabilityField" },
+        "typed_foundation_or_derived": { "$ref": "#/$defs/capabilityField" },
+        "explicit_parent_ids_present": { "$ref": "#/$defs/capabilityField" }
+      }
+    },
+    "workload_availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "explicit_task_records",
+        "separate_from_memory",
+        "query_field",
+        "gold_answer_field",
+        "task_id_field",
+        "session_or_conversation_id"
+      ],
+      "properties": {
+        "explicit_task_records": { "$ref": "#/$defs/capabilityField" },
+        "separate_from_memory": { "$ref": "#/$defs/capabilityField" },
+        "query_field": { "$ref": "#/$defs/capabilityField" },
+        "gold_answer_field": { "$ref": "#/$defs/capabilityField" },
+        "task_id_field": { "$ref": "#/$defs/capabilityField" },
+        "session_or_conversation_id": { "$ref": "#/$defs/capabilityField" }
+      }
+    },
+    "evidence_availability": { "$ref": "#/$defs/capabilityField" },
+    "answer_availability": { "$ref": "#/$defs/capabilityField" },
+    "provenance_availability": { "$ref": "#/$defs/capabilityField" },
+    "lineage_availability": { "$ref": "#/$defs/capabilityField" },
+    "equivalence_availability": { "$ref": "#/$defs/capabilityField" },
+    "temporal_information": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "reason"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["TIMESTAMPED_ABSOLUTE", "TIMESTAMPED_RELATIVE", "ORDERED_SEQUENCE_ONLY", "NONE", "MIXED"]
+        },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "metric_support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "RECALL_AT_K", "MRR", "STRICT_TSR", "SELECTION_COUNT",
+        "SELECTION_CAPACITY_DIAGNOSTICS", "EVIDENCE_PRECISION", "EVIDENCE_RECALL",
+        "EVIDENCE_COVERAGE", "IRRELEVANT_MEMORY_RATE", "REDUNDANCY",
+        "EQUIVALENCE_DIAGNOSTICS", "PROVENANCE_VALIDATION", "LINEAGE_DIAGNOSTICS",
+        "AGENT_ANSWER_CORRECTNESS", "AGENT_SUCCESS", "MEMORY_CONTRIBUTION",
+        "OBSERVED_GOLD_EVIDENCE_CEILING", "RETRIEVAL_UTILIZATION",
+        "FAILURE_STAGE_CLASSIFICATION"
+      ],
+      "properties": {
+        "RECALL_AT_K": { "$ref": "#/$defs/supportField" },
+        "MRR": { "$ref": "#/$defs/supportField" },
+        "STRICT_TSR": { "$ref": "#/$defs/supportField" },
+        "SELECTION_COUNT": { "$ref": "#/$defs/supportField" },
+        "SELECTION_CAPACITY_DIAGNOSTICS": { "$ref": "#/$defs/supportField" },
+        "EVIDENCE_PRECISION": { "$ref": "#/$defs/supportField" },
+        "EVIDENCE_RECALL": { "$ref": "#/$defs/supportField" },
+        "EVIDENCE_COVERAGE": { "$ref": "#/$defs/supportField" },
+        "IRRELEVANT_MEMORY_RATE": { "$ref": "#/$defs/supportField" },
+        "REDUNDANCY": { "$ref": "#/$defs/supportField" },
+        "EQUIVALENCE_DIAGNOSTICS": { "$ref": "#/$defs/supportField" },
+        "PROVENANCE_VALIDATION": { "$ref": "#/$defs/supportField" },
+        "LINEAGE_DIAGNOSTICS": { "$ref": "#/$defs/supportField" },
+        "AGENT_ANSWER_CORRECTNESS": { "$ref": "#/$defs/supportField" },
+        "AGENT_SUCCESS": { "$ref": "#/$defs/supportField" },
+        "MEMORY_CONTRIBUTION": { "$ref": "#/$defs/supportField" },
+        "OBSERVED_GOLD_EVIDENCE_CEILING": { "$ref": "#/$defs/supportField" },
+        "RETRIEVAL_UTILIZATION": { "$ref": "#/$defs/supportField" },
+        "FAILURE_STAGE_CLASSIFICATION": { "$ref": "#/$defs/supportField" }
+      }
+    },
+    "condition_support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "NO_MEMORY", "GOLD_EVIDENCE", "RETRIEVED_MEMORY",
+        "SELECTED_MEMORY_AVAILABLE", "DERIVED_MEMORY_AVAILABLE",
+        "CONFLICTING_MEMORY_AVAILABLE"
+      ],
+      "properties": {
+        "NO_MEMORY": { "$ref": "#/$defs/supportField" },
+        "GOLD_EVIDENCE": { "$ref": "#/$defs/supportField" },
+        "RETRIEVED_MEMORY": { "$ref": "#/$defs/supportField" },
+        "SELECTED_MEMORY_AVAILABLE": { "$ref": "#/$defs/supportField" },
+        "DERIVED_MEMORY_AVAILABLE": { "$ref": "#/$defs/supportField" },
+        "CONFLICTING_MEMORY_AVAILABLE": { "$ref": "#/$defs/supportField" }
+      }
+    },
+    "adapter_requirements": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "evidence_notes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/evidenceNote" }
+    },
+    "profile_status": {
+      "type": "string",
+      "enum": ["DRAFT", "REVIEWED"]
+    }
+  }
+}

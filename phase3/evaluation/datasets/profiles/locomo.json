@@ -1,0 +1,172 @@
+{
+  "schema_version": "3.2-g.1",
+  "dataset_id": "locomo",
+  "canonical_name": "LoCoMo (Long Conversational Memory)",
+  "role": "Primary task-level memory and reasoning evaluation. Provides task-oriented QA over multi-session conversational memory with designated gold evidence, making it suitable for the full candidate-discovery -> reranking -> selection -> reasoning pipeline and for strict-TSR / evidence-equivalent comparability with historical Phase 3 results. (Quoted/paraphrased from phase3/specification/DATASET_CAPABILITY_MATRIX.md section 2.1.)",
+  "registry_reference": {
+    "manifest_file": "data/metadata/dataset_manifest.json",
+    "dataset_key": "locomo",
+    "record_count_reference": "data/metadata/phase2_freeze_manifest.json: memory_foundation.record_counts.locomo = 5882 (matches the actual line count of data/processed/locomo/memory_records.jsonl, verified in this stage)."
+  },
+  "source_reference": {
+    "processed_files": [
+      { "path": "data/processed/locomo/memory_records.jsonl", "total_lines": 5882 },
+      { "path": "data/processed/locomo/task_records.jsonl", "total_lines": 1986 },
+      { "path": "data/processed/locomo/qa_reconciled.jsonl", "total_lines": 1986, "note": "Separate QA-reconciliation artifact layered on top of task_records.jsonl; not a duplicate identity source, corroborates answer/evidence-status fields." }
+    ]
+  },
+  "inspection_method": {
+    "description": "Read-only inspection performed in Phase 3.2-G: first 3 lines of memory_records.jsonl and qa_reconciled.jsonl read in full for field-shape confirmation; a deterministic 500-line prefix sample of memory_records.jsonl checked programmatically for memory_id uniqueness; a deterministic 300-line prefix sample of task_records.jsonl checked programmatically for answer/evidence_memory_ids null/empty rates. The full memory_records.jsonl file (all 5882 lines) was grep-searched (not fully re-read record-by-record) for the literal field names parent_ids/equivalent_to/conflicts_with/superseded_by, with zero matches -- this is a positive, whole-file confirmation of absence for those four specific field names, not a sample. All other claims are sample-based, not exhaustive.",
+    "sample_based": true,
+    "sample_sizes": {
+      "memory_records_uniqueness_sample": 500,
+      "task_records_field_population_sample": 300,
+      "memory_records_field_name_grep": 5882
+    }
+  },
+  "memory_availability": {
+    "stable_id": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled memory_records.jsonl record carries a `memory_id` field (24-hex-char identifier); Phase 1's pipeline assigns identity at extraction time, not per Phase 3 run.",
+      "grounding": "data/processed/locomo/memory_records.jsonl:memory_id"
+    },
+    "unique_id": {
+      "status": "AVAILABLE",
+      "reason": "500/500 sampled memory_id values were unique (no duplicates observed in the sampled prefix).",
+      "grounding": "data/processed/locomo/memory_records.jsonl (500-line uniqueness sample)"
+    },
+    "content_available": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled record has a non-empty `content` string (the conversational turn text).",
+      "grounding": "data/processed/locomo/memory_records.jsonl:content"
+    },
+    "timestamped": {
+      "status": "AVAILABLE",
+      "reason": "Sampled records carry `source_timestamp` (e.g. '1:56 pm on 8 May, 2023') and `timestamp_type`: \"absolute\" for the sampled turns.",
+      "grounding": "data/processed/locomo/memory_records.jsonl:source_timestamp,timestamp_type"
+    },
+    "session_linked": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled record carries `session_id` (e.g. 'session_1') and `conversation_id` (e.g. 'conv-26').",
+      "grounding": "data/processed/locomo/memory_records.jsonl:session_id,conversation_id"
+    },
+    "typed_foundation_or_derived": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No record carries an explicit type/ontology tag distinguishing 'foundation' vs. 'derived' per phase3/schemas/memory_schema.md section 3 -- and per that spec, every Phase 1/2 UMR-sourced record is a foundation memory by construction (it has a `source`/`provenance` pointer and no parents), so this distinction does not need a source field to hold true, but no explicit tag exists in the file confirming it either way."
+    },
+    "explicit_parent_ids_present": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Whole-file grep of all 5882 lines of memory_records.jsonl for the literal string 'parent_ids' returned zero matches. This is a positive confirmation of absence, not an inference from textual similarity.",
+      "grounding": "data/processed/locomo/memory_records.jsonl (whole-file grep, 5882 lines)"
+    }
+  },
+  "workload_availability": {
+    "explicit_task_records": {
+      "status": "AVAILABLE",
+      "reason": "data/processed/locomo/task_records.jsonl exists with 1986 records, each with a `task_id` distinct from any `memory_id`.",
+      "grounding": "data/processed/locomo/task_records.jsonl"
+    },
+    "separate_from_memory": {
+      "status": "AVAILABLE",
+      "reason": "task_records.jsonl is a physically separate file from memory_records.jsonl with a disjoint schema (task_id/question/answer/evidence_memory_ids vs. memory_id/content/provenance).",
+      "grounding": "data/processed/locomo/task_records.jsonl vs. data/processed/locomo/memory_records.jsonl"
+    },
+    "query_field": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled task record carries a non-empty `question` string (e.g. 'When did Caroline go to the LGBTQ support group?').",
+      "grounding": "data/processed/locomo/task_records.jsonl:question"
+    },
+    "gold_answer_field": {
+      "status": "PARTIAL",
+      "reason": "A 300-record prefix sample of task_records.jsonl found 65/300 records with `answer: null` -- every one of them `question_type: \"5\"`. LoCoMo's published question-type taxonomy uses category 5 for adversarial/unanswerable questions, so this null pattern is consistent with a legitimate 'no answer exists' category rather than missing data, but this profile does not assert that LoCoMo-paper-taxonomy interpretation as verified fact beyond what was directly observed (the null values themselves, and their exact correlation with question_type=5 in the sample). Status is PARTIAL, not AVAILABLE, because a literal fraction of sampled records do carry answer=null.",
+      "grounding": "data/processed/locomo/task_records.jsonl:answer,question_type (300-line sample)"
+    },
+    "task_id_field": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled task record carries a `task_id` field, distinct in shape from `memory_id`.",
+      "grounding": "data/processed/locomo/task_records.jsonl:task_id"
+    },
+    "session_or_conversation_id": {
+      "status": "AVAILABLE",
+      "reason": "Every sampled task record carries `conversation_id`, joinable to memory_records.jsonl's `conversation_id`.",
+      "grounding": "data/processed/locomo/task_records.jsonl:conversation_id"
+    }
+  },
+  "evidence_availability": {
+    "status": "PARTIAL",
+    "reason": "task_records.jsonl carries `evidence_memory_ids` -- literal memory_id values, not just raw turn references -- for the large majority of sampled records, but 3/300 sampled records had `evidence_memory_ids: []` (empty) despite a non-null `answer`, with `evidence_refs_raw` either empty or containing an unresolved raw reference (e.g. \"D8:6; D9:17\"). This is the single most important field for the Strict-TSR audit: gold memory IDs ARE present and populated for the overwhelming majority of the sample, but not 100% of it, so status is PARTIAL rather than a blanket AVAILABLE. `qa_reconciled.jsonl` independently corroborates evidence/answer status per record via its own `evidence_status`/`answer_evaluation_eligible` fields (e.g. `evidence_status: \"ORIGINAL_PRESENT\"` in the first sampled records read).",
+    "grounding": "data/processed/locomo/task_records.jsonl:evidence_memory_ids,evidence_refs_raw (300-line sample); data/processed/locomo/qa_reconciled.jsonl:evidence_status (3-line read)"
+  },
+  "answer_availability": {
+    "status": "PARTIAL",
+    "reason": "See workload_availability.gold_answer_field -- same 65/300-null-answer sample finding applies at the answer-availability level.",
+    "grounding": "data/processed/locomo/task_records.jsonl:answer (300-line sample)"
+  },
+  "provenance_availability": {
+    "status": "AVAILABLE",
+    "reason": "Every sampled memory record carries a `provenance` object (conversation_id, session_id, source_dataset, source_file, source_record_id, turn_id, extraction_pipeline_version) pointing back to the Phase 1/2 raw source -- this is the foundation-memory 'source' pointer per phase3/schemas/memory_schema.md section 3.1, not a derived-memory parent-edge structure (see explicit_parent_ids_present above, which is NOT_PROVIDED_BY_SOURCE).",
+    "grounding": "data/processed/locomo/memory_records.jsonl:provenance"
+  },
+  "lineage_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "Lineage (per phase3/specification/PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 12) is computed by transitively walking explicit parent_ids edges. Since parent_ids is confirmed absent from every one of the 5882 records (whole-file grep), there is no lineage graph to walk in the current substrate -- consistent with every record being a foundation memory with no derived descendants yet.",
+    "grounding": "Derived from memory_availability.explicit_parent_ids_present (whole-file grep, 5882 lines)."
+  },
+  "equivalence_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "Whole-file grep of all 5882 lines for the literal string 'equivalent_to' returned zero matches. No inference from textual/content similarity was performed (explicitly out of scope per the 3.2-G task brief).",
+    "grounding": "data/processed/locomo/memory_records.jsonl (whole-file grep, 5882 lines)"
+  },
+  "temporal_information": {
+    "kind": "TIMESTAMPED_ABSOLUTE",
+    "reason": "Sampled records carry `timestamp_type: \"absolute\"` with human-readable absolute date/time strings (e.g. '1:56 pm on 8 May, 2023'), consistent with DATASET_CAPABILITY_MATRIX.md's 'Multi-session, timestamped' row for LoCoMo."
+  },
+  "metric_support": {
+    "RECALL_AT_K": { "status": "SUPPORTED", "reason": "Gold evidence_memory_ids exist (with the PARTIAL caveat above) against which retrieval-candidate-set recall can be computed once a real retrieval layer exists; the metric function itself (retrieval.recall_at_k) already exists and takes plain ID lists." },
+    "MRR": { "status": "SUPPORTED", "reason": "Same gold-ID basis as RECALL_AT_K; retrieval.reciprocal_rank/mean_reciprocal_rank operate on the same inputs." },
+    "STRICT_TSR": { "status": "SUPPORTED", "reason": "evidence_memory_ids are literal gold memory IDs (not just raw refs) for the sampled majority of records -- exactly the input strict_tsr() requires. See the PARTIAL caveat in evidence_availability: a small fraction of tasks have empty evidence_memory_ids, which would make strict_tsr undefined (UNDEFINED_EMPTY_GOLD) for those specific tasks, not for the dataset as a whole." },
+    "SELECTION_COUNT": { "status": "SUPPORTED", "reason": "selection_count operates on any selected_memory_ids sequence a future selection layer would produce; no dataset-specific gold dependency." },
+    "SELECTION_CAPACITY_DIAGNOSTICS": { "status": "SUPPORTED", "reason": "classify_gold_id_capacity/selection_capacity_report require retrieved_memory_ids, selected_memory_ids, and a gold_id -- the gold_id side is available from evidence_memory_ids." },
+    "EVIDENCE_PRECISION": { "status": "SUPPORTED", "reason": "evidence_precision compares selected memory ids against evidence_memory_ids, which are present." },
+    "EVIDENCE_RECALL": { "status": "SUPPORTED", "reason": "Same basis as EVIDENCE_PRECISION." },
+    "EVIDENCE_COVERAGE": { "status": "SUPPORTED", "reason": "evidence_coverage (PROVISIONAL per metrics/README.md) operates on the same gold-ID basis; supported here to the same degree as the other evidence metrics." },
+    "IRRELEVANT_MEMORY_RATE": { "status": "SUPPORTED", "reason": "Computable from selected vs. gold memory ids once a selection layer exists; gold ids are present." },
+    "REDUNDANCY": { "status": "SUPPORTED", "reason": "evidence.redundancy is identity-duplicate-only and needs only a selected-memory-id sequence, which any future selection layer would produce regardless of dataset." },
+    "EQUIVALENCE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No explicit equivalent_to edges exist in memory_records.jsonl (whole-file grep, 0 matches); equivalence_classes/extract_equivalence_edges require such edges as input and have nothing to operate on for this dataset's current substrate." },
+    "PROVENANCE_VALIDATION": { "status": "SUPPORTED", "reason": "Every sampled record has a `provenance` object with the fields validate_provenance/provenance_completeness_report expect (source pointers); provenance validation does not require parent_ids to be meaningful for a foundation-only substrate." },
+    "LINEAGE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No parent_ids edges exist (whole-file grep, 0 matches); ancestors/descendants/lineage_depth/detect_cycles all require a parent-edge graph, which is empty for this dataset's current substrate (consistent with all memories being foundation-only, per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md section 6)." },
+    "AGENT_ANSWER_CORRECTNESS": { "status": "SUPPORTED", "reason": "Gold answers exist for the sampled majority of tasks (65/300 null, all question_type=5); evaluate_answer_correctness needs only an expected_answer string, present for non-null-answer tasks." },
+    "AGENT_SUCCESS": { "status": "SUPPORTED", "reason": "classify_agent_success is a thin wrapper over answer correctness; same basis as AGENT_ANSWER_CORRECTNESS." },
+    "MEMORY_CONTRIBUTION": { "status": "SUPPORTED", "reason": "paired_condition_comparison/classify_memory_contribution require only a task_id, an expected_answer, and two AgentExecutionResults under NO_MEMORY vs. a WITH_MEMORY condition -- all constructible once a real agent exists, since gold answers/evidence are present for the sampled majority." },
+    "OBSERVED_GOLD_EVIDENCE_CEILING": { "status": "SUPPORTED", "reason": "Requires GOLD_EVIDENCE-condition results plus expected answers -- both constructible from task_records.jsonl's answer/evidence_memory_ids fields (subject to the same PARTIAL null-answer caveat)." },
+    "RETRIEVAL_UTILIZATION": { "status": "SUPPORTED", "reason": "classify_retrieval_utilization needs only selected_memory_ids/used_memory_ids from a future AgentExecutionResult -- no dataset-specific gold dependency beyond having a task at all." },
+    "FAILURE_STAGE_CLASSIFICATION": { "status": "SUPPORTED", "reason": "classify_observed_failure_stage requires gold_evidence_ids (present for the sampled majority), an expected_answer, and execution results -- same PARTIAL caveat for the empty-evidence/null-answer minority of tasks." }
+  },
+  "condition_support": {
+    "NO_MEMORY": { "status": "SUPPORTED", "reason": "build_agent_visible_context(condition=NO_MEMORY, ...) needs only task_id/question, both present for every task record." },
+    "GOLD_EVIDENCE": { "status": "SUPPORTED", "reason": "Gold evidence CONTENT can be assembled from evidence_memory_ids -> looking up the corresponding memory_records.jsonl content, for the sampled majority of tasks with non-empty evidence_memory_ids." },
+    "RETRIEVED_MEMORY": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires a real candidate-discovery/reranking/selection pipeline over memory_records.jsonl, which does not exist yet (out of scope for this stage and for Phase 3.2 generally) -- see adapter_requirements." },
+    "SELECTED_MEMORY_AVAILABLE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same as RETRIEVED_MEMORY -- this provisional condition also needs some selection mechanism to produce memory_content, not yet built." },
+    "DERIVED_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No derived memories exist in this dataset's current substrate (no parent_ids anywhere); this condition requires derived-memory content to exist, which it does not for LoCoMo today." },
+    "CONFLICTING_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No conflicts_with edges exist anywhere in memory_records.jsonl (whole-file grep, 0 matches); this condition requires such an edge to construct a conflicting-memory scenario." }
+  },
+  "adapter_requirements": [
+    "A candidate-discovery + reranking + selection pipeline over data/processed/locomo/memory_records.jsonl, per phase3/contracts/CLEAN_AGENT_INTERFACES.md section 1 -- not implemented anywhere yet; this profile describes the requirement, it does not build it.",
+    "A resolution step for the small fraction of task_records.jsonl entries with empty evidence_memory_ids but non-empty evidence_refs_raw (e.g. \"D8:6; D9:17\") if those tasks are to be used for strict-TSR scoring; this profile does not attempt that resolution.",
+    "An explicit policy decision on whether question_type=5 (adversarial/unanswerable, answer=null) tasks are included in or excluded from agent-level accuracy scoring -- this profile only reports the observed null pattern, it does not decide the policy."
+  ],
+  "limitations": [
+    "Corpus/task counts here are reported strictly from this stage's own file line-counts (5882 memory records, 1986 task records), not restated from Phase 2 reporting, per DATASET_CAPABILITY_MATRIX.md section 3's instruction to consult the authoritative Phase 2 source rather than duplicate it -- these two happen to agree with data/metadata/phase2_freeze_manifest.json's memory_record_counts.locomo=5882.",
+    "Inspection was sample-based (500/5882 memory records for uniqueness, 300/1986 task records for field-population rates) except for the four relationship-field-name greps, which covered the full file. A different sample could in principle surface additional edge cases not observed here.",
+    "This profile does not assert that LoCoMo's published question-type taxonomy definitively explains the observed null-answer pattern; it reports only the directly observed correlation (all 65 null-answer sampled records have question_type=\"5\")."
+  ],
+  "evidence_notes": [
+    { "claim": "memory_id is present, stable-looking, and unique in a 500-record sample.", "file": "data/processed/locomo/memory_records.jsonl", "field": "memory_id", "example": "382a7d2bd49edd8c0dd1e722" },
+    { "claim": "Gold evidence memory IDs are present as literal memory_id values in task_records.jsonl for the sampled majority of tasks.", "file": "data/processed/locomo/task_records.jsonl", "field": "evidence_memory_ids", "example": "[\"0a2bbeb23bfc6abe6a886f09\"]" },
+    { "claim": "Gold answers are present for the sampled majority of tasks; a minority (65/300 sampled, all question_type=5) have answer=null.", "file": "data/processed/locomo/task_records.jsonl", "field": "answer,question_type" },
+    { "claim": "3/300 sampled task records have evidence_memory_ids=[] despite a non-null answer.", "file": "data/processed/locomo/task_records.jsonl", "field": "evidence_memory_ids", "example": "task_id 7b5f99dcfd0f8c1095365d5f: evidence_memory_ids=[], evidence_refs_raw=[\"D8:6; D9:17\"]" },
+    { "claim": "No memory record anywhere in the file declares parent_ids, equivalent_to, conflicts_with, or superseded_by.", "file": "data/processed/locomo/memory_records.jsonl", "field": "(whole-file grep for four literal field-name strings)" },
+    { "claim": "Every memory record carries a provenance object pointing to the Phase 1 raw source.", "file": "data/processed/locomo/memory_records.jsonl", "field": "provenance" }
+  ],
+  "profile_status": "REVIEWED"
+}
