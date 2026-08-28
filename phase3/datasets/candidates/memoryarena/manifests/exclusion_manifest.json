@@ -1,0 +1,17 @@
+{
+  "dataset_name": "memoryarena",
+  "excluded_records": [],
+  "exclusion_count": 0,
+  "policy": "Only genuinely structurally malformed records (unparseable JSON, missing required top-level field for the config, questions/answers length mismatch) may be excluded, and even then must be preserved in raw/ with an ID and reason recorded here. Records are never excluded for being hard, noisy, contradictory, incomplete, or producing an undefined metric.",
+  "full_scan_performed": true,
+  "records_scanned": 701,
+  "records_scanned_breakdown": {
+    "bundled_shopping": 150,
+    "progressive_search": 221,
+    "group_travel_planner": 270,
+    "formal_reasoning_math": 40,
+    "formal_reasoning_phys": 20
+  },
+  "malformed_records_found": 0,
+  "reason_this_manifest_is_empty": "A full (non-sampled) scan of all 701 records across all 5 HuggingFace configs found zero JSON parse failures, zero missing required fields, zero questions/answers length mismatches, zero null/empty question or answer elements, and zero duplicate IDs (see reports/raw_inventory.md). There was therefore nothing meeting the exclusion criteria to exclude. This manifest is empty because nothing qualified, not because exclusion was skipped or not considered."
+}

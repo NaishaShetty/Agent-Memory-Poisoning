@@ -1,0 +1,42 @@
+{
+  "dataset_name": "memoryarena",
+  "normalization_version": "memoryarena-normalization-1.0.0",
+  "transformations": [
+    {
+      "step": 1,
+      "name": "NO_TRANSFORMATION_REQUIRED_source_ingestion",
+      "description": "Raw JSONL files for all 5 HuggingFace configs (bundled_shopping=150, progressive_search=221, group_travel_planner=270, formal_reasoning_math=40, formal_reasoning_phys=20; 701 lines total) were parsed line-by-line with the standard library json module. No cleaning, filtering, or repair was applied at ingestion because a full scan (all 701 records) found zero malformed lines, zero JSON parse failures, and zero questions/answers length mismatches.",
+      "records_in": 701,
+      "records_out": 701,
+      "records_dropped": 0
+    },
+    {
+      "step": 2,
+      "name": "chain_level_extraction",
+      "description": "For each source record, extracted chain-level fields verbatim into task_chains.jsonl: source_dataset, source_config, source_record_id (source's own 'id', unchanged), a derived source_task_id composite key ('<config>:<id>'), source_revision, normalization_version, chain_length, and config-specific chain_fields (category / paper_name+backgrounds / base_person / none, per config -- see reports/field_semantics.md). No value was altered; only new provenance/bookkeeping fields were added.",
+      "records_in": 701,
+      "records_out": 701,
+      "records_dropped": 0
+    },
+    {
+      "step": 3,
+      "name": "subtask_level_flattening",
+      "description": "For each of the 701 source records, zipped questions[i] and answers[i] (i = 0..chain_length-1) into one subtask_record per index in subtasks.jsonl, carrying the same provenance fields as its parent chain plus a derived_subtask_key ('<config>:<id>:<index>', explicitly labeled as normalization-derived, never presented as a source-native ID), subtask_index, chain_length, question, answer (native type preserved, no coercion), and NOT_PROVIDED_BY_SOURCE placeholders for evidence_memory_ids/timestamp/parent_ids/equivalent_to. No answer content was altered, reworded, or type-coerced.",
+      "records_in": 701,
+      "records_out": 4850,
+      "records_dropped": 0
+    },
+    {
+      "step": 4,
+      "name": "NO_TRANSFORMATION_REQUIRED_answer_type_preservation",
+      "description": "Answer element types (dict for bundled_shopping, str for progressive_search/formal_reasoning_math/formal_reasoning_phys, list for group_travel_planner) were deliberately NOT coerced to a single uniform type across configs. This is a preservation decision, not a missed transformation: coercing e.g. bundled_shopping's structured {target_asin, attributes} dict answers down to a string would be lossy.",
+      "records_in": 4850,
+      "records_out": 4850,
+      "records_dropped": 0
+    }
+  ],
+  "deterministic": true,
+  "determinism_check": "normalize.py was executed twice against the identical raw/ directory; SHA-256 of both task_chains.jsonl outputs matched exactly (both runs), and SHA-256 of both subtasks.jsonl outputs matched exactly (both runs).",
+  "no_records_excluded": true,
+  "no_gold_content_invented": true
+}

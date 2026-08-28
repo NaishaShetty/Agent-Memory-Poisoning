@@ -1,0 +1,44 @@
+{
+  "dataset": "membench",
+  "source_revision": "f66d8d1028d3f68627d00f77a967b93fbb8694b6",
+  "caveat": "This audit is based on a full scan of the actual GitHub-bundled corpus (26,637 records) and direct reading of phase3/evaluation/metrics/*.py and phase3/evaluation/agent/conditions.py. Values reflect what the schema genuinely supports; SUPPORTED does not mean 'wired up' -- no integration or activation was performed (activation_status stays PREPARED_CANDIDATE regardless of this audit).",
+  "phase_3_2_B_boundary_contracts": {
+    "status": "SUPPORTED",
+    "notes": "agent_visible_context / evaluator_reference split is clean and mechanically verifiable against phase3/evaluation/contracts/boundary.py's validate_agent_visible() -- 0 forbidden-key violations across all 275 normalized sample records (see test_candidate_membench.py)."
+  },
+  "phase_3_2_C_core_memory_metrics": {
+    "status": "PARTIALLY_SUPPORTED",
+    "notes": "memory_ids (tid) are stable and unique; per-turn ids (sid/mid) address individual memory units. Metrics requiring only IDs + gold answer/evidence (e.g. answer correctness) are SUPPORTED. Metrics that assume a single canonical 'memory id' string rather than a [session_index, turn_index] pair would need an explicit ID-encoding adapter (e.g. 'session:turn') -- not implemented here, scoped out of candidate preparation."
+  },
+  "phase_3_2_D_evidence_equivalence_provenance_lineage": {
+    "evidence": {
+      "status": "SUPPORTED",
+      "notes": "QA.target_step_id gives gold evidence locations on 99.985% of records (26,633/26,637); phase3/evaluation/metrics/evidence.py's evidence_precision/evidence_recall/evidence_coverage all take Sequence[str] gold_ids -- MemBench's [session_index, turn_index] pairs would need to be encoded as strings (e.g. 'S{session}_T{turn}') to feed these functions directly; this encoding is straightforward and was applied conceptually in normalization but not benchmarked against the metric functions in this session."
+    },
+    "equivalence": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "notes": "phase3/evaluation/metrics/equivalence.py requires explicit equivalence edges between records; MemBench provides none."
+    },
+    "provenance_lineage": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "notes": "phase3/evaluation/metrics/provenance.py's validate_parent_edges/ancestors/descendants/lineage_depth all require parent-edge data; MemBench records carry parent_ids = NOT_PROVIDED_BY_SOURCE uniformly, so these metrics are UNDEFINED against this dataset, not merely partially supported."
+    }
+  },
+  "phase_3_2_E_agent_evaluation_conditions": {
+    "status": "PARTIALLY_SUPPORTED",
+    "notes": "build_agent_visible_context()-style condition construction (phase3/evaluation/agent/conditions.py) is compatible in shape with the normalized agent_visible_context produced here (transcript + question + choices). Whether MemBench's specific evaluation conditions (e.g. capacity-limited step_cap variant seen in benchmark/env/Membenenv.py) map onto the existing ConditionDefinition taxonomy was not verified in this session -- UNKNOWN pending closer mapping work, which is integration work outside candidate-preparation scope."
+  },
+  "phase_3_2_F_leakage_determinism_reproducibility": {
+    "status": "SUPPORTED",
+    "notes": "Normalization was verified deterministic (identical output across two runs of normalize_samples() over the same sample, byte-for-byte JSON comparison, see test_candidate_membench.py). Leakage: verified 0 evaluator-only keys present in any agent_visible_context via boundary.py. Reproducibility of the RAW corpus itself depends on GitHub commit f66d8d1028d3f68627d00f77a967b93fbb8694b6 remaining available (a shallow, non-immutable git ref in the ordinary sense, though commit hashes themselves are content-addressed and won't silently change)."
+  },
+  "phase_3_2_G_dataset_evaluation_profiles": {
+    "status": "PARTIALLY_SUPPORTED",
+    "notes": "MemBench's category taxonomy (simple/noisy/knowledge_update/aggregative/comparative/conditional/highlevel/highlevel_rec/lowlevel_rec/post_processing/RecMultiSession, x2 person-variants) is rich enough to define per-category evaluation profiles analogous to the 4 active datasets' profiles -- but no such profile.json following the active datasets' exact schema was authored here (this candidate's own profile/membench_profile.json uses the 19-dimension format specified by this mission, not the active-dataset profile schema; mapping between the two was not attempted)."
+  },
+  "phase_3_2_H_dataset_activation": {
+    "status": "NOT_ATTEMPTABLE",
+    "notes": "Activation is explicitly out of scope for this task. activation_status is PREPARED_CANDIDATE throughout, per the mission's absolute rules."
+  },
+  "overall_summary": "MemBench's schema is unusually complete for a candidate whose external mirrors were not independently obtained: 100% answer/ground-truth coverage, 99.985% evidence coverage, 0% malformation, stable per-scenario-unique tid identifiers, and a clean agent/evaluator field split all confirmed by full-corpus scan. The main compatibility gaps are structural, not data-quality gaps: no lineage/equivalence relationships exist in the source at all (genuinely NOT_PROVIDED_BY_SOURCE, not merely unobtained), and evidence ids need a straightforward string-encoding adapter to feed the existing evidence.py functions."
+}

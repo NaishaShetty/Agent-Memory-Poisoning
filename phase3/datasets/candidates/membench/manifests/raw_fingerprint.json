@@ -1,0 +1,320 @@
+{
+  "source_urls_attempted": [
+    {
+      "url": "https://github.com/import-myself/Membench",
+      "method": "git clone --depth 1",
+      "outcome": "SUCCESS",
+      "notes": "Full shallow clone of default branch obtained. Contains the FULL MemData corpus (not just samples) bundled directly in the repository."
+    },
+    {
+      "url": "https://drive.google.com/file/d/112Zraj4pTPH4Idph6i1uMOLA_LPFdGr0/view?usp=sharing",
+      "method": "curl https://drive.google.com/uc?export=download&id=112Zraj4pTPH4Idph6i1uMOLA_LPFdGr0",
+      "outcome": "NOT_ATTEMPTED_BEYOND_DOCUMENTATION",
+      "notes": "Not attempted headlessly: the GitHub repository itself already provided the full corpus referenced by this link (see MemData/ below), making the fragile confirmation-token Drive flow unnecessary. Documented per mission guidance as expected to require manual browser confirmation for a file this size."
+    },
+    {
+      "url": "https://pan.baidu.com/s/1HqwY0nu5bltSAJ2TbnxcFQ?pwd=yzsj",
+      "method": "not attempted (password + account-gated client required)",
+      "outcome": "NOT_ATTEMPTED",
+      "notes": "Alternate host only; not independently attempted per mission guidance (Baidu Pan password shares essentially never work without an authenticated app session)."
+    }
+  ],
+  "source_revision_github": "f66d8d1028d3f68627d00f77a967b93fbb8694b6",
+  "download_timestamp_utc": "2026-08-28T06:21:59.449985Z",
+  "file_count": 57,
+  "total_bytes": 713052704,
+  "extraction_method": "git clone --depth 1 https://github.com/import-myself/Membench.git",
+  "environment": {
+    "os": "Windows 11 Home 10.0.26200",
+    "shell": "git-bash (POSIX sh) via Bash tool",
+    "python": "3.11 (C:/Users/naish/AppData/Local/Programs/Python/Python311/python.exe)"
+  },
+  "scope_note": "This fingerprint covers the GitHub repository contents at the pinned commit above -- confirmed to include the FULL MemData QA corpus (19 category JSON files across FirstAgent/ThirdAgent, ~600MB) plus the NoiseMeta noise pools, generation scripts, and benchmark harness code. It does NOT re-verify the Google Drive or Baidu mirrors independently; those were not needed once the GitHub repo's own bundled corpus was found intact and internally consistent (see reports/raw_inventory.md).",
+  "per_file_sha256": [
+    {
+      "path": "DialogueGeneration/aggregative.py",
+      "size_bytes": 13912,
+      "sha256": "c358ada11e0386020805a296b0fed00fed3228357f986de8cf0049325af8c65f"
+    },
+    {
+      "path": "DialogueGeneration/aggregative_hybrid.py",
+      "size_bytes": 16952,
+      "sha256": "f698fc87ca869effedbb799595cf05e821f7bae95495a8cfa5b509b2297d2508"
+    },
+    {
+      "path": "DialogueGeneration/comparative.py",
+      "size_bytes": 14889,
+      "sha256": "5b0e849c5ca5e9b3fe79fb36184d8e2fe62a5ea4242cd76e1561e823351e3a23"
+    },
+    {
+      "path": "DialogueGeneration/comparative_hybrid.py",
+      "size_bytes": 17522,
+      "sha256": "8d22105caa839891169f12d02aaf28839a67489108389b12f8adabeca8c5f78d"
+    },
+    {
+      "path": "DialogueGeneration/conditional.py",
+      "size_bytes": 19847,
+      "sha256": "0f23721c00da000ffd67d1f4db357fb355c6dda315c20af557fa9625de0ec8e5"
+    },
+    {
+      "path": "DialogueGeneration/conditional_hybrid.py",
+      "size_bytes": 18051,
+      "sha256": "936fa171e881d645914c6983c60b7eaabefe4430544a784172433684370c6960"
+    },
+    {
+      "path": "DialogueGeneration/knowledge_update.py",
+      "size_bytes": 13222,
+      "sha256": "4830ba4d6cc1c6d7e519eaed28d03ce6fe533fc57ec70ff93cc6a42d7cd5e112"
+    },
+    {
+      "path": "DialogueGeneration/noise.py",
+      "size_bytes": 22627,
+      "sha256": "5f056ab5f8c4de5e2c399186d7c6a2c9703af9fcc35c16dbbeecc137d6642303"
+    },
+    {
+      "path": "DialogueGeneration/noise_hybrid.py",
+      "size_bytes": 22997,
+      "sha256": "ef1030c4a76e0c153b20f696f86ad1cd1cec0b216c0fe2cf090f74d066823dd8"
+    },
+    {
+      "path": "DialogueGeneration/postprocessing.py",
+      "size_bytes": 56120,
+      "sha256": "3a3c4c8dc7e9702175aa3b013e40d672b714a35a4de53d526c81d13b5f01a985"
+    },
+    {
+      "path": "DialogueGeneration/postprocessing_hybrid.py",
+      "size_bytes": 53509,
+      "sha256": "a3acd737f021052ee45f38292bec552de8947ca733eee6d9f1b208459869b1ba"
+    },
+    {
+      "path": "DialogueGeneration/simple.py",
+      "size_bytes": 18333,
+      "sha256": "2afe68ce9ed8adad4903fcd2b6b2a65739a446b8fa943044fe954b7e5b085af0"
+    },
+    {
+      "path": "DialogueGeneration/simple_hybrid.py",
+      "size_bytes": 17588,
+      "sha256": "04ffc5d9a5caed570911c5526fc617083653ff7837fbda9115987e85ff8af7ad"
+    },
+    {
+      "path": "DialogueGenerationCouple/CoupleAggregative.py",
+      "size_bytes": 19857,
+      "sha256": "5cd5c71286002d6864dcbf0f4f5e7170323494815c784d68a512a5f731d1c512"
+    },
+    {
+      "path": "DialogueGenerationCouple/CoupleComparative.py",
+      "size_bytes": 21936,
+      "sha256": "86dae6627d0399cb5e350d2c793cc2ce89caac36a8e10ea77b39c4d2347b43f4"
+    },
+    {
+      "path": "DialogueGenerationCouple/CoupleConditional.py",
+      "size_bytes": 14427,
+      "sha256": "357e975ff1f067dca8973b474223a615ec362e03f1f951f8d9b3c50ce193486c"
+    },
+    {
+      "path": "DialogueGenerationCouple/CoupleKnowledgeUpdate.py",
+      "size_bytes": 15302,
+      "sha256": "b63728eabbef693e72c5380c5915422e330aa4357caaaacf93fb22d0d10ecfe5"
+    },
+    {
+      "path": "DialogueGenerationCouple/CoupleNoise.py",
+      "size_bytes": 17336,
+      "sha256": "1890208ce28b0f702ec4f7fde454cfb5c02960d08c30dc6692f3535855b941e3"
+    },
+    {
+      "path": "DialogueGenerationCouple/CouplePostprocessing.py",
+      "size_bytes": 33510,
+      "sha256": "a7dd3ef9cb45fc198eeb1a7cce6296402a5213362eca0ac73bbbc292539669b6"
+    },
+    {
+      "path": "DialogueGenerationCouple/CoupleSimple.py",
+      "size_bytes": 11900,
+      "sha256": "aec4ecb0d6b4a3f4ae7de127917f8e6dde3e7c3d9277e58cfb8abc4003a57357"
+    },
+    {
+      "path": "DialogueGenerationCouple/HighLevelDialogueEnd.py",
+      "size_bytes": 11611,
+      "sha256": "af4239da75c65c24eaa049ef893887cc35b2dd38ece498e9ba4f17aa64a789bb"
+    },
+    {
+      "path": "DialogueGenerationCouple/HighLevelRec.py",
+      "size_bytes": 12373,
+      "sha256": "0e55dff2522b3cc1a378b5f8b3291aa628bcfd6a47e762f6f9fd789a117528c4"
+    },
+    {
+      "path": "DialogueGenerationCouple/LowlevelRec.py",
+      "size_bytes": 10572,
+      "sha256": "048d6d427d35c682390ade5c0f091952056423df78c706dc3e88e111bd98a10a"
+    },
+    {
+      "path": "DialogueGenerationCouple/MultiAgentRec.py",
+      "size_bytes": 10297,
+      "sha256": "b21c128f985ea8d37d238367b3696deff25586d72b5da5d70c17b16f594638a4"
+    },
+    {
+      "path": "MakeNoise/NoiseMeta/messagenoise_new.json",
+      "size_bytes": 48000957,
+      "sha256": "4b6f3c9407b8aa68b7defca5a4d07df4d037b1ecd47ffd98993b74736bd3d4fc"
+    },
+    {
+      "path": "MakeNoise/NoiseMeta/sessionnoise_new.json",
+      "size_bytes": 12930964,
+      "sha256": "5482a398cce1ce6c52222dee87a8743ed8436f2b2641eeec49f2330e7c6c4d60"
+    },
+    {
+      "path": "MemData/FirstAgent/RecMultiSession.json",
+      "size_bytes": 10046766,
+      "sha256": "bbe22815d470e1105cc6b40ecfb58e62c92e30112a58197b052b4e29ea0127e4"
+    },
+    {
+      "path": "MemData/FirstAgent/aggregative.json",
+      "size_bytes": 61916375,
+      "sha256": "9f8c85af2b6e9b633f7902f50935b277cde1526409507a8fb1cac226d3d2c17b"
+    },
+    {
+      "path": "MemData/FirstAgent/comparative.json",
+      "size_bytes": 61402738,
+      "sha256": "478e9cf44dc0654f8ae97ab810b20853d6c335ccf0a7e7a6f642e2ff177e16b1"
+    },
+    {
+      "path": "MemData/FirstAgent/conditional.json",
+      "size_bytes": 67752389,
+      "sha256": "e6cafc5ef9d3242ce7be4c96e469bf4fb88ae1d7b784d5e20f1477a7f8f4d4ba"
+    },
+    {
+      "path": "MemData/FirstAgent/highlevel.json",
+      "size_bytes": 14058226,
+      "sha256": "74665c7803eb7d0c6a061b7d589cb7aaed72869c3deb952fb11270185322879b"
+    },
+    {
+      "path": "MemData/FirstAgent/highlevel_rec.json",
+      "size_bytes": 25536117,
+      "sha256": "e431d3d9cc72625ff0e7f3025d1678a5783f8b520b592fb719d3eea73a67b570"
+    },
+    {
+      "path": "MemData/FirstAgent/knowledge_update.json",
+      "size_bytes": 71144668,
+      "sha256": "82fc52b93942f5519f382429ea58573b66afc583c68358c1ac884c8ade2f1172"
+    },
+    {
+      "path": "MemData/FirstAgent/lowlevel_rec.json",
+      "size_bytes": 15598719,
+      "sha256": "1a801256af016524f107ca7340534d9c7c211f0427d206493582ee2262a73700"
+    },
+    {
+      "path": "MemData/FirstAgent/noisy.json",
+      "size_bytes": 67879949,
+      "sha256": "20ce0cda9e6668d95008d6ddb5144c5e9faccd6d04fdf506a6506ff34216aa95"
+    },
+    {
+      "path": "MemData/FirstAgent/post_processing.json",
+      "size_bytes": 67843795,
+      "sha256": "2cc728734338262001741358fd54e02faa97f641f47048d9477bdb657d52b5c3"
+    },
+    {
+      "path": "MemData/FirstAgent/simple.json",
+      "size_bytes": 61805798,
+      "sha256": "8471d96e5372372151ac7a8f0cecde3a3a3a91760421c12ed0ade4468f6d7970"
+    },
+    {
+      "path": "MemData/ThirdAgent/aggregative.json",
+      "size_bytes": 11621315,
+      "sha256": "d51ef1e3d73e01a2e3047830b07c11a39450be2ba30044e7200a1b6a47ffa31e"
+    },
+    {
+      "path": "MemData/ThirdAgent/comparative.json",
+      "size_bytes": 7939240,
+      "sha256": "cc704ae8ba6be97ebc7a5f0e7ff17be8f7b30dffe3949aa1ca44ab2f998ec179"
+    },
+    {
+      "path": "MemData/ThirdAgent/conditional.json",
+      "size_bytes": 20342839,
+      "sha256": "be8207a3e8e17069f7bb6c6c1366e93885da0842d34d88f48e6bb74ad477e05f"
+    },
+    {
+      "path": "MemData/ThirdAgent/highlevel.json",
+      "size_bytes": 9881556,
+      "sha256": "45cc91c8b12d4f6e0dd03a32e2fe4c1ca555b12702d7f7815a27516133b6eae1"
+    },
+    {
+      "path": "MemData/ThirdAgent/knowledge_update.json",
+      "size_bytes": 8372488,
+      "sha256": "c76ad0e62ee8760db0eea642cc3189a2f8dcedca988626bbd95b4cedd46d1e62"
+    },
+    {
+      "path": "MemData/ThirdAgent/noisy.json",
+      "size_bytes": 20738169,
+      "sha256": "a858cee12e65ba371135b7284638b19bf203bf6a12400a42e2528500970738b1"
+    },
+    {
+      "path": "MemData/ThirdAgent/post_processing.json",
+      "size_bytes": 18171921,
+      "sha256": "9563460ffdc0f810d757fb7668a76553f11039022bfd26e2a5866fe1373e9e79"
+    },
+    {
+      "path": "MemData/ThirdAgent/simple.json",
+      "size_bytes": 19548872,
+      "sha256": "3389a7a1e259b272ab5f73200660730b3bf9b486a175cc179d5b97356bb460dd"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 2586,
+      "sha256": "cd4ef403eab92f6926ad98f185420a4fe90f6ef281b5be94b30b25814f1b0164"
+    },
+    {
+      "path": "benchmark/BaseAgent.py",
+      "size_bytes": 311,
+      "sha256": "5a79505f2437d60a391daf67ff487de5d24f93273716df4f06bb827b2428e5d1"
+    },
+    {
+      "path": "benchmark/MembenchAgent.py",
+      "size_bytes": 7052,
+      "sha256": "5b0b57e73ae0c76714e8427a3c4a3afac9c7b075c4f946d83ee52b194da423a0"
+    },
+    {
+      "path": "benchmark/env/BaseEnv.py",
+      "size_bytes": 370,
+      "sha256": "9ef6547cc97cba84d744755e64789dfb9b887f0167915505d506f9895cdc0644"
+    },
+    {
+      "path": "benchmark/env/Membenenv.py",
+      "size_bytes": 7385,
+      "sha256": "d2a10291a5cc3cb9b03cdd2de5f50dfeeade6af953636be1173d2340f0cbdc55"
+    },
+    {
+      "path": "benchmark/load_test_data.py",
+      "size_bytes": 14601,
+      "sha256": "9a5d60fd9635ae2cab9b0b11237118bc6253a162dc0bb6f8f2c0b98514586e73"
+    },
+    {
+      "path": "benchmark/memory/BaseMemory.py",
+      "size_bytes": 571,
+      "sha256": "13a5f9ba0a55ddd08a9261a07f9b6e166640d1033bc5739e064eff334d7803c4"
+    },
+    {
+      "path": "benchmark/memory/CommonMemory.py",
+      "size_bytes": 53066,
+      "sha256": "636094f76e1260f89c8317ca863ff9d4766f1682447d5278289a58ff89f2ea8b"
+    },
+    {
+      "path": "benchmark/memory/__init__.py",
+      "size_bytes": 877,
+      "sha256": "f6a7964dc01a0b5fb677d2e940685d422831f74b586e98cf24fd76a6e3a54af7"
+    },
+    {
+      "path": "benchmark/memory/memutils.py",
+      "size_bytes": 1163,
+      "sha256": "835c35a6c81df52cc0c8d43bd0e0411fcb93a58dc45d39fcf75eb3bf15c9840d"
+    },
+    {
+      "path": "graphs.json",
+      "size_bytes": 9946040,
+      "sha256": "067811939a6f34dc9c52c9fd0ba27c4c964e3cb60fabf30c571119fde277a31d"
+    },
+    {
+      "path": "requirements.txt",
+      "size_bytes": 131,
+      "sha256": "e1eba5a8f86393e85c8babebc6cec13d2ca75c1d9743a0eb3d52a2846d9f9912"
+    }
+  ]
+}

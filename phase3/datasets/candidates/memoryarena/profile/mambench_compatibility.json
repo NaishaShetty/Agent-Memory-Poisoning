@@ -1,0 +1,110 @@
+{
+  "schema_version": "candidate-3.2-h.1",
+  "dataset_id": "memoryarena",
+  "method": "Read phase3/evaluation/metrics/retrieval.py, selection.py, evidence.py, provenance.py, equivalence.py, phase3/evaluation/agent/outcomes.py, paired.py, diagnostics.py, and phase3/evaluation/agent/conditions.py to determine each function's literal input requirements, then assessed those requirements against what reports/raw_inventory.md and reports/field_semantics.md found present/absent in MemoryArena via full scan.",
+  "metric_support": {
+    "RECALL_AT_K": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "retrieval.recall_at_k requires retrieved_ranked_ids (memory IDs) and gold_ids (memory IDs). MemoryArena has no memory-unit layer and no evidence_memory_ids anywhere (full scan, 701 records) -- there is no memory-ID vocabulary to retrieve over or evaluate against without first designing and building a memory-substrate adapter, which this candidate-preparation stage does not do."
+    },
+    "MRR": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Same basis as RECALL_AT_K -- reciprocal_rank/mean_reciprocal_rank need the identical retrieved/gold memory-ID inputs, which do not exist for this dataset's current substrate."
+    },
+    "STRICT_TSR": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "selection.strict_tsr requires gold_evidence_ids. None exist anywhere in MemoryArena (full scan)."
+    },
+    "SELECTION_COUNT": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "selection_count/selection_count_aggregate operate on any selected_memory_ids sequence with no dataset-specific gold dependency -- mechanically callable once ANY selection layer exists. But this dataset provides no native memory-ID sequence to select from, so a caller would first need an adapter defining what counts as a 'memory' (e.g. treating each subtask or its answer as one) before this metric produces a meaningful count for MemoryArena specifically."
+    },
+    "SELECTION_CAPACITY_DIAGNOSTICS": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "classify_gold_id_capacity/selection_capacity_report require a gold_id from evidence_memory_ids, which do not exist here."
+    },
+    "EVIDENCE_PRECISION": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "evidence.evidence_precision requires gold_ids (evidence memory IDs). Absent."
+    },
+    "EVIDENCE_RECALL": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Same basis as EVIDENCE_PRECISION."
+    },
+    "EVIDENCE_COVERAGE": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Same gold-ID basis as EVIDENCE_PRECISION/RECALL."
+    },
+    "IRRELEVANT_MEMORY_RATE": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "irrelevant_memory_rate requires gold_ids to determine what counts as 'irrelevant'. Absent."
+    },
+    "REDUNDANCY": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "evidence.redundancy needs only an id_sequence (identity-duplicate detection, no gold dependency) -- mechanically applicable to ANY id sequence. But MemoryArena has no native memory-id sequence; would require the same adapter dependency noted under SELECTION_COUNT."
+    },
+    "EQUIVALENCE_DIAGNOSTICS": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "equivalence.extract_equivalence_edges/equivalence_classes require explicit equivalent_to edges on memory records. No memory records exist in this dataset at all (full scan confirms absence of any equivalent_to-style field), so there is nothing for these functions to operate on -- even more absent than LoCoMo's UNAVAILABLE status, where memory records exist but lack this specific edge type."
+    },
+    "PROVENANCE_VALIDATION": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "provenance.validate_provenance/provenance_completeness_report expect a `memories: Mapping[str, Mapping]` keyed by memory_id with provenance sub-objects. MemoryArena has no such memory mapping -- task-chain-level provenance (source_dataset/source_record_id/source_revision, populated for every normalized record) is a different, coarser-grained concept than the per-memory-record provenance these functions validate."
+    },
+    "LINEAGE_DIAGNOSTICS": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "ancestors/descendants/lineage_depth/detect_cycles require a parent_ids edge graph over memory records. Absent (full scan, 701 records); no memory-record layer exists to build such a graph over."
+    },
+    "AGENT_ANSWER_CORRECTNESS": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "outcomes.evaluate_answer_correctness does a plain `.strip()`-only EXACT-STRING-MATCH between execution_result.answer and expected_answer, both typed as Optional[str] in its signature. For progressive_search (1641/1641 str answers), formal_reasoning_math (354/354 str), and formal_reasoning_phys (86/86 str) this metric is directly usable as-is once a real agent exists. For bundled_shopping (900/900 answers are dicts, {target_asin, attributes}) and group_travel_planner (1869/1869 answers are lists of per-day-plan dicts), the existing function's str-only exact-match cannot be applied without an adapter that either serializes the structured answer to a canonical string or extends the metric to structural equality -- neither of which this profile builds. Status is PARTIALLY_SUPPORTED, not SUPPORTED, because 3 of 5 configs (40+20+221=281 chains, 2081 subtasks) work as-is and 2 of 5 configs (150+270=420 chains, 2769 subtasks) do not."
+    },
+    "AGENT_SUCCESS": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "classify_agent_success is a thin wrapper over evaluate_answer_correctness -- identical PARTIALLY_SUPPORTED basis and identical per-config split as AGENT_ANSWER_CORRECTNESS above."
+    },
+    "MEMORY_CONTRIBUTION": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "paired.paired_condition_comparison/classify_memory_contribution need a task_id, an expected_answer, and two AgentExecutionResults under NO_MEMORY vs. a WITH_MEMORY-style condition. task_id and expected_answer exist for every subtask (with the same str-vs-structured caveat as AGENT_ANSWER_CORRECTNESS). The WITH_MEMORY side is constructible in principle -- a chain's earlier subtasks/answers, or backgrounds/base_person content, could serve as 'memory' for a later subtask -- but this requires an adapter to define what 'memory' means for this dataset (there being no native memory-unit layer), which this profile does not build."
+    },
+    "OBSERVED_GOLD_EVIDENCE_CEILING": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "diagnostics.observed_gold_evidence_ceiling requires GOLD_EVIDENCE-condition results, which in turn require gold evidence CONTENT keyed by evidence_memory_ids per conditions.py's build_agent_visible_context(condition=GOLD_EVIDENCE, ...) pattern used for LoCoMo. MemoryArena has no evidence_memory_ids to look up gold evidence content by."
+    },
+    "RETRIEVAL_UTILIZATION": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "classify_retrieval_utilization needs only selected_memory_ids/used_memory_ids from a future AgentExecutionResult -- no dataset-specific gold dependency by itself. Same adapter dependency as SELECTION_COUNT/REDUNDANCY: MemoryArena provides no native memory-id sequence for a real pipeline to populate these fields from."
+    },
+    "FAILURE_STAGE_CLASSIFICATION": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "classify_observed_failure_stage requires gold_evidence_ids, which are absent."
+    }
+  },
+  "condition_support": {
+    "NO_MEMORY": {
+      "status": "SUPPORTED",
+      "reason": "build_agent_visible_context(condition=NO_MEMORY, task_id=..., prompt=...) needs only task_id/question, present for every one of the 4850 subtasks."
+    },
+    "GOLD_EVIDENCE": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "This condition needs gold evidence CONTENT (not IDs) to inject into the agent-visible context. formal_reasoning_math/phys's backgrounds[i] and group_travel_planner's base_person content could plausibly fill this role as 'legitimate context available up front,' but bundled_shopping and progressive_search have no analogous chain-level background field at all -- so this condition is constructible for 3 of 5 configs (60/701 = 8.6% chains for formal_reasoning_*, plus 270/701 = 38.5% for group_travel_planner if base_person is deemed agent-visible per the open policy question in field_semantics.md) and not directly for bundled_shopping/progressive_search (371/701 chains, 53%) without inventing background content that does not exist in the source -- which this profile refuses to do."
+    },
+    "RETRIEVED_MEMORY": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Requires a real candidate-discovery/reranking/selection pipeline over a memory substrate. No memory substrate exists for MemoryArena at all (unlike LoCoMo, which at least has memory_records.jsonl for such a pipeline to eventually run over); this condition cannot even be described as SUPPORTED_WITH_ADAPTER at the same level LoCoMo's profile uses that status, because the adapter here would need to invent the memory-unit concept itself, not just build retrieval logic over an existing one."
+    },
+    "SELECTED_MEMORY_AVAILABLE": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Same basis as RETRIEVED_MEMORY -- no memory substrate to select from."
+    },
+    "DERIVED_MEMORY_AVAILABLE": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "No derived-memory concept exists; there is no memory layer of any kind (foundation or derived) in this dataset's current substrate."
+    },
+    "CONFLICTING_MEMORY_AVAILABLE": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "No conflicts_with edges or documented conflicting-memory scenarios found anywhere in the full scan."
+    }
+  },
+  "overall_assessment": "MemoryArena is fundamentally incompatible, in its native form, with the memory-retrieval-and-gold-evidence-ID-centric metric suite built for LoCoMo/LongMemEval/MSC/Conversation Chronicles -- almost every retrieval/evidence/lineage/equivalence metric is NOT_ATTEMPTABLE because the dataset provides no memory-unit layer and no gold-evidence-ID field at all, not merely a PARTIAL/UNAVAILABLE one as for LoCoMo. Its actual native strength -- agentic_task_memory, i.e. interdependent multi-session task chains -- has NO dedicated metric anywhere in the current phase3/evaluation/metrics/ suite; AGENT_ANSWER_CORRECTNESS/AGENT_SUCCESS are the only metrics that map onto it reasonably directly, and even those only for 3 of 5 configs due to non-string answer types in the other two. Activating MemoryArena as a full MAMBench dataset would require (a) designing a new memory-substrate adapter and (b) very likely new metric functions purpose-built for task-chain/subtask-dependency evaluation -- neither of which exists today. This is recorded as an honest structural mismatch, not a data-quality defect of MemoryArena itself."
+}

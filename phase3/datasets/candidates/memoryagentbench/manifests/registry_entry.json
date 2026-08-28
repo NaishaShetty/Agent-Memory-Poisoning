@@ -1,0 +1,72 @@
+{
+  "dataset_name": "memoryagentbench",
+  "tier": 2,
+  "tier_label": "PREPARED_CANDIDATE",
+  "official_source": {
+    "github": "https://github.com/HUST-AI-HYZ/MemoryAgentBench",
+    "github_commit_hash": "fe1735de8cf8b9908e1e3d3b5612afc815698062",
+    "huggingface": "https://huggingface.co/datasets/ai-hyz/MemoryAgentBench",
+    "huggingface_revision_sha": "7ea066982b140a19337e17e60d45d4076e042faf"
+  },
+  "paper": "https://arxiv.org/abs/2507.05257",
+  "license": "MIT (per GitHub repo LICENSE file, copyright Yuanzhe Hu, 2026; HF dataset card also declares license: mit)",
+  "source_revision": {
+    "hf_dataset_revision_sha": "7ea066982b140a19337e17e60d45d4076e042faf",
+    "github_repo_commit": "fe1735de8cf8b9908e1e3d3b5612afc815698062",
+    "hf_dataset_documented_history": "HF README changelog documents: 2025-07-07 initial release; 2025-07-22 uuid renamed to qa_pair_ids, keypoints field added to LRU; 2025-07-26 bug fix to qa_pair_ids; 2025-08-05 removed ruler_niah and other ablation-only datasets; 2025-09-29 removed some inefficient/high-cost samples, added DetectiveQA subsample. This candidate's revision (sha 7ea06698...) postdates all of these -- see source/README.md for full detail."
+  },
+  "download_timestamp_utc": "2026-08-28T06:17:03Z",
+  "raw_fingerprint": {
+    "manifest_file": "phase3/datasets/candidates/memoryagentbench/manifests/raw_fingerprint.json",
+    "top_level_digest_sha256": "801a8c520da475c3aad469e884fefabf465b722ef7f0752e43593af33554ad67",
+    "file_count": 1087,
+    "total_bytes": 83544053
+  },
+  "normalization_version": "3.2-h1.candidate.1",
+  "record_count": {
+    "raw_context_rows": 146,
+    "raw_qa_pairs": 3671,
+    "normalized_memory_records": 146,
+    "normalized_task_records": 3671
+  },
+  "task_count": 3671,
+  "memory_count": 146,
+  "evidence_count": {
+    "memory_id_level_gold_evidence": 0,
+    "note": "0/3671 QA pairs have a memory-ID-resolvable gold evidence pointer (none exists in the source schema). Partial turn-level has_answer signal exists for 5/146 rows (LongMemEval-sourced) inside evaluator_only.haystack_sessions, not counted here since it is not memory-ID-resolvable."
+  },
+  "answer_count": 3671,
+  "missing_answer_count": 0,
+  "missing_evidence_count": 3671,
+  "relationship_support": {
+    "parent_ids": "NOT_PROVIDED_BY_SOURCE",
+    "equivalent_to": "NOT_PROVIDED_BY_SOURCE",
+    "conflicts_with": "NOT_PROVIDED_BY_SOURCE",
+    "superseded_by": "NOT_PROVIDED_BY_SOURCE"
+  },
+  "capability_profile": {
+    "file": "phase3/datasets/candidates/memoryagentbench/profile/memoryagentbench_profile.json"
+  },
+  "MAMBench_compatibility": {
+    "file": "phase3/datasets/candidates/memoryagentbench/profile/mambench_compatibility.json"
+  },
+  "known_limitations": [
+    "No source-native context/document-level ID field exists at all.",
+    "No memory-ID-resolvable gold evidence pointer exists for any QA pair (5/146 rows have a partial turn-level has_answer boolean, not a resolvable ID).",
+    "No parent_ids/equivalent_to/conflicts_with/superseded_by fields exist anywhere.",
+    "qa_pair_ids are not globally unique across the dataset (360/2231 distinct values recur across context-length/hop-variant rows); global uniqueness requires the composite key (split, row_index, qa_pair_id).",
+    "qa_pair_ids are documented by the source itself as having been renamed from uuid and bug-fixed across 2025 revisions -- explicit revision instability.",
+    "Conflict_Resolution split provides no structural link between an original fact and its contradicting update; the conflict must be discovered from unstructured text.",
+    "entity2id.json (Movie Recommendation task auxiliary lookup) was downloaded and preserved but not joined against recsys answers in this candidate pass -- that join was out of scope."
+  ],
+  "preprocessing_actions": {
+    "manifest_file": "phase3/datasets/candidates/memoryagentbench/manifests/preprocessing_manifest.json",
+    "summary": "292 entries, all either NO_TRANSFORMATION_REQUIRED (verbatim field carry-over with agent_visible/evaluator_only boundary tagging) or a 1-row-to-N-task-records unzip of the questions/answers arrays. No text content was altered, truncated, or re-encoded."
+  },
+  "excluded_records": {
+    "count": 0,
+    "reference": "phase3/datasets/candidates/memoryagentbench/manifests/exclusion_manifest.json"
+  },
+  "exclusion_reasons": [],
+  "activation_status": "PREPARED_CANDIDATE"
+}

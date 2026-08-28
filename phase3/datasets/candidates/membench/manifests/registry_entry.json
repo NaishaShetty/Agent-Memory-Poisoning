@@ -1,0 +1,42 @@
+{
+  "dataset_name": "membench",
+  "tier": 2,
+  "official_source": "https://github.com/import-myself/Membench",
+  "paper": "arXiv:2506.21605 -- MemBench: Towards More Comprehensive Evaluation on the Memory of LLM-based Agents",
+  "license": "README displays an MIT badge; no LICENSE file exists in the repository at the pinned commit. Treated as CLAIMED_NOT_CONFIRMED, not verified MIT.",
+  "source_revision": "f66d8d1028d3f68627d00f77a967b93fbb8694b6",
+  "download_timestamp_utc": "see manifests/raw_fingerprint.json (download_timestamp_utc field)",
+  "raw_fingerprint_ref": "manifests/raw_fingerprint.json",
+  "normalization_version": "1.0.0",
+  "record_count": {
+    "full_corpus_confirmed_by_scan": 26637,
+    "normalized_sample_count": 275,
+    "note": "Full corpus count is an exact, full-scan count (not an estimate). Only a deterministic 275-record sample was carried through normalization in this candidate-preparation pass; see manifests/preprocessing_manifest.json 'sampling_for_normalized_view'."
+  },
+  "task_count": "19 category files (10 FirstAgent, 9 ThirdAgent) x 2-5 scenarios each = 55 (variant, category, scenario) task groupings, confirmed by full scan (see reports/raw_inventory.md)",
+  "memory_count": "Not separately counted as atomic memory units in this pass; each record's message_list contains between 1 and dozens of turns, each a candidate memory unit -- turn-level counting was out of scope for candidate preparation.",
+  "evidence_count": 26633,
+  "answer_count": 26637,
+  "missing_answer_count": 0,
+  "missing_evidence_count": 4,
+  "relationship_support": {
+    "parent_lineage": "NOT_PROVIDED_BY_SOURCE",
+    "equivalence": "NOT_PROVIDED_BY_SOURCE",
+    "within_record_evidence_pointer": "AVAILABLE (QA.target_step_id)"
+  },
+  "capability_profile_ref": "profile/membench_profile.json",
+  "mambench_compatibility_ref": "profile/mambench_compatibility.json",
+  "known_limitations": [
+    "PRIMARY: the Google Drive (https://drive.google.com/file/d/112Zraj4pTPH4Idph6i1uMOLA_LPFdGr0/view) and Baidu Pan (https://pan.baidu.com/s/1HqwY0nu5bltSAJ2TbnxcFQ?pwd=yzsj) mirrors documented by the paper/README were NOT independently obtained or re-verified in this session. This was judged unnecessary because the GitHub repository itself was found to bundle the full 26,637-record MemData corpus directly -- but it means the 'data2test' pre-sampled 0-10k/100k length variants the paper's own experiments used (documented as living only in those mirrors) were not inspected, and the two mirrors' exact byte-for-byte content was not cross-checked against what GitHub provides.",
+    "No LICENSE file exists in the repository -- MIT is a README badge claim only, not independently confirmed.",
+    "requirements.txt is an unresolved Git LFS pointer, not real pinned dependency text -- full reproducibility of the benchmark harness (benchmark/) was not established.",
+    "The dialogue-generation pipeline (DialogueGeneration/*.py) imports a 'utils' module (TimeClock, rewrite_message, formulate_QA, etc.) that is not present at the pinned commit -- generation cannot be reproduced from this repo alone.",
+    "qid is not a reliable unique identifier (duplicated in ~99% of records per scenario) -- only tid is confirmed unique.",
+    "No explicit generation-pipeline metadata (model version, prompt template id, timestamp) is attached to individual records -- provenance is PARTIAL, not full.",
+    "Only a 275-record deterministic sample (not the full 26,637-record corpus) was carried through normalization in this pass -- see preprocessing_manifest.json."
+  ],
+  "preprocessing_actions": "See manifests/preprocessing_manifest.json (turn-shape normalization, session-container normalization, evaluator-boundary split, id construction, lineage/equivalence field defaulting, sampling scope decision). All reversible; none lose information.",
+  "excluded_records": [],
+  "exclusion_reasons": "None -- 0 records excluded (see manifests/exclusion_manifest.json). 0 malformed records found across the full 26,637-record scan.",
+  "activation_status": "PREPARED_CANDIDATE"
+}

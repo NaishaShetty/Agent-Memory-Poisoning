@@ -1,0 +1,92 @@
+{
+  "schema_version": "candidate-3.2-h.1",
+  "dataset_id": "memoryarena",
+  "canonical_name": "MemoryArena",
+  "activation_status": "PREPARED_CANDIDATE",
+  "role": "Candidate dataset under Phase 3.2-H.1. Its distinguishing premise -- coupling memory acquisition to downstream agentic action across interdependent multi-session task chains (webshop bundling, progressive search, group travel planning, formal-reasoning-paper problem chains) -- is genuinely different from the conversational-QA-with-gold-evidence-IDs shape of the four active datasets (LoCoMo, LongMemEval, MSC, Conversation Chronicles). This profile is grounded strictly in a full (non-sampled) scan of all 701 records / 4850 subtasks across all 5 HuggingFace configs; see reports/raw_inventory.md and reports/field_semantics.md for the underlying evidence.",
+  "inspection_method": {
+    "description": "Full scan (not sampling) of every line in every one of the 5 HuggingFace ZexueHe/memoryarena config JSONL files (bundled_shopping=150, progressive_search=221, group_travel_planner=270, formal_reasoning_math=40, formal_reasoning_phys=20 records; 701 total, 4850 subtasks). All null/empty/mismatch/duplicate checks below are full-scan results, not sample-based extrapolations.",
+    "sample_based": false,
+    "records_scanned": 701,
+    "subtasks_scanned": 4850
+  },
+  "capability_dimensions": {
+    "memory_retrieval": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No separate memory-unit layer exists anywhere in the source (no memory_id, no per-turn content record distinct from the task subtask itself). There is nothing for a retrieval layer to retrieve from without first defining an adapter-constructed memory substrate (e.g. treating prior subtask answers as memories) -- this profile does not build that adapter."
+    },
+    "test_time_learning": {
+      "status": "PARTIAL",
+      "reason": "The core premise (memory acquired during interaction informs later same-chain subtasks) is exactly test-time learning within a task chain, and the chain/subtask structure (source_task_id, subtask_index, chain_length) is preserved to support it -- but no source field marks WHICH prior content a later subtask actually needs, so a harness must infer this from prompt text rather than read it from a field."
+    },
+    "long_range_understanding": {
+      "status": "PARTIAL",
+      "reason": "Chains run up to 16 subtasks (formal_reasoning_math/progressive_search) with cross-subtask dependency by design, but there is no long free-form conversational log to understand -- each subtask is a short, self-contained prompt referencing earlier context implicitly, a different shape of 'long range' than LoCoMo/LongMemEval's multi-session dialogue transcripts."
+    },
+    "conflict_resolution": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No conflicts_with edges or contradictory-fact scenarios were found anywhere in a full scan of all 701 records. group_travel_planner's multiple 'joiners' sharing one base itinerary is the closest structural analogue to a multi-party consistency scenario, but no record explicitly marks a conflict for the agent to resolve."
+    },
+    "knowledge_update": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No superseded_by edges or fact-revision scenarios found in the full scan. No config's subtask sequence is documented (or observed) as later subtasks correcting/updating an earlier established fact."
+    },
+    "noise_robustness": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No distractor/noise-injection fields or documented adversarial-noise task variants were found in the source data or repo README. This is a data-shape/documentation finding, not a claim that noise robustness could never be tested via the running environments (out of scope here, no execution performed)."
+    },
+    "multi_session_memory": {
+      "status": "PARTIAL",
+      "reason": "Every task chain is explicitly multi-subtask by construction (this is the paper's whole premise), but there is no explicit session_id/timestamp field marking subtask boundaries as separate sessions -- ordering is positional (list index) only, not a labeled session field. Structurally present, formally unlabeled."
+    },
+    "agentic_task_memory": {
+      "status": "AVAILABLE",
+      "reason": "This is MemoryArena's central, deliberately-designed capability and the one dimension most confidently AVAILABLE here: every one of the 701 records is, by construction, a chain of interdependent agentic subtasks (webshop purchase sequencing with an explicit 'buy Product 1 first, then Product 2' ordering rule; progressive narrowing search clues; group-travel-planner joiners whose plans must remain consistent with an established base itinerary; formal-reasoning subtask chains sharing one paper's formal framework) where later subtasks structurally and/or textually depend on earlier ones within the same chain. No other Phase 3.2 dataset (LoCoMo/LongMemEval/MSC/Conversation Chronicles) has this task-chain/subtask-dependency primitive as a first-class, dataset-native structure -- their workload_availability sections describe flat QA over conversational memory, not interdependent agentic subtask chains. This is the single most load-bearing, genuinely-new capability this candidate would add if activated."
+    },
+    "evidence_availability": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No evidence_memory_ids or equivalent gold-evidence-ID field exists anywhere (full scan, 701 records). backgrounds (formal_reasoning_* only) and base_person (group_travel_planner only) are agent-visible context, not evidence pointers to a separately identified memory unit -- see reports/field_semantics.md."
+    },
+    "answer_availability": {
+      "status": "AVAILABLE",
+      "reason": "100% of 4850 subtasks across all 701 records have a non-null, non-empty answers[i] entry (full scan) -- a materially higher availability rate than LoCoMo's sampled 65/300-null rate. Caveat: answer element TYPE varies by config (dict for bundled_shopping, list for group_travel_planner, str for progressive_search/formal_reasoning_math/formal_reasoning_phys) -- see mambench_compatibility.json for what this means for the existing exact-match string-only ANSWER_CORRECTNESS metric."
+    },
+    "memory_ids": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No memory_id or equivalent stable per-memory-unit identifier exists anywhere in the source (full scan). The `id` field identifies a task chain, not a memory unit."
+    },
+    "stable_ids": {
+      "status": "AVAILABLE",
+      "reason": "Task-chain `id` values are unique per config (0 duplicates in a full scan of all 701 records) and preserved verbatim as source_record_id in the normalized view. Stability ACROSS future HuggingFace dataset revisions is UNKNOWN -- only one snapshot (HF sha da1a37c8b19280e18627ca01cf368195a5e1d92e) was inspected."
+    },
+    "provenance": {
+      "status": "PARTIAL",
+      "reason": "source_dataset/source_record_id/source_config/source_revision are populated for every normalized record and preserved verbatim from the source's own id -- dataset-level provenance is solid. But there is no per-subtask, per-answer, or per-fact provenance pointer within the source itself (e.g. which prior subtask/answer a later subtask's dependency traces back to) beyond paper_name for formal_reasoning_*."
+    },
+    "lineage": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No parent_ids edges anywhere (full scan, 701 records) -- there is no lineage graph to walk. formal_reasoning_*'s paper_name groups records by shared source paper, which is a coarse relatedness signal, not a lineage edge in the memory_schema.md sense."
+    },
+    "equivalence": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No equivalent_to edges anywhere (full scan, 701 records)."
+    },
+    "temporal_order": {
+      "status": "PARTIAL",
+      "reason": "Subtask ordering within a chain is unambiguous (list index) but implicit/positional, not an explicit timestamp or session_index field -- see multi_session_memory above for the identical caveat."
+    },
+    "task_records": {
+      "status": "AVAILABLE",
+      "reason": "Every one of the 701 task-chain records and 4850 subtask records carries an explicit query/answer pair, separate and identifiable from any prospective memory-unit layer this dataset might one day be given via an adapter (there being no memory layer today, task records ARE effectively the only structured content in the source)."
+    },
+    "agent_visible_context": {
+      "status": "PARTIAL",
+      "reason": "questions[i] (all configs), backgrounds[i] (formal_reasoning_* only), and base_person.name/query (group_travel_planner only) are clearly agent-visible content. base_person.daily_plans is ambiguous (see field_semantics.md) and requires an explicit policy call before any adapter builds an AgentVisibleContext payload from it; category (bundled_shopping) and paper_name (formal_reasoning_*) are plausibly agent-safe metadata but untested against phase3/evaluation/contracts/boundary.py's FORBIDDEN_KEYS (no actual AgentVisibleContext payload was constructed in this candidate-preparation stage -- no agent execution was performed)."
+    },
+    "evaluator_reference": {
+      "status": "PARTIAL",
+      "reason": "answers[i] is a clear evaluator-only gold field for every subtask (100% populated), satisfying the minimum bar for an EvaluatorReference-shaped object's expected_answer. But there is no gold_evidence_ids equivalent at all (see evidence_availability), so any EvaluatorReference built from this data would necessarily have an empty/absent evidence-ID component -- structurally different from LoCoMo/LongMemEval's EvaluatorReference shape, which centers on evidence_memory_ids."
+    }
+  },
+  "profile_status": "REVIEWED"
+}
