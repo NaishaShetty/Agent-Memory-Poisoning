@@ -21,8 +21,8 @@
       "description": "Identifies which task this gold reference data belongs to. Must match the task_id of the corresponding AgentVisibleContext/EvaluationRun, but this document is never read by agent execution."
     },
     "gold_answer": {
-      "type": "string",
-      "description": "The benchmark-designated gold answer for the task. Agent-hidden, absolute (CLEAN_AGENT_INTERFACES.md section 2.4). Never present in AgentVisibleContext or AgentExecutionResult."
+      "type": ["string", "null"],
+      "description": "The benchmark-designated gold answer for the task. Agent-hidden, absolute (CLEAN_AGENT_INTERFACES.md section 2.4). Never present in AgentVisibleContext or AgentExecutionResult. REQUIRED KEY, NULLABLE VALUE (3.2-H remediation, PROVISIONAL): some frozen source records legitimately have no gold answer at all (e.g. LoCoMo question_type \"5\" tasks, per phase3/evaluation/datasets/profiles/locomo.json's answer_availability=PARTIAL finding) -- `null` faithfully represents that real absence rather than requiring a fabricated placeholder string. `null` is distinct from an empty string `\"\"`: `null` means 'no gold answer exists in the source record at all' (agent.outcomes.evaluate_answer_correctness treats this as SUCCESS_EVALUATION_UNDEFINED, never ANSWER_INCORRECT); `\"\"` means 'the source record's gold answer literally is the empty string' (a real, if unusual, value that participates in normal exact-match comparison). The key itself remains REQUIRED -- omitting it entirely is still a schema violation; only its value may be null."
     },
     "gold_evidence_ids": {
       "type": "array",
