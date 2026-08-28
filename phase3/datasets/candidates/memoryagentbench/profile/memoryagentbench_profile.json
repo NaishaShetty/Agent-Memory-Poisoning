@@ -1,0 +1,89 @@
+{
+  "schema_note": "Phase 3.2-H.1 candidate 19-dimension capability profile for MemoryAgentBench. This is a CANDIDATE profile, not a 3.2-G frozen-active-dataset profile, and does NOT use the 3.2-G profile.schema.json vocabulary (AVAILABLE/PARTIAL/UNAVAILABLE/UNKNOWN/NOT_PROVIDED_BY_SOURCE/PROVISIONAL) verbatim -- per the task brief's own Step 8 vocabulary, this file uses exactly: AVAILABLE, PARTIAL, NOT_PROVIDED_BY_SOURCE, NOT_APPLICABLE, UNKNOWN.",
+  "dataset_id": "memoryagentbench",
+  "activation_status": "PREPARED_CANDIDATE",
+  "grounded_in": [
+    "reports/raw_inventory.md (full-dataset scan of all 146 rows / 3671 QA pairs)",
+    "reports/field_semantics.md",
+    "reports/data_quality_report.md",
+    "normalized/memory_records.jsonl, normalized/task_records.jsonl"
+  ],
+  "dimensions": {
+    "memory_retrieval": {
+      "status": "PARTIAL",
+      "reason": "MemoryAgentBench's Accurate_Retrieval split (2000 QA pairs across ruler_qa1/qa2, eventqa_*, longmemeval_s*) is explicitly designed to test locating a specific fact within a large injected context -- functionally a retrieval task. However, the dataset itself does not perform or annotate retrieval: it ships the raw context and gold answer, not gold retrieval targets at a memory-chunk granularity (no evidence_memory_ids-equivalent field exists anywhere -- confirmed via whole-file field-name scan). An adapter that chunks `context` and defines chunk IDs would be REQUIRED before any retrieval metric could be computed against this data; the raw data alone supports the *task framing* of retrieval, not retrieval *metrics* out of the box."
+    },
+    "test_time_learning": {
+      "status": "AVAILABLE",
+      "reason": "Test_Time_Learning split (700 QA pairs: recsys_redial_full, icl_banking77/clinic150/nlu/trec_coarse/trec_fine) directly and natively represents this competency -- in-context few-shot classification/recommendation tasks where the agent must apply patterns from injected context to new queries. This is the dataset's own explicit, named category, not an inferred mapping."
+    },
+    "long_range_understanding": {
+      "status": "AVAILABLE",
+      "reason": "Long_Range_Understanding split (171 QA pairs: infbench_sum_eng_shots2 summarization, detective_qa whole-narrative reasoning) directly represents this competency as the dataset's own explicit, named category."
+    },
+    "conflict_resolution": {
+      "status": "PARTIAL",
+      "reason": "Conflict_Resolution split (800 QA pairs: factconsolidation_{mh,sh}_{6k,32k,64k,262k}) directly represents this competency as a named category -- the `context` text contains stated facts followed by contradicting updates, and gold answers reflect the updated fact. PARTIAL rather than AVAILABLE because no explicit `conflicts_with`/`superseded_by` structural annotation links an original fact statement to its update (confirmed absent via whole-file scan) -- the conflict must be discovered from unstructured text, not read off an annotation field. See reports/data_quality_report.md 'Relationship availability' for detail."
+    },
+    "knowledge_update": {
+      "status": "PARTIAL",
+      "reason": "Overlaps with conflict_resolution above: FactConsolidation tasks are fundamentally about detecting that a fact was updated/superseded. Same limitation applies -- no structural update/version-link annotation exists; update detection is implicit in the unstructured `context` text."
+    },
+    "noise_robustness": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No field or task variant explicitly labeled as testing robustness to injected noise/distractor memories was found. RULER-derived tasks (ruler_qa1/qa2) are known in the broader RULER literature to include needle-in-haystack-style distractor design, but MemoryAgentBench's own data does not carry an explicit noise/distractor annotation or flag distinguishing this as a deliberately-tested property -- this profile does not assert the underlying RULER methodology as a MemoryAgentBench-native capability without a source-native field confirming it."
+    },
+    "multi_session_memory": {
+      "status": "PARTIAL",
+      "reason": "Only the 5 longmemeval_s* rows carry an explicit multi-session structure (`haystack_sessions`, a list of session -> turn lists). All other 141 rows present their context as a single flat text block (which may itself narratively describe multiple conversational turns/documents as plain text, e.g. 'Dialogue 1:'/'Document 2:' markers, but without a structured session boundary field). PARTIAL because the capability exists natively for one source task family (5/146 rows) and not others."
+    },
+    "agentic_task_memory": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No field represents an agent's own tool-call history, action log, or task-execution trace as memory content. MemoryAgentBench is a read/QA/classification/summarization benchmark over injected text corpora, not an agentic-task-execution-trace benchmark; confirmed absent via whole-file scan (no tool/action/call field anywhere)."
+    },
+    "evidence_availability": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No source-native, memory-ID-level gold evidence pointer exists for any of the 3671 QA pairs (confirmed via whole-dataset field scan). Partial exception: the 5 LongMemEval rows' `haystack_sessions` carries a per-turn `has_answer` boolean (evidence-location signal without a resolvable turn ID) -- see reports/field_semantics.md. This partial signal is not enough to raise the overall dimension above NOT_PROVIDED_BY_SOURCE at the memory-ID granularity the mission's metrics (evidence precision/recall/coverage) require."
+    },
+    "answer_availability": {
+      "status": "AVAILABLE",
+      "reason": "100% of 3671 QA pairs have a non-null, non-empty `answers[i]` list with no null/empty member strings (full scan, see reports/raw_inventory.md) -- a substantially cleaner completeness profile than the 4 active datasets' documented answer-availability figures."
+    },
+    "memory_ids": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No context/document-level ID field exists anywhere in the schema (confirmed via whole-file scan). This candidate's normalization supplies a derived, explicitly-non-native `positional_reference` (split + row_index) purely for internal cross-referencing -- it is not a source-native memory ID and this profile does not represent it as one."
+    },
+    "stable_ids": {
+      "status": "PARTIAL",
+      "reason": "`qa_pair_ids` (the closest thing to a per-QA-pair ID) are documented by the HF dataset card itself as having been renamed from `uuid` (2025-07-22) and bug-fixed (2025-07-26) across revisions -- i.e. explicit, source-documented instability. Additionally, `qa_pair_ids` are not even globally unique within the single revision inspected here (360/2231 distinct ID strings recur across context-length/hop-variant rows; see reports/raw_inventory.md) -- global stability/uniqueness requires a composite key this candidate constructs (split + row_index + qa_pair_id), not the source ID alone."
+    },
+    "provenance": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No `provenance`/`source_pointer`/equivalent field linking a memory record back to an underlying corpus document/citation was found (whole-file scan). Underlying corpus identity is only recoverable, if at all, from the `metadata.source` task-family label (e.g. 'ruler_qa1_197K' implies RULER-derived Wikipedia/Paul Graham essay text per the broader RULER literature) -- but this is an inference from the task-family name, not a per-record provenance field, and is not asserted here as equivalent to one."
+    },
+    "lineage": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No `parent_ids`/`derived_from`/equivalent field exists anywhere (confirmed via whole-file scan). Every memory record's `parent_ids` and `equivalent_to` fields in normalized/memory_records.jsonl and normalized/task_records.jsonl are literally 'NOT_PROVIDED_BY_SOURCE', never inferred."
+    },
+    "equivalence": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No `equivalent_to`/cross-record-equivalence field exists anywhere (confirmed via whole-file scan). Note: `answers[i]` DOES carry multiple acceptable answer-ALIAS strings per question (e.g. ['France', 'France', 'France', 'France'] duplicated, or genuinely distinct aliases like '10th and 11th centuries' vs 'in the 10th and 11th centuries') -- this is answer-string equivalence for scoring purposes, not memory-record equivalence/lineage, and this profile does not conflate the two."
+    },
+    "temporal_order": {
+      "status": "PARTIAL",
+      "reason": "Only LongMemEval rows (5/146) carry explicit per-question `question_dates`. EventQA rows (17/146) carry `previous_events` (an ordered list implying temporal sequence, but as a text list, not timestamped entries). All other rows (124/146) carry no temporal field. PARTIAL, not AVAILABLE or NOT_PROVIDED_BY_SOURCE, because temporal signal exists natively for some but not most of the dataset, in two structurally different forms (dates vs. ordered-event lists)."
+    },
+    "task_records": {
+      "status": "AVAILABLE",
+      "reason": "The `questions`/`answers`/`metadata.qa_pair_ids` structure is a genuine, separately-addressable task-record layer distinct from the shared `context` memory content -- this candidate's normalized/task_records.jsonl (3671 records) materializes that separation explicitly, one record per QA pair, each carrying a `memory_ref` back to its parent context row."
+    },
+    "agent_visible_context": {
+      "status": "AVAILABLE",
+      "reason": "`context` (plus, where present, `demo` and `previous_events`) is unambiguously the agent-visible input -- the exact text the benchmark's own protocol injects into the agent under test. This candidate's normalized/memory_records.jsonl separates these fields into an explicit `agent_visible_context` sub-object, keeping them apart from `evaluator_only` fields (`keypoints`, `haystack_sessions`, gold answers) per the same conceptual boundary as phase3/evaluation/contracts/boundary.py."
+    },
+    "evaluator_reference": {
+      "status": "AVAILABLE",
+      "reason": "Gold answers (`answers`), question metadata (`question_dates`/`question_ids`/`question_types`), and judge-criteria (`keypoints`, `haystack_sessions.has_answer`) are all present and have been explicitly separated into `evaluator_only` sub-objects in both normalized/memory_records.jsonl and normalized/task_records.jsonl, naming-convention-compatible with phase3/evaluation/contracts/boundary.py's FORBIDDEN_KEYS (e.g. this candidate's own field is literally named `gold_answers`, matching a FORBIDDEN_KEYS entry, so a future integration that copy-pastes boundary.py's list verbatim would already catch it)."
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "dataset": "membench",
+  "source_revision": "f66d8d1028d3f68627d00f77a967b93fbb8694b6",
+  "profile_basis": "Based on direct inspection of the FULL bundled GitHub corpus (26,637 records scanned) plus the benchmark harness source code. This is a stronger evidentiary basis than the mission anticipated (README/code-only, no data); values below are marked CONFIRMED where derived from the actual full-corpus scan, and UNKNOWN/README-claimed where not independently verified.",
+  "activation_status": "PREPARED_CANDIDATE",
+  "dimensions": {
+    "memory_retrieval": {
+      "value": "AVAILABLE",
+      "basis": "Every record's transcript (message_list) is the memory substrate to be stored, and QA.target_step_id gives a gold evidence pointer confirming retrieval is a well-defined, scoreable operation (harness's own get_recall() in benchmark/env/Membenenv.py implements this exact comparison)."
+    },
+    "test_time_learning": {
+      "value": "NOT_PROVIDED_BY_SOURCE",
+      "basis": "No source-provided mechanism or annotation for in-context/test-time learning beyond ordinary memory storage; the harness stores each turn and answers a downstream question, but there is no explicit 'learning update' signal distinct from memory writes."
+    },
+    "long_range_understanding": {
+      "value": "AVAILABLE",
+      "basis": "Trajectories run to many sessions/turns (RecMultiSession, highlevel_rec categories) with a question posed only after the full trajectory; the 'noisy'/MakeNoise mechanism is explicitly designed to extend context length further, confirming long-range understanding is a first-class evaluated capability."
+    },
+    "conflict_resolution": {
+      "value": "PARTIAL",
+      "basis": "The knowledge_update category (confirmed present, both variants, 999 records total) is designed around fact changes over time, which implies conflict/update scenarios per its name and the README's category description, but no explicit 'conflicting-fact pair' annotation field was found on the records themselves beyond the ordinary transcript + QA structure -- conflict handling must be inferred from transcript content, not read off a dedicated field."
+    },
+    "knowledge_update": {
+      "value": "AVAILABLE",
+      "basis": "Dedicated knowledge_update.json files exist for both FirstAgent and ThirdAgent (999 records total, confirmed by full scan), matching the mission's named category exactly."
+    },
+    "noise_robustness": {
+      "value": "AVAILABLE",
+      "basis": "Dedicated noisy.json category files (confirmed present, both variants, 3178 records total by scan) plus a separate, reusable noise-injection pipeline (MakeNoise/NoiseMeta/{messagenoise_new,sessionnoise_new}.json, 46MB/13MB pools of distractor dialogue) confirmed bundled and inspected -- this is a deliberately engineered capability, not incidental noise."
+    },
+    "multi_session_memory": {
+      "value": "AVAILABLE",
+      "basis": "RecMultiSession.json (FirstAgent, multi_agent scenario, 500 records) is explicitly multi-session by name and structure; the nested message_list container shape (list of sessions, each a list of turns) used across most FirstAgent categories also structurally supports multi-session grouping."
+    },
+    "agentic_task_memory": {
+      "value": "NOT_PROVIDED_BY_SOURCE",
+      "basis": "MemBench's task is conversational QA over remembered facts/preferences/events, not agentic tool-use or task-execution memory; no tool-call or task-execution trace fields were found in any record."
+    },
+    "evidence_availability": {
+      "value": "AVAILABLE",
+      "basis": "QA.target_step_id present on 26,633/26,637 records (99.985%, full-corpus scan), pointing to specific transcript turn location(s) via [session_index, turn_index] pairs."
+    },
+    "answer_availability": {
+      "value": "AVAILABLE",
+      "basis": "QA.answer (free text) and QA.ground_truth (MC letter) present on 26,637/26,637 records (100%, full-corpus scan)."
+    },
+    "memory_ids": {
+      "value": "AVAILABLE",
+      "basis": "tid is a source-native, per-scenario-unique record identifier (confirmed 0 duplicates across the full scan); turn-level ids (sid/mid) are also present, letting individual memory units be addressed."
+    },
+    "stable_ids": {
+      "value": "PARTIAL",
+      "basis": "tid is stable and unique (confirmed). qid is NOT reliably unique (duplicated in ~99% of records per scenario, confirmed by scan) -- callers must not treat qid alone as a stable identifier."
+    },
+    "provenance": {
+      "value": "PARTIAL",
+      "basis": "Each record documents its own generation category/scenario/variant (a form of structural provenance), and rel/attr/value triples on fact-establishing turns document which fact a turn encodes -- but there is no explicit generation-pipeline metadata (e.g. model version, prompt template id, generation timestamp) attached to individual records."
+    },
+    "lineage": {
+      "value": "NOT_PROVIDED_BY_SOURCE",
+      "basis": "No parent/child or derivation relationship between records was found anywhere in the corpus."
+    },
+    "equivalence": {
+      "value": "NOT_PROVIDED_BY_SOURCE",
+      "basis": "No cross-record equivalence annotation (e.g. two records marked as testing the same underlying fact) was found."
+    },
+    "temporal_order": {
+      "value": "AVAILABLE",
+      "basis": "Every turn carries an explicit time field (e.g. \"'2024-10-01 08:00' Tuesday\") and QA.time gives the question's reference time; turns within a session/trajectory are also implicitly ordered by sid/mid."
+    },
+    "task_records": {
+      "value": "AVAILABLE",
+      "basis": "Each tid groups a coherent task instance (a transcript + one QA pair), confirmed structurally consistent (0 malformed) across the full scan."
+    },
+    "agent_visible_context": {
+      "value": "AVAILABLE",
+      "basis": "Constructible directly from message_list + QA.question/time/choices; verified against phase3/evaluation/contracts/boundary.py with 0 forbidden-key violations across all 275 normalized sample records."
+    },
+    "evaluator_reference": {
+      "value": "AVAILABLE",
+      "basis": "Constructible directly from QA.answer/ground_truth/target_step_id; cleanly separable from agent_visible_context (verified, see above)."
+    }
+  },
+  "data_gap_caveat": "All AVAILABLE/PARTIAL values above are based on a full scan of the actual GitHub-bundled corpus (26,637 records), not merely README claims -- this is a stronger basis than a typical Drive/Baidu-unavailable scenario would allow. The two values still marked NOT_PROVIDED_BY_SOURCE (lineage, equivalence, test_time_learning, agentic_task_memory) reflect a genuine absence in the source data itself, confirmed by inspection, not a data-access gap."
+}

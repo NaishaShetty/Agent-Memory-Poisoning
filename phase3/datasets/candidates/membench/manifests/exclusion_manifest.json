@@ -1,0 +1,8 @@
+{
+  "dataset": "membench",
+  "source_revision": "f66d8d1028d3f68627d00f77a967b93fbb8694b6",
+  "excluded_records": [],
+  "excluded_record_count": 0,
+  "note": "Zero records were excluded. The full-corpus scan (manifests/full_corpus_inventory_scan.json) found 0 malformed records and 0 duplicate tids across all 26,637 QA records in the corpus. The 4 records in FirstAgent/highlevel_rec/movie that lack a target_step_id gold-evidence pointer are NOT excluded -- every other required field on those records is present and well-typed, so they are not structurally malformed; they are documented as a missing-evidence data-quality note in reports/raw_inventory.md and reports/data_quality_report.md instead. Per the mission's rules: never exclude a record because it is hard, noisy, or produces an undefined metric for some downstream computation -- only genuine structural malformation belongs here, and none was found.",
+  "coverage_limitation_not_an_exclusion": "The Google Drive and Baidu mirrors of MemBench's data were not independently re-verified in this session (see source/source_audit.md) because the GitHub repository itself was found to already bundle the full corpus. This is a coverage/acquisition-channel note, not an exclusion -- no records were ever in hand and then removed from those mirrors; nothing from them was excluded because nothing from them was the basis of this candidate's raw/normalized content in the first place."
+}

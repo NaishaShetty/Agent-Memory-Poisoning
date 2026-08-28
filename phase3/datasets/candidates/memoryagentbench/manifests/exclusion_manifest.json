@@ -1,0 +1,17 @@
+{
+  "dataset_id": "memoryagentbench",
+  "normalization_version": "3.2-h1.candidate.1",
+  "exclusions": [],
+  "exclusion_count": 0,
+  "record_count_reconciliation": {
+    "note": "This full-dataset scan found ZERO structurally malformed records: all 146 context rows across all 4 splits had non-null context/questions/answers with matching questions/answers lengths (verified in phase3/datasets/candidates/memoryagentbench/reports/raw_inventory.md). Nothing was excluded; every input row and every input QA pair is present in normalized/. See counters below for the explicit reconciliation.",
+    "counters": {
+      "input_rows_total": 146,
+      "input_qa_pairs_total": 3671,
+      "output_memory_records": 146,
+      "output_task_records": 3671,
+      "excluded_rows": 0,
+      "excluded_qa_pairs": 0
+    }
+  }
+}

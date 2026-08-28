@@ -1,0 +1,57 @@
+{
+  "dataset": "membench",
+  "normalization_version": "1.0.0",
+  "source_revision": "f66d8d1028d3f68627d00f77a967b93fbb8694b6",
+  "scope_note": "This manifest lists every transformation applied while producing normalized/membench_normalized.jsonl from the deterministic 5-records-per-scenario sample described in reports/raw_inventory.md and the README. No transformation was applied to the full corpus beyond the read-only inventory scan (manifests/full_corpus_inventory_scan.json), which counts but does not alter records.",
+  "transformations": [
+    {
+      "step": "turn_shape_normalization",
+      "description": "The three observed message_list turn shapes (FirstAgent dialogue: sid/user_message/assistant_message; FirstAgent recommendation: mid/user/assistant; ThirdAgent observation: mid/message) were mapped into one common turn record with all three content slots (user_message, assistant_message, message) present on every turn; slots the source did not populate for that shape are set to the literal string NOT_PROVIDED_BY_SOURCE, never fabricated or inferred.",
+      "reversible": true,
+      "loses_information": false,
+      "rationale": "Downstream MAMBench code (metrics, agent conditions) expects a single consistent record shape; this is a structural re-keying, not a content edit."
+    },
+    {
+      "step": "session_container_normalization",
+      "description": "message_list containers observed as either nested (list of sessions, each a list of turns) or flat (list of turns, no session grouping -- all ThirdAgent categories) were both normalized to a list of {session_index, turns} objects. Flat containers become a single session_index=0 rather than being split, since the source provides no session boundary information in that shape.",
+      "reversible": true,
+      "loses_information": false,
+      "rationale": "Uniform session addressing for downstream memory/session-scoped metrics."
+    },
+    {
+      "step": "evaluator_boundary_split",
+      "description": "Each source record's QA sub-object was split into agent_visible_context (question, question_time, choices, plus the full transcript) and evaluator_reference (answer, ground_truth_choice, gold_evidence_step_ids). No field value was changed, only re-partitioned.",
+      "reversible": true,
+      "loses_information": false,
+      "rationale": "Required by CLEAN_AGENT_INTERFACES.md / LEAKAGE_AND_VISIBILITY_CONTRACT.md; verified against phase3/evaluation/contracts/boundary.py with zero forbidden-key violations on all 275 normalized sample records."
+    },
+    {
+      "step": "id_construction",
+      "description": "source_record_id was constructed as '{variant}/{category}/{scenario}/tid{tid}/qid{qid}' and source_session_id as '{variant}/{category}/{scenario}/tid{tid}'. Both are built from source-native identifiers only (tid, verified unique per scan; qid, carried through even though not independently unique -- see reports/field_semantics.md); no random UUIDs were generated.",
+      "reversible": true,
+      "loses_information": false,
+      "rationale": "Requirement: source_record_id must be the original id, never a random UUID."
+    },
+    {
+      "step": "lineage_and_equivalence_fields",
+      "description": "parent_ids and equivalent_to were both set to the literal string NOT_PROVIDED_BY_SOURCE on every normalized record, since MemBench's source data does not provide any explicit record-to-record parent or equivalence relationship.",
+      "reversible": true,
+      "loses_information": false,
+      "rationale": "Requirement: only populate parent_ids/equivalent_to if the source explicitly provides them."
+    },
+    {
+      "step": "sampling_for_normalized_view",
+      "description": "normalized/membench_normalized.jsonl covers only the first 5 records (by source order) of every (variant, category, scenario) file -- 275 records total out of the 26,637 confirmed present in the full corpus. This was a deliberate scope decision (see README.md 'What was and was not done') to keep the candidate-preparation artifact small and fast to validate; it is NOT an exclusion of the remaining 26,362 records (they were never candidates for removal -- they simply were not run through the normalization step in this session). Re-running normalize_samples() over the full corpus is mechanical and deterministic (see build script logic reproduced in this manifest's sibling report) but was out of scope for candidate preparation.",
+      "reversible": true,
+      "loses_information": false,
+      "rationale": "Resource/time scoping for a CANDIDATE (not activation) preparation pass; documented explicitly per the 'preprocessing is not deletion' rule -- this is scope-limiting, not record deletion."
+    }
+  ],
+  "no_transformation_required": [
+    "QA.question text",
+    "QA.choices text",
+    "transcript message/user_message/assistant_message text content",
+    "time/place fields",
+    "rel/attr/value inline fact-triple fields"
+  ]
+}

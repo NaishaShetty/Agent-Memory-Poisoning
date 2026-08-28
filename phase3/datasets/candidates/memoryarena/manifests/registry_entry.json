@@ -1,0 +1,40 @@
+{
+  "dataset_name": "memoryarena",
+  "tier": 2,
+  "official_source": "https://github.com/ZexueHe/MemoryArena",
+  "paper": "MemoryArena: Benchmarking Agent Memory in Interdependent Multi-Session Agentic Tasks (arXiv:2602.16313, https://arxiv.org/abs/2602.16313)",
+  "license": "Code repo (ZexueHe/MemoryArena): no LICENSE file found, code license UNKNOWN/NOT STATED BY SOURCE. Task/answer dataset (ZexueHe/memoryarena on HuggingFace): CC-BY-4.0, per the dataset card README.",
+  "source_revision": {
+    "github_commit_hash": "6cd9de14b71915e39ac742a20dc33785e14b6aab",
+    "github_commit_date": "2026-05-31T20:10:42-04:00",
+    "huggingface_dataset_sha": "da1a37c8b19280e18627ca01cf368195a5e1d92e",
+    "huggingface_dataset_last_modified": "2026-03-03T00:39:50Z"
+  },
+  "download_timestamp_utc": "2026-08-28T06:16:41Z",
+  "raw_fingerprint": "manifests/raw_fingerprint.json",
+  "normalization_version": "memoryarena-normalization-1.0.0",
+  "record_count": 701,
+  "task_count": 701,
+  "memory_count": 0,
+  "evidence_count": 0,
+  "answer_count": 4850,
+  "missing_answer_count": 0,
+  "missing_evidence_count": 4850,
+  "relationship_support": "Chain grouping (subtask-to-parent-chain via source_task_id/subtask_index/chain_length): AVAILABLE. Explicit machine-readable interdependency edges: NOT_PROVIDED_BY_SOURCE (positional/textual only). Cross-record paper_name grouping: PARTIAL, formal_reasoning_* only. Memory-level parent_ids/equivalent_to/conflicts_with/superseded_by: NOT_PROVIDED_BY_SOURCE (full scan, 701 records).",
+  "capability_profile": "profile/memoryarena_profile.json",
+  "mambench_compatibility": "profile/mambench_compatibility.json",
+  "known_limitations": [
+    "No memory-unit layer exists at all -- no memory_id, session_id, or timestamp field anywhere in the source (full scan, 701 records). Almost all Phase 3.2-C/D retrieval, evidence, and provenance/lineage metrics are NOT_ATTEMPTABLE as a direct consequence -- see mambench_compatibility.json.",
+    "No gold_evidence_ids field exists; EvaluatorReference-shaped objects built from this data would have no evidence-ID component.",
+    "Answer element type varies by config: dict (bundled_shopping), list (group_travel_planner), str (progressive_search, formal_reasoning_math, formal_reasoning_phys). The existing str-only exact-match ANSWER_CORRECTNESS metric works as-is only for the 3 str-typed configs (281/701 chains, 2081/4850 subtasks).",
+    "Code repo has no LICENSE file; code license status is UNKNOWN. Only the HuggingFace-hosted task/answer data itself carries an explicit CC-BY-4.0 license.",
+    "GitHub README states the code is a 'preview version...actively maintaining and improving' -- source itself flags non-final status.",
+    "Web-search environment's underlying retrieval corpus (encrypted, requires running download_embeddings_from_hf.py/decrypt_dataset.py) was not obtained -- only the progressive_search task questions/answers themselves were downloaded, not the corpus the environment would search at execution time.",
+    "Only one HuggingFace dataset snapshot was inspected (sha da1a37c8b19280e18627ca01cf368195a5e1d92e); ID/content stability across future revisions is UNKNOWN.",
+    "group_travel_planner.base_person.daily_plans' agent-visible-vs-evaluator-only status is an open policy question, not resolved by this profile."
+  ],
+  "preprocessing_actions": "manifests/preprocessing_manifest.json (4 steps: source ingestion (NO_TRANSFORMATION_REQUIRED), chain-level field extraction, subtask-level flattening, answer-type preservation (NO_TRANSFORMATION_REQUIRED) -- zero records dropped at any step)",
+  "excluded_records": [],
+  "exclusion_reasons": "None -- full scan of all 701 records / 4850 subtasks found zero malformed records; see manifests/exclusion_manifest.json.",
+  "activation_status": "PREPARED_CANDIDATE"
+}

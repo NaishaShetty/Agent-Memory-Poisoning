@@ -1,0 +1,132 @@
+{
+  "schema_note": "Phase 3.2-H.1 candidate MAMBench compatibility audit for MemoryAgentBench. Grounded by reading the actual metric/condition modules (phase3/evaluation/metrics/retrieval.py, evidence.py, selection.py, equivalence.py, provenance.py; phase3/evaluation/agent/conditions.py) to determine each metric's genuine input requirements, then checking whether normalized/ can supply them.",
+  "dataset_id": "memoryagentbench",
+  "activation_status": "PREPARED_CANDIDATE",
+  "vocabulary": ["SUPPORTED", "PARTIALLY_SUPPORTED", "UNDEFINED", "NOT_ATTEMPTABLE", "NOT_PROVIDED_BY_SOURCE"],
+  "phase_3_2_b_contracts": {
+    "agent_visible_context_schema": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "normalized/memory_records.jsonl's agent_visible_context sub-object (content, demo, previous_events) and task_records.jsonl's agent_visible.question map cleanly onto the SHAPE of agent_visible_context.schema.json's task/condition/memory_content/legitimate_observations structure, but an adapter would need to be written to actually construct a schema-conformant payload (this candidate does not itself produce agent_visible_context.schema.json-validated output -- no adapter code was written, per the 'no model integration / no benchmark activation' rule)."
+    },
+    "boundary_py_validate_agent_visible": {
+      "status": "SUPPORTED",
+      "reason": "This candidate's normalized records keep gold answers, question metadata, and judge criteria entirely inside evaluator_only sub-objects, using field names (gold_answers) that literally match phase3/evaluation/contracts/boundary.py's FORBIDDEN_KEYS list. An agent_visible payload constructed by copying ONLY the agent_visible_context/agent_visible sub-object (never evaluator_only) would pass validate_agent_visible() by construction, since no forbidden key would ever be included in that slice."
+    },
+    "evaluator_reference_schema": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "Gold answers exist and are structurally separated (evaluator_only.gold_answers), but evaluator_reference.schema.json (not read in full during this pass, out of the explicit read-list for this stage; boundary.py was read, this schema file was not opened) may require fields (e.g. gold evidence IDs) this dataset does not provide at all -- see evidence_availability: NOT_PROVIDED_BY_SOURCE in profile/memoryagentbench_profile.json."
+    }
+  },
+  "phase_3_2_c_metrics": {
+    "RECALL_AT_K": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "phase3/evaluation/metrics/retrieval.py's recall_at_k() requires gold_ids (memory-level gold evidence IDs) and a ranked retrieved_ids list. MemoryAgentBench provides neither a memory-ID scheme (no context-level IDs at all) nor gold evidence memory IDs for any QA pair. An adapter would need to invent BOTH a chunk-ID scheme over `context` AND a gold-chunk-membership labeling that does not exist in the source -- the latter would require fabricating ground truth this candidate's rules forbid, so this metric is NOT_ATTEMPTABLE on the raw data as-is, not merely SUPPORTED_WITH_ADAPTER."
+    },
+    "MRR": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Same root cause as RECALL_AT_K -- mean_reciprocal_rank() requires gold_ids per query; none exist at memory-ID granularity."
+    },
+    "STRICT_TSR": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "selection.py's strict_tsr() requires gold_evidence_ids to compare against selected/used IDs. Not provided by source at any granularity resolvable to a stable memory ID."
+    },
+    "SELECTION_COUNT": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "selection.py's selection_count()/selection_count_aggregate() only require a list of selected_ids -- no gold comparison needed. This is computable ONCE an adapter defines a chunking/ID scheme for `context` (the metric itself has no dependency on source-provided gold IDs), so it is adapter-gated but not blocked by a missing-ground-truth problem the way RECALL_AT_K is."
+    },
+    "SELECTION_CAPACITY_DIAGNOSTICS": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "retrieval.py's classify_gold_id_capacity()/selection_capacity_report() need gold_ids to classify against -- same NOT_ATTEMPTABLE root cause as RECALL_AT_K for the gold-comparison half, but the underlying selection-side bookkeeping (capacity vs. selected count) is adapter-supportable independent of gold. Marked PARTIALLY_SUPPORTED rather than NOT_ATTEMPTABLE because the diagnostic's non-gold half is genuinely usable."
+    },
+    "EVIDENCE_PRECISION": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "evidence.py's evidence_precision() requires gold_ids. Not provided."
+    },
+    "EVIDENCE_RECALL": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Same as EVIDENCE_PRECISION -- requires gold_ids, not provided."
+    },
+    "EVIDENCE_COVERAGE": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "evidence_coverage() requires gold_ids across a task set. Not provided."
+    },
+    "IRRELEVANT_MEMORY_RATE": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "irrelevant_memory_rate() requires gold_ids to determine what counts as irrelevant. Not provided."
+    },
+    "REDUNDANCY": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "evidence.py's redundancy() only needs an id_sequence (no gold comparison) -- computable once an adapter assigns chunk IDs to `context`, independent of the missing-gold-evidence problem."
+    },
+    "EQUIVALENCE_DIAGNOSTICS": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "equivalence.py's functions operate on explicit equivalence edges (equivalent_to-style pairs). MemoryAgentBench provides none (confirmed absent via whole-file scan); every normalized record's equivalent_to is literally NOT_PROVIDED_BY_SOURCE, never inferred from the genuinely-present answer-alias-string equivalence (which is a different concept -- see profile/memoryagentbench_profile.json's 'equivalence' dimension note)."
+    },
+    "PROVENANCE_VALIDATION": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "provenance.py's validate_parent_edges()/orphan_parent_count()/detect_cycles() etc. all operate over a memories mapping with parent-edge fields. No such field exists in MemoryAgentBench at all."
+    },
+    "LINEAGE_DIAGNOSTICS": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "provenance.py's ancestors()/descendants()/lineage_depth()/root_origins() all require parent_ids. Not provided by source."
+    },
+    "AGENT_ANSWER_CORRECTNESS": {
+      "status": "SUPPORTED",
+      "reason": "Gold answers (answers[i], preserved as evaluator_only.gold_answers, all alias strings intact) are available for 100% of 3671 QA pairs -- an agent's produced answer can be scored against this gold set using whatever exact-match/substring-match/LLM-judge convention an evaluation harness chooses (the source README itself documents its own accuracy conventions per task -- see source/README.md)."
+    },
+    "AGENT_SUCCESS": {
+      "status": "SUPPORTED",
+      "reason": "Derivable from AGENT_ANSWER_CORRECTNESS at the task level; no additional source data required beyond what already supports that metric."
+    },
+    "MEMORY_CONTRIBUTION": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Isolating which specific memory unit contributed to a correct answer requires a memory-ID-to-answer link this dataset does not provide (no evidence_memory_ids-equivalent field). Cannot be computed without fabricating that link."
+    },
+    "OBSERVED_GOLD_EVIDENCE_CEILING": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Requires gold evidence IDs as the ceiling reference. Not provided."
+    },
+    "RETRIEVAL_UTILIZATION": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "Requires both a retrieved-set and a gold-set comparison at memory-ID granularity. Not provided."
+    },
+    "FAILURE_STAGE_CLASSIFICATION": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "The coarse NO_MEMORY vs. GOLD_EVIDENCE vs. RETRIEVED_MEMORY condition distinction (see phase_3_2_e_conditions below) is constructible from this dataset's context/question/answer structure without needing gold evidence IDs, so a failure-stage classifier that only needs to know 'was any context given at all' vs. 'was the full context given' can function; a finer-grained classifier that needs to know whether the SPECIFIC gold chunk was retrieved cannot, for the same NOT_ATTEMPTABLE reason as RECALL_AT_K."
+    }
+  },
+  "phase_3_2_d_equivalence_provenance": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "Covered in detail under EQUIVALENCE_DIAGNOSTICS and PROVENANCE_VALIDATION above -- no source data exists for either dimension."
+  },
+  "phase_3_2_e_conditions": {
+    "NO_MEMORY": {
+      "status": "SUPPORTED",
+      "reason": "phase3/evaluation/agent/conditions.py's CONDITION_NO_MEMORY needs only the absence of memory content in the agent-visible payload -- trivially constructible regardless of source data (omit agent_visible_context entirely)."
+    },
+    "GOLD_EVIDENCE": {
+      "status": "NOT_ATTEMPTABLE",
+      "reason": "This condition, per EVALUATION_CONTRACT.md's framing (as referenced in conditions.py's docstring), implies giving the agent exactly the gold evidence memory unit(s) -- which requires a memory-ID-resolvable gold evidence pointer this dataset does not have. The closest approximation (give the agent the FULL context, which necessarily contains the answer) conflates GOLD_EVIDENCE with a full-context condition and would misrepresent what the source actually supports; this candidate does not claim that approximation is equivalent to true GOLD_EVIDENCE."
+    },
+    "RETRIEVED_MEMORY": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "An adapter-defined chunking/retrieval pipeline over `context` could produce a RETRIEVED_MEMORY-shaped payload structurally, but its correctness could not be evaluated against gold retrieval targets (same missing-gold-ID issue as RECALL_AT_K) -- the condition can be EXERCISED but not METRICALLY VALIDATED against source-native gold."
+    },
+    "SELECTED_MEMORY_AVAILABLE / DERIVED_MEMORY_AVAILABLE / CONFLICTING_MEMORY_AVAILABLE": {
+      "status": "PARTIALLY_SUPPORTED",
+      "reason": "These are 3.2-E PROVISIONAL, non-schema-canonical diagnostic conditions per conditions.py's own docstring. CONFLICTING_MEMORY_AVAILABLE has an unusually strong natural fit with MemoryAgentBench's Conflict_Resolution split specifically (context containing a fact followed by a contradicting update) -- among the strongest content-level matches found in this whole audit -- but still lacks a structural conflicts_with annotation to mechanically drive the condition assembly; a harness would need to treat the whole `context` as 'conflicting memory available' without being able to point at which two spans conflict."
+    }
+  },
+  "phase_3_2_f_leakage_determinism_reproducibility": {
+    "status": "SUPPORTED",
+    "reason": "This is evaluation-machinery-level, not data-dependent, per the task brief's own framing. This candidate's normalized/ output is verified byte-identical across two independent runs of normalize.py (see phase3/evaluation/tests/test_candidate_memoryagentbench.py), and the boundary/leakage separation (agent_visible vs. evaluator_only) is structurally maintained in every normalized record -- both properties are compatible with, though this candidate does not itself invoke, the 3.2-F leakage/determinism/reproducibility test machinery."
+  },
+  "phase_3_2_g_profile_itself": {
+    "status": "SUPPORTED",
+    "reason": "See profile/memoryagentbench_profile.json -- the 19-dimension profile has been produced and is internally consistent with this compatibility audit's findings (e.g. both agree evidence_availability/provenance/lineage/equivalence are NOT_PROVIDED_BY_SOURCE)."
+  },
+  "phase_3_2_h_integration_pipeline": {
+    "status": "PARTIALLY_SUPPORTED",
+    "reason": "normalized/memory_records.jsonl and normalized/task_records.jsonl are structurally analogous to the 4 active datasets' data/processed/<dataset>/memory_records.jsonl and task_records.jsonl layout, which is a positive structural-compatibility signal for a hypothetical future integration adapter. However, per this task's explicit scope, NO integration adapter, NO schema-conformant agent_visible_context.schema.json payload construction, and NO wiring into phase3/evaluation/datasets/profiles/ was attempted or should be -- this dataset remains PREPARED_CANDIDATE, not integrated."
+  }
+}
