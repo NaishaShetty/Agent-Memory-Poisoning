@@ -313,8 +313,11 @@
     },
     {
       "path": "requirements.txt",
-      "size_bytes": 131,
-      "sha256": "e1eba5a8f86393e85c8babebc6cec13d2ca75c1d9743a0eb3d52a2846d9f9912"
+      "size_bytes": 265,
+      "sha256": "43a3259a50563d1302a655ac57f0361df610de6af97813b8d745684ea4911908",
+      "size_bytes_original_at_h1_scan": 131,
+      "sha256_original_at_h1_scan": "e1eba5a8f86393e85c8babebc6cec13d2ca75c1d9743a0eb3d52a2846d9f9912",
+      "correction_note": "H.1 fingerprinted this file while it was an UNRESOLVED Git LFS pointer stub (the upstream MemBench repo itself stores requirements.txt via Git LFS; H.1s clone never ran git lfs pull, so only the 131-byte pointer TEXT was present locally at scan time, not the real 265-byte file the pointer references). Corrected during Phase 3.2-I pre-validation by downloading the real object directly from GitHub LFS storage using the OID embedded in the pointer text (43a3259a...) and verifying it. The corrected sha256/size_bytes above are the REAL file content; size_bytes_original_at_h1_scan/sha256_original_at_h1_scan preserve the original (inaccurate) H.1 record for audit-trail purposes, never silently discarded."
     }
   ]
 }
