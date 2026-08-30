@@ -1,0 +1,156 @@
+{
+  "schema_version": "3.2-h2.1",
+  "stage": "PHASE3_2_H2_CANDIDATE_DECISION",
+  "generated_note": "Machine-readable companion to PHASE3_2_H2_CANDIDATE_DECISION.md. This file records only the DECISION LAYER (category assignments and core/optional dataset x foundation combinations) -- it does NOT duplicate the 700-cell capability matrix already computed in phase3/evaluation/foundations/matrix.py (FULL_MATRIX), which this decision reuses and cites rather than re-deriving. No activation of any kind is performed by this file; every entry is a documented recommendation for a future stage.",
+  "dataset_decision_categories": [
+    "KEEP_ACTIVE",
+    "PROMOTE_CANDIDATE",
+    "KEEP_CANDIDATE_ONLY",
+    "DEFER",
+    "REJECT"
+  ],
+  "foundation_decision_categories": [
+    "PRIMARY_CONFORMANCE_CANDIDATE",
+    "SECONDARY_CONFORMANCE_CANDIDATE",
+    "SCREEN_ONLY",
+    "DEFER",
+    "REJECT"
+  ],
+  "dataset_decisions": {
+    "locomo": {
+      "category": "KEEP_ACTIVE",
+      "rationale": "Active by mandate. Only one of the four active datasets with source-native, memory-ID-resolvable gold evidence (PARTIAL) sufficient for Strict-TSR/Recall@K/MRR/evidence-precision-recall against a real retrieval layer; smallest active corpus (5882 memory records), making it the fastest-iterating pipeline-validation dataset."
+    },
+    "longmemeval": {
+      "category": "KEEP_ACTIVE",
+      "rationale": "Active by mandate. Provides the same task-QA/gold-evidence shape as LoCoMo at 210365 memory records (36x LoCoMo's scale in one sampled task's gold-ID count alone), the load-bearing dataset for stress-testing candidate-generation recall at scale per PHASE3_CLEAN_AGENT_FOUNDATION_SPEC.md's historical ~72.4% candidate-generation-failure finding."
+    },
+    "msc": {
+      "category": "KEEP_ACTIVE",
+      "rationale": "Active by mandate. No task/gold layer (task_records.jsonl confirmed 0 bytes) by design -- its value is lifecycle/provenance/reuse validation over 227185 session-linked, fully-provenanced memory records, a role none of the other three active datasets (which all carry a task layer) fill as directly."
+    },
+    "conversation_chronicles": {
+      "category": "KEEP_ACTIVE",
+      "rationale": "Active by mandate. Same lifecycle/provenance role as MSC at even greater scale (822762 memory records) with richer relationship/session_summary metadata; also no native task layer (0-byte task_records.jsonl), by design."
+    },
+    "memoryagentbench": {
+      "category": "KEEP_CANDIDATE_ONLY",
+      "rationale": "Genuinely HIGH novelty (Test-Time-Learning and Long-Range-Understanding at up to ~1.1M-character context, explicit context-length scaling variants -- none of the 4 active datasets test any of this). Held at candidate-only because it has zero memory-ID-resolvable gold evidence anywhere in its source schema (0/3671 QA pairs), making roughly half of MAMBench's existing metric surface (Recall@K/MRR/Strict-TSR/evidence precision-recall-coverage/MEMORY_CONTRIBUTION) structurally NOT_ATTEMPTABLE without first designing and reviewing a non-trivial chunk-ID-and-gold-labeling adapter -- a real engineering task this stage does not attempt, consistent with H.1's own advisory judgment."
+    },
+    "membench": {
+      "category": "KEEP_CANDIDATE_ONLY",
+      "rationale": "MODERATE novelty (dual first-person/third-person narrative framing, explicit MC ground-truth format, and a dedicated reusable noise-injection pipeline are distinguishing mechanics not confirmed to exist in the 4 active datasets; but its core long-horizon conversational-QA-with-knowledge-updates role structurally overlaps LoCoMo/LongMemEval's existing role). Held at candidate-only because only a 275-record sample (of the full, cleanly-scanned 26637-record corpus) was carried through normalization, license status is an unconfirmed README badge claim (no LICENSE file), and a side-by-side overlap comparison against the 4 active profiles had not been performed prior to this stage. This decision's own novelty analysis (Part 2 of the decision document) now supplies that comparison, but full-corpus normalization and license clarification remain outstanding, ordinary next-step engineering work, not data-quality blockers."
+    },
+    "memoryarena": {
+      "category": "KEEP_CANDIDATE_ONLY",
+      "rationale": "Genuinely HIGH novelty -- agentic_task_memory (interdependent multi-session task chains) is a structurally distinct capability (AVAILABLE) that none of the 4 active datasets has as a first-class primitive; the workload shape (task chains, no memory-unit layer, no evidence-ID field at all) is also the most architecturally distinct of the three H.1 candidates. Held at candidate-only because activation would require inventing both a memory-substrate adapter and likely new task-chain-native metrics from scratch (almost the entire existing retrieval/evidence/provenance/lineage metric suite is NOT_ATTEMPTABLE against its current data shape) -- a substantial engineering investment, not a data-quality problem, consistent with H.1's own advisory judgment."
+    }
+  },
+  "foundation_decisions": {
+    "MEM0": {
+      "category": "PRIMARY_CONFORMANCE_CANDIDATE",
+      "rationale": "Best-documented of the nine (README + two live docs pages fetched, most capability rows SUPPORTED, only a handful PARTIAL/UNKNOWN); actively maintained; represents the 'flat, hybrid-scored memory record' architecture family most directly comparable to MAMBench's own session-turn memory-record shape, making LoCoMo/LongMemEval x Mem0 a natural, high-value first conformance target. OSS graph memory was removed (Platform-only) -- this audit treats OSS Mem0 as NOT_SUPPORTED for graph/linking, a genuine architecture-narrowing finding carried over from H.3's capability_audit.py, not softened here."
+    },
+    "GRAPHITI": {
+      "category": "PRIMARY_CONFORMANCE_CANDIDATE",
+      "rationale": "Best-documented graph-native foundation (bi-temporal edges, hybrid semantic+keyword+graph retrieval, all SUPPORTED per H.3's grounded fetch); architecturally HIGH diversity relative to Mem0/Letta/A-MEM (only foundation with an explicit graph-database backend and point-in-time query semantics); genuinely new Phase 4 research angle -- temporal edge invalidation as an attack surface -- that no active dataset x foundation combination not involving Graphiti could exercise."
+    },
+    "A_MEM": {
+      "category": "PRIMARY_CONFORMANCE_CANDIDATE",
+      "rationale": "Well-documented across two distinct, correctly-differentiated repos (A-mem paper-reproduction vs. A-mem-sys packaged system); the only audited foundation whose 'update' capability lets a NEW memory retroactively rewrite EXISTING memories' attributes ('memory evolution') -- a genuinely distinct architecture and a genuinely distinct Phase 4 attack surface (one poisoned note can alter others) that Mem0's append/edit-only model and Graphiti's edge-based model do not have an equivalent of."
+    },
+    "LETTA": {
+      "category": "SECONDARY_CONFORMANCE_CANDIDATE",
+      "rationale": "Architecturally distinct (core/archival/recall memory blocks with agent-driven self-editing, per general published Letta/MemGPT framing) and therefore valuable for architectural diversity, but this audit's own re-fetch of docs.letta.com/concepts/memory during this stage confirmed the page STILL 404s (same finding as H.3), and docs.letta.com/overview -- fetched fresh in this stage -- again did not surface memory-block/retrieval/storage technical detail. Most capability rows remain UNKNOWN/PARTIAL through no fault of the architecture itself, only of available documentation; kept SECONDARY (not REJECT) because the self-editing-memory attack surface is a real, distinct Phase 4 research question worth revisiting once better documentation or a source-code-level (not docs-level) audit is performed."
+    },
+    "LANGMEM": {
+      "category": "SCREEN_ONLY",
+      "rationale": "Actively maintained (pushed 2026-08-11, most recent of the nine) with clear, current documentation (langchain-ai.github.io/langmem/, fetched fresh in this stage): create_manage_memory_tool for storage, create_search_memory_tool for semantic retrieval, LangGraph BaseStore/AsyncPostgresStore for persistence, namespace-based session scoping. Architecturally this is LOW diversity relative to Mem0 -- both are 'LLM-mediated extraction into a semantically-searchable flat store' -- so it does not add a new architecture family the way Graphiti/A-MEM do; kept at SCREEN_ONLY (not PRIMARY/SECONDARY) since it would mostly duplicate Mem0's research angle while adding LangGraph-specific integration surface, worth knowing about but not worth prioritizing for conformance testing ahead of the three architecturally-distinct PRIMARY candidates."
+    },
+    "LLAMAINDEX": {
+      "category": "REJECT",
+      "rationale": "Fresh fetch of github.com/run-llama/llama_index (this stage) confirms it is fundamentally a RAG/data-indexing framework ('a data framework to help you build LLM apps'), not a memory foundation with agent-facing create/update/delete/session-scoped memory semantics -- its own README frames persistence as 'by default, data is stored in-memory... persist to disk' via a generic StorageContext, not a memory-lifecycle API. Extremely active and well-maintained (pushed 2026-08-29, 51.9k stars) but including it as a 'memory foundation' would relabel a RAG framework as a memory system, which this audit's own discipline (mirrored from H.3's rejected-alternatives reasoning) explicitly treats as a category error to avoid."
+    },
+    "MEMARY": {
+      "category": "REJECT",
+      "rationale": "URL correction applied and verified: github.com/Memary/Memary 404s; the real repository is github.com/kingjulio8238/Memary (confirmed live via fresh fetch and the GitHub API in this stage). Architecture is genuinely interesting (knowledge-graph memory over Neo4j/FalkorDB plus a memory-stream and entity-knowledge-store layer, i.e. graph diversity comparable in spirit to Graphiti) but the repository's own metadata (fetched via `gh`/GitHub API in this stage) shows pushed_at=2024-10-22T00:46:00Z against today's 2026-08-30 -- no commit in roughly 22 months, no recent releases, and its dependency surface (Perplexity API, Google Maps, Alpha Vantage, a specific vision-model pipeline) is tailored to a particular demo agent rather than general-purpose memory-foundation use. Rejected on maintenance-abandonment grounds, not architecture; revisit if the project resumes active development."
+    },
+    "MEMORYBANK": {
+      "category": "REJECT",
+      "rationale": "Fresh fetch of github.com/zhongwanjun/MemoryBank-SiliconFriend (this stage) plus GitHub API metadata: pushed_at=2023-05-24T03:19:27Z -- over 3 years stale as of 2026-08-30, 31 commits total. Storage is flat JSON files (memory.json), not a queryable API; compute requirements are a single Tesla A100 80GB GPU with CUDA 11.7 and LoRA checkpoints for ChatGLM/BELLE -- an academic paper-reproduction artifact tied to specific, now-outdated open-source LLM checkpoints, not a general-purpose, actively-maintained memory-foundation library comparable to Mem0/Letta/Graphiti/A-MEM. Rejected on both abandonment and heavy/outdated-dependency grounds."
+    },
+    "LONGMEM": {
+      "category": "REJECT",
+      "rationale": "Fresh fetch of github.com/Victorwz/LongMem (this stage) plus GitHub API metadata: pushed_at=2024-03-30T22:24:38Z -- over 2 years stale. More fundamentally, this is a NeurIPS 2023 research artifact implementing a MODIFIED LANGUAGE MODEL ARCHITECTURE (a 24-layer pretrained LM plus a 12-layer SideNetwork with a joint-attention fusion mechanism, trained from scratch on the Pile dataset with Faiss-GPU similarity search) -- not a pluggable agent-memory library an application calls via add()/search()/update() the way Mem0/Letta/Graphiti/A-MEM are. It requires GPU training infrastructure and produces a custom model checkpoint, not a memory store an existing agent could attach to. Categorically not a 'memory foundation' in the sense the other eight candidates are; rejected as a category mismatch, independent of its staleness."
+    }
+  },
+  "core_combinations": [
+    {
+      "dataset": "locomo",
+      "foundation": "MEM0",
+      "rationale": "LoCoMo's session-turn memory records with PARTIAL memory-ID-resolvable gold evidence map directly onto Mem0's flat, hybrid-scored memory-record architecture; smallest active corpus makes this the fastest first real-conformance test of Recall@K/MRR/Strict-TSR against a real foundation's retrieval output."
+    },
+    {
+      "dataset": "longmemeval",
+      "foundation": "MEM0",
+      "rationale": "Same architecture mapping as LoCoMo x Mem0, at 210365 memory records -- stresses Mem0's hybrid retrieval recall at the scale LongMemEval is specifically profiled for (historical ~72.4% candidate-generation-failure finding), a genuine scale-behavior question the smaller LoCoMo cannot exercise."
+    },
+    {
+      "dataset": "locomo",
+      "foundation": "GRAPHITI",
+      "rationale": "LoCoMo's TIMESTAMPED_ABSOLUTE temporal structure and gold evidence are a well-suited testbed for Graphiti's bi-temporal edge tracking and point-in-time queries -- a genuinely different research question (temporal-graph poisoning/edge-invalidation attacks) from what any Mem0 combination could exercise."
+    },
+    {
+      "dataset": "conversation_chronicles",
+      "foundation": "GRAPHITI",
+      "rationale": "Conversation Chronicles' long-horizon, many-session-per-episode relationship/session_summary structure is well-suited to Graphiti's incremental episode-based graph construction; its own lifecycle/provenance 'primary use case' role (per DATASET_CAPABILITY_MATRIX.md) pairs naturally with a foundation whose entire premise is incremental, provenance-preserving graph construction over episodes."
+    },
+    {
+      "dataset": "msc",
+      "foundation": "A_MEM",
+      "rationale": "MSC's repeated multi-session structure (no native task layer, by design) is well-suited to A-MEM's dynamic-linking/memory-evolution model, where later sessions' notes can retroactively update earlier notes' attributes -- directly exercising MSC's own 'primary use case' (lifecycle/reuse validation) against the one audited foundation whose architecture makes such retroactive updates a first-class, documented capability."
+    },
+    {
+      "dataset": "memoryarena",
+      "foundation": "A_MEM",
+      "rationale": "MemoryArena's interdependent multi-session task chains (subtask N depends on subtask N-1's outcome) map conceptually onto A-MEM's dynamic memory-linking mechanism (a later note explicitly linked to an earlier one) more naturally than onto any flat-record or graph-database foundation; this combination requires the memory-substrate adapter MemoryArena's own H.1 profile already flags as necessary engineering work, deferred to H.4, but is recorded here as the highest-value target once that adapter exists."
+    }
+  ],
+  "optional_combinations": [
+    {
+      "dataset": "longmemeval",
+      "foundation": "GRAPHITI",
+      "rationale": "Technically possible (LongMemEval has the same TIMESTAMPED_ABSOLUTE precondition as LoCoMo) but lower priority than LoCoMo x Graphiti: at 210365 memory records, LLM-mediated entity/edge extraction into a graph (Graphiti's documented ingestion path) would be a far larger and slower conformance run than LoCoMo's, without adding a new research question beyond scale."
+    },
+    {
+      "dataset": "msc",
+      "foundation": "MEM0",
+      "rationale": "Possible (MSC has session_state=SUPPORTED per the matrix), but MSC's own primary role is lifecycle/provenance validation, which Mem0's flat retrieval architecture does not distinctively serve better than A-MEM's linking-oriented architecture already assigned as MSC's core combination."
+    },
+    {
+      "dataset": "conversation_chronicles",
+      "foundation": "MEM0",
+      "rationale": "Possible for the same session_state reason as MSC x Mem0; kept optional for the same reasoning -- Graphiti's graph/temporal structure is a better fit for this dataset's longitudinal relationship metadata than Mem0's flat scoring."
+    },
+    {
+      "dataset": "memoryagentbench",
+      "foundation": "MEM0",
+      "rationale": "Technically exercisable (Mem0 could ingest MemoryAgentBench's context rows), but with zero memory-ID-resolvable gold evidence in the source, most evidence-based metrics would remain NOT_ATTEMPTABLE regardless of which foundation is used -- the dataset-level gap, not the foundation choice, is the limiting factor, so this combination adds little research value until the chunk-ID/gold-labeling adapter flagged in the dataset decision above is built."
+    },
+    {
+      "dataset": "membench",
+      "foundation": "MEM0",
+      "rationale": "Plausible given MemBench's session/turn transcript structure and its within-record evidence pointer (QA.target_step_id), but session/temporal preconditions for MemBench were not re-derived by H.3's matrix (marked UNKNOWN there for temporal_state) -- kept optional pending that re-derivation rather than promoted to core on an unconfirmed precondition."
+    },
+    {
+      "dataset": "memoryarena",
+      "foundation": "GRAPHITI",
+      "rationale": "MemoryArena's task-chain dependencies could in principle be represented as graph edges (chain -> subtask edges), but this would require the same not-yet-built memory-substrate adapter as the A-MEM combination, and Graphiti's bi-temporal edge machinery is designed for relationship validity over time, not task-dependency ordering -- a less natural fit than A-MEM's note-linking model, hence optional rather than core."
+    },
+    {
+      "dataset": "locomo",
+      "foundation": "LETTA",
+      "rationale": "Technically exercisable once Letta's documentation gaps are resolved, but this stage's own SECONDARY_CONFORMANCE_CANDIDATE classification for Letta (most capability rows UNKNOWN/PARTIAL) means a conformance run today would mostly be probing undocumented behavior rather than testing a well-understood architecture against LoCoMo's gold evidence -- kept optional, revisit once Letta's audit rows improve."
+    }
+  ]
+}

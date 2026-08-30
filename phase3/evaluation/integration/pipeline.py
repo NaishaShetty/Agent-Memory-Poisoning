@@ -61,6 +61,40 @@ from .result import EvaluationCaseResult, STATUS_NOT_ATTEMPTED, not_attempted
 
 _SCHEMAS_DIR = Path(__file__).resolve().parent.parent / "contracts"
 
+# ---------------------------------------------------------------------------
+# Phase 3.2-H.4 finding: `_build_trace`/`_build_evaluation_result` stamp a wall-clock
+# `datetime.now(timezone.utc)` value into `created_at`/`evaluation_timestamp` on every
+# call. Confirmed by inspection (not assumed) that `fingerprints["trace"]`,
+# `fingerprints["evaluation_result"]`, and `fingerprints["overall"]` below are computed
+# via `sec_repro.fingerprint()` directly over these dicts -- the RAW fingerprint, not
+# `sec_repro.manifest_semantic_fingerprint()` (which excludes
+# `sec_repro.MANIFEST_METADATA_ONLY_FIELDS`, i.e. `timestamp`, from its own object shape).
+# This means two runs of `evaluate_case()` over IDENTICAL input, seconds apart, produced
+# DIFFERENT `trace`/`evaluation_result`/`overall` fingerprints purely from wall-clock time
+# -- a genuine reproducibility defect (not merely a metadata-only field sitting outside a
+# fingerprint, the H.3-flagged concern this stage was asked to assess), because it reaches
+# a *semantic* fingerprint field that downstream reproducibility checks treat as evidence
+# of a re-run's result matching a prior one bit-for-bit.
+#
+# Minimal fix, mirroring `security.reproducibility.MANIFEST_METADATA_ONLY_FIELDS` /
+# `manifest_semantic_fingerprint()`'s existing pattern exactly: exclude exactly the one
+# wall-clock field from each dict before fingerprinting it, while leaving the RETURNED
+# `trace`/`evaluation_result` dicts (and their schema validation) completely unchanged --
+# a consumer that wants the real creation time still gets it in `case_result.trace[
+# "created_at"]` / `case_result.evaluation_result["evaluation_timestamp"]`; only the
+# FINGERPRINT computation is timestamp-invariant, exactly as `manifest_semantic_
+# fingerprint()` already makes manifest fingerprints timestamp-invariant.
+_TRACE_METADATA_ONLY_FIELDS: frozenset = frozenset({"created_at"})
+_EVALUATION_RESULT_METADATA_ONLY_FIELDS: frozenset = frozenset({"evaluation_timestamp"})
+
+
+def _semantic_view(payload: Mapping[str, Any], metadata_only_fields: frozenset) -> dict:
+    """Same exclusion pattern as `sec_repro.manifest_semantic_fingerprint`'s inline
+    semantic-view construction, generalized to any metadata-only field set. Does not
+    reimplement `fingerprint`/`canonical_serialize` -- only builds the dict handed to it.
+    """
+    return {k: v for k, v in payload.items() if k not in metadata_only_fields}
+
 _AGENT_RESULT_REQUIRED_METRIC_FAMILIES = (
     "RETRIEVAL_UTILIZATION",
     "FAILURE_STAGE_CLASSIFICATION",
@@ -416,17 +450,26 @@ def evaluate_case(
     evaluation_result = _build_evaluation_result(case, metrics, agent_success)
     Draft202012Validator(_EVALUATION_RESULT_SCHEMA).validate(evaluation_result)
 
+    trace_semantic = _semantic_view(trace, _TRACE_METADATA_ONLY_FIELDS)
+    evaluation_result_semantic = _semantic_view(
+        evaluation_result, _EVALUATION_RESULT_METADATA_ONLY_FIELDS
+    )
+
     fingerprints = {
         "agent_visible_context": sec_repro.fingerprint(case.agent_visible_context)
         if case.agent_visible_context is not None
         else sec_repro.fingerprint(None),
         "evaluator_reference": sec_repro.fingerprint(case.evaluator_reference),
-        "trace": sec_repro.fingerprint(trace),
-        "evaluation_result": sec_repro.fingerprint(evaluation_result),
+        # Timestamp-invariant: fingerprinted over the semantic view (created_at excluded),
+        # mirroring `sec_repro.manifest_semantic_fingerprint`'s existing discipline. The
+        # returned `trace` dict itself still carries the real `created_at` value.
+        "trace": sec_repro.fingerprint(trace_semantic),
+        # Timestamp-invariant for the same reason (evaluation_timestamp excluded).
+        "evaluation_result": sec_repro.fingerprint(evaluation_result_semantic),
         "metrics": sec_repro.fingerprint(evaluation_result["metrics"]),
     }
     fingerprints["overall"] = sec_repro.fingerprint(
-        {"evaluation_result": evaluation_result, "trace": trace}
+        {"evaluation_result": evaluation_result_semantic, "trace": trace_semantic}
     )
 
     return EvaluationCaseResult(
