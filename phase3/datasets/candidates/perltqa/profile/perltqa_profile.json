@@ -1,0 +1,22 @@
+{
+  "dataset": "perltqa",
+  "profile_status": "REVIEWED",
+  "revision_audited": "GitHub commit 8d9e19868e239740ef701e603ec205cd581f221b (post Dec-2025 update, per task instruction to use the current revision)",
+  "content_available": "AVAILABLE",
+  "stable_id": "AVAILABLE, but PER-CHARACTER SCOPED, not globally unique -- composite (character, native_memory_unit_id) required for a global memory_id",
+  "timestamped": "PARTIAL (events carry free-text 'Creation Time'/'Last Accessed Time' strings; not uniformly machine-parseable; social_relationship/dialogues carry none)",
+  "session_linked": "PARTIAL (dialogues IDs are suffixed event IDs, e.g. '4_0_0#0' groups under event '4_0_0'; no separate session concept beyond this)",
+  "explicit_task_records": "AVAILABLE (8,593 QA pairs, zh)",
+  "gold_answer_field": "AVAILABLE (100%, zh; 18.7% of non-profile questions in en/en_v2 -- see known_limitations)",
+  "evidence_availability_memory_id_resolvable": "AVAILABLE (zh, non-profile sections; 8,236/8,236 = 100% of Reference Memory ID-lists resolve to a real memory-unit key in the correct character's record, full scan)",
+  "evidence_availability_span_level": "PARTIAL (Memory Anchors: 20,937/23,697 = 88.4% of individual anchor spans resolve to real character offsets in the referenced unit's text, full scan zh; remainder are source-native [-1,-1] unresolved sentinels)",
+  "provenance_availability": "AVAILABLE (dataset-level: github_repo_commit recorded per normalized record)",
+  "lineage_availability": "NOT_PROVIDED_BY_SOURCE (no parent_ids/equivalent_to/conflicts_with/superseded_by field anywhere, full scan, all languages)",
+  "memory_classification_capability": "AVAILABLE and GENUINELY NOVEL relative to the 7 existing MAMBench datasets -- profile-section QA items carry a source-native category label (Gender/Nickname/Title/Age/Occupation/Nationality/Physical Characteristics/Hobbies/Achievements/Ethnic Background/Education Background/Employer/Awards and Role Models/Protagonist, 15 distinct labels observed, full scan) in the same 'Reference Memory' field non-profile sections use for evidence IDs -- this is a real classification task, not fabricated.",
+  "memory_retrieval_capability": "AVAILABLE for non-profile sections via the native Reference Memory ID lists (see evidence_availability_memory_id_resolvable above) -- these ARE source-native retrieval ground truth, not adapter-invented.",
+  "memory_synthesis_capability": "PARTIAL -- some Answer strings visibly combine information from multiple Memory Anchors within one memory unit (e.g. the events example in normalize.py's docstring), but no explicit multi-unit-fusion ground truth field exists distinguishing 'single-unit answer' from 'multi-unit fusion answer'; would require a heuristic (count of distinct Reference Memory IDs per question) rather than a source-native flag.",
+  "language": "MULTILINGUAL as shipped -- zh (original, fully usable), en (v1, profile-only usable), en_v2 (Dec-2025 update, profile-only usable; non-profile English content remains broken). NOT Chinese-only, contrary to the task brief's initial framing.",
+  "synthetic_status": "Character/profile/event/dialogue content reads as LLM-generated (templated professional/life-event scenarios; see normalize.py docstring's sample events) but the paper itself frames PerLTQA as an evaluation benchmark for personal long-term memory QA, not a claimed real-user corpus. No explicit 'generation pipeline' metadata field (unlike ConvoMem's 'checkpoint' hash) was found in the raw files to confirm the exact generation method.",
+  "license": "CC BY-NC 4.0, confirmed against both LICENSE.txt and README.md, no source disagreement.",
+  "reproducibility": "github_commit_hash pinned; PerLTQA is small enough (58.5MB, 10 files) to fully clone and fingerprint (FULLY_PRESERVED, not merely REACQUISITION_REPRODUCIBLE)."
+}

@@ -1,0 +1,38 @@
+{
+  "dataset_name": "convomem",
+  "tier": 2,
+  "official_source": "https://github.com/SalesforceAIResearch/ConvoMem (evaluation-harness code); https://huggingface.co/datasets/Salesforce/ConvoMem (the actual QA-pair data)",
+  "paper": "ConvoMem Benchmark (arXiv:2511.10523, https://arxiv.org/abs/2511.10523)",
+  "license": "LICENSE_UNRESOLVED (reconfirmed in Phase 3.2-J.2, not resolved by improved evidence coverage): GitHub code repo (LICENSE.txt, README badge, GitHub API detector) = Apache-2.0. HuggingFace dataset-card cardData.license = cc-by-nc-4.0. A THIRD signal found in J.2, the dataset's own embedded root-level dataset_info.json, also declares \"license\": \"Apache-2.0\" for the data itself -- shifting the weight of evidence (2 sources: Apache-2.0; 1 source: CC-BY-NC-4.0) without resolving the disagreement, since none of these sources is unambiguously authoritative over the others and only Salesforce could actually resolve it. Practical status unchanged from J.1: treat the DATA as CC-BY-NC-4.0 (the more restrictive reading) pending clarification. See source/identity_and_license_verification.md for the full evidence trail.",
+  "source_revision": {
+    "huggingface_dataset_sha": "e3e9b39115b02346824c70d349350de738f8be41",
+    "huggingface_last_modified": "2025-11-18T16:06:25Z",
+    "github_repo_commit": "624f582ecf0d336ae1d4539d19186089800774b1",
+    "github_repo_pushed_at": "2026-07-22T18:39:19Z"
+  },
+  "download_timestamp_utc": "2026-08-31T01:20:00Z",
+  "raw_fingerprint": "manifests/raw_fingerprint_full_corpus.json (evidence_questions/ component only, full 1,242-file corpus; pre_mixed_testcases/filler_conversations NOT fingerprinted, see reports/raw_inventory.md)",
+  "normalization_version": "3.2-j2.candidate.2",
+  "record_count": 75336,
+  "task_count": 75336,
+  "memory_count": 75336,
+  "evidence_count": 140225,
+  "answer_count": 75336,
+  "missing_answer_count": 0,
+  "missing_evidence_count": 1706,
+  "relationship_support": "No explicit relationship/lineage fields anywhere in evidence_questions/ (full scan). implicit_connection_evidence items imply a multi-hop relationship between 2+ message_evidences within the SAME item, but this is not a separate machine-readable edge -- it is inferred from the item bundling multiple evidence texts together.",
+  "capability_profile": "profile/convomem_profile.json",
+  "mambench_compatibility": "profile/mambench_compatibility.json",
+  "known_limitations": [
+    "No native evidence-ID field anywhere -- message_evidences is verbatim TEXT, not a message index/ID (full scan, all 75,336 items). Phase 3.2-J.2 extended the deterministic adapter (exact match + unicode/whitespace/punctuation normalization + unique-substring truncation matching + unique multi-message-window matching) to resolve 97.0% of individual evidence spans (140,225/144,598) / 94.8% of items fully (71,454/75,336); 2.3% of items (1,706) remain genuinely zero-resolved and are NOT_ATTEMPTABLE for evidence-based metrics -- see reports/evidence_audit_j2.md for the full taxonomy and per-category breakdown.",
+    "Corpus is ~14.7GB total across evidence_questions/pre_mixed_testcases/filler_conversations/personas -- too large to fully commit to this repository. Only evidence_questions/ (1.16GB) was fully downloaded, scanned, and fingerprinted (twice, in both J.1 and J.2); only an 18-file representative sample is committed in-repo. pre_mixed_testcases/ (13GB) and filler_conversations/ (538MB) were inspected structurally (one sample file each) but not fully scanned or hashed.",
+    "License remains formally LICENSE_UNRESOLVED (see license field above) -- J.2's technical evidence-coverage improvement does NOT resolve this, and this stage explicitly does not treat it as resolved merely because coverage improved.",
+    "changing_evidence's 'facts evolve' semantics rely on message ORDER only, not a timestamp field (zero timestamp fields found anywhere, full scan) -- classified ORDERED_SEQUENCE_ONLY, the SAME temporal kind MSC/Conversation Chronicles already provide, not a new capability.",
+    "pre_mixed_testcases/ uses a different (camelCase evidenceItems) key naming convention than evidence_questions/ (snake_case evidence_items) for the conceptually same structure -- a genuine source-side schema inconsistency between ConvoMem's two evaluation variants, not something this stage introduced or reconciled.",
+    "Corpus is very likely LLM-generated/synthetic (uniform checkpoint hash field, templated persona structure, dedicated filler-generation pipeline) -- not a real-user corpus; this is disclosed, not hidden, and is not automatically disqualifying (see the main phase document's synthetic-data assessment)."
+  ],
+  "preprocessing_actions": "manifests/preprocessing_manifest.json (one memory_records.jsonl entry + one task_records.jsonl entry per evidence_item, evidence_resolution computed via the ADAPTER_DERIVED_IDENTITY waterfall in normalize.py: EXACT_RAW -> EXACT_NORMALIZED -> TRUNCATED_UNIQUE -> MULTIMESSAGE_UNIQUE, each anchored to the source's native conversation `id` field; zero content transformation)",
+  "excluded_records": [],
+  "exclusion_reasons": "Zero exclusions -- full scan of all 1,242 files / 75,336 evidence items found zero malformed JSON, zero null/empty answers. The 1,706 zero-evidence-resolved items (down from 15,039 in J.1) are NOT excluded; they are retained with evidence_resolution status UNRESOLVED/TOO_SHORT/*_AMBIGUOUS, an explicit honest sentinel, never a fabricated empty list treated as 'no gold evidence exists'.",
+  "activation_status": "PREPARED_CANDIDATE"
+}

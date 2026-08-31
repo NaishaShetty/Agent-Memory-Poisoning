@@ -1,0 +1,30 @@
+{
+  "dataset_id": "perltqa",
+  "normalization_version": "3.2-j1.candidate.1",
+  "record_count_reconciliation": {
+    "characters_in_mem_file": 141,
+    "characters_with_questions": 32,
+    "memory_units_emitted": 7521,
+    "task_records_emitted": 8593,
+    "evidence_id_valid": 8236,
+    "evidence_id_invalid_or_absent": 0,
+    "duplicate_question_within_character": 82
+  },
+  "entries": [
+    {
+      "input_files": [
+        "raw/Dataset/zh/perltqa.json",
+        "raw/Dataset/zh/perltmem.json"
+      ],
+      "transformation": "Flattened each character's profile/social_relationship/events/dialogues dicts into individual memory_records.jsonl entries (one per native memory unit, ID preserved verbatim); flattened each QA item (across all 4 sections) into an individual task_records.jsonl entry, resolving 'Reference Memory' into either evidence_memory_ids (native ID lists, non-profile sections) or reference_memory_classification_label (profile field names).",
+      "info_preserved": [
+        "all profile fields",
+        "all social_relationship/events/dialogues fields",
+        "Memory Anchors spans verbatim"
+      ],
+      "info_omitted": [],
+      "omission_reason": "NONE -- full scan, zero records dropped.",
+      "normalization_version": "3.2-j1.candidate.1"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "dataset": "convomem",
+  "profile_status": "REVIEWED",
+  "revision_audited": "HuggingFace Salesforce/ConvoMem, dataset sha e3e9b39115b02346824c70d349350de738f8be41",
+  "content_available": "AVAILABLE (evidence_questions/, full scan); pre_mixed_testcases/ and filler_conversations/ inspected structurally only, not fully scanned (see reports/raw_inventory.md)",
+  "stable_id": "NOT_PROVIDED_BY_SOURCE at the message/evidence level -- files are identified by a UUID+role filename (persona-scoped), but no message_id/evidence_id exists inside a file",
+  "timestamped": "NOT_PROVIDED_BY_SOURCE -- zero timestamp/date/time fields anywhere in messages or conversations (full scan). changing_evidence relies on message ORDER only.",
+  "session_linked": "PARTIAL -- 'conversations' is a list of independent transcripts per evidence item, but there is no explicit session_id field distinguishing them beyond list position",
+  "explicit_task_records": "AVAILABLE (75,336 QA pairs, full scan, matches source-declared total exactly)",
+  "gold_answer_field": "AVAILABLE (100%, 0 null/empty, full scan)",
+  "evidence_availability_memory_id_resolvable": "PARTIALLY_SUPPORTED (upgraded from J.1) -- 97.0% of message_evidences text spans (140,225/144,598) resolve via a deterministic ADAPTER_DERIVED_IDENTITY waterfall (exact match -> unicode/whitespace/punctuation normalization -> unique-substring truncation match -> unique multi-message-window match); 94.8% of items fully resolved, only 2.3% zero-resolved (full scan; see reports/evidence_audit_j2.md). The remaining 3.0% (ambiguous + too-short + genuinely unresolved) is classified DATASET-INHERENT, not a matching-method gap.",
+  "provenance_availability": "AVAILABLE (dataset-level: HF revision sha recorded per normalized record)",
+  "lineage_availability": "NOT_PROVIDED_BY_SOURCE (no parent_ids/equivalent_to anywhere, full scan)",
+  "temporal_kind": "ORDERED_SEQUENCE_ONLY -- despite 'changing_evidence' category name, no timestamp field exists; does not exceed MSC/Conversation Chronicles' existing temporal-representation kind (see reports/evidence_audit.md Part 7 finding)",
+  "implicit_connections_capability": "Multi-hop reasoning across 2+ message_evidences within one conversation set (e.g. 'Sarah manages Sales' + 'Sales uses Salesforce' -> 'Sarah's team uses Salesforce'). This is evaluable with EXISTING metrics once evidence_memory_ids are adapter-resolved (multi-ID gold set -> Recall@K/evidence-recall over >1 gold ID already handles this) -- no new metric type is required; it is a harder INSTANCE of retrieval/evidence coverage, not a new metric shape.",
+  "synthetic_status": "SYNTHETIC (LLM-generated) -- circumstantial evidence: uniform checkpoint hash field, templated persona/role structure, dedicated filler-generation pipeline (see reports/evidence_audit.md Part 9)",
+  "license": "LICENSE_UNRESOLVED -- GitHub code repo LICENSE.txt/badge/API detector: Apache-2.0. HuggingFace dataset-card cardData.license: cc-by-nc-4.0. Dataset's own embedded dataset_info.json (found in J.2): Apache-2.0 (a third signal, agreeing with the code repo). Not silently resolved by this weight-of-evidence shift; see source/identity_and_license_verification.md. Practical status recorded as CC-BY-NC-4.0 for the DATA (the more restrictive reading, pending upstream clarification).",
+  "reproducibility": "HF dataset sha pinned; evidence_questions/ (the component this candidate uses) is FULLY_FINGERPRINTED (SHA-256, all 1,242 files, independently re-downloaded and re-verified in J.2) though only an 18-file sample is committed in-repo due to the ~14.7GB total corpus size; pre_mixed_testcases/filler_conversations are REACQUISITION_REPRODUCIBLE only (revision-pinned, not locally hashed)."
+}

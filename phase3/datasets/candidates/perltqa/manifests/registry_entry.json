@@ -1,0 +1,37 @@
+{
+  "dataset_name": "perltqa",
+  "tier": 2,
+  "official_source": "https://github.com/Elvin-Yiming-Du/PerLTQA",
+  "paper": "PerLTQA: A Personal Long-Term Memory Dataset for Memory Classification, Retrieval, and Fusion in Question Answering (arXiv:2402.16288, ACL Anthology 2024.sighan-1.18, https://aclanthology.org/2024.sighan-1.18/)",
+  "license": "CC BY-NC 4.0 (non-commercial research use only), confirmed independently against BOTH the repo's LICENSE.txt and README.md 'License' section -- no disagreement found (unlike ConvoMem's GitHub-code-vs-HF-dataset-card licensing split; see convomem/manifests/registry_entry.json).",
+  "source_revision": {
+    "github_commit_hash": "8d9e19868e239740ef701e603ec205cd581f221b",
+    "repo_news_entry": "[2025/12/22] The PerLTQA dataset has been updated. It mainly fixed the inconsistency issues in the dataset. (verbatim from README.md 'News' section)"
+  },
+  "download_timestamp_utc": "2026-08-31T00:00:00Z",
+  "raw_fingerprint": "manifests/raw_fingerprint.json",
+  "normalization_version": "3.2-j1.candidate.1",
+  "record_count": 8593,
+  "task_count": 8593,
+  "memory_count": 7521,
+  "evidence_count": 8236,
+  "answer_count": 8593,
+  "missing_answer_count": 0,
+  "missing_evidence_count": 357,
+  "relationship_support": "events.Characters references social_relationship IDs (AVAILABLE, verified full scan zh). dialogues IDs are suffixed event IDs (e.g. '4_0_0#0' -> event '4_0_0') giving an implicit events->dialogues link (AVAILABLE, positional convention, not a separate explicit field). Memory-level parent_ids/equivalent_to/conflicts_with/superseded_by: NOT_PROVIDED_BY_SOURCE (full scan, all 141 characters, all languages).",
+  "capability_profile": "profile/perltqa_profile.json",
+  "mambench_compatibility": "profile/mambench_compatibility.json",
+  "known_limitations": [
+    "The dataset is NOT Chinese-only despite the task's initial framing: raw/Dataset/ ships zh (original, 8,593 questions, fully usable), en (v1, 1,905 questions), and en_v2 (Dec-2025 update, 1,905 questions) releases. BOTH English releases have null Answer / missing Reference Memory / missing Memory Anchors for 1,548/1,905 (81.3%) of their non-profile questions (full scan, this stage) -- the English translations are usable only for the 357-item profile subset in either revision. The claimed Dec-2025 'fixed the inconsistency issues' update did not fix this in English; it changed only the memory file's top-level container type (list->dict).",
+    "The en_v2 update also introduced one character-name mismatch between the QA file and the (restructured) memory file that did not exist in en/zh (full scan, this stage).",
+    "82 duplicate (character, Question-text) pairs exist within the zh QA file (full scan) -- a minor source-side duplication, not something this normalization introduced or removed.",
+    "Memory Anchors character-offset spans resolve against the referenced unit's raw text for 20,937/23,697 (88.4%) of spans in zh (full scan); the remaining 11.6% are the source's own [-1,-1] 'anchor text not found verbatim' sentinel, not something this stage invented or repaired.",
+    "social_relationship/events/dialogues IDs are scoped PER CHARACTER, not globally unique across the 141-character corpus -- MAMBench memory_id usage must compose (character, native_memory_unit_id), never the bare native ID alone.",
+    "No explicit timestamp field beyond events' free-text 'Creation Time'/'Last Accessed Time' strings (not machine-parseable dates in all cases) -- classified TIMESTAMPED_PARTIAL, not TIMESTAMPED_ABSOLUTE.",
+    "Only one GitHub snapshot (commit 8d9e19868e239740ef701e603ec205cd581f221b) was inspected; the pre-Dec-2025 revision was not separately re-audited (per task instruction to use the current revision, not the old one)."
+  ],
+  "preprocessing_actions": "manifests/preprocessing_manifest.json (zh: full flatten of profile/social_relationship/events/dialogues into memory_records.jsonl + all 4 QA sections into task_records.jsonl, zero drops; en/en_v2: profile-only normalization, non-profile sections explicitly logged as excluded per-character in exclusion_manifest.json, never silently dropped)",
+  "excluded_records": [],
+  "exclusion_reasons": "Zero exclusions in the zh (primary) release -- full scan of all 8,593 questions / 7,521 memory units found zero malformed records, zero null answers, zero empty answers. 192 en/en_v2 non-profile per-character sections are logged (not silently dropped) as BROKEN_SOURCE_TRANSLATION in manifests/exclusion_manifest.json.",
+  "activation_status": "PREPARED_CANDIDATE"
+}

@@ -1,0 +1,163 @@
+{
+  "schema_version": "3.2-j3.1",
+  "dataset_id": "perltqa",
+  "canonical_name": "PerLTQA (zh)",
+  "role": "USABLE dataset (Phase 3.2-J.3, promoted from PREPARED_CANDIDATE per J.1/J.2's zh-only decision). Provides native, memory-ID-typed gold evidence and a genuinely new memory-classification workload not present in any active dataset. NOT registered under phase3/evaluation/datasets/profile.schema.json (that schema is frozen to the 4 canonical-active datasets' dataset_id enum) -- this is a shape-compatible sibling profile, consumed identically by integration/validation.py and integration/pipeline.py, which read plain dict keys and do not enforce the frozen schema's enum.",
+  "registry_reference": {
+    "manifest_file": "phase3/datasets/candidates/perltqa/manifests/registry_entry.json",
+    "dataset_key": "perltqa",
+    "record_count_reference": "registry_entry.json: record_count=8593, memory_count=7521 (full scan, zh release only, J.1)."
+  },
+  "source_reference": {
+    "processed_files": [
+      { "path": "phase3/datasets/candidates/perltqa/normalized/memory_records.jsonl", "total_lines": 7521 },
+      { "path": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl", "total_lines": 8593 }
+    ]
+  },
+  "inspection_method": {
+    "description": "Full-scan inspection (not sample-based) performed in Phase 3.2-J.1/J.2: all 8,593 zh task records and 7,521 memory units scanned for null answers, Reference-Memory-ID validity, and Memory-Anchors span resolution.",
+    "sample_based": false,
+    "sample_sizes": {}
+  },
+  "memory_availability": {
+    "stable_id": {
+      "status": "AVAILABLE",
+      "reason": "Every memory unit carries a native_memory_unit_id (or the literal string 'profile' for profile-section units), encoded NATIVE_MEMORY_ID (character-scope-resolved) via identity.encode_perltqa_memory_identity -- verified collision-free across all 7,521 units.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/memory_records.jsonl:character,native_memory_unit_id"
+    },
+    "unique_id": {
+      "status": "AVAILABLE",
+      "reason": "Full-scan collision check (not a sample): 7,521/7,521 character-scoped composite identities are unique.",
+      "grounding": "phase3/evaluation/tests/test_dataset_integration_j3.py::test_perltqa_memory_identity_collision_free"
+    },
+    "content_available": {
+      "status": "AVAILABLE",
+      "reason": "Every memory record carries a non-empty agent_visible_context (structured profile fields, or a social_relationship/events/dialogues unit's own fields).",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/memory_records.jsonl:agent_visible_context"
+    },
+    "timestamped": {
+      "status": "PARTIAL",
+      "reason": "Only events-kind memory units carry Creation Time/Last Accessed Time free-text fields; not uniformly machine-parseable, and social_relationship/profile/dialogues units carry none.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/memory_records.jsonl:agent_visible_context (events kind only)"
+    },
+    "session_linked": {
+      "status": "PARTIAL",
+      "reason": "dialogues unit IDs are suffixed event IDs (e.g. '4_0_0#0' groups under event '4_0_0') -- a real but coarse session-like grouping; no separate explicit session_id field.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/memory_records.jsonl:native_memory_unit_id"
+    },
+    "typed_foundation_or_derived": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No explicit foundation-vs-derived type tag exists; every PerLTQA memory unit is a foundation memory by construction (no parent-edge structure exists at all)."
+    },
+    "explicit_parent_ids_present": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Full-scan (all languages, J.1): zero parent_ids/equivalent_to fields anywhere in the source.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/memory_records.jsonl (parent_ids field, literal NOT_PROVIDED_BY_SOURCE on every record)"
+    }
+  },
+  "workload_availability": {
+    "explicit_task_records": {
+      "status": "AVAILABLE",
+      "reason": "normalized/task_records.jsonl exists with 8,593 zh records, each distinct from any memory_id.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl"
+    },
+    "separate_from_memory": {
+      "status": "AVAILABLE",
+      "reason": "task_records.jsonl is a physically separate file with a disjoint schema from memory_records.jsonl.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl vs memory_records.jsonl"
+    },
+    "query_field": {
+      "status": "AVAILABLE",
+      "reason": "Every task record carries a non-empty agent_visible.question string (Chinese, source-native, never translated).",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl:agent_visible.question"
+    },
+    "gold_answer_field": {
+      "status": "AVAILABLE",
+      "reason": "Full scan: 0/8,593 null or empty answers in the zh release.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl:evaluator_only.gold_answer"
+    },
+    "task_id_field": {
+      "status": "AVAILABLE",
+      "reason": "Every task record carries a source_record_id distinct in shape from any memory identity.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl:source_record_id"
+    },
+    "session_or_conversation_id": {
+      "status": "PARTIAL",
+      "reason": "character field links a task to its owning character's memory units; not a session/conversation id in the LoCoMo sense.",
+      "grounding": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl:character"
+    }
+  },
+  "evidence_availability": {
+    "status": "PARTIAL",
+    "reason": "Non-profile sections (social_relationship/events/dialogues, 8,236/8,593 = 95.8% of all task records) carry native, memory-ID-resolvable evidence (100% valid, full scan). Profile-section records (357/8,593, 4.2%) carry a classification LABEL, not an evidence-ID pointer, in the same source field -- so evidence_availability is PARTIAL at the dataset level, not AVAILABLE, even though the non-profile majority is fully resolvable.",
+    "grounding": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl:evaluator_only.evidence_memory_ids,section"
+  },
+  "answer_availability": {
+    "status": "AVAILABLE",
+    "reason": "See workload_availability.gold_answer_field -- 0/8,593 null/empty, full scan.",
+    "grounding": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl:evaluator_only.gold_answer"
+  },
+  "provenance_availability": {
+    "status": "AVAILABLE",
+    "reason": "Every normalized record carries source_revision (github_repo_commit) pointing back to the pinned source commit.",
+    "grounding": "phase3/datasets/candidates/perltqa/normalized/memory_records.jsonl:source_revision"
+  },
+  "lineage_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No parent_ids edges exist anywhere (full scan) -- no lineage graph to walk.",
+    "grounding": "Derived from memory_availability.explicit_parent_ids_present."
+  },
+  "equivalence_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No equivalent_to edges exist anywhere (full scan, all languages).",
+    "grounding": "phase3/datasets/candidates/perltqa/normalized/memory_records.jsonl (equivalent_to field, literal NOT_PROVIDED_BY_SOURCE on every record)"
+  },
+  "temporal_information": {
+    "kind": "TIMESTAMPED_PARTIAL",
+    "reason": "Only events-kind memory units carry free-text Creation Time/Last Accessed Time fields; not machine-parseable dates in all cases, and most memory kinds carry no temporal field at all -- distinct from LoCoMo/LongMemEval's TIMESTAMPED_ABSOLUTE and from MSC/Conversation Chronicles's ORDERED_SEQUENCE_ONLY."
+  },
+  "metric_support": {
+    "RECALL_AT_K": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Native Reference Memory IDs, character-scope-resolved via encode_perltqa_memory_identity -- SUPPORTED for the 95.8% non-profile majority; profile-section records have no evidence-ID gold set for this metric." },
+    "MRR": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis as RECALL_AT_K." },
+    "STRICT_TSR": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "gold_evidence_ids are real, character-scope-resolved memory IDs for non-profile records; strict_tsr()'s canonical set-intersection definition applies unmodified." },
+    "SELECTION_COUNT": { "status": "SUPPORTED", "reason": "Generic over any selected-id sequence; no dataset-specific precondition." },
+    "SELECTION_CAPACITY_DIAGNOSTICS": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires a gold_id, available for non-profile records." },
+    "EVIDENCE_PRECISION": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis as RECALL_AT_K." },
+    "EVIDENCE_RECALL": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis." },
+    "EVIDENCE_COVERAGE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis." },
+    "IRRELEVANT_MEMORY_RATE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis." },
+    "REDUNDANCY": { "status": "SUPPORTED", "reason": "Identity-duplicate-only, needs only a selected-id sequence." },
+    "EQUIVALENCE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No equivalent_to edges exist (full scan, 0 matches)." },
+    "PROVENANCE_VALIDATION": { "status": "SUPPORTED", "reason": "Every record has a source_revision pointer; provenance validation does not require parent_ids." },
+    "LINEAGE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No parent_ids edges exist (full scan, 0 matches)." },
+    "AGENT_ANSWER_CORRECTNESS": { "status": "SUPPORTED", "reason": "0/8,593 null/empty answers (full scan); evaluate_answer_correctness's .strip()-only exact match is language-agnostic (verified by direct code inspection, J.1)." },
+    "AGENT_SUCCESS": { "status": "SUPPORTED", "reason": "Thin wrapper over answer correctness." },
+    "MEMORY_CONTRIBUTION": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires gold answers (present, 100%) and evidence (present for non-profile majority)." },
+    "OBSERVED_GOLD_EVIDENCE_CEILING": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis as MEMORY_CONTRIBUTION." },
+    "RETRIEVAL_UTILIZATION": { "status": "SUPPORTED", "reason": "Needs only selected/used_memory_ids from an AgentExecutionResult; no dataset-specific gold dependency." },
+    "FAILURE_STAGE_CLASSIFICATION": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires gold_evidence_ids (present for non-profile majority) and an expected_answer (present, 100%)." }
+  },
+  "condition_support": {
+    "NO_MEMORY": { "status": "SUPPORTED", "reason": "build_agent_visible_context needs only task_id/question, both present." },
+    "GOLD_EVIDENCE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Gold evidence content assemblable from encoded evidence IDs -> memory lookup, for the 95.8% non-profile majority." },
+    "RETRIEVED_MEMORY": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires a real candidate-discovery/reranking/selection pipeline, not implemented anywhere in Phase 3.2 -- see adapter_requirements." },
+    "SELECTED_MEMORY_AVAILABLE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same as RETRIEVED_MEMORY." },
+    "DERIVED_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No derived memories exist (no parent_ids anywhere)." },
+    "CONFLICTING_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No conflicts_with edges exist anywhere in the source." }
+  },
+  "adapter_requirements": [
+    "A candidate-discovery + reranking + selection pipeline over normalized/memory_records.jsonl -- not implemented anywhere yet; this profile describes the requirement, it does not build it.",
+    "An explicit policy decision on whether profile-section records (357/8,593, no evidence-ID basis) should be scored as answer-correctness-only cases or excluded from evidence-based metrics entirely -- this profile does not decide the policy, it only reports the PARTIAL status."
+  ],
+  "limitations": [
+    "This profile covers the zh release ONLY -- en/en_v2 are explicitly NOT covered here (per J.1's finding that both English releases have 81.3% non-profile null answers) and must never be loaded through this profile.",
+    "evidence_availability/most metric_support entries are PARTIAL/SUPPORTED_WITH_ADAPTER, not AVAILABLE/SUPPORTED outright, because the 357 profile-section records genuinely have no evidence-ID gold basis -- this is a real, disclosed dataset-shape distinction, not a data-quality gap.",
+    "Not registered under the frozen phase3/evaluation/datasets/profile.schema.json (dataset_id enum locked to the 4 canonical-active datasets) -- this profile is a shape-compatible sibling, consumed by the same integration.validation/pipeline functions, which read plain dict keys without enforcing that schema."
+  ],
+  "evidence_notes": [
+    { "claim": "Native Reference Memory ID-lists resolve against the correct character's memory dict for 100% of non-profile records (full scan).", "file": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl", "field": "evaluator_only.evidence_memory_ids" },
+    { "claim": "0/8,593 null or empty answers (full scan, zh).", "file": "phase3/datasets/candidates/perltqa/normalized/task_records.jsonl", "field": "evaluator_only.gold_answer" },
+    { "claim": "Character-scoped composite identity is collision-free across all 7,521 memory units (full scan).", "file": "phase3/evaluation/extensions/identity.py", "field": "encode_perltqa_memory_identity" }
+  ],
+  "profile_status": "REVIEWED"
+}
