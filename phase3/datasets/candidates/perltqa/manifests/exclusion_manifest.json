@@ -1,0 +1,1160 @@
+{
+  "dataset_id": "perltqa",
+  "normalization_version": "3.2-j1.candidate.1",
+  "exclusions": [
+    {
+      "record_id": "en::social_relationship::Zhang Xiaohong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Zhang Xiaohong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Zhang Xiaohong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Wang Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Wang Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Wang Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Liang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Liang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Liang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Cao Lili",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Cao Lili",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Cao Lili",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Xu Jia",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Xu Jia",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Xu Jia",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Chen Zhi",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Chen Zhi",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Chen Zhi",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Li Hua",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Li Hua",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Li Hua",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Liu Liang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Liu Liang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Liu Liang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Yang Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Yang Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Yang Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Han Gang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Han Gang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Han Gang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Cai Xiuying",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Cai Xiuying",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Cai Xiuying",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Wang Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Wang Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Wang Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Zheng Yong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Zheng Yong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Zheng Yong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Zhu Xiaolong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Zhu Xiaolong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Zhu Xiaolong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Zhou Ting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Zhou Ting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Zhou Ting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Xiao Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Xiao Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Xiao Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Peng Jie",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Peng Jie",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Peng Jie",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Madan",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Madan",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Madan",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Lu Yun",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Lu Yun",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Lu Yun",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Xiong Fei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Xiong Fei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Xiong Fei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Feng Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Feng Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Feng Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Kong Tingting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Kong Tingting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Kong Tingting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::dragon beautiful",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::dragon beautiful",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::dragon beautiful",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Lin Wen",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Lin Wen",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Lin Wen",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Xu Hui",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Xu Hui",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Xu Hui",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Zhao Li",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Zhao Li",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Zhao Li",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::He Feng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::He Feng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::He Feng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Tayo",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Tayo",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Tayo",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Huang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Huang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Huang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Sun Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Sun Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Sun Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Xia Tong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Xia Tong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Xia Tong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::social_relationship::Qin Meng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::events::Qin Meng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en::dialogues::Qin Meng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Zhang Xiaohong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Zhang Xiaohong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Zhang Xiaohong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Wang Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Wang Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Wang Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Liang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Liang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Liang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Cao Lili",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Cao Lili",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Cao Lili",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Xu Jia",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Xu Jia",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Xu Jia",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Chen Zhi",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Chen Zhi",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Chen Zhi",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Li Hua",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Li Hua",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Li Hua",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Liu Liang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Liu Liang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Liu Liang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Yang Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Yang Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Yang Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Han Gang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Han Gang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Han Gang",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Cai Xiuying",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Cai Xiuying",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Cai Xiuying",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Wang Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Wang Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Wang Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Zheng Yong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Zheng Yong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Zheng Yong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Zhu Xiaolong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Zhu Xiaolong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Zhu Xiaolong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Zhou Ting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Zhou Ting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Zhou Ting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Xiao Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Xiao Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Xiao Ming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Peng Jie",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Peng Jie",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Peng Jie",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Madan",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Madan",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Madan",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Lu Yun",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Lu Yun",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Lu Yun",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Xiong Fei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Xiong Fei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Xiong Fei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Feng Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Feng Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Feng Wei",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Kong Tingting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Kong Tingting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Kong Tingting",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::dragon beautiful",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::dragon beautiful",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::dragon beautiful",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Lin Wen",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Lin Wen",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Lin Wen",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Xu Hui",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Xu Hui",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Xu Hui",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Zhao Li",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Zhao Li",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Zhao Li",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::He Feng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::He Feng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::He Feng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Tayo",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Tayo",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Tayo",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Huang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Huang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Huang Xin",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Sun Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Sun Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Sun Xiaoming",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Xia Tong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Xia Tong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Xia Tong",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::social_relationship::Qin Meng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'social_relationship' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::events::Qin Meng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'events' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    },
+    {
+      "record_id": "en_v2::dialogues::Qin Meng",
+      "reason": "BROKEN_SOURCE_TRANSLATION: en_v2 release's 'dialogues' QA items have null Answer, missing Reference Memory, and missing Memory Anchors for this character (full-scan finding, reports/evidence_audit.md) -- not usable as task records in this language.",
+      "recoverable": false,
+      "retained_in_raw": true
+    }
+  ],
+  "exclusion_count": 192,
+  "note": "Zero exclusions in the zh (primary, full-integrity) release. All exclusions are en/en_v2 non-profile sections, explicitly logged as BROKEN_SOURCE_TRANSLATION per-character, not dropped silently; raw/ retains the original files unchanged so this decision is independently re-checkable."
+}

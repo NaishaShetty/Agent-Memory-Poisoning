@@ -1,0 +1,81 @@
+{
+  "total_evidence_spans": 144598,
+  "counts": {
+    "TRUNCATED_UNIQUE": 35328,
+    "UNRESOLVED": 4268,
+    "EXACT_RAW": 104890,
+    "MULTIMESSAGE_AMBIGUOUS": 13,
+    "MULTIMESSAGE_UNIQUE": 3,
+    "TRUNCATED_AMBIGUOUS": 75,
+    "EXACT_NORMALIZED": 4,
+    "TOO_SHORT": 17
+  },
+  "resolved_total": 140225,
+  "resolved_rate": 0.9697575346823607,
+  "unresolved_or_ambiguous_or_short": 4373,
+  "by_category": {
+    "abstention_evidence": {
+      "TRUNCATED_UNIQUE": 6460,
+      "UNRESOLVED": 530,
+      "EXACT_RAW": 14828,
+      "MULTIMESSAGE_AMBIGUOUS": 3,
+      "MULTIMESSAGE_UNIQUE": 2,
+      "TRUNCATED_AMBIGUOUS": 7
+    },
+    "assistant_facts_evidence": {
+      "EXACT_RAW": 15386,
+      "TRUNCATED_UNIQUE": 2345,
+      "UNRESOLVED": 697,
+      "MULTIMESSAGE_AMBIGUOUS": 10,
+      "MULTIMESSAGE_UNIQUE": 1
+    },
+    "changing_evidence": {
+      "EXACT_RAW": 36333,
+      "UNRESOLVED": 1326,
+      "TRUNCATED_UNIQUE": 14555,
+      "TRUNCATED_AMBIGUOUS": 60,
+      "EXACT_NORMALIZED": 4
+    },
+    "implicit_connection_evidence": {
+      "TRUNCATED_UNIQUE": 3070,
+      "UNRESOLVED": 265,
+      "EXACT_RAW": 8405,
+      "TRUNCATED_AMBIGUOUS": 4,
+      "TOO_SHORT": 1
+    },
+    "preference_evidence": {
+      "EXACT_RAW": 4247,
+      "TRUNCATED_UNIQUE": 875,
+      "UNRESOLVED": 54
+    },
+    "user_evidence": {
+      "TRUNCATED_UNIQUE": 8023,
+      "EXACT_RAW": 25691,
+      "UNRESOLVED": 1396,
+      "TOO_SHORT": 16,
+      "TRUNCATED_AMBIGUOUS": 4
+    }
+  },
+  "unresolved_examples": [
+    {
+      "file": "C:/Users/naish/cmdl2/core_benchmark/evidence_questions\\abstention_evidence\\1_evidence\\0050e213-5032-42a0-8041-b5eef2f8ab91_Telemarketer.json",
+      "text": "Hey Alex, how was that quarterly team meeting yesterday? Anything important come up regarding sales goals?"
+    },
+    {
+      "file": "C:/Users/naish/cmdl2/core_benchmark/evidence_questions\\abstention_evidence\\1_evidence\\0050e213-5032-42a0-8041-b5eef2f8ab91_Telemarketer.json",
+      "text": "Oh, it was pretty much what you'd expect. A lot of emphasis on ramping up our conversion rates for the upcoming quarter. Management is really pushing for higher efficiency and better qualification of "
+    },
+    {
+      "file": "C:/Users/naish/cmdl2/core_benchmark/evidence_questions\\abstention_evidence\\1_evidence\\0050e213-5032-42a0-8041-b5eef2f8ab91_Telemarketer.json",
+      "text": "StapleSource was a brutal trial by fire, absolutely. It taught me how to be ruthlessly efficient though. I remember one particularly challenging period there, a quarter that really tested me, but I ac"
+    },
+    {
+      "file": "C:/Users/naish/cmdl2/core_benchmark/evidence_questions\\abstention_evidence\\1_evidence\\0050e213-5032-42a0-8041-b5eef2f8ab91_Telemarketer.json",
+      "text": "Hey Alex, how's life in the new townhouse? Is Cooper enjoying the backyard?"
+    },
+    {
+      "file": "C:/Users/naish/cmdl2/core_benchmark/evidence_questions\\abstention_evidence\\1_evidence\\0050e213-5032-42a0-8041-b5eef2f8ab91_Telemarketer.json",
+      "text": "It's a huge improvement, honestly. Cooper absolutely loves having the space to run around. He's got so much energy, the backyard is essential. We've even been exploring some of the local walking trail"
+    }
+  ]
+}

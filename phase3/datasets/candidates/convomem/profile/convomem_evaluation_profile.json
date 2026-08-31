@@ -1,0 +1,164 @@
+{
+  "schema_version": "3.2-j3.1",
+  "dataset_id": "convomem",
+  "canonical_name": "ConvoMem",
+  "role": "USABLE_WITH_LIMITATIONS dataset (Phase 3.2-J.3, promoted from KEEP_CANDIDATE_ONLY per J.2). Provides a 6-category evidence taxonomy including a first-class abstention category. NOT registered under phase3/evaluation/datasets/profile.schema.json (frozen to the 4 canonical-active datasets) -- a shape-compatible sibling profile, same as PerLTQA's.",
+  "registry_reference": {
+    "manifest_file": "phase3/datasets/candidates/convomem/manifests/registry_entry.json",
+    "dataset_key": "convomem",
+    "record_count_reference": "registry_entry.json: record_count=75336, evidence_count=140225 (full-corpus scan, J.2)."
+  },
+  "source_reference": {
+    "processed_files": [
+      { "path": "phase3/datasets/candidates/convomem/normalized/memory_records.jsonl", "total_lines_committed_sample": 1559, "total_lines_full_corpus": 75336, "note": "Only the 18-file committed raw/ sample's normalized output is present in-repo; full-corpus normalized output was generated and audited externally in J.2 (see reports/evidence_audit_j2_data.json) but not committed, per J.1/J.2's disclosed ~14.7GB corpus size limit." },
+      { "path": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl", "total_lines_committed_sample": 1559, "total_lines_full_corpus": 75336 }
+    ]
+  },
+  "inspection_method": {
+    "description": "Full-corpus scan (not sample-based) performed in Phase 3.2-J.2: all 75,336 task records / 144,598 evidence spans scanned via the deterministic resolution waterfall. This profile's in-repo record counts reflect the committed 18-file sample; full-corpus numbers are cited from reports/evidence_audit_j2_data.json, never restated as if independently re-verified here.",
+    "sample_based": true,
+    "sample_sizes": { "committed_raw_sample_files": 18, "full_corpus_files_audited_externally": 1242 }
+  },
+  "memory_availability": {
+    "stable_id": {
+      "status": "AVAILABLE",
+      "reason": "Every message's ADAPTER_DERIVED_IDENTITY is anchored to the source's own native conversations[i].id field (verified globally unique, 0 reuse across 74,391+ conversations, J.2) plus a resolved message index.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/memory_records.jsonl:agent_visible_context.conversations[].id"
+    },
+    "unique_id": {
+      "status": "AVAILABLE",
+      "reason": "conversation.id verified globally unique (J.2); message_index is unique within its own conversation by construction (a list position).",
+      "grounding": "phase3/evaluation/datasets/PHASE3_2_J2_CONVOMEM_FEASIBILITY.md section 7"
+    },
+    "content_available": {
+      "status": "AVAILABLE",
+      "reason": "Every message carries non-empty speaker/text fields (full scan, J.2).",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/memory_records.jsonl:agent_visible_context.conversations[].messages[].text"
+    },
+    "timestamped": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Zero timestamp/date/time fields exist anywhere in evidence_questions/ messages or conversations (full scan, J.2).",
+      "grounding": "phase3/evaluation/datasets/PHASE3_2_J2_CONVOMEM_FEASIBILITY.md section 15"
+    },
+    "session_linked": {
+      "status": "PARTIAL",
+      "reason": "Each conversation is a session-like unit (conversations[i].id); no separate explicit session_id distinguishing multiple sessions within one conversation.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/memory_records.jsonl:agent_visible_context.conversations"
+    },
+    "typed_foundation_or_derived": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "No explicit type tag; every message is a foundation memory by construction (no parent-edge structure exists)."
+    },
+    "explicit_parent_ids_present": {
+      "status": "NOT_PROVIDED_BY_SOURCE",
+      "reason": "Full scan, J.1/J.2: zero parent_ids/equivalent_to fields anywhere in the source.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/memory_records.jsonl (parent_ids field, literal NOT_PROVIDED_BY_SOURCE on every record)"
+    }
+  },
+  "workload_availability": {
+    "explicit_task_records": {
+      "status": "AVAILABLE",
+      "reason": "normalized/task_records.jsonl exists, one record per evidence_item.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl"
+    },
+    "separate_from_memory": {
+      "status": "AVAILABLE",
+      "reason": "task_records.jsonl is a physically separate file with a disjoint schema from memory_records.jsonl.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl vs memory_records.jsonl"
+    },
+    "query_field": {
+      "status": "AVAILABLE",
+      "reason": "Every task record carries a non-empty agent_visible.question string.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl:agent_visible.question"
+    },
+    "gold_answer_field": {
+      "status": "AVAILABLE",
+      "reason": "Full scan (J.2): 0/75,336 null or empty answers.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl:evaluator_only.gold_answer"
+    },
+    "task_id_field": {
+      "status": "AVAILABLE",
+      "reason": "Every task record carries a source_record_id distinct in shape from any memory identity.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl:source_record_id"
+    },
+    "session_or_conversation_id": {
+      "status": "PARTIAL",
+      "reason": "category/evidence_count_bucket link a task to its persona file; per-message conversation.id is only resolvable via evidence_resolution locations, not a standalone task-level field.",
+      "grounding": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl:category,evidence_count_bucket"
+    }
+  },
+  "evidence_availability": {
+    "status": "PARTIAL",
+    "reason": "97.0% of individual evidence spans (140,225/144,598, full-corpus scan, J.2) resolve to a real ADAPTER_DERIVED_IDENTITY; 94.8% of items are fully resolved. The remaining 2.3% zero-resolved items (plus a small ambiguous/too-short residual) have no evidence-ID gold basis at all -- PARTIAL, not AVAILABLE, at the dataset level, matching J.2's own explicit non-100% framing.",
+    "grounding": "phase3/datasets/candidates/convomem/reports/evidence_audit_j2_data.json"
+  },
+  "answer_availability": {
+    "status": "AVAILABLE",
+    "reason": "0/75,336 null/empty answers (full-corpus scan, J.2) -- answer availability is fully independent of evidence resolution (J.2 section 13).",
+    "grounding": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl:evaluator_only.gold_answer"
+  },
+  "provenance_availability": {
+    "status": "AVAILABLE",
+    "reason": "Every normalized record carries source_revision (huggingface_dataset_sha) pointing to the pinned HF revision.",
+    "grounding": "phase3/datasets/candidates/convomem/normalized/memory_records.jsonl:source_revision"
+  },
+  "lineage_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No parent_ids edges exist anywhere (full scan) -- no lineage graph to walk.",
+    "grounding": "Derived from memory_availability.explicit_parent_ids_present."
+  },
+  "equivalence_availability": {
+    "status": "NOT_PROVIDED_BY_SOURCE",
+    "reason": "No equivalent_to edges exist anywhere (full scan).",
+    "grounding": "phase3/datasets/candidates/convomem/normalized/memory_records.jsonl (equivalent_to field, literal NOT_PROVIDED_BY_SOURCE on every record)"
+  },
+  "temporal_information": {
+    "kind": "ORDERED_SEQUENCE_ONLY",
+    "reason": "Zero timestamp fields exist anywhere (full scan, J.2); changing_evidence's 'facts evolve' semantics rely on message order only -- the same temporal kind MSC/Conversation Chronicles already provide, not TIMESTAMPED_ABSOLUTE."
+  },
+  "metric_support": {
+    "RECALL_AT_K": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "ADAPTER_DERIVED_IDENTITY evidence IDs resolve for 94.8% of items (full corpus); NOT_ATTEMPTABLE for the residual zero-resolved items, which must carry an empty gold_evidence_ids list (never a fabricated one)." },
+    "MRR": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis." },
+    "STRICT_TSR": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "gold_evidence_ids are real ADAPTER_DERIVED_IDENTITY values for resolved spans; strict_tsr()'s canonical set-intersection definition applies unmodified; UNDEFINED_EMPTY_GOLD for zero-resolved items, never a fabricated 0." },
+    "SELECTION_COUNT": { "status": "SUPPORTED", "reason": "Generic over any selected-id sequence." },
+    "SELECTION_CAPACITY_DIAGNOSTICS": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires a gold_id, available for resolved items." },
+    "EVIDENCE_PRECISION": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis as RECALL_AT_K." },
+    "EVIDENCE_RECALL": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis." },
+    "EVIDENCE_COVERAGE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis." },
+    "IRRELEVANT_MEMORY_RATE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis." },
+    "REDUNDANCY": { "status": "SUPPORTED", "reason": "Identity-duplicate-only, needs only a selected-id sequence." },
+    "EQUIVALENCE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No equivalent_to edges exist (full scan, 0 matches)." },
+    "PROVENANCE_VALIDATION": { "status": "SUPPORTED", "reason": "Every record has a source_revision pointer; provenance validation does not require parent_ids." },
+    "LINEAGE_DIAGNOSTICS": { "status": "UNAVAILABLE", "reason": "No parent_ids edges exist (full scan, 0 matches)." },
+    "AGENT_ANSWER_CORRECTNESS": { "status": "SUPPORTED", "reason": "0/75,336 null/empty answers (full scan); fully independent of evidence resolution." },
+    "AGENT_SUCCESS": { "status": "SUPPORTED", "reason": "Thin wrapper over answer correctness." },
+    "MEMORY_CONTRIBUTION": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires gold answers (present, 100%) and evidence (present for 94.8% of items)." },
+    "OBSERVED_GOLD_EVIDENCE_CEILING": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same basis as MEMORY_CONTRIBUTION." },
+    "RETRIEVAL_UTILIZATION": { "status": "SUPPORTED", "reason": "Needs only selected/used_memory_ids from an AgentExecutionResult; no dataset-specific gold dependency." },
+    "FAILURE_STAGE_CLASSIFICATION": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires gold_evidence_ids (present for 94.8% of items) and an expected_answer (present, 100%)." }
+  },
+  "condition_support": {
+    "NO_MEMORY": { "status": "SUPPORTED", "reason": "build_agent_visible_context needs only task_id/question, both present." },
+    "GOLD_EVIDENCE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Gold evidence content assemblable from encoded evidence IDs -> per-message memory lookup, for the 94.8%-resolved majority." },
+    "RETRIEVED_MEMORY": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Requires a real candidate-discovery/reranking/selection pipeline, not implemented anywhere in Phase 3.2." },
+    "SELECTED_MEMORY_AVAILABLE": { "status": "SUPPORTED_WITH_ADAPTER", "reason": "Same as RETRIEVED_MEMORY." },
+    "DERIVED_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No derived memories exist (no parent_ids anywhere)." },
+    "CONFLICTING_MEMORY_AVAILABLE": { "status": "UNAVAILABLE", "reason": "No conflicts_with edges exist anywhere in the source." }
+  },
+  "adapter_requirements": [
+    "A candidate-discovery + reranking + selection pipeline over normalized/memory_records.jsonl -- not implemented anywhere yet.",
+    "An explicit policy decision on whether the 2.3% zero-resolved items should be excluded from evidence-based metric aggregation entirely, or included with an explicit NOT_ATTEMPTED marker per case -- this profile does not decide the policy."
+  ],
+  "limitations": [
+    "USABLE_WITH_LIMITATIONS, not PROMOTE_TO_USABLE: licensing remains LICENSE_UNRESOLVED (see manifests/registry_entry.json) -- this status must not be silently upgraded regardless of technical integration success.",
+    "Only the committed 18-file raw/ sample is present in this repository; this profile's in-repo record counts reflect that sample, while metric_support/evidence_availability reasoning cites the externally-audited full-corpus numbers from J.2.",
+    "2.3% of items (full corpus) have zero resolvable evidence -- dataset-inherent (J.2 finding), never converted to a fabricated gold set.",
+    "Not registered under the frozen phase3/evaluation/datasets/profile.schema.json (dataset_id enum locked to the 4 canonical-active datasets) -- a shape-compatible sibling profile."
+  ],
+  "evidence_notes": [
+    { "claim": "97.0% of evidence spans resolve via the J.2 deterministic waterfall (full-corpus scan).", "file": "phase3/datasets/candidates/convomem/reports/evidence_audit_j2_data.json" },
+    { "claim": "0/75,336 null or empty answers (full-corpus scan).", "file": "phase3/datasets/candidates/convomem/normalized/task_records.jsonl", "field": "evaluator_only.gold_answer" },
+    { "claim": "conversations[i].id is globally unique (0 reuse across 74,391+ conversations checked).", "file": "phase3/evaluation/datasets/PHASE3_2_J2_CONVOMEM_FEASIBILITY.md", "field": "section 3" }
+  ],
+  "profile_status": "REVIEWED"
+}

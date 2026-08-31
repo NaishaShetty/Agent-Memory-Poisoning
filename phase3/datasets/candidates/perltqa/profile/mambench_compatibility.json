@@ -1,0 +1,18 @@
+{
+  "dataset": "perltqa",
+  "grounded_against": "phase3/evaluation/metrics/{retrieval,evidence,provenance,equivalence,selection}.py function signatures, read directly in this stage",
+  "metrics": {
+    "recall_at_k": "SUPPORTED (zh, non-profile sections) -- evidence_memory_ids from Reference Memory are real, memory-ID-typed gold_ids; NOT_ATTEMPTABLE for profile-section questions (no memory-ID gold set, only a classification label).",
+    "reciprocal_rank / mean_reciprocal_rank": "SUPPORTED (zh, non-profile sections), same basis as recall_at_k.",
+    "evidence_precision / evidence_recall / evidence_coverage": "SUPPORTED (zh, non-profile sections). PARTIAL if evaluated at the Memory-Anchors span level instead of the memory-unit level (88.4% span resolution rate, not 100%).",
+    "irrelevant_memory_rate": "SUPPORTED (zh, non-profile sections) -- same gold_ids basis.",
+    "redundancy": "SUPPORTED -- operates on any selected_id sequence; no dataset-specific precondition beyond having IDs at all.",
+    "selection_count / selection_count_aggregate": "SUPPORTED -- generic over any selected-id list.",
+    "strict_tsr": "SUPPORTED (zh, non-profile sections) -- gold_evidence_ids are real and memory-ID-typed; NOT_ATTEMPTABLE for profile-section questions.",
+    "validate_parent_edges / orphan_parent_count / detect_cycles / ancestors / descendants / root_origins / shared_origin_report / lineage_depth / validate_provenance / provenance_completeness_report / independence_report": "NOT_ATTEMPTABLE -- no parent_ids/equivalent_to edges exist anywhere in the source (full scan, all languages); this is a dataset-wide gap PerLTQA shares with all 7 existing MAMBench datasets (see H.2's Part 4 finding), not a PerLTQA-specific deficiency.",
+    "extract_equivalence_edges / validate_equivalence_edges / equivalence_classes / equivalence_group_size": "NOT_ATTEMPTABLE -- same reason as lineage metrics; NOT_PROVIDED_BY_SOURCE.",
+    "answer_correctness (agent/outcomes.py, cited not re-derived)": "SUPPORTED as-is for zh (100% non-null string answers, real exact/paraphrase-comparable gold_answer strings); PARTIALLY_SUPPORTED for en/en_v2 (only the 357-item profile subset per language has a usable gold_answer; the other 1,548 items per language have null Answer and must be excluded from any answer-correctness run, not silently scored as wrong).",
+    "memory_classification (NOT an existing MAMBench metric -- profile-section 'Reference Memory' field)": "GENUINELY NEW capability. No existing metric function in phase3/evaluation/metrics/ evaluates classification-label correctness (predict-the-category-given-the-question); would require a new, narrowly-scoped metric (e.g. exact-match against the known 15-label vocabulary) if this capability is ever activated. NOT built in this stage (Part 19's 'no unjustified framework abstraction' rule)."
+  },
+  "language_note": "None of the above metric functions perform any language-specific string processing internally (read directly, this stage) -- they operate on IDs, counts, and MetricResult booleans, not on the CONTENT of gold_answer strings. `evaluate_answer_correctness` (phase3/evaluation/agent/outcomes.py:126-194, read directly in this stage) applies ONLY `.strip()` to both sides before exact-match comparison -- no case-folding, no punctuation removal, no ASCII/tokenization assumption (this is a deliberate, documented 3.2-E design decision per the function's own docstring, not incidental). This means zh-language exact-match answer correctness is NO_BLOCKER: the existing metric is genuinely language-agnostic byte-for-byte string equality and requires no framework change to run against Chinese-language gold_answer strings."
+}

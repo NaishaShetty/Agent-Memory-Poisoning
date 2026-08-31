@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase3/schemas/memory_schema.json",
+  "title": "MAMBench Phase 3 Memory Record",
+  "description": "Canonical memory record schema for the Phase 3 clean agent. Narrative semantics are defined in memory_schema.md; this file is authoritative for field names, types, and required-ness. This schema defines STRUCTURE only -- it does not freeze creation thresholds, equivalence thresholds, or retrieval/selection algorithms, which remain experimental decisions for later Phase 3 stages.",
+  "type": "object",
+  "required": [
+    "memory_id",
+    "memory_type",
+    "content",
+    "source",
+    "parent_ids",
+    "creation_event",
+    "creation_timestamp",
+    "lifecycle_state"
+  ],
+  "properties": {
+    "memory_id": {
+      "type": "string",
+      "description": "Globally unique, immutable identity. Never reassigned or reused, including after supersession or retirement."
+    },
+    "memory_type": {
+      "type": "string",
+      "enum": ["foundation", "derived"],
+      "description": "foundation = originates from the frozen Phase 2 UMR substrate (or a future legitimate-observation creation policy). derived = produced from one or more existing memories via an explicit, logged creation event."
+    },
+    "content": {
+      "type": "object",
+      "description": "The memory's content payload. Structure inherited from the Phase 2 Unified Memory Record for foundation memories; derived memories carry a content payload produced by the (not-yet-frozen) derivation mechanism.",
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "object",
+      "description": "Provenance pointer. For foundation memories: pointer to the originating Phase 2 UMR record (dataset, record id, hash). For derived memories: pointer to the derivation event that produced this memory.",
+      "required": ["source_type"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["phase2_umr", "derivation_event", "future_observation"]
+        },
+        "reference_id": {
+          "type": "string",
+          "description": "Identifier of the referenced UMR record or derivation event."
+        }
+      },
+      "additionalProperties": true
+    },
+    "parent_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Direct parent memory_ids. MUST be empty for memory_type=foundation. MUST be non-empty for memory_type=derived. Multiple parents are explicitly supported (A,B -> C). Ancestry/descendant sets are computed by transitively walking these edges at query time -- never precomputed into a merged 'family' set."
+    },
+    "creation_event": {
+      "type": "string",
+      "description": "Identifier of the logged event (see relationship_schema.md event log) that created this memory."
+    },
+    "creation_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp of memory creation."
+    },
+    "lifecycle_state": {
+      "type": "string",
+      "enum": ["CREATED", "ACTIVE", "RETIRED"],
+      "description": "Canonical lifecycle state. Reuse (retrieval, selection, usage) is modeled as an event, not a state transition. Retired memories are never deleted."
+    },
+    "equivalent_to": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional list of memory_ids this memory is materially equivalent to. Equivalence is a relationship between distinct identities -- it never causes identity merging."
+    },
+    "conflicts_with": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional list of memory_ids this memory conflicts with. Conflicting memories are both preserved; neither is silently overwritten."
+    },
+    "superseded_by": {
+      "type": ["string", "null"],
+      "description": "If set, the memory_id of the memory that legitimately supersedes this one. This memory transitions lifecycle_state to RETIRED but is never deleted."
+    }
+  },
+  "additionalProperties": false
+}
