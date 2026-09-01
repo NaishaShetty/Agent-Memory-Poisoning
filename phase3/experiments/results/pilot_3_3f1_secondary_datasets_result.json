@@ -1,0 +1,2354 @@
+{
+  "pilot": "3.3-F.1 secondary dataset real-agent validation",
+  "sampling_seed": 33006,
+  "server_identity": {
+    "system_fingerprint": "b10717-a32af33de",
+    "expected": "b10717-a32af33de"
+  },
+  "amem_sample_note": "A-MEM (Condition C) run on the first 2 tasks per dataset only (of 3 sampled) -- reduced deterministic subset, per measured ~3.9s/item ingestion cost.",
+  "results": {
+    "perltqa": [
+      {
+        "task_id": "dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？",
+        "category": "DIALOGUES",
+        "pool_size": 58,
+        "runs": {
+          "A": {
+            "trace": {
+              "experiment_id": "3.3-f1-perltqa-dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？-A",
+              "dataset": "perltqa",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": null,
+              "foundation_version": null,
+              "configuration": {
+                "condition": "NO_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": null,
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.7826604843139648,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？",
+                "prompt": null
+              },
+              "memory_available": false,
+              "retrieved_memories": [],
+              "selected_memories": [],
+              "exposed_memories": [],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {},
+              "agent_output": "布朗运动实验帮助李华和李明理解了分子的无规则运动，从而验证了分子运动论。",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "EVIDENCE_UNAVAILABLE",
+              "latency": {
+                "total_latency_sec": 0.7826604843139648,
+                "attempt_latencies_sec": [
+                  0.7826604843139648
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "ad90b38ef46f603553320ad32bfc4e76725c0ccd3efc4088e7bd2379f221eb91"
+              }
+            },
+            "latency_sec": 0.7826604843139648,
+            "vram_mib": 5225,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.0
+            }
+          },
+          "B": {
+            "trace": {
+              "experiment_id": "3.3-f1-perltqa-dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？-B",
+              "dataset": "perltqa",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "Mem0",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "MEM0",
+                  "foundation_name": "Mem0",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.5916504859924316,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "5645000f-a6e3-4931-b805-d2cadda8ff3d",
+                "3975a686-022b-4230-814b-37fc1122fa2f",
+                "5b983877-b30e-426e-8964-d47f5adf8f8e",
+                "d210a23c-1e76-4f81-83b1-9baf2e256d8b",
+                "dac770ec-d3cc-4208-afb4-b5f685d01f26"
+              ],
+              "selected_memories": [
+                "5645000f-a6e3-4931-b805-d2cadda8ff3d",
+                "3975a686-022b-4230-814b-37fc1122fa2f",
+                "5b983877-b30e-426e-8964-d47f5adf8f8e",
+                "d210a23c-1e76-4f81-83b1-9baf2e256d8b",
+                "dac770ec-d3cc-4208-afb4-b5f685d01f26"
+              ],
+              "exposed_memories": [
+                "5645000f-a6e3-4931-b805-d2cadda8ff3d",
+                "3975a686-022b-4230-814b-37fc1122fa2f",
+                "5b983877-b30e-426e-8964-d47f5adf8f8e",
+                "d210a23c-1e76-4f81-83b1-9baf2e256d8b",
+                "dac770ec-d3cc-4208-afb4-b5f685d01f26"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "5645000f-a6e3-4931-b805-d2cadda8ff3d": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "3975a686-022b-4230-814b-37fc1122fa2f": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "5b983877-b30e-426e-8964-d47f5adf8f8e": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "d210a23c-1e76-4f81-83b1-9baf2e256d8b": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "dac770ec-d3cc-4208-afb4-b5f685d01f26": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "没有相关信息。",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "RETRIEVAL_FAILURE",
+              "latency": {
+                "total_latency_sec": 0.6100685596466064,
+                "attempt_latencies_sec": [
+                  0.5916504859924316
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "e7f454b84247b24503697ac369bdf6c48a77ad7b7d17aab634ed8422530d7fea",
+                "base_trace_fingerprint": "46bb5fbced8df5131958918017a05b39058cb353009eb9a23f2392348dc689ed"
+              },
+              "identity": {
+                "retrieved_memories_foundation_space": [
+                  "5645000f-a6e3-4931-b805-d2cadda8ff3d",
+                  "3975a686-022b-4230-814b-37fc1122fa2f",
+                  "5b983877-b30e-426e-8964-d47f5adf8f8e",
+                  "d210a23c-1e76-4f81-83b1-9baf2e256d8b",
+                  "dac770ec-d3cc-4208-afb4-b5f685d01f26"
+                ],
+                "selected_memories_foundation_space": [
+                  "5645000f-a6e3-4931-b805-d2cadda8ff3d",
+                  "3975a686-022b-4230-814b-37fc1122fa2f",
+                  "5b983877-b30e-426e-8964-d47f5adf8f8e",
+                  "d210a23c-1e76-4f81-83b1-9baf2e256d8b",
+                  "dac770ec-d3cc-4208-afb4-b5f685d01f26"
+                ],
+                "retrieved_memories_source_space": [
+                  "PERLTQA<李华>::2_0",
+                  "PERLTQA<李华>::2_5",
+                  "PERLTQA<李华>::2_4",
+                  "PERLTQA<李华>::2_2",
+                  "PERLTQA<李华>::2_8"
+                ],
+                "selected_memories_source_space": [
+                  "PERLTQA<李华>::2_0",
+                  "PERLTQA<李华>::2_5",
+                  "PERLTQA<李华>::2_4",
+                  "PERLTQA<李华>::2_2",
+                  "PERLTQA<李华>::2_8"
+                ],
+                "gold_evidence_ids_source_space": [
+                  "PERLTQA<李华>::2_0_1#1"
+                ],
+                "resolutions": {
+                  "5645000f-a6e3-4931-b805-d2cadda8ff3d": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<李华>::2_0",
+                    "status": "RESOLVED"
+                  },
+                  "3975a686-022b-4230-814b-37fc1122fa2f": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<李华>::2_5",
+                    "status": "RESOLVED"
+                  },
+                  "5b983877-b30e-426e-8964-d47f5adf8f8e": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<李华>::2_4",
+                    "status": "RESOLVED"
+                  },
+                  "d210a23c-1e76-4f81-83b1-9baf2e256d8b": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<李华>::2_2",
+                    "status": "RESOLVED"
+                  },
+                  "dac770ec-d3cc-4208-afb4-b5f685d01f26": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<李华>::2_8",
+                    "status": "RESOLVED"
+                  }
+                },
+                "collision_report": {
+                  "collision_free": true,
+                  "duplicate_source_ids": {},
+                  "resolved_count": 5,
+                  "not_resolvable_count": 0,
+                  "inspect_unavailable_count": 0,
+                  "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+                }
+              },
+              "resolved_evaluation": {
+                "failure_stage": "RETRIEVAL_FAILURE",
+                "strict_tsr": {
+                  "value": 0.0,
+                  "status": "OK"
+                },
+                "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+              },
+              "citation_diagnostic": {
+                "status": "NOT_CITED",
+                "cited_memory_ids": [],
+                "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+              }
+            },
+            "reset_latency_sec": 0.010319709777832031,
+            "ingest_latency_sec": 2.2380409240722656,
+            "run_latency_sec": 0.6100685596466064,
+            "ingested_count": 58,
+            "vram_before_ingest_mib": 5225,
+            "vram_after_ingest_mib": 5225,
+            "vram_after_run_mib": 5227,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.0
+            }
+          },
+          "C": {
+            "trace": {
+              "experiment_id": "3.3-f1-perltqa-dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？-C",
+              "dataset": "perltqa",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "A-MEM",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "A_MEM",
+                  "foundation_name": "A-MEM",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 1.610905408859253,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "dialogues::李华::2_0_1#1::布朗运动实验给李华和李明有什么收获？",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "PERLTQA<李华>::2_5",
+                "PERLTQA<李华>::2_0",
+                "PERLTQA<李华>::2_4",
+                "PERLTQA<李华>::2_2",
+                "PERLTQA<李华>::2_8"
+              ],
+              "selected_memories": [
+                "PERLTQA<李华>::2_5",
+                "PERLTQA<李华>::2_0",
+                "PERLTQA<李华>::2_4",
+                "PERLTQA<李华>::2_2",
+                "PERLTQA<李华>::2_8"
+              ],
+              "exposed_memories": [
+                "PERLTQA<李华>::2_5",
+                "PERLTQA<李华>::2_0",
+                "PERLTQA<李华>::2_4",
+                "PERLTQA<李华>::2_2",
+                "PERLTQA<李华>::2_8"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "PERLTQA<李华>::2_5": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "PERLTQA<李华>::2_0": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "PERLTQA<李华>::2_4": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "PERLTQA<李华>::2_2": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "PERLTQA<李华>::2_8": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "布朗运动实验让李华和李明认识到分子的无规则运动，从而加深了他们对分子运动理论的理解。[PERLTQA<李华>::2_0]",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "RETRIEVAL_FAILURE",
+              "latency": {
+                "total_latency_sec": 1.6189279556274414,
+                "attempt_latencies_sec": [
+                  1.610905408859253
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "002a5e3696ce89f25fd4005f8648302a06b5e5b6e5630261c430a1d6fada5323"
+              }
+            },
+            "reset_latency_sec": 0.021684646606445312,
+            "ingest_latency_sec": 474.4511122703552,
+            "run_latency_sec": 1.6189279556274414,
+            "ingested_count": 58,
+            "identity_collision_free": true,
+            "citation_diagnostic": {
+              "status": "CITED"
+            },
+            "vram_before_ingest_mib": 5227,
+            "vram_after_ingest_mib": 5227,
+            "vram_after_run_mib": 5227,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.0
+            }
+          }
+        }
+      },
+      {
+        "task_id": "events::熊飞::31_7_2::李丽的爱好是什么？",
+        "category": "EVENTS",
+        "pool_size": 54,
+        "runs": {
+          "A": {
+            "trace": {
+              "experiment_id": "3.3-f1-perltqa-events::熊飞::31_7_2::李丽的爱好是什么？-A",
+              "dataset": "perltqa",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "events::熊飞::31_7_2::李丽的爱好是什么？",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": null,
+              "foundation_version": null,
+              "configuration": {
+                "condition": "NO_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": null,
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.38330578804016113,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "events::熊飞::31_7_2::李丽的爱好是什么？",
+                "prompt": null
+              },
+              "memory_available": false,
+              "retrieved_memories": [],
+              "selected_memories": [],
+              "exposed_memories": [],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {},
+              "agent_output": "李丽的爱好是阅读和绘画。",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "EVIDENCE_UNAVAILABLE",
+              "latency": {
+                "total_latency_sec": 0.38330578804016113,
+                "attempt_latencies_sec": [
+                  0.38330578804016113
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "009a29447030cb48fa60f27d243ea6f62d93cc9f8df753785b06d8ef937f0a56"
+              }
+            },
+            "latency_sec": 0.38330578804016113,
+            "vram_mib": 5227,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.0
+            }
+          },
+          "B": {
+            "trace": {
+              "experiment_id": "3.3-f1-perltqa-events::熊飞::31_7_2::李丽的爱好是什么？-B",
+              "dataset": "perltqa",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "events::熊飞::31_7_2::李丽的爱好是什么？",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "Mem0",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "MEM0",
+                  "foundation_name": "Mem0",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.7732689380645752,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "events::熊飞::31_7_2::李丽的爱好是什么？",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "8cfe2eb8-2da9-4425-8035-b6185bb3744f",
+                "ecbc7d57-3fe0-4603-b077-14fb21186a5e",
+                "f538e586-cf96-47f6-93c7-4a920a87132f",
+                "3d1484ac-2f1f-465b-9887-693cd6ff9040",
+                "16628222-b5ce-4bb0-8682-2651bbcd723f"
+              ],
+              "selected_memories": [
+                "8cfe2eb8-2da9-4425-8035-b6185bb3744f",
+                "ecbc7d57-3fe0-4603-b077-14fb21186a5e",
+                "f538e586-cf96-47f6-93c7-4a920a87132f",
+                "3d1484ac-2f1f-465b-9887-693cd6ff9040",
+                "16628222-b5ce-4bb0-8682-2651bbcd723f"
+              ],
+              "exposed_memories": [
+                "8cfe2eb8-2da9-4425-8035-b6185bb3744f",
+                "ecbc7d57-3fe0-4603-b077-14fb21186a5e",
+                "f538e586-cf96-47f6-93c7-4a920a87132f",
+                "3d1484ac-2f1f-465b-9887-693cd6ff9040",
+                "16628222-b5ce-4bb0-8682-2651bbcd723f"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "8cfe2eb8-2da9-4425-8035-b6185bb3744f": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "ecbc7d57-3fe0-4603-b077-14fb21186a5e": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "f538e586-cf96-47f6-93c7-4a920a87132f": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "3d1484ac-2f1f-465b-9887-693cd6ff9040": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "16628222-b5ce-4bb0-8682-2651bbcd723f": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "李丽的爱好是画画和读书。",
+              "evaluation_result": {
+                "success_status": "ANSWER_CORRECT",
+                "success_value": 1.0
+              },
+              "failure_stage": "SUCCESS",
+              "latency": {
+                "total_latency_sec": 0.7805294990539551,
+                "attempt_latencies_sec": [
+                  0.7732689380645752
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "b5021c9085a17b50ebd19bfb12ec3f008baac9978dc3349ae0ea75297a6e27c6",
+                "base_trace_fingerprint": "084caaa45a7cb1df7288bb51f661ad80b95dfe5cf3657dbc2667fa992dc8a90d"
+              },
+              "identity": {
+                "retrieved_memories_foundation_space": [
+                  "8cfe2eb8-2da9-4425-8035-b6185bb3744f",
+                  "ecbc7d57-3fe0-4603-b077-14fb21186a5e",
+                  "f538e586-cf96-47f6-93c7-4a920a87132f",
+                  "3d1484ac-2f1f-465b-9887-693cd6ff9040",
+                  "16628222-b5ce-4bb0-8682-2651bbcd723f"
+                ],
+                "selected_memories_foundation_space": [
+                  "8cfe2eb8-2da9-4425-8035-b6185bb3744f",
+                  "ecbc7d57-3fe0-4603-b077-14fb21186a5e",
+                  "f538e586-cf96-47f6-93c7-4a920a87132f",
+                  "3d1484ac-2f1f-465b-9887-693cd6ff9040",
+                  "16628222-b5ce-4bb0-8682-2651bbcd723f"
+                ],
+                "retrieved_memories_source_space": [
+                  "PERLTQA<熊飞>::31_1",
+                  "PERLTQA<熊飞>::31_5",
+                  "PERLTQA<熊飞>::31_8",
+                  "PERLTQA<熊飞>::31_7",
+                  "PERLTQA<熊飞>::31_2"
+                ],
+                "selected_memories_source_space": [
+                  "PERLTQA<熊飞>::31_1",
+                  "PERLTQA<熊飞>::31_5",
+                  "PERLTQA<熊飞>::31_8",
+                  "PERLTQA<熊飞>::31_7",
+                  "PERLTQA<熊飞>::31_2"
+                ],
+                "gold_evidence_ids_source_space": [
+                  "PERLTQA<熊飞>::31_7_2"
+                ],
+                "resolutions": {
+                  "8cfe2eb8-2da9-4425-8035-b6185bb3744f": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<熊飞>::31_1",
+                    "status": "RESOLVED"
+                  },
+                  "ecbc7d57-3fe0-4603-b077-14fb21186a5e": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<熊飞>::31_5",
+                    "status": "RESOLVED"
+                  },
+                  "f538e586-cf96-47f6-93c7-4a920a87132f": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<熊飞>::31_8",
+                    "status": "RESOLVED"
+                  },
+                  "3d1484ac-2f1f-465b-9887-693cd6ff9040": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<熊飞>::31_7",
+                    "status": "RESOLVED"
+                  },
+                  "16628222-b5ce-4bb0-8682-2651bbcd723f": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<熊飞>::31_2",
+                    "status": "RESOLVED"
+                  }
+                },
+                "collision_report": {
+                  "collision_free": true,
+                  "duplicate_source_ids": {},
+                  "resolved_count": 5,
+                  "not_resolvable_count": 0,
+                  "inspect_unavailable_count": 0,
+                  "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+                }
+              },
+              "resolved_evaluation": {
+                "failure_stage": "SUCCESS",
+                "strict_tsr": {
+                  "value": 0.0,
+                  "status": "OK"
+                },
+                "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+              },
+              "citation_diagnostic": {
+                "status": "NOT_CITED",
+                "cited_memory_ids": [],
+                "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+              }
+            },
+            "reset_latency_sec": 0.009341001510620117,
+            "ingest_latency_sec": 1.3350164890289307,
+            "run_latency_sec": 0.7805294990539551,
+            "ingested_count": 54,
+            "vram_before_ingest_mib": 5227,
+            "vram_after_ingest_mib": 5227,
+            "vram_after_run_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_EQUIVALENT",
+              "overlap_ratio": 1.0
+            }
+          },
+          "C": {
+            "trace": {
+              "experiment_id": "3.3-f1-perltqa-events::熊飞::31_7_2::李丽的爱好是什么？-C",
+              "dataset": "perltqa",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "events::熊飞::31_7_2::李丽的爱好是什么？",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "A-MEM",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "A_MEM",
+                  "foundation_name": "A-MEM",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.928194522857666,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "events::熊飞::31_7_2::李丽的爱好是什么？",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "PERLTQA<熊飞>::31_1",
+                "PERLTQA<熊飞>::31_2",
+                "PERLTQA<熊飞>::31_5",
+                "PERLTQA<熊飞>::31_0",
+                "PERLTQA<熊飞>::31_8"
+              ],
+              "selected_memories": [
+                "PERLTQA<熊飞>::31_1",
+                "PERLTQA<熊飞>::31_2",
+                "PERLTQA<熊飞>::31_5",
+                "PERLTQA<熊飞>::31_0",
+                "PERLTQA<熊飞>::31_8"
+              ],
+              "exposed_memories": [
+                "PERLTQA<熊飞>::31_1",
+                "PERLTQA<熊飞>::31_2",
+                "PERLTQA<熊飞>::31_5",
+                "PERLTQA<熊飞>::31_0",
+                "PERLTQA<熊飞>::31_8"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "PERLTQA<熊飞>::31_1": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "PERLTQA<熊飞>::31_2": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "PERLTQA<熊飞>::31_5": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "PERLTQA<熊飞>::31_0": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "PERLTQA<熊飞>::31_8": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "根据提供的记忆，李丽的爱好是绘画。",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "RETRIEVAL_FAILURE",
+              "latency": {
+                "total_latency_sec": 0.9376904964447021,
+                "attempt_latencies_sec": [
+                  0.928194522857666
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "6f2192b77bee4e74eaedbf194c5c961d8b791c5ac738fa966c9300206f7d35b9"
+              }
+            },
+            "reset_latency_sec": 0.010567903518676758,
+            "ingest_latency_sec": 440.28006863594055,
+            "run_latency_sec": 0.9376904964447021,
+            "ingested_count": 54,
+            "identity_collision_free": true,
+            "citation_diagnostic": {
+              "status": "NOT_CITED"
+            },
+            "vram_before_ingest_mib": 5231,
+            "vram_after_ingest_mib": 5231,
+            "vram_after_run_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.0
+            }
+          }
+        }
+      },
+      {
+        "task_id": "social_relationship::彭杰::20_7::彭杰与王明的关系是什么？",
+        "category": "SOCIAL_RELATIONSHIP",
+        "pool_size": 54,
+        "runs": {
+          "A": {
+            "trace": {
+              "experiment_id": "3.3-f1-perltqa-social_relationship::彭杰::20_7::彭杰与王明的关系是什么？-A",
+              "dataset": "perltqa",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "social_relationship::彭杰::20_7::彭杰与王明的关系是什么？",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": null,
+              "foundation_version": null,
+              "configuration": {
+                "condition": "NO_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": null,
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.8187046051025391,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "social_relationship::彭杰::20_7::彭杰与王明的关系是什么？",
+                "prompt": null
+              },
+              "memory_available": false,
+              "retrieved_memories": [],
+              "selected_memories": [],
+              "exposed_memories": [],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {},
+              "agent_output": "根据现有信息，无法确定彭杰与王明的具体关系。请提供更多背景或上下文信息以便准确回答。",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "EVIDENCE_UNAVAILABLE",
+              "latency": {
+                "total_latency_sec": 0.8187046051025391,
+                "attempt_latencies_sec": [
+                  0.8187046051025391
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "ea54651172bba66b6c519b76fb4837490c9be6750a4c5993b4cec85a552b4dff"
+              }
+            },
+            "latency_sec": 0.8187046051025391,
+            "vram_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.0
+            }
+          },
+          "B": {
+            "trace": {
+              "experiment_id": "3.3-f1-perltqa-social_relationship::彭杰::20_7::彭杰与王明的关系是什么？-B",
+              "dataset": "perltqa",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "social_relationship::彭杰::20_7::彭杰与王明的关系是什么？",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "Mem0",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "MEM0",
+                  "foundation_name": "Mem0",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 2.0921671390533447,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "social_relationship::彭杰::20_7::彭杰与王明的关系是什么？",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "45de0b1a-fb49-4427-9e90-054bfa50c592",
+                "5a7d22ca-84dd-447c-8255-cf69ff1147b7",
+                "09e81363-8cd1-4fb0-b7d3-082fb0c1a8f7",
+                "bdb4619a-6e16-4883-a681-349ba06f624f",
+                "97cfa8d4-372b-4b07-a126-195b96eddd97"
+              ],
+              "selected_memories": [
+                "45de0b1a-fb49-4427-9e90-054bfa50c592",
+                "5a7d22ca-84dd-447c-8255-cf69ff1147b7",
+                "09e81363-8cd1-4fb0-b7d3-082fb0c1a8f7",
+                "bdb4619a-6e16-4883-a681-349ba06f624f",
+                "97cfa8d4-372b-4b07-a126-195b96eddd97"
+              ],
+              "exposed_memories": [
+                "45de0b1a-fb49-4427-9e90-054bfa50c592",
+                "5a7d22ca-84dd-447c-8255-cf69ff1147b7",
+                "09e81363-8cd1-4fb0-b7d3-082fb0c1a8f7",
+                "bdb4619a-6e16-4883-a681-349ba06f624f",
+                "97cfa8d4-372b-4b07-a126-195b96eddd97"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "45de0b1a-fb49-4427-9e90-054bfa50c592": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "5a7d22ca-84dd-447c-8255-cf69ff1147b7": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "09e81363-8cd1-4fb0-b7d3-082fb0c1a8f7": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "bdb4619a-6e16-4883-a681-349ba06f624f": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "97cfa8d4-372b-4b07-a126-195b96eddd97": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "彭杰与王明是社区成员，彼此非常了解。[bdb4619a-6e16-4883-a681-349ba06f624f]",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "RETRIEVAL_FAILURE",
+              "latency": {
+                "total_latency_sec": 2.104750394821167,
+                "attempt_latencies_sec": [
+                  2.0921671390533447
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "56babda1d91505e481e82e17c10a918168f8d679a0cf45c642e338eee59c0c80",
+                "base_trace_fingerprint": "52debfdec4021427763b1ed635d6e77b4f5aabdce619e0a7aa23240cfeb4462d"
+              },
+              "identity": {
+                "retrieved_memories_foundation_space": [
+                  "45de0b1a-fb49-4427-9e90-054bfa50c592",
+                  "5a7d22ca-84dd-447c-8255-cf69ff1147b7",
+                  "09e81363-8cd1-4fb0-b7d3-082fb0c1a8f7",
+                  "bdb4619a-6e16-4883-a681-349ba06f624f",
+                  "97cfa8d4-372b-4b07-a126-195b96eddd97"
+                ],
+                "selected_memories_foundation_space": [
+                  "45de0b1a-fb49-4427-9e90-054bfa50c592",
+                  "5a7d22ca-84dd-447c-8255-cf69ff1147b7",
+                  "09e81363-8cd1-4fb0-b7d3-082fb0c1a8f7",
+                  "bdb4619a-6e16-4883-a681-349ba06f624f",
+                  "97cfa8d4-372b-4b07-a126-195b96eddd97"
+                ],
+                "retrieved_memories_source_space": [
+                  "PERLTQA<彭杰>::20_2",
+                  "PERLTQA<彭杰>::20_7",
+                  "PERLTQA<彭杰>::20_8",
+                  "PERLTQA<彭杰>::20_7_0",
+                  "PERLTQA<彭杰>::20_3"
+                ],
+                "selected_memories_source_space": [
+                  "PERLTQA<彭杰>::20_2",
+                  "PERLTQA<彭杰>::20_7",
+                  "PERLTQA<彭杰>::20_8",
+                  "PERLTQA<彭杰>::20_7_0",
+                  "PERLTQA<彭杰>::20_3"
+                ],
+                "gold_evidence_ids_source_space": [
+                  "PERLTQA<彭杰>::20_7"
+                ],
+                "resolutions": {
+                  "45de0b1a-fb49-4427-9e90-054bfa50c592": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<彭杰>::20_2",
+                    "status": "RESOLVED"
+                  },
+                  "5a7d22ca-84dd-447c-8255-cf69ff1147b7": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<彭杰>::20_7",
+                    "status": "RESOLVED"
+                  },
+                  "09e81363-8cd1-4fb0-b7d3-082fb0c1a8f7": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<彭杰>::20_8",
+                    "status": "RESOLVED"
+                  },
+                  "bdb4619a-6e16-4883-a681-349ba06f624f": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<彭杰>::20_7_0",
+                    "status": "RESOLVED"
+                  },
+                  "97cfa8d4-372b-4b07-a126-195b96eddd97": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "PERLTQA<彭杰>::20_3",
+                    "status": "RESOLVED"
+                  }
+                },
+                "collision_report": {
+                  "collision_free": true,
+                  "duplicate_source_ids": {},
+                  "resolved_count": 5,
+                  "not_resolvable_count": 0,
+                  "inspect_unavailable_count": 0,
+                  "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+                }
+              },
+              "resolved_evaluation": {
+                "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+                "strict_tsr": {
+                  "value": 1.0,
+                  "status": "OK"
+                },
+                "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+              },
+              "citation_diagnostic": {
+                "status": "CITED",
+                "cited_memory_ids": [
+                  "bdb4619a-6e16-4883-a681-349ba06f624f"
+                ],
+                "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+              }
+            },
+            "reset_latency_sec": 0.01756453514099121,
+            "ingest_latency_sec": 1.889953851699829,
+            "run_latency_sec": 2.104750394821167,
+            "ingested_count": 54,
+            "vram_before_ingest_mib": 5231,
+            "vram_after_ingest_mib": 5231,
+            "vram_after_run_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.0
+            }
+          },
+          "C": {
+            "status": "REDUCED_SAMPLE_NOT_RUN",
+            "note": "A-MEM (Condition C) run on the first 2 tasks per dataset only (of 3 sampled) -- reduced deterministic subset, per measured ~3.9s/item ingestion cost."
+          }
+        }
+      }
+    ],
+    "convomem": [
+      {
+        "task_id": "abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa",
+        "category": "abstention_evidence",
+        "pool_size": 44,
+        "runs": {
+          "A": {
+            "trace": {
+              "experiment_id": "3.3-f1-convomem-abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa-A",
+              "dataset": "convomem",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": null,
+              "foundation_version": null,
+              "configuration": {
+                "condition": "NO_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": null,
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.9040811061859131,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa",
+                "prompt": null
+              },
+              "memory_available": false,
+              "retrieved_memories": [],
+              "selected_memories": [],
+              "exposed_memories": [],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {},
+              "agent_output": "I don't have information about where your friend Alex currently works. You may need to check with Alex directly or look up recent professional profiles.",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "EVIDENCE_UNAVAILABLE",
+              "latency": {
+                "total_latency_sec": 0.9040811061859131,
+                "attempt_latencies_sec": [
+                  0.9040811061859131
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "2e130a264dbf5990bf343a033596d8cc9d5620a062070753a662cb8c4abfc566"
+              }
+            },
+            "latency_sec": 0.9040811061859131,
+            "vram_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.18181818181818182
+            }
+          },
+          "B": {
+            "trace": {
+              "experiment_id": "3.3-f1-convomem-abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa-B",
+              "dataset": "convomem",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "Mem0",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "MEM0",
+                  "foundation_name": "Mem0",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 1.3181474208831787,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "a3b58f7e-8eca-4d1e-a2be-52c7c7ff2cb1",
+                "14a685fc-3a93-4a78-b926-0bfbbe66600a",
+                "3ff1d323-cea8-4a3e-b87f-353219702b60",
+                "ed94faf6-4f10-4f80-904a-b57089f395a5",
+                "858d6491-5449-4e28-8e30-bc883a46be20"
+              ],
+              "selected_memories": [
+                "a3b58f7e-8eca-4d1e-a2be-52c7c7ff2cb1",
+                "14a685fc-3a93-4a78-b926-0bfbbe66600a",
+                "3ff1d323-cea8-4a3e-b87f-353219702b60",
+                "ed94faf6-4f10-4f80-904a-b57089f395a5",
+                "858d6491-5449-4e28-8e30-bc883a46be20"
+              ],
+              "exposed_memories": [
+                "a3b58f7e-8eca-4d1e-a2be-52c7c7ff2cb1",
+                "14a685fc-3a93-4a78-b926-0bfbbe66600a",
+                "3ff1d323-cea8-4a3e-b87f-353219702b60",
+                "ed94faf6-4f10-4f80-904a-b57089f395a5",
+                "858d6491-5449-4e28-8e30-bc883a46be20"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "a3b58f7e-8eca-4d1e-a2be-52c7c7ff2cb1": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "14a685fc-3a93-4a78-b926-0bfbbe66600a": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "3ff1d323-cea8-4a3e-b87f-353219702b60": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "ed94faf6-4f10-4f80-904a-b57089f395a5": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "858d6491-5449-4e28-8e30-bc883a46be20": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "None of the provided memories mention where Alex currently works. Therefore, I cannot determine Alex's current workplace based on the given information.",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "RETRIEVAL_FAILURE",
+              "latency": {
+                "total_latency_sec": 1.3320527076721191,
+                "attempt_latencies_sec": [
+                  1.3181474208831787
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "38c94e2d9ff386021e908fbd171bdef5d23a10674a386ec9a9fd90ea3aa80e42",
+                "base_trace_fingerprint": "6ac8b59e9ca4bff4bfc6f0b89e6fbc80c5ca863798976398232a87bc7d269152"
+              },
+              "identity": {
+                "retrieved_memories_foundation_space": [
+                  "a3b58f7e-8eca-4d1e-a2be-52c7c7ff2cb1",
+                  "14a685fc-3a93-4a78-b926-0bfbbe66600a",
+                  "3ff1d323-cea8-4a3e-b87f-353219702b60",
+                  "ed94faf6-4f10-4f80-904a-b57089f395a5",
+                  "858d6491-5449-4e28-8e30-bc883a46be20"
+                ],
+                "selected_memories_foundation_space": [
+                  "a3b58f7e-8eca-4d1e-a2be-52c7c7ff2cb1",
+                  "14a685fc-3a93-4a78-b926-0bfbbe66600a",
+                  "3ff1d323-cea8-4a3e-b87f-353219702b60",
+                  "ed94faf6-4f10-4f80-904a-b57089f395a5",
+                  "858d6491-5449-4e28-8e30-bc883a46be20"
+                ],
+                "retrieved_memories_source_space": [
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M34",
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M12",
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M22",
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M35",
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M37"
+                ],
+                "selected_memories_source_space": [
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M34",
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M12",
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M22",
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M35",
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M37"
+                ],
+                "gold_evidence_ids_source_space": [
+                  "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M34"
+                ],
+                "resolutions": {
+                  "a3b58f7e-8eca-4d1e-a2be-52c7c7ff2cb1": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M34",
+                    "status": "RESOLVED"
+                  },
+                  "14a685fc-3a93-4a78-b926-0bfbbe66600a": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M12",
+                    "status": "RESOLVED"
+                  },
+                  "3ff1d323-cea8-4a3e-b87f-353219702b60": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M22",
+                    "status": "RESOLVED"
+                  },
+                  "ed94faf6-4f10-4f80-904a-b57089f395a5": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M35",
+                    "status": "RESOLVED"
+                  },
+                  "858d6491-5449-4e28-8e30-bc883a46be20": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M37",
+                    "status": "RESOLVED"
+                  }
+                },
+                "collision_report": {
+                  "collision_free": true,
+                  "duplicate_source_ids": {},
+                  "resolved_count": 5,
+                  "not_resolvable_count": 0,
+                  "inspect_unavailable_count": 0,
+                  "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+                }
+              },
+              "resolved_evaluation": {
+                "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+                "strict_tsr": {
+                  "value": 1.0,
+                  "status": "OK"
+                },
+                "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+              },
+              "citation_diagnostic": {
+                "status": "NOT_CITED",
+                "cited_memory_ids": [],
+                "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+              }
+            },
+            "reset_latency_sec": 0.004583835601806641,
+            "ingest_latency_sec": 0.7525839805603027,
+            "run_latency_sec": 1.3320527076721191,
+            "ingested_count": 44,
+            "vram_before_ingest_mib": 5231,
+            "vram_after_ingest_mib": 5231,
+            "vram_after_run_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.09090909090909091
+            }
+          },
+          "C": {
+            "trace": {
+              "experiment_id": "3.3-f1-convomem-abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa-C",
+              "dataset": "convomem",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "A-MEM",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "A_MEM",
+                  "foundation_name": "A-MEM",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 1.1932671070098877,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "abstention_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item63::conversations::qa",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M34",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M35",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M22",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M12",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M36"
+              ],
+              "selected_memories": [
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M34",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M35",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M22",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M12",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M36"
+              ],
+              "exposed_memories": [
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M34",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M35",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M22",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M12",
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M36"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M34": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M35": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M22": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M12": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "CONVOMEM<4df12ec2-1dc8-4889-bb54-2e2ba73ed767>_M36": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "None of the provided memories contain information about where Alex currently works.",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+              "latency": {
+                "total_latency_sec": 1.204913854598999,
+                "attempt_latencies_sec": [
+                  1.1932671070098877
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "856a5d2c8779f912e56ae1f72201b5af32cc426762345fe87d6060788501f693"
+              }
+            },
+            "reset_latency_sec": 0.02005934715270996,
+            "ingest_latency_sec": 357.39954924583435,
+            "run_latency_sec": 1.204913854598999,
+            "ingested_count": 44,
+            "identity_collision_free": true,
+            "citation_diagnostic": {
+              "status": "NOT_CITED"
+            },
+            "vram_before_ingest_mib": 5231,
+            "vram_after_ingest_mib": 5231,
+            "vram_after_run_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.09090909090909091
+            }
+          }
+        }
+      },
+      {
+        "task_id": "assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa",
+        "category": "assistant_facts_evidence",
+        "pool_size": 46,
+        "runs": {
+          "A": {
+            "trace": {
+              "experiment_id": "3.3-f1-convomem-assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa-A",
+              "dataset": "convomem",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": null,
+              "foundation_version": null,
+              "configuration": {
+                "condition": "NO_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": null,
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.5532588958740234,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa",
+                "prompt": null
+              },
+              "memory_available": false,
+              "retrieved_memories": [],
+              "selected_memories": [],
+              "exposed_memories": [],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {},
+              "agent_output": "The key factor for boosting your credit score is consistently making payments on time.",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "EVIDENCE_UNAVAILABLE",
+              "latency": {
+                "total_latency_sec": 0.5532588958740234,
+                "attempt_latencies_sec": [
+                  0.5532588958740234
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "0f4b002c412b16dd5e8d2d079c99191a5e031306f8d1581e122c165ade9823d1"
+              }
+            },
+            "latency_sec": 0.5532588958740234,
+            "vram_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.45454545454545453
+            }
+          },
+          "B": {
+            "trace": {
+              "experiment_id": "3.3-f1-convomem-assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa-B",
+              "dataset": "convomem",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "Mem0",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "MEM0",
+                  "foundation_name": "Mem0",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 1.9723742008209229,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "41b8f7d4-1c0d-41fe-bd63-6c093a238980",
+                "9c97f733-18e9-466b-8ec1-8783ae6cd9c9",
+                "a8be841c-cf56-43c7-b82b-f9424939a529",
+                "017f1cf9-bc3b-461b-b4c5-f927e1553281",
+                "1c94e0d1-85e7-4078-89b3-1872142443b6"
+              ],
+              "selected_memories": [
+                "41b8f7d4-1c0d-41fe-bd63-6c093a238980",
+                "9c97f733-18e9-466b-8ec1-8783ae6cd9c9",
+                "a8be841c-cf56-43c7-b82b-f9424939a529",
+                "017f1cf9-bc3b-461b-b4c5-f927e1553281",
+                "1c94e0d1-85e7-4078-89b3-1872142443b6"
+              ],
+              "exposed_memories": [
+                "41b8f7d4-1c0d-41fe-bd63-6c093a238980",
+                "9c97f733-18e9-466b-8ec1-8783ae6cd9c9",
+                "a8be841c-cf56-43c7-b82b-f9424939a529",
+                "017f1cf9-bc3b-461b-b4c5-f927e1553281",
+                "1c94e0d1-85e7-4078-89b3-1872142443b6"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "41b8f7d4-1c0d-41fe-bd63-6c093a238980": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "9c97f733-18e9-466b-8ec1-8783ae6cd9c9": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "a8be841c-cf56-43c7-b82b-f9424939a529": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "017f1cf9-bc3b-461b-b4c5-f927e1553281": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "1c94e0d1-85e7-4078-89b3-1872142443b6": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "Consistently paying your bills on time is a key factor for boosting your credit score [a8be841c-cf56-43c7-b82b-f9424939a529].",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "RETRIEVAL_FAILURE",
+              "latency": {
+                "total_latency_sec": 1.9864985942840576,
+                "attempt_latencies_sec": [
+                  1.9723742008209229
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "c90912bc49e85603daf0df515bff2a89e5c167a3c09207ea26ff0617e7bf673a",
+                "base_trace_fingerprint": "0a6bf58d1701b1088579f7dace18e2c76ee2486a41df71f8603bad65abcaa647"
+              },
+              "identity": {
+                "retrieved_memories_foundation_space": [
+                  "41b8f7d4-1c0d-41fe-bd63-6c093a238980",
+                  "9c97f733-18e9-466b-8ec1-8783ae6cd9c9",
+                  "a8be841c-cf56-43c7-b82b-f9424939a529",
+                  "017f1cf9-bc3b-461b-b4c5-f927e1553281",
+                  "1c94e0d1-85e7-4078-89b3-1872142443b6"
+                ],
+                "selected_memories_foundation_space": [
+                  "41b8f7d4-1c0d-41fe-bd63-6c093a238980",
+                  "9c97f733-18e9-466b-8ec1-8783ae6cd9c9",
+                  "a8be841c-cf56-43c7-b82b-f9424939a529",
+                  "017f1cf9-bc3b-461b-b4c5-f927e1553281",
+                  "1c94e0d1-85e7-4078-89b3-1872142443b6"
+                ],
+                "retrieved_memories_source_space": [
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M37",
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M9",
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M27",
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M13",
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M11"
+                ],
+                "selected_memories_source_space": [
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M37",
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M9",
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M27",
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M13",
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M11"
+                ],
+                "gold_evidence_ids_source_space": [
+                  "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M27"
+                ],
+                "resolutions": {
+                  "41b8f7d4-1c0d-41fe-bd63-6c093a238980": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M37",
+                    "status": "RESOLVED"
+                  },
+                  "9c97f733-18e9-466b-8ec1-8783ae6cd9c9": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M9",
+                    "status": "RESOLVED"
+                  },
+                  "a8be841c-cf56-43c7-b82b-f9424939a529": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M27",
+                    "status": "RESOLVED"
+                  },
+                  "017f1cf9-bc3b-461b-b4c5-f927e1553281": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M13",
+                    "status": "RESOLVED"
+                  },
+                  "1c94e0d1-85e7-4078-89b3-1872142443b6": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M11",
+                    "status": "RESOLVED"
+                  }
+                },
+                "collision_report": {
+                  "collision_free": true,
+                  "duplicate_source_ids": {},
+                  "resolved_count": 5,
+                  "not_resolvable_count": 0,
+                  "inspect_unavailable_count": 0,
+                  "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+                }
+              },
+              "resolved_evaluation": {
+                "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+                "strict_tsr": {
+                  "value": 1.0,
+                  "status": "OK"
+                },
+                "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+              },
+              "citation_diagnostic": {
+                "status": "CITED",
+                "cited_memory_ids": [
+                  "a8be841c-cf56-43c7-b82b-f9424939a529"
+                ],
+                "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+              }
+            },
+            "reset_latency_sec": 0.011099100112915039,
+            "ingest_latency_sec": 0.81917405128479,
+            "run_latency_sec": 1.9864985942840576,
+            "ingested_count": 46,
+            "vram_before_ingest_mib": 5231,
+            "vram_after_ingest_mib": 5231,
+            "vram_after_run_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.45454545454545453
+            }
+          },
+          "C": {
+            "trace": {
+              "experiment_id": "3.3-f1-convomem-assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa-C",
+              "dataset": "convomem",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "A-MEM",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "A_MEM",
+                  "foundation_name": "A-MEM",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 2.486586570739746,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "assistant_facts_evidence::1_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item82::conversations::qa",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M9",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M27",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M37",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M11",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M13"
+              ],
+              "selected_memories": [
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M9",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M27",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M37",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M11",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M13"
+              ],
+              "exposed_memories": [
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M9",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M27",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M37",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M11",
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M13"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M9": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M27": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M37": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M11": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M13": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "The key factor for boosting your credit score is making timely payments on your credit accounts. [CONVOMEM<742538b7-0c51-4862-bda6-f9a4a34aaf2f>_M11]",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+              "latency": {
+                "total_latency_sec": 2.4955687522888184,
+                "attempt_latencies_sec": [
+                  2.486586570739746
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "f0ae50f04f32fee97718ec47ae8a125d4de6a9dbdfe1ce2873dd6f16d77d5804"
+              }
+            },
+            "reset_latency_sec": 0.023659467697143555,
+            "ingest_latency_sec": 372.2971432209015,
+            "run_latency_sec": 2.4955687522888184,
+            "ingested_count": 46,
+            "identity_collision_free": true,
+            "citation_diagnostic": {
+              "status": "CITED"
+            },
+            "vram_before_ingest_mib": 5231,
+            "vram_after_ingest_mib": 5231,
+            "vram_after_run_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.36363636363636365
+            }
+          }
+        }
+      },
+      {
+        "task_id": "changing_evidence::2_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item32::conversations::qa",
+        "category": "changing_evidence",
+        "pool_size": 86,
+        "runs": {
+          "A": {
+            "trace": {
+              "experiment_id": "3.3-f1-convomem-changing_evidence::2_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item32::conversations::qa-A",
+              "dataset": "convomem",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "changing_evidence::2_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item32::conversations::qa",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": null,
+              "foundation_version": null,
+              "configuration": {
+                "condition": "NO_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": null,
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.7608625888824463,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "changing_evidence::2_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item32::conversations::qa",
+                "prompt": null
+              },
+              "memory_available": false,
+              "retrieved_memories": [],
+              "selected_memories": [],
+              "exposed_memories": [],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {},
+              "agent_output": "I don't have access to your schedule or shift information. Please check your work schedule or contact your supervisor for details.",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "EVIDENCE_UNAVAILABLE",
+              "latency": {
+                "total_latency_sec": 0.7608625888824463,
+                "attempt_latencies_sec": [
+                  0.7608625888824463
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "49565983e60f7cf7c227ec067ae3b80d8039c3b221b3d81f2e4326385201dabf"
+              }
+            },
+            "latency_sec": 0.7608625888824463,
+            "vram_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_NOT_EQUIVALENT",
+              "overlap_ratio": 0.2857142857142857
+            }
+          },
+          "B": {
+            "trace": {
+              "experiment_id": "3.3-f1-convomem-changing_evidence::2_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item32::conversations::qa-B",
+              "dataset": "convomem",
+              "dataset_revision": "phase3.2-j-normalized",
+              "record_id": "changing_evidence::2_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item32::conversations::qa",
+              "model": "Qwen/Qwen3-8B-GGUF",
+              "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+              "foundation": "Mem0",
+              "foundation_version": "h4-real-v1",
+              "configuration": {
+                "condition": "RETRIEVED_MEMORY",
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "model_metadata": {
+                  "repo_id": "Qwen/Qwen3-8B-GGUF",
+                  "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                  "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+                  "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+                  "quantization": "Q4_K_M",
+                  "llama_cpp_build": "b10717",
+                  "llama_cpp_commit": "a32af33de"
+                },
+                "foundation_identity": {
+                  "foundation_id": "MEM0",
+                  "foundation_name": "Mem0",
+                  "adapter_version": "h4-real-v1",
+                  "status": "PREPARED_CANDIDATE"
+                },
+                "attempts": [
+                  {
+                    "attempt_number": 1,
+                    "succeeded": true,
+                    "latency_sec": 0.9495384693145752,
+                    "error": null
+                  }
+                ],
+                "environment": {
+                  "python_version": "3.11.3",
+                  "platform": "Windows-10-10.0.26200-SP0"
+                }
+              },
+              "task": {
+                "task_id": "changing_evidence::2_evidence::03d6ce14-747d-43cb-8b31-d9c73391f58c_Technical_Support_Engineer_Tier_1.json::item32::conversations::qa",
+                "prompt": null
+              },
+              "memory_available": true,
+              "retrieved_memories": [
+                "e3bd6755-8faf-4602-a8ca-91f683808d51",
+                "01a0301e-da6a-4b0d-be2d-48aab66c4234",
+                "0a461b7b-392a-42b6-a22a-59db542d8953",
+                "0e299020-3870-422c-80e0-890ac7a00915",
+                "d4e7fe57-92af-435d-ada3-1a05f3c2a421"
+              ],
+              "selected_memories": [
+                "e3bd6755-8faf-4602-a8ca-91f683808d51",
+                "01a0301e-da6a-4b0d-be2d-48aab66c4234",
+                "0a461b7b-392a-42b6-a22a-59db542d8953",
+                "0e299020-3870-422c-80e0-890ac7a00915",
+                "d4e7fe57-92af-435d-ada3-1a05f3c2a421"
+              ],
+              "exposed_memories": [
+                "e3bd6755-8faf-4602-a8ca-91f683808d51",
+                "01a0301e-da6a-4b0d-be2d-48aab66c4234",
+                "0a461b7b-392a-42b6-a22a-59db542d8953",
+                "0e299020-3870-422c-80e0-890ac7a00915",
+                "d4e7fe57-92af-435d-ada3-1a05f3c2a421"
+              ],
+              "used_memories": "NOT_OBSERVABLE",
+              "contributed_memories": "NOT_OBSERVABLE",
+              "lifecycle_per_memory": {
+                "e3bd6755-8faf-4602-a8ca-91f683808d51": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "01a0301e-da6a-4b0d-be2d-48aab66c4234": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "0a461b7b-392a-42b6-a22a-59db542d8953": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "0e299020-3870-422c-80e0-890ac7a00915": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ],
+                "d4e7fe57-92af-435d-ada3-1a05f3c2a421": [
+                  "MEMORY_AVAILABLE",
+                  "MEMORY_RETRIEVED",
+                  "MEMORY_SELECTED",
+                  "MEMORY_EXPOSED",
+                  "NOT_OBSERVABLE"
+                ]
+              },
+              "agent_output": "Your shift tomorrow will start at 11 AM.",
+              "evaluation_result": {
+                "success_status": "ANSWER_INCORRECT",
+                "success_value": 0.0
+              },
+              "failure_stage": "RETRIEVAL_FAILURE",
+              "latency": {
+                "total_latency_sec": 0.9654207229614258,
+                "attempt_latencies_sec": [
+                  0.9495384693145752
+                ]
+              },
+              "fingerprints": {
+                "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+                "trace_fingerprint": "447a858778a8a9b0e42e18d3af9ed96dab8d8d390e1e037248d8cd985b1625b9",
+                "base_trace_fingerprint": "759894bdc43107574dcaa316d6692e466f0fad57d3512c3e2d8a1f63ffe8d33b"
+              },
+              "identity": {
+                "retrieved_memories_foundation_space": [
+                  "e3bd6755-8faf-4602-a8ca-91f683808d51",
+                  "01a0301e-da6a-4b0d-be2d-48aab66c4234",
+                  "0a461b7b-392a-42b6-a22a-59db542d8953",
+                  "0e299020-3870-422c-80e0-890ac7a00915",
+                  "d4e7fe57-92af-435d-ada3-1a05f3c2a421"
+                ],
+                "selected_memories_foundation_space": [
+                  "e3bd6755-8faf-4602-a8ca-91f683808d51",
+                  "01a0301e-da6a-4b0d-be2d-48aab66c4234",
+                  "0a461b7b-392a-42b6-a22a-59db542d8953",
+                  "0e299020-3870-422c-80e0-890ac7a00915",
+                  "d4e7fe57-92af-435d-ada3-1a05f3c2a421"
+                ],
+                "retrieved_memories_source_space": [
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M18",
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M17",
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M16",
+                  "CONVOMEM<e561ab9d-f9c4-42b4-bc5e-75e43cba93fa>_M33",
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M10"
+                ],
+                "selected_memories_source_space": [
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M18",
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M17",
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M16",
+                  "CONVOMEM<e561ab9d-f9c4-42b4-bc5e-75e43cba93fa>_M33",
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M10"
+                ],
+                "gold_evidence_ids_source_space": [
+                  "CONVOMEM<e561ab9d-f9c4-42b4-bc5e-75e43cba93fa>_M32",
+                  "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M16"
+                ],
+                "resolutions": {
+                  "e3bd6755-8faf-4602-a8ca-91f683808d51": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M18",
+                    "status": "RESOLVED"
+                  },
+                  "01a0301e-da6a-4b0d-be2d-48aab66c4234": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M17",
+                    "status": "RESOLVED"
+                  },
+                  "0a461b7b-392a-42b6-a22a-59db542d8953": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M16",
+                    "status": "RESOLVED"
+                  },
+                  "0e299020-3870-422c-80e0-890ac7a00915": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<e561ab9d-f9c4-42b4-bc5e-75e43cba93fa>_M33",
+                    "status": "RESOLVED"
+                  },
+                  "d4e7fe57-92af-435d-ada3-1a05f3c2a421": {
+                    "adapter_memory_id": null,
+                    "source_memory_id": "CONVOMEM<9d200002-ed2e-4489-ab27-71b07cee928d>_M10",
+                    "status": "RESOLVED"
+                  }
+                },
+                "collision_report": {
+                  "collision_free": true,
+                  "duplicate_source_ids": {},
+                  "resolved_count": 5,
+                  "not_resolvable_count": 0,
+                  "inspect_unavailable_count": 0,
+                  "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+                }
+              },
+              "resolved_evaluation": {
+                "failure_stage": "RETRIEVAL_FAILURE",
+                "strict_tsr": {
+                  "value": 1.0,
+                  "status": "OK"
+                },
+                "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+              },
+              "citation_diagnostic": {
+                "status": "NOT_CITED",
+                "cited_memory_ids": [],
+                "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+              }
+            },
+            "reset_latency_sec": 0.010998249053955078,
+            "ingest_latency_sec": 1.5199651718139648,
+            "run_latency_sec": 0.9654207229614258,
+            "ingested_count": 86,
+            "vram_before_ingest_mib": 5231,
+            "vram_after_ingest_mib": 5231,
+            "vram_after_run_mib": 5231,
+            "answer_diagnostic": {
+              "status": "DIAGNOSTIC_EQUIVALENT",
+              "overlap_ratio": 0.8571428571428571
+            }
+          },
+          "C": {
+            "status": "REDUCED_SAMPLE_NOT_RUN",
+            "note": "A-MEM (Condition C) run on the first 2 tasks per dataset only (of 3 sampled) -- reduced deterministic subset, per measured ~3.9s/item ingestion cost."
+          }
+        }
+      }
+    ]
+  }
+}
