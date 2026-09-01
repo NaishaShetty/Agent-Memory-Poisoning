@@ -1,0 +1,219 @@
+{
+  "pilot": "3.3-B mem0+locomo",
+  "task": {
+    "task_id": "ecf5a096af5598393ce49c80",
+    "question": "When did Caroline go to the LGBTQ support group?",
+    "gold_answer": "7 May 2023"
+  },
+  "server_identity": {
+    "system_fingerprint": "b10717-a32af33de",
+    "expected": "b10717-a32af33de"
+  },
+  "vram_mib": {
+    "idle_before_pilot": 5223,
+    "before_ingest": 5225,
+    "after_ingest": 5225,
+    "before_condition_b_run": 5225,
+    "after_condition_b_run": 5225
+  },
+  "ingest_latency_sec": 0.3853907585144043,
+  "ingested_count": 18,
+  "condition_a_no_memory": {
+    "experiment_id": "3.3-b-pilot-mem0-locomo-A",
+    "dataset": "locomo",
+    "dataset_revision": "phase3.2-frozen",
+    "record_id": "ecf5a096af5598393ce49c80",
+    "model": "Qwen/Qwen3-8B-GGUF",
+    "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+    "foundation": null,
+    "foundation_version": null,
+    "configuration": {
+      "condition": "NO_MEMORY",
+      "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+      "model_metadata": {
+        "repo_id": "Qwen/Qwen3-8B-GGUF",
+        "file_name": "Qwen3-8B-Q4_K_M.gguf",
+        "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+        "quantization": "Q4_K_M",
+        "llama_cpp_build": "b10717",
+        "llama_cpp_commit": "a32af33de"
+      },
+      "foundation_identity": null,
+      "attempts": [
+        {
+          "attempt_number": 1,
+          "succeeded": true,
+          "latency_sec": 0.820763111114502,
+          "error": null
+        }
+      ],
+      "environment": {
+        "python_version": "3.11.3",
+        "platform": "Windows-10-10.0.26200-SP0"
+      }
+    },
+    "task": {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "prompt": null
+    },
+    "memory_available": false,
+    "retrieved_memories": [],
+    "selected_memories": [],
+    "exposed_memories": [],
+    "used_memories": "NOT_OBSERVABLE",
+    "contributed_memories": "NOT_OBSERVABLE",
+    "lifecycle_per_memory": {},
+    "agent_output": "The information provided does not mention when Caroline went to the LGBTQ support group. Therefore, I cannot provide a specific date or time.",
+    "evaluation_result": {
+      "success_status": "ANSWER_INCORRECT",
+      "success_value": 0.0
+    },
+    "failure_stage": "EVIDENCE_UNAVAILABLE",
+    "latency": {
+      "total_latency_sec": 0.8366966247558594,
+      "attempt_latencies_sec": [
+        0.820763111114502
+      ]
+    },
+    "fingerprints": {
+      "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+      "trace_fingerprint": "4f5553d42ace197212126ddefd63e111ceb03d9611a86380cb272e232e66adfe"
+    }
+  },
+  "condition_b_retrieved_memory": {
+    "experiment_id": "3.3-b-pilot-mem0-locomo-B",
+    "dataset": "locomo",
+    "dataset_revision": "phase3.2-frozen",
+    "record_id": "ecf5a096af5598393ce49c80",
+    "model": "Qwen/Qwen3-8B-GGUF",
+    "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+    "foundation": "Mem0",
+    "foundation_version": "h4-real-v1",
+    "configuration": {
+      "condition": "RETRIEVED_MEMORY",
+      "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+      "model_metadata": {
+        "repo_id": "Qwen/Qwen3-8B-GGUF",
+        "file_name": "Qwen3-8B-Q4_K_M.gguf",
+        "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+        "quantization": "Q4_K_M",
+        "llama_cpp_build": "b10717",
+        "llama_cpp_commit": "a32af33de"
+      },
+      "foundation_identity": {
+        "foundation_id": "MEM0",
+        "foundation_name": "Mem0",
+        "adapter_version": "h4-real-v1",
+        "status": "PREPARED_CANDIDATE"
+      },
+      "attempts": [
+        {
+          "attempt_number": 1,
+          "succeeded": true,
+          "latency_sec": 0.836963415145874,
+          "error": null
+        }
+      ],
+      "environment": {
+        "python_version": "3.11.3",
+        "platform": "Windows-10-10.0.26200-SP0"
+      }
+    },
+    "task": {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "prompt": null
+    },
+    "memory_available": true,
+    "retrieved_memories": [
+      "93258dee-661a-4e86-8b69-4314a330f60e",
+      "c3d4c31b-cb4a-4833-8a11-dc8ce8fe3281",
+      "d63f1b92-5bc7-4eed-9e62-a505a001ce9f",
+      "15aa3691-bba3-48bb-af24-c0efcfea1fbc",
+      "74a627de-8f93-4a97-b932-18a6425a8c0c"
+    ],
+    "selected_memories": [
+      "93258dee-661a-4e86-8b69-4314a330f60e",
+      "c3d4c31b-cb4a-4833-8a11-dc8ce8fe3281",
+      "d63f1b92-5bc7-4eed-9e62-a505a001ce9f",
+      "15aa3691-bba3-48bb-af24-c0efcfea1fbc",
+      "74a627de-8f93-4a97-b932-18a6425a8c0c"
+    ],
+    "exposed_memories": [
+      "93258dee-661a-4e86-8b69-4314a330f60e",
+      "c3d4c31b-cb4a-4833-8a11-dc8ce8fe3281",
+      "d63f1b92-5bc7-4eed-9e62-a505a001ce9f",
+      "15aa3691-bba3-48bb-af24-c0efcfea1fbc",
+      "74a627de-8f93-4a97-b932-18a6425a8c0c"
+    ],
+    "used_memories": "NOT_OBSERVABLE",
+    "contributed_memories": "NOT_OBSERVABLE",
+    "lifecycle_per_memory": {
+      "93258dee-661a-4e86-8b69-4314a330f60e": [
+        "MEMORY_AVAILABLE",
+        "MEMORY_RETRIEVED",
+        "MEMORY_SELECTED",
+        "MEMORY_EXPOSED",
+        "NOT_OBSERVABLE"
+      ],
+      "c3d4c31b-cb4a-4833-8a11-dc8ce8fe3281": [
+        "MEMORY_AVAILABLE",
+        "MEMORY_RETRIEVED",
+        "MEMORY_SELECTED",
+        "MEMORY_EXPOSED",
+        "NOT_OBSERVABLE"
+      ],
+      "d63f1b92-5bc7-4eed-9e62-a505a001ce9f": [
+        "MEMORY_AVAILABLE",
+        "MEMORY_RETRIEVED",
+        "MEMORY_SELECTED",
+        "MEMORY_EXPOSED",
+        "NOT_OBSERVABLE"
+      ],
+      "15aa3691-bba3-48bb-af24-c0efcfea1fbc": [
+        "MEMORY_AVAILABLE",
+        "MEMORY_RETRIEVED",
+        "MEMORY_SELECTED",
+        "MEMORY_EXPOSED",
+        "NOT_OBSERVABLE"
+      ],
+      "74a627de-8f93-4a97-b932-18a6425a8c0c": [
+        "MEMORY_AVAILABLE",
+        "MEMORY_RETRIEVED",
+        "MEMORY_SELECTED",
+        "MEMORY_EXPOSED",
+        "NOT_OBSERVABLE"
+      ]
+    },
+    "agent_output": "Caroline went to the LGBTQ support group yesterday.",
+    "evaluation_result": {
+      "success_status": "ANSWER_INCORRECT",
+      "success_value": 0.0
+    },
+    "failure_stage": "RETRIEVAL_FAILURE",
+    "latency": {
+      "total_latency_sec": 0.8566572666168213,
+      "attempt_latencies_sec": [
+        0.836963415145874
+      ]
+    },
+    "fingerprints": {
+      "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+      "trace_fingerprint": "afaec3919c2796f7b86cdd2ac865fa82d5eb57dd6857294004265104e611527a"
+    }
+  },
+  "paired_memory_contribution": {
+    "record_id": "ecf5a096af5598393ce49c80",
+    "status": "NO_OBSERVED_MEMORY_CONTRIBUTION",
+    "value": null,
+    "detail": {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "no_memory_classification": "ANSWER_INCORRECT",
+      "with_memory_classification": "ANSWER_INCORRECT",
+      "with_memory_condition": "RETRIEVED_MEMORY"
+    },
+    "note": "DIAGNOSTIC ONLY, PROVISIONAL, non-causal. Reports an observed paired-outcome difference for one task, never a causal claim about why. See module docstring."
+  },
+  "foundation_shutdown_availability": "AVAILABLE"
+}

@@ -1,0 +1,511 @@
+{
+  "pilot": "3.3-C mem0+locomo (identity-resolved rerun)",
+  "task": {
+    "task_id": "ecf5a096af5598393ce49c80",
+    "question": "When did Caroline go to the LGBTQ support group?",
+    "gold_answer": "7 May 2023"
+  },
+  "server_identity": {
+    "system_fingerprint": "b10717-a32af33de",
+    "expected": "b10717-a32af33de"
+  },
+  "resource_measurements": {
+    "idle_vram_mib": 5223,
+    "idle_ram_mib": "UNAVAILABLE: No module named 'psutil'",
+    "vram_before_ingest_mib": 5225,
+    "vram_after_ingest_mib": 5225,
+    "ingest_latency_sec": 0.3952522277832031
+  },
+  "ingested_count": 18,
+  "condition_a_no_memory": {
+    "trace": {
+      "experiment_id": "3.3-c-pilot-resolved-A",
+      "dataset": "locomo",
+      "dataset_revision": "phase3.2-frozen",
+      "record_id": "ecf5a096af5598393ce49c80",
+      "model": "Qwen/Qwen3-8B-GGUF",
+      "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+      "foundation": null,
+      "foundation_version": null,
+      "configuration": {
+        "condition": "NO_MEMORY",
+        "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+        "model_metadata": {
+          "repo_id": "Qwen/Qwen3-8B-GGUF",
+          "file_name": "Qwen3-8B-Q4_K_M.gguf",
+          "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+          "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+          "quantization": "Q4_K_M",
+          "llama_cpp_build": "b10717",
+          "llama_cpp_commit": "a32af33de"
+        },
+        "foundation_identity": null,
+        "attempts": [
+          {
+            "attempt_number": 1,
+            "succeeded": true,
+            "latency_sec": 0.8323178291320801,
+            "error": null
+          }
+        ],
+        "environment": {
+          "python_version": "3.11.3",
+          "platform": "Windows-10-10.0.26200-SP0"
+        }
+      },
+      "task": {
+        "task_id": "ecf5a096af5598393ce49c80",
+        "prompt": null
+      },
+      "memory_available": false,
+      "retrieved_memories": [],
+      "selected_memories": [],
+      "exposed_memories": [],
+      "used_memories": "NOT_OBSERVABLE",
+      "contributed_memories": "NOT_OBSERVABLE",
+      "lifecycle_per_memory": {},
+      "agent_output": "The information provided does not mention when Caroline went to the LGBTQ support group. Therefore, I cannot provide a specific date or time.",
+      "evaluation_result": {
+        "success_status": "ANSWER_INCORRECT",
+        "success_value": 0.0
+      },
+      "failure_stage": "EVIDENCE_UNAVAILABLE",
+      "latency": {
+        "total_latency_sec": 0.8350708484649658,
+        "attempt_latencies_sec": [
+          0.8323178291320801
+        ]
+      },
+      "fingerprints": {
+        "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+        "trace_fingerprint": "607055c7064df393acbc105bbf5a5774752575d814ad09508952ca773b0b2fed"
+      }
+    },
+    "latency_sec": 0.8350708484649658,
+    "vram_mib": 5223
+  },
+  "condition_b_retrieved_memory_runs": [
+    {
+      "run_index": 1,
+      "trace": {
+        "experiment_id": "3.3-c-pilot-resolved-B-run1",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "ecf5a096af5598393ce49c80",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "Mem0",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "MEM0",
+            "foundation_name": "Mem0",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 0.8484745025634766,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "ecf5a096af5598393ce49c80",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "4d526673-6763-40c6-aa16-c246d244cc5b",
+          "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+          "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+          "04f8984f-da78-4b5a-80e1-07534072c199",
+          "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+        ],
+        "selected_memories": [
+          "4d526673-6763-40c6-aa16-c246d244cc5b",
+          "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+          "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+          "04f8984f-da78-4b5a-80e1-07534072c199",
+          "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+        ],
+        "exposed_memories": [
+          "4d526673-6763-40c6-aa16-c246d244cc5b",
+          "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+          "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+          "04f8984f-da78-4b5a-80e1-07534072c199",
+          "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "4d526673-6763-40c6-aa16-c246d244cc5b": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "5bc76dde-9e70-4df4-8cff-af35405b14fc": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "6e455c50-2cea-4a3c-b62d-423b4625aa85": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "04f8984f-da78-4b5a-80e1-07534072c199": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "3a58c34d-7459-45d7-9871-df5cabd5dcc0": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "Caroline went to the LGBTQ support group yesterday.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "latency": {
+          "total_latency_sec": 0.8605983257293701,
+          "attempt_latencies_sec": [
+            0.8484745025634766
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "63d3c08b848552202e9c16d67f9474bda21fb0bcda512d0e495a2a0dd17a8e2a",
+          "base_trace_fingerprint": "2bbd5e508f95b9e57bd4a80286dae9c9148696161023709610d9582e718e7565"
+        },
+        "identity": {
+          "retrieved_memories_foundation_space": [
+            "4d526673-6763-40c6-aa16-c246d244cc5b",
+            "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+            "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+            "04f8984f-da78-4b5a-80e1-07534072c199",
+            "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+          ],
+          "selected_memories_foundation_space": [
+            "4d526673-6763-40c6-aa16-c246d244cc5b",
+            "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+            "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+            "04f8984f-da78-4b5a-80e1-07534072c199",
+            "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+          ],
+          "retrieved_memories_source_space": [
+            "0a2bbeb23bfc6abe6a886f09",
+            "82172fb18cea047df88299be",
+            "bb046bbd0b4a7d9b7cf15e51",
+            "832292b02aca5c535db6c3bf",
+            "66586fce1d73ce9515f4ee78"
+          ],
+          "selected_memories_source_space": [
+            "0a2bbeb23bfc6abe6a886f09",
+            "82172fb18cea047df88299be",
+            "bb046bbd0b4a7d9b7cf15e51",
+            "832292b02aca5c535db6c3bf",
+            "66586fce1d73ce9515f4ee78"
+          ],
+          "gold_evidence_ids_source_space": [
+            "0a2bbeb23bfc6abe6a886f09"
+          ],
+          "resolutions": {
+            "4d526673-6763-40c6-aa16-c246d244cc5b": {
+              "adapter_memory_id": null,
+              "source_memory_id": "0a2bbeb23bfc6abe6a886f09",
+              "status": "RESOLVED"
+            },
+            "5bc76dde-9e70-4df4-8cff-af35405b14fc": {
+              "adapter_memory_id": null,
+              "source_memory_id": "82172fb18cea047df88299be",
+              "status": "RESOLVED"
+            },
+            "6e455c50-2cea-4a3c-b62d-423b4625aa85": {
+              "adapter_memory_id": null,
+              "source_memory_id": "bb046bbd0b4a7d9b7cf15e51",
+              "status": "RESOLVED"
+            },
+            "04f8984f-da78-4b5a-80e1-07534072c199": {
+              "adapter_memory_id": null,
+              "source_memory_id": "832292b02aca5c535db6c3bf",
+              "status": "RESOLVED"
+            },
+            "3a58c34d-7459-45d7-9871-df5cabd5dcc0": {
+              "adapter_memory_id": null,
+              "source_memory_id": "66586fce1d73ce9515f4ee78",
+              "status": "RESOLVED"
+            }
+          },
+          "collision_report": {
+            "collision_free": true,
+            "duplicate_source_ids": {},
+            "resolved_count": 5,
+            "not_resolvable_count": 0,
+            "inspect_unavailable_count": 0,
+            "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+          }
+        },
+        "resolved_evaluation": {
+          "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+          "strict_tsr": {
+            "value": 1.0,
+            "status": "OK"
+          },
+          "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+        },
+        "citation_diagnostic": {
+          "status": "NOT_CITED",
+          "cited_memory_ids": [],
+          "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+        }
+      },
+      "latency_sec": 0.8605983257293701,
+      "vram_before_mib": 5225,
+      "vram_after_mib": 5225
+    },
+    {
+      "run_index": 2,
+      "trace": {
+        "experiment_id": "3.3-c-pilot-resolved-B-run2",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "ecf5a096af5598393ce49c80",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "Mem0",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "MEM0",
+            "foundation_name": "Mem0",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 0.33468103408813477,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "ecf5a096af5598393ce49c80",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "4d526673-6763-40c6-aa16-c246d244cc5b",
+          "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+          "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+          "04f8984f-da78-4b5a-80e1-07534072c199",
+          "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+        ],
+        "selected_memories": [
+          "4d526673-6763-40c6-aa16-c246d244cc5b",
+          "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+          "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+          "04f8984f-da78-4b5a-80e1-07534072c199",
+          "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+        ],
+        "exposed_memories": [
+          "4d526673-6763-40c6-aa16-c246d244cc5b",
+          "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+          "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+          "04f8984f-da78-4b5a-80e1-07534072c199",
+          "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "4d526673-6763-40c6-aa16-c246d244cc5b": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "5bc76dde-9e70-4df4-8cff-af35405b14fc": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "6e455c50-2cea-4a3c-b62d-423b4625aa85": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "04f8984f-da78-4b5a-80e1-07534072c199": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "3a58c34d-7459-45d7-9871-df5cabd5dcc0": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "Caroline went to the LGBTQ support group yesterday.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "latency": {
+          "total_latency_sec": 0.34568214416503906,
+          "attempt_latencies_sec": [
+            0.33468103408813477
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "81849c7ee236b765935a0f62663ace648b6896e474a44c7beb86aa01c5422517",
+          "base_trace_fingerprint": "e6abef6d886e891897b57622a8bade106e0d9c00da3c67900b98599a37c6ead7"
+        },
+        "identity": {
+          "retrieved_memories_foundation_space": [
+            "4d526673-6763-40c6-aa16-c246d244cc5b",
+            "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+            "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+            "04f8984f-da78-4b5a-80e1-07534072c199",
+            "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+          ],
+          "selected_memories_foundation_space": [
+            "4d526673-6763-40c6-aa16-c246d244cc5b",
+            "5bc76dde-9e70-4df4-8cff-af35405b14fc",
+            "6e455c50-2cea-4a3c-b62d-423b4625aa85",
+            "04f8984f-da78-4b5a-80e1-07534072c199",
+            "3a58c34d-7459-45d7-9871-df5cabd5dcc0"
+          ],
+          "retrieved_memories_source_space": [
+            "0a2bbeb23bfc6abe6a886f09",
+            "82172fb18cea047df88299be",
+            "bb046bbd0b4a7d9b7cf15e51",
+            "832292b02aca5c535db6c3bf",
+            "66586fce1d73ce9515f4ee78"
+          ],
+          "selected_memories_source_space": [
+            "0a2bbeb23bfc6abe6a886f09",
+            "82172fb18cea047df88299be",
+            "bb046bbd0b4a7d9b7cf15e51",
+            "832292b02aca5c535db6c3bf",
+            "66586fce1d73ce9515f4ee78"
+          ],
+          "gold_evidence_ids_source_space": [
+            "0a2bbeb23bfc6abe6a886f09"
+          ],
+          "resolutions": {
+            "4d526673-6763-40c6-aa16-c246d244cc5b": {
+              "adapter_memory_id": null,
+              "source_memory_id": "0a2bbeb23bfc6abe6a886f09",
+              "status": "RESOLVED"
+            },
+            "5bc76dde-9e70-4df4-8cff-af35405b14fc": {
+              "adapter_memory_id": null,
+              "source_memory_id": "82172fb18cea047df88299be",
+              "status": "RESOLVED"
+            },
+            "6e455c50-2cea-4a3c-b62d-423b4625aa85": {
+              "adapter_memory_id": null,
+              "source_memory_id": "bb046bbd0b4a7d9b7cf15e51",
+              "status": "RESOLVED"
+            },
+            "04f8984f-da78-4b5a-80e1-07534072c199": {
+              "adapter_memory_id": null,
+              "source_memory_id": "832292b02aca5c535db6c3bf",
+              "status": "RESOLVED"
+            },
+            "3a58c34d-7459-45d7-9871-df5cabd5dcc0": {
+              "adapter_memory_id": null,
+              "source_memory_id": "66586fce1d73ce9515f4ee78",
+              "status": "RESOLVED"
+            }
+          },
+          "collision_report": {
+            "collision_free": true,
+            "duplicate_source_ids": {},
+            "resolved_count": 5,
+            "not_resolvable_count": 0,
+            "inspect_unavailable_count": 0,
+            "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+          }
+        },
+        "resolved_evaluation": {
+          "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+          "strict_tsr": {
+            "value": 1.0,
+            "status": "OK"
+          },
+          "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+        },
+        "citation_diagnostic": {
+          "status": "NOT_CITED",
+          "cited_memory_ids": [],
+          "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+        }
+      },
+      "latency_sec": 0.34568214416503906,
+      "vram_before_mib": 5225,
+      "vram_after_mib": 5225
+    }
+  ],
+  "determinism_check": "identical answer text and resolved_evaluation.failure_stage across both runs",
+  "foundation_shutdown_availability": "AVAILABLE"
+}
