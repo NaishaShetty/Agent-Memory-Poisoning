@@ -1,0 +1,116 @@
+{
+  "total_rows": 480,
+  "total_discrepancies": 131,
+  "by_dataset": {
+    "locomo_B": {
+      "n": 120,
+      "canonical_incorrect_count": 120,
+      "diagnostic_equivalent_count": 67,
+      "discrepancy_count": 67,
+      "discrepancy_pct_of_canonical_incorrect": 0.5583333333333333
+    },
+    "locomo_C": {
+      "n": 120,
+      "canonical_incorrect_count": 120,
+      "diagnostic_equivalent_count": 8,
+      "discrepancy_count": 8,
+      "discrepancy_pct_of_canonical_incorrect": 0.06666666666666667
+    },
+    "longmemeval_B": {
+      "n": 120,
+      "canonical_incorrect_count": 114,
+      "diagnostic_equivalent_count": 49,
+      "discrepancy_count": 43,
+      "discrepancy_pct_of_canonical_incorrect": 0.37719298245614036
+    },
+    "longmemeval_C": {
+      "n": 120,
+      "canonical_incorrect_count": 120,
+      "diagnostic_equivalent_count": 13,
+      "discrepancy_count": 13,
+      "discrepancy_pct_of_canonical_incorrect": 0.10833333333333334
+    }
+  },
+  "discrepancy_examples": [
+    {
+      "task_id": "049537bf444dae889b00ded4",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 0.5
+    },
+    {
+      "task_id": "4fd460c29c6eedde4b3f651f",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 1.0
+    },
+    {
+      "task_id": "6dfe2acb901ee1ddc17bb616",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 0.6666666666666666
+    },
+    {
+      "task_id": "12a964943f64be562cf53a50",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 0.8461538461538461
+    },
+    {
+      "task_id": "2aea1f66e74bc8c151fad974",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 1.0
+    },
+    {
+      "task_id": "ed7359c6f6c759ec8fd180a6",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 1.0
+    },
+    {
+      "task_id": "9a0d30913d9ab5a7cac6bff4",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 0.6666666666666666
+    },
+    {
+      "task_id": "c8b0dd085488f4af88a0748c",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 1.0
+    },
+    {
+      "task_id": "863ba61abf97813e4ec149e3",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 1.0
+    },
+    {
+      "task_id": "cd7d3356bd4e15b728a762b8",
+      "dataset": "locomo",
+      "condition": "B",
+      "canonical": "ANSWER_INCORRECT",
+      "diagnostic_status": "DIAGNOSTIC_EQUIVALENT",
+      "overlap_ratio": 0.6666666666666666
+    }
+  ]
+}

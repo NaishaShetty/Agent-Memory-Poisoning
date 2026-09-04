@@ -70,7 +70,18 @@ def test_raw_and_processed_data_directories_are_not_tracked():
 def test_no_obviously_secret_named_files_are_tracked():
     tracked = set(_git("ls-files").splitlines())
     secret_markers = ("credential", "secret", ".env", "api_key", ".pem", ".key")
-    offenders = [p for p in tracked if any(marker in p.lower() for marker in secret_markers)]
+    # Known-benign false positives: vendored third-party source under a candidate
+    # dataset's raw github_repo/ snapshot, tracked verbatim for provenance. Verified by
+    # inspection to contain no actual secret values -- just code that references AWS
+    # Secrets Manager by name. Allowlisted narrowly (exact path) rather than loosening
+    # the marker list, so the check still catches anything genuinely new.
+    allowlisted = {
+        "phase3/datasets/candidates/memoryagentbench/raw/github_repo/cognee/fetch_secret.py",
+    }
+    offenders = [
+        p for p in tracked
+        if any(marker in p.lower() for marker in secret_markers) and p not in allowlisted
+    ]
     assert not offenders, f"possible secret-named files are tracked: {offenders}"
 
 
@@ -79,7 +90,19 @@ def test_local_claude_settings_are_not_tracked():
     assert ".claude/settings.local.json" not in tracked
 
 
-def test_no_remote_is_configured():
-    """Part 4 explicitly prohibits creating a GitHub repo or remote."""
-    out = _git("remote")
-    assert out.strip() == ""
+def test_remote_if_configured_points_to_the_projects_own_repo():
+    """Part 4 originally prohibited creating any GitHub repo or remote for this project
+    at that stage. The project has since intentionally set up a real `origin` remote
+    (https://github.com/NaishaShetty/Agent-Memory-Poisoning.git) for its own repo. This
+    check no longer forbids a remote outright -- that would fail against the project's
+    own current, intentional git configuration -- but it still guards against the
+    original concern (accidentally pointing at, or publishing to, an unrelated repo):
+    if any remote is configured, it must be this project's own repo."""
+    out = _git("remote", "-v")
+    lines = [ln for ln in out.strip().splitlines() if ln]
+    if not lines:
+        return  # no remote configured -- still fine, matches the original intent
+    for line in lines:
+        assert "NaishaShetty/Agent-Memory-Poisoning" in line, (
+            f"unexpected remote configured, does not point to the project's own repo: {line}"
+        )

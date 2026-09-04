@@ -1,0 +1,31 @@
+........................................................................ [ 27%]
+..F.F................................................................... [ 55%]
+........................................................................ [ 83%]
+...........................................                              [100%]
+================================== FAILURES ===================================
+______________ test_no_obviously_secret_named_files_are_tracked _______________
+
+    def test_no_obviously_secret_named_files_are_tracked():
+        tracked = set(_git("ls-files").splitlines())
+        secret_markers = ("credential", "secret", ".env", "api_key", ".pem", ".key")
+        offenders = [p for p in tracked if any(marker in p.lower() for marker in secret_markers)]
+>       assert not offenders, f"possible secret-named files are tracked: {offenders}"
+E       AssertionError: possible secret-named files are tracked: ['phase3/datasets/candidates/memoryagentbench/raw/github_repo/cognee/fetch_secret.py']
+E       assert not ['phase3/datasets/candidates/memoryagentbench/raw/github_repo/cognee/fetch_secret.py']
+
+tests\test_git_repository_state.py:74: AssertionError
+________________________ test_no_remote_is_configured _________________________
+
+    def test_no_remote_is_configured():
+        """Part 4 explicitly prohibits creating a GitHub repo or remote."""
+        out = _git("remote")
+>       assert out.strip() == ""
+E       AssertionError: assert 'origin' == ''
+E         
+E         + origin
+
+tests\test_git_repository_state.py:85: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_git_repository_state.py::test_no_obviously_secret_named_files_are_tracked
+FAILED tests/test_git_repository_state.py::test_no_remote_is_configured - Ass...
+2 failed, 257 passed in 1008.65s (0:16:48)

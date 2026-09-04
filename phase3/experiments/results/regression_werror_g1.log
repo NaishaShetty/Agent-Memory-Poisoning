@@ -1,0 +1,229 @@
+........................................................................ [ 27%]
+..F.F................................................................... [ 55%]
+........................................................................ [ 83%]
+....................F.F....................                              [100%]
+================================== FAILURES ===================================
+______________ test_no_obviously_secret_named_files_are_tracked _______________
+
+    def test_no_obviously_secret_named_files_are_tracked():
+        tracked = set(_git("ls-files").splitlines())
+        secret_markers = ("credential", "secret", ".env", "api_key", ".pem", ".key")
+        offenders = [p for p in tracked if any(marker in p.lower() for marker in secret_markers)]
+>       assert not offenders, f"possible secret-named files are tracked: {offenders}"
+E       AssertionError: possible secret-named files are tracked: ['phase3/datasets/candidates/memoryagentbench/raw/github_repo/cognee/fetch_secret.py']
+E       assert not ['phase3/datasets/candidates/memoryagentbench/raw/github_repo/cognee/fetch_secret.py']
+
+tests\test_git_repository_state.py:74: AssertionError
+________________________ test_no_remote_is_configured _________________________
+
+    def test_no_remote_is_configured():
+        """Part 4 explicitly prohibits creating a GitHub repo or remote."""
+        out = _git("remote")
+>       assert out.strip() == ""
+E       AssertionError: assert 'origin' == ''
+E         
+E         + origin
+
+tests\test_git_repository_state.py:85: AssertionError
+_______ test_longmemeval_quarantined_records_remain_quarantined_in_umr ________
+
+    def test_longmemeval_quarantined_records_remain_quarantined_in_umr():
+        cfg = _cfg()
+        found = {}
+        for line in _unified_path(cfg, "longmemeval").open("r", encoding="utf-8"):
+            rec = json.loads(line)
+            if rec["memory_id"] in _LONGMEMEVAL_QUARANTINED_IDS:
+                found[rec["memory_id"]] = rec
+            if len(found) == 2:
+>               break
+E               ResourceWarning: unclosed file <_io.TextIOWrapper name='C:\\Agent Memory Poisoning\\data\\processed\\unified_memory\\longmemeval\\memory_records.jsonl' mode='r' encoding='utf-8'>
+
+tests\test_unified_memory_real_data.py:37: ResourceWarning
+
+The above exception was the direct cause of the following exception:
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000176F94A40E0>
+when = 'call'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\pluggy\_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\pluggy\_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\logging.py:865: in pytest_runtest_call
+    yield
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\capture.py:900: in pytest_runtest_call
+    return (yield)
+            ^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\skipping.py:268: in pytest_runtest_call
+    return (yield)
+            ^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\unraisableexception.py:183: in pytest_runtest_call
+    collect_unraisable(item.config)
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\unraisableexception.py:79: in collect_unraisable
+    raise errors[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+config = <_pytest.config.Config object at 0x00000176F6C6BFD0>
+
+    def collect_unraisable(config: Config) -> None:
+        pop_unraisable = config.stash[unraisable_exceptions].pop
+        errors: list[pytest.PytestUnraisableExceptionWarning | RuntimeError] = []
+        meta = None
+        hook_error = None
+        try:
+            while True:
+                try:
+                    meta = pop_unraisable()
+                except IndexError:
+                    break
+    
+                if isinstance(meta, BaseException):
+                    hook_error = RuntimeError("Failed to process unraisable exception")
+                    hook_error.__cause__ = meta
+                    errors.append(hook_error)
+                    continue
+    
+                msg = meta.msg
+                try:
+>                   warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+E                   pytest.PytestUnraisableExceptionWarning: Exception ignored in: <_io.FileIO name='C:\\Agent Memory Poisoning\\data\\processed\\unified_memory\\longmemeval\\memory_records.jsonl' mode='rb' closefd=True>
+E                   Enable tracemalloc to get traceback where the object was allocated.
+E                   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\unraisableexception.py:67: PytestUnraisableExceptionWarning
+_ test_locomo_qa_reconciliation_file_still_has_no_invented_canonical_answers __
+
+    def test_locomo_qa_reconciliation_file_still_has_no_invented_canonical_answers():
+        """Re-affirms the Phase 2.1-R invariant still holds after Phase 2.2 --
+        Phase 2.2 must not have touched this file at all."""
+        cfg = _cfg()
+        path = cfg.processed_dir / "locomo" / "qa_reconciled.jsonl"
+        checked = 0
+>       for line in path.open("r", encoding="utf-8"):
+E       ResourceWarning: unclosed file <_io.TextIOWrapper name='C:\\Agent Memory Poisoning\\data\\processed\\locomo\\qa_reconciled.jsonl' mode='r' encoding='utf-8'>
+
+tests\test_unified_memory_real_data.py:67: ResourceWarning
+
+The above exception was the direct cause of the following exception:
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000176F94B4F40>
+when = 'call'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\pluggy\_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\pluggy\_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\logging.py:865: in pytest_runtest_call
+    yield
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\capture.py:900: in pytest_runtest_call
+    return (yield)
+            ^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\skipping.py:268: in pytest_runtest_call
+    return (yield)
+            ^^^^^
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\unraisableexception.py:183: in pytest_runtest_call
+    collect_unraisable(item.config)
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\unraisableexception.py:79: in collect_unraisable
+    raise errors[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+config = <_pytest.config.Config object at 0x00000176F6C6BFD0>
+
+    def collect_unraisable(config: Config) -> None:
+        pop_unraisable = config.stash[unraisable_exceptions].pop
+        errors: list[pytest.PytestUnraisableExceptionWarning | RuntimeError] = []
+        meta = None
+        hook_error = None
+        try:
+            while True:
+                try:
+                    meta = pop_unraisable()
+                except IndexError:
+                    break
+    
+                if isinstance(meta, BaseException):
+                    hook_error = RuntimeError("Failed to process unraisable exception")
+                    hook_error.__cause__ = meta
+                    errors.append(hook_error)
+                    continue
+    
+                msg = meta.msg
+                try:
+>                   warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+E                   pytest.PytestUnraisableExceptionWarning: Exception ignored in: <_io.FileIO name='C:\\Agent Memory Poisoning\\data\\processed\\locomo\\qa_reconciled.jsonl' mode='rb' closefd=True>
+E                   Enable tracemalloc to get traceback where the object was allocated.
+E                   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\site-packages\_pytest\unraisableexception.py:67: PytestUnraisableExceptionWarning
+=========================== short test summary info ===========================
+FAILED tests/test_git_repository_state.py::test_no_obviously_secret_named_files_are_tracked
+FAILED tests/test_git_repository_state.py::test_no_remote_is_configured - Ass...
+FAILED tests/test_unified_memory_real_data.py::test_longmemeval_quarantined_records_remain_quarantined_in_umr
+FAILED tests/test_unified_memory_real_data.py::test_locomo_qa_reconciliation_file_still_has_no_invented_canonical_answers
+4 failed, 255 passed in 1105.92s (0:18:25)
