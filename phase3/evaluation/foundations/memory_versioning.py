@@ -513,6 +513,22 @@ def supersede_memory(
             f"({current.superseded_by!r}) -- relationship_schema.md permits at most one."
         )
 
+    # CYCLE REJECTION (mission section 10/28 CASE G): a RETIRED memory cannot itself
+    # supersede anything -- without this check, "A supersedes B" followed later by
+    # "B supersedes A" would form a 2-cycle (and, transitively, longer cycles). Since a
+    # memory becomes RETIRED exactly when (and only when) it is superseded or otherwise
+    # retired, forbidding a RETIRED memory from being used as a superseder makes every
+    # cycle -- of any length -- structurally unreachable: the first edge in any cycle
+    # would have to originate from a memory that a LATER edge in the same cycle also
+    # retires, which this check forbids at the moment that later edge is attempted.
+    superseding_current = get_current_version(event_ledger, memory_ledger, supersession_ledger, superseding_memory_id)
+    if superseding_current.lifecycle_state == LIFECYCLE_RETIRED:
+        raise MemoryVersioningError(
+            f"superseding_memory_id {superseding_memory_id!r} is itself RETIRED "
+            f"(version {superseding_current.version_id!r}) -- a retired memory cannot supersede "
+            "another; this would create a cycle or otherwise resurrect retired lineage."
+        )
+
     event_ledger.append(superseded_event)
 
     try:
