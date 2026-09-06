@@ -225,6 +225,45 @@ def _retrieve_and_select(
     return retrieved_ids, selected_ids, memory_items
 
 
+def generate_with_retries(
+    messages: List[Mapping[str, str]], config: RunConfiguration
+) -> Tuple[Optional[str], Tuple[GenerationAttempt, ...]]:
+    """The generation-retry loop, factored out of `run_agent_task()` (Phase 3.3-H.4-A)
+    so `agent_runtime/counterfactual.py`'s masked re-run can reuse the EXACT same
+    retry/attempt-recording behavior rather than reimplementing it a second time.
+    Returns `(generation_text, attempts)` -- `generation_text` is `None` iff every
+    attempt (up to `config.max_retries + 1`) failed. Purely additive: `run_agent_task()`
+    below now calls this helper instead of inlining the loop, with no change to its own
+    observable behavior (every existing test in `test_agent_runtime.py` passes unchanged).
+    """
+    attempts: List[GenerationAttempt] = []
+    max_attempts = config.max_retries + 1
+    generation_text: Optional[str] = None
+    for attempt_number in range(1, max_attempts + 1):
+        attempt_t0 = time.time()
+        try:
+            generation_result = config.llm_provider.generate(messages, config.generation_config)
+            attempts.append(
+                GenerationAttempt(
+                    attempt_number=attempt_number,
+                    succeeded=True,
+                    latency_sec=time.time() - attempt_t0,
+                )
+            )
+            generation_text = generation_result.text
+            break
+        except LLMProviderError as exc:
+            attempts.append(
+                GenerationAttempt(
+                    attempt_number=attempt_number,
+                    succeeded=False,
+                    latency_sec=time.time() - attempt_t0,
+                    error=repr(exc),
+                )
+            )
+    return generation_text, tuple(attempts)
+
+
 def run_agent_task(
     task: AgentTaskInput,
     foundation: Optional[MemoryFoundationAdapter],
@@ -289,32 +328,9 @@ def run_agent_task(
 
     messages = render_messages(agent_visible_context, config.system_prompt)
 
-    attempts: List[GenerationAttempt] = []
     execution_result: AgentExecutionResult
-    max_attempts = config.max_retries + 1
-    generation_text: Optional[str] = None
-    for attempt_number in range(1, max_attempts + 1):
-        attempt_t0 = time.time()
-        try:
-            generation_result = config.llm_provider.generate(messages, config.generation_config)
-            attempts.append(
-                GenerationAttempt(
-                    attempt_number=attempt_number,
-                    succeeded=True,
-                    latency_sec=time.time() - attempt_t0,
-                )
-            )
-            generation_text = generation_result.text
-            break
-        except LLMProviderError as exc:
-            attempts.append(
-                GenerationAttempt(
-                    attempt_number=attempt_number,
-                    succeeded=False,
-                    latency_sec=time.time() - attempt_t0,
-                    error=repr(exc),
-                )
-            )
+    generation_text, attempts_tuple = generate_with_retries(messages, config)
+    attempts: List[GenerationAttempt] = list(attempts_tuple)
 
     if generation_text is not None:
         execution_result = AgentExecutionResult(
@@ -367,5 +383,6 @@ __all__ = [
     "AgentRunOutcome",
     "RunConfiguration",
     "select_from_retrieved",
+    "generate_with_retries",
     "run_agent_task",
 ]
