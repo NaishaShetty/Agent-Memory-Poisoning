@@ -95,16 +95,27 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 from phase3.evaluation.foundations.canonical_event import (
     CanonicalEvent,
     EVENT_CREATED,
     EVENT_DERIVED,
+    EVENT_REJECTED,
+    EVENT_RELATIONSHIP_DETECTED,
     EVENT_RETIRED,
+    EVENT_RETRIEVED,
+    EVENT_SELECTED,
     EVENT_SUPERSEDED,
 )
 from phase3.evaluation.foundations.ledger import CanonicalMemoryLedger
+from phase3.evaluation.foundations.run_config import RunConfigLedger
+
+# Phase 3.3-H.4-F: only `retrieved`/`selected` events carry a `config_fingerprint` --
+# mirrors canonical_event.py's own `_CONFIG_SCOPED_EVENT_TYPES` (not imported directly,
+# since that name is module-private there; kept in sync by the same design decision this
+# module already leans on for its other event-type groupings).
+_CONFIG_SCOPED_EVENT_TYPES: Tuple[str, ...] = (EVENT_RETRIEVED, EVENT_SELECTED)
 
 APPEND_CREATED = "CREATED"
 APPEND_IDEMPOTENT = "IDEMPOTENT_NOOP"
@@ -130,11 +141,30 @@ class UnknownCanonicalMemoryError(KeyError):
     become a second memory store by silently creating one."""
 
 
+class UnknownConfigFingerprintError(KeyError):
+    """Phase 3.3-H.4-F: raised when a `retrieved`/`selected` `CanonicalEvent` references a
+    `config_fingerprint` that does not exist in the linked `RunConfigLedger` (when one is
+    supplied). Mirrors `UnknownCanonicalMemoryError`'s exact role: a configuration record
+    must exist (the run must have started) before any event referencing it can legitimately
+    be appended -- this is checked eagerly, unlike `check_retrieval_resolution()`'s
+    reconstruction-time check, because (unlike a selection decision) nothing about a
+    configuration's existence depends on events that haven't happened yet."""
+
+
 class SingleOccurrenceViolationError(ValueError):
     """Raised when a second, DIFFERENT (non-idempotent) `created`/`derived`/`superseded`/
-    `retired` event is appended for a memory that already has one. See module docstring
-    "SINGLE-OCCURRENCE EVENT TYPES" section -- this enforces event-ledger data integrity,
-    not H.3 supersession policy."""
+    `retired` event is appended for a memory that already has one, or when a second,
+    DIFFERENT `rejected` event is appended for the same `(memory_id, task_id)` pair. See
+    module docstring "SINGLE-OCCURRENCE EVENT TYPES" section -- this enforces event-ledger
+    data integrity, not H.3 supersession policy nor H.4-BC selection policy."""
+
+
+class RetrievalResolutionViolation(ValueError):
+    """Raised by `check_retrieval_resolution()` (Phase 3.3-H.4-BC) when a task's event
+    history leaves a `retrieved` candidate with neither a `selected` nor a `rejected`
+    event, or with both. This is a reconstruction-time consistency check, not an
+    append()-time rejection -- `retrieved` necessarily precedes the eventual selection
+    decision, so the invariant cannot be enforced eagerly at append time."""
 
 
 def _append_jsonl(path: Path, obj: dict) -> None:
@@ -153,11 +183,21 @@ class CanonicalEventLedger:
     contract, mirroring `CanonicalMemoryLedger`'s).
     """
 
-    def __init__(self, storage_dir: Union[str, Path], memory_ledger: CanonicalMemoryLedger) -> None:
+    def __init__(
+        self,
+        storage_dir: Union[str, Path],
+        memory_ledger: CanonicalMemoryLedger,
+        config_ledger: Optional[RunConfigLedger] = None,
+    ) -> None:
         self._dir = Path(storage_dir)
         self._dir.mkdir(parents=True, exist_ok=True)
         self._events_path = self._dir / _EVENTS_FILE
         self._memory_ledger = memory_ledger
+        # Phase 3.3-H.4-F: additive, optional. Every existing call site constructing
+        # `CanonicalEventLedger(storage_dir, memory_ledger)` continues to work unmodified --
+        # when omitted, `append()` skips the eager config_fingerprint-resolution check (see
+        # `check_config_resolution()` for the deferred, reconstruction-time equivalent).
+        self._config_ledger = config_ledger
 
         self._events_by_id: Dict[str, CanonicalEvent] = {}
         # Append order is the authoritative order -- a monotonically increasing sequence
@@ -189,8 +229,11 @@ class CanonicalEventLedger:
 
         Raises `UnknownCanonicalMemoryError` if any of `event.memory_ids` does not exist
         in the linked `CanonicalMemoryLedger` -- checked BEFORE any write, so a rejected
-        append leaves no partial trace. Raises `CanonicalEventCollisionError` if
-        `event.event_id` already exists with a different payload.
+        append leaves no partial trace. Raises `UnknownConfigFingerprintError` (Phase
+        3.3-H.4-F) if a `config_ledger` was supplied at construction and `event` is a
+        `retrieved`/`selected` event whose `config_fingerprint` does not exist in it.
+        Raises `CanonicalEventCollisionError` if `event.event_id` already exists with a
+        different payload.
         """
         for memory_id in event.memory_ids:
             if not self._memory_ledger.exists(memory_id):
@@ -201,6 +244,18 @@ class CanonicalEventLedger:
                     "ledger must never create a memory record as a side effect of recording "
                     "an event."
                 )
+
+        if (
+            self._config_ledger is not None
+            and event.event_type in _CONFIG_SCOPED_EVENT_TYPES
+            and not self._config_ledger.exists(event.config_fingerprint)
+        ):
+            raise UnknownConfigFingerprintError(
+                f"event {event.event_id!r} references config_fingerprint "
+                f"{event.config_fingerprint!r}, which does not exist in the linked "
+                "RunConfigLedger. A configuration record must exist before any event "
+                "referencing it can legitimately be appended."
+            )
 
         existing = self._events_by_id.get(event.event_id)
         if existing is not None:
@@ -251,6 +306,24 @@ class CanonicalEventLedger:
                     f"as a singular per-memory fact -- refusing to append a second, different one "
                     f"({event.event_id!r})."
                 )
+        elif event.event_type == EVENT_REJECTED:
+            # Phase 3.3-H.4-BC section 9: two `rejected` events for the same
+            # (memory_id, task_id) pair with different `reason` values are a collision, not
+            # a legitimate re-evaluation -- a candidate is rejected from a given task's
+            # selection decision for exactly one reason.
+            subject = event.memory_ids[0]
+            existing_rejections = [
+                e
+                for e in self.events_for_memory(subject)
+                if e.event_type == EVENT_REJECTED and e.task_id == event.task_id
+            ]
+            if existing_rejections:
+                raise SingleOccurrenceViolationError(
+                    f"memory {subject!r} already has a 'rejected' event "
+                    f"({existing_rejections[0].event_id!r}) for task_id={event.task_id!r}; a candidate "
+                    "is rejected from a given task's selection decision for exactly one reason -- "
+                    f"refusing to append a second, different one ({event.event_id!r})."
+                )
 
     # -- query API --------------------------------------------------------------------------
 
@@ -288,6 +361,70 @@ class CanonicalEventLedger:
         """Every event in this ledger, in append/persisted order."""
         return tuple(self._events_by_id[eid] for eid in self._order)
 
+    def events_for_relationship(self, memory_id_a: str, memory_id_b: str) -> Tuple[CanonicalEvent, ...]:
+        """Phase 3.3-H.4-BC: every `relationship_detected` event concerning the unordered
+        pair `{memory_id_a, memory_id_b}`, in append order. Order-independent on the
+        caller's side (querying `(A, B)` or `(B, A)` returns the same events) even though a
+        `superseded_by` event's own `memory_ids` field records a semantic order -- this
+        query matches on set membership, not positional order."""
+        wanted_pair = frozenset((memory_id_a, memory_id_b))
+        matching = (
+            eid
+            for eid, ev in self._events_by_id.items()
+            if ev.event_type == EVENT_RELATIONSHIP_DETECTED and frozenset(ev.memory_ids) == wanted_pair
+        )
+        return self._ordered(matching)
+
+    # -- reconstruction-time consistency checks --------------------------------------------
+
+    def check_retrieval_resolution(self, task_id: str) -> None:
+        """Phase 3.3-H.4-BC section 8: for `task_id`'s complete event history, every
+        `retrieved` candidate must eventually be paired with exactly one of a `selected` or
+        a `rejected` event for the same `(memory_id, task_id)` pair -- never both, never
+        neither. Raises `RetrievalResolutionViolation` listing every offending memory_id;
+        returns `None` (no violation) otherwise.
+
+        Deliberately NOT enforced inside `append()`: a `retrieved` event necessarily
+        precedes the eventual selection decision, so at the moment a `retrieved` event is
+        appended, no resolution can exist yet. This is a query a caller runs once a task's
+        candidate-selection decision is believed complete.
+        """
+        task_events = self.events_for_task(task_id)
+        retrieved_ids = {m for e in task_events if e.event_type == EVENT_RETRIEVED for m in e.memory_ids}
+        selected_ids = {m for e in task_events if e.event_type == EVENT_SELECTED for m in e.memory_ids}
+        rejected_ids = {m for e in task_events if e.event_type == EVENT_REJECTED for m in e.memory_ids}
+
+        neither = retrieved_ids - selected_ids - rejected_ids
+        both = retrieved_ids & selected_ids & rejected_ids
+        if neither or both:
+            problems = []
+            if neither:
+                problems.append(f"retrieved but neither selected nor rejected: {sorted(neither)!r}")
+            if both:
+                problems.append(f"both selected and rejected: {sorted(both)!r}")
+            raise RetrievalResolutionViolation(
+                f"task_id={task_id!r} has unresolved retrieved candidates -- {'; '.join(problems)}."
+            )
+
+
+def check_config_resolution(
+    event_ledger: "CanonicalEventLedger", config_ledger: RunConfigLedger
+) -> List[CanonicalEvent]:
+    """Phase 3.3-H.4-F: deferred, reconstruction-time equivalent of `append()`'s eager
+    `UnknownConfigFingerprintError` check -- for a caller that constructed `event_ledger`
+    WITHOUT a `config_ledger` (so no eager check ran at append time), find every
+    `retrieved`/`selected` event whose `config_fingerprint` does not resolve against
+    `config_ledger`. Returns the list of offending events (empty if every one resolves);
+    never raises on its own -- "the event is not considered reproducibly interpretable" is
+    surfaced as data for the caller to act on, exactly like `check_retrieval_resolution()`
+    returns cleanly and lets the caller decide what a violation means for their run.
+    """
+    violations = []
+    for event in event_ledger.all_events():
+        if event.event_type in _CONFIG_SCOPED_EVENT_TYPES and not config_ledger.exists(event.config_fingerprint):
+            violations.append(event)
+    return violations
+
 
 __all__ = [
     "APPEND_CREATED",
@@ -295,6 +432,9 @@ __all__ = [
     "APPEND_RESULTS",
     "CanonicalEventCollisionError",
     "UnknownCanonicalMemoryError",
+    "UnknownConfigFingerprintError",
     "SingleOccurrenceViolationError",
+    "RetrievalResolutionViolation",
     "CanonicalEventLedger",
+    "check_config_resolution",
 ]
