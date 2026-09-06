@@ -135,10 +135,12 @@ def test_5_distinct_observations_permitted_where_ontology_allows(tmp_path):
     retrieved_t1 = build_canonical_event(
         event_type=EVENT_RETRIEVED, memory_ids=("m1",), timestamp="2026-01-01T00:00:00Z",
         actor="candidate_discovery", reason="matched query embedding.", task_id="T1",
+        config_fingerprint="CFG-test-config",
     )
     retrieved_t2 = build_canonical_event(
         event_type=EVENT_RETRIEVED, memory_ids=("m1",), timestamp="2026-01-01T00:05:00Z",
         actor="candidate_discovery", reason="matched query embedding.", task_id="T2",
+        config_fingerprint="CFG-test-config",
     )
     assert retrieved_t1.event_id != retrieved_t2.event_id
     event_ledger.append(retrieved_t1)
@@ -297,6 +299,7 @@ def test_14_vendor_ids_remain_independent_namespace(tmp_path):
         event_type=EVENT_RETRIEVED, memory_ids=("m1",), timestamp="2026-01-01T00:00:00Z",
         actor="candidate_discovery", reason="matched.", task_id="T1",
         foundation_name="mem0", foundation_memory_id="vendor-uuid-abc",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(event)
     assert event.event_id != "vendor-uuid-abc"

@@ -315,6 +315,7 @@ def test_foundation_alias_linkage(tmp_path):
         reason="matched query embedding.",
         foundation_name="mem0",
         foundation_memory_id="vendor-uuid-abc",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(event)
     fetched = event_ledger.get_event("evt-003")
@@ -340,6 +341,7 @@ def test_task_linkage_present_only_where_applicable(tmp_path):
         timestamp="2026-01-01T00:05:00Z",
         actor="candidate_discovery",
         reason="matched query embedding.",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(retrieved)
     assert event_ledger.get_event("evt-001").task_id is None
@@ -395,6 +397,7 @@ def test_event_ordering_is_append_order_not_timestamp_order(tmp_path):
         timestamp="2026-01-01T00:00:00Z",
         actor="candidate_discovery",
         reason="second appended, earlier timestamp",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(first)
     event_ledger.append(second)
@@ -425,6 +428,7 @@ def test_events_for_task(tmp_path):
         timestamp="2026-01-01T00:05:00Z",
         actor="candidate_discovery",
         reason="matched query embedding.",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(retrieved)
     assert [e.event_id for e in event_ledger.events_for_task("task-1")] == ["evt-004"]
@@ -443,6 +447,7 @@ def test_events_for_foundation(tmp_path):
         reason="selected for reasoning context.",
         foundation_name="mem0",
         foundation_memory_id="vendor-uuid-abc",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(event)
     assert [e.event_id for e in event_ledger.events_for_foundation("mem0")] == ["evt-005"]
@@ -460,6 +465,7 @@ def test_reconstruct_memory_history(tmp_path):
         timestamp="2026-01-01T00:05:00Z",
         actor="candidate_discovery",
         reason="matched query embedding.",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(retrieved)
     history = event_ledger.reconstruct_memory_history("loco-mem-001")
@@ -498,6 +504,7 @@ def test_vendor_deletion_cannot_erase_event_history(tmp_path):
         reason="matched query embedding.",
         foundation_name="mem0",
         foundation_memory_id="vendor-uuid-abc",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(retrieved_evt)
     # "Vendor deletes vendor-uuid-abc" has no representation in this ledger's state at
@@ -653,6 +660,7 @@ def test_event_content_integrity_never_rewritten_by_ledger(tmp_path):
         reason="matched query embedding.",
         foundation_name="mem0",
         foundation_memory_id="vendor-uuid-abc",
+        config_fingerprint="CFG-test-config",
     )
     event_ledger.append(original)
     fetched = event_ledger.get_event("evt-006")
