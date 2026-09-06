@@ -125,7 +125,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
-from phase3.evaluation.foundations.canonical import LIFECYCLE_RETIRED, LIFECYCLE_STATES
+from phase3.evaluation.foundations.canonical import LIFECYCLE_CREATED, LIFECYCLE_RETIRED, LIFECYCLE_STATES
 from phase3.evaluation.foundations.canonical_event import (
     CanonicalEvent,
     EVENT_CREATED,
@@ -323,7 +323,23 @@ def reconstruct_version_history(
         raise UnknownMemoryError(f"memory_id {memory_id!r} does not exist in the linked CanonicalMemoryLedger.")
 
     lifecycle_events: List[CanonicalEvent] = [
-        e for e in event_ledger.events_for_memory(memory_id) if e.event_type in _LIFECYCLE_EVENT_TYPES
+        e
+        for e in event_ledger.events_for_memory(memory_id)
+        if e.event_type in _LIFECYCLE_EVENT_TYPES
+        # Phase 3.3-H.3-R: `derived` is the one _LIFECYCLE_EVENT_TYPES member that is not
+        # single-memory-scoped -- its `memory_ids` legitimately names every source/parent
+        # AND the one target/child (canonical_event.py's own validated invariant). A
+        # `derived` event mentions `memory_id` for two structurally different reasons:
+        # "this memory IS the one just created" (memory_id == target_memory_id) or "this
+        # memory CONTRIBUTED to a different memory's creation" (memory_id is merely a
+        # source). Only the former is this memory's OWN lifecycle transition; the latter
+        # is a different memory's creation event that happens to mention this one, and
+        # must not enter THIS memory's own version history (it has no lifecycle_state to
+        # contribute -- `derived` events are not state-changing, per
+        # `canonical_event.py::_STATE_CHANGING_EVENT_TYPES` -- so admitting it here always
+        # produced a spurious history entry `CanonicalMemoryVersion` correctly rejected).
+        # See `PHASE3_3_H3_R_IMPLEMENTATION_REPORT.md` for the full root-cause account.
+        and (e.event_type != EVENT_DERIVED or e.target_memory_id == memory_id)
     ]
     if not lifecycle_events or lifecycle_events[0].event_type not in _CREATION_EVENT_TYPES:
         raise NoLifecycleHistoryError(
@@ -337,12 +353,32 @@ def reconstruct_version_history(
         if event.event_type == EVENT_SUPERSEDED:
             linkage = supersession_ledger.get_by_event_id(event.event_id)
             current_superseded_by = linkage.superseding_memory_id if linkage is not None else None
+
+        if event.event_type == EVENT_DERIVED:
+            # Phase 3.3-H.3-R2: `derived` events are forbidden from carrying `new_state`
+            # at all (canonical_event.py's `_STATE_CHANGING_EVENT_TYPES` deliberately
+            # excludes EVENT_DERIVED -- a `derived` event describes lineage, not a state
+            # transition, so `event.new_state` is always None here). But H.3-R's own fix
+            # above ensures this branch is reached only for the event that IS this
+            # memory's own creation-via-derivation -- exactly the "created/derived ->
+            # version 1" case this module's own design doc names. Every `created` event
+            # in this codebase's existing usage sets new_state=LIFECYCLE_CREATED (never
+            # LIFECYCLE_ACTIVE directly); a derived memory's own creation is semantically
+            # identical for version-1 purposes (memory_type/parent_ids already capture
+            # the "how it came to exist" distinction) -- so the same initial state is
+            # used here, inferred rather than read off a field that structurally cannot
+            # hold it. See PHASE3_3_H3_R2_IMPLEMENTATION_REPORT.md for the full
+            # root-cause account.
+            version_lifecycle_state = LIFECYCLE_CREATED
+        else:
+            version_lifecycle_state = event.new_state
+
         versions.append(
             CanonicalMemoryVersion(
                 version_id=_version_id(memory_id, index),
                 memory_id=memory_id,
                 version_number=index,
-                lifecycle_state=event.new_state,
+                lifecycle_state=version_lifecycle_state,
                 superseded_by=current_superseded_by,
                 established_by_event_id=event.event_id,
                 recorded_at=event.timestamp,
