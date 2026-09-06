@@ -28,6 +28,7 @@ from phase3.evaluation.foundations.canonical import (
 from phase3.evaluation.foundations.canonical_event import (
     CanonicalEvent,
     EVENT_CREATED,
+    EVENT_DERIVED,
     EVENT_RETIRED,
     EVENT_SUPERSEDED,
 )
@@ -744,3 +745,187 @@ def test_invariant_no_runtime_wiring_into_g1():
 
     source = inspect.getsource(campaign_formal_runner)
     assert "memory_versioning" not in source
+
+
+# ===========================================================================
+# Phase 3.3-H.3-R -- remediation for the multi-memory `derived`-event contamination bug
+# ===========================================================================
+#
+# Root cause (PHASE3_3_H3_R_IMPLEMENTATION_REPORT.md section 1): `derived` is the one
+# `_LIFECYCLE_EVENT_TYPES` member that is not single-memory-scoped -- its `memory_ids`
+# legitimately names every source/parent AND the one target/child. Before this
+# remediation, `reconstruct_version_history(P)` for a memory `P` that is ONLY a
+# source/parent of some `derived` event (never that event's own `target_memory_id`)
+# incorrectly admitted that event into `P`'s own lifecycle history (since
+# `events_for_memory()` matches on ANY appearance in `memory_ids`), and then crashed
+# constructing a `CanonicalMemoryVersion` with `lifecycle_state=None` (`derived` events are
+# not state-changing, so `new_state` is always `None`). The fix: a `derived` event only
+# counts toward `memory_id`'s OWN lifecycle history if `memory_id == event.target_memory_id`.
+
+
+def _derived_event_multi(target_memory_id, source_memory_ids, timestamp="2026-02-01T00:00:00Z"):
+    source_memory_ids = tuple(source_memory_ids)
+    return build_canonical_event(
+        event_type=EVENT_DERIVED,
+        memory_ids=source_memory_ids + (target_memory_id,),
+        timestamp=timestamp,
+        actor="creation_policy",
+        reason="derived from multiple sources.",
+        source_memory_ids=source_memory_ids,
+        target_memory_id=target_memory_id,
+    )
+
+
+def test_h3_r_pure_source_memory_reconstruction_no_longer_crashes(tmp_path):
+    """A, B are plain foundation memories, each contributing as a SOURCE to C's
+    derivation. Before H.3-R, `reconstruct_version_history("A")` raised
+    `MemoryVersioningError` (a spurious `derived` entry with `lifecycle_state=None`
+    leaking in from C's creation event). After H.3-R, it must succeed and reflect ONLY
+    A's own genuine `created` history -- no trace of C's derivation event at all."""
+    memory_ledger, event_ledger, supersession_ledger = _system(tmp_path)
+    _seed_memory(memory_ledger, event_ledger, "A")
+    _seed_memory(memory_ledger, event_ledger, "B")
+    memory_ledger.put(_memory_record("C", memory_type=MEMORY_TYPE_DERIVED, parent_ids=["A", "B"]))
+    event_ledger.append(_derived_event_multi("C", ["A", "B"]))
+
+    history_a = _reconstruct(memory_ledger, event_ledger, supersession_ledger, "A")
+    assert len(history_a) == 1
+    assert history_a[0].lifecycle_state == LIFECYCLE_CREATED
+    # The ONE version present must be established by A's own `created` event -- never by
+    # C's `derived` event (which would be the spurious, pre-fix contamination).
+    a_created_event_id = event_ledger.events_for_memory("A")[0].event_id
+    assert history_a[0].established_by_event_id == a_created_event_id
+
+
+def test_h3_r_pure_source_memory_current_version_is_its_own_created_state(tmp_path):
+    memory_ledger, event_ledger, supersession_ledger = _system(tmp_path)
+    _seed_memory(memory_ledger, event_ledger, "A")
+    _seed_memory(memory_ledger, event_ledger, "B")
+    memory_ledger.put(_memory_record("C", memory_type=MEMORY_TYPE_DERIVED, parent_ids=["A", "B"]))
+    event_ledger.append(_derived_event_multi("C", ["A", "B"]))
+
+    current_a = get_current_version(event_ledger, memory_ledger, supersession_ledger, "A")
+    assert current_a.version_number == 1
+    assert current_a.lifecycle_state == LIFECYCLE_CREATED
+    current_b = get_current_version(event_ledger, memory_ledger, supersession_ledger, "B")
+    assert current_b.lifecycle_state == LIFECYCLE_CREATED
+
+
+def test_h3_r_source_memorys_own_later_retirement_is_still_correctly_tracked(tmp_path):
+    """A is a source of C's derivation AND is separately, legitimately retired later.
+    The fix must not suppress A's OWN real lifecycle events -- only the spurious
+    cross-memory `derived` entry."""
+    memory_ledger, event_ledger, supersession_ledger = _system(tmp_path)
+    _seed_memory(memory_ledger, event_ledger, "A")
+    memory_ledger.put(_memory_record("C", memory_type=MEMORY_TYPE_DERIVED, parent_ids=["A"]))
+    event_ledger.append(_derived_event_multi("C", ["A"]))
+
+    retired_event = build_canonical_event(
+        event_type=EVENT_RETIRED, memory_ids=("A",), timestamp="2026-02-02T00:00:00Z",
+        actor="creation_policy", reason="retired after contributing to C.",
+        previous_state=LIFECYCLE_CREATED, new_state=LIFECYCLE_RETIRED,
+    )
+    retire_memory(event_ledger, memory_ledger, supersession_ledger, "A", retired_event=retired_event)
+
+    history_a = _reconstruct(memory_ledger, event_ledger, supersession_ledger, "A")
+    assert [v.lifecycle_state for v in history_a] == [LIFECYCLE_CREATED, LIFECYCLE_RETIRED]
+    current_a = get_current_version(event_ledger, memory_ledger, supersession_ledger, "A")
+    assert current_a.lifecycle_state == LIFECYCLE_RETIRED
+
+
+def test_h3_r2_target_memorys_own_derived_creation_reconstructs_as_created(tmp_path):
+    """FIXED (Phase 3.3-H.3-R2): a `derived`-type memory's OWN creation event legitimately
+    has `target_memory_id == memory_id`, so H.3-R's fix correctly KEEPS it in that
+    memory's own history. That event's `new_state` is always `None` (`derived` events are
+    not state-changing, per canonical_event.py), so H.3-R2 infers `LIFECYCLE_CREATED` for
+    it instead of reading `event.new_state` directly -- matching every `created` event's
+    own existing convention in this test suite. Version 1 for a derived memory must now
+    reconstruct successfully with that inferred state, not raise."""
+    memory_ledger, event_ledger, supersession_ledger = _system(tmp_path)
+    _seed_memory(memory_ledger, event_ledger, "A")
+    memory_ledger.put(_memory_record("C", memory_type=MEMORY_TYPE_DERIVED, parent_ids=["A"]))
+    event_ledger.append(_derived_event_multi("C", ["A"]))
+
+    history = reconstruct_version_history(event_ledger, memory_ledger, supersession_ledger, "C")
+    assert len(history) == 1
+    assert history[0].lifecycle_state == LIFECYCLE_CREATED
+    assert history[0].version_number == 1
+    assert history[0].superseded_by is None
+
+    current = get_current_version(event_ledger, memory_ledger, supersession_ledger, "C")
+    assert current.lifecycle_state == LIFECYCLE_CREATED
+
+
+def test_h3_r2_derived_memory_supersession_composes_correctly(tmp_path):
+    """The H.3-R2-inferred LIFECYCLE_CREATED base state for a derived memory must compose
+    correctly with the pre-existing, unmodified supersession/retirement machinery -- not
+    just work in isolation as version 1."""
+    memory_ledger, event_ledger, supersession_ledger = _system(tmp_path)
+    _seed_memory(memory_ledger, event_ledger, "A")
+    memory_ledger.put(_memory_record("C", memory_type=MEMORY_TYPE_DERIVED, parent_ids=["A"]))
+    event_ledger.append(_derived_event_multi("C", ["A"]))
+    memory_ledger.put(_memory_record("D", memory_type=MEMORY_TYPE_FOUNDATION))
+    event_ledger.append(
+        CanonicalEvent(
+            event_id="ev-create-d", event_type=EVENT_CREATED, memory_ids=("D",),
+            timestamp="2026-01-01T00:00:01Z", actor="creation_policy", reason="ingested",
+            new_state=LIFECYCLE_CREATED,
+        )
+    )
+
+    result = supersede_memory(
+        event_ledger, memory_ledger, supersession_ledger,
+        superseded_memory_id="C", superseding_memory_id="D",
+        superseded_event=CanonicalEvent(
+            event_id="ev-sup-c", event_type=EVENT_SUPERSEDED, memory_ids=("C",),
+            timestamp="2026-01-01T00:00:02Z", actor="creation_policy", reason="d supersedes c.",
+            previous_state=LIFECYCLE_CREATED, new_state=LIFECYCLE_RETIRED,
+        ),
+        retired_event=CanonicalEvent(
+            event_id="ev-ret-c", event_type=EVENT_RETIRED, memory_ids=("C",),
+            timestamp="2026-01-01T00:00:03Z", actor="creation_policy", reason="c retired.",
+            previous_state=LIFECYCLE_CREATED, new_state=LIFECYCLE_RETIRED,
+        ),
+    )
+    assert result.status == STATUS_FULLY_SUPERSEDED
+
+    history = reconstruct_version_history(event_ledger, memory_ledger, supersession_ledger, "C")
+    assert [v.lifecycle_state for v in history] == [LIFECYCLE_CREATED, LIFECYCLE_RETIRED, LIFECYCLE_RETIRED]
+    assert history[-1].superseded_by == "D"
+
+
+def test_h3_r2_three_memory_derivation_chain_reconstructs_for_all_three(tmp_path):
+    """A created, B derived from A, C derived from B -- B is BOTH a target (of A's
+    derivation) and a source (of C's derivation). Both H.3-R (which events count) and
+    H.3-R2 (what state a derived event implies) must compose correctly: B's own history
+    must show exactly its own creation-via-derivation, never C's, and must not raise."""
+    memory_ledger, event_ledger, supersession_ledger = _system(tmp_path)
+    _seed_memory(memory_ledger, event_ledger, "A")
+    memory_ledger.put(_memory_record("B", memory_type=MEMORY_TYPE_DERIVED, parent_ids=["A"]))
+    event_ledger.append(_derived_event_multi("B", ["A"]))
+    memory_ledger.put(_memory_record("C", memory_type=MEMORY_TYPE_DERIVED, parent_ids=["B"]))
+    event_ledger.append(_derived_event_multi("C", ["B"]))
+
+    history_a = reconstruct_version_history(event_ledger, memory_ledger, supersession_ledger, "A")
+    history_b = reconstruct_version_history(event_ledger, memory_ledger, supersession_ledger, "B")
+    history_c = reconstruct_version_history(event_ledger, memory_ledger, supersession_ledger, "C")
+
+    assert len(history_a) == 1 and history_a[0].lifecycle_state == LIFECYCLE_CREATED
+    assert len(history_b) == 1 and history_b[0].lifecycle_state == LIFECYCLE_CREATED
+    assert len(history_c) == 1 and history_c[0].lifecycle_state == LIFECYCLE_CREATED
+
+
+def test_h3_r_multi_source_derivation_all_sources_reconstruct_cleanly(tmp_path):
+    """Three sources, one derived target -- every source's own history must reconstruct
+    cleanly (the mission's own multi-parent case), and none of them cross-contaminate
+    each other's history either."""
+    memory_ledger, event_ledger, supersession_ledger = _system(tmp_path)
+    for mid in ("A", "B", "C"):
+        _seed_memory(memory_ledger, event_ledger, mid)
+    memory_ledger.put(_memory_record("D", memory_type=MEMORY_TYPE_DERIVED, parent_ids=["A", "B", "C"]))
+    event_ledger.append(_derived_event_multi("D", ["A", "B", "C"]))
+
+    for mid in ("A", "B", "C"):
+        history = _reconstruct(memory_ledger, event_ledger, supersession_ledger, mid)
+        assert len(history) == 1
+        assert history[0].lifecycle_state == LIFECYCLE_CREATED
