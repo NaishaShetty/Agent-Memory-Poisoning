@@ -78,10 +78,15 @@ def _try_import_amem():
         # A-mem-sys is a cloned source checkout, not a pip-installed package -- add its
         # repo root to sys.path (once) so `agentic_memory` is importable. Path is read from
         # this stage's own recorded acquisition location; never copied into this repo.
-        repo_root = (
-            r"C:\Users\naish\AppData\Local\Temp\claude\C--Agent-Memory-Poisoning"
-            r"\ed0589d9-1218-4af7-8dc6-6a0217976de1\scratchpad\amem_sys_repo"
-        )
+        #
+        # NOTE (re-acquired during this session): the path this constant previously pointed
+        # to (a Claude Code session's own scratchpad directory) was ephemeral and no longer
+        # exists once that session ended -- a fragile acquisition location for something a
+        # real-conformance test run depends on. Re-cloned at the exact same pinned commit
+        # (AMEM_SYS_SOURCE["commit"], verified via `git log -1` against the fresh clone)
+        # into a location tied to the C:\h4venv interpreter itself, so it persists for as
+        # long as that interpreter does, rather than for as long as one chat session does.
+        repo_root = r"C:\h4venv\a-mem-sys-repo"
         if repo_root not in sys.path:
             sys.path.insert(0, repo_root)
         from agentic_memory.memory_system import AgenticMemorySystem
