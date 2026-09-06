@@ -52,6 +52,7 @@ from phase3.evaluation.metrics import provenance as m_provenance
 from phase3.evaluation.metrics import retrieval as m_retrieval
 from phase3.evaluation.metrics import selection as m_selection
 from phase3.evaluation.metrics.types import MetricResult, STATUS_UNDEFINED_EMPTY_GOLD
+from phase3.evaluation.security import content_leakage as sec_content_leakage
 from phase3.evaluation.security import leakage as sec_leakage
 from phase3.evaluation.security import reproducibility as sec_repro
 
@@ -421,6 +422,48 @@ def evaluate_case(
     if case.agent_visible_context is not None:
         warnings.extend(validate_agent_visible_context_shape(case.agent_visible_context, case.condition))
         leakage_result = sec_leakage.validate_against_boundary(case.agent_visible_context)
+
+        # Phase 3.3-H.4-E: the one gap security/leakage.py itself explicitly disclaims --
+        # a content-level check that THIS task's own gold_answer/gold_evidence_ids do not
+        # appear, verbatim, as a substring anywhere in THIS task's assembled context.
+        # Fail-closed: a detected leak stops this case's execution immediately, unlike the
+        # two structural checks above (which only ever collect a LeakageResult/warnings at
+        # this call site -- a separate, pre-existing observation, not this mission's remit
+        # to fix; see PHASE3_3_H4_E_IMPLEMENTATION_REPORT.md section 5).
+        #
+        # Two separate scans, over two different payload views (see content_leakage.py's
+        # own "WHY gold_answer IS SCOPED DIFFERENTLY" docstring section): a gold ANSWER is
+        # expected, by design, to sometimes appear inside legitimately-exposed
+        # memory_content (that memory IS the evidence the answer restates), so it is
+        # checked only against the REST of the context; a gold EVIDENCE ID has no
+        # legitimate reason to appear inside memory content text at all, so it is checked
+        # against the full, unmodified context.
+        context_without_memory_content = {
+            k: v for k, v in case.agent_visible_context.items() if k != "memory_content"
+        }
+        # gold_evidence_ids are scanned against memory_content's CONTENT text, but not its
+        # own memory_id field -- a selected/retrieved memory's memory_id legitimately
+        # equals a gold_evidence_id whenever retrieval/selection worked correctly (that IS
+        # what "the right evidence was exposed" means); an evidence id string turning up
+        # inside a memory's free-text content, by contrast, has no legitimate explanation.
+        context_for_evidence_id_scan = dict(case.agent_visible_context)
+        context_for_evidence_id_scan["memory_content"] = [
+            {k: v for k, v in item.items() if k != "memory_id"}
+            for item in (case.agent_visible_context.get("memory_content") or [])
+        ]
+        content_leakage_results = (
+            sec_content_leakage.scan_for_gold_content(
+                context_without_memory_content, case.evaluator_reference, fields=("gold_answer",)
+            ),
+            sec_content_leakage.scan_for_gold_content(
+                context_for_evidence_id_scan, case.evaluator_reference, fields=("gold_evidence_ids",)
+            ),
+        )
+        for content_leakage_result in content_leakage_results:
+            if content_leakage_result.status == sec_content_leakage.STATUS_CONTENT_LEAKAGE_DETECTED:
+                raise sec_content_leakage.ContentLeakageDetectedError(
+                    f"case {case.case_id!r}: {content_leakage_result.summary}"
+                )
     else:
         warnings.append(
             f"no agent_visible_context for this case: {case.task_not_applicable_reason}"
