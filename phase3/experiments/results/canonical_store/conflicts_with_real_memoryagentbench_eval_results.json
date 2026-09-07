@@ -1,0 +1,108 @@
+{
+  "source": "MemoryAgentBench candidate, Conflict_Resolution split, row 0 (455 real facts)",
+  "genre_note": "declarative fact triples, NOT natural conversational dialogue -- disclosed genre difference from LoCoMo",
+  "n_pos": 60,
+  "n_neg": 60,
+  "pos_pairs_sample": [
+    [
+      "The capital of Italy is Rome.",
+      "The capital of Romania is Rajanpur."
+    ],
+    [
+      "The author of A Wizard of Earthsea is Ursula K. Le Guin.",
+      "The author of Sidereus Nuncius is Galileo Galilei."
+    ],
+    [
+      "The capital of France is Harare.",
+      "The capital of United States of America is Harrisville."
+    ],
+    [
+      "The capital of Great Britain is London.",
+      "The capital of India is Grosseto."
+    ],
+    [
+      "The univeristy where Samuel Beckett was educated is Trinity College Dublin.",
+      "The univeristy where Wilhelm II was educated is Baldwin Wallace University."
+    ],
+    [
+      "The capital of India is New Delhi.",
+      "The capital of India is Grosseto."
+    ],
+    [
+      "The name of the current head of state in United Kingdom is Elizabeth II.",
+      "The name of the current head of the Pittsburgh government is Bill Peduto."
+    ],
+    [
+      "The capital of France is Paris.",
+      "The capital of Romania is Rajanpur."
+    ],
+    [
+      "Club Nouveau was created in the country of United States of America.",
+      "Club Nouveau was created in the country of Soviet Union."
+    ],
+    [
+      "The director of The Beatles is Brian Epstein.",
+      "The director of The Beatles is Joe Hockey."
+    ]
+  ],
+  "neg_pairs_sample": [
+    [
+      "Transcendental Meditation movement was founded by Adalbert of Prague.",
+      "point guard is associated with the sport of cricket."
+    ],
+    [
+      "Olga of Kiev died in the city of Kyiv.",
+      "The chairperson of Fatah is Moshe Kahlon."
+    ],
+    [
+      "The official language of Australia is Arabic.",
+      "Bernard Arnault is a citizen of France."
+    ],
+    [
+      "Ferdinand Marcos is married to Imelda Marcos.",
+      "Past Masters was performed by The Beatles."
+    ],
+    [
+      "Methodism was founded by Joseph Goebbels.",
+      "Yves Montand is married to Simone Signoret."
+    ],
+    [
+      "Back to Black was performed by Amy Winehouse.",
+      "Thomas Kyd was born in the city of Leeds."
+    ],
+    [
+      "AppleScript was developed by Apple Inc..",
+      "The capital of United States of America is Harrisville."
+    ],
+    [
+      "The capital of Romania is Bucharest.",
+      "The director of Madonna is Narendra Modi."
+    ],
+    [
+      "The author of Starship Troopers is Daphne du Maurier.",
+      "Andy Warhol died in the city of Montmélian."
+    ],
+    [
+      "Hugh Hefner is famous for The Vampyre.",
+      "The name of the current head of the Japan government is Shinzō Abe."
+    ]
+  ],
+  "nli_results": {
+    "tp": 60,
+    "fp": 58,
+    "fn": 0,
+    "tn": 2,
+    "precision": 0.5084745762711864,
+    "recall": 1.0,
+    "f1": 0.6741573033707865
+  },
+  "llm_results": {
+    "tp": 17,
+    "fp": 0,
+    "fn": 43,
+    "tn": 60,
+    "precision": 1.0,
+    "recall": 0.2833333333333333,
+    "f1": 0.4415584415584416
+  }
+}

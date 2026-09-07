@@ -431,17 +431,51 @@ def test_23_boundary_factory_produces_valid_boundary_record():
 
 
 def test_24_no_automatic_runtime_wiring():
-    """None of the new H.2-R2 modules is imported anywhere on the live G.1 execution
-    path -- purely additive infrastructure, not integrated."""
+    """None of the new H.2-R2 modules is imported anywhere on the live G.1 (A-MEM)
+    execution path -- purely additive infrastructure, not integrated.
+
+    UPDATED, Phase 3.3-H.4-WIRE: this test originally checked the WHOLE
+    `campaign_formal_runner` module, when the entire module had zero canonical-ledger
+    wiring. H.4-WIRE's own, explicit, authorized deliverable was to wire exactly
+    `run_condition_b_mem0()` (Condition B / Mem0) to `event_ledger`/`canonical_event` --
+    so a whole-module check became the WRONG invariant to assert; it would fail on that
+    mission's own intended change, not on a regression.
+
+    UPDATED AGAIN, Phase 3.3-H.4-WIRE-C: the same, explicitly authorized pattern was
+    extended to `run_condition_c_amem()` (Condition C / A-MEM) -- moved from the "must
+    remain unwired" list to its own positive-presence check, mirroring Condition B's own.
+    The invariant this test actually protects -- "the live campaign path is never
+    automatically, accidentally wired to this new infrastructure beyond what a named
+    mission explicitly authorized" -- is still real and still checked, just now scoped to
+    exactly the two functions with a real, reviewed mission behind their wiring."""
     import inspect
 
     from phase3.evaluation.agent_runtime import campaign_formal_runner
 
-    source = inspect.getsource(campaign_formal_runner)
-    assert "event_identity" not in source
-    assert "experiment_boundary" not in source
-    assert "event_ledger" not in source
-    assert "canonical_event" not in source
+    unwired_functions = (
+        campaign_formal_runner.run_condition_a,
+        campaign_formal_runner.run_formal_c_locomo,
+        campaign_formal_runner.run_formal_c_longmemeval,
+        campaign_formal_runner.run_formal_c_longmemeval_worker,
+        campaign_formal_runner.merge_longmemeval_worker_checkpoints,
+    )
+    for fn in unwired_functions:
+        source = inspect.getsource(fn)
+        assert "event_identity" not in source, fn.__name__
+        assert "experiment_boundary" not in source, fn.__name__
+        assert "event_ledger" not in source, fn.__name__
+        assert "canonical_event" not in source, fn.__name__
+
+    # Condition B (Mem0) and Condition C (A-MEM) are the two, explicitly authorized
+    # exceptions -- verify the wiring is actually present in each (not merely "not
+    # asserted absent"), so this test also fails loudly if either is ever silently removed.
+    b_source = inspect.getsource(campaign_formal_runner.run_condition_b_mem0)
+    assert "canonical_wiring" in b_source
+    assert "event_ledger" in b_source or "canonical_event" in b_source
+
+    c_source = inspect.getsource(campaign_formal_runner.run_condition_c_amem)
+    assert "canonical_wiring" in c_source
+    assert "event_ledger" in c_source or "canonical_event" in c_source
 
 
 def test_25_no_event_ledger_import_edge_into_agent_visible_context():

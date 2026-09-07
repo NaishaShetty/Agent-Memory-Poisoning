@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MAMBench Provenance Graph Export",
+  "description": "EXPORT-ONLY schema for ProvenanceGraph.to_dict() (phase3/evaluation/foundations/provenance_graph.py). This is a snapshot format for handing to a visualization tool or Phase 4 analysis code -- it is never read back as authoritative input. The only way to obtain a ProvenanceGraph object is build_provenance_graph()/build_multi_boundary_provenance_graph() over the live CanonicalMemoryLedger/CanonicalEventLedger/SupersessionLedger. See provenance_graph.py's own module docstring for the full grounding/authority discipline this schema does not itself enforce.",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["node_id", "node_type", "attributes"],
+        "additionalProperties": false,
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Canonical benchmark-owned identity, optionally namespaced 'boundary_label::canonical_id' for a multi-boundary graph. Never a vendor/foundation-native id."
+          },
+          "node_type": {
+            "type": "string",
+            "enum": ["memory", "task", "memory_version", "experiment_boundary"]
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Node-type-specific fields. For 'memory': canonical_id, memory_type, creation_timestamp, creation_event, lifecycle_state, lifecycle_status ('CURRENT' or 'AT_CREATION_ONLY'), superseded_by. For 'task': canonical_id. For 'memory_version': canonical_id, memory_id, version_number, lifecycle_state, superseded_by, recorded_at. For 'experiment_boundary': boundary_label."
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "target_id", "edge_type", "established_by_event_id", "task_id"],
+        "additionalProperties": false,
+        "properties": {
+          "source_id": { "type": "string" },
+          "target_id": { "type": "string" },
+          "edge_type": {
+            "type": "string",
+            "enum": [
+              "derived_from", "retrieved", "selected", "rejected", "used",
+              "counterfactually_influential", "superseded_by", "equivalent_to",
+              "conflicts_with", "has_version", "within_boundary"
+            ]
+          },
+          "established_by_event_id": {
+            "type": ["string", "null"],
+            "description": "The real CanonicalEvent id (or, for derived_from, the child memory's creation_event string; for has_version, the version's own established_by_event_id) that grounds this edge. Never null for a real graph -- every edge is grounded, per provenance_graph.py's own central invariant. within_boundary edges carry no event grounding (they are structural, not event-derived) and are the one legitimate case where this is null."
+          },
+          "task_id": {
+            "type": ["string", "null"],
+            "description": "Required (non-null) for retrieved/selected/rejected/used/counterfactually_influential edges; must be null for every other edge type."
+          }
+        }
+      }
+    }
+  }
+}

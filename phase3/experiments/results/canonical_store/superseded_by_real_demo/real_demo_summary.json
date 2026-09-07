@@ -1,0 +1,46 @@
+{
+  "memory_a": {
+    "id": "d980cc662e825319bc0f7dd9",
+    "content": "John: Hi Maria! It's so good to talk again. A lot has changed since last time. I'm really enjoying my new job. My team has been super encouraging and inspiring.",
+    "timestamp": "2023-07-22T18:21:00+00:00",
+    "session": "session_25"
+  },
+  "memory_b": {
+    "id": "69c82961fbca453ed68fa71d",
+    "content": "John: Hey Maria, great chatting with you again! Crazy thing happened since we last talked. I lost my job at the mechanical engineering company. They tanked and it's been rough.",
+    "timestamp": "2023-08-05T17:19:00+00:00",
+    "session": "session_28"
+  },
+  "supersession_result": {
+    "status": "FULLY_SUPERSEDED",
+    "superseded_event_id": "superseded-d980cc662e825319bc0f7dd9",
+    "retired_event_id": "retired-d980cc662e825319bc0f7dd9"
+  },
+  "detection_event": {
+    "event_id": "relationship-detected-d980cc662e825319bc0f7dd9-69c82961fbca453ed68fa71d",
+    "memory_ids": [
+      "d980cc662e825319bc0f7dd9",
+      "69c82961fbca453ed68fa71d"
+    ],
+    "relationship_type": "superseded_by",
+    "mechanism": "explicit_supersession_call"
+  },
+  "detection_error": null,
+  "version_history": [
+    {
+      "version_number": 1,
+      "lifecycle_state": "CREATED",
+      "superseded_by": null
+    },
+    {
+      "version_number": 2,
+      "lifecycle_state": "RETIRED",
+      "superseded_by": "69c82961fbca453ed68fa71d"
+    },
+    {
+      "version_number": 3,
+      "lifecycle_state": "RETIRED",
+      "superseded_by": "69c82961fbca453ed68fa71d"
+    }
+  ]
+}

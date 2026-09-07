@@ -1,0 +1,2112 @@
+{
+  "results_mem0": [
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "dataset": "locomo",
+      "status": "SUCCESSFUL_EVALUATION",
+      "trace": {
+        "experiment_id": "3.3-SELECTION-POLICY-PILOT-2026-09-07-locomo-ecf5a096af5598393ce49c80-SP-MEM0",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "ecf5a096af5598393ce49c80",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "Mem0",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "MEM0",
+            "foundation_name": "Mem0",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 3.8526830673217773,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "ecf5a096af5598393ce49c80",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "af4aeb8c-930e-4dfd-90d8-4d3803b352ab",
+          "5c15cf7e-cb82-4034-820f-46bce5384f0a",
+          "754c48ee-e083-498e-a63c-39dc368638c9",
+          "674df568-9526-46a9-a80b-49e29e33149c",
+          "7a1afe01-8773-406f-9cbf-6b1e38071761",
+          "e9555167-1874-4527-8677-712db4288e0d",
+          "c26757d3-0711-471f-8032-814f895dac5b",
+          "88e5a0a2-2882-4688-8285-57053b388cbb",
+          "d199e440-e14d-4aa0-ba72-d161bca06cb1",
+          "36069aa7-c216-4829-aa55-2bd5a39ce903",
+          "865a76c0-4b82-4746-934d-97ff8c8021e0",
+          "0f66d8b9-1c92-4de1-ade3-da0f5e4f5dc1",
+          "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c",
+          "67157029-0968-4a9d-b135-6e5e37825c69",
+          "89bc013a-9440-457a-a532-0d238556ca48",
+          "3ba8c6e6-cc9e-47f5-9e03-426e51bb195d"
+        ],
+        "selected_memories": [
+          "af4aeb8c-930e-4dfd-90d8-4d3803b352ab",
+          "5c15cf7e-cb82-4034-820f-46bce5384f0a",
+          "754c48ee-e083-498e-a63c-39dc368638c9",
+          "674df568-9526-46a9-a80b-49e29e33149c",
+          "7a1afe01-8773-406f-9cbf-6b1e38071761"
+        ],
+        "exposed_memories": [
+          "af4aeb8c-930e-4dfd-90d8-4d3803b352ab",
+          "5c15cf7e-cb82-4034-820f-46bce5384f0a",
+          "754c48ee-e083-498e-a63c-39dc368638c9",
+          "674df568-9526-46a9-a80b-49e29e33149c",
+          "7a1afe01-8773-406f-9cbf-6b1e38071761"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "af4aeb8c-930e-4dfd-90d8-4d3803b352ab": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "5c15cf7e-cb82-4034-820f-46bce5384f0a": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "754c48ee-e083-498e-a63c-39dc368638c9": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "674df568-9526-46a9-a80b-49e29e33149c": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "7a1afe01-8773-406f-9cbf-6b1e38071761": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "Caroline went to the LGBTQ support group yesterday.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "latency": {
+          "total_latency_sec": 12.079024076461792,
+          "attempt_latencies_sec": [
+            3.8526830673217773
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "c58a14948f37f8fcd176a7a43bab8e1d8f4c821fb3470f28af5c3cf505c3fdc2",
+          "base_trace_fingerprint": "e6655fb70b403d0124fa66fe6fc354452d01d3d9a3204932801c727fcef4c56d"
+        },
+        "identity": {
+          "retrieved_memories_foundation_space": [
+            "af4aeb8c-930e-4dfd-90d8-4d3803b352ab",
+            "5c15cf7e-cb82-4034-820f-46bce5384f0a",
+            "754c48ee-e083-498e-a63c-39dc368638c9",
+            "674df568-9526-46a9-a80b-49e29e33149c",
+            "7a1afe01-8773-406f-9cbf-6b1e38071761",
+            "e9555167-1874-4527-8677-712db4288e0d",
+            "c26757d3-0711-471f-8032-814f895dac5b",
+            "88e5a0a2-2882-4688-8285-57053b388cbb",
+            "d199e440-e14d-4aa0-ba72-d161bca06cb1",
+            "36069aa7-c216-4829-aa55-2bd5a39ce903",
+            "865a76c0-4b82-4746-934d-97ff8c8021e0",
+            "0f66d8b9-1c92-4de1-ade3-da0f5e4f5dc1",
+            "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c",
+            "67157029-0968-4a9d-b135-6e5e37825c69",
+            "89bc013a-9440-457a-a532-0d238556ca48",
+            "3ba8c6e6-cc9e-47f5-9e03-426e51bb195d"
+          ],
+          "selected_memories_foundation_space": [
+            "af4aeb8c-930e-4dfd-90d8-4d3803b352ab",
+            "5c15cf7e-cb82-4034-820f-46bce5384f0a",
+            "754c48ee-e083-498e-a63c-39dc368638c9",
+            "674df568-9526-46a9-a80b-49e29e33149c",
+            "7a1afe01-8773-406f-9cbf-6b1e38071761"
+          ],
+          "retrieved_memories_source_space": [
+            "0a2bbeb23bfc6abe6a886f09",
+            "82172fb18cea047df88299be",
+            "bb046bbd0b4a7d9b7cf15e51",
+            "832292b02aca5c535db6c3bf",
+            "66586fce1d73ce9515f4ee78",
+            "6de6d7cb3bb7501dbef49f88",
+            "cd26b68f293e85efb0f62ca9",
+            "9858d64d097063fb2b25e06b",
+            "382a7d2bd49edd8c0dd1e722",
+            "2cfbf2e06b5f5d2cc73b7e52",
+            "87a7f792c8d5c7bb02182685",
+            "6e524d019e49f59bcf742958",
+            "1ca230f9aca53678d11ebd41",
+            "bf86996d9529669aef9a175d",
+            "40efb962b29908cc053045d4",
+            "a2fbb849a9901d047670e610"
+          ],
+          "selected_memories_source_space": [
+            "0a2bbeb23bfc6abe6a886f09",
+            "82172fb18cea047df88299be",
+            "bb046bbd0b4a7d9b7cf15e51",
+            "832292b02aca5c535db6c3bf",
+            "66586fce1d73ce9515f4ee78"
+          ],
+          "gold_evidence_ids_source_space": [
+            "0a2bbeb23bfc6abe6a886f09"
+          ],
+          "resolutions": {
+            "af4aeb8c-930e-4dfd-90d8-4d3803b352ab": {
+              "adapter_memory_id": null,
+              "source_memory_id": "0a2bbeb23bfc6abe6a886f09",
+              "status": "RESOLVED"
+            },
+            "5c15cf7e-cb82-4034-820f-46bce5384f0a": {
+              "adapter_memory_id": null,
+              "source_memory_id": "82172fb18cea047df88299be",
+              "status": "RESOLVED"
+            },
+            "754c48ee-e083-498e-a63c-39dc368638c9": {
+              "adapter_memory_id": null,
+              "source_memory_id": "bb046bbd0b4a7d9b7cf15e51",
+              "status": "RESOLVED"
+            },
+            "674df568-9526-46a9-a80b-49e29e33149c": {
+              "adapter_memory_id": null,
+              "source_memory_id": "832292b02aca5c535db6c3bf",
+              "status": "RESOLVED"
+            },
+            "7a1afe01-8773-406f-9cbf-6b1e38071761": {
+              "adapter_memory_id": null,
+              "source_memory_id": "66586fce1d73ce9515f4ee78",
+              "status": "RESOLVED"
+            },
+            "e9555167-1874-4527-8677-712db4288e0d": {
+              "adapter_memory_id": null,
+              "source_memory_id": "6de6d7cb3bb7501dbef49f88",
+              "status": "RESOLVED"
+            },
+            "c26757d3-0711-471f-8032-814f895dac5b": {
+              "adapter_memory_id": null,
+              "source_memory_id": "cd26b68f293e85efb0f62ca9",
+              "status": "RESOLVED"
+            },
+            "88e5a0a2-2882-4688-8285-57053b388cbb": {
+              "adapter_memory_id": null,
+              "source_memory_id": "9858d64d097063fb2b25e06b",
+              "status": "RESOLVED"
+            },
+            "d199e440-e14d-4aa0-ba72-d161bca06cb1": {
+              "adapter_memory_id": null,
+              "source_memory_id": "382a7d2bd49edd8c0dd1e722",
+              "status": "RESOLVED"
+            },
+            "36069aa7-c216-4829-aa55-2bd5a39ce903": {
+              "adapter_memory_id": null,
+              "source_memory_id": "2cfbf2e06b5f5d2cc73b7e52",
+              "status": "RESOLVED"
+            },
+            "865a76c0-4b82-4746-934d-97ff8c8021e0": {
+              "adapter_memory_id": null,
+              "source_memory_id": "87a7f792c8d5c7bb02182685",
+              "status": "RESOLVED"
+            },
+            "0f66d8b9-1c92-4de1-ade3-da0f5e4f5dc1": {
+              "adapter_memory_id": null,
+              "source_memory_id": "6e524d019e49f59bcf742958",
+              "status": "RESOLVED"
+            },
+            "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c": {
+              "adapter_memory_id": null,
+              "source_memory_id": "1ca230f9aca53678d11ebd41",
+              "status": "RESOLVED"
+            },
+            "67157029-0968-4a9d-b135-6e5e37825c69": {
+              "adapter_memory_id": null,
+              "source_memory_id": "bf86996d9529669aef9a175d",
+              "status": "RESOLVED"
+            },
+            "89bc013a-9440-457a-a532-0d238556ca48": {
+              "adapter_memory_id": null,
+              "source_memory_id": "40efb962b29908cc053045d4",
+              "status": "RESOLVED"
+            },
+            "3ba8c6e6-cc9e-47f5-9e03-426e51bb195d": {
+              "adapter_memory_id": null,
+              "source_memory_id": "a2fbb849a9901d047670e610",
+              "status": "RESOLVED"
+            }
+          },
+          "collision_report": {
+            "collision_free": true,
+            "duplicate_source_ids": {},
+            "resolved_count": 16,
+            "not_resolvable_count": 0,
+            "inspect_unavailable_count": 0,
+            "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+          }
+        },
+        "resolved_evaluation": {
+          "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+          "strict_tsr": {
+            "value": 1.0,
+            "status": "OK"
+          },
+          "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+        },
+        "citation_diagnostic": {
+          "status": "NOT_CITED",
+          "cited_memory_ids": [],
+          "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+        }
+      },
+      "run_latency_sec": 12.079024076461792,
+      "pool_key": "conv-26/session_1",
+      "ingested_count": 18,
+      "rejected_count": 11,
+      "selection_threshold": 0.2632820487022401,
+      "vram_mib": 5887,
+      "canonical_event_report": {
+        "task_id": "ecf5a096af5598393ce49c80",
+        "retrieved_event_ids": [
+          "retrieved-ecf5a096af5598393ce49c80-0a2bbeb23bfc6abe6a886f09",
+          "retrieved-ecf5a096af5598393ce49c80-82172fb18cea047df88299be",
+          "retrieved-ecf5a096af5598393ce49c80-bb046bbd0b4a7d9b7cf15e51",
+          "retrieved-ecf5a096af5598393ce49c80-832292b02aca5c535db6c3bf",
+          "retrieved-ecf5a096af5598393ce49c80-66586fce1d73ce9515f4ee78",
+          "retrieved-ecf5a096af5598393ce49c80-6de6d7cb3bb7501dbef49f88",
+          "retrieved-ecf5a096af5598393ce49c80-cd26b68f293e85efb0f62ca9",
+          "retrieved-ecf5a096af5598393ce49c80-9858d64d097063fb2b25e06b",
+          "retrieved-ecf5a096af5598393ce49c80-382a7d2bd49edd8c0dd1e722",
+          "retrieved-ecf5a096af5598393ce49c80-2cfbf2e06b5f5d2cc73b7e52",
+          "retrieved-ecf5a096af5598393ce49c80-87a7f792c8d5c7bb02182685",
+          "retrieved-ecf5a096af5598393ce49c80-6e524d019e49f59bcf742958",
+          "retrieved-ecf5a096af5598393ce49c80-1ca230f9aca53678d11ebd41",
+          "retrieved-ecf5a096af5598393ce49c80-bf86996d9529669aef9a175d",
+          "retrieved-ecf5a096af5598393ce49c80-40efb962b29908cc053045d4",
+          "retrieved-ecf5a096af5598393ce49c80-a2fbb849a9901d047670e610"
+        ],
+        "selected_event_ids": [
+          "selected-ecf5a096af5598393ce49c80-0a2bbeb23bfc6abe6a886f09",
+          "selected-ecf5a096af5598393ce49c80-82172fb18cea047df88299be",
+          "selected-ecf5a096af5598393ce49c80-bb046bbd0b4a7d9b7cf15e51",
+          "selected-ecf5a096af5598393ce49c80-832292b02aca5c535db6c3bf",
+          "selected-ecf5a096af5598393ce49c80-66586fce1d73ce9515f4ee78"
+        ],
+        "rejected_event_ids": [
+          "rejected-ecf5a096af5598393ce49c80-6de6d7cb3bb7501dbef49f88",
+          "rejected-ecf5a096af5598393ce49c80-cd26b68f293e85efb0f62ca9",
+          "rejected-ecf5a096af5598393ce49c80-9858d64d097063fb2b25e06b",
+          "rejected-ecf5a096af5598393ce49c80-382a7d2bd49edd8c0dd1e722",
+          "rejected-ecf5a096af5598393ce49c80-2cfbf2e06b5f5d2cc73b7e52",
+          "rejected-ecf5a096af5598393ce49c80-87a7f792c8d5c7bb02182685",
+          "rejected-ecf5a096af5598393ce49c80-6e524d019e49f59bcf742958",
+          "rejected-ecf5a096af5598393ce49c80-1ca230f9aca53678d11ebd41",
+          "rejected-ecf5a096af5598393ce49c80-bf86996d9529669aef9a175d",
+          "rejected-ecf5a096af5598393ce49c80-40efb962b29908cc053045d4",
+          "rejected-ecf5a096af5598393ce49c80-a2fbb849a9901d047670e610"
+        ],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      }
+    },
+    {
+      "task_id": "9f278780cdaaa6e7b8b3d232",
+      "dataset": "locomo",
+      "status": "SUCCESSFUL_EVALUATION",
+      "trace": {
+        "experiment_id": "3.3-SELECTION-POLICY-PILOT-2026-09-07-locomo-9f278780cdaaa6e7b8b3d232-SP-MEM0",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "9f278780cdaaa6e7b8b3d232",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "Mem0",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "MEM0",
+            "foundation_name": "Mem0",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 6.162185430526733,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "9f278780cdaaa6e7b8b3d232",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "d63d3713-beed-45ab-8e14-2f31e6064245",
+          "67157029-0968-4a9d-b135-6e5e37825c69",
+          "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c",
+          "36069aa7-c216-4829-aa55-2bd5a39ce903",
+          "89bc013a-9440-457a-a532-0d238556ca48",
+          "e9555167-1874-4527-8677-712db4288e0d",
+          "865a76c0-4b82-4746-934d-97ff8c8021e0",
+          "9494ecfc-1e19-4faf-893b-41498a2e6f8f",
+          "0f66d8b9-1c92-4de1-ade3-da0f5e4f5dc1",
+          "d199e440-e14d-4aa0-ba72-d161bca06cb1",
+          "c26757d3-0711-471f-8032-814f895dac5b",
+          "88e5a0a2-2882-4688-8285-57053b388cbb",
+          "5c15cf7e-cb82-4034-820f-46bce5384f0a",
+          "af4aeb8c-930e-4dfd-90d8-4d3803b352ab",
+          "3ba8c6e6-cc9e-47f5-9e03-426e51bb195d",
+          "7a1afe01-8773-406f-9cbf-6b1e38071761"
+        ],
+        "selected_memories": [
+          "d63d3713-beed-45ab-8e14-2f31e6064245",
+          "67157029-0968-4a9d-b135-6e5e37825c69",
+          "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c",
+          "36069aa7-c216-4829-aa55-2bd5a39ce903",
+          "89bc013a-9440-457a-a532-0d238556ca48"
+        ],
+        "exposed_memories": [
+          "d63d3713-beed-45ab-8e14-2f31e6064245",
+          "67157029-0968-4a9d-b135-6e5e37825c69",
+          "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c",
+          "36069aa7-c216-4829-aa55-2bd5a39ce903",
+          "89bc013a-9440-457a-a532-0d238556ca48"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "d63d3713-beed-45ab-8e14-2f31e6064245": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "67157029-0968-4a9d-b135-6e5e37825c69": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "36069aa7-c216-4829-aa55-2bd5a39ce903": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "89bc013a-9440-457a-a532-0d238556ca48": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "Melanie painted the lake sunrise last year. [d63d3713-beed-45ab-8e14-2f31e6064245]",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "latency": {
+          "total_latency_sec": 6.223555088043213,
+          "attempt_latencies_sec": [
+            6.162185430526733
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "3fdd4ca5df3cf94c1a419efb6824ea75e68fbf1757a978cf0ae05ed5b0feed2a",
+          "base_trace_fingerprint": "9e74f0fa67e1685517e7660ae5acf535b965719571d4c344efc4e4440f3b0c99"
+        },
+        "identity": {
+          "retrieved_memories_foundation_space": [
+            "d63d3713-beed-45ab-8e14-2f31e6064245",
+            "67157029-0968-4a9d-b135-6e5e37825c69",
+            "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c",
+            "36069aa7-c216-4829-aa55-2bd5a39ce903",
+            "89bc013a-9440-457a-a532-0d238556ca48",
+            "e9555167-1874-4527-8677-712db4288e0d",
+            "865a76c0-4b82-4746-934d-97ff8c8021e0",
+            "9494ecfc-1e19-4faf-893b-41498a2e6f8f",
+            "0f66d8b9-1c92-4de1-ade3-da0f5e4f5dc1",
+            "d199e440-e14d-4aa0-ba72-d161bca06cb1",
+            "c26757d3-0711-471f-8032-814f895dac5b",
+            "88e5a0a2-2882-4688-8285-57053b388cbb",
+            "5c15cf7e-cb82-4034-820f-46bce5384f0a",
+            "af4aeb8c-930e-4dfd-90d8-4d3803b352ab",
+            "3ba8c6e6-cc9e-47f5-9e03-426e51bb195d",
+            "7a1afe01-8773-406f-9cbf-6b1e38071761"
+          ],
+          "selected_memories_foundation_space": [
+            "d63d3713-beed-45ab-8e14-2f31e6064245",
+            "67157029-0968-4a9d-b135-6e5e37825c69",
+            "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c",
+            "36069aa7-c216-4829-aa55-2bd5a39ce903",
+            "89bc013a-9440-457a-a532-0d238556ca48"
+          ],
+          "retrieved_memories_source_space": [
+            "31b0e6cf520ce707315f8b82",
+            "bf86996d9529669aef9a175d",
+            "1ca230f9aca53678d11ebd41",
+            "2cfbf2e06b5f5d2cc73b7e52",
+            "40efb962b29908cc053045d4",
+            "6de6d7cb3bb7501dbef49f88",
+            "87a7f792c8d5c7bb02182685",
+            "d6229e0ac079928d7d0efe60",
+            "6e524d019e49f59bcf742958",
+            "382a7d2bd49edd8c0dd1e722",
+            "cd26b68f293e85efb0f62ca9",
+            "9858d64d097063fb2b25e06b",
+            "82172fb18cea047df88299be",
+            "0a2bbeb23bfc6abe6a886f09",
+            "a2fbb849a9901d047670e610",
+            "66586fce1d73ce9515f4ee78"
+          ],
+          "selected_memories_source_space": [
+            "31b0e6cf520ce707315f8b82",
+            "bf86996d9529669aef9a175d",
+            "1ca230f9aca53678d11ebd41",
+            "2cfbf2e06b5f5d2cc73b7e52",
+            "40efb962b29908cc053045d4"
+          ],
+          "gold_evidence_ids_source_space": [
+            "a2fbb849a9901d047670e610"
+          ],
+          "resolutions": {
+            "d63d3713-beed-45ab-8e14-2f31e6064245": {
+              "adapter_memory_id": null,
+              "source_memory_id": "31b0e6cf520ce707315f8b82",
+              "status": "RESOLVED"
+            },
+            "67157029-0968-4a9d-b135-6e5e37825c69": {
+              "adapter_memory_id": null,
+              "source_memory_id": "bf86996d9529669aef9a175d",
+              "status": "RESOLVED"
+            },
+            "1ffa37f2-a30f-4a15-a8ee-9befb6bab79c": {
+              "adapter_memory_id": null,
+              "source_memory_id": "1ca230f9aca53678d11ebd41",
+              "status": "RESOLVED"
+            },
+            "36069aa7-c216-4829-aa55-2bd5a39ce903": {
+              "adapter_memory_id": null,
+              "source_memory_id": "2cfbf2e06b5f5d2cc73b7e52",
+              "status": "RESOLVED"
+            },
+            "89bc013a-9440-457a-a532-0d238556ca48": {
+              "adapter_memory_id": null,
+              "source_memory_id": "40efb962b29908cc053045d4",
+              "status": "RESOLVED"
+            },
+            "e9555167-1874-4527-8677-712db4288e0d": {
+              "adapter_memory_id": null,
+              "source_memory_id": "6de6d7cb3bb7501dbef49f88",
+              "status": "RESOLVED"
+            },
+            "865a76c0-4b82-4746-934d-97ff8c8021e0": {
+              "adapter_memory_id": null,
+              "source_memory_id": "87a7f792c8d5c7bb02182685",
+              "status": "RESOLVED"
+            },
+            "9494ecfc-1e19-4faf-893b-41498a2e6f8f": {
+              "adapter_memory_id": null,
+              "source_memory_id": "d6229e0ac079928d7d0efe60",
+              "status": "RESOLVED"
+            },
+            "0f66d8b9-1c92-4de1-ade3-da0f5e4f5dc1": {
+              "adapter_memory_id": null,
+              "source_memory_id": "6e524d019e49f59bcf742958",
+              "status": "RESOLVED"
+            },
+            "d199e440-e14d-4aa0-ba72-d161bca06cb1": {
+              "adapter_memory_id": null,
+              "source_memory_id": "382a7d2bd49edd8c0dd1e722",
+              "status": "RESOLVED"
+            },
+            "c26757d3-0711-471f-8032-814f895dac5b": {
+              "adapter_memory_id": null,
+              "source_memory_id": "cd26b68f293e85efb0f62ca9",
+              "status": "RESOLVED"
+            },
+            "88e5a0a2-2882-4688-8285-57053b388cbb": {
+              "adapter_memory_id": null,
+              "source_memory_id": "9858d64d097063fb2b25e06b",
+              "status": "RESOLVED"
+            },
+            "5c15cf7e-cb82-4034-820f-46bce5384f0a": {
+              "adapter_memory_id": null,
+              "source_memory_id": "82172fb18cea047df88299be",
+              "status": "RESOLVED"
+            },
+            "af4aeb8c-930e-4dfd-90d8-4d3803b352ab": {
+              "adapter_memory_id": null,
+              "source_memory_id": "0a2bbeb23bfc6abe6a886f09",
+              "status": "RESOLVED"
+            },
+            "3ba8c6e6-cc9e-47f5-9e03-426e51bb195d": {
+              "adapter_memory_id": null,
+              "source_memory_id": "a2fbb849a9901d047670e610",
+              "status": "RESOLVED"
+            },
+            "7a1afe01-8773-406f-9cbf-6b1e38071761": {
+              "adapter_memory_id": null,
+              "source_memory_id": "66586fce1d73ce9515f4ee78",
+              "status": "RESOLVED"
+            }
+          },
+          "collision_report": {
+            "collision_free": true,
+            "duplicate_source_ids": {},
+            "resolved_count": 16,
+            "not_resolvable_count": 0,
+            "inspect_unavailable_count": 0,
+            "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+          }
+        },
+        "resolved_evaluation": {
+          "failure_stage": "SELECTION_FAILURE",
+          "strict_tsr": {
+            "value": 0.0,
+            "status": "OK"
+          },
+          "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+        },
+        "citation_diagnostic": {
+          "status": "CITED",
+          "cited_memory_ids": [
+            "d63d3713-beed-45ab-8e14-2f31e6064245"
+          ],
+          "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+        }
+      },
+      "run_latency_sec": 6.223555088043213,
+      "pool_key": "conv-26/session_1",
+      "ingested_count": 18,
+      "rejected_count": 11,
+      "selection_threshold": 0.2632820487022401,
+      "vram_mib": 5887,
+      "canonical_event_report": {
+        "task_id": "9f278780cdaaa6e7b8b3d232",
+        "retrieved_event_ids": [
+          "retrieved-9f278780cdaaa6e7b8b3d232-31b0e6cf520ce707315f8b82",
+          "retrieved-9f278780cdaaa6e7b8b3d232-bf86996d9529669aef9a175d",
+          "retrieved-9f278780cdaaa6e7b8b3d232-1ca230f9aca53678d11ebd41",
+          "retrieved-9f278780cdaaa6e7b8b3d232-2cfbf2e06b5f5d2cc73b7e52",
+          "retrieved-9f278780cdaaa6e7b8b3d232-40efb962b29908cc053045d4",
+          "retrieved-9f278780cdaaa6e7b8b3d232-6de6d7cb3bb7501dbef49f88",
+          "retrieved-9f278780cdaaa6e7b8b3d232-87a7f792c8d5c7bb02182685",
+          "retrieved-9f278780cdaaa6e7b8b3d232-d6229e0ac079928d7d0efe60",
+          "retrieved-9f278780cdaaa6e7b8b3d232-6e524d019e49f59bcf742958",
+          "retrieved-9f278780cdaaa6e7b8b3d232-382a7d2bd49edd8c0dd1e722",
+          "retrieved-9f278780cdaaa6e7b8b3d232-cd26b68f293e85efb0f62ca9",
+          "retrieved-9f278780cdaaa6e7b8b3d232-9858d64d097063fb2b25e06b",
+          "retrieved-9f278780cdaaa6e7b8b3d232-82172fb18cea047df88299be",
+          "retrieved-9f278780cdaaa6e7b8b3d232-0a2bbeb23bfc6abe6a886f09",
+          "retrieved-9f278780cdaaa6e7b8b3d232-a2fbb849a9901d047670e610",
+          "retrieved-9f278780cdaaa6e7b8b3d232-66586fce1d73ce9515f4ee78"
+        ],
+        "selected_event_ids": [
+          "selected-9f278780cdaaa6e7b8b3d232-31b0e6cf520ce707315f8b82",
+          "selected-9f278780cdaaa6e7b8b3d232-bf86996d9529669aef9a175d",
+          "selected-9f278780cdaaa6e7b8b3d232-1ca230f9aca53678d11ebd41",
+          "selected-9f278780cdaaa6e7b8b3d232-2cfbf2e06b5f5d2cc73b7e52",
+          "selected-9f278780cdaaa6e7b8b3d232-40efb962b29908cc053045d4"
+        ],
+        "rejected_event_ids": [
+          "rejected-9f278780cdaaa6e7b8b3d232-6de6d7cb3bb7501dbef49f88",
+          "rejected-9f278780cdaaa6e7b8b3d232-87a7f792c8d5c7bb02182685",
+          "rejected-9f278780cdaaa6e7b8b3d232-d6229e0ac079928d7d0efe60",
+          "rejected-9f278780cdaaa6e7b8b3d232-6e524d019e49f59bcf742958",
+          "rejected-9f278780cdaaa6e7b8b3d232-382a7d2bd49edd8c0dd1e722",
+          "rejected-9f278780cdaaa6e7b8b3d232-cd26b68f293e85efb0f62ca9",
+          "rejected-9f278780cdaaa6e7b8b3d232-9858d64d097063fb2b25e06b",
+          "rejected-9f278780cdaaa6e7b8b3d232-82172fb18cea047df88299be",
+          "rejected-9f278780cdaaa6e7b8b3d232-0a2bbeb23bfc6abe6a886f09",
+          "rejected-9f278780cdaaa6e7b8b3d232-a2fbb849a9901d047670e610",
+          "rejected-9f278780cdaaa6e7b8b3d232-66586fce1d73ce9515f4ee78"
+        ],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      }
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "dataset": "locomo",
+      "status": "SUCCESSFUL_EVALUATION",
+      "trace": {
+        "experiment_id": "3.3-SELECTION-POLICY-PILOT-2026-09-07-locomo-6b06956fec2b405e20a47b4e-SP-MEM0",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "6b06956fec2b405e20a47b4e",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "Mem0",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "MEM0",
+            "foundation_name": "Mem0",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 5.838936805725098,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "6b06956fec2b405e20a47b4e",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "ed647349-3613-4c5d-9e26-d77c6fa4341e",
+          "e1e77848-3d25-4f26-b0cf-1d83db0268bd",
+          "42d5e361-b910-4a72-a929-d5e34f10a5b0",
+          "60128c00-2de6-4b0d-bbcf-37feb434f21e",
+          "11b2971a-f2b9-484d-a59b-b909b0954083",
+          "56a9a518-b31d-4b96-b0ce-18dddca4c2c5",
+          "3c6e0d3b-ceb6-442f-93f2-a11e2cda8fca",
+          "afb665ad-6d16-4482-be21-ae554bdf20c8",
+          "add5b818-e252-448a-bcd0-950dd56e9ab0",
+          "70436193-ffc8-44e3-a3d6-a66540f82ac1",
+          "badd95ac-f5d2-4b63-848b-0aa7dfc886c3",
+          "d70b530c-3ff2-490f-ad37-a6ec97d58ed0",
+          "66fae5f5-2c99-44de-b597-6300f713214f",
+          "48d807ca-efc8-4b00-b086-44bdfd7d7cc2",
+          "e1979c0a-60ea-4645-af63-7e3326abd929",
+          "5304f570-8997-467f-b80a-fad89ee3634c",
+          "aadca912-abd8-4f3b-a3d6-383bd96b0af9"
+        ],
+        "selected_memories": [
+          "ed647349-3613-4c5d-9e26-d77c6fa4341e",
+          "e1e77848-3d25-4f26-b0cf-1d83db0268bd",
+          "42d5e361-b910-4a72-a929-d5e34f10a5b0",
+          "60128c00-2de6-4b0d-bbcf-37feb434f21e",
+          "11b2971a-f2b9-484d-a59b-b909b0954083"
+        ],
+        "exposed_memories": [
+          "ed647349-3613-4c5d-9e26-d77c6fa4341e",
+          "e1e77848-3d25-4f26-b0cf-1d83db0268bd",
+          "42d5e361-b910-4a72-a929-d5e34f10a5b0",
+          "60128c00-2de6-4b0d-bbcf-37feb434f21e",
+          "11b2971a-f2b9-484d-a59b-b909b0954083"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "ed647349-3613-4c5d-9e26-d77c6fa4341e": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "e1e77848-3d25-4f26-b0cf-1d83db0268bd": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "42d5e361-b910-4a72-a929-d5e34f10a5b0": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "60128c00-2de6-4b0d-bbcf-37feb434f21e": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "11b2971a-f2b9-484d-a59b-b909b0954083": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "Last Wednesday. [e1e77848-3d25-4f26-b0cf-1d83db0268bd]",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "latency": {
+          "total_latency_sec": 5.9395530223846436,
+          "attempt_latencies_sec": [
+            5.838936805725098
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "c79e0f98f16b594a7c913b9774be3e4eab70379c6cee48323b5aef5bc705feda",
+          "base_trace_fingerprint": "43d8b558c288d8f16465d885610337b8526d4f661c7423dc07d07151521bd5c4"
+        },
+        "identity": {
+          "retrieved_memories_foundation_space": [
+            "ed647349-3613-4c5d-9e26-d77c6fa4341e",
+            "e1e77848-3d25-4f26-b0cf-1d83db0268bd",
+            "42d5e361-b910-4a72-a929-d5e34f10a5b0",
+            "60128c00-2de6-4b0d-bbcf-37feb434f21e",
+            "11b2971a-f2b9-484d-a59b-b909b0954083",
+            "56a9a518-b31d-4b96-b0ce-18dddca4c2c5",
+            "3c6e0d3b-ceb6-442f-93f2-a11e2cda8fca",
+            "afb665ad-6d16-4482-be21-ae554bdf20c8",
+            "add5b818-e252-448a-bcd0-950dd56e9ab0",
+            "70436193-ffc8-44e3-a3d6-a66540f82ac1",
+            "badd95ac-f5d2-4b63-848b-0aa7dfc886c3",
+            "d70b530c-3ff2-490f-ad37-a6ec97d58ed0",
+            "66fae5f5-2c99-44de-b597-6300f713214f",
+            "48d807ca-efc8-4b00-b086-44bdfd7d7cc2",
+            "e1979c0a-60ea-4645-af63-7e3326abd929",
+            "5304f570-8997-467f-b80a-fad89ee3634c",
+            "aadca912-abd8-4f3b-a3d6-383bd96b0af9"
+          ],
+          "selected_memories_foundation_space": [
+            "ed647349-3613-4c5d-9e26-d77c6fa4341e",
+            "e1e77848-3d25-4f26-b0cf-1d83db0268bd",
+            "42d5e361-b910-4a72-a929-d5e34f10a5b0",
+            "60128c00-2de6-4b0d-bbcf-37feb434f21e",
+            "11b2971a-f2b9-484d-a59b-b909b0954083"
+          ],
+          "retrieved_memories_source_space": [
+            "2a989cd4d28643959e3c9c67",
+            "f8d7bf4599f9d66e636b0f9a",
+            "6577d6874bc76e9af2d24bd9",
+            "52adbaf122383072beb7556d",
+            "f70ed173ef2e2ae2a35c0872",
+            "2ae260ec8640a16a622b54c9",
+            "3146c1554403a88ae53b9e53",
+            "9fa1d81ce30d262ccf19343a",
+            "d6cc27a897a57a65a410e06b",
+            "95dbc43901f51cd51e33229f",
+            "46fea29ac021fcefa7f3a491",
+            "31e77ad10e7abff055555d11",
+            "b6cfa7f4faea73b4ab6b0c4c",
+            "a7a8b54d7f9eb79776a7a30d",
+            "4bcf004bf8d81d4e85e99bbc",
+            "37cde60a9182dbf3c22622f5",
+            "1132980577db1fd8c0055ed7"
+          ],
+          "selected_memories_source_space": [
+            "2a989cd4d28643959e3c9c67",
+            "f8d7bf4599f9d66e636b0f9a",
+            "6577d6874bc76e9af2d24bd9",
+            "52adbaf122383072beb7556d",
+            "f70ed173ef2e2ae2a35c0872"
+          ],
+          "gold_evidence_ids_source_space": [
+            "f8d7bf4599f9d66e636b0f9a"
+          ],
+          "resolutions": {
+            "ed647349-3613-4c5d-9e26-d77c6fa4341e": {
+              "adapter_memory_id": null,
+              "source_memory_id": "2a989cd4d28643959e3c9c67",
+              "status": "RESOLVED"
+            },
+            "e1e77848-3d25-4f26-b0cf-1d83db0268bd": {
+              "adapter_memory_id": null,
+              "source_memory_id": "f8d7bf4599f9d66e636b0f9a",
+              "status": "RESOLVED"
+            },
+            "42d5e361-b910-4a72-a929-d5e34f10a5b0": {
+              "adapter_memory_id": null,
+              "source_memory_id": "6577d6874bc76e9af2d24bd9",
+              "status": "RESOLVED"
+            },
+            "60128c00-2de6-4b0d-bbcf-37feb434f21e": {
+              "adapter_memory_id": null,
+              "source_memory_id": "52adbaf122383072beb7556d",
+              "status": "RESOLVED"
+            },
+            "11b2971a-f2b9-484d-a59b-b909b0954083": {
+              "adapter_memory_id": null,
+              "source_memory_id": "f70ed173ef2e2ae2a35c0872",
+              "status": "RESOLVED"
+            },
+            "56a9a518-b31d-4b96-b0ce-18dddca4c2c5": {
+              "adapter_memory_id": null,
+              "source_memory_id": "2ae260ec8640a16a622b54c9",
+              "status": "RESOLVED"
+            },
+            "3c6e0d3b-ceb6-442f-93f2-a11e2cda8fca": {
+              "adapter_memory_id": null,
+              "source_memory_id": "3146c1554403a88ae53b9e53",
+              "status": "RESOLVED"
+            },
+            "afb665ad-6d16-4482-be21-ae554bdf20c8": {
+              "adapter_memory_id": null,
+              "source_memory_id": "9fa1d81ce30d262ccf19343a",
+              "status": "RESOLVED"
+            },
+            "add5b818-e252-448a-bcd0-950dd56e9ab0": {
+              "adapter_memory_id": null,
+              "source_memory_id": "d6cc27a897a57a65a410e06b",
+              "status": "RESOLVED"
+            },
+            "70436193-ffc8-44e3-a3d6-a66540f82ac1": {
+              "adapter_memory_id": null,
+              "source_memory_id": "95dbc43901f51cd51e33229f",
+              "status": "RESOLVED"
+            },
+            "badd95ac-f5d2-4b63-848b-0aa7dfc886c3": {
+              "adapter_memory_id": null,
+              "source_memory_id": "46fea29ac021fcefa7f3a491",
+              "status": "RESOLVED"
+            },
+            "d70b530c-3ff2-490f-ad37-a6ec97d58ed0": {
+              "adapter_memory_id": null,
+              "source_memory_id": "31e77ad10e7abff055555d11",
+              "status": "RESOLVED"
+            },
+            "66fae5f5-2c99-44de-b597-6300f713214f": {
+              "adapter_memory_id": null,
+              "source_memory_id": "b6cfa7f4faea73b4ab6b0c4c",
+              "status": "RESOLVED"
+            },
+            "48d807ca-efc8-4b00-b086-44bdfd7d7cc2": {
+              "adapter_memory_id": null,
+              "source_memory_id": "a7a8b54d7f9eb79776a7a30d",
+              "status": "RESOLVED"
+            },
+            "e1979c0a-60ea-4645-af63-7e3326abd929": {
+              "adapter_memory_id": null,
+              "source_memory_id": "4bcf004bf8d81d4e85e99bbc",
+              "status": "RESOLVED"
+            },
+            "5304f570-8997-467f-b80a-fad89ee3634c": {
+              "adapter_memory_id": null,
+              "source_memory_id": "37cde60a9182dbf3c22622f5",
+              "status": "RESOLVED"
+            },
+            "aadca912-abd8-4f3b-a3d6-383bd96b0af9": {
+              "adapter_memory_id": null,
+              "source_memory_id": "1132980577db1fd8c0055ed7",
+              "status": "RESOLVED"
+            }
+          },
+          "collision_report": {
+            "collision_free": true,
+            "duplicate_source_ids": {},
+            "resolved_count": 17,
+            "not_resolvable_count": 0,
+            "inspect_unavailable_count": 0,
+            "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+          }
+        },
+        "resolved_evaluation": {
+          "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+          "strict_tsr": {
+            "value": 1.0,
+            "status": "OK"
+          },
+          "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+        },
+        "citation_diagnostic": {
+          "status": "CITED",
+          "cited_memory_ids": [
+            "e1e77848-3d25-4f26-b0cf-1d83db0268bd"
+          ],
+          "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+        }
+      },
+      "run_latency_sec": 5.9395530223846436,
+      "pool_key": "conv-48/session_5",
+      "ingested_count": 17,
+      "rejected_count": 12,
+      "selection_threshold": 0.2632820487022401,
+      "vram_mib": 5887,
+      "canonical_event_report": {
+        "task_id": "6b06956fec2b405e20a47b4e",
+        "retrieved_event_ids": [
+          "retrieved-6b06956fec2b405e20a47b4e-2a989cd4d28643959e3c9c67",
+          "retrieved-6b06956fec2b405e20a47b4e-f8d7bf4599f9d66e636b0f9a",
+          "retrieved-6b06956fec2b405e20a47b4e-6577d6874bc76e9af2d24bd9",
+          "retrieved-6b06956fec2b405e20a47b4e-52adbaf122383072beb7556d",
+          "retrieved-6b06956fec2b405e20a47b4e-f70ed173ef2e2ae2a35c0872",
+          "retrieved-6b06956fec2b405e20a47b4e-2ae260ec8640a16a622b54c9",
+          "retrieved-6b06956fec2b405e20a47b4e-3146c1554403a88ae53b9e53",
+          "retrieved-6b06956fec2b405e20a47b4e-9fa1d81ce30d262ccf19343a",
+          "retrieved-6b06956fec2b405e20a47b4e-d6cc27a897a57a65a410e06b",
+          "retrieved-6b06956fec2b405e20a47b4e-95dbc43901f51cd51e33229f",
+          "retrieved-6b06956fec2b405e20a47b4e-46fea29ac021fcefa7f3a491",
+          "retrieved-6b06956fec2b405e20a47b4e-31e77ad10e7abff055555d11",
+          "retrieved-6b06956fec2b405e20a47b4e-b6cfa7f4faea73b4ab6b0c4c",
+          "retrieved-6b06956fec2b405e20a47b4e-a7a8b54d7f9eb79776a7a30d",
+          "retrieved-6b06956fec2b405e20a47b4e-4bcf004bf8d81d4e85e99bbc",
+          "retrieved-6b06956fec2b405e20a47b4e-37cde60a9182dbf3c22622f5",
+          "retrieved-6b06956fec2b405e20a47b4e-1132980577db1fd8c0055ed7"
+        ],
+        "selected_event_ids": [
+          "selected-6b06956fec2b405e20a47b4e-2a989cd4d28643959e3c9c67",
+          "selected-6b06956fec2b405e20a47b4e-f8d7bf4599f9d66e636b0f9a",
+          "selected-6b06956fec2b405e20a47b4e-6577d6874bc76e9af2d24bd9",
+          "selected-6b06956fec2b405e20a47b4e-52adbaf122383072beb7556d",
+          "selected-6b06956fec2b405e20a47b4e-f70ed173ef2e2ae2a35c0872"
+        ],
+        "rejected_event_ids": [
+          "rejected-6b06956fec2b405e20a47b4e-2ae260ec8640a16a622b54c9",
+          "rejected-6b06956fec2b405e20a47b4e-3146c1554403a88ae53b9e53",
+          "rejected-6b06956fec2b405e20a47b4e-9fa1d81ce30d262ccf19343a",
+          "rejected-6b06956fec2b405e20a47b4e-d6cc27a897a57a65a410e06b",
+          "rejected-6b06956fec2b405e20a47b4e-95dbc43901f51cd51e33229f",
+          "rejected-6b06956fec2b405e20a47b4e-46fea29ac021fcefa7f3a491",
+          "rejected-6b06956fec2b405e20a47b4e-31e77ad10e7abff055555d11",
+          "rejected-6b06956fec2b405e20a47b4e-b6cfa7f4faea73b4ab6b0c4c",
+          "rejected-6b06956fec2b405e20a47b4e-a7a8b54d7f9eb79776a7a30d",
+          "rejected-6b06956fec2b405e20a47b4e-4bcf004bf8d81d4e85e99bbc",
+          "rejected-6b06956fec2b405e20a47b4e-37cde60a9182dbf3c22622f5",
+          "rejected-6b06956fec2b405e20a47b4e-1132980577db1fd8c0055ed7"
+        ],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      }
+    },
+    {
+      "task_id": "e24aa3297124044888f91d42",
+      "dataset": "locomo",
+      "status": "SUCCESSFUL_EVALUATION",
+      "trace": {
+        "experiment_id": "3.3-SELECTION-POLICY-PILOT-2026-09-07-locomo-e24aa3297124044888f91d42-SP-MEM0",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "e24aa3297124044888f91d42",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "Mem0",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "MEM0",
+            "foundation_name": "Mem0",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 5.910547256469727,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "e24aa3297124044888f91d42",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "6d44d630-2222-4930-9133-e3780eb607aa",
+          "639a68b6-9d43-4f82-8af3-636fec4d05ee",
+          "2c85ea22-5e60-431b-b366-3d52b458ef8e",
+          "1f2e9c4a-9826-4c30-824d-12cd4106847b",
+          "0a03f2ed-bd5a-4722-85d0-af4956f212bd",
+          "7b11168e-e06c-4900-87a2-b599e804f06c",
+          "f3734cf9-f0b4-49a5-ab66-831dbf550b85",
+          "0b5bebb6-ed7c-4ea5-bf54-a54bdd0bce6b",
+          "7b94ba36-9d2c-487e-a8f2-9b18a2bdd8d6",
+          "558d524e-add7-40c6-a369-2ef42c79067f",
+          "bcedabe5-e371-4c13-907a-dd5ef7b50a95",
+          "aa7997fb-535a-4e3d-81ff-187cccee96de"
+        ],
+        "selected_memories": [
+          "6d44d630-2222-4930-9133-e3780eb607aa",
+          "639a68b6-9d43-4f82-8af3-636fec4d05ee",
+          "2c85ea22-5e60-431b-b366-3d52b458ef8e",
+          "1f2e9c4a-9826-4c30-824d-12cd4106847b"
+        ],
+        "exposed_memories": [
+          "6d44d630-2222-4930-9133-e3780eb607aa",
+          "639a68b6-9d43-4f82-8af3-636fec4d05ee",
+          "2c85ea22-5e60-431b-b366-3d52b458ef8e",
+          "1f2e9c4a-9826-4c30-824d-12cd4106847b"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "6d44d630-2222-4930-9133-e3780eb607aa": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "639a68b6-9d43-4f82-8af3-636fec4d05ee": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "2c85ea22-5e60-431b-b366-3d52b458ef8e": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "1f2e9c4a-9826-4c30-824d-12cd4106847b": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "None of the provided memories mention Sam's activities on December 4, 2023. Therefore, I cannot provide a specific answer based on the given information.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "latency": {
+          "total_latency_sec": 5.965684413909912,
+          "attempt_latencies_sec": [
+            5.910547256469727
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "3a102af669664b9055e6594a00878b89c400f47aa1e84e90fb2b9889a1c711e5",
+          "base_trace_fingerprint": "dd2c6660c7abaec0a1b00a904636f8661364a3565075fe75309279a25550359b"
+        },
+        "identity": {
+          "retrieved_memories_foundation_space": [
+            "6d44d630-2222-4930-9133-e3780eb607aa",
+            "639a68b6-9d43-4f82-8af3-636fec4d05ee",
+            "2c85ea22-5e60-431b-b366-3d52b458ef8e",
+            "1f2e9c4a-9826-4c30-824d-12cd4106847b",
+            "0a03f2ed-bd5a-4722-85d0-af4956f212bd",
+            "7b11168e-e06c-4900-87a2-b599e804f06c",
+            "f3734cf9-f0b4-49a5-ab66-831dbf550b85",
+            "0b5bebb6-ed7c-4ea5-bf54-a54bdd0bce6b",
+            "7b94ba36-9d2c-487e-a8f2-9b18a2bdd8d6",
+            "558d524e-add7-40c6-a369-2ef42c79067f",
+            "bcedabe5-e371-4c13-907a-dd5ef7b50a95",
+            "aa7997fb-535a-4e3d-81ff-187cccee96de"
+          ],
+          "selected_memories_foundation_space": [
+            "6d44d630-2222-4930-9133-e3780eb607aa",
+            "639a68b6-9d43-4f82-8af3-636fec4d05ee",
+            "2c85ea22-5e60-431b-b366-3d52b458ef8e",
+            "1f2e9c4a-9826-4c30-824d-12cd4106847b"
+          ],
+          "retrieved_memories_source_space": [
+            "711dfe7f267b236b6160198c",
+            "a468e4039ec48e1acd839d20",
+            "925158545987706bc3faafce",
+            "e6982b00ccaa9b5324b98e74",
+            "98c5f91eb2f4d83a4c069cef",
+            "859a1252fbae284a557e95b5",
+            "43ac1344fb53b2139630a790",
+            "45fb632505989b262ed0133a",
+            "812ca03192b298aa4589ea7b",
+            "a9f3c455cd73ed8bc200bab3",
+            "91a9aa3690e8a28a56304239",
+            "63dd453948a5350f88a06d32"
+          ],
+          "selected_memories_source_space": [
+            "711dfe7f267b236b6160198c",
+            "a468e4039ec48e1acd839d20",
+            "925158545987706bc3faafce",
+            "e6982b00ccaa9b5324b98e74"
+          ],
+          "gold_evidence_ids_source_space": [
+            "a468e4039ec48e1acd839d20"
+          ],
+          "resolutions": {
+            "6d44d630-2222-4930-9133-e3780eb607aa": {
+              "adapter_memory_id": null,
+              "source_memory_id": "711dfe7f267b236b6160198c",
+              "status": "RESOLVED"
+            },
+            "639a68b6-9d43-4f82-8af3-636fec4d05ee": {
+              "adapter_memory_id": null,
+              "source_memory_id": "a468e4039ec48e1acd839d20",
+              "status": "RESOLVED"
+            },
+            "2c85ea22-5e60-431b-b366-3d52b458ef8e": {
+              "adapter_memory_id": null,
+              "source_memory_id": "925158545987706bc3faafce",
+              "status": "RESOLVED"
+            },
+            "1f2e9c4a-9826-4c30-824d-12cd4106847b": {
+              "adapter_memory_id": null,
+              "source_memory_id": "e6982b00ccaa9b5324b98e74",
+              "status": "RESOLVED"
+            },
+            "0a03f2ed-bd5a-4722-85d0-af4956f212bd": {
+              "adapter_memory_id": null,
+              "source_memory_id": "98c5f91eb2f4d83a4c069cef",
+              "status": "RESOLVED"
+            },
+            "7b11168e-e06c-4900-87a2-b599e804f06c": {
+              "adapter_memory_id": null,
+              "source_memory_id": "859a1252fbae284a557e95b5",
+              "status": "RESOLVED"
+            },
+            "f3734cf9-f0b4-49a5-ab66-831dbf550b85": {
+              "adapter_memory_id": null,
+              "source_memory_id": "43ac1344fb53b2139630a790",
+              "status": "RESOLVED"
+            },
+            "0b5bebb6-ed7c-4ea5-bf54-a54bdd0bce6b": {
+              "adapter_memory_id": null,
+              "source_memory_id": "45fb632505989b262ed0133a",
+              "status": "RESOLVED"
+            },
+            "7b94ba36-9d2c-487e-a8f2-9b18a2bdd8d6": {
+              "adapter_memory_id": null,
+              "source_memory_id": "812ca03192b298aa4589ea7b",
+              "status": "RESOLVED"
+            },
+            "558d524e-add7-40c6-a369-2ef42c79067f": {
+              "adapter_memory_id": null,
+              "source_memory_id": "a9f3c455cd73ed8bc200bab3",
+              "status": "RESOLVED"
+            },
+            "bcedabe5-e371-4c13-907a-dd5ef7b50a95": {
+              "adapter_memory_id": null,
+              "source_memory_id": "91a9aa3690e8a28a56304239",
+              "status": "RESOLVED"
+            },
+            "aa7997fb-535a-4e3d-81ff-187cccee96de": {
+              "adapter_memory_id": null,
+              "source_memory_id": "63dd453948a5350f88a06d32",
+              "status": "RESOLVED"
+            }
+          },
+          "collision_report": {
+            "collision_free": true,
+            "duplicate_source_ids": {},
+            "resolved_count": 12,
+            "not_resolvable_count": 0,
+            "inspect_unavailable_count": 0,
+            "note": "Collision check scoped to the supplied resolution set only, not the foundation's entire store (no adapter in this framework exposes a cheap full-store enumeration). A duplicate here means the SAME source_memory_id metadata value was found on more than one distinct FOUNDATION_MEMORY_ID within this set -- e.g. from re-ingesting the same source record without an intervening RESET, a real, observed behavior of Mem0's real add() path (verified directly: Mem0 does not deduplicate on repeated add() calls with infer=False, even for byte-identical content -- each call creates a new, distinct FOUNDATION_MEMORY_ID)."
+          }
+        },
+        "resolved_evaluation": {
+          "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+          "strict_tsr": {
+            "value": 1.0,
+            "status": "OK"
+          },
+          "note": "Computed via the SAME frozen classify_observed_failure_stage()/strict_tsr() functions as base_trace, fed source-space-translated retrieved/selected ids instead of raw foundation ids. strict_tsr is None only when there were no selected ids AND no gold ids to compare (strict_tsr is otherwise always defined, including 0 for a genuine miss)."
+        },
+        "citation_diagnostic": {
+          "status": "NOT_CITED",
+          "cited_memory_ids": [],
+          "note": "CITED means the literal memory-id token appears in the agent's raw output text -- a citation-presence observation ONLY. It is NOT a causal-usage claim (the memory may or may not have influenced the answer) and NOT-CITED does NOT prove the memory was unused (the agent was only softly asked to cite). Never interpret this as MEMORY_CAUSED or as a substitute for a real usage-attribution mechanism, which this runtime does not implement."
+        }
+      },
+      "run_latency_sec": 5.965684413909912,
+      "pool_key": "conv-49/session_18",
+      "ingested_count": 15,
+      "rejected_count": 8,
+      "selection_threshold": 0.2632820487022401,
+      "vram_mib": 5887,
+      "canonical_event_report": {
+        "task_id": "e24aa3297124044888f91d42",
+        "retrieved_event_ids": [
+          "retrieved-e24aa3297124044888f91d42-711dfe7f267b236b6160198c",
+          "retrieved-e24aa3297124044888f91d42-a468e4039ec48e1acd839d20",
+          "retrieved-e24aa3297124044888f91d42-925158545987706bc3faafce",
+          "retrieved-e24aa3297124044888f91d42-e6982b00ccaa9b5324b98e74",
+          "retrieved-e24aa3297124044888f91d42-98c5f91eb2f4d83a4c069cef",
+          "retrieved-e24aa3297124044888f91d42-859a1252fbae284a557e95b5",
+          "retrieved-e24aa3297124044888f91d42-43ac1344fb53b2139630a790",
+          "retrieved-e24aa3297124044888f91d42-45fb632505989b262ed0133a",
+          "retrieved-e24aa3297124044888f91d42-812ca03192b298aa4589ea7b",
+          "retrieved-e24aa3297124044888f91d42-a9f3c455cd73ed8bc200bab3",
+          "retrieved-e24aa3297124044888f91d42-91a9aa3690e8a28a56304239",
+          "retrieved-e24aa3297124044888f91d42-63dd453948a5350f88a06d32"
+        ],
+        "selected_event_ids": [
+          "selected-e24aa3297124044888f91d42-711dfe7f267b236b6160198c",
+          "selected-e24aa3297124044888f91d42-a468e4039ec48e1acd839d20",
+          "selected-e24aa3297124044888f91d42-925158545987706bc3faafce",
+          "selected-e24aa3297124044888f91d42-e6982b00ccaa9b5324b98e74"
+        ],
+        "rejected_event_ids": [
+          "rejected-e24aa3297124044888f91d42-98c5f91eb2f4d83a4c069cef",
+          "rejected-e24aa3297124044888f91d42-859a1252fbae284a557e95b5",
+          "rejected-e24aa3297124044888f91d42-43ac1344fb53b2139630a790",
+          "rejected-e24aa3297124044888f91d42-45fb632505989b262ed0133a",
+          "rejected-e24aa3297124044888f91d42-812ca03192b298aa4589ea7b",
+          "rejected-e24aa3297124044888f91d42-a9f3c455cd73ed8bc200bab3",
+          "rejected-e24aa3297124044888f91d42-91a9aa3690e8a28a56304239",
+          "rejected-e24aa3297124044888f91d42-63dd453948a5350f88a06d32"
+        ],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      }
+    }
+  ],
+  "results_amem": [
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "dataset": "locomo",
+      "status": "SUCCESSFUL_EVALUATION",
+      "trace": {
+        "experiment_id": "3.3-SELECTION-POLICY-PILOT-2026-09-07-locomo-ecf5a096af5598393ce49c80-SP-AMEM",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "ecf5a096af5598393ce49c80",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "A-MEM",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "A_MEM",
+            "foundation_name": "A-MEM",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 3.251974105834961,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "ecf5a096af5598393ce49c80",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "0a2bbeb23bfc6abe6a886f09",
+          "82172fb18cea047df88299be",
+          "bb046bbd0b4a7d9b7cf15e51",
+          "832292b02aca5c535db6c3bf",
+          "6de6d7cb3bb7501dbef49f88",
+          "66586fce1d73ce9515f4ee78",
+          "cd26b68f293e85efb0f62ca9",
+          "382a7d2bd49edd8c0dd1e722",
+          "6e524d019e49f59bcf742958",
+          "87a7f792c8d5c7bb02182685",
+          "2cfbf2e06b5f5d2cc73b7e52",
+          "9858d64d097063fb2b25e06b",
+          "bf86996d9529669aef9a175d",
+          "40efb962b29908cc053045d4",
+          "a2fbb849a9901d047670e610",
+          "1ca230f9aca53678d11ebd41",
+          "31b0e6cf520ce707315f8b82",
+          "d6229e0ac079928d7d0efe60"
+        ],
+        "selected_memories": [
+          "0a2bbeb23bfc6abe6a886f09",
+          "82172fb18cea047df88299be",
+          "bb046bbd0b4a7d9b7cf15e51",
+          "832292b02aca5c535db6c3bf",
+          "66586fce1d73ce9515f4ee78"
+        ],
+        "exposed_memories": [
+          "0a2bbeb23bfc6abe6a886f09",
+          "82172fb18cea047df88299be",
+          "bb046bbd0b4a7d9b7cf15e51",
+          "832292b02aca5c535db6c3bf",
+          "66586fce1d73ce9515f4ee78"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "0a2bbeb23bfc6abe6a886f09": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "82172fb18cea047df88299be": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "bb046bbd0b4a7d9b7cf15e51": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "832292b02aca5c535db6c3bf": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "66586fce1d73ce9515f4ee78": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "Caroline went to the LGBTQ support group yesterday.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "latency": {
+          "total_latency_sec": 3.30342435836792,
+          "attempt_latencies_sec": [
+            3.251974105834961
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "b1ee283d25803cf511036e4e471df9ae0353b87a342329b38ddd15f1f0d068c4"
+        }
+      },
+      "run_latency_sec": 3.30342435836792,
+      "pool_key": "conv-26/session_1",
+      "ingested_count": 18,
+      "rejected_count": 13,
+      "selection_threshold": 0.2632820487022401,
+      "vram_mib": 5887,
+      "canonical_event_report": {
+        "task_id": "ecf5a096af5598393ce49c80",
+        "retrieved_event_ids": [
+          "retrieved-ecf5a096af5598393ce49c80-0a2bbeb23bfc6abe6a886f09",
+          "retrieved-ecf5a096af5598393ce49c80-82172fb18cea047df88299be",
+          "retrieved-ecf5a096af5598393ce49c80-bb046bbd0b4a7d9b7cf15e51",
+          "retrieved-ecf5a096af5598393ce49c80-832292b02aca5c535db6c3bf",
+          "retrieved-ecf5a096af5598393ce49c80-6de6d7cb3bb7501dbef49f88",
+          "retrieved-ecf5a096af5598393ce49c80-66586fce1d73ce9515f4ee78",
+          "retrieved-ecf5a096af5598393ce49c80-cd26b68f293e85efb0f62ca9",
+          "retrieved-ecf5a096af5598393ce49c80-382a7d2bd49edd8c0dd1e722",
+          "retrieved-ecf5a096af5598393ce49c80-6e524d019e49f59bcf742958",
+          "retrieved-ecf5a096af5598393ce49c80-87a7f792c8d5c7bb02182685",
+          "retrieved-ecf5a096af5598393ce49c80-2cfbf2e06b5f5d2cc73b7e52",
+          "retrieved-ecf5a096af5598393ce49c80-9858d64d097063fb2b25e06b",
+          "retrieved-ecf5a096af5598393ce49c80-bf86996d9529669aef9a175d",
+          "retrieved-ecf5a096af5598393ce49c80-40efb962b29908cc053045d4",
+          "retrieved-ecf5a096af5598393ce49c80-a2fbb849a9901d047670e610",
+          "retrieved-ecf5a096af5598393ce49c80-1ca230f9aca53678d11ebd41",
+          "retrieved-ecf5a096af5598393ce49c80-31b0e6cf520ce707315f8b82",
+          "retrieved-ecf5a096af5598393ce49c80-d6229e0ac079928d7d0efe60"
+        ],
+        "selected_event_ids": [
+          "selected-ecf5a096af5598393ce49c80-0a2bbeb23bfc6abe6a886f09",
+          "selected-ecf5a096af5598393ce49c80-82172fb18cea047df88299be",
+          "selected-ecf5a096af5598393ce49c80-bb046bbd0b4a7d9b7cf15e51",
+          "selected-ecf5a096af5598393ce49c80-832292b02aca5c535db6c3bf",
+          "selected-ecf5a096af5598393ce49c80-66586fce1d73ce9515f4ee78"
+        ],
+        "rejected_event_ids": [
+          "rejected-ecf5a096af5598393ce49c80-6de6d7cb3bb7501dbef49f88",
+          "rejected-ecf5a096af5598393ce49c80-cd26b68f293e85efb0f62ca9",
+          "rejected-ecf5a096af5598393ce49c80-382a7d2bd49edd8c0dd1e722",
+          "rejected-ecf5a096af5598393ce49c80-6e524d019e49f59bcf742958",
+          "rejected-ecf5a096af5598393ce49c80-87a7f792c8d5c7bb02182685",
+          "rejected-ecf5a096af5598393ce49c80-2cfbf2e06b5f5d2cc73b7e52",
+          "rejected-ecf5a096af5598393ce49c80-9858d64d097063fb2b25e06b",
+          "rejected-ecf5a096af5598393ce49c80-bf86996d9529669aef9a175d",
+          "rejected-ecf5a096af5598393ce49c80-40efb962b29908cc053045d4",
+          "rejected-ecf5a096af5598393ce49c80-a2fbb849a9901d047670e610",
+          "rejected-ecf5a096af5598393ce49c80-1ca230f9aca53678d11ebd41",
+          "rejected-ecf5a096af5598393ce49c80-31b0e6cf520ce707315f8b82",
+          "rejected-ecf5a096af5598393ce49c80-d6229e0ac079928d7d0efe60"
+        ],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      }
+    },
+    {
+      "task_id": "9f278780cdaaa6e7b8b3d232",
+      "dataset": "locomo",
+      "status": "SUCCESSFUL_EVALUATION",
+      "trace": {
+        "experiment_id": "3.3-SELECTION-POLICY-PILOT-2026-09-07-locomo-9f278780cdaaa6e7b8b3d232-SP-AMEM",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "9f278780cdaaa6e7b8b3d232",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "A-MEM",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "A_MEM",
+            "foundation_name": "A-MEM",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 4.7495410442352295,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "9f278780cdaaa6e7b8b3d232",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "31b0e6cf520ce707315f8b82",
+          "bf86996d9529669aef9a175d",
+          "2cfbf2e06b5f5d2cc73b7e52",
+          "1ca230f9aca53678d11ebd41",
+          "6de6d7cb3bb7501dbef49f88",
+          "40efb962b29908cc053045d4",
+          "87a7f792c8d5c7bb02182685",
+          "6e524d019e49f59bcf742958",
+          "82172fb18cea047df88299be",
+          "cd26b68f293e85efb0f62ca9",
+          "382a7d2bd49edd8c0dd1e722",
+          "0a2bbeb23bfc6abe6a886f09",
+          "66586fce1d73ce9515f4ee78",
+          "d6229e0ac079928d7d0efe60",
+          "9858d64d097063fb2b25e06b",
+          "bb046bbd0b4a7d9b7cf15e51",
+          "832292b02aca5c535db6c3bf",
+          "a2fbb849a9901d047670e610"
+        ],
+        "selected_memories": [
+          "31b0e6cf520ce707315f8b82",
+          "bf86996d9529669aef9a175d",
+          "1ca230f9aca53678d11ebd41",
+          "2cfbf2e06b5f5d2cc73b7e52",
+          "40efb962b29908cc053045d4"
+        ],
+        "exposed_memories": [
+          "31b0e6cf520ce707315f8b82",
+          "bf86996d9529669aef9a175d",
+          "1ca230f9aca53678d11ebd41",
+          "2cfbf2e06b5f5d2cc73b7e52",
+          "40efb962b29908cc053045d4"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "31b0e6cf520ce707315f8b82": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "bf86996d9529669aef9a175d": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "1ca230f9aca53678d11ebd41": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "2cfbf2e06b5f5d2cc73b7e52": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "40efb962b29908cc053045d4": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "Melanie painted the lake sunrise last year [31b0e6cf520ce707315f8b82].",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "SELECTION_FAILURE",
+        "latency": {
+          "total_latency_sec": 4.799887657165527,
+          "attempt_latencies_sec": [
+            4.7495410442352295
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "358e9b6e769e3fb18587d3916e8429e63b6cf7bdea71f2f8b8a570bf054e85fc"
+        }
+      },
+      "run_latency_sec": 4.799887657165527,
+      "pool_key": "conv-26/session_1",
+      "ingested_count": 18,
+      "rejected_count": 13,
+      "selection_threshold": 0.2632820487022401,
+      "vram_mib": 5887,
+      "canonical_event_report": {
+        "task_id": "9f278780cdaaa6e7b8b3d232",
+        "retrieved_event_ids": [
+          "retrieved-9f278780cdaaa6e7b8b3d232-31b0e6cf520ce707315f8b82",
+          "retrieved-9f278780cdaaa6e7b8b3d232-bf86996d9529669aef9a175d",
+          "retrieved-9f278780cdaaa6e7b8b3d232-2cfbf2e06b5f5d2cc73b7e52",
+          "retrieved-9f278780cdaaa6e7b8b3d232-1ca230f9aca53678d11ebd41",
+          "retrieved-9f278780cdaaa6e7b8b3d232-6de6d7cb3bb7501dbef49f88",
+          "retrieved-9f278780cdaaa6e7b8b3d232-40efb962b29908cc053045d4",
+          "retrieved-9f278780cdaaa6e7b8b3d232-87a7f792c8d5c7bb02182685",
+          "retrieved-9f278780cdaaa6e7b8b3d232-6e524d019e49f59bcf742958",
+          "retrieved-9f278780cdaaa6e7b8b3d232-82172fb18cea047df88299be",
+          "retrieved-9f278780cdaaa6e7b8b3d232-cd26b68f293e85efb0f62ca9",
+          "retrieved-9f278780cdaaa6e7b8b3d232-382a7d2bd49edd8c0dd1e722",
+          "retrieved-9f278780cdaaa6e7b8b3d232-0a2bbeb23bfc6abe6a886f09",
+          "retrieved-9f278780cdaaa6e7b8b3d232-66586fce1d73ce9515f4ee78",
+          "retrieved-9f278780cdaaa6e7b8b3d232-d6229e0ac079928d7d0efe60",
+          "retrieved-9f278780cdaaa6e7b8b3d232-9858d64d097063fb2b25e06b",
+          "retrieved-9f278780cdaaa6e7b8b3d232-bb046bbd0b4a7d9b7cf15e51",
+          "retrieved-9f278780cdaaa6e7b8b3d232-832292b02aca5c535db6c3bf",
+          "retrieved-9f278780cdaaa6e7b8b3d232-a2fbb849a9901d047670e610"
+        ],
+        "selected_event_ids": [
+          "selected-9f278780cdaaa6e7b8b3d232-31b0e6cf520ce707315f8b82",
+          "selected-9f278780cdaaa6e7b8b3d232-bf86996d9529669aef9a175d",
+          "selected-9f278780cdaaa6e7b8b3d232-2cfbf2e06b5f5d2cc73b7e52",
+          "selected-9f278780cdaaa6e7b8b3d232-1ca230f9aca53678d11ebd41",
+          "selected-9f278780cdaaa6e7b8b3d232-40efb962b29908cc053045d4"
+        ],
+        "rejected_event_ids": [
+          "rejected-9f278780cdaaa6e7b8b3d232-6de6d7cb3bb7501dbef49f88",
+          "rejected-9f278780cdaaa6e7b8b3d232-87a7f792c8d5c7bb02182685",
+          "rejected-9f278780cdaaa6e7b8b3d232-6e524d019e49f59bcf742958",
+          "rejected-9f278780cdaaa6e7b8b3d232-82172fb18cea047df88299be",
+          "rejected-9f278780cdaaa6e7b8b3d232-cd26b68f293e85efb0f62ca9",
+          "rejected-9f278780cdaaa6e7b8b3d232-382a7d2bd49edd8c0dd1e722",
+          "rejected-9f278780cdaaa6e7b8b3d232-0a2bbeb23bfc6abe6a886f09",
+          "rejected-9f278780cdaaa6e7b8b3d232-66586fce1d73ce9515f4ee78",
+          "rejected-9f278780cdaaa6e7b8b3d232-d6229e0ac079928d7d0efe60",
+          "rejected-9f278780cdaaa6e7b8b3d232-9858d64d097063fb2b25e06b",
+          "rejected-9f278780cdaaa6e7b8b3d232-bb046bbd0b4a7d9b7cf15e51",
+          "rejected-9f278780cdaaa6e7b8b3d232-832292b02aca5c535db6c3bf",
+          "rejected-9f278780cdaaa6e7b8b3d232-a2fbb849a9901d047670e610"
+        ],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      }
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "dataset": "locomo",
+      "status": "SUCCESSFUL_EVALUATION",
+      "trace": {
+        "experiment_id": "3.3-SELECTION-POLICY-PILOT-2026-09-07-locomo-6b06956fec2b405e20a47b4e-SP-AMEM",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "6b06956fec2b405e20a47b4e",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "A-MEM",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "A_MEM",
+            "foundation_name": "A-MEM",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 4.950504302978516,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "6b06956fec2b405e20a47b4e",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "f70ed173ef2e2ae2a35c0872",
+          "f8d7bf4599f9d66e636b0f9a",
+          "2a989cd4d28643959e3c9c67",
+          "52adbaf122383072beb7556d",
+          "b6cfa7f4faea73b4ab6b0c4c",
+          "4bcf004bf8d81d4e85e99bbc",
+          "6577d6874bc76e9af2d24bd9",
+          "37cde60a9182dbf3c22622f5",
+          "46fea29ac021fcefa7f3a491",
+          "a7a8b54d7f9eb79776a7a30d",
+          "d6cc27a897a57a65a410e06b",
+          "3146c1554403a88ae53b9e53",
+          "95dbc43901f51cd51e33229f",
+          "2ae260ec8640a16a622b54c9",
+          "9fa1d81ce30d262ccf19343a",
+          "1132980577db1fd8c0055ed7",
+          "31e77ad10e7abff055555d11"
+        ],
+        "selected_memories": [
+          "2a989cd4d28643959e3c9c67",
+          "f8d7bf4599f9d66e636b0f9a",
+          "6577d6874bc76e9af2d24bd9",
+          "52adbaf122383072beb7556d",
+          "f70ed173ef2e2ae2a35c0872"
+        ],
+        "exposed_memories": [
+          "2a989cd4d28643959e3c9c67",
+          "f8d7bf4599f9d66e636b0f9a",
+          "6577d6874bc76e9af2d24bd9",
+          "52adbaf122383072beb7556d",
+          "f70ed173ef2e2ae2a35c0872"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "2a989cd4d28643959e3c9c67": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "f8d7bf4599f9d66e636b0f9a": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "6577d6874bc76e9af2d24bd9": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "52adbaf122383072beb7556d": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "f70ed173ef2e2ae2a35c0872": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "Last Wednesday. [f8d7bf4599f9d66e636b0f9a]",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "latency": {
+          "total_latency_sec": 5.027944564819336,
+          "attempt_latencies_sec": [
+            4.950504302978516
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "407fe19b7a7e3206a23a89b9e921e20abbc58e4c03085c09b120b832d5c4fd49"
+        }
+      },
+      "run_latency_sec": 5.027944564819336,
+      "pool_key": "conv-48/session_5",
+      "ingested_count": 17,
+      "rejected_count": 12,
+      "selection_threshold": 0.2632820487022401,
+      "vram_mib": 5887,
+      "canonical_event_report": {
+        "task_id": "6b06956fec2b405e20a47b4e",
+        "retrieved_event_ids": [
+          "retrieved-6b06956fec2b405e20a47b4e-f70ed173ef2e2ae2a35c0872",
+          "retrieved-6b06956fec2b405e20a47b4e-f8d7bf4599f9d66e636b0f9a",
+          "retrieved-6b06956fec2b405e20a47b4e-2a989cd4d28643959e3c9c67",
+          "retrieved-6b06956fec2b405e20a47b4e-52adbaf122383072beb7556d",
+          "retrieved-6b06956fec2b405e20a47b4e-b6cfa7f4faea73b4ab6b0c4c",
+          "retrieved-6b06956fec2b405e20a47b4e-4bcf004bf8d81d4e85e99bbc",
+          "retrieved-6b06956fec2b405e20a47b4e-6577d6874bc76e9af2d24bd9",
+          "retrieved-6b06956fec2b405e20a47b4e-37cde60a9182dbf3c22622f5",
+          "retrieved-6b06956fec2b405e20a47b4e-46fea29ac021fcefa7f3a491",
+          "retrieved-6b06956fec2b405e20a47b4e-a7a8b54d7f9eb79776a7a30d",
+          "retrieved-6b06956fec2b405e20a47b4e-d6cc27a897a57a65a410e06b",
+          "retrieved-6b06956fec2b405e20a47b4e-3146c1554403a88ae53b9e53",
+          "retrieved-6b06956fec2b405e20a47b4e-95dbc43901f51cd51e33229f",
+          "retrieved-6b06956fec2b405e20a47b4e-2ae260ec8640a16a622b54c9",
+          "retrieved-6b06956fec2b405e20a47b4e-9fa1d81ce30d262ccf19343a",
+          "retrieved-6b06956fec2b405e20a47b4e-1132980577db1fd8c0055ed7",
+          "retrieved-6b06956fec2b405e20a47b4e-31e77ad10e7abff055555d11"
+        ],
+        "selected_event_ids": [
+          "selected-6b06956fec2b405e20a47b4e-f70ed173ef2e2ae2a35c0872",
+          "selected-6b06956fec2b405e20a47b4e-f8d7bf4599f9d66e636b0f9a",
+          "selected-6b06956fec2b405e20a47b4e-2a989cd4d28643959e3c9c67",
+          "selected-6b06956fec2b405e20a47b4e-52adbaf122383072beb7556d",
+          "selected-6b06956fec2b405e20a47b4e-6577d6874bc76e9af2d24bd9"
+        ],
+        "rejected_event_ids": [
+          "rejected-6b06956fec2b405e20a47b4e-b6cfa7f4faea73b4ab6b0c4c",
+          "rejected-6b06956fec2b405e20a47b4e-4bcf004bf8d81d4e85e99bbc",
+          "rejected-6b06956fec2b405e20a47b4e-37cde60a9182dbf3c22622f5",
+          "rejected-6b06956fec2b405e20a47b4e-46fea29ac021fcefa7f3a491",
+          "rejected-6b06956fec2b405e20a47b4e-a7a8b54d7f9eb79776a7a30d",
+          "rejected-6b06956fec2b405e20a47b4e-d6cc27a897a57a65a410e06b",
+          "rejected-6b06956fec2b405e20a47b4e-3146c1554403a88ae53b9e53",
+          "rejected-6b06956fec2b405e20a47b4e-95dbc43901f51cd51e33229f",
+          "rejected-6b06956fec2b405e20a47b4e-2ae260ec8640a16a622b54c9",
+          "rejected-6b06956fec2b405e20a47b4e-9fa1d81ce30d262ccf19343a",
+          "rejected-6b06956fec2b405e20a47b4e-1132980577db1fd8c0055ed7",
+          "rejected-6b06956fec2b405e20a47b4e-31e77ad10e7abff055555d11"
+        ],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      }
+    },
+    {
+      "task_id": "e24aa3297124044888f91d42",
+      "dataset": "locomo",
+      "status": "SUCCESSFUL_EVALUATION",
+      "trace": {
+        "experiment_id": "3.3-SELECTION-POLICY-PILOT-2026-09-07-locomo-e24aa3297124044888f91d42-SP-AMEM",
+        "dataset": "locomo",
+        "dataset_revision": "phase3.2-frozen",
+        "record_id": "e24aa3297124044888f91d42",
+        "model": "Qwen/Qwen3-8B-GGUF",
+        "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+        "foundation": "A-MEM",
+        "foundation_version": "h4-real-v1",
+        "configuration": {
+          "condition": "RETRIEVED_MEMORY",
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "model_metadata": {
+            "repo_id": "Qwen/Qwen3-8B-GGUF",
+            "file_name": "Qwen3-8B-Q4_K_M.gguf",
+            "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+            "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+            "quantization": "Q4_K_M",
+            "llama_cpp_build": "b10717",
+            "llama_cpp_commit": "a32af33de"
+          },
+          "foundation_identity": {
+            "foundation_id": "A_MEM",
+            "foundation_name": "A-MEM",
+            "adapter_version": "h4-real-v1",
+            "status": "PREPARED_CANDIDATE"
+          },
+          "attempts": [
+            {
+              "attempt_number": 1,
+              "succeeded": true,
+              "latency_sec": 5.397338628768921,
+              "error": null
+            }
+          ],
+          "environment": {
+            "python_version": "3.11.3",
+            "platform": "Windows-10-10.0.26200-SP0"
+          }
+        },
+        "task": {
+          "task_id": "e24aa3297124044888f91d42",
+          "prompt": null
+        },
+        "memory_available": true,
+        "retrieved_memories": [
+          "859a1252fbae284a557e95b5",
+          "711dfe7f267b236b6160198c",
+          "45fb632505989b262ed0133a",
+          "3477ea92f9bb70cdc165a3c6",
+          "812ca03192b298aa4589ea7b",
+          "925158545987706bc3faafce",
+          "a468e4039ec48e1acd839d20",
+          "43ac1344fb53b2139630a790",
+          "e6982b00ccaa9b5324b98e74",
+          "63dd453948a5350f88a06d32",
+          "91a9aa3690e8a28a56304239",
+          "98c5f91eb2f4d83a4c069cef",
+          "1a74033a1033d955395ee7bf",
+          "a9f3c455cd73ed8bc200bab3",
+          "11acaa8b2a83d45f5e7c4080"
+        ],
+        "selected_memories": [
+          "711dfe7f267b236b6160198c",
+          "a468e4039ec48e1acd839d20",
+          "925158545987706bc3faafce",
+          "e6982b00ccaa9b5324b98e74"
+        ],
+        "exposed_memories": [
+          "711dfe7f267b236b6160198c",
+          "a468e4039ec48e1acd839d20",
+          "925158545987706bc3faafce",
+          "e6982b00ccaa9b5324b98e74"
+        ],
+        "used_memories": "NOT_OBSERVABLE",
+        "contributed_memories": "NOT_OBSERVABLE",
+        "lifecycle_per_memory": {
+          "711dfe7f267b236b6160198c": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "a468e4039ec48e1acd839d20": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "925158545987706bc3faafce": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ],
+          "e6982b00ccaa9b5324b98e74": [
+            "MEMORY_AVAILABLE",
+            "MEMORY_RETRIEVED",
+            "MEMORY_SELECTED",
+            "MEMORY_EXPOSED",
+            "NOT_OBSERVABLE"
+          ]
+        },
+        "agent_output": "The provided memories do not mention any specific activity by Sam on December 4, 2023. Therefore, based on the given information, it is not possible to determine what Sam was doing on that date.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "latency": {
+          "total_latency_sec": 5.471280574798584,
+          "attempt_latencies_sec": [
+            5.397338628768921
+          ]
+        },
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "63a592d6c0f346c4d898c0d735efe82409945839295cc6ba10cedaca5b540969"
+        }
+      },
+      "run_latency_sec": 5.471280574798584,
+      "pool_key": "conv-49/session_18",
+      "ingested_count": 15,
+      "rejected_count": 11,
+      "selection_threshold": 0.2632820487022401,
+      "vram_mib": 5887,
+      "canonical_event_report": {
+        "task_id": "e24aa3297124044888f91d42",
+        "retrieved_event_ids": [
+          "retrieved-e24aa3297124044888f91d42-859a1252fbae284a557e95b5",
+          "retrieved-e24aa3297124044888f91d42-711dfe7f267b236b6160198c",
+          "retrieved-e24aa3297124044888f91d42-45fb632505989b262ed0133a",
+          "retrieved-e24aa3297124044888f91d42-3477ea92f9bb70cdc165a3c6",
+          "retrieved-e24aa3297124044888f91d42-812ca03192b298aa4589ea7b",
+          "retrieved-e24aa3297124044888f91d42-925158545987706bc3faafce",
+          "retrieved-e24aa3297124044888f91d42-a468e4039ec48e1acd839d20",
+          "retrieved-e24aa3297124044888f91d42-43ac1344fb53b2139630a790",
+          "retrieved-e24aa3297124044888f91d42-e6982b00ccaa9b5324b98e74",
+          "retrieved-e24aa3297124044888f91d42-63dd453948a5350f88a06d32",
+          "retrieved-e24aa3297124044888f91d42-91a9aa3690e8a28a56304239",
+          "retrieved-e24aa3297124044888f91d42-98c5f91eb2f4d83a4c069cef",
+          "retrieved-e24aa3297124044888f91d42-1a74033a1033d955395ee7bf",
+          "retrieved-e24aa3297124044888f91d42-a9f3c455cd73ed8bc200bab3",
+          "retrieved-e24aa3297124044888f91d42-11acaa8b2a83d45f5e7c4080"
+        ],
+        "selected_event_ids": [
+          "selected-e24aa3297124044888f91d42-711dfe7f267b236b6160198c",
+          "selected-e24aa3297124044888f91d42-925158545987706bc3faafce",
+          "selected-e24aa3297124044888f91d42-a468e4039ec48e1acd839d20",
+          "selected-e24aa3297124044888f91d42-e6982b00ccaa9b5324b98e74"
+        ],
+        "rejected_event_ids": [
+          "rejected-e24aa3297124044888f91d42-859a1252fbae284a557e95b5",
+          "rejected-e24aa3297124044888f91d42-45fb632505989b262ed0133a",
+          "rejected-e24aa3297124044888f91d42-3477ea92f9bb70cdc165a3c6",
+          "rejected-e24aa3297124044888f91d42-812ca03192b298aa4589ea7b",
+          "rejected-e24aa3297124044888f91d42-43ac1344fb53b2139630a790",
+          "rejected-e24aa3297124044888f91d42-63dd453948a5350f88a06d32",
+          "rejected-e24aa3297124044888f91d42-91a9aa3690e8a28a56304239",
+          "rejected-e24aa3297124044888f91d42-98c5f91eb2f4d83a4c069cef",
+          "rejected-e24aa3297124044888f91d42-1a74033a1033d955395ee7bf",
+          "rejected-e24aa3297124044888f91d42-a9f3c455cd73ed8bc200bab3",
+          "rejected-e24aa3297124044888f91d42-11acaa8b2a83d45f5e7c4080"
+        ],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "baseline_answer": "blue",
+  "selected_memory_ids": [
+    "93184142-92aa-4f3f-afce-22b090854f4c",
+    "4716997e-25db-471c-8ae6-fdd74b91fd23"
+  ],
+  "comparisons": [
+    {
+      "masked_memory_id": "93184142-92aa-4f3f-afce-22b090854f4c",
+      "masked_answer": "The question is about the user's favorite color, but the provided memory only mentions the user's dog's name. There is no relevant information about the user's favorite color. Therefore, the answer cannot be determined from the given information.",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "diff_criterion": "exact_normalized_match",
+      "baseline_answer_hash": "3aae004f448787fcf06c2d53933fff00a45fc5117c21e1070f967e37d43760ef",
+      "masked_answer_hash": "316d5db11f47925bad860f95b38c6f4697b7e44754b40118182bb58de4757bfb"
+    },
+    {
+      "masked_memory_id": "4716997e-25db-471c-8ae6-fdd74b91fd23",
+      "masked_answer": "blue",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "diff_criterion": "exact_normalized_match",
+      "baseline_answer_hash": "3aae004f448787fcf06c2d53933fff00a45fc5117c21e1070f967e37d43760ef",
+      "masked_answer_hash": "3aae004f448787fcf06c2d53933fff00a45fc5117c21e1070f967e37d43760ef"
+    }
+  ]
+}

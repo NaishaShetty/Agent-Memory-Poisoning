@@ -1,0 +1,894 @@
+{
+  "campaign_id": "h4a-real-locomo-n20",
+  "n_tasks": 20,
+  "n_pools": 18,
+  "baselines": [
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "question": "When did Caroline go to the LGBTQ support group?",
+      "gold_answer": "7 May 2023",
+      "agent_answer": "Caroline went to the LGBTQ support group yesterday.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "9f278780cdaaa6e7b8b3d232",
+      "question": "When did Melanie paint a sunrise?",
+      "gold_answer": "2022",
+      "agent_answer": "Melanie painted the lake sunrise last year [96e1b32b-606b-42b8-91e0-e3cb7af1d58b].",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "question": "When did Jolene have a mini-retreat to reflect on her career?",
+      "gold_answer": "Wednesday before 9 February, 2023",
+      "agent_answer": "Last Wednesday. [bb67a13d-9108-408b-8e83-8297460d3074]",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "e24aa3297124044888f91d42",
+      "question": "What was Sam doing on December 4, 2023?",
+      "gold_answer": "Attending a Weight Watchers meeting",
+      "agent_answer": "None of the provided memories mention Sam's activities on December 4, 2023. Therefore, I cannot determine what Sam was doing on that specific date.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "afef9ecccb370aa8b6c3312c",
+      "question": "What did Nate make and share with his vegan diet group?",
+      "gold_answer": "vegan ice cream",
+      "agent_answer": "Nate made vegan ice cream and shared it with his vegan diet group [d7aaed82-0749-4223-b685-45a3a898c742].",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "e9d52c078941a1ed60d0b6ed",
+      "question": "What specific location in Tokyo does Calvin mention being excited to explore?",
+      "gold_answer": "Shinjuku",
+      "agent_answer": "Calvin mentions being excited to explore streets similar to those in the photo Dave shared [d4c7e66e-58d0-4a4a-ae0f-981ccdab297b].",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "6fc78427a97fc59864b68582",
+      "question": "What did Anthony and John end up playing during the charity event?",
+      "gold_answer": "an intense Harry Potter trivia contest",
+      "agent_answer": "A Harry Potter trivia contest [2d474afb-5c6f-4c2d-8318-84baff54cf18].",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "31487d7c2adc4a8be3c0d900",
+      "question": "When did Nate take his turtles to the beach?",
+      "gold_answer": "10 November, 2022",
+      "agent_answer": "Nate took his turtles to the beach in Tampa yesterday. [df81a9c5-91dd-42a5-8c4d-e70bcb56508f]",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "a345a55fa83769f28edd58df",
+      "question": "Did James have a girlfriend during April 2022?",
+      "gold_answer": "Presumably not",
+      "agent_answer": "No.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "ed3a9bb6f2355d1a02a97578",
+      "question": "What did Dave open in May 2023?",
+      "gold_answer": "a car shop",
+      "agent_answer": "Dave opened his car shop in May 2023.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "0c3beff1a8a6e768737c8c64",
+      "question": "When did Calvin's place get flooded in Tokyo?",
+      "gold_answer": "On a week before 16 May, 2023",
+      "agent_answer": "Calvin's place got flooded last week.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "372123f287f6b3dda7453f8a",
+      "question": "What was Tim's huge writing issue last week,as mentioned on November 6, 2023?",
+      "gold_answer": "He got stuck on a plot twist",
+      "agent_answer": "Tim got stuck on a plot twist and couldn't find his way out, which was a huge writing issue. [84ba35bc-0c49-4aac-9b17-deffb71041de]",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "6dfe2acb901ee1ddc17bb616",
+      "question": "How long ago was Caroline's 18th birthday?",
+      "gold_answer": "10 years ago",
+      "agent_answer": "Caroline's 18th birthday was ten years ago.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "5439d55268481bb8e456a2a3",
+      "question": "How does Nate describe the process of taking care of turtles?",
+      "gold_answer": "Not tough; keep their area clean, feed them properly, give them enough light.",
+      "agent_answer": "Nate describes turtles as low-maintenance and calming, highlighting their slow pace as a nice change from the rush of life.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "863ba61abf97813e4ec149e3",
+      "question": "Where did John explore on a road trip last year?",
+      "gold_answer": "Pacific Northwest",
+      "agent_answer": "John explored the coast in the Pacific Northwest and visited some cool national parks [7071f94a-02b9-4b45-94c0-a897e42cc877].",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "4fd460c29c6eedde4b3f651f",
+      "question": "What pet does Caroline have?",
+      "gold_answer": "guinea pig",
+      "agent_answer": "Oscar, a guinea pig [252b0d3e-68cf-481e-a738-66c55e9ee6af].",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "a581a8bbc9499f36cbfae1ea",
+      "question": "When did Nate win a lot of money in a video game tournament?",
+      "gold_answer": "September 2022",
+      "agent_answer": "Nate won a lot of money in a video game tournament last week.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "abbe9d1c80727ac5fec7a5a2",
+      "question": "What aspect of \"The Witcher 3\" does John find immersive?",
+      "gold_answer": "shaping the world with choices",
+      "agent_answer": "John finds the aspect of shaping the world through choices immersive.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "8f56211537b560876b6c8c27",
+      "question": "What type of show did Nate host where he taught vegan ice cream recipes?",
+      "gold_answer": "a cooking show",
+      "agent_answer": "A cooking show.",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    },
+    {
+      "task_id": "3b2728a05a37d5ec66034dea",
+      "question": "Where did James plan to visit after Toronto?",
+      "gold_answer": "Vancouver",
+      "agent_answer": "Vancouver [0b4344fe-7689-4e37-b967-095a72df59c4].",
+      "execution_status": "SUCCESS",
+      "retrieved_count": 5,
+      "selected_count": 5
+    }
+  ],
+  "comparisons": [
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "masked_memory_id": "294c06e9-85d2-435e-b395-f238a9309cea",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42",
+      "masked_answer_hash": "72aa5e97e09ad0e89cb6014f4313bf908c90df1bece9e2df3fb99be9f3df646c"
+    },
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "masked_memory_id": "4f75b4e3-80e7-4e81-a410-d462062ef46e",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42",
+      "masked_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42"
+    },
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "masked_memory_id": "120ddf66-8d26-431b-aaf7-287c2a06e368",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42",
+      "masked_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42"
+    },
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "masked_memory_id": "afef6db4-38c9-456f-966e-9f121eb3fd39",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42",
+      "masked_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42"
+    },
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "masked_memory_id": "9c641242-d382-4cfb-9638-b5bd689918e0",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42",
+      "masked_answer_hash": "632bb713e5bd40f331f9c12ca9426f283ee9f6f88608bd93b88f6d14c1ab7c42"
+    },
+    {
+      "task_id": "9f278780cdaaa6e7b8b3d232",
+      "masked_memory_id": "96e1b32b-606b-42b8-91e0-e3cb7af1d58b",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3e6b33b53b68519b51ee1896bb939ac4fccf9bde6fd9937e4b67348e891192e0",
+      "masked_answer_hash": "6a6d7f4eff60e703fac4a3e9e7a3eb33e6d71447334a50d3f8312330839cd210"
+    },
+    {
+      "task_id": "9f278780cdaaa6e7b8b3d232",
+      "masked_memory_id": "eee84526-2a00-48b1-9a92-48d1eb75ffa7",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3e6b33b53b68519b51ee1896bb939ac4fccf9bde6fd9937e4b67348e891192e0",
+      "masked_answer_hash": "3e6b33b53b68519b51ee1896bb939ac4fccf9bde6fd9937e4b67348e891192e0"
+    },
+    {
+      "task_id": "9f278780cdaaa6e7b8b3d232",
+      "masked_memory_id": "6a10b56f-b4ae-4226-ae7d-7bb6dfb30d93",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3e6b33b53b68519b51ee1896bb939ac4fccf9bde6fd9937e4b67348e891192e0",
+      "masked_answer_hash": "331c3e89fbedddb3eb36f80348b95220a6bd42774629e954db64c5807624d376"
+    },
+    {
+      "task_id": "9f278780cdaaa6e7b8b3d232",
+      "masked_memory_id": "4e5e4095-9c35-4c6e-b9dd-b00e1eafabfa",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3e6b33b53b68519b51ee1896bb939ac4fccf9bde6fd9937e4b67348e891192e0",
+      "masked_answer_hash": "3e6b33b53b68519b51ee1896bb939ac4fccf9bde6fd9937e4b67348e891192e0"
+    },
+    {
+      "task_id": "9f278780cdaaa6e7b8b3d232",
+      "masked_memory_id": "e673da6a-78f6-4f92-ab6b-83b4b18829f9",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3e6b33b53b68519b51ee1896bb939ac4fccf9bde6fd9937e4b67348e891192e0",
+      "masked_answer_hash": "fd33d9b3c28f9b982d63a8f9785f07b7b4664337772c1bec3bf55e60d151bbbc"
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "masked_memory_id": "359a3467-139f-4404-9406-f2d72913fbbe",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "78b0bb9c414c45f40acc9477244d025b2e06c8dbd45a24597ce6ef73686d3b4b",
+      "masked_answer_hash": "9f71cfda298d6229600666bbb697e6956c8dcefa9765b1abdfe77eb2932d6c33"
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "masked_memory_id": "bb67a13d-9108-408b-8e83-8297460d3074",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "78b0bb9c414c45f40acc9477244d025b2e06c8dbd45a24597ce6ef73686d3b4b",
+      "masked_answer_hash": "0be715a96e5aed4d98ba91efb42820d4ae0e1e4a48a095dae25ae258f8158a00"
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "masked_memory_id": "3cea0c82-c410-4d7b-b5aa-4dce6f0e0517",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "78b0bb9c414c45f40acc9477244d025b2e06c8dbd45a24597ce6ef73686d3b4b",
+      "masked_answer_hash": "78b0bb9c414c45f40acc9477244d025b2e06c8dbd45a24597ce6ef73686d3b4b"
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "masked_memory_id": "8ed8b06e-c5dd-4ea3-bf9e-56e8a07a20ed",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "78b0bb9c414c45f40acc9477244d025b2e06c8dbd45a24597ce6ef73686d3b4b",
+      "masked_answer_hash": "78b0bb9c414c45f40acc9477244d025b2e06c8dbd45a24597ce6ef73686d3b4b"
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "masked_memory_id": "bd1e9d1c-cca1-431e-be6e-248d6b7cb78b",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "78b0bb9c414c45f40acc9477244d025b2e06c8dbd45a24597ce6ef73686d3b4b",
+      "masked_answer_hash": "78b0bb9c414c45f40acc9477244d025b2e06c8dbd45a24597ce6ef73686d3b4b"
+    },
+    {
+      "task_id": "e24aa3297124044888f91d42",
+      "masked_memory_id": "6f742a0d-f405-4339-bb9b-5e1dcae87708",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "fa711f3da1695ad2db600de6e15e1aa1462b64fd65d6e4e0db9e9bb73e3fd187",
+      "masked_answer_hash": "1502e10f51018225122dd7f4fc0dc2764b3e93210dc54897fb58d1d5b53a3eaf"
+    },
+    {
+      "task_id": "e24aa3297124044888f91d42",
+      "masked_memory_id": "10104019-0ab1-481b-83ba-3c22d597d79b",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "fa711f3da1695ad2db600de6e15e1aa1462b64fd65d6e4e0db9e9bb73e3fd187",
+      "masked_answer_hash": "a6834cfd893ab5b459f6c004c212eb43817ace3aeb503babc74da6a97a6ce3a8"
+    },
+    {
+      "task_id": "e24aa3297124044888f91d42",
+      "masked_memory_id": "f9460144-1a0c-4565-b2a9-2ea315e8f51f",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "fa711f3da1695ad2db600de6e15e1aa1462b64fd65d6e4e0db9e9bb73e3fd187",
+      "masked_answer_hash": "fa711f3da1695ad2db600de6e15e1aa1462b64fd65d6e4e0db9e9bb73e3fd187"
+    },
+    {
+      "task_id": "e24aa3297124044888f91d42",
+      "masked_memory_id": "1e1a3b99-11ee-4d94-91ca-bebb8baf3baa",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "fa711f3da1695ad2db600de6e15e1aa1462b64fd65d6e4e0db9e9bb73e3fd187",
+      "masked_answer_hash": "fa711f3da1695ad2db600de6e15e1aa1462b64fd65d6e4e0db9e9bb73e3fd187"
+    },
+    {
+      "task_id": "e24aa3297124044888f91d42",
+      "masked_memory_id": "4075de69-0dac-42b1-aa48-437be89707a0",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "fa711f3da1695ad2db600de6e15e1aa1462b64fd65d6e4e0db9e9bb73e3fd187",
+      "masked_answer_hash": "a2e771fa70ac1bf1f0c560649cf2bb531f2e31f74c715acd993ae33f4bf3ded1"
+    },
+    {
+      "task_id": "afef9ecccb370aa8b6c3312c",
+      "masked_memory_id": "d7aaed82-0749-4223-b685-45a3a898c742",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7",
+      "masked_answer_hash": "f7a38d8babdc728182d9581daaa2a43454a3fb40c6f64c3d9f8c9ad48cba3faf"
+    },
+    {
+      "task_id": "afef9ecccb370aa8b6c3312c",
+      "masked_memory_id": "78e8e2b8-22ad-47ee-ab1d-056922e2b805",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7",
+      "masked_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7"
+    },
+    {
+      "task_id": "afef9ecccb370aa8b6c3312c",
+      "masked_memory_id": "ae602856-4749-488a-a06f-e5c3e13f6ffa",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7",
+      "masked_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7"
+    },
+    {
+      "task_id": "afef9ecccb370aa8b6c3312c",
+      "masked_memory_id": "9ea43084-5f1a-4198-9206-2a92b104435e",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7",
+      "masked_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7"
+    },
+    {
+      "task_id": "afef9ecccb370aa8b6c3312c",
+      "masked_memory_id": "00dae78a-5d1a-438e-8fa1-ca7677670c1d",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7",
+      "masked_answer_hash": "b3f61ccb59535cd6182c6453a90aa2dece9fe3d029d3793640e93a81d41639c7"
+    },
+    {
+      "task_id": "e9d52c078941a1ed60d0b6ed",
+      "masked_memory_id": "c6f69dd8-a739-4ce3-9e17-dfae6ce53822",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b08638a84c18346cf76451306f1e1a99adc15a9c9db4eba9234ea4aa4b6fad3f",
+      "masked_answer_hash": "e149156fb9a494855b49a292443af8d3cfb44763d089440fecd9e5ad31780d4f"
+    },
+    {
+      "task_id": "e9d52c078941a1ed60d0b6ed",
+      "masked_memory_id": "3cabe82d-fb6e-4b46-b404-abda2807314e",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b08638a84c18346cf76451306f1e1a99adc15a9c9db4eba9234ea4aa4b6fad3f",
+      "masked_answer_hash": "b08638a84c18346cf76451306f1e1a99adc15a9c9db4eba9234ea4aa4b6fad3f"
+    },
+    {
+      "task_id": "e9d52c078941a1ed60d0b6ed",
+      "masked_memory_id": "cc9df96a-01a8-43fc-9e7f-3fe622d21918",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b08638a84c18346cf76451306f1e1a99adc15a9c9db4eba9234ea4aa4b6fad3f",
+      "masked_answer_hash": "21c83dc49bfe97799eb93a0ee15136b9d944890694f8f7317dbb931c3c80c1da"
+    },
+    {
+      "task_id": "e9d52c078941a1ed60d0b6ed",
+      "masked_memory_id": "d4c7e66e-58d0-4a4a-ae0f-981ccdab297b",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b08638a84c18346cf76451306f1e1a99adc15a9c9db4eba9234ea4aa4b6fad3f",
+      "masked_answer_hash": "8e1272cbfa8b514277ff00fc4006ca96e249c379bf7e43b3b6e72fa0c1c9a5c3"
+    },
+    {
+      "task_id": "e9d52c078941a1ed60d0b6ed",
+      "masked_memory_id": "5490e6e7-51d6-4c82-bebc-ceaeba89f68a",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b08638a84c18346cf76451306f1e1a99adc15a9c9db4eba9234ea4aa4b6fad3f",
+      "masked_answer_hash": "845dcbaf0f87303dc239ab8d9a3566ed12d5e0c8f0f313f596a138ebb35db42c"
+    },
+    {
+      "task_id": "6fc78427a97fc59864b68582",
+      "masked_memory_id": "2d474afb-5c6f-4c2d-8318-84baff54cf18",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b6ecaa18063ac51198ea38ccc7290093e96a4609e63372ff29b5f1f23243063a",
+      "masked_answer_hash": "e5941f445b971a5b18d982b0dd2f1aee08374a08eb89592b0f61d89a4d23e928"
+    },
+    {
+      "task_id": "6fc78427a97fc59864b68582",
+      "masked_memory_id": "acb567ec-2122-48b2-9ab3-caac0ba51ec9",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b6ecaa18063ac51198ea38ccc7290093e96a4609e63372ff29b5f1f23243063a",
+      "masked_answer_hash": "b6ecaa18063ac51198ea38ccc7290093e96a4609e63372ff29b5f1f23243063a"
+    },
+    {
+      "task_id": "6fc78427a97fc59864b68582",
+      "masked_memory_id": "b3f153bf-67fb-41fc-8866-c87e6c55ffc3",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b6ecaa18063ac51198ea38ccc7290093e96a4609e63372ff29b5f1f23243063a",
+      "masked_answer_hash": "625ed181da243639a823e909c4cbfa04b5ca55c414319e0775735b2b05ec2d71"
+    },
+    {
+      "task_id": "6fc78427a97fc59864b68582",
+      "masked_memory_id": "bd097048-2c1d-4662-9b8e-a9d9932fd8b3",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b6ecaa18063ac51198ea38ccc7290093e96a4609e63372ff29b5f1f23243063a",
+      "masked_answer_hash": "b6ecaa18063ac51198ea38ccc7290093e96a4609e63372ff29b5f1f23243063a"
+    },
+    {
+      "task_id": "6fc78427a97fc59864b68582",
+      "masked_memory_id": "8a0db99c-ee3b-49f6-b938-cc3f45d81e61",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "b6ecaa18063ac51198ea38ccc7290093e96a4609e63372ff29b5f1f23243063a",
+      "masked_answer_hash": "625ed181da243639a823e909c4cbfa04b5ca55c414319e0775735b2b05ec2d71"
+    },
+    {
+      "task_id": "31487d7c2adc4a8be3c0d900",
+      "masked_memory_id": "df81a9c5-91dd-42a5-8c4d-e70bcb56508f",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "973437227e9e4242119e2c11a1c8650be31404ae0990ba32faa6ad8c8582dd74",
+      "masked_answer_hash": "cf952a75d3f88554dbef210f6844197477621c842501ab0b71755117b5094786"
+    },
+    {
+      "task_id": "31487d7c2adc4a8be3c0d900",
+      "masked_memory_id": "dbc7a6fd-3e15-4764-a336-6389a4cd01e9",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "973437227e9e4242119e2c11a1c8650be31404ae0990ba32faa6ad8c8582dd74",
+      "masked_answer_hash": "973437227e9e4242119e2c11a1c8650be31404ae0990ba32faa6ad8c8582dd74"
+    },
+    {
+      "task_id": "31487d7c2adc4a8be3c0d900",
+      "masked_memory_id": "258467d9-87d7-4ebb-bffa-29dc5e5e5df7",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "973437227e9e4242119e2c11a1c8650be31404ae0990ba32faa6ad8c8582dd74",
+      "masked_answer_hash": "7600711c54d7bed9dab08b98a0846d7ca0285958487522f13447198daae19843"
+    },
+    {
+      "task_id": "31487d7c2adc4a8be3c0d900",
+      "masked_memory_id": "1799330d-38ad-445e-a798-9289a112888b",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "973437227e9e4242119e2c11a1c8650be31404ae0990ba32faa6ad8c8582dd74",
+      "masked_answer_hash": "973437227e9e4242119e2c11a1c8650be31404ae0990ba32faa6ad8c8582dd74"
+    },
+    {
+      "task_id": "31487d7c2adc4a8be3c0d900",
+      "masked_memory_id": "dfd487df-b7e3-450f-8ffd-d1132066c456",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "973437227e9e4242119e2c11a1c8650be31404ae0990ba32faa6ad8c8582dd74",
+      "masked_answer_hash": "973437227e9e4242119e2c11a1c8650be31404ae0990ba32faa6ad8c8582dd74"
+    },
+    {
+      "task_id": "a345a55fa83769f28edd58df",
+      "masked_memory_id": "95fc58c9-8fdb-4b6b-921e-496e84001a8b",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "a06fcf42f6466d9178edfccb0cb3bc4bb0d40c78258d071f83567fb8f6952083",
+      "masked_answer_hash": "5564e98c292ef8b2e9c787d19af7da3c805d2529b6101babadeb87a19b5bbe1b"
+    },
+    {
+      "task_id": "a345a55fa83769f28edd58df",
+      "masked_memory_id": "9b741aca-60bb-42e0-a3f4-bd89f96472fa",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "a06fcf42f6466d9178edfccb0cb3bc4bb0d40c78258d071f83567fb8f6952083",
+      "masked_answer_hash": "0d4ebf7115ace3a0c3c2e0236f655448c0ab9e65cf9eb8c8c25426657059a784"
+    },
+    {
+      "task_id": "a345a55fa83769f28edd58df",
+      "masked_memory_id": "1b91758f-424b-44a7-90ff-99a081e5e42f",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "a06fcf42f6466d9178edfccb0cb3bc4bb0d40c78258d071f83567fb8f6952083",
+      "masked_answer_hash": "a06fcf42f6466d9178edfccb0cb3bc4bb0d40c78258d071f83567fb8f6952083"
+    },
+    {
+      "task_id": "a345a55fa83769f28edd58df",
+      "masked_memory_id": "69536e32-d920-45dc-9c0a-dd3cc96d2fa1",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "a06fcf42f6466d9178edfccb0cb3bc4bb0d40c78258d071f83567fb8f6952083",
+      "masked_answer_hash": "a06fcf42f6466d9178edfccb0cb3bc4bb0d40c78258d071f83567fb8f6952083"
+    },
+    {
+      "task_id": "a345a55fa83769f28edd58df",
+      "masked_memory_id": "6c15674d-8c03-4308-afd3-53ce8768ecf5",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "a06fcf42f6466d9178edfccb0cb3bc4bb0d40c78258d071f83567fb8f6952083",
+      "masked_answer_hash": "5564e98c292ef8b2e9c787d19af7da3c805d2529b6101babadeb87a19b5bbe1b"
+    },
+    {
+      "task_id": "ed3a9bb6f2355d1a02a97578",
+      "masked_memory_id": "49edff62-1cfe-4845-af62-40bc9e403714",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "1f405f2ea83acfff2ef06ced85c79d539dbbcc2582b9539e4c19bc9434cd8edc",
+      "masked_answer_hash": "459028c041cd46bbe0b1a8d2ca52ad4aea76f04f18125d6ccc927dc5aa76ba48"
+    },
+    {
+      "task_id": "ed3a9bb6f2355d1a02a97578",
+      "masked_memory_id": "dc3e6163-0f6b-42fe-bea5-3def993f316a",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "1f405f2ea83acfff2ef06ced85c79d539dbbcc2582b9539e4c19bc9434cd8edc",
+      "masked_answer_hash": "877382bf292e3b776a5d92f67d86f9107e51a08f532df659a03f2d52c668e93a"
+    },
+    {
+      "task_id": "ed3a9bb6f2355d1a02a97578",
+      "masked_memory_id": "2baa92c4-b7a4-4655-a887-952ba3d59ea7",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "1f405f2ea83acfff2ef06ced85c79d539dbbcc2582b9539e4c19bc9434cd8edc",
+      "masked_answer_hash": "41065b9aef4e2b3b334fed7e75a297c15c8a1d70d6414d78b867110ed4ed5d8f"
+    },
+    {
+      "task_id": "ed3a9bb6f2355d1a02a97578",
+      "masked_memory_id": "8ec46e04-4d95-4101-9895-85198ca5ec74",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "1f405f2ea83acfff2ef06ced85c79d539dbbcc2582b9539e4c19bc9434cd8edc",
+      "masked_answer_hash": "1f405f2ea83acfff2ef06ced85c79d539dbbcc2582b9539e4c19bc9434cd8edc"
+    },
+    {
+      "task_id": "ed3a9bb6f2355d1a02a97578",
+      "masked_memory_id": "107b57f9-049e-46e2-972d-ccf15e61d378",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "1f405f2ea83acfff2ef06ced85c79d539dbbcc2582b9539e4c19bc9434cd8edc",
+      "masked_answer_hash": "62327a8930d89f6bf54956047d7152285b7f825edc7188599f28b39347b7b451"
+    },
+    {
+      "task_id": "0c3beff1a8a6e768737c8c64",
+      "masked_memory_id": "2e02fa79-8b47-458d-864c-199a942580b6",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "f35c8146dbdf8ce9d653e1cc7c031a5691f95b695b4df189db35c716d4d55fd0",
+      "masked_answer_hash": "0fee15ee16a1f7e336fb149c71a3987d954dd10a3aef3b5040f7896f820084c9"
+    },
+    {
+      "task_id": "0c3beff1a8a6e768737c8c64",
+      "masked_memory_id": "40fb59d4-2f04-4934-bf83-cec4467ae24c",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "f35c8146dbdf8ce9d653e1cc7c031a5691f95b695b4df189db35c716d4d55fd0",
+      "masked_answer_hash": "b145840370b7506f85cfab70b8f046fd685307bd6b6aa111e1fbb92bd35683ed"
+    },
+    {
+      "task_id": "0c3beff1a8a6e768737c8c64",
+      "masked_memory_id": "10680306-5427-4cab-8ede-444684f7ad1e",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "f35c8146dbdf8ce9d653e1cc7c031a5691f95b695b4df189db35c716d4d55fd0",
+      "masked_answer_hash": "b145840370b7506f85cfab70b8f046fd685307bd6b6aa111e1fbb92bd35683ed"
+    },
+    {
+      "task_id": "0c3beff1a8a6e768737c8c64",
+      "masked_memory_id": "c1570818-21ae-427f-938b-5be27e274542",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "f35c8146dbdf8ce9d653e1cc7c031a5691f95b695b4df189db35c716d4d55fd0",
+      "masked_answer_hash": "3df991a977c77f1b4f5c26465defa92efbaa7c4e9bc5a09aa71f9c0e3b723b3a"
+    },
+    {
+      "task_id": "0c3beff1a8a6e768737c8c64",
+      "masked_memory_id": "107b57f9-049e-46e2-972d-ccf15e61d378",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "f35c8146dbdf8ce9d653e1cc7c031a5691f95b695b4df189db35c716d4d55fd0",
+      "masked_answer_hash": "90d5c5c8bf8c6b1eee951f52c0ec5977675559f8d50c29d839fa4483ae10fb5b"
+    },
+    {
+      "task_id": "372123f287f6b3dda7453f8a",
+      "masked_memory_id": "84ba35bc-0c49-4aac-9b17-deffb71041de",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542",
+      "masked_answer_hash": "a27a970922b6196e2e08f0539cf062e501363a3b8d5925bd0d2fc7211355a0a9"
+    },
+    {
+      "task_id": "372123f287f6b3dda7453f8a",
+      "masked_memory_id": "1bdf555e-f0a3-4385-86ba-242d06a336af",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542",
+      "masked_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542"
+    },
+    {
+      "task_id": "372123f287f6b3dda7453f8a",
+      "masked_memory_id": "41dca22f-7c78-4cf2-9e32-88ca54d4029a",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542",
+      "masked_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542"
+    },
+    {
+      "task_id": "372123f287f6b3dda7453f8a",
+      "masked_memory_id": "02beb6e8-4a94-4708-b8ba-c012ee7c9a34",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542",
+      "masked_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542"
+    },
+    {
+      "task_id": "372123f287f6b3dda7453f8a",
+      "masked_memory_id": "05a43059-ef11-4d7f-929e-5b7b3f5fac7e",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542",
+      "masked_answer_hash": "7da32768a500970a245c5d67d6cd967a5450dd337365a47e84fe847e6d662542"
+    },
+    {
+      "task_id": "6dfe2acb901ee1ddc17bb616",
+      "masked_memory_id": "a5875e44-bafb-4e98-a0ee-c3bab3b2a84d",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "8e9e18560d97472871e067166f2435fbdc9c7849f1aff26847d850125c3548ba",
+      "masked_answer_hash": "003a72854cbe176942bcccbd74470e8f0f0f414251c75769e70751426151707a"
+    },
+    {
+      "task_id": "6dfe2acb901ee1ddc17bb616",
+      "masked_memory_id": "11bcf120-d4bf-4f1e-aa26-022e083209de",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "8e9e18560d97472871e067166f2435fbdc9c7849f1aff26847d850125c3548ba",
+      "masked_answer_hash": "13e4d10b848d9df420ead0a84e9320e5c5adecc9fb58a531e50da1ff37ba9c0a"
+    },
+    {
+      "task_id": "6dfe2acb901ee1ddc17bb616",
+      "masked_memory_id": "9818bfd6-682e-4fe4-902f-88310d9fede7",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "8e9e18560d97472871e067166f2435fbdc9c7849f1aff26847d850125c3548ba",
+      "masked_answer_hash": "bb18778f08814b721fcc2dcc333e4e3cc9d10ea1525da5f75ab934098e60d9cd"
+    },
+    {
+      "task_id": "6dfe2acb901ee1ddc17bb616",
+      "masked_memory_id": "69f211be-dd07-4eba-9355-f38da0dd7243",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "8e9e18560d97472871e067166f2435fbdc9c7849f1aff26847d850125c3548ba",
+      "masked_answer_hash": "8e9e18560d97472871e067166f2435fbdc9c7849f1aff26847d850125c3548ba"
+    },
+    {
+      "task_id": "6dfe2acb901ee1ddc17bb616",
+      "masked_memory_id": "15ce96ab-5e6d-44ec-9cf3-5629c460713f",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "8e9e18560d97472871e067166f2435fbdc9c7849f1aff26847d850125c3548ba",
+      "masked_answer_hash": "8e9e18560d97472871e067166f2435fbdc9c7849f1aff26847d850125c3548ba"
+    },
+    {
+      "task_id": "5439d55268481bb8e456a2a3",
+      "masked_memory_id": "a5e89d1f-f460-485e-9941-ef80118d6095",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "76819c650efbaf76374aac9216303f2dba2915f6c1a34665afb93f2e35341166",
+      "masked_answer_hash": "7717f85b8f11218b9e6739c8af90bfc8d34ec0c6342eec8ce4e89cf53fbd8dc9"
+    },
+    {
+      "task_id": "5439d55268481bb8e456a2a3",
+      "masked_memory_id": "40e22205-d297-4388-88ac-216a0f94fd26",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "76819c650efbaf76374aac9216303f2dba2915f6c1a34665afb93f2e35341166",
+      "masked_answer_hash": "d80e5ed0a91281bc0d1783fa15c0d8c78f1533f2f68c553fcb2130d8247f8f95"
+    },
+    {
+      "task_id": "5439d55268481bb8e456a2a3",
+      "masked_memory_id": "76747b08-5e45-4c93-9c85-dacf56c9eb54",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "76819c650efbaf76374aac9216303f2dba2915f6c1a34665afb93f2e35341166",
+      "masked_answer_hash": "ec9ba967dab275ed4d52de60f49c28a8bb3f08e8b7056ed615281975dcc08629"
+    },
+    {
+      "task_id": "5439d55268481bb8e456a2a3",
+      "masked_memory_id": "2c098077-a5df-451e-a8b3-1780900dac5c",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "76819c650efbaf76374aac9216303f2dba2915f6c1a34665afb93f2e35341166",
+      "masked_answer_hash": "ec9ba967dab275ed4d52de60f49c28a8bb3f08e8b7056ed615281975dcc08629"
+    },
+    {
+      "task_id": "5439d55268481bb8e456a2a3",
+      "masked_memory_id": "66b7aae9-353b-4a89-8d8d-65768b056694",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "76819c650efbaf76374aac9216303f2dba2915f6c1a34665afb93f2e35341166",
+      "masked_answer_hash": "51931bb8dfcf4dfd801ea538e11e3b2cf9fabec3132dc3ab09a24db110972107"
+    },
+    {
+      "task_id": "863ba61abf97813e4ec149e3",
+      "masked_memory_id": "19a9a90a-e7d6-4265-abc5-69dd5d16895d",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "35cdf8820dcc2aff1439892975dcf59ef5828fd8489084492f828ff2d67443b2",
+      "masked_answer_hash": "0ed65da52bc0fb86139649ae895896f6695252593e4dcc468a921a6f2e8f6329"
+    },
+    {
+      "task_id": "863ba61abf97813e4ec149e3",
+      "masked_memory_id": "fa1a35c3-e713-4184-a32c-dbac808813de",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "35cdf8820dcc2aff1439892975dcf59ef5828fd8489084492f828ff2d67443b2",
+      "masked_answer_hash": "ac75aabe4f641d41cdaddff3ec83b3d8d6eae195e434ed497a67dd9a3211fc73"
+    },
+    {
+      "task_id": "863ba61abf97813e4ec149e3",
+      "masked_memory_id": "7071f94a-02b9-4b45-94c0-a897e42cc877",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "35cdf8820dcc2aff1439892975dcf59ef5828fd8489084492f828ff2d67443b2",
+      "masked_answer_hash": "f92144b9e12bd854e1301ab5dadcb82132dcf8978486f54dab697893e818b48a"
+    },
+    {
+      "task_id": "863ba61abf97813e4ec149e3",
+      "masked_memory_id": "65d3e4d2-0bf8-4c23-a318-2173727f90d0",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "35cdf8820dcc2aff1439892975dcf59ef5828fd8489084492f828ff2d67443b2",
+      "masked_answer_hash": "16d73ce98f303ad98a635b34d58399c01068f3ae76a55add4e960823bf1e2131"
+    },
+    {
+      "task_id": "863ba61abf97813e4ec149e3",
+      "masked_memory_id": "3818c6b9-a545-429c-a5c0-186577ede8b5",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "35cdf8820dcc2aff1439892975dcf59ef5828fd8489084492f828ff2d67443b2",
+      "masked_answer_hash": "1571375ef50e0902b5e9ea936c66b754bab9649d4dc94988d27b952c2c6dcfee"
+    },
+    {
+      "task_id": "4fd460c29c6eedde4b3f651f",
+      "masked_memory_id": "252b0d3e-68cf-481e-a738-66c55e9ee6af",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79",
+      "masked_answer_hash": "6f9b7ed815da2c09ae02e3e6fa7d1ddd32dbc9ff65906062f15dd36c7c2f7a03"
+    },
+    {
+      "task_id": "4fd460c29c6eedde4b3f651f",
+      "masked_memory_id": "4cf972fb-05de-4941-a3b2-cd3c703732a6",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79",
+      "masked_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79"
+    },
+    {
+      "task_id": "4fd460c29c6eedde4b3f651f",
+      "masked_memory_id": "dc619fcd-65ce-479d-a0db-5a347bca311a",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79",
+      "masked_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79"
+    },
+    {
+      "task_id": "4fd460c29c6eedde4b3f651f",
+      "masked_memory_id": "2b7b908c-e3b1-49c2-89db-8bff86f19550",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79",
+      "masked_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79"
+    },
+    {
+      "task_id": "4fd460c29c6eedde4b3f651f",
+      "masked_memory_id": "a592d602-505a-4c6e-a6d7-ecd1de705115",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79",
+      "masked_answer_hash": "18ff4c099d700eaae306083de95ff9ffd16c441ca166d965e08e36aa4d920d79"
+    },
+    {
+      "task_id": "a581a8bbc9499f36cbfae1ea",
+      "masked_memory_id": "11355e69-bd11-4dc5-aa29-47527bf6aa5e",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "db0eb6f789ce491344e3b1d67bdefed86a1cf22a2373401585565568323b5a0a",
+      "masked_answer_hash": "0b35c7df12ada27daa43ea17c432fef4504c91cf55a32bc71ac6c4beb5943d32"
+    },
+    {
+      "task_id": "a581a8bbc9499f36cbfae1ea",
+      "masked_memory_id": "c6d9b490-1ba1-4ef3-855c-f65accc94265",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "db0eb6f789ce491344e3b1d67bdefed86a1cf22a2373401585565568323b5a0a",
+      "masked_answer_hash": "f39392d2f84af525cf9c52c1f93df8611b44cbce7811970655055b064fc5713d"
+    },
+    {
+      "task_id": "a581a8bbc9499f36cbfae1ea",
+      "masked_memory_id": "9c8511ab-d230-4b93-b915-53ae5362a101",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "db0eb6f789ce491344e3b1d67bdefed86a1cf22a2373401585565568323b5a0a",
+      "masked_answer_hash": "db0eb6f789ce491344e3b1d67bdefed86a1cf22a2373401585565568323b5a0a"
+    },
+    {
+      "task_id": "a581a8bbc9499f36cbfae1ea",
+      "masked_memory_id": "d904b014-a4b8-4c33-8087-713c8adce590",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "db0eb6f789ce491344e3b1d67bdefed86a1cf22a2373401585565568323b5a0a",
+      "masked_answer_hash": "0b35c7df12ada27daa43ea17c432fef4504c91cf55a32bc71ac6c4beb5943d32"
+    },
+    {
+      "task_id": "a581a8bbc9499f36cbfae1ea",
+      "masked_memory_id": "61f964ed-19a2-4d9c-b6f6-dcd8c0c813c6",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "db0eb6f789ce491344e3b1d67bdefed86a1cf22a2373401585565568323b5a0a",
+      "masked_answer_hash": "0b35c7df12ada27daa43ea17c432fef4504c91cf55a32bc71ac6c4beb5943d32"
+    },
+    {
+      "task_id": "abbe9d1c80727ac5fec7a5a2",
+      "masked_memory_id": "e68f3521-2bd9-4a8e-ae9c-f79e72a59b8f",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "ea77b465d337376d2d8140feb1e00e6575ba0fc2fbb2b5c8a7d05bdef9f704d6",
+      "masked_answer_hash": "082ce4c023868cd1613ac36b48ffde3517773fa308d06307e21015d7812da1fe"
+    },
+    {
+      "task_id": "abbe9d1c80727ac5fec7a5a2",
+      "masked_memory_id": "7a157fa4-8553-40ae-a751-a6c89d229ab7",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "ea77b465d337376d2d8140feb1e00e6575ba0fc2fbb2b5c8a7d05bdef9f704d6",
+      "masked_answer_hash": "dccc7b945b288901b622192a709f7226412551125c3baa081c1c9616451578df"
+    },
+    {
+      "task_id": "abbe9d1c80727ac5fec7a5a2",
+      "masked_memory_id": "4c0fcd8b-1c20-410d-a82d-7ebca6a96bf7",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "ea77b465d337376d2d8140feb1e00e6575ba0fc2fbb2b5c8a7d05bdef9f704d6",
+      "masked_answer_hash": "ec4f031b5bce548344739087d0372388e1745e4ca64a1fbbeebba4df18da13c3"
+    },
+    {
+      "task_id": "abbe9d1c80727ac5fec7a5a2",
+      "masked_memory_id": "84d1cb06-6011-4d80-8ca6-4be4f482eb88",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "ea77b465d337376d2d8140feb1e00e6575ba0fc2fbb2b5c8a7d05bdef9f704d6",
+      "masked_answer_hash": "ea77b465d337376d2d8140feb1e00e6575ba0fc2fbb2b5c8a7d05bdef9f704d6"
+    },
+    {
+      "task_id": "abbe9d1c80727ac5fec7a5a2",
+      "masked_memory_id": "0e438b27-ccbf-4905-819d-b28f6c5fc23c",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "ea77b465d337376d2d8140feb1e00e6575ba0fc2fbb2b5c8a7d05bdef9f704d6",
+      "masked_answer_hash": "ec4f031b5bce548344739087d0372388e1745e4ca64a1fbbeebba4df18da13c3"
+    },
+    {
+      "task_id": "8f56211537b560876b6c8c27",
+      "masked_memory_id": "dc160f3a-a847-4432-a767-8ae1223f2236",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459",
+      "masked_answer_hash": "6991235a0b9d26dbd92bc3cdd01ab5aa775c62bf712f1a565c76bc2b743e0cce"
+    },
+    {
+      "task_id": "8f56211537b560876b6c8c27",
+      "masked_memory_id": "1b7da9f5-66c2-48aa-b372-ed8339daa1c7",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459",
+      "masked_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459"
+    },
+    {
+      "task_id": "8f56211537b560876b6c8c27",
+      "masked_memory_id": "c5279815-4b66-4e8c-995c-b0ff9f86861e",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459",
+      "masked_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459"
+    },
+    {
+      "task_id": "8f56211537b560876b6c8c27",
+      "masked_memory_id": "fa05ef95-e248-46b2-8660-29788752dfbc",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459",
+      "masked_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459"
+    },
+    {
+      "task_id": "8f56211537b560876b6c8c27",
+      "masked_memory_id": "dd0903bc-2f60-4303-95a8-5c4343decb4e",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459",
+      "masked_answer_hash": "3a0c4005ee271e85b18b95194ccaccb121b7ca25d0ca64084b4024d7062e5459"
+    },
+    {
+      "task_id": "3b2728a05a37d5ec66034dea",
+      "masked_memory_id": "0b4344fe-7689-4e37-b967-095a72df59c4",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "2ea8dae3432aa5de2a1f878923ddb402c50d7407dc67789eb97eaa3b5da15a6c",
+      "masked_answer_hash": "47b04f2d958a07a713f613c20c5f5cbc46dbd6d0121440867fc2a0f000a400b9"
+    },
+    {
+      "task_id": "3b2728a05a37d5ec66034dea",
+      "masked_memory_id": "f4ebbe91-0ce7-46b0-8420-a69c7950006b",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "2ea8dae3432aa5de2a1f878923ddb402c50d7407dc67789eb97eaa3b5da15a6c",
+      "masked_answer_hash": "f6b2cb5d1e2e57f1981e687e5ab2c5560a6bf782d8cd795e5aec20a7ee8bc87d"
+    },
+    {
+      "task_id": "3b2728a05a37d5ec66034dea",
+      "masked_memory_id": "0c49d8b3-28a1-4f7b-9363-75a0cb346101",
+      "status": "NOT_COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "2ea8dae3432aa5de2a1f878923ddb402c50d7407dc67789eb97eaa3b5da15a6c",
+      "masked_answer_hash": "2ea8dae3432aa5de2a1f878923ddb402c50d7407dc67789eb97eaa3b5da15a6c"
+    },
+    {
+      "task_id": "3b2728a05a37d5ec66034dea",
+      "masked_memory_id": "051e41af-153f-46af-9ecc-8bd021e50ce6",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "2ea8dae3432aa5de2a1f878923ddb402c50d7407dc67789eb97eaa3b5da15a6c",
+      "masked_answer_hash": "74bf6e17f2f20a92ca25356538b8d6b69550355f781aca9b7a712d19c057daa4"
+    },
+    {
+      "task_id": "3b2728a05a37d5ec66034dea",
+      "masked_memory_id": "8648dd0a-8e1f-4450-bebf-1bb1bfaaf75c",
+      "status": "COUNTERFACTUALLY_INFLUENTIAL",
+      "baseline_answer_hash": "2ea8dae3432aa5de2a1f878923ddb402c50d7407dc67789eb97eaa3b5da15a6c",
+      "masked_answer_hash": "74bf6e17f2f20a92ca25356538b8d6b69550355f781aca9b7a712d19c057daa4"
+    }
+  ],
+  "totals": {
+    "influential": 59,
+    "not_influential": 41,
+    "inconclusive": 0
+  }
+}

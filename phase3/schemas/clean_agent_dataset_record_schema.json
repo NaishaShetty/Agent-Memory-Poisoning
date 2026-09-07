@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "phase3/schemas/clean_agent_dataset_record_schema.json",
+  "title": "Clean-Agent Behavioral Dataset Record",
+  "description": "One record per (task_id, foundation) pair, produced by dataset_record_assembler.assemble_dataset_records(). Export-only, mirroring provenance_graph_schema.json's own convention -- never re-read back as authoritative input; the real ledgers referenced by raw_ledger_refs/provenance_graph_ref remain the source of truth.",
+  "type": "object",
+  "required": [
+    "task_id", "dataset", "foundation", "campaign_id", "conditions",
+    "raw_ledger_refs", "provenance_graph_ref", "observability_coverage"
+  ],
+  "properties": {
+    "task_id": {"type": "string"},
+    "dataset": {"type": "string"},
+    "foundation": {"type": "string", "enum": ["MEM0", "AMEM"]},
+    "campaign_id": {"type": "string"},
+    "environment_record_id": {"type": ["string", "null"]},
+    "generation_config_fingerprint": {"type": ["string", "null"]},
+    "conditions": {
+      "type": "object",
+      "required": ["A_no_memory", "B_gold_evidence", "C_retrieved_memory"],
+      "properties": {
+        "A_no_memory": {"$ref": "#/definitions/conditionOutcome"},
+        "B_gold_evidence": {"$ref": "#/definitions/conditionOutcome"},
+        "C_retrieved_memory": {"$ref": "#/definitions/conditionOutcome"}
+      }
+    },
+    "counterfactual_influence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["masked_memory_id", "status"],
+        "properties": {
+          "masked_memory_id": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      }
+    },
+    "raw_ledger_refs": {
+      "type": "object",
+      "properties": {
+        "campaign_id": {"type": "string"},
+        "dataset": {"type": "string"},
+        "foundation": {"type": "string"},
+        "pool_key": {"type": ["string", "null"]},
+        "canonical_event_report": {"type": ["object", "null"]},
+        "canonical_store_dir": {"type": ["string", "null"]},
+        "config_fingerprint": {"type": ["string", "null"]},
+        "note": {"type": "string"}
+      }
+    },
+    "provenance_graph_ref": {
+      "type": ["object", "null"],
+      "properties": {
+        "campaign_id": {"type": "string"},
+        "dataset": {"type": "string"},
+        "pool_key": {"type": ["string", "null"]},
+        "note": {"type": "string"}
+      }
+    },
+    "observability_coverage": {
+      "type": "object",
+      "required": [
+        "rejected_events_possible", "relationship_detected_possible",
+        "used_events_possible", "counterfactual_measured"
+      ],
+      "properties": {
+        "rejected_events_possible": {"type": "boolean"},
+        "relationship_detected_possible": {"type": "boolean"},
+        "used_events_possible": {"type": "boolean"},
+        "counterfactual_measured": {"type": "boolean"},
+        "note": {"type": "string"}
+      }
+    }
+  },
+  "definitions": {
+    "conditionOutcome": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"type": "string"},
+        "answer": {"type": ["string", "null"]},
+        "evaluation_result": {"type": "object"},
+        "failure_stage": {"type": "string"},
+        "fingerprints": {"type": "object"},
+        "error": {"type": ["string", "null"]},
+        "evidence_items_used": {"type": ["integer", "null"]},
+        "missing_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "retrieved_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "selected_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "exposed_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "pool_key": {"type": ["string", "null"]},
+        "ingested_count": {"type": ["integer", "null"]}
+      }
+    }
+  }
+}

@@ -1,0 +1,249 @@
+[
+  {
+    "id": "eq1",
+    "text_a": "Maria works as a nurse at the city hospital.",
+    "text_b": "Maria is a nurse who works at the city hospital.",
+    "expected": "equivalent_to",
+    "note": "near-exact paraphrase",
+    "label_ab": "entailment",
+    "scores_ab": {
+      "contradiction": -5.04596471786499,
+      "entailment": 4.871272087097168,
+      "neutral": -1.3399465084075928
+    },
+    "label_ba": "entailment",
+    "scores_ba": {
+      "contradiction": -5.080716609954834,
+      "entailment": 4.898460865020752,
+      "neutral": -1.340591549873352
+    }
+  },
+  {
+    "id": "eq2",
+    "text_a": "The meeting starts at 3pm on Tuesday.",
+    "text_b": "On Tuesday at 3pm, the meeting begins.",
+    "expected": "equivalent_to",
+    "note": "reordered paraphrase",
+    "label_ab": "entailment",
+    "scores_ab": {
+      "contradiction": -5.108885288238525,
+      "entailment": 5.014609336853027,
+      "neutral": -1.457157850265503
+    },
+    "label_ba": "entailment",
+    "scores_ba": {
+      "contradiction": -5.054443836212158,
+      "entailment": 4.959840297698975,
+      "neutral": -1.4518041610717773
+    }
+  },
+  {
+    "id": "eq3",
+    "text_a": "Tom adopted a dog named Biscuit last spring.",
+    "text_b": "Last spring, Tom got a dog and named it Biscuit.",
+    "expected": "equivalent_to",
+    "note": "synonym substitution",
+    "label_ab": "entailment",
+    "scores_ab": {
+      "contradiction": -5.473018169403076,
+      "entailment": 5.059494972229004,
+      "neutral": -1.1362998485565186
+    },
+    "label_ba": "entailment",
+    "scores_ba": {
+      "contradiction": -5.4277472496032715,
+      "entailment": 4.657899856567383,
+      "neutral": -0.6837804913520813
+    }
+  },
+  {
+    "id": "cf1",
+    "text_a": "Sarah's favorite color is blue.",
+    "text_b": "Sarah's favorite color is red.",
+    "expected": "conflicts_with",
+    "note": "direct attribute contradiction",
+    "label_ab": "contradiction",
+    "scores_ab": {
+      "contradiction": 6.554641246795654,
+      "entailment": -3.813410758972168,
+      "neutral": -2.244178295135498
+    },
+    "label_ba": "contradiction",
+    "scores_ba": {
+      "contradiction": 6.3305583000183105,
+      "entailment": -3.672887086868286,
+      "neutral": -2.1975011825561523
+    }
+  },
+  {
+    "id": "cf2",
+    "text_a": "The store closes at 9pm every day.",
+    "text_b": "The store closes at 6pm every day.",
+    "expected": "conflicts_with",
+    "note": "direct fact contradiction",
+    "label_ab": "contradiction",
+    "scores_ab": {
+      "contradiction": 6.600845813751221,
+      "entailment": -3.6370911598205566,
+      "neutral": -2.669379472732544
+    },
+    "label_ba": "contradiction",
+    "scores_ba": {
+      "contradiction": 6.53108549118042,
+      "entailment": -3.663440227508545,
+      "neutral": -2.5501437187194824
+    }
+  },
+  {
+    "id": "cf3",
+    "text_a": "James does not have any siblings.",
+    "text_b": "James has two younger sisters.",
+    "expected": "conflicts_with",
+    "note": "existence contradiction",
+    "label_ab": "contradiction",
+    "scores_ab": {
+      "contradiction": 5.716442584991455,
+      "entailment": -4.609714984893799,
+      "neutral": 0.04099133610725403
+    },
+    "label_ba": "contradiction",
+    "scores_ba": {
+      "contradiction": 7.743704319000244,
+      "entailment": -4.300656318664551,
+      "neutral": -3.0155527591705322
+    }
+  },
+  {
+    "id": "tu1",
+    "text_a": "In 2020, Alice lived in New York.",
+    "text_b": "In 2023, Alice moved to Los Angeles and now lives there.",
+    "expected": "superseded_not_conflicting",
+    "note": "explicit temporal marker in both",
+    "label_ab": "contradiction",
+    "scores_ab": {
+      "contradiction": 6.895621299743652,
+      "entailment": -4.920735836029053,
+      "neutral": -0.88112872838974
+    },
+    "label_ba": "contradiction",
+    "scores_ba": {
+      "contradiction": 7.7161102294921875,
+      "entailment": -4.474433898925781,
+      "neutral": -2.7063753604888916
+    }
+  },
+  {
+    "id": "tu2",
+    "text_a": "Ben was single at the start of the year.",
+    "text_b": "Ben got married in December.",
+    "expected": "superseded_not_conflicting",
+    "note": "life-event progression, not contradiction",
+    "label_ab": "neutral",
+    "scores_ab": {
+      "contradiction": 2.635702133178711,
+      "entailment": -4.398403167724609,
+      "neutral": 2.864030361175537
+    },
+    "label_ba": "contradiction",
+    "scores_ba": {
+      "contradiction": 5.518305778503418,
+      "entailment": -2.868015766143799,
+      "neutral": -2.3737223148345947
+    }
+  },
+  {
+    "id": "el1",
+    "text_a": "Priya visited Japan.",
+    "text_b": "Priya visited Japan and spent two weeks in Kyoto studying pottery.",
+    "expected": "derived_not_equivalent",
+    "note": "B elaborates A; A does not entail B's detail",
+    "label_ab": "neutral",
+    "scores_ab": {
+      "contradiction": -3.0376319885253906,
+      "entailment": -3.0602545738220215,
+      "neutral": 6.352878570556641
+    },
+    "label_ba": "entailment",
+    "scores_ba": {
+      "contradiction": -4.96060037612915,
+      "entailment": 4.84825325012207,
+      "neutral": -1.4458305835723877
+    }
+  },
+  {
+    "id": "el2",
+    "text_a": "The team won the championship.",
+    "text_b": "The team won the championship after a dramatic overtime victory in the final game.",
+    "expected": "derived_not_equivalent",
+    "note": "B adds detail A never asserted",
+    "label_ab": "neutral",
+    "scores_ab": {
+      "contradiction": -3.9881203174591064,
+      "entailment": -2.3413922786712646,
+      "neutral": 6.341678619384766
+    },
+    "label_ba": "entailment",
+    "scores_ba": {
+      "contradiction": -4.609285354614258,
+      "entailment": 4.700303077697754,
+      "neutral": -1.5716787576675415
+    }
+  },
+  {
+    "id": "nt1",
+    "text_a": "Diego enjoys hiking on weekends.",
+    "text_b": "Diego enjoys cooking Italian food.",
+    "expected": "neutral",
+    "note": "different, compatible facts about same person",
+    "label_ab": "contradiction",
+    "scores_ab": {
+      "contradiction": 7.0931267738342285,
+      "entailment": -4.408348083496094,
+      "neutral": -2.0162291526794434
+    },
+    "label_ba": "contradiction",
+    "scores_ba": {
+      "contradiction": 5.267521858215332,
+      "entailment": -3.851990222930908,
+      "neutral": -0.5490806698799133
+    }
+  },
+  {
+    "id": "nt2",
+    "text_a": "The cafe serves espresso.",
+    "text_b": "The cafe serves croissants.",
+    "expected": "neutral",
+    "note": "unrelated but compatible facts",
+    "label_ab": "contradiction",
+    "scores_ab": {
+      "contradiction": 4.158798694610596,
+      "entailment": -3.5884552001953125,
+      "neutral": 0.29886576533317566
+    },
+    "label_ba": "contradiction",
+    "scores_ba": {
+      "contradiction": 2.874607801437378,
+      "entailment": -3.0990779399871826,
+      "neutral": 0.8208673596382141
+    }
+  },
+  {
+    "id": "un1",
+    "text_a": "It rained heavily in Seattle yesterday.",
+    "text_b": "The library extended its opening hours.",
+    "expected": "neutral",
+    "note": "no shared subject at all",
+    "label_ab": "contradiction",
+    "scores_ab": {
+      "contradiction": 5.847804546356201,
+      "entailment": -4.635071754455566,
+      "neutral": -0.168148472905159
+    },
+    "label_ba": "contradiction",
+    "scores_ba": {
+      "contradiction": 5.33057165145874,
+      "entailment": -3.420379400253296,
+      "neutral": -1.4564160108566284
+    }
+  }
+]
