@@ -283,10 +283,16 @@ campaign path.
 
 `phase3_reference/` — **LEGACY / ORIGINAL PHASE 3 REFERENCE, NOT THE CANONICAL
 STRENGTHENED PHASE 3 IMPLEMENTATION.** Contains the original, disavowed
-`clean_agent_v1`/`clean_agent_memory_v1` (§E). Untracked by git (0 files). Verified
-zero real import dependency from the active `phase3/` tree. Not modified, not
-deleted, not made to conform to the strengthened architecture, per explicit
-instruction throughout this whole session and reconfirmed here.
+`clean_agent_v1`/`clean_agent_memory_v1` (§E). Untracked by git (0 files;
+`.gitignore` line 78). A dedicated, exhaustive segregation audit
+(`PHASE3_REFERENCE_SEGREGATION_AUDIT.md`) confirmed: zero live Python imports, zero
+config references, zero symlinks — the only fourteen string-level mentions
+anywhere in `phase3/` are twelve automated anti-dependency guard tests (both
+re-run and confirmed passing) and two explanatory prose citations of deliberately
+NOT reusing historical logic. This separation was already correctly designed
+before this session began, via `PHASE3_RESTART_BOUNDARY.md`; this closure
+reconfirms it holds, not modified, not deleted, not made to conform to the
+strengthened architecture.
 
 ## P. Repository cleanup
 
