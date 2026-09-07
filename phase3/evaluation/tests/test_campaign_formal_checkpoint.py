@@ -64,7 +64,7 @@ def _make_task(task_id: str, pool: str) -> PilotTask:
 
 
 @pytest.fixture
-def patch_amem(monkeypatch):
+def patch_amem(monkeypatch, tmp_path):
     import phase3.evaluation.agent_runtime.campaign_formal_runner as mod
 
     monkeypatch.setattr(
@@ -77,6 +77,13 @@ def patch_amem(monkeypatch):
             {"memory_id": f"{key}-mem1", "source_role": "user", "content": "hello"}
         ],
     )
+    # Phase 3.3-H.4-WIRE-C: run_condition_c_amem() now also writes canonical-ledger state
+    # under OUTPUT_DIR (previously unused by this function at all) -- without this,
+    # every run of this pre-existing test suite would silently write real files into the
+    # repo's actual phase3/experiments/results/canonical_store/ on disk. Redirected to
+    # tmp_path, mirroring test_campaign_formal_runner_h4_wire.py's own fixture for
+    # Condition B.
+    monkeypatch.setattr(mod, "OUTPUT_DIR", tmp_path)
     return mod
 
 

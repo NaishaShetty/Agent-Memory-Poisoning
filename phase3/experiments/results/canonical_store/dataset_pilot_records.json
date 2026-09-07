@@ -1,0 +1,926 @@
+[
+  {
+    "task_id": "6b06956fec2b405e20a47b4e",
+    "dataset": "locomo",
+    "foundation": "MEM0",
+    "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+    "environment_record_id": null,
+    "conditions": {
+      "A_no_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Jolene had a mini-retreat to reflect on her career in 2022.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "EVIDENCE_UNAVAILABLE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "3aa42507e0c3549cb0f3efd8aa48fb71900b108ff1faca02e456460eaa4dae15"
+        }
+      },
+      "B_gold_evidence": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Last Wednesday [evidence-slot-1].",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "86ad998ec12189e4997fe8a9e156eaa4e5d21970cb19d959006f5c1c6b01675a"
+        },
+        "evidence_items_used": 1,
+        "missing_evidence_ids": []
+      },
+      "C_retrieved_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Last Wednesday. [3a8d8935-1c6b-40d3-a6ae-ed64d286edae]",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "f6db8f7abd0b91fb992edc8d1fffbc4678b53dce77a986a6e16c981a8b7bc29c",
+          "base_trace_fingerprint": "6c488c940eb73b2077e8ec67f196a5b1d23ab4e3347a19d2cb414fb2bf7f7e87"
+        },
+        "retrieved_memory_ids": [
+          "dff1a7da-e249-4dde-8d18-0d3469e6485a",
+          "3a8d8935-1c6b-40d3-a6ae-ed64d286edae",
+          "cdbe0be0-80ae-4c5d-b313-47ee409af069",
+          "0cd51bf6-e5aa-4228-98ea-fdc5e734b1ac",
+          "2c63ff8f-e27b-4789-a8de-bde92037e7f2"
+        ],
+        "selected_memory_ids": [
+          "dff1a7da-e249-4dde-8d18-0d3469e6485a",
+          "3a8d8935-1c6b-40d3-a6ae-ed64d286edae",
+          "cdbe0be0-80ae-4c5d-b313-47ee409af069",
+          "0cd51bf6-e5aa-4228-98ea-fdc5e734b1ac",
+          "2c63ff8f-e27b-4789-a8de-bde92037e7f2"
+        ],
+        "exposed_memory_ids": [
+          "dff1a7da-e249-4dde-8d18-0d3469e6485a",
+          "3a8d8935-1c6b-40d3-a6ae-ed64d286edae",
+          "cdbe0be0-80ae-4c5d-b313-47ee409af069",
+          "0cd51bf6-e5aa-4228-98ea-fdc5e734b1ac",
+          "2c63ff8f-e27b-4789-a8de-bde92037e7f2"
+        ],
+        "pool_key": "conv-48/session_5",
+        "ingested_count": 17
+      }
+    },
+    "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+    "raw_ledger_refs": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "foundation": "MEM0",
+      "pool_key": "conv-48/session_5",
+      "canonical_event_report": {
+        "task_id": "6b06956fec2b405e20a47b4e",
+        "retrieved_event_ids": [
+          "retrieved-6b06956fec2b405e20a47b4e-2a989cd4d28643959e3c9c67",
+          "retrieved-6b06956fec2b405e20a47b4e-f8d7bf4599f9d66e636b0f9a",
+          "retrieved-6b06956fec2b405e20a47b4e-6577d6874bc76e9af2d24bd9",
+          "retrieved-6b06956fec2b405e20a47b4e-52adbaf122383072beb7556d",
+          "retrieved-6b06956fec2b405e20a47b4e-f70ed173ef2e2ae2a35c0872"
+        ],
+        "selected_event_ids": [
+          "selected-6b06956fec2b405e20a47b4e-2a989cd4d28643959e3c9c67",
+          "selected-6b06956fec2b405e20a47b4e-f8d7bf4599f9d66e636b0f9a",
+          "selected-6b06956fec2b405e20a47b4e-6577d6874bc76e9af2d24bd9",
+          "selected-6b06956fec2b405e20a47b4e-52adbaf122383072beb7556d",
+          "selected-6b06956fec2b405e20a47b4e-f70ed173ef2e2ae2a35c0872"
+        ],
+        "rejected_event_ids": [],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      },
+      "note": "Reopen via canonical_wiring.canonical_store_dir_for_pool(experiments_dir, campaign_id, dataset, collection_name) -- collection_name is deterministic from (dataset, pool_key) per that function's own sha256 scheme, not stored here redundantly."
+    },
+    "provenance_graph_ref": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "pool_key": "conv-48/session_5",
+      "note": "Rebuild via provenance_graph.build_provenance_graph() against this pool's real ledgers -- never persisted here as a second copy."
+    },
+    "observability_coverage": {
+      "rejected_events_possible": false,
+      "relationship_detected_possible": false,
+      "used_events_possible": false,
+      "counterfactual_measured": false,
+      "note": "rejected/relationship_detected/used remain structurally absent project-wide -- selection and creation policies are deliberately deferred (see PHASE3_FINAL_STATUS_DONE_NOT_DONE.md); counterfactual_measured is filled in by attach_counterfactual_evidence() where prior real H.4-A measurements exist for this task, never fabricated here."
+    }
+  },
+  {
+    "task_id": "6b06956fec2b405e20a47b4e",
+    "dataset": "locomo",
+    "foundation": "AMEM",
+    "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+    "environment_record_id": null,
+    "conditions": {
+      "A_no_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Jolene had a mini-retreat to reflect on her career in 2022.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "EVIDENCE_UNAVAILABLE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "3aa42507e0c3549cb0f3efd8aa48fb71900b108ff1faca02e456460eaa4dae15"
+        }
+      },
+      "B_gold_evidence": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Last Wednesday [evidence-slot-1].",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "86ad998ec12189e4997fe8a9e156eaa4e5d21970cb19d959006f5c1c6b01675a"
+        },
+        "evidence_items_used": 1,
+        "missing_evidence_ids": []
+      },
+      "C_retrieved_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Last Wednesday. [f8d7bf4599f9d66e636b0f9a]",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "c4406be650182193173c483e162ced2af2de1842f71a2ca07f896bed9b8691d3"
+        },
+        "retrieved_memory_ids": [
+          "f8d7bf4599f9d66e636b0f9a",
+          "f70ed173ef2e2ae2a35c0872",
+          "2a989cd4d28643959e3c9c67",
+          "52adbaf122383072beb7556d",
+          "6577d6874bc76e9af2d24bd9"
+        ],
+        "selected_memory_ids": [
+          "f8d7bf4599f9d66e636b0f9a",
+          "f70ed173ef2e2ae2a35c0872",
+          "2a989cd4d28643959e3c9c67",
+          "52adbaf122383072beb7556d",
+          "6577d6874bc76e9af2d24bd9"
+        ],
+        "exposed_memory_ids": [
+          "f8d7bf4599f9d66e636b0f9a",
+          "f70ed173ef2e2ae2a35c0872",
+          "2a989cd4d28643959e3c9c67",
+          "52adbaf122383072beb7556d",
+          "6577d6874bc76e9af2d24bd9"
+        ],
+        "pool_key": "conv-48/session_5",
+        "ingested_count": 17
+      }
+    },
+    "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+    "raw_ledger_refs": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "foundation": "AMEM",
+      "pool_key": "conv-48/session_5",
+      "canonical_event_report": {
+        "task_id": "6b06956fec2b405e20a47b4e",
+        "retrieved_event_ids": [
+          "retrieved-6b06956fec2b405e20a47b4e-f8d7bf4599f9d66e636b0f9a",
+          "retrieved-6b06956fec2b405e20a47b4e-f70ed173ef2e2ae2a35c0872",
+          "retrieved-6b06956fec2b405e20a47b4e-2a989cd4d28643959e3c9c67",
+          "retrieved-6b06956fec2b405e20a47b4e-52adbaf122383072beb7556d",
+          "retrieved-6b06956fec2b405e20a47b4e-6577d6874bc76e9af2d24bd9"
+        ],
+        "selected_event_ids": [
+          "selected-6b06956fec2b405e20a47b4e-f8d7bf4599f9d66e636b0f9a",
+          "selected-6b06956fec2b405e20a47b4e-f70ed173ef2e2ae2a35c0872",
+          "selected-6b06956fec2b405e20a47b4e-2a989cd4d28643959e3c9c67",
+          "selected-6b06956fec2b405e20a47b4e-52adbaf122383072beb7556d",
+          "selected-6b06956fec2b405e20a47b4e-6577d6874bc76e9af2d24bd9"
+        ],
+        "rejected_event_ids": [],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      },
+      "note": "Reopen via canonical_wiring.canonical_store_dir_for_pool(experiments_dir, campaign_id, dataset, collection_name) -- collection_name is deterministic from (dataset, pool_key) per that function's own sha256 scheme, not stored here redundantly."
+    },
+    "provenance_graph_ref": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "pool_key": "conv-48/session_5",
+      "note": "Rebuild via provenance_graph.build_provenance_graph() against this pool's real ledgers -- never persisted here as a second copy."
+    },
+    "observability_coverage": {
+      "rejected_events_possible": false,
+      "relationship_detected_possible": false,
+      "used_events_possible": false,
+      "counterfactual_measured": false,
+      "note": "rejected/relationship_detected/used remain structurally absent project-wide -- selection and creation policies are deliberately deferred (see PHASE3_FINAL_STATUS_DONE_NOT_DONE.md); counterfactual_measured is filled in by attach_counterfactual_evidence() where prior real H.4-A measurements exist for this task, never fabricated here."
+    }
+  },
+  {
+    "task_id": "9f278780cdaaa6e7b8b3d232",
+    "dataset": "locomo",
+    "foundation": "MEM0",
+    "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+    "environment_record_id": null,
+    "conditions": {
+      "A_no_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "The question does not provide any relevant information or context about Melanie painting a sunrise. Therefore, I cannot determine the answer based on the given information.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "EVIDENCE_UNAVAILABLE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "de7329b06427bb8e4f4a1025417761e407c113c8e087ec8443abbd5049a5b4da"
+        }
+      },
+      "B_gold_evidence": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "The provided information does not mention when Melanie painted a sunrise. Therefore, the answer cannot be determined from the given data.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "5507ddc83054c7228f822f1b34d20d240d8e599662f61346080c490a4727c07e"
+        },
+        "evidence_items_used": 1,
+        "missing_evidence_ids": []
+      },
+      "C_retrieved_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Melanie painted the lake sunrise last year [fbe1b469-020e-4dec-aa1e-7ed1ec770a57].",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "8893a0b4135b9315f3afc675fd4c2d208f5c2ee69c67aebe965148955b6ce9ea",
+          "base_trace_fingerprint": "2c2e4b1341cb161783296b162b015d02cf26c5eba344961c448a3314516ebf6a"
+        },
+        "retrieved_memory_ids": [
+          "fbe1b469-020e-4dec-aa1e-7ed1ec770a57",
+          "eaf2d46c-69f8-4d1a-825d-06d29cc9635e",
+          "85329b39-726b-4d68-aa66-716e9e20779e",
+          "e8669bc7-a3f0-4deb-a66f-35e0255af699",
+          "1764dc6b-4db3-4d5e-a4aa-88a850d41032"
+        ],
+        "selected_memory_ids": [
+          "fbe1b469-020e-4dec-aa1e-7ed1ec770a57",
+          "eaf2d46c-69f8-4d1a-825d-06d29cc9635e",
+          "85329b39-726b-4d68-aa66-716e9e20779e",
+          "e8669bc7-a3f0-4deb-a66f-35e0255af699",
+          "1764dc6b-4db3-4d5e-a4aa-88a850d41032"
+        ],
+        "exposed_memory_ids": [
+          "fbe1b469-020e-4dec-aa1e-7ed1ec770a57",
+          "eaf2d46c-69f8-4d1a-825d-06d29cc9635e",
+          "85329b39-726b-4d68-aa66-716e9e20779e",
+          "e8669bc7-a3f0-4deb-a66f-35e0255af699",
+          "1764dc6b-4db3-4d5e-a4aa-88a850d41032"
+        ],
+        "pool_key": "conv-26/session_1",
+        "ingested_count": 18
+      }
+    },
+    "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+    "raw_ledger_refs": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "foundation": "MEM0",
+      "pool_key": "conv-26/session_1",
+      "canonical_event_report": {
+        "task_id": "9f278780cdaaa6e7b8b3d232",
+        "retrieved_event_ids": [
+          "retrieved-9f278780cdaaa6e7b8b3d232-31b0e6cf520ce707315f8b82",
+          "retrieved-9f278780cdaaa6e7b8b3d232-bf86996d9529669aef9a175d",
+          "retrieved-9f278780cdaaa6e7b8b3d232-1ca230f9aca53678d11ebd41",
+          "retrieved-9f278780cdaaa6e7b8b3d232-2cfbf2e06b5f5d2cc73b7e52",
+          "retrieved-9f278780cdaaa6e7b8b3d232-40efb962b29908cc053045d4"
+        ],
+        "selected_event_ids": [
+          "selected-9f278780cdaaa6e7b8b3d232-31b0e6cf520ce707315f8b82",
+          "selected-9f278780cdaaa6e7b8b3d232-bf86996d9529669aef9a175d",
+          "selected-9f278780cdaaa6e7b8b3d232-1ca230f9aca53678d11ebd41",
+          "selected-9f278780cdaaa6e7b8b3d232-2cfbf2e06b5f5d2cc73b7e52",
+          "selected-9f278780cdaaa6e7b8b3d232-40efb962b29908cc053045d4"
+        ],
+        "rejected_event_ids": [],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      },
+      "note": "Reopen via canonical_wiring.canonical_store_dir_for_pool(experiments_dir, campaign_id, dataset, collection_name) -- collection_name is deterministic from (dataset, pool_key) per that function's own sha256 scheme, not stored here redundantly."
+    },
+    "provenance_graph_ref": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "pool_key": "conv-26/session_1",
+      "note": "Rebuild via provenance_graph.build_provenance_graph() against this pool's real ledgers -- never persisted here as a second copy."
+    },
+    "observability_coverage": {
+      "rejected_events_possible": false,
+      "relationship_detected_possible": false,
+      "used_events_possible": false,
+      "counterfactual_measured": false,
+      "note": "rejected/relationship_detected/used remain structurally absent project-wide -- selection and creation policies are deliberately deferred (see PHASE3_FINAL_STATUS_DONE_NOT_DONE.md); counterfactual_measured is filled in by attach_counterfactual_evidence() where prior real H.4-A measurements exist for this task, never fabricated here."
+    }
+  },
+  {
+    "task_id": "9f278780cdaaa6e7b8b3d232",
+    "dataset": "locomo",
+    "foundation": "AMEM",
+    "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+    "environment_record_id": null,
+    "conditions": {
+      "A_no_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "The question does not provide any relevant information or context about Melanie painting a sunrise. Therefore, I cannot determine the answer based on the given information.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "EVIDENCE_UNAVAILABLE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "de7329b06427bb8e4f4a1025417761e407c113c8e087ec8443abbd5049a5b4da"
+        }
+      },
+      "B_gold_evidence": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "The provided information does not mention when Melanie painted a sunrise. Therefore, the answer cannot be determined from the given data.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "5507ddc83054c7228f822f1b34d20d240d8e599662f61346080c490a4727c07e"
+        },
+        "evidence_items_used": 1,
+        "missing_evidence_ids": []
+      },
+      "C_retrieved_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Melanie painted the lake sunrise last year. [31b0e6cf520ce707315f8b82]",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "9d56ee18782ac138a3bcdb2c219291f97c3386230b8e5774c905c43a8856935c"
+        },
+        "retrieved_memory_ids": [
+          "31b0e6cf520ce707315f8b82",
+          "bf86996d9529669aef9a175d",
+          "2cfbf2e06b5f5d2cc73b7e52",
+          "1ca230f9aca53678d11ebd41",
+          "6de6d7cb3bb7501dbef49f88"
+        ],
+        "selected_memory_ids": [
+          "31b0e6cf520ce707315f8b82",
+          "bf86996d9529669aef9a175d",
+          "2cfbf2e06b5f5d2cc73b7e52",
+          "1ca230f9aca53678d11ebd41",
+          "6de6d7cb3bb7501dbef49f88"
+        ],
+        "exposed_memory_ids": [
+          "31b0e6cf520ce707315f8b82",
+          "bf86996d9529669aef9a175d",
+          "2cfbf2e06b5f5d2cc73b7e52",
+          "1ca230f9aca53678d11ebd41",
+          "6de6d7cb3bb7501dbef49f88"
+        ],
+        "pool_key": "conv-26/session_1",
+        "ingested_count": 18
+      }
+    },
+    "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+    "raw_ledger_refs": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "foundation": "AMEM",
+      "pool_key": "conv-26/session_1",
+      "canonical_event_report": {
+        "task_id": "9f278780cdaaa6e7b8b3d232",
+        "retrieved_event_ids": [
+          "retrieved-9f278780cdaaa6e7b8b3d232-31b0e6cf520ce707315f8b82",
+          "retrieved-9f278780cdaaa6e7b8b3d232-bf86996d9529669aef9a175d",
+          "retrieved-9f278780cdaaa6e7b8b3d232-2cfbf2e06b5f5d2cc73b7e52",
+          "retrieved-9f278780cdaaa6e7b8b3d232-1ca230f9aca53678d11ebd41",
+          "retrieved-9f278780cdaaa6e7b8b3d232-6de6d7cb3bb7501dbef49f88"
+        ],
+        "selected_event_ids": [
+          "selected-9f278780cdaaa6e7b8b3d232-31b0e6cf520ce707315f8b82",
+          "selected-9f278780cdaaa6e7b8b3d232-bf86996d9529669aef9a175d",
+          "selected-9f278780cdaaa6e7b8b3d232-2cfbf2e06b5f5d2cc73b7e52",
+          "selected-9f278780cdaaa6e7b8b3d232-1ca230f9aca53678d11ebd41",
+          "selected-9f278780cdaaa6e7b8b3d232-6de6d7cb3bb7501dbef49f88"
+        ],
+        "rejected_event_ids": [],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      },
+      "note": "Reopen via canonical_wiring.canonical_store_dir_for_pool(experiments_dir, campaign_id, dataset, collection_name) -- collection_name is deterministic from (dataset, pool_key) per that function's own sha256 scheme, not stored here redundantly."
+    },
+    "provenance_graph_ref": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "pool_key": "conv-26/session_1",
+      "note": "Rebuild via provenance_graph.build_provenance_graph() against this pool's real ledgers -- never persisted here as a second copy."
+    },
+    "observability_coverage": {
+      "rejected_events_possible": false,
+      "relationship_detected_possible": false,
+      "used_events_possible": false,
+      "counterfactual_measured": false,
+      "note": "rejected/relationship_detected/used remain structurally absent project-wide -- selection and creation policies are deliberately deferred (see PHASE3_FINAL_STATUS_DONE_NOT_DONE.md); counterfactual_measured is filled in by attach_counterfactual_evidence() where prior real H.4-A measurements exist for this task, never fabricated here."
+    }
+  },
+  {
+    "task_id": "e24aa3297124044888f91d42",
+    "dataset": "locomo",
+    "foundation": "MEM0",
+    "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+    "environment_record_id": null,
+    "conditions": {
+      "A_no_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "I don't have information about Sam's activities on December 4, 2023.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "EVIDENCE_UNAVAILABLE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "90a855b823a05a8cf89fba2be5207caa0dff12e933da8cc2efd7a03a4be5777d"
+        }
+      },
+      "B_gold_evidence": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "The provided information does not mention Sam's activities on December 4, 2023. Therefore, I cannot determine what Sam was doing on that specific date.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "df1e3a483809c20176762bbac47f5579bcc0bc8b4fb376efd2e13435bd7fe1c5"
+        },
+        "evidence_items_used": 1,
+        "missing_evidence_ids": []
+      },
+      "C_retrieved_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "None of the provided memories mention Sam's activities on December 4, 2023. Therefore, I cannot determine what Sam was doing on that specific date.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "f284f396903ebe681eb31d186341ecfae1fffa932fc07b8e3ea49b94e473c151",
+          "base_trace_fingerprint": "216c19c705acd892011f9f008a9f70676f036c18d9478bc85d480fce1365361f"
+        },
+        "retrieved_memory_ids": [
+          "4c5caa51-e4b0-4021-b036-e5e52ea00764",
+          "7d06c41b-b14a-4c00-978b-e38207cf5183",
+          "0599ace0-5b57-4205-95fd-bd6d031feb7b",
+          "a2235bfa-a50a-4bbe-8a3e-80701f0b4148",
+          "b903fd92-4670-4bb0-a37f-57c9dd6b596c"
+        ],
+        "selected_memory_ids": [
+          "4c5caa51-e4b0-4021-b036-e5e52ea00764",
+          "7d06c41b-b14a-4c00-978b-e38207cf5183",
+          "0599ace0-5b57-4205-95fd-bd6d031feb7b",
+          "a2235bfa-a50a-4bbe-8a3e-80701f0b4148",
+          "b903fd92-4670-4bb0-a37f-57c9dd6b596c"
+        ],
+        "exposed_memory_ids": [
+          "4c5caa51-e4b0-4021-b036-e5e52ea00764",
+          "7d06c41b-b14a-4c00-978b-e38207cf5183",
+          "0599ace0-5b57-4205-95fd-bd6d031feb7b",
+          "a2235bfa-a50a-4bbe-8a3e-80701f0b4148",
+          "b903fd92-4670-4bb0-a37f-57c9dd6b596c"
+        ],
+        "pool_key": "conv-49/session_18",
+        "ingested_count": 15
+      }
+    },
+    "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+    "raw_ledger_refs": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "foundation": "MEM0",
+      "pool_key": "conv-49/session_18",
+      "canonical_event_report": {
+        "task_id": "e24aa3297124044888f91d42",
+        "retrieved_event_ids": [
+          "retrieved-e24aa3297124044888f91d42-711dfe7f267b236b6160198c",
+          "retrieved-e24aa3297124044888f91d42-a468e4039ec48e1acd839d20",
+          "retrieved-e24aa3297124044888f91d42-925158545987706bc3faafce",
+          "retrieved-e24aa3297124044888f91d42-e6982b00ccaa9b5324b98e74",
+          "retrieved-e24aa3297124044888f91d42-98c5f91eb2f4d83a4c069cef"
+        ],
+        "selected_event_ids": [
+          "selected-e24aa3297124044888f91d42-711dfe7f267b236b6160198c",
+          "selected-e24aa3297124044888f91d42-a468e4039ec48e1acd839d20",
+          "selected-e24aa3297124044888f91d42-925158545987706bc3faafce",
+          "selected-e24aa3297124044888f91d42-e6982b00ccaa9b5324b98e74",
+          "selected-e24aa3297124044888f91d42-98c5f91eb2f4d83a4c069cef"
+        ],
+        "rejected_event_ids": [],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      },
+      "note": "Reopen via canonical_wiring.canonical_store_dir_for_pool(experiments_dir, campaign_id, dataset, collection_name) -- collection_name is deterministic from (dataset, pool_key) per that function's own sha256 scheme, not stored here redundantly."
+    },
+    "provenance_graph_ref": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "pool_key": "conv-49/session_18",
+      "note": "Rebuild via provenance_graph.build_provenance_graph() against this pool's real ledgers -- never persisted here as a second copy."
+    },
+    "observability_coverage": {
+      "rejected_events_possible": false,
+      "relationship_detected_possible": false,
+      "used_events_possible": false,
+      "counterfactual_measured": false,
+      "note": "rejected/relationship_detected/used remain structurally absent project-wide -- selection and creation policies are deliberately deferred (see PHASE3_FINAL_STATUS_DONE_NOT_DONE.md); counterfactual_measured is filled in by attach_counterfactual_evidence() where prior real H.4-A measurements exist for this task, never fabricated here."
+    }
+  },
+  {
+    "task_id": "e24aa3297124044888f91d42",
+    "dataset": "locomo",
+    "foundation": "AMEM",
+    "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+    "environment_record_id": null,
+    "conditions": {
+      "A_no_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "I don't have information about Sam's activities on December 4, 2023.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "EVIDENCE_UNAVAILABLE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "90a855b823a05a8cf89fba2be5207caa0dff12e933da8cc2efd7a03a4be5777d"
+        }
+      },
+      "B_gold_evidence": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "The provided information does not mention Sam's activities on December 4, 2023. Therefore, I cannot determine what Sam was doing on that specific date.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "df1e3a483809c20176762bbac47f5579bcc0bc8b4fb376efd2e13435bd7fe1c5"
+        },
+        "evidence_items_used": 1,
+        "missing_evidence_ids": []
+      },
+      "C_retrieved_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "None of the provided memories mention Sam's activities on December 4, 2023. Therefore, I cannot determine what Sam was doing on that date based on the given information.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "bf510926f2e9ac88a3dfff72bd6797c0fb1eed3311ff0e36712867edc4f5d74d"
+        },
+        "retrieved_memory_ids": [
+          "859a1252fbae284a557e95b5",
+          "711dfe7f267b236b6160198c",
+          "45fb632505989b262ed0133a",
+          "925158545987706bc3faafce",
+          "3477ea92f9bb70cdc165a3c6"
+        ],
+        "selected_memory_ids": [
+          "859a1252fbae284a557e95b5",
+          "711dfe7f267b236b6160198c",
+          "45fb632505989b262ed0133a",
+          "925158545987706bc3faafce",
+          "3477ea92f9bb70cdc165a3c6"
+        ],
+        "exposed_memory_ids": [
+          "859a1252fbae284a557e95b5",
+          "711dfe7f267b236b6160198c",
+          "45fb632505989b262ed0133a",
+          "925158545987706bc3faafce",
+          "3477ea92f9bb70cdc165a3c6"
+        ],
+        "pool_key": "conv-49/session_18",
+        "ingested_count": 15
+      }
+    },
+    "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+    "raw_ledger_refs": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "foundation": "AMEM",
+      "pool_key": "conv-49/session_18",
+      "canonical_event_report": {
+        "task_id": "e24aa3297124044888f91d42",
+        "retrieved_event_ids": [
+          "retrieved-e24aa3297124044888f91d42-859a1252fbae284a557e95b5",
+          "retrieved-e24aa3297124044888f91d42-711dfe7f267b236b6160198c",
+          "retrieved-e24aa3297124044888f91d42-45fb632505989b262ed0133a",
+          "retrieved-e24aa3297124044888f91d42-925158545987706bc3faafce",
+          "retrieved-e24aa3297124044888f91d42-3477ea92f9bb70cdc165a3c6"
+        ],
+        "selected_event_ids": [
+          "selected-e24aa3297124044888f91d42-859a1252fbae284a557e95b5",
+          "selected-e24aa3297124044888f91d42-711dfe7f267b236b6160198c",
+          "selected-e24aa3297124044888f91d42-45fb632505989b262ed0133a",
+          "selected-e24aa3297124044888f91d42-925158545987706bc3faafce",
+          "selected-e24aa3297124044888f91d42-3477ea92f9bb70cdc165a3c6"
+        ],
+        "rejected_event_ids": [],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      },
+      "note": "Reopen via canonical_wiring.canonical_store_dir_for_pool(experiments_dir, campaign_id, dataset, collection_name) -- collection_name is deterministic from (dataset, pool_key) per that function's own sha256 scheme, not stored here redundantly."
+    },
+    "provenance_graph_ref": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "pool_key": "conv-49/session_18",
+      "note": "Rebuild via provenance_graph.build_provenance_graph() against this pool's real ledgers -- never persisted here as a second copy."
+    },
+    "observability_coverage": {
+      "rejected_events_possible": false,
+      "relationship_detected_possible": false,
+      "used_events_possible": false,
+      "counterfactual_measured": false,
+      "note": "rejected/relationship_detected/used remain structurally absent project-wide -- selection and creation policies are deliberately deferred (see PHASE3_FINAL_STATUS_DONE_NOT_DONE.md); counterfactual_measured is filled in by attach_counterfactual_evidence() where prior real H.4-A measurements exist for this task, never fabricated here."
+    }
+  },
+  {
+    "task_id": "ecf5a096af5598393ce49c80",
+    "dataset": "locomo",
+    "foundation": "MEM0",
+    "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+    "environment_record_id": null,
+    "conditions": {
+      "A_no_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "The information provided does not mention when Caroline went to the LGBTQ support group. Therefore, I cannot provide a specific date or time.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "EVIDENCE_UNAVAILABLE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "1219be673765e47f5d05cbdb08b0ffe29700b319f2e12a11ae6756915549982b"
+        }
+      },
+      "B_gold_evidence": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Yesterday [evidence-slot-1].",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "2b9f7aeac4f6f82120a523a2dbba0f4de77d111a574a851689f459afafd0e1cd"
+        },
+        "evidence_items_used": 1,
+        "missing_evidence_ids": []
+      },
+      "C_retrieved_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Caroline went to the LGBTQ support group yesterday.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "RETRIEVAL_FAILURE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "40fb2bf7e0893d329498a971ed3c2d52caf02c404cc19a7ea27f0f0158f72f3d",
+          "base_trace_fingerprint": "6c52369b057ff7992bfad8486a997562ea7ac58463b5980aefc834274fdd0b2a"
+        },
+        "retrieved_memory_ids": [
+          "e2cda67f-9233-41e5-b1a8-9920484b8d00",
+          "f83ae81c-4c2b-4202-ae67-26ee8a780e50",
+          "3865b13c-6d94-4183-8463-a3336af7a28b",
+          "ac9f3ca9-88ae-4ca6-9a0a-d72cc2385521",
+          "c565f0af-327e-4838-9984-27b5fde4aba1"
+        ],
+        "selected_memory_ids": [
+          "e2cda67f-9233-41e5-b1a8-9920484b8d00",
+          "f83ae81c-4c2b-4202-ae67-26ee8a780e50",
+          "3865b13c-6d94-4183-8463-a3336af7a28b",
+          "ac9f3ca9-88ae-4ca6-9a0a-d72cc2385521",
+          "c565f0af-327e-4838-9984-27b5fde4aba1"
+        ],
+        "exposed_memory_ids": [
+          "e2cda67f-9233-41e5-b1a8-9920484b8d00",
+          "f83ae81c-4c2b-4202-ae67-26ee8a780e50",
+          "3865b13c-6d94-4183-8463-a3336af7a28b",
+          "ac9f3ca9-88ae-4ca6-9a0a-d72cc2385521",
+          "c565f0af-327e-4838-9984-27b5fde4aba1"
+        ],
+        "pool_key": "conv-26/session_1",
+        "ingested_count": 18
+      }
+    },
+    "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+    "raw_ledger_refs": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "foundation": "MEM0",
+      "pool_key": "conv-26/session_1",
+      "canonical_event_report": {
+        "task_id": "ecf5a096af5598393ce49c80",
+        "retrieved_event_ids": [
+          "retrieved-ecf5a096af5598393ce49c80-0a2bbeb23bfc6abe6a886f09",
+          "retrieved-ecf5a096af5598393ce49c80-82172fb18cea047df88299be",
+          "retrieved-ecf5a096af5598393ce49c80-bb046bbd0b4a7d9b7cf15e51",
+          "retrieved-ecf5a096af5598393ce49c80-832292b02aca5c535db6c3bf",
+          "retrieved-ecf5a096af5598393ce49c80-66586fce1d73ce9515f4ee78"
+        ],
+        "selected_event_ids": [
+          "selected-ecf5a096af5598393ce49c80-0a2bbeb23bfc6abe6a886f09",
+          "selected-ecf5a096af5598393ce49c80-82172fb18cea047df88299be",
+          "selected-ecf5a096af5598393ce49c80-bb046bbd0b4a7d9b7cf15e51",
+          "selected-ecf5a096af5598393ce49c80-832292b02aca5c535db6c3bf",
+          "selected-ecf5a096af5598393ce49c80-66586fce1d73ce9515f4ee78"
+        ],
+        "rejected_event_ids": [],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      },
+      "note": "Reopen via canonical_wiring.canonical_store_dir_for_pool(experiments_dir, campaign_id, dataset, collection_name) -- collection_name is deterministic from (dataset, pool_key) per that function's own sha256 scheme, not stored here redundantly."
+    },
+    "provenance_graph_ref": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "pool_key": "conv-26/session_1",
+      "note": "Rebuild via provenance_graph.build_provenance_graph() against this pool's real ledgers -- never persisted here as a second copy."
+    },
+    "observability_coverage": {
+      "rejected_events_possible": false,
+      "relationship_detected_possible": false,
+      "used_events_possible": false,
+      "counterfactual_measured": false,
+      "note": "rejected/relationship_detected/used remain structurally absent project-wide -- selection and creation policies are deliberately deferred (see PHASE3_FINAL_STATUS_DONE_NOT_DONE.md); counterfactual_measured is filled in by attach_counterfactual_evidence() where prior real H.4-A measurements exist for this task, never fabricated here."
+    }
+  },
+  {
+    "task_id": "ecf5a096af5598393ce49c80",
+    "dataset": "locomo",
+    "foundation": "AMEM",
+    "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+    "environment_record_id": null,
+    "conditions": {
+      "A_no_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "The information provided does not mention when Caroline went to the LGBTQ support group. Therefore, I cannot provide a specific date or time.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "EVIDENCE_UNAVAILABLE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "1219be673765e47f5d05cbdb08b0ffe29700b319f2e12a11ae6756915549982b"
+        }
+      },
+      "B_gold_evidence": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Yesterday [evidence-slot-1].",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "2b9f7aeac4f6f82120a523a2dbba0f4de77d111a574a851689f459afafd0e1cd"
+        },
+        "evidence_items_used": 1,
+        "missing_evidence_ids": []
+      },
+      "C_retrieved_memory": {
+        "status": "SUCCESSFUL_EVALUATION",
+        "answer": "Caroline went to the LGBTQ support group yesterday.",
+        "evaluation_result": {
+          "success_status": "ANSWER_INCORRECT",
+          "success_value": 0.0
+        },
+        "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+        "fingerprints": {
+          "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+          "trace_fingerprint": "b41d4eeb9b1680807f842dfeb45db34252ea05e60a28a3f1ed85f20807cffec8"
+        },
+        "retrieved_memory_ids": [
+          "0a2bbeb23bfc6abe6a886f09",
+          "82172fb18cea047df88299be",
+          "bb046bbd0b4a7d9b7cf15e51",
+          "832292b02aca5c535db6c3bf",
+          "6de6d7cb3bb7501dbef49f88"
+        ],
+        "selected_memory_ids": [
+          "0a2bbeb23bfc6abe6a886f09",
+          "82172fb18cea047df88299be",
+          "bb046bbd0b4a7d9b7cf15e51",
+          "832292b02aca5c535db6c3bf",
+          "6de6d7cb3bb7501dbef49f88"
+        ],
+        "exposed_memory_ids": [
+          "0a2bbeb23bfc6abe6a886f09",
+          "82172fb18cea047df88299be",
+          "bb046bbd0b4a7d9b7cf15e51",
+          "832292b02aca5c535db6c3bf",
+          "6de6d7cb3bb7501dbef49f88"
+        ],
+        "pool_key": "conv-26/session_1",
+        "ingested_count": 18
+      }
+    },
+    "generation_config_fingerprint": "43b95abafebc3d4e798dd03694ed0ee77fad6a9035d63008aa12f7926d9e912a",
+    "raw_ledger_refs": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "foundation": "AMEM",
+      "pool_key": "conv-26/session_1",
+      "canonical_event_report": {
+        "task_id": "ecf5a096af5598393ce49c80",
+        "retrieved_event_ids": [
+          "retrieved-ecf5a096af5598393ce49c80-0a2bbeb23bfc6abe6a886f09",
+          "retrieved-ecf5a096af5598393ce49c80-82172fb18cea047df88299be",
+          "retrieved-ecf5a096af5598393ce49c80-bb046bbd0b4a7d9b7cf15e51",
+          "retrieved-ecf5a096af5598393ce49c80-832292b02aca5c535db6c3bf",
+          "retrieved-ecf5a096af5598393ce49c80-6de6d7cb3bb7501dbef49f88"
+        ],
+        "selected_event_ids": [
+          "selected-ecf5a096af5598393ce49c80-0a2bbeb23bfc6abe6a886f09",
+          "selected-ecf5a096af5598393ce49c80-82172fb18cea047df88299be",
+          "selected-ecf5a096af5598393ce49c80-bb046bbd0b4a7d9b7cf15e51",
+          "selected-ecf5a096af5598393ce49c80-832292b02aca5c535db6c3bf",
+          "selected-ecf5a096af5598393ce49c80-6de6d7cb3bb7501dbef49f88"
+        ],
+        "rejected_event_ids": [],
+        "unresolved_foundation_ids": [],
+        "unresolved_reasons": {},
+        "not_in_canonical_ledger": []
+      },
+      "note": "Reopen via canonical_wiring.canonical_store_dir_for_pool(experiments_dir, campaign_id, dataset, collection_name) -- collection_name is deterministic from (dataset, pool_key) per that function's own sha256 scheme, not stored here redundantly."
+    },
+    "provenance_graph_ref": {
+      "campaign_id": "3.3-DATASET-PILOT-2026-09-07",
+      "dataset": "locomo",
+      "pool_key": "conv-26/session_1",
+      "note": "Rebuild via provenance_graph.build_provenance_graph() against this pool's real ledgers -- never persisted here as a second copy."
+    },
+    "observability_coverage": {
+      "rejected_events_possible": false,
+      "relationship_detected_possible": false,
+      "used_events_possible": false,
+      "counterfactual_measured": false,
+      "note": "rejected/relationship_detected/used remain structurally absent project-wide -- selection and creation policies are deliberately deferred (see PHASE3_FINAL_STATUS_DONE_NOT_DONE.md); counterfactual_measured is filled in by attach_counterfactual_evidence() where prior real H.4-A measurements exist for this task, never fabricated here."
+    }
+  }
+]

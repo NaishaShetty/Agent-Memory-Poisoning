@@ -48,6 +48,7 @@ unlike Mem0), A-mem-sys DOES honor a caller-supplied id when given one.
 
 from __future__ import annotations
 
+import os
 import sys
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Optional
@@ -68,7 +69,7 @@ from phase3.evaluation.foundations_real.conformance_record import (
     RealConformanceRecord,
     build_record,
 )
-from phase3.evaluation.foundations_real.environment import AMEM_SYS_SOURCE, PINNED_PACKAGE_VERSIONS
+from phase3.evaluation.foundations_real.environment import AMEM_SYS_SOURCE, PINNED_PACKAGE_VERSIONS, VENV_PATH
 
 _ADAPTER_VERSION = "h4-real-v1"
 
@@ -86,7 +87,17 @@ def _try_import_amem():
         # (AMEM_SYS_SOURCE["commit"], verified via `git log -1` against the fresh clone)
         # into a location tied to the C:\h4venv interpreter itself, so it persists for as
         # long as that interpreter does, rather than for as long as one chat session does.
-        repo_root = r"C:\h4venv\a-mem-sys-repo"
+        #
+        # PORTABILITY (this pass): derived from `environment.VENV_PATH` (the single
+        # documented source of truth for this stage's isolated interpreter location) rather
+        # than a second, independent hardcoded literal, and overridable via
+        # `MAMBENCH_H4VENV_PATH` for a checkout on a different machine -- `environment.py`'s
+        # own `VENV_PATH` itself stays exactly as Phase 3.2-H.4 recorded it (a frozen
+        # historical record of what was actually used for that stage's real-conformance
+        # claims), never made dynamically overridable itself, since blurring that record's
+        # own historical-truth purpose would be worse than the portability gain.
+        h4venv_root = os.environ.get("MAMBENCH_H4VENV_PATH", VENV_PATH)
+        repo_root = os.path.join(h4venv_root, "a-mem-sys-repo")
         if repo_root not in sys.path:
             sys.path.insert(0, repo_root)
         from agentic_memory.memory_system import AgenticMemorySystem
@@ -310,16 +321,24 @@ class RealAMemAdapter(MemoryFoundationAdapter):
             "INSPECT_MEMORY",
             conformance_tag=REAL_FOUNDATION_CONFORMANCE,
             code_path_executed=True,
-            native_result=None if note is None else {"id": note.id, "links": list(note.links), "tags": list(note.tags)},
+            native_result=None if note is None else {
+                "id": note.id, "content": note.content, "links": list(note.links), "tags": list(note.tags),
+            },
         )
         if note is None:
             return FoundationField(value=None, availability=FOUNDATION_UNAVAILABLE, operation="inspect_memory")
         return FoundationField(
-            value={"id": note.id, "links": list(note.links), "tags": list(note.tags), "context": note.context},
+            value={
+                "id": note.id, "content": note.content, "links": list(note.links),
+                "tags": list(note.tags), "context": note.context,
+            },
             availability=FOUNDATION_AVAILABLE,
             operation="inspect_memory",
-            note="Native note-linking structure preserved (links/tags/context), not "
-            "flattened to a bare vector-store record.",
+            note="Native note-linking structure preserved (links/tags/context) AND content "
+            "included (Phase 3.3-H4-AMEM-INSPECT-FIX: content was previously, incorrectly, "
+            "omitted -- runner.py::_extract_content_text() fell back to str(native), "
+            "stringifying id/links/tags/context with no actual memory text ever reaching "
+            "the reasoning layer for any real A-MEM run).",
         )
 
     def export_state(self) -> FoundationField:

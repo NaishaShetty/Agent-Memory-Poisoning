@@ -1,0 +1,127 @@
+{
+  "source": "MemoryAgentBench Conflict_Resolution, row 0, Pattern-1-extracted (proper entity-key match)",
+  "n_pos": 42,
+  "n_neg": 36,
+  "pos_pairs_sample": [
+    [
+      "The chairperson of Fatah is Mahmoud Abbas.",
+      "The chairperson of Fatah is Moshe Kahlon."
+    ],
+    [
+      "The headquarters of University of Bucharest is located in the city of Bucharest.",
+      "The headquarters of University of Bucharest is located in the city of Ankara."
+    ],
+    [
+      "The chairperson of Harvard University is Lawrence S. Bacow.",
+      "The chairperson of Harvard University is Peter Diamandis."
+    ],
+    [
+      "The type of music that John McVie plays is rock music.",
+      "The type of music that John McVie plays is rap rock."
+    ],
+    [
+      "The official language of Australia is English.",
+      "The official language of Australia is Arabic."
+    ],
+    [
+      "The author of The Marriage of Figaro is Pierre Beaumarchais.",
+      "The author of The Marriage of Figaro is Thomas Kyd."
+    ],
+    [
+      "The capital of Romania is Bucharest.",
+      "The capital of Romania is Rajanpur."
+    ],
+    [
+      "The author of Our Mutual Friend is Charles Dickens.",
+      "The author of Our Mutual Friend is Charles Darwin."
+    ],
+    [
+      "The type of music that Michael Mantler plays is jazz.",
+      "The type of music that Michael Mantler plays is post-punk."
+    ],
+    [
+      "The official language of Japan is Japanese.",
+      "The official language of Japan is Swedish."
+    ],
+    [
+      "The official language of Moscow is Russian.",
+      "The official language of Moscow is German."
+    ],
+    [
+      "The author of A Wizard of Earthsea is Ursula K. Le Guin.",
+      "The author of A Wizard of Earthsea is Pius XII."
+    ],
+    [
+      "The capital of Italy is Rome.",
+      "The capital of Italy is Duluth."
+    ],
+    [
+      "The name of the current head of the Council of People's Commissars government is Vladimir Lenin.",
+      "The name of the current head of the Council of People's Commissars government is Tony Blair."
+    ],
+    [
+      "The capital of Australia is Canberra.",
+      "The capital of Australia is Oderzo."
+    ]
+  ],
+  "neg_pairs_sample": [
+    [
+      "The author of Lady Windermere's Fan is Oscar Wilde.",
+      "The director of Madonna is Guy Oseary."
+    ],
+    [
+      "The capital of England is London.",
+      "The capital of France is Paris."
+    ],
+    [
+      "The capital of Japan is Tokyo.",
+      "The name of the current head of state in United States of America is Donald Trump."
+    ],
+    [
+      "The capital of Germany is Berlin.",
+      "The chairperson of Congolese Party of Labour is Denis Sassou-Nguesso."
+    ],
+    [
+      "The type of music that Dale Evans plays is country music.",
+      "The author of Starship Troopers is Robert A. Heinlein."
+    ],
+    [
+      "The chief executive officer of Valve Corporation is Gabe Newell.",
+      "The capital of Soviet Union is Moscow."
+    ],
+    [
+      "The chief executive officer of ABB Group is Ulrich Spiesshofer.",
+      "The author of Sidereus Nuncius is Galileo Galilei."
+    ],
+    [
+      "The author of The Witcher is Andrzej Sapkowski.",
+      "The author of Sketches by Boz is Charles Dickens."
+    ],
+    [
+      "The official language of Japan is Japanese.",
+      "The capital of Tang Empire is Chang'an."
+    ],
+    [
+      "The headquarters of Ilyushin is located in the city of Moscow.",
+      "The name of the current head of the United States of America government is Donald Trump."
+    ]
+  ],
+  "nli_results": {
+    "tp": 42,
+    "fp": 33,
+    "fn": 0,
+    "tn": 3,
+    "precision": 0.56,
+    "recall": 1.0,
+    "f1": 0.717948717948718
+  },
+  "llm_results": {
+    "tp": 41,
+    "fp": 1,
+    "fn": 1,
+    "tn": 35,
+    "precision": 0.9761904761904762,
+    "recall": 0.9761904761904762,
+    "f1": 0.9761904761904762
+  }
+}
