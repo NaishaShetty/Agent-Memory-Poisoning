@@ -1,0 +1,54 @@
+{
+  "v3_baseline": {
+    "MEM0": {
+      "n": 120,
+      "normalized": 56,
+      "content_recall": 66,
+      "llm_judge": 99
+    },
+    "AMEM": {
+      "n": 120,
+      "normalized": 56,
+      "content_recall": 67,
+      "llm_judge": 100
+    }
+  },
+  "v5_configs": {
+    "MEM0_V5-base-CORRECTED": {
+      "n": 120,
+      "normalized": 55,
+      "content_recall": 62,
+      "date_normalized": 9,
+      "date_applicable": 13,
+      "number_word": 56,
+      "llm_judge": 93
+    },
+    "MEM0_V5-verified-CORRECTED": {
+      "n": 120,
+      "normalized": 55,
+      "content_recall": 63,
+      "date_normalized": 9,
+      "date_applicable": 13,
+      "number_word": 56,
+      "llm_judge": 88
+    },
+    "AMEM_V5-base-CORRECTED": {
+      "n": 120,
+      "normalized": 55,
+      "content_recall": 62,
+      "date_normalized": 9,
+      "date_applicable": 13,
+      "number_word": 56,
+      "llm_judge": 93
+    },
+    "AMEM_V5-verified-CORRECTED": {
+      "n": 120,
+      "normalized": 55,
+      "content_recall": 61,
+      "date_normalized": 9,
+      "date_applicable": 13,
+      "number_word": 56,
+      "llm_judge": 93
+    }
+  }
+}

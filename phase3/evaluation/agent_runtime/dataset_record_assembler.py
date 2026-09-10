@@ -66,11 +66,24 @@ def _condition_c_summary(result: Optional[Mapping[str, Any]]) -> Mapping[str, An
     if result["status"] != "SUCCESSFUL_EVALUATION":
         return {"status": result["status"], "error": result.get("error")}
     t = result["trace"]
+    # BUG FIX (found during the V4 diagnosis pass, PHASE3_V4_DIAGNOSIS_AND_85_90_ROADMAP.md
+    # section 1.1): `t["failure_stage"]` is the BASE trace's value, computed by comparing
+    # raw foundation-space ids (e.g. Mem0's own UUIDs) directly against source-space
+    # `gold_evidence_ids` -- an id-space mismatch that reads RETRIEVAL_FAILURE almost
+    # universally regardless of the true outcome. `t["resolved_evaluation"]["failure_stage"]`
+    # is the SAME classifier fed identity-resolved (source-space) ids instead, and is the
+    # correct value to report -- it is only present when `evaluate_and_trace_with_identity()`
+    # was used (Mem0's STRATEGY_METADATA_LOOKUP path); A-MEM's STRATEGY_DIRECT_ASSIGNMENT
+    # path never needs resolution (foundation id == canonical id already), so it has no
+    # `resolved_evaluation` block and the base `failure_stage` is already correct there --
+    # the fallback below preserves that case exactly as before, unchanged.
+    resolved = t.get("resolved_evaluation")
+    failure_stage = resolved["failure_stage"] if resolved and "failure_stage" in resolved else t["failure_stage"]
     return {
         "status": "SUCCESSFUL_EVALUATION",
         "answer": t["agent_output"],
         "evaluation_result": t["evaluation_result"],
-        "failure_stage": t["failure_stage"],
+        "failure_stage": failure_stage,
         "fingerprints": t["fingerprints"],
         "retrieved_memory_ids": t["retrieved_memories"],
         "selected_memory_ids": t["selected_memories"],

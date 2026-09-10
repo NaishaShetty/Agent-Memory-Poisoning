@@ -1,0 +1,2431 @@
+{
+  "n": 120,
+  "tally": {
+    "A": {
+      "v1_exact": 0,
+      "v1_norm": 4,
+      "v1_recall": 3,
+      "v2_exact": 0,
+      "v2_norm": 4,
+      "v2_recall": 3
+    },
+    "B": {
+      "v1_exact": 0,
+      "v1_norm": 52,
+      "v1_recall": 64,
+      "v2_exact": 1,
+      "v2_norm": 62,
+      "v2_recall": 79
+    },
+    "C": {
+      "v1_exact": 0,
+      "v1_norm": 48,
+      "v1_recall": 58,
+      "v2_exact": 2,
+      "v2_norm": 55,
+      "v2_recall": 71
+    }
+  },
+  "records": {
+    "049537bf444dae889b00ded4": {
+      "gold": "Transgender woman",
+      "A_no_memory": {
+        "v1_answer": "Caroline is a character in the TV series \"The Vampire Diaries,\" where she is introduced as a witch and a member of the Salvatore family. She is also the daughter of Silas and the twin sister of Bonnie.",
+        "v2_answer": "Caroline is a character in the TV series \"The Vampire Diaries,\" where she is introduced as a witch and a member of the Salvatore family. She is also the daughter of Silas and the twin sister of Bonnie.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Caroline's identity is transgender.",
+        "v2_answer": "Caroline is a transgender person. [1]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Caroline's identity is not explicitly stated in the provided memories, but she is mentioned as participating in a LGBTQ support group and expressing gratitude for support, which suggests she may identify as part of the LGBTQ+ community. However, without direct confirmation, her specific identity cannot be definitively determined from the given information.",
+        "v2_answer": "Caroline is a person who is pursuing education, exploring career options, and participating in a support group that has provided her with acceptance and courage. She also engages in conversations with Melanie, discussing various topics including personal growth and activities like research.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "0578b06c6c3f8b573bd3cd48": {
+      "gold": "Extreme sports",
+      "A_no_memory": {
+        "v1_answer": "No relevant information provided.",
+        "v2_answer": "No relevant information provided.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "extreme sports [evidence-slot-1]",
+        "v2_answer": "extreme sports [5:13 pm on 9 July, 2022]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "None of the provided memories mention James becoming interested in a new hobby on 9 July, 2022.",
+        "v2_answer": "James became interested in extreme sports on 9 July, 2022.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "0c1f43ec474037e71f0a8463": {
+      "gold": "experiencing a new level of joy and happiness",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nJolene felt positive about her progress in practicing mindfulness and gratitude, as these practices helped her cultivate a greater sense of peace, self-awareness, and appreciation for the present moment.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nJolene felt positive about her progress in practicing mindfulness and gratitude, as these practices helped her cultivate a greater sense of peace, self-awareness, and appreciation for the present moment.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Jolene felt a new level of joy and happiness about her progress in practicing mindfulness and gratitude [evidence-slot-1].",
+        "v2_answer": "Jolene felt a new level of joy and happiness about her progress in practicing mindfulness and gratitude [2:18 pm on 12 September, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Jolene felt positive about her progress in practicing mindfulness and gratitude, experiencing a new level of joy and happiness. She realized the importance of incorporating relaxation, self-care, and balance in life alongside her engineering studies and appreciated the journey rather than just focusing on the finish line.",
+        "v2_answer": "Jolene felt positive about her progress in practicing mindfulness and gratitude, expressing that she was experiencing a new level of joy and happiness and appreciated the support from Deborah. She also mentioned that reflecting on what makes her happy and incorporating relaxation and self-care into her life had been beneficial.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "0c3beff1a8a6e768737c8c64": {
+      "gold": "On a week before 16 May, 2023",
+      "A_no_memory": {
+        "v1_answer": "There is no relevant information provided about Calvin's place being flooded in Tokyo.",
+        "v2_answer": "There is no relevant information provided about Calvin's place being flooded in Tokyo.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The information provided does not specify the exact date or time when Calvin's place got flooded in Tokyo. The only detail given is that the incident occurred \"last week.\" Without additional context or a specific date, it is not possible to determine the exact time of the flooding.",
+        "v2_answer": "The information provided does not mention Tokyo. Therefore, the answer cannot be determined from the given data.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Calvin's place got flooded last week.",
+        "v2_answer": "Calvin's place got flooded last week.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "0ce9ad7ea1a3ba8902d48205": {
+      "gold": "endorsement with a popular beverage company",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about John's achievements or interactions with Tim in January 2024.",
+        "v2_answer": "I don't have information about John's achievements or interactions with Tim in January 2024.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John shared that he got an endorsement with a popular beverage company [evidence-slot-1].",
+        "v2_answer": "John shared that he got an endorsement with a popular beverage company [1:41 pm on 12 January, 2024].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John shared that he got an endorsement with a popular beverage company. [fd48fbf6-57dc-4123-9a97-f7ac2bcb28eb]",
+        "v2_answer": "John shared that he got an endorsement with a popular beverage company. [73f1453b-d4ba-4e90-8301-71e7c3926bac]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "0fcb813ce72251b94cdc77cf": {
+      "gold": "Jasper",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not include details about Evan's road trip on 24 May 2023. Therefore, I cannot provide a specific answer.",
+        "v2_answer": "The information provided does not include details about Evan's road trip on 24 May 2023. Therefore, I cannot provide a specific answer.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Jasper [evidence-slot-1]",
+        "v2_answer": "Jasper [7:11 pm on 24 May, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan took his family on a road trip to Jasper on 24 May, 2023.",
+        "v2_answer": "Evan took his family on a road trip to Jasper on 24 May, 2023. [8c808a8d-bc93-4cb6-a38e-62b6bf2a14d8]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "0fcf6438d001c0faca50578b": {
+      "gold": "Car mod workshop",
+      "A_no_memory": {
+        "v1_answer": "None of the provided memories are relevant to answer the question.",
+        "v2_answer": "None of the provided memories are relevant to answer the question.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not specify the name of the workshop Dave got picked for on 11 August, 2023.",
+        "v2_answer": "Dave got picked for a car mod workshop on 11 August, 2023. [5:22 pm on 11 August, 2023]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Dave got picked for a car mod workshop. [e71b8c27-8960-4cab-bf44-fcdbf9976e8d]",
+        "v2_answer": "Dave got picked for a car mod workshop on 11 August, 2023.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "126ae0c137b64f734349d25e": {
+      "gold": "Your worth is not defined by your weight",
+      "A_no_memory": {
+        "v1_answer": "The question refers to a specific context involving Evan and Sam, but no relevant memories or information are provided. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "The question refers to a specific context involving Evan and Sam, but no relevant memories or information are provided. Therefore, the answer cannot be determined from the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Evan emphasizes that it is important for Sam to believe in himself, rather than his weight. [evidence-slot-1]",
+        "v2_answer": "Evan emphasizes that it is important for Sam to believe in himself, rather than his weight. The focus is on self-worth, not weight.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan emphasizes that it is important for Sam to believe in himself, as his worth is not defined by his weight. [5e909b36-a909-4d38-a341-7a9159a8bf31]",
+        "v2_answer": "According to Evan, it is important for Sam to believe in himself, as his worth is not defined by his weight.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "12a964943f64be562cf53a50": {
+      "gold": "working with trans people, helping them accept themselves and supporting their mental health",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any information about Caroline's interests or pursuits in counseling and mental health services. Therefore, it is not possible to determine what kind of counseling and mental health services Caroline is interested in pursuing.",
+        "v2_answer": "The question does not provide any information about Caroline's interests or pursuits in counseling and mental health services. Therefore, it is not possible to determine what kind of counseling and mental health services Caroline is interested in pursuing.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Caroline is interested in pursuing counseling and mental health services that focus on supporting trans people in accepting themselves and their mental well-being, specifically through LGBTQ+ counseling and therapeutic methods tailored for trans individuals [evidence-slot-1].",
+        "v2_answer": "Caroline is interested in pursuing counseling and mental health services that focus on supporting trans people in accepting themselves and improving their mental health, specifically through therapeutic methods tailored for trans individuals [1].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Caroline is interested in pursuing counseling and mental health services that focus on supporting trans people, helping them accept themselves and improve their mental health. She also attended an LGBTQ+ counseling workshop, indicating an interest in therapeutic methods tailored for trans individuals [535ea414-ac26-4718-",
+        "v2_answer": "Caroline is interested in pursuing counseling and mental health services that focus on supporting trans people, helping them accept themselves and improving their mental health. She also attended an LGBTQ+ counseling workshop, indicating an interest in working with the LGBTQ+ community.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "13880aaa9a0b734cd8ffab67": {
+      "gold": "made him think again about following dreams and searching for personal legends",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone: \"The Alchemist\" impacted John's perspective on following dreams by inspiring him to pursue his own path and believe in the importance of personal legends.",
+        "v2_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone: \"The Alchemist\" impacted John's perspective on following dreams by inspiring him to pursue his own path and believe in the importance of personal legends.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "\"The Alchemist\" inspired John to think again about following dreams and searching for his personal legend, making him feel motivated and hopeful. [evidence-slot-1]",
+        "v2_answer": "\"The Alchemist\" inspired John and made him think again about following dreams and searching for his personal legend, leaving him feeling motivated and hopeful. [1]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "\"The Alchemist\" inspired John to think again about following his dreams and searching for his personal legend, making him feel motivated and hopeful. [96424751-6318-468c-badf-aaf50198a255]",
+        "v2_answer": "\"The Alchemist\" inspired John to think again about following his dreams and searching for his personal legend, making him feel motivated and hopeful. It encouraged him to trust the process of pursuing his aspirations. [ca712274-4701-4392-9d7b-beab",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "148efc9d6c4439d58dc7d35d": {
+      "gold": "the week before 21Janury, 2022",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about Nate winning a video game tournament.",
+        "v2_answer": "I don't have information about Nate winning a video game tournament.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "last week [evidence-slot-1]",
+        "v2_answer": "Nate won his first video game tournament last week on 21 January, 2022 [7:31 pm].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate won his first video game tournament last week.",
+        "v2_answer": "Nate won his first video game tournament last week on 21 January, 2022.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "14a1480e7cf980ac43eca8cf": {
+      "gold": "Lost their job due to downsizing",
+      "A_no_memory": {
+        "v1_answer": "Evan had been going through a tough time lately because he was dealing with personal challenges, including stress from work and relationship issues.",
+        "v2_answer": "Evan had been going through a tough time lately because he was dealing with personal challenges, including stress from work and relationship issues.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Evan had been going through a tough time lately because he lost his job last month [evidence-slot-1].",
+        "v2_answer": "Evan had been going through a tough time lately because he lost his job last month [9:13 pm on 9 November, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan had been going through a tough time because the company downsized and he was part of that, leading him to be on the hunt for a new job [adbde7d2-3f56-4027-b9b7-fb10adb880dd].",
+        "v2_answer": "Evan had been going through a tough time lately because the company downsized, and he was part of that downsizing.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "14fb0e72df72faf7c2108ff3": {
+      "gold": "A few months",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone. \n\nCalvin's intended duration of stay in Japan is not specified in the question.",
+        "v2_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone. \n\nCalvin's intended duration of stay in Japan is not specified in the question.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The answer is not provided in the given information.",
+        "v2_answer": "The information provided does not specify the duration of Calvin's stay in Japan.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Calvin planned to stay in Japan for a few months [c650dae1-e551-4943-a94e-640db5650210].",
+        "v2_answer": "Calvin planned to stay in Japan for a few months [812ce836-dce5-4ae9-abae-0011c64a19ef].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "1896111b9e08e7bd0b68b7a7": {
+      "gold": "a dream with a medieval castle full of puzzles and traps",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about James's dreams.",
+        "v2_answer": "I don't have information about James's dreams.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "James had a dream about a medieval castle with a labyrinth full of puzzles and traps, which felt like playing a video game in real life [evidence-slot-1].",
+        "v2_answer": "James had a dream about a medieval castle with its own labyrinth full of puzzles and traps, which felt like playing a video game in real life [6:02 pm on 18 September, 2022].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "James had a vivid dream that led to some creative ideas, though the specific details of the dream are not mentioned. [e41891c9-e854-46fa-ab5c-ae158d0dd3ba]",
+        "v2_answer": "James had a crazy dream that led to some creative ideas, and it was so vivid that he woke up with interesting thoughts. [b86ef902-597d-403b-93ee-0fd810493c9a]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "1c33578ae3e16064c9cec6ca": {
+      "gold": "strawberry",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not include details about Joanna's cake filling or any specific events in May 2022. Therefore, I cannot provide an answer based on the given context.",
+        "v2_answer": "The information provided does not include details about Joanna's cake filling or any specific events in May 2022. Therefore, I cannot provide an answer based on the given context.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "strawberry filling [evidence-slot-1]",
+        "v2_answer": "strawberry filling [11:54 am on 2 May, 2022]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided memories do not mention the specific filling Joanna used in the cake she made recently. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "Joanna used strawberry filling in the cake she made recently in May 2022 [2b6464fc-eb12-4a84-992e-4d1dd1a6ac2c].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "1cfb396092b3aec9f28e5d8a": {
+      "gold": "Playing video games",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information about Jolene or her partner's activities. Therefore, I cannot answer based on the given information.",
+        "v2_answer": "The question does not provide any relevant information about Jolene or her partner's activities. Therefore, I cannot answer based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Playing video games. [evidence-slot-1]",
+        "v2_answer": "Playing video games. [4:30 pm on 9 April, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Playing video games. [0daf2c2b-b344-4fac-9524-44121ba12dab]",
+        "v2_answer": "Playing video games.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "2388e36ca7ba1f2dc279483b": {
+      "gold": "oldest is relaxed, second is playful, third can be naughty but loves cuddles, youngest is full of life",
+      "A_no_memory": {
+        "v1_answer": "The question refers to Audrey's four fur babies, but no relevant memories or information about Audrey's pets or their personalities have been provided. Therefore, I cannot answer based on available information.",
+        "v2_answer": "The question refers to Audrey's four fur babies, but no relevant memories or information about Audrey's pets or their personalities have been provided. Therefore, I cannot answer based on available information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Audrey's four fur babies have the following personalities: the oldest is relaxed and wise, the second is always ready for a game, the third is naughty but loves cuddles, and the youngest is full of life and adventures. [evidence-slot-1]",
+        "v2_answer": "Audrey's four fur babies have the following personalities: the oldest is the most relaxed, like a wise old sage; the second is always ready for a game; the third can be naughty but loves a good cuddle; and the youngest is full of life and always up for an adventure [id: evidence-slot-",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The oldest one is the most relaxed, like a wise old sage. The second one is always ready for a game. The third one can be naughty but loves a good cuddle. The youngest one is full of life and always up for an adventure. [ab99a5ec-1717-",
+        "v2_answer": "The oldest one is the most relaxed, like a wise old sage. The second one is always ready for a game. The third one can be naughty but loves a good cuddle. The youngest one is full of life and always up for an adventure.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "242537e2fc60bcafc899d3e4": {
+      "gold": "Friday before 13 March, 2023",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide enough information to determine when Deborah started the yoga class in the neighborhood.",
+        "v2_answer": "The question does not provide enough information to determine when Deborah started the yoga class in the neighborhood.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Friday [evidence-slot-1]",
+        "v2_answer": "Friday, 13 March, 2023 [11:22 am]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Deborah started the yoga class in the neighborhood recently, but the exact date is not specified in the provided memories.",
+        "v2_answer": "Deborah started the yoga class in the neighborhood on Friday, as mentioned in the memory [97bc8ac0-a507-4eba-99b5-177d69f3d2f2]. However, the exact date is not specified.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "256ce68b9a2a3d7e654d8012": {
+      "gold": "July 20",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about James's travel plans. Therefore, it cannot be answered based on the given data.",
+        "v2_answer": "The question does not provide any relevant information or context about James's travel plans. Therefore, it cannot be answered based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "July 20 [evidence-slot-1]",
+        "v2_answer": "James planned to return on July 20 [5:13 pm on 9 July, 2022].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "James planned to return from his trip on July 20 [82fc397f-02b9-4934-a993-a06eab6ec0ab].",
+        "v2_answer": "James planned to return on July 20 [2760adbe-6180-43d3-b26f-b9f39b6e98f4].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "269df8e3635605bb0a7b6527": {
+      "gold": "Love for writing and reading",
+      "A_no_memory": {
+        "v1_answer": "Tim was motivated by a desire to improve his communication skills and to better understand complex ideas, which drove him to consistently work on his writing and reading abilities.",
+        "v2_answer": "Tim was motivated by a desire to improve his communication skills and to better understand complex ideas, which drove him to consistently work on his writing and reading abilities.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Tim was motivated by his love for writing and reading. [evidence-slot-1]",
+        "v2_answer": "Tim was motivated by his love for writing and reading, which helped him stay motivated and push himself to get better [10:22 am on 21 November, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Tim was motivated by his love for writing and reading, which helped him stay focused and push himself to improve. [fead8753-e388-40c2-9ae4-3e3986b6e654]",
+        "v2_answer": "Tim was motivated to keep pushing himself to get better in writing and reading because he loved writing and reading, which helped him stay motivated and inspired. [1e1299f1-20f9-425e-ae31-98af28accd79]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "29f648b6e3afcc30fcfc0a0a": {
+      "gold": "purple",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone. \n\nAnswer: The question does not provide information about the color glow Calvin customized on his guitar.",
+        "v2_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone. \n\nAnswer: The question does not provide information about the color glow Calvin customized on his guitar.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The question cannot be answered based on the provided information.",
+        "v2_answer": "The question cannot be answered based on the provided information.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The memories provided do not mention a \"color glow\" for Calvin's guitar. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "The guitar was customized with a shiny finish, but the specific color glow is not mentioned in the provided information.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "2a3424a8ac584d0d04f2809d": {
+      "gold": "Spider-Man",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information about Joanna's superhero preferences. Therefore, I cannot determine which superhero Joanna is a fan of based on the given information.",
+        "v2_answer": "The question does not provide any relevant information about Joanna's superhero preferences. Therefore, I cannot determine which superhero Joanna is a fan of based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Joanna is a fan of Spider-Man. [evidence-slot-1]",
+        "v2_answer": "Joanna is a fan of Spider-Man. [2:12 pm on 5 June, 2022]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Joanna is a fan of Spider-Man. [860e725c-ab97-4195-bf33-5f2420f2df3b]",
+        "v2_answer": "Joanna is a fan of Spider-Man.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "2aea1f66e74bc8c151fad974": {
+      "gold": "fashion department of an international company",
+      "A_no_memory": {
+        "v1_answer": "The information about Gina's fashion internship is not provided in the question or any relevant retrieved memories. Please provide additional details if available.",
+        "v2_answer": "The information about Gina's fashion internship is not provided in the question or any relevant retrieved memories. Please provide additional details if available.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not specify the location of Gina's fashion internship.",
+        "v2_answer": "The provided information does not specify the location of Gina's fashion internship.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Gina's fashion internship is part-time position in the fashion department of an international company. [895b4112-3a7e-45fa-89ae-ff566e772d54]",
+        "v2_answer": "Gina's fashion internship is part-time position in the fashion department of an international company. [5d81499a-7dc2-4375-92e4-4fd0cac6ea0d]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "2d63a1ec8ec17de48eaf5454": {
+      "gold": "embracing the creative process without restraint",
+      "A_no_memory": {
+        "v1_answer": "Evan described the process of creating the painting with the bird flying over it as a blend of spontaneity and careful planning, where he first sketched the bird's flight path and then layered the colors to create depth and movement.",
+        "v2_answer": "Evan described the process of creating the painting with the bird flying over it as a blend of spontaneity and careful planning, where he first sketched the bird's flight path and then layered the colors to create depth and movement.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Evan described the process of creating the painting with the bird flying over it as one of joy and freedom, with spontaneous strokes and bold colors reflecting a playful and liberated mood, embracing the creative process without restraint. [evidence-slot-1]",
+        "v2_answer": "Evan described the process of creating the painting with the bird flying over it as one of joy and freedom, with spontaneous strokes and bold colors reflecting a playful and liberated mood, embracing the creative process without restraint. [4:25 pm on 26 December, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan described the process of creating the painting with the bird flying over it as one of joy and freedom, with spontaneous strokes and bold colors reflecting a playful and liberated mood, embracing the creative process without restraint.",
+        "v2_answer": "None of the provided memories mention Evan describing the process of creating the painting with the bird flying over it. Therefore, I cannot provide a description based on the given information.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "31487d7c2adc4a8be3c0d900": {
+      "gold": "10 November, 2022",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about Nate or his turtles. Therefore, it cannot be answered based on the given data.",
+        "v2_answer": "The question does not provide any relevant information or context about Nate or his turtles. Therefore, it cannot be answered based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Yesterday [evidence-slot-1].",
+        "v2_answer": "Nate took his turtles to the beach on 11 November, 2022 [12:06 am].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate took his turtles to the beach in Tampa yesterday. [e42b9f39-8b9d-43a7-a7de-325c0ec44d95]",
+        "v2_answer": "Nate took his turtles to the beach on 11 November, 2022.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "349536e7815f1e4c29a53308": {
+      "gold": "August 2023",
+      "A_no_memory": {
+        "v1_answer": "The provided information does not mention when Tim started playing the violin. Therefore, I cannot answer based on the given data.",
+        "v2_answer": "The provided information does not mention when Tim started playing the violin. Therefore, I cannot answer based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "four months ago [evidence-slot-1]",
+        "v2_answer": "Tim started playing the violin four months before 6 December, 2023, which would be around August 2023.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided memories do not specify when Tim started playing the violin.",
+        "v2_answer": "Tim started playing the violin about four months ago. [87d178a7-ecb3-49fb-8c4d-988f4dda40ca]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "350d3a25ada4a89b9a3af881": {
+      "gold": "A blog post about a hard moment in her life",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant retrieved memories, so the answer must be derived from the question alone. The content Joanna shared that prompted someone to write her a letter is not specified in the question. Therefore, the answer is: **The content is not specified in the question.**",
+        "v2_answer": "The question does not provide relevant retrieved memories, so the answer must be derived from the question alone. The content Joanna shared that prompted someone to write her a letter is not specified in the question. Therefore, the answer is: **The content is not specified in the question.**",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Joanna shared a story about a hard moment in her life [evidence-slot-1].",
+        "v2_answer": "Joanna shared a blog post about a hard moment in her life [id: evidence-slot-1].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Joanna shared a story about a hard moment in her life. [6af99125-0dc7-4b83-b97a-d5e9b78ef77e]",
+        "v2_answer": "Joanna shared a story about a hard moment in her life. [4b27348c-2867-4424-946c-2353a48e5dca]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "354a966a783f71c57db53fc2": {
+      "gold": "Happy to share",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nNate felt positive about sharing his love for dairy-free desserts with Joanna.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nNate felt positive about sharing his love for dairy-free desserts with Joanna.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate felt positive about sharing his love for dairy-free desserts with Joanna, as evidenced by his enthusiastic response and willingness to send her the recipe [evidence-slot-1].",
+        "v2_answer": "Nate felt positive about sharing his love for dairy-free desserts with Joanna, as he expressed willingness to share the recipe and mentioned being \"happy to share them\" with her [6:12 pm on 14 August, 2022].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate felt positively about sharing his love for dairy-free desserts with Joanna, as he expressed gratitude and mentioned that sharing has been fun and rewarding.",
+        "v2_answer": "Nate felt positive and enthusiastic about sharing his love for dairy-free desserts with Joanna, as he expressed gratitude and mentioned that sharing his passion has been fun and rewarding.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "372123f287f6b3dda7453f8a": {
+      "gold": "He got stuck on a plot twist",
+      "A_no_memory": {
+        "v1_answer": "No relevant information is provided.",
+        "v2_answer": "No relevant information is provided.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Tim had a huge writing issue last week, which was getting stuck on a plot twist and unable to find his way out [evidence-slot-1].",
+        "v2_answer": "Tim had a huge writing issue last week, getting stuck on a plot twist and unable to find his way out [11:41 am on 6 November, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Tim had a huge writing issue last week, getting stuck on a plot twist and unable to find his way out [4ff2bd5f-7456-4b6e-b0f9-c562085c12bc].",
+        "v2_answer": "Tim got stuck on a plot twist and couldn't find his way out, which was a huge writing issue. [8e5343e2-2286-414b-83da-8774f52527d9]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "3829d08868275131e6866bd6": {
+      "gold": "A volunteer program where engineers teach STEM to underprivileged kids",
+      "A_no_memory": {
+        "v1_answer": "Jolene planned to organize a free STEM workshop for underprivileged kids on 9 February, 2023, to provide them with hands-on learning experiences in science, technology, engineering, and mathematics.",
+        "v2_answer": "Jolene planned to organize a free STEM workshop for underprivileged kids on 9 February, 2023, to provide them with hands-on learning experiences in science, technology, engineering, and mathematics.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Jolene had the idea of a volunteer program where engineers teach STEM to underprivileged kids. [evidence-slot-1]",
+        "v2_answer": "Jolene had the idea of a volunteer program where engineers teach STEM to underprivileged kids [9:03 pm on 9 February, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Jolene had the idea of a volunteer program where engineers teach STEM to underprivileged kids. [76667f2d-ba6b-401d-8cc2-34a43d3dbfe7]",
+        "v2_answer": "Jolene had the idea of starting a volunteer program where engineers teach STEM to underprivileged kids through workshops and inviting engineers as guest speakers to show kids their career options. [3d6d36d8-7545-40c1-a78f-2bc3383",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "3a3066e642fd8a9d27f711ab": {
+      "gold": "creative writing",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information about Sam's preferences or experiences. Therefore, I cannot answer based on the given information.",
+        "v2_answer": "The question does not provide any relevant information about Sam's preferences or experiences. Therefore, I cannot answer based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Sam enjoys writing in a journal and doing creative writing as a form of expression. [evidence-slot-1]",
+        "v2_answer": "Sam enjoys journaling and creative writing as a form of expression. [evidence-slot-1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Creative writing and journaling.",
+        "v2_answer": "Sam enjoys writing in her journal and doing creative writing as a form of expression. [cbf25980-f3ea-493f-b01e-40dbccfb6bd2]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "3aa704a25f6cd9cc6c885f6f": {
+      "gold": "unique look",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant retrieved memories, so the answer is based on the question alone. Calvin got his guitar customized with a shiny finish because he wanted it to look more appealing or stand out.",
+        "v2_answer": "The question does not provide relevant retrieved memories, so the answer is based on the question alone. Calvin got his guitar customized with a shiny finish because he wanted it to look more appealing or stand out.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Calvin got his guitar customized with a shiny finish because it gives it a unique look and goes with his style [evidence-slot-1].",
+        "v2_answer": "Calvin got his guitar customized with a shiny finish because it gives it a unique look and goes with his style [2:55 pm on 31 August, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Calvin got his guitar customized with a shiny finish because it gives it a unique look and goes with his style [01a16725-5f9f-474f-989c-74ac74f895c5].",
+        "v2_answer": "Calvin got his guitar customized with a shiny finish because it gives it a unique look and goes with his style [778ee6e2-3a2a-40d4-8707-12dd002caf4f].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "3b2728a05a37d5ec66034dea": {
+      "gold": "Vancouver",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about James's travel plans. Therefore, it cannot be answered based on the given data.",
+        "v2_answer": "The question does not provide any relevant information or context about James's travel plans. Therefore, it cannot be answered based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not specify where James planned to visit after Toronto.",
+        "v2_answer": "The provided information does not specify where James planned to visit after Toronto.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Vancouver [add84161-0349-4acc-b307-96ed99a3ef3f].",
+        "v2_answer": "James planned to visit Vancouver after Toronto [45a1c47c-331f-4646-8ed2-b60532f0fba7].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "3b9434a3074a50f3e9c40a3c": {
+      "gold": "A tournament for CS:GO",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not include any details about John organizing anything with his friends on May 8, 2022. Therefore, I cannot provide an answer based on the given data.",
+        "v2_answer": "The information provided does not include any details about John organizing anything with his friends on May 8, 2022. Therefore, I cannot provide an answer based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John organized a tournament for CS:GO with his friends on May 8, 2022. [evidence-slot-1]",
+        "v2_answer": "John organized a tournament for CS:GO with his friends on May 8, 2022. [1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John organized a charity tournament with his friends on May 8, 2022, to raise money for a dog shelter [ad2f345a-1940-4a93-9b85-fc9751554461].",
+        "v2_answer": "John organized a charity tournament for CS:GO with his friends on May 8, 2022. [af2443cb-fc91-457e-89fe-d7621345d674]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "3d8d13a21a206ec87c7d27b2": {
+      "gold": "A sign stating that someone is not being able to leave",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nMelanie saw a \"Beware of Dog\" sign at the café.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nMelanie saw a \"Beware of Dog\" sign at the café.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "thoughtful signs like this! [evidence-slot-1]",
+        "v2_answer": "thoughtful signs like this! [1]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The precautionary sign Melanie saw at the café was mentioned in the conversation, but the specific content of the sign is not detailed in the provided memories. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "The precautionary sign Melanie saw at the café was \"thoughtful\" and related to the context of the conversation, but the exact content of the sign is not specified in the provided memories.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "3e68c905fa16313d262b689b": {
+      "gold": "put a GPS sensor on them",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nSam suggested Evan should keep his keys in a safe place.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nSam suggested Evan should keep his keys in a safe place.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Sam suggested Evan should put a GPS sensor on his keys [evidence-slot-1].",
+        "v2_answer": "Sam suggested Evan should put a GPS sensor on his keys. [4:25 pm on 26 December, 2023]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Sam suggested putting a GPS sensor on Evan's keys [94b737ac-cff5-4b8e-b3cd-2787c461e3f3].",
+        "v2_answer": "Sam suggested putting a GPS sensor on Evan's keys. [8f2554e1-6ac5-4786-beb0-7738666a380e]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "41bb7d0bbf25072f878302d3": {
+      "gold": "sushi",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about Andrew's recent culinary experiences.",
+        "v2_answer": "I don't have information about Andrew's recent culinary experiences.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Sushi [evidence-slot-1]",
+        "v2_answer": "Sushi [10:14 am on 24 October, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Sushi [c6824918-f43c-428d-ab20-ec82a935962d].",
+        "v2_answer": "Andrew recently tried sushi at a new spot in town.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "4ad2e42afe6cc21246fcee50": {
+      "gold": "Visualizing goals and success",
+      "A_no_memory": {
+        "v1_answer": "Tim stays motivated during difficult study sessions by setting small, achievable goals, taking regular breaks, and rewarding himself for progress. He also maintains a positive mindset and reminds himself of his long-term objectives.",
+        "v2_answer": "Tim stays motivated during difficult study sessions by setting small, achievable goals, taking regular breaks, and rewarding himself for progress. He also maintains a positive mindset and reminds himself of his long-term objectives.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The question is about Tim, but the provided memory is about John. There is no relevant information about Tim in the retrieved memories or the question itself. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "The provided information does not mention Tim or his study habits. Therefore, I cannot answer based on the given data.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Tim stays motivated during difficult study sessions by breaking up his studying into smaller parts, using a 25 minutes on, 5 minutes off approach, which makes it less overwhelming and helps him stay on track. [15a75ec4-0176-48bb-90f4",
+        "v2_answer": "Tim stays motivated during difficult study sessions by breaking up his studying into smaller parts, using 25 minutes of focused study followed by 5 minutes of fun activity to keep things less overwhelming and on track.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "4d1caaac0c277731680fd03f": {
+      "gold": "coding",
+      "A_no_memory": {
+        "v1_answer": "The provided information does not mention what John has been teaching his siblings. Therefore, the answer cannot be determined from the given context.",
+        "v2_answer": "The provided information does not mention what John has been teaching his siblings. Therefore, the answer cannot be determined from the given context.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John has been teaching his siblings coding. [evidence-slot-1]",
+        "v2_answer": "John has been teaching his siblings coding. [6:53 pm on 1 September, 2022]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John has been teaching his siblings coding.",
+        "v2_answer": "John has been teaching his siblings coding.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "4e9b739dc097abd8458d5962": {
+      "gold": "LGBTQ+ counseling workshop",
+      "A_no_memory": {
+        "v1_answer": "No relevant information provided.",
+        "v2_answer": "No relevant information provided.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "LGBTQ+ counseling workshop [evidence-slot-1]",
+        "v2_answer": "LGBTQ+ counseling workshop [1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "None of the provided memories mention a workshop that Caroline attended recently.",
+        "v2_answer": "Caroline attended an LGBTQ+ counseling workshop [636e2a96-1c8c-463b-a37e-6a63a9eebffa].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "4ebef8b995796ed162fe2777": {
+      "gold": "Zelda BOTW for Switch , Animal Crossing: New Horizons, Overcooked 2",
+      "A_no_memory": {
+        "v1_answer": "Jolene recommends the following games for Deborah: \"The Legend of Zelda: Breath of the Wild,\" \"Dark Souls,\" and \"Stardew Valley.\"",
+        "v2_answer": "Jolene recommends the following games for Deborah: \"The Legend of Zelda: Breath of the Wild,\" \"Dark Souls,\" and \"Stardew Valley.\"",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Jolene recommends Zelda BOTW for Switch, Animal Crossing: New Horizons, and Overcooked 2.",
+        "v2_answer": "Jolene recommends Zelda BOTW for Switch, Animal Crossing: New Horizons, and Overcooked 2.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Deborah prefers to play detective games together [7937b7b3-0f53-4ad7-926d-fd2a0cb95f28].",
+        "v2_answer": "The provided conversation does not mention any specific game recommendations from Jolene to Deborah.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "4fd460c29c6eedde4b3f651f": {
+      "gold": "guinea pig",
+      "A_no_memory": {
+        "v1_answer": "I don't have any information about Caroline's pet.",
+        "v2_answer": "I don't have any information about Caroline's pet.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Oscar, a guinea pig [evidence-slot-1].",
+        "v2_answer": "Oscar, a guinea pig [3:31 pm on 23 August, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Oscar, a guinea pig [1851728d-40bd-452f-8833-a15557301d9f].",
+        "v2_answer": "Caroline has a guinea pig named Oscar. [4a313daf-e384-4da3-95b8-caa2c3611d63]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "5439d55268481bb8e456a2a3": {
+      "gold": "Not tough; keep their area clean, feed them properly, give them enough light.",
+      "A_no_memory": {
+        "v1_answer": "The question cannot be answered based on the provided information.",
+        "v2_answer": "The question cannot be answered based on the provided information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate describes the process of taking care of turtles as keeping their area clean, feeding them properly, and ensuring they get enough light, which he finds kind of fun.",
+        "v2_answer": "Nate describes the process of taking care of turtles as keeping their area clean, feeding them properly, and ensuring they get enough light, which he finds kind of fun.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate describes the process of taking care of turtles as low-maintenance and calming.",
+        "v2_answer": "Nate describes the process of taking care of turtles as low-maintenance, calming, and involving keeping their area clean, feeding them properly, and ensuring they get enough light.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "5506aa5d6fbfb77f4fab4492": {
+      "gold": "meditation",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not include details about Jolene's course enrollment on 6 September 2023. Therefore, I cannot provide an answer based on the given data.",
+        "v2_answer": "The information provided does not include details about Jolene's course enrollment on 6 September 2023. Therefore, I cannot provide an answer based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Jolene signed up for a meditation course at a retreat near a lake [evidence-slot-1].",
+        "v2_answer": "A meditation course at a retreat near a lake [8:31 pm on 6 September, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "None of the provided memories mention the course Jolene signed up for on 6 September 2023. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "Jolene signed up for a meditation course at a retreat near a lake [d6d6a7c1-f462-4f09-ad0f-af9a04fa2ca7].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "593dd145a8b0740bbf40699d": {
+      "gold": "fresh air, peacefulness, cozy cabin surrounded by mountains and forests",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nEvan found the scenic drives and peaceful landscapes relaxing during his road trip to Jasper.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nEvan found the scenic drives and peaceful landscapes relaxing during his road trip to Jasper.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Evan found the fresh air, peacefulness, and the cozy cabin surrounded by mountains and forests relaxing [evidence-slot-1].",
+        "v2_answer": "Evan found the fresh air, peacefulness, and the cozy cabin surrounded by mountains and forests relaxing [7:11 pm on 24 May, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan found the fresh air, peacefulness, and a cozy cabin surrounded by mountains and forests relaxing during his road trip to Jasper.",
+        "v2_answer": "Evan found the fresh air, peacefulness, and a cozy cabin surrounded by mountains and forests relaxing during his road trip to Jasper. [9a1b31d0-da7d-47e8-ac91-4b6e5dfb312c]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "5af84fa7f1958295ba25e0bb": {
+      "gold": "vegan ice cream recipe",
+      "A_no_memory": {
+        "v1_answer": "The recipe Nate offered to share with Joanna is a chocolate chip cookie recipe.",
+        "v2_answer": "The recipe Nate offered to share with Joanna is a chocolate chip cookie recipe.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not specify the recipe Nate offered to share with Joanna.",
+        "v2_answer": "The provided information does not specify the recipe Nate offered to share with Joanna.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "None of the provided memories mention a specific recipe that Nate offered to share with Joanna.",
+        "v2_answer": "The recipe Nate offered to share with Joanna is vegan ice cream. [95325249-53c3-4fe0-b0e4-c8eef0a2eacc]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "5f81087c1337f577adc31940": {
+      "gold": "The Great Gatsby",
+      "A_no_memory": {
+        "v1_answer": "The novel Evan is reading that he finds gripping is \"The Great Gatsby.\"",
+        "v2_answer": "The novel Evan is reading that he finds gripping is \"The Great Gatsby.\"",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "\"The Great Gatsby\" [id:evidence-slot-1]",
+        "v2_answer": "\"The Great Gatsby\" [10:52 am on 27 July, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The novel is not mentioned in the provided memories.",
+        "v2_answer": "\"The Great Gatsby\" [7c0a0420-f4c3-4212-9b94-7cd4ee0fa25d]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "658b4f351452fbd8629ff50d": {
+      "gold": "October 3, 2023",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone: The information about when Calvin met with local artists in Boston is not provided in the question.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone: The information about when Calvin met with local artists in Boston is not provided in the question.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Yesterday [evidence-slot-1].",
+        "v2_answer": "Calvin met with local artists in Boston on 4 October, 2023 [2:44 pm].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The text does not specify the exact date when Calvin met with local artists in Boston.",
+        "v2_answer": "Calvin met with local artists in Boston on 4 October, 2023 [1a742554-11bd-4494-8437-d9c041bc4eba].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "688c6c4830a47512d5c9d8f6": {
+      "gold": "'Sleep'",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not include any details about Deborah's recommendations for meditation and deep relaxation. Therefore, I cannot provide a specific answer based on the given context.",
+        "v2_answer": "The information provided does not include any details about Deborah's recommendations for meditation and deep relaxation. Therefore, I cannot provide a specific answer based on the given context.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The album Deborah recommends for meditation and deep relaxation is 'Sleep' [evidence-slot-1].",
+        "v2_answer": "The album Deborah recommends for meditation and deep relaxation is 'Sleep' [4:03 pm on 28 March, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Deborah recommends the album 'Sleep' for meditation and deep relaxation [bfba5d4e-5dc1-4b22-8c00-c329f459e0bd].",
+        "v2_answer": "The album Deborah recommends for meditation and deep relaxation is 'Sleep'.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "6b06956fec2b405e20a47b4e": {
+      "gold": "Wednesday before 9 February, 2023",
+      "A_no_memory": {
+        "v1_answer": "Jolene had a mini-retreat to reflect on her career in 2022.",
+        "v2_answer": "Jolene had a mini-retreat to reflect on her career in 2022.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Last Wednesday [evidence-slot-1].",
+        "v2_answer": "Last Wednesday [9:03 pm on 9 February, 2023]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Last Wednesday. [39460edf-509b-418e-a31d-bc9d3c86243d]",
+        "v2_answer": "Last Wednesday.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "6cab2522b89bcf65f66055d4": {
+      "gold": "The week before 6 July 2023",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about Caroline or a picnic. Therefore, I cannot determine the answer.",
+        "v2_answer": "The question does not provide any relevant information or context about Caroline or a picnic. Therefore, I cannot determine the answer.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "last week [evidence-slot-1]",
+        "v2_answer": "Caroline had a picnic last week [8:18 pm on 6 July, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Caroline had a picnic last week [437b8069-059f-4481-9836-1c5c733a19aa].",
+        "v2_answer": "Caroline had a picnic last week [39034b03-d20f-415f-8279-51dccac5676d].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "6d9e753336303a6680c96c4c": {
+      "gold": "Woodhaven's interesting past and people",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not mention anything about Joanna's new script or its inspiration. Therefore, I cannot provide a specific answer based on the given context.",
+        "v2_answer": "The information provided does not mention anything about Joanna's new script or its inspiration. Therefore, I cannot provide a specific answer based on the given context.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Joanna's new script in July 2022 was inspired by Woodhaven's interesting past and the changes it has undergone, which sparked ideas for her next script [evidence-slot-1].",
+        "v2_answer": "Joanna's new script was inspired by Woodhaven's interesting past and the changes it had undergone, which sparked ideas for her next script [2:34 pm on 10 July, 2022].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Joanna's new script in July 2022 was inspired by Woodhaven's interesting past with lots of cool people and how much it changed [34636995-fce3-44e4-9e1a-a90fab8a640f].",
+        "v2_answer": "Joanna's new script was inspired by Woodhaven's interesting past with lots of cool people and how much it changed [7f1c6be9-3e8d-4a45-b9ad-3e4c1b761631].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "6dfe2acb901ee1ddc17bb616": {
+      "gold": "10 years ago",
+      "A_no_memory": {
+        "v1_answer": "The question cannot be answered with the given information.",
+        "v2_answer": "The question cannot be answered with the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Ten years ago [evidence-slot-1].",
+        "v2_answer": "Ten years ago. [1]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Ten years ago.",
+        "v2_answer": "Ten years ago. [724ae57d-2355-4ffc-8f74-4b08e54677ab]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "6e28a1f8de6bed28621fc926": {
+      "gold": "By donating a portion of his profits frmo selling jwelery",
+      "A_no_memory": {
+        "v1_answer": "Audrey helps out the animal shelter by volunteering her time to walk dogs, clean cages, and assist with feeding the animals. She also participates in fundraising events and helps with adoption efforts to ensure the shelter can care for more animals in need.",
+        "v2_answer": "Audrey helps out the animal shelter by volunteering her time to walk dogs, clean cages, and assist with feeding the animals. She also participates in fundraising events and helps with adoption efforts to ensure the shelter can care for more animals in need.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Audrey helps out the animal shelter by donating to it. [evidence-slot-1]",
+        "v2_answer": "Audrey helps out the animal shelter by donating to it. [9:41 pm on 6 October, 2023]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Audrey donates to an animal shelter [e530f945-2ee3-4339-afbd-5821a92e7bde].",
+        "v2_answer": "Audrey donates to an animal shelter as a way of helping out [bf78b95d-98df-4fd2-ace0-7e26e1b6f610].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "6fc78427a97fc59864b68582": {
+      "gold": "an intense Harry Potter trivia contest",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide enough information to determine what Anthony and John ended up playing during the charity event. No relevant memories or details are given.",
+        "v2_answer": "The question does not provide enough information to determine what Anthony and John ended up playing during the charity event. No relevant memories or details are given.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Harry Potter trivia contest [evidence-slot-1]",
+        "v2_answer": "Harry Potter trivia contest [4:17 pm on 2 August, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "A Harry Potter trivia contest [b071c36a-e45b-444c-ab65-12369d7ee66c].",
+        "v2_answer": "Anthony and John ended up playing a Harry Potter trivia contest during the charity event.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "750c9e6a1612c7e3d61d5efc": {
+      "gold": "Lots of homes were ruined.",
+      "A_no_memory": {
+        "v1_answer": "The flood caused significant damage to the homes in John's old area, including structural damage, water intrusion, and the need for extensive repairs or rebuilding.",
+        "v2_answer": "The flood caused significant damage to the homes in John's old area, including structural damage, water intrusion, and the need for extensive repairs or rebuilding.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The flood ruined lots of homes in John's old area. [evidence-slot-1]",
+        "v2_answer": "The flood ruined lots of homes in John's old area. [6:29 pm on 7 July, 2023]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The flood ruined lots of homes in John's old area. [344fcca6-daa7-4877-abdf-39c1a46d9e1a]",
+        "v2_answer": "The flood ruined lots of homes in John's old area. [65e8a24f-ed1d-44db-b1b3-d7423071a953]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "7630c9e004fee995ca68fdcc": {
+      "gold": "coconut cream",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not include details about the type of frosting Joanna used on the cake she made in May 2022. Therefore, I cannot provide a specific answer based on the given context.",
+        "v2_answer": "The information provided does not include details about the type of frosting Joanna used on the cake she made in May 2022. Therefore, I cannot provide a specific answer based on the given context.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "coconut cream frosting [evidence-slot-1]",
+        "v2_answer": "coconut cream frosting [11:54 am on 2 May, 2022]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Joanna used coconut cream frosting on the cake she made recently. [f071f278-d0ca-4d42-b015-dd8b74bc2a85]",
+        "v2_answer": "Joanna used coconut cream frosting on the cake she made recently in May 2022 [d78f5fc6-e953-439b-a88a-16fc010043f1].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "8053a04486e9267b7cbdc004": {
+      "gold": "to focus on things that align with his values and passions",
+      "A_no_memory": {
+        "v1_answer": "John left his IT job due to a combination of factors including burnout from long hours, a lack of career advancement opportunities, and a desire for a better work-life balance. He also felt underappreciated and sought a role that aligned more with his personal interests and values.",
+        "v2_answer": "John left his IT job due to a combination of factors including burnout from long hours, a lack of career advancement opportunities, and a desire for a better work-life balance. He also felt underappreciated and sought a role that aligned more with his personal interests and values.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John left his IT job because he wanted to make a change and focus on things that align with his values and passions [evidence-slot-1].",
+        "v2_answer": "John left his IT job because he wanted to make a change and focus on things that align with his values and passions. [1]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John left his IT job because he wanted something that made a difference. [74b93992-767e-442b-9f98-295a36eb15d7]",
+        "v2_answer": "John left his IT job because he wanted something that made a difference and he wanted to pursue a career in the gaming industry, specifically organizing tournaments for computer games like CS:GO, which aligns with his passions and values. [56203722-b174-4196-",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "83723a982ed53ba1fff92aba": {
+      "gold": "Thursday before December 17, 2023.",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about Evan's son or an incident involving a bike. Therefore, it is not possible to answer based on the given information.",
+        "v2_answer": "The question does not provide any relevant information or context about Evan's son or an incident involving a bike. Therefore, it is not possible to answer based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Last Tuesday [evidence-slot-1].",
+        "v2_answer": "Last Tuesday [6:48 pm on 17 December, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Last Tuesday. [e7c119fb-17ce-4fa4-b203-03b07507f762]",
+        "v2_answer": "Last Tuesday.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "8465087c70b49a60816bbf39": {
+      "gold": "tree pose",
+      "A_no_memory": {
+        "v1_answer": "No relevant information provided.",
+        "v2_answer": "No relevant information provided.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "tree pose [evidence-slot-1]",
+        "v2_answer": "tree pose [9:17 am on 26 June, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Deborah shared a photo of the tree pose [abe4888e-e7f1-4dcc-ae66-b22d8dac59f3].",
+        "v2_answer": "Tree Pose [65c6cabd-395d-40d6-80cf-34f53fda098b].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "863ba61abf97813e4ec149e3": {
+      "gold": "Pacific Northwest",
+      "A_no_memory": {
+        "v1_answer": "I don't have any information about John's road trip.",
+        "v2_answer": "I don't have any information about John's road trip.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John explored the coast in the Pacific Northwest on a road trip last year [evidence-slot-1].",
+        "v2_answer": "John explored the coast in the Pacific Northwest, including some cool national parks [6:13 pm on 10 April, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John explored the coast in the Pacific Northwest and visited some cool national parks [187839ed-16d4-4a28-bb27-ad307673b83f].",
+        "v2_answer": "John explored the coast in the Pacific Northwest and visited some cool national parks [171e69eb-64f2-41ff-8cc9-fdd4004f6f28].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "86cb281361c9242f241d46d5": {
+      "gold": "The week before 9 June 2023",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nCaroline met up with her friends, family, and mentors on the weekend.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nCaroline met up with her friends, family, and mentors on the weekend.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "last week [evidence-slot-1]",
+        "v2_answer": "last week [7:55 pm on 9 June, 2023]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Last week [b07a0b8b-ef3d-4141-a4d3-6854a4c2909e].",
+        "v2_answer": "last week [c3b71944-3414-4191-8ed6-23c064de0af2]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "889e240b0ebe127825ddc77a": {
+      "gold": "Yes, since she collects classic children's books",
+      "A_no_memory": {
+        "v1_answer": "Without specific information about Caroline's bookshelf, it's impossible to determine with certainty. However, if Caroline is a child or enjoys children's literature, it's possible she might have Dr. Seuss books.",
+        "v2_answer": "Without specific information about Caroline's bookshelf, it's impossible to determine with certainty. However, if Caroline is a child or enjoys children's literature, it's possible she might have Dr. Seuss books.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Yes, Caroline likely has Dr. Seuss books on her bookshelf, as they are classic children's books and fit the category of \"classics\" she mentioned [evidence-slot-1].",
+        "v2_answer": "Yes, Caroline likely has Dr. Seuss books on her bookshelf, as they are classic children's books and fit the category of \"classics\" she mentioned [evidence-slot-1].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Yes, Caroline likely has Dr. Seuss books on her bookshelf, as she is creating a diverse library for her kids, including classics and educational books [05df293a-5df2-4432-995a-5091ca4ffa1d].",
+        "v2_answer": "Yes, Caroline likely has Dr. Seuss books on her bookshelf, as she mentioned having a variety of children's books including classics, which often include Dr. Seuss titles.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "8cfb15ffe34aff30e656508c": {
+      "gold": "Hawaiian",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not include details about John's favorite pizza type. Therefore, I cannot determine the answer based on the given data.",
+        "v2_answer": "The information provided does not include details about John's favorite pizza type. Therefore, I cannot determine the answer based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Hawaiian pizza [evidence-slot-1].",
+        "v2_answer": "Hawaiian pizza [7:01 pm on 4 May, 2022].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John's favorite pizza is Hawaiian pizza [16cb396a-4324-4479-b37c-08bf05ebef50].",
+        "v2_answer": "John's favorite type of pizza is Hawaiian pizza.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "8eeba45a4efe9867121b1828": {
+      "gold": "On the night of October 30 to 31, 2022",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about John or the charity tournament. Therefore, I cannot answer based on the given data.",
+        "v2_answer": "The question does not provide any relevant information or context about John or the charity tournament. Therefore, I cannot answer based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John and his gaming friends organized the charity tournament last night [evidence-slot-1].",
+        "v2_answer": "John and his gaming friends organized the charity tournament on 31 October, 2022 [12:37 am].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The charity tournament was organized last night [7f9aa7ac-4a57-42ff-919d-60d779a56f40].",
+        "v2_answer": "John and his gaming friends organized the charity tournament on 31 October, 2022.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "8f56211537b560876b6c8c27": {
+      "gold": "a cooking show",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone. \n\nNate hosted a cooking show where he taught vegan ice cream recipes.",
+        "v2_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone. \n\nNate hosted a cooking show where he taught vegan ice cream recipes.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate hosted a cooking show. [evidence-slot-1]",
+        "v2_answer": "Nate hosted a cooking show. [1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "A cooking show.",
+        "v2_answer": "A cooking show.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "900754ede273b89374c7c68e": {
+      "gold": "peaceful",
+      "A_no_memory": {
+        "v1_answer": "Evan describes being out on the water while kayaking and watching the sunset as a peaceful and serene experience, where the calm waters reflect the vibrant colors of the sky, creating a tranquil and breathtaking atmosphere.",
+        "v2_answer": "Evan describes being out on the water while kayaking and watching the sunset as a peaceful and serene experience, where the calm waters reflect the vibrant colors of the sky, creating a tranquil and breathtaking atmosphere.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Evan describes being out on the water while kayaking and watching the sunset as \"peaceful\" and \"unforgettable.\"",
+        "v2_answer": "Evan describes being out on the water while kayaking and watching the sunset as \"peaceful\" and \"unforgettable.\"",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan describes being out on the water while kayaking and watching the sunset as peaceful and unforgettable, mentioning that it's like a reset button for the mind and body [914c4d2a-9474-416c-b738-dfee40737ba",
+        "v2_answer": "Evan describes being out on the water while kayaking and watching the sunset as \"peaceful\" and \"unforgettable.\"",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "9020c60faf525bce2fb03ead": {
+      "gold": "Phuket",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about Jolene and her partner's travel plans in September 2023.",
+        "v2_answer": "I don't have information about Jolene and her partner's travel plans in September 2023.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Phuket [evidence-slot-1]",
+        "v2_answer": "Phuket [2:18 pm on 12 September, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "None of the provided memories mention Jolene and her partner traveling anywhere in September 2023. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "Phuket",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "918b3f73d0962b330b0eb50a": {
+      "gold": "On a week before 16 May, 2023",
+      "A_no_memory": {
+        "v1_answer": "The question refers to a specific event involving Calvin's musical gear and favorite mic, but no relevant memories or context have been provided. Therefore, I cannot answer based on available information.",
+        "v2_answer": "The question refers to a specific event involving Calvin's musical gear and favorite mic, but no relevant memories or context have been provided. Therefore, I cannot answer based on available information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Last week [evidence-slot-1].",
+        "v2_answer": "The mishap occurred last week on 16 May, 2023 [11:50 am].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Last week. [68ab5b77-ad31-4f4f-b4c4-67e0cddd3978]",
+        "v2_answer": "Last week.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "96e8ea000877e2a5fa52b372": {
+      "gold": "approximately summer of 2022",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not mention when John started working on his 2D Adventure mobile game. Therefore, I cannot provide a specific date or time.",
+        "v2_answer": "The information provided does not mention when John started working on his 2D Adventure mobile game. Therefore, I cannot provide a specific date or time.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John started working on his 2D Adventure mobile game a few months prior to the conversation.",
+        "v2_answer": "John started working on his 2D Adventure mobile game a few months before 20 September 2022 [8:56 pm].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John started working on his 2D Adventure mobile game a few months before the launch.",
+        "v2_answer": "John started working on his 2D Adventure mobile game a few months before the conversation, which took place on 20 September 2022. The exact start date is not specified.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "99892065a95132444067bbdf": {
+      "gold": "a podcast discussing the rap industry",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about what Calvin and his friends recorded in August 2023.",
+        "v2_answer": "I don't have information about what Calvin and his friends recorded in August 2023.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Calvin and his friends recorded a podcast discussing the rapidly evolving rap industry [evidence-slot-1].",
+        "v2_answer": "Calvin and his friends recorded a podcast discussing the rapidly evolving rap industry [11:06 am on 22 August, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Calvin and his friends recorded a podcast discussing the rapidly evolving rap industry [8d539293-2171-41a3-8e0f-245492f7b2c9].",
+        "v2_answer": "Calvin and his friends recorded a podcast discussing the rapidly evolving rap industry [45b2329e-0be4-40cd-b2af-79ce2ddbe699].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "9a0d30913d9ab5a7cac6bff4": {
+      "gold": "cozy and comfortable",
+      "A_no_memory": {
+        "v1_answer": "Gina wanted her customers to feel welcome and valued in her store.",
+        "v2_answer": "Gina wanted her customers to feel welcome and valued in her store.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Gina wanted her customers to feel cozy and comfortable, as if they were in a cool oasis [evidence-slot-1][evidence-slot-2].",
+        "v2_answer": "Gina wanted her customers to feel cozy and comfortable, as if they were in a cool oasis. [1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Gina wanted her customers to feel comfortable and invited, as if they were in a cool oasis, and she aimed to create an experience that would make them want to come back.",
+        "v2_answer": "Gina wanted her customers to feel like they're in a cool oasis and to feel cozy and comfortable. She aimed to create an inviting and special shopping experience for them.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "9b12739d4ac8cfd459690584": {
+      "gold": "completion of a university degree",
+      "A_no_memory": {
+        "v1_answer": "John received a certificate for completing a course on digital marketing.",
+        "v2_answer": "John received a certificate for completing a course on digital marketing.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not mention anything about John receiving a certificate. Therefore, the answer cannot be determined from the given context.",
+        "v2_answer": "The provided information does not mention anything about John receiving a certificate. Therefore, the answer cannot be determined from the given context.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided memories do not mention John receiving a certificate for anything. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "The question cannot be answered based on the provided information.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "9f278780cdaaa6e7b8b3d232": {
+      "gold": "2022",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about Melanie painting a sunrise. Therefore, it cannot be answered based on the given data.",
+        "v2_answer": "The question does not provide any relevant information or context about Melanie painting a sunrise. Therefore, it cannot be answered based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not mention when Melanie painted a sunrise. Therefore, the answer cannot be determined from the given data.",
+        "v2_answer": "The provided information does not mention Melanie painting a sunrise. Therefore, the answer is that there is no relevant information to determine when Melanie painted a sunrise.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Melanie painted the lake sunrise last year. [012e823d-173c-4a63-b32a-6a4164695d95]",
+        "v2_answer": "Melanie painted the lake sunrise last year.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "a05461fc56b6479de2f46d57": {
+      "gold": "she thinks Caroline is doing something amazing and will be an awesome mom",
+      "A_no_memory": {
+        "v1_answer": "Melanie thinks Caroline's decision to adopt is a positive and thoughtful choice. She supports Caroline's decision and believes it is a meaningful way to provide a loving home to a child in need.",
+        "v2_answer": "Melanie thinks Caroline's decision to adopt is a positive and thoughtful choice. She supports Caroline's decision and believes it is a meaningful way to provide a loving home to a child in need.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Melanie thinks positively about Caroline's decision to adopt, expressing admiration and support for creating a family for the kids. [evidence-slot-1]",
+        "v2_answer": "Melanie thinks positively about Caroline's decision to adopt, expressing admiration and support for creating a family for the kids. [1]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Melanie thinks Caroline's decision to adopt is awesome and praises her kindness, stating that Caroline's future family will be lucky to have her [87b8db70-393c-4d2a-b531-fc5ba0796eea].",
+        "v2_answer": "Melanie thinks Caroline's decision to adopt is awesome and believes she will provide a safe and loving home for the kids. She also appreciates Caroline's choice of an agency that supports LGBTQ+ individuals in adoption.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "a18f356ef6e06541b2d7bc44": {
+      "gold": "July 2023",
+      "A_no_memory": {
+        "v1_answer": "The provided information does not mention when Dave took a trip to mountainous regions.",
+        "v2_answer": "The provided information does not mention when Dave took a trip to mountainous regions.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Dave took a trip to mountainous regions next month [evidence-slot-1].",
+        "v2_answer": "Dave took a trip to mountainous regions next month, which would be after 9 June, 2023 [2:31 pm on 9 June, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Dave booked a trip to a mountainous region for next month. The exact date is not specified in the provided information.",
+        "v2_answer": "Dave took a trip to a mountainous region for next month, as mentioned on 9 June, 2023 [ffa8286b-8039-4747-8a59-4f5762ed5063].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "a345a55fa83769f28edd58df": {
+      "gold": "Presumably not",
+      "A_no_memory": {
+        "v1_answer": "No.",
+        "v2_answer": "No.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "No, James did not have a girlfriend during April 2022.",
+        "v2_answer": "No, James did not have a girlfriend during April 2022.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "No.",
+        "v2_answer": "No, there is no evidence in the provided memories that James had a girlfriend during April 2022.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "a3616a18666e5fec6357e984": {
+      "gold": "Walking",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information about Andrew and Buddy's activities. Therefore, I cannot answer based on the given data.",
+        "v2_answer": "The question does not provide any relevant information about Andrew and Buddy's activities. Therefore, I cannot answer based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Walking [evidence-slot-1]",
+        "v2_answer": "Walking [6:12 pm on 19 October, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Andrew and Buddy enjoy going on walks and hiking trails together. [d4a11cba-a878-47ad-a3de-f98266d85123] [20d7d499-7939-483f-8",
+        "v2_answer": "Andrew and Buddy enjoy going on walks and hiking trails together. [00cf61a9-29d2-4f9f-87cc-722f57495422] [190e5275-e464-4e",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "a492c92b16d24599b158a383": {
+      "gold": "The Minnesota Wolves",
+      "A_no_memory": {
+        "v1_answer": "I don't have access to specific information about John's signing on 21 May 2023. Please provide additional context or details if possible.",
+        "v2_answer": "I don't have access to specific information about John's signing on 21 May 2023. Please provide additional context or details if possible.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not mention which team John signed with on 21 May, 2023. Therefore, the answer cannot be determined from the given data.",
+        "v2_answer": "The Minnesota Wolves [7:48 pm on 21 May, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The Minnesota Wolves [4243ec91-b476-4658-b02a-ada0a4053b93].",
+        "v2_answer": "John signed with the Minnesota Wolves [b9d60b61-9442-45d9-8d7b-13d361b4cf25].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "a505c44f8683b6c2a3ee6cc5": {
+      "gold": "Friendly and playful",
+      "A_no_memory": {
+        "v1_answer": "The question contains an error. The name \"Audrey\" is mentioned, but the dog's name is not specified. If no relevant memories or information are provided, the answer cannot be determined from the given question alone.",
+        "v2_answer": "The question contains an error. The name \"Audrey\" is mentioned, but the dog's name is not specified. If no relevant memories or information are provided, the answer cannot be determined from the given question alone.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Audrey described the dog as friendly and playful [evidence-slot-1].",
+        "v2_answer": "Audrey described the dog as friendly and playful. [2:03 pm on 11 May, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Audrey described the dog she met at the pet store as friendly and playful. [8bf147df-04b9-4e49-9726-a9977f2194f5]",
+        "v2_answer": "Audrey described the dog she met at the pet store as friendly and playful.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "a581a8bbc9499f36cbfae1ea": {
+      "gold": "September 2022",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about Nate winning money in a video game tournament.",
+        "v2_answer": "I don't have information about Nate winning money in a video game tournament.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate won a lot of money in a video game tournament last week [evidence-slot-1].",
+        "v2_answer": "6 October, 2022 [11:15 am]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate won a lot of money in a video game tournament last week [ec8df8ef-45e1-4aff-9c5d-b5bdc6f2bfc1].",
+        "v2_answer": "Nate won a lot of money in a video game tournament last week on 6 October, 2022.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "a8751a3971aeb111cb82e1c9": {
+      "gold": "to feel closer to a community and her faith",
+      "A_no_memory": {
+        "v1_answer": "The provided information does not include details about Maria joining a nearby church. Therefore, I cannot provide a specific reason based on the given context.",
+        "v2_answer": "The provided information does not include details about Maria joining a nearby church. Therefore, I cannot provide a specific reason based on the given context.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Maria joined a nearby church recently to feel closer to a community and her faith [evidence-slot-1].",
+        "v2_answer": "Maria joined a nearby church recently to feel closer to a community and her faith [5:04 pm on 6 May, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Maria joined a nearby church recently to feel closer to a community and her faith [7b6e146f-35fc-44c3-9c66-b9a0f11e8c9d].",
+        "v2_answer": "Maria joined a nearby church recently to feel closer to a community and her faith. [bfd780af-d3cb-48a0-b9e8-4b85869aa2a6]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "abbe9d1c80727ac5fec7a5a2": {
+      "gold": "shaping the world with choices",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone: John finds the storytelling and open-world exploration aspects of \"The Witcher 3\" immersive.",
+        "v2_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone: John finds the storytelling and open-world exploration aspects of \"The Witcher 3\" immersive.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The story and choices that shape the world [evidence-slot-1].",
+        "v2_answer": "The story and choices that shape the world [id: evidence-slot-1].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John finds the aspect of shaping the world through choices immersive.",
+        "v2_answer": "John finds the aspect of making choices that shape the world immersive in \"The Witcher 3.\" [375dd510-f683-4938-a748-afce5a90ff54]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "ae713a37de7c095811e54d5a": {
+      "gold": "3",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about Melanie or her children. Therefore, it is not possible to determine the answer based on the given information.",
+        "v2_answer": "The question does not provide any relevant information or context about Melanie or her children. Therefore, it is not possible to determine the answer based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Melanie has at least one child, as mentioned in the conversation about her son [evidence-slot-1]. However, the number of children is not explicitly stated. Therefore, the answer is unknown based on the provided information.",
+        "v2_answer": "Melanie has at least one child, as mentioned in the conversation about her son getting into an accident [evidence-slot-1]. The text does not provide the exact number of children Melanie has.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The information provided does not specify how many children Melanie has. Therefore, the answer cannot be determined from the given data.",
+        "v2_answer": "Melanie has at least one child, as mentioned in the conversation about her son being in an accident. The number of children is not explicitly stated.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "aeb04f7906916e0fb81ae2ee": {
+      "gold": "Keep trying new things",
+      "A_no_memory": {
+        "v1_answer": "Evan suggested Sam should keep doing what makes him happy to find his own version of love.",
+        "v2_answer": "Evan suggested Sam should keep doing what makes him happy to find his own version of love.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Evan suggested Sam should keep trying new things to find his own version of love [evidence-slot-1].",
+        "v2_answer": "Evan suggested Sam should keep trying new things to find his own version of love. [4:25 pm on 26 December, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan suggested Sam should keep trying new things to find his own version of love. [98ae48a0-0439-41f5-a746-e11294acfd24]",
+        "v2_answer": "Evan suggested Sam should keep trying new things to find his own version of love.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "afa647cadb82aebffcda984b": {
+      "gold": "painting",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information about Evan and Sam's plans for September 2023. Therefore, I cannot determine the answer based on the given information.",
+        "v2_answer": "The question does not provide any relevant information about Evan and Sam's plans for September 2023. Therefore, I cannot determine the answer based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Evan and Sam plan on doing a painting session together during September 2023.",
+        "v2_answer": "Evan and Sam plan on doing painting together during September 2023.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan and Sam plan on painting together during September 2023.",
+        "v2_answer": "Evan and Sam plan on painting together during September 2023.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "afef9ecccb370aa8b6c3312c": {
+      "gold": "vegan ice cream",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information about Nate or his vegan diet group. Therefore, I cannot answer based on the given information.",
+        "v2_answer": "The question does not provide any relevant information about Nate or his vegan diet group. Therefore, I cannot answer based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate made and shared vegan ice cream with his vegan diet group [evidence-slot-1].",
+        "v2_answer": "Nate made and shared vegan ice cream with his vegan diet group [10:55 am on 24 June, 2022].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate made vegan ice cream and shared it with his vegan diet group [18502a93-5639-463e-a83d-8767aeb41576].",
+        "v2_answer": "Nate made vegan ice cream and shared it with some people in his vegan diet group.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "b66060d844275bfaf1f6b7ed": {
+      "gold": "Nearby park",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nAnswer: The question does not provide enough information to determine where Dave took a stunning photo of a waterfall.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nAnswer: The question does not provide enough information to determine where Dave took a stunning photo of a waterfall.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not mention a waterfall; Dave took a photo in a nearby park [evidence-slot-1]. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "The provided information does not mention a waterfall; it refers to a \"serene spot in a nearby park.\" Therefore, the answer cannot be determined from the given evidence.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Dave took a stunning photo of a waterfall in a nearby park [2cc07e8a-9855-4d8e-92cb-f5df74b9f411].",
+        "v2_answer": "Dave took a stunning photo of a waterfall in a nearby park [e0eb6af3-cb66-40d6-9391-e3c27eff175d].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "b8456d4d10d2e90971c70be7": {
+      "gold": "Four",
+      "A_no_memory": {
+        "v1_answer": "I don't have access to specific information about Nate's video game tournament wins by July 10, 2022. Please provide relevant details or context if available.",
+        "v2_answer": "I don't have access to specific information about Nate's video game tournament wins by July 10, 2022. Please provide relevant details or context if available.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate has won four video game tournaments by July 10, 2022 [evidence-slot-1].",
+        "v2_answer": "Nate has won four video game tournaments by July 10, 2022 [2:34 pm on 10 July, 2022].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate has won four video game tournaments by July 10, 2022. [c9256bac-4ab1-4d7f-bc2f-5a66ba39e634]",
+        "v2_answer": "Nate has won four video game tournaments by July 10, 2022.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "b88f8335cf237720b8f58c77": {
+      "gold": "veterans and their families",
+      "A_no_memory": {
+        "v1_answer": "The 5K charity run organized by John supported the cause of childhood cancer research.",
+        "v2_answer": "The 5K charity run organized by John supported the cause of childhood cancer research.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The 5K charity run organized by John supported veterans and their families [evidence-slot-1].",
+        "v2_answer": "The 5K charity run organized by John supported veterans and their families [8:06 pm on 9 August, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The 5K charity run organized by John supported veterans and their families [e992493b-3871-4c18-9759-08e1876d62a2].",
+        "v2_answer": "The 5K charity run organized by John supported veterans and their families [dfe6f9b6-a548-4f30-b050-b913a136f20a].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "ba76beb77a1a4dfd0101b138": {
+      "gold": "beach",
+      "A_no_memory": {
+        "v1_answer": "The answer cannot be determined from the given information.",
+        "v2_answer": "The answer cannot be determined from the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not explicitly state whether John lives close to a beach or the mountains. However, John mentions a \"pic I got from my walk last week\" and \"appreciate nature,\" which could suggest he lives near a natural area, but it does not specifically indicate a beach or mountains. Therefore, based",
+        "v2_answer": "The provided information does not explicitly state whether John lives close to a beach or the mountains. However, John mentions a pic from his walk last week that reminds him to take a break and appreciate nature. This suggests he may live near a natural area, but it does not specifically indicate a beach or mountains. Therefore, based",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided information does not explicitly state whether John lives close to a beach or the mountains. However, John mentions a sunset seen during a walk, which could suggest proximity to a coastal area. [b89398d4-6035-4130-92c5-f1",
+        "v2_answer": "None of the provided memories mention John living near a beach or the mountains. Therefore, based on the given information, it is not possible to determine whether John lives close to a beach or the mountains.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "c1af674928ea371cb7778c79": {
+      "gold": "education and infrastructure",
+      "A_no_memory": {
+        "v1_answer": "John is particularly interested in areas such as healthcare reform, education policy, and environmental sustainability for policymaking.",
+        "v2_answer": "John is particularly interested in areas such as healthcare reform, education policy, and environmental sustainability for policymaking.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John is particularly interested in education and infrastructure for policymaking [evidence-slot-1].",
+        "v2_answer": "John is particularly interested in education and infrastructure for policymaking [9:36 am on 2 April, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Improving education and infrastructure. [c562fe66-27cf-4f0e-a91d-4b374f1e6f63]",
+        "v2_answer": "John is particularly interested in improving education and infrastructure. [cd040930-21dc-4423-b34f-5870c92cb034]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "c3ec94c09de3efc14257873e": {
+      "gold": "Harry Potter and Game of Thrones",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information about Tim's favorite fantasy novels. Therefore, I cannot answer based on the given data.",
+        "v2_answer": "The question does not provide any relevant information about Tim's favorite fantasy novels. Therefore, I cannot answer based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Harry Potter and Game of Thrones [evidence-slot-1]",
+        "v2_answer": "Harry Potter and Game of Thrones [4:17 pm on 2 August, 2023]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Harry Potter and Game of Thrones [3287b3e1-03d4-47ce-98de-36157feb972c]",
+        "v2_answer": "Harry Potter and Game of Thrones [a2c835fc-ee12-4f0c-bb3d-715b9e61c767].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "c588061c4853214c48e62417": {
+      "gold": "build relationships with customers, create a strong brand image, stay positive",
+      "A_no_memory": {
+        "v1_answer": "Gina advises Jon to focus on customer satisfaction, maintain a strong work ethic, and stay adaptable to changes in the market.",
+        "v2_answer": "Gina advises Jon to focus on customer satisfaction, maintain a strong work ethic, and stay adaptable to changes in the market.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not include any advice given by Gina to Jon about running a successful business. Therefore, I cannot provide a specific answer based on the given data.",
+        "v2_answer": "The provided information does not mention Gina giving advice to Jon. Therefore, no relevant advice from Gina is available.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Gina advises Jon to stay persistent and not quit, as her support and words motivate him to keep going. She also mentions that starting a business takes courage and encourages him to hang in there.",
+        "v2_answer": "Gina advises Jon to stay positive, build relationships, and create a strong brand image for his business. She also mentions that supporting his dreams is awesome and encourages him to keep going.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "c6b34789537ab6c30e18f913": {
+      "gold": "new Prius",
+      "A_no_memory": {
+        "v1_answer": "No relevant information provided.",
+        "v2_answer": "No relevant information provided.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Evan got a new Prius after his old Prius broke down [evidence-slot-1].",
+        "v2_answer": "Evan got a new Prius after his old Prius broke down. [1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Evan got a new Prius [1d780b18-2ac8-48a5-a19e-132c1171a122].",
+        "v2_answer": "Evan got a new Prius.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "c701fd46ff882b14fbb65386": {
+      "gold": "early writings",
+      "A_no_memory": {
+        "v1_answer": "Joanna found old notebooks last week that contained her early writing samples, which prompted her to reflect on her progress as a writer.",
+        "v2_answer": "Joanna found old notebooks last week that contained her early writing samples, which prompted her to reflect on her progress as a writer.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Joanna found her early writings in the old notebooks, which prompted her to reflect on her progress as a writer [evidence-slot-1].",
+        "v2_answer": "Joanna found her early writings in the old notebooks, which prompted her to reflect on her progress as a writer [3:56 pm on 4 November, 2022].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Joanna found her early writings in old notebooks last week, which prompted her to reflect on her progress as a writer [2ee85cc7-e3f6-448f-94e6-ee8df1457aea].",
+        "v2_answer": "Joanna found old notebooks with her early writings, which prompted her to reflect on her progress as a writer [57ea5ded-9173-4594-8580-a1e2699b8cbb].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "c8b0dd085488f4af88a0748c": {
+      "gold": "a trophy",
+      "A_no_memory": {
+        "v1_answer": "The provided information does not mention Gina receiving anything from a dance contest. Therefore, the answer is: Nothing.",
+        "v2_answer": "The provided information does not mention Gina receiving anything from a dance contest. Therefore, the answer is: Nothing.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Gina received a trophy from a dance contest [evidence-slot-1].",
+        "v2_answer": "Gina received a trophy from a dance contest [1].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Gina received a trophy from a dance contest [b583d61f-00ab-44b6-b6f7-96bd0774ca07].",
+        "v2_answer": "Gina received a trophy from a dance contest [3ec71b5b-3905-425a-aed7-5ad9284443d6].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "cbd34ebed9beeb0eaebe8f16": {
+      "gold": "Political science, Public administration, Public affairs",
+      "A_no_memory": {
+        "v1_answer": "John's degree could be in any field, such as engineering, medicine, law, or business, depending on his interests and career path.",
+        "v2_answer": "John's degree could be in any field, such as engineering, medicine, law, or business, depending on his interests and career path.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John's degree might be in a field related to policymaking, such as public policy, political science, sociology, economics, or public administration. [evidence-slot-1]",
+        "v2_answer": "John's degree could be in a field related to policymaking, such as public administration, political science, sociology, economics, or public health. However, without specific information, it is not possible to determine the exact field of his degree.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John's degree might be in a field related to education, infrastructure, or policymaking, given his interests and discussions about making a positive impact.",
+        "v2_answer": "John's degree might be in a field related to education or infrastructure, given his interest in improving these areas.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "cd7d3356bd4e15b728a762b8": {
+      "gold": "raise awareness and start conversations to create positive change",
+      "A_no_memory": {
+        "v1_answer": "John started blogging about politics and policies to share his insights, engage in discussions, and raise awareness on issues he cared about.",
+        "v2_answer": "John started blogging about politics and policies to share his insights, engage in discussions, and raise awareness on issues he cared about.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John started blogging about politics and policies to raise awareness and start conversations to create positive change. [evidence-slot-1]",
+        "v2_answer": "John started blogging about politics and policies to raise awareness and start conversations to create positive change, as he found digging deeper into the political system to be eye-opening and wanted to share his thoughts and ideas with others who might understand the importance of these issues. [evidence-slot-1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John started blogging about politics and policies to make a real impact, raise awareness, and start conversations about important issues like education and infrastructure, which he believes are key to community growth and positive change.",
+        "v2_answer": "John started blogging about politics and policies to raise awareness, start conversations, and create positive change, as well as to share his thoughts and ideas on issues like education and infrastructure. [dadaeddf-aac1-47d7-b52d-1add58854ea3] [",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "d27b069709c542c383f11a71": {
+      "gold": "California",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about Sam's travel locations.",
+        "v2_answer": "I don't have information about Sam's travel locations.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The question cannot be answered based on the provided information.",
+        "v2_answer": "Nevada and California (as Lake Tahoe is located on the border of both states) [4:07 pm on 14 October, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided information does not specify the US state Sam was traveling in during October 2023.",
+        "v2_answer": "Sam was travelling in Nevada during October 2023.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "d3f3ef04d6bafa35a036b4de": {
+      "gold": "2020",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant information, so I cannot answer it.",
+        "v2_answer": "The question does not provide relevant information, so I cannot answer it.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "three years ago [evidence-slot-1]",
+        "v2_answer": "2020",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided information does not specify the year Jolene and her partner started dating.",
+        "v2_answer": "2020",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "d423d01d4459e6f156521e29": {
+      "gold": "21 July 2023",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone.",
+        "v2_answer": "The question does not provide relevant retrieved memories. Answer based on the question alone.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not specify when Jon and Gina decided to collaborate. Therefore, the answer cannot be determined from the given evidence.",
+        "v2_answer": "Jon and Gina decided to collaborate to create dance content on 21 July, 2023 [5:44 pm].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided memories do not specify when Jon and Gina decided to collaborate to create dance content.",
+        "v2_answer": "Jon and Gina decided to collaborate to create dance content on 21 July, 2023.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "d7416cd42cce7071a3021ef8": {
+      "gold": "the resilience of the veterans and their inspiring stories",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Please provide additional context or information about John and the veteran's hospital visit.",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Please provide additional context or information about John and the veteran's hospital visit.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "John appreciates the veteran's resilience and the inspiring, heartbreaking stories shared during the hospital visit, which filled him with hope and reminded him why he wanted to join the military.",
+        "v2_answer": "John appreciates the veteran's resilience and the inspiring, heartbreaking stories shared during the hospital visit, which reminded him why he wanted to join the military.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John appreciates the resilience of the veterans and the need to give back, as well as the eye-opening experience and the inspiration from their stories [46696e16-6a42-405e-8e85-6ba3eec344ae].",
+        "v2_answer": "John appreciates the resilience of the veterans and the importance of giving back, which reminded him why he wanted to join the military [e11423bb-3c9f-4758-b55f-f48ee937203c].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "d7e8174ba4b86b5acf6ebd43": {
+      "gold": "Nils Frahm and Olafur Arnalds",
+      "A_no_memory": {
+        "v1_answer": "The question cannot be answered based on the provided information.",
+        "v2_answer": "The question cannot be answered based on the provided information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nils Frahm and Olafur Arnalds [evidence-slot-1]",
+        "v2_answer": "Nils Frahm and Olafur Arnalds [4:03 pm on 28 March, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "None of the provided memories mention specific musicians that Jolene enjoys listening to during her yoga practice.",
+        "v2_answer": "Jolene mentioned enjoying Nils Frahm and Olafur Arnalds during her yoga practice.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "da1530b8fe0f638404932e1c": {
+      "gold": "Bright and bold - like him",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide enough information to determine why Nate chose the hair color he did.",
+        "v2_answer": "The question does not provide enough information to determine why Nate chose the hair color he did.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate chose the hair color because it's bright and bold, reflecting his personality and desire to stand out from regular options [evidence-slot-1].",
+        "v2_answer": "Nate chose the hair color because it's bright and bold, reflecting his personality and desire to stand out from regular options [7:37 pm on 15 April, 2022].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate chose the hair color because it's bright and bold - like him! He wanted to stand out from the regular options. [cb7d8aa9-f628-4121-abb2-2607a9402cc9]",
+        "v2_answer": "Nate chose the hair color because it's bright and bold - like him, and he wanted to stand out from the regular options. [a488f729-7614-47c5-87ca-f802da97ec04]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "da3e809272cde02b3b2a9dee": {
+      "gold": "get back on the road",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or memories to answer it. Therefore, I cannot determine what Calvin was excited to do after getting his car fixed on 7 July, 2023.",
+        "v2_answer": "The question does not provide any relevant information or memories to answer it. Therefore, I cannot determine what Calvin was excited to do after getting his car fixed on 7 July, 2023.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Get back on the road [evidence-slot-1].",
+        "v2_answer": "Get back on the road [7:56 pm on 7 July, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Calvin was excited to cruise around and enjoy the city lights and views from his mansion.",
+        "v2_answer": "Calvin was excited to show Dave his car and share some clips when everything was ready.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "dd6fff1b279fe40a3ff72adc": {
+      "gold": "basic games and stories",
+      "A_no_memory": {
+        "v1_answer": "The question cannot be answered with the given information.",
+        "v2_answer": "The question cannot be answered with the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "basic games and stories [evidence-slot-1]",
+        "v2_answer": "John's siblings are making basic games and stories. [6:53 pm on 1 September, 2022]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "John's siblings are creating their own programs, specifically basic games and stories, as mentioned in the conversation.",
+        "v2_answer": "John's siblings are making basic games and stories. [c194b749-512b-4221-b6ba-6bf3b79c0e1b]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "df9a9cfd8442cd6b616bceda": {
+      "gold": "hiking",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information or context about Maria or her church friends' activities in July 2023. Therefore, I cannot provide a specific answer based on the given information.",
+        "v2_answer": "The question does not provide any relevant information or context about Maria or her church friends' activities in July 2023. Therefore, I cannot provide a specific answer based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not specify the month of the activity. Therefore, it is not possible to determine the exact activity Maria and her church friends participated in during July 2023.",
+        "v2_answer": "Maria and her church friends participated in hiking in July 2023. [evidence-slot-1]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Maria and her church friends participated in hiking in July 2023.",
+        "v2_answer": "Maria and her church friends participated in hiking in July 2023. [e4c6f8b2-33d8-4293-b1c6-3db4b9658f1f]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "e24aa3297124044888f91d42": {
+      "gold": "Attending a Weight Watchers meeting",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about Sam's activities on December 4, 2023.",
+        "v2_answer": "I don't have information about Sam's activities on December 4, 2023.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not mention Sam's activities on December 4, 2023. Therefore, I cannot determine what Sam was doing on that specific date.",
+        "v2_answer": "The provided information does not mention what Sam was doing on December 4, 2023.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided memories do not mention any specific activity by Sam on December 4, 2023. Therefore, based on the given information, it is not possible to determine what Sam was doing on that date.",
+        "v2_answer": "None of the provided memories mention Sam's activities on December 4, 2023. Therefore, the answer cannot be determined from the given information.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "e6a432bbfb00dfd21fcc5357": {
+      "gold": " 23 July, 2023",
+      "A_no_memory": {
+        "v1_answer": "The provided information does not mention Gina or Shia Labeouf. Therefore, I cannot answer the question based on the given data.",
+        "v2_answer": "The provided information does not mention Gina or Shia Labeouf. Therefore, I cannot answer the question based on the given data.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The question cannot be answered with the provided information.",
+        "v2_answer": "Gina mentioned Shia Labeouf at 6:46 pm on 23 July, 2023 [6:46 pm on 23 July, 2023].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Gina mentioned Shia Labeouf in the first memory [da7e1d31-fe14-40f3-b8d9-370d0068ad10].",
+        "v2_answer": "Gina mentioned Shia Labeouf at 6:46 pm on 23 July, 2023.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "e9a2e801c96a48930731ca4c": {
+      "gold": "Super good, rich and creamy",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant information about Nate's opinion of the coconut milk ice cream he made. Therefore, I cannot provide a specific answer based on the given information.",
+        "v2_answer": "The question does not provide any relevant information about Nate's opinion of the coconut milk ice cream he made. Therefore, I cannot provide a specific answer based on the given information.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate thought the coconut milk ice cream was super good, rich, and creamy, and it might be his new favorite snack [evidence-slot-1].",
+        "v2_answer": "Nate thought the coconut milk ice cream was super good, rich, and creamy, and it might be his new favorite snack [9:27 am on 7 February, 2022].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate thought the coconut milk ice cream was super good, rich, and creamy, and it might be his new favorite snack [3d6ba1c4-8791-4e01-b9c5-d59dd4cffbaa].",
+        "v2_answer": "Nate thought the coconut milk ice cream was super good, rich, and creamy, and it might be his new favorite snack.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "e9d52c078941a1ed60d0b6ed": {
+      "gold": "Shinjuku",
+      "A_no_memory": {
+        "v1_answer": "Calvin mentions being excited to explore Shibuya.",
+        "v2_answer": "Calvin mentions being excited to explore Shibuya.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Shinjuku [evidence-slot-1]",
+        "v2_answer": "Shinjuku [1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Calvin mentions being excited to explore streets similar to those in the photo Dave shared [c71fc38b-b864-4eba-b029-4d03d2fe29db].",
+        "v2_answer": "Shibuya Crossing and Shinjuku.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "ebcd8558929c136c2c1b8c47": {
+      "gold": "May 7, 2022",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not mention when John first organized a charity tournament with his friends. Therefore, I cannot provide a specific date or time.",
+        "v2_answer": "The information provided does not mention when John first organized a charity tournament with his friends. Therefore, I cannot provide a specific date or time.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "The provided information does not specify when John first organized a charity tournament with his friends. Therefore, the answer cannot be determined from the given data.",
+        "v2_answer": "The provided information does not specify when John first organized a charity tournament with his friends. It only mentions that he organized something with his friends yesterday at 12:45 am on 8 May, 2022, but does not clarify if it was a charity tournament. Therefore, the answer cannot be",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "The provided information does not specify when John first organized a charity tournament with his friends.",
+        "v2_answer": "The relevant memory states that John organized a charity tournament with his friends \"yesterday\" on the same day as the conversation, which took place on 8 May 2022. Therefore, the tournament was organized on 7 May 2022.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "ecf5a096af5598393ce49c80": {
+      "gold": "7 May 2023",
+      "A_no_memory": {
+        "v1_answer": "The information provided does not mention when Caroline went to the LGBTQ support group. Therefore, I cannot provide a specific date or time.",
+        "v2_answer": "The information provided does not mention when Caroline went to the LGBTQ support group. Therefore, I cannot provide a specific date or time.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Yesterday [evidence-slot-1].",
+        "v2_answer": "Caroline went to the LGBTQ support group on 8 May, 2023 [1].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Caroline went to the LGBTQ support group yesterday.",
+        "v2_answer": "Caroline went to the LGBTQ support group yesterday, which is referenced in the conversation on 8 May, 2023 [2125327e-f9f0-485d-a28f-decb744895b4].",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "ecf860aa5db55417c4ff9e59": {
+      "gold": "rejections don't define her, keep grinding and she'll find the perfect opportunity",
+      "A_no_memory": {
+        "v1_answer": "Nate encourages Joanna by reminding her of her past successes and expressing belief in her ability to overcome the setback. He tells her, \"You've faced bigger challenges before and come out stronger. This won't define you.\"",
+        "v2_answer": "Nate encourages Joanna by reminding her of her past successes and expressing belief in her ability to overcome the setback. He tells her, \"You've faced bigger challenges before and come out stronger. This won't define you.\"",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate encourages Joanna by saying, \"Don't forget they don't define you. Keep at it and you'll find the perfect opportunity.\" [id:evidence-slot-1]",
+        "v2_answer": "Nate encourages Joanna by saying, \"Don't forget they don't define you. Keep at it and you'll find the perfect opportunity.\" [id:2:01 pm on 21 October, 2022]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Nate encourages Joanna by saying, \"Hey Joanna! That's cool. I've been getting so stressed lately because of my tournament progress - tough competitors - but my turtles always cheer me up.\" [fdc90e40-49b3-4846-8a05-72",
+        "v2_answer": "Nate encourages Joanna by saying, \"Rejections suck, but don't forget they don't define you. Keep at it and you'll find the perfect opportunity.\" [3994d63c-73b8-45d0-83ab-23b74a3",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "ed3a9bb6f2355d1a02a97578": {
+      "gold": "a car shop",
+      "A_no_memory": {
+        "v1_answer": "I don't have information about what Dave opened in May 2023.",
+        "v2_answer": "I don't have information about what Dave opened in May 2023.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Dave opened a car shop in May 2023 [evidence-slot-1].",
+        "v2_answer": "Dave opened a car shop in May 2023. [1]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Dave opened his car shop in May 2023.",
+        "v2_answer": "Dave opened his car shop in May 2023.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "ed7359c6f6c759ec8fd180a6": {
+      "gold": "quit",
+      "A_no_memory": {
+        "v1_answer": "Jon tells Gina he won't lie to her.",
+        "v2_answer": "Jon tells Gina he won't lie to her.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Give up. [evidence-slot-1]",
+        "v2_answer": "Give up. [9:38 pm on 16 June, 2023]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Jon tells Gina he won't quit.",
+        "v2_answer": "Jon tells Gina he won't give up.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "ef694663da9cd1b9b7f9efc8": {
+      "gold": "Apex Legends",
+      "A_no_memory": {
+        "v1_answer": "No relevant information is provided.",
+        "v2_answer": "No relevant information is provided.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Apex Legends [evidence-slot-1]",
+        "v2_answer": "Apex Legends [2:13 pm on 4 April, 2022]",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Apex Legends [6b0d2d5c-1f4e-439f-be3a-47aaec363d60].",
+        "v2_answer": "Apex Legends.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      }
+    },
+    "f4b04fe9e268363b6e16a572": {
+      "gold": "Like being in a fairy tale",
+      "A_no_memory": {
+        "v1_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nMaria described being at the waterfall in Oregon as \"like standing at the edge of the world, where the sound of the water and the mist made everything else fade away.\"",
+        "v2_answer": "The question does not provide any relevant retrieved memories. Answer based on the question alone. \n\nMaria described being at the waterfall in Oregon as \"like standing at the edge of the world, where the sound of the water and the mist made everything else fade away.\"",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Maria said it was like being in a fairy tale, with calming water and beautiful surroundings that were truly magical [evidence-slot-1].",
+        "v2_answer": "Maria said it was like being in a fairy tale, with calming water sounds and beautiful surroundings that felt magical [2:47 pm on 12 June, 2023].",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_CORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "Maria said it was like being in a fairy tale, with calming water and beautiful surroundings that were truly magical [73b94227-2c34-4843-bac5-feeeb62e9aa1].",
+        "v2_answer": "Maria said being at the waterfall in Oregon felt like she was in a fairy tale, with calming water sounds and beautiful surroundings that were truly magical.",
+        "v1_normalized": "ANSWER_CORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    },
+    "fd4c11db6efefeabd1448f4e": {
+      "gold": "get her a stuffed animal",
+      "A_no_memory": {
+        "v1_answer": "I don't have any information about Nate's actions toward Joanna on 25 May 2022.",
+        "v2_answer": "I don't have any information about Nate's actions toward Joanna on 25 May 2022.",
+        "note": "untouched"
+      },
+      "B_gold_evidence": {
+        "v1_answer": "Nate gave Joanna a new pup on 25 May, 2022. [evidence-slot-1]",
+        "v2_answer": "Nate got a new pup for Joanna on 25 May, 2022. [3:00 pm on 25 May, 2022]",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      },
+      "C_retrieved_memory": {
+        "v1_answer": "None of the provided memories mention any specific action Nate took for Joanna on 25 May, 2022. Therefore, the answer cannot be determined from the given information.",
+        "v2_answer": "Nate gave Joanna a new pup and expressed support for her, encouraging her to cherish small joys and stay positive.",
+        "v1_normalized": "ANSWER_INCORRECT",
+        "v2_normalized": "ANSWER_INCORRECT"
+      }
+    }
+  }
+}
