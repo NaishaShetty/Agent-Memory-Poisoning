@@ -267,6 +267,8 @@ def record_retrieval_and_selection_events(
     timestamp: str,
     retrieved_foundation_ids: Sequence[str],
     selected_foundation_ids: Sequence[str],
+    retrieved_reason: str = REASON_RETRIEVED,
+    selected_reason: str = REASON_SELECTED,
 ) -> RetrievalEventReport:
     """Resolve `retrieved_foundation_ids`/`selected_foundation_ids` (Mem0's own vendor-
     native ids, per `STRATEGY_METADATA_LOOKUP`) back to canonical `source_memory_id`s via
@@ -304,7 +306,7 @@ def record_retrieval_and_selection_events(
             task_id=task_id,
             timestamp=timestamp,
             actor="candidate_discovery",
-            reason=REASON_RETRIEVED,
+            reason=retrieved_reason,
             config_fingerprint=config_fingerprint,
             foundation_name=FOUNDATION_NAME_MEM0,
             foundation_memory_id=foundation_id,
@@ -320,7 +322,7 @@ def record_retrieval_and_selection_events(
                 task_id=task_id,
                 timestamp=timestamp,
                 actor="evidence_selection",
-                reason=REASON_SELECTED,
+                reason=selected_reason,
                 config_fingerprint=config_fingerprint,
                 foundation_name=FOUNDATION_NAME_MEM0,
                 foundation_memory_id=foundation_id,
@@ -406,6 +408,8 @@ def record_retrieval_and_selection_events_direct_assignment(
     timestamp: str,
     retrieved_canonical_ids: Sequence[str],
     selected_canonical_ids: Sequence[str],
+    retrieved_reason: str = REASON_RETRIEVED_C,
+    selected_reason: str = REASON_SELECTED_C,
 ) -> RetrievalEventReport:
     """Condition C (A-MEM) sibling of `record_retrieval_and_selection_events()`.
 
@@ -431,7 +435,7 @@ def record_retrieval_and_selection_events_direct_assignment(
             task_id=task_id,
             timestamp=timestamp,
             actor="candidate_discovery",
-            reason=REASON_RETRIEVED_C,
+            reason=retrieved_reason,
             config_fingerprint=config_fingerprint,
             foundation_name=FOUNDATION_NAME_AMEM,
             foundation_memory_id=canonical_id,
@@ -447,7 +451,7 @@ def record_retrieval_and_selection_events_direct_assignment(
                 task_id=task_id,
                 timestamp=timestamp,
                 actor="evidence_selection",
-                reason=REASON_SELECTED_C,
+                reason=selected_reason,
                 config_fingerprint=config_fingerprint,
                 foundation_name=FOUNDATION_NAME_AMEM,
                 foundation_memory_id=canonical_id,

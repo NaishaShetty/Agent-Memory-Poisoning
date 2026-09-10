@@ -1,0 +1,235 @@
+{
+  "applicable": 13,
+  "already_correct_normalized": 0,
+  "newly_credited": [
+    {
+      "task_id": "0c3beff1a8a6e768737c8c64",
+      "question": "When did Calvin's place get flooded in Tokyo?",
+      "gold": "On a week before 16 May, 2023",
+      "answer": "The flood occurred last week, which is approximately 09 May 2023. [1]",
+      "date_detail": {
+        "task_id": "0c3beff1a8a6e768737c8c64",
+        "gold_kind": "WINDOW",
+        "gold_rule": "7 days before 2023-05-16, exclusive of the anchor date",
+        "gold_point": null,
+        "gold_window": [
+          "2023-05-09",
+          "2023-05-15"
+        ],
+        "answer_dates_found": [
+          "2023-05-09"
+        ]
+      }
+    },
+    {
+      "task_id": "31487d7c2adc4a8be3c0d900",
+      "question": "When did Nate take his turtles to the beach?",
+      "gold": "10 November, 2022",
+      "answer": "10 November 2022 [1]",
+      "date_detail": {
+        "task_id": "31487d7c2adc4a8be3c0d900",
+        "gold_kind": "POINT",
+        "gold_rule": "gold is a plain point date",
+        "gold_point": "2022-11-10",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2022-11-10"
+        ]
+      }
+    },
+    {
+      "task_id": "658b4f351452fbd8629ff50d",
+      "question": "When did Calvin met with local artists in Boston?",
+      "gold": "October 3, 2023",
+      "answer": "Calvin met with local artists in Boston on 03 October 2023 [2:44 pm on 4 October, 2023].",
+      "date_detail": {
+        "task_id": "658b4f351452fbd8629ff50d",
+        "gold_kind": "POINT",
+        "gold_rule": "gold is a plain point date",
+        "gold_point": "2023-10-03",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2023-10-03",
+          "2023-10-04"
+        ]
+      }
+    },
+    {
+      "task_id": "6b06956fec2b405e20a47b4e",
+      "question": "When did Jolene have a mini-retreat to reflect on her career?",
+      "gold": "Wednesday before 9 February, 2023",
+      "answer": "08 Feb 2023 [resolved: \"Last Wednesday\" = 08 Feb 2023]",
+      "date_detail": {
+        "task_id": "6b06956fec2b405e20a47b4e",
+        "gold_kind": "POINT",
+        "gold_rule": "most recent Wednesday before 2023-02-09",
+        "gold_point": "2023-02-08",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2023-02-08",
+          "2023-02-08"
+        ]
+      }
+    },
+    {
+      "task_id": "6cab2522b89bcf65f66055d4",
+      "question": "When did Caroline have a picnic?",
+      "gold": "The week before 6 July 2023",
+      "answer": "Caroline had a picnic last week, which corresponds to 29 June 2023 [resolved: \"last week\" ~= 29 Jun 2023].",
+      "date_detail": {
+        "task_id": "6cab2522b89bcf65f66055d4",
+        "gold_kind": "WINDOW",
+        "gold_rule": "7 days before 2023-07-06, exclusive of the anchor date",
+        "gold_point": null,
+        "gold_window": [
+          "2023-06-29",
+          "2023-07-05"
+        ],
+        "answer_dates_found": [
+          "2023-06-29",
+          "2023-06-29"
+        ]
+      }
+    },
+    {
+      "task_id": "86cb281361c9242f241d46d5",
+      "question": "When did Caroline meet up with her friends, family, and mentors?",
+      "gold": "The week before 9 June 2023",
+      "answer": "02 Jun 2023 [evidence-slot-1]",
+      "date_detail": {
+        "task_id": "86cb281361c9242f241d46d5",
+        "gold_kind": "WINDOW",
+        "gold_rule": "7 days before 2023-06-09, exclusive of the anchor date",
+        "gold_point": null,
+        "gold_window": [
+          "2023-06-02",
+          "2023-06-08"
+        ],
+        "answer_dates_found": [
+          "2023-06-02"
+        ]
+      }
+    },
+    {
+      "task_id": "918b3f73d0962b330b0eb50a",
+      "question": "When did a mishap occur with Calvin's musical gear and favorite mic?",
+      "gold": "On a week before 16 May, 2023",
+      "answer": "The mishap occurred last week, which is approximately 09 May 2023 [11:50 am on 16 May, 2023].",
+      "date_detail": {
+        "task_id": "918b3f73d0962b330b0eb50a",
+        "gold_kind": "WINDOW",
+        "gold_rule": "7 days before 2023-05-16, exclusive of the anchor date",
+        "gold_point": null,
+        "gold_window": [
+          "2023-05-09",
+          "2023-05-15"
+        ],
+        "answer_dates_found": [
+          "2023-05-09",
+          "2023-05-16"
+        ]
+      }
+    },
+    {
+      "task_id": "d423d01d4459e6f156521e29",
+      "question": "When did Jon and Gina decide to collaborate to create dance content?",
+      "gold": "21 July 2023",
+      "answer": "Jon and Gina decided to collaborate to create dance content on 21 July, 2023 [5:44 pm].",
+      "date_detail": {
+        "task_id": "d423d01d4459e6f156521e29",
+        "gold_kind": "POINT",
+        "gold_rule": "gold is a plain point date",
+        "gold_point": "2023-07-21",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2023-07-21"
+        ]
+      }
+    },
+    {
+      "task_id": "e6a432bbfb00dfd21fcc5357",
+      "question": "When did Gina mention Shia Labeouf?",
+      "gold": " 23 July, 2023",
+      "answer": "Gina mentioned Shia Labeouf at 6:46 pm on 23 July, 2023 [6:46 pm on 23 July, 2023].",
+      "date_detail": {
+        "task_id": "e6a432bbfb00dfd21fcc5357",
+        "gold_kind": "POINT",
+        "gold_rule": "gold is a plain point date",
+        "gold_point": "2023-07-23",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2023-07-23",
+          "2023-07-23"
+        ]
+      }
+    },
+    {
+      "task_id": "ebcd8558929c136c2c1b8c47",
+      "question": "When did John first organize a charity tournament with his friends?",
+      "gold": "May 7, 2022",
+      "answer": "The relevant memory indicates that John organized something with his friends on 07 May 2022. However, it does not explicitly state that this event was a charity tournament. Therefore, based on the provided information, we cannot definitively answer when John first organized a charity tournament with his friends.",
+      "date_detail": {
+        "task_id": "ebcd8558929c136c2c1b8c47",
+        "gold_kind": "POINT",
+        "gold_rule": "gold is a plain point date",
+        "gold_point": "2022-05-07",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2022-05-07"
+        ]
+      }
+    },
+    {
+      "task_id": "ecf5a096af5598393ce49c80",
+      "question": "When did Caroline go to the LGBTQ support group?",
+      "gold": "7 May 2023",
+      "answer": "Caroline went to the LGBTQ support group on 07 May 2023 [1:56 pm on 8 May, 2023].",
+      "date_detail": {
+        "task_id": "ecf5a096af5598393ce49c80",
+        "gold_kind": "POINT",
+        "gold_rule": "gold is a plain point date",
+        "gold_point": "2023-05-07",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2023-05-07",
+          "2023-05-08"
+        ]
+      }
+    }
+  ],
+  "still_incorrect_examples": [
+    {
+      "task_id": "242537e2fc60bcafc899d3e4",
+      "question": "When did Deborah start the yoga class in the neighborhood?",
+      "gold": "Friday before 13 March, 2023",
+      "answer": "Friday, 13 March, 2023 [11:22 am]",
+      "date_detail": {
+        "task_id": "242537e2fc60bcafc899d3e4",
+        "gold_kind": "POINT",
+        "gold_rule": "most recent Friday before 2023-03-13",
+        "gold_point": "2023-03-10",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2023-03-13"
+        ]
+      }
+    },
+    {
+      "task_id": "83723a982ed53ba1fff92aba",
+      "question": "When did Evan's son fall off his bike?",
+      "gold": "Thursday before December 17, 2023.",
+      "answer": "12 December 2023 [id:6:48 pm on 17 December, 2023]",
+      "date_detail": {
+        "task_id": "83723a982ed53ba1fff92aba",
+        "gold_kind": "POINT",
+        "gold_rule": "most recent Thursday before 2023-12-17",
+        "gold_point": "2023-12-14",
+        "gold_window": null,
+        "answer_dates_found": [
+          "2023-12-12",
+          "2023-12-17"
+        ]
+      }
+    }
+  ]
+}

@@ -1,9 +1,15 @@
 # Phase 3 — Active Design Surface
 
-**Current stage: 3.2 complete (stages A through J.4); next stage is 3.3 — Real LLM +
-Agent Integration.** This status line is the one part of this document actively
-maintained as stages complete; the sections below it describe 3.1's original
-specification output and remain historically accurate as written.
+**Phase 3 is CLOSED. Final canonical memory foundation: V3-Hybrid.** Stage 3.3
+(Real LLM + Agent Integration) ran a full V1→V2→V3→V4→V5 research sequence;
+**V3-Hybrid** (`phase3/evaluation/agent_runtime/campaign_v3_hybrid_runner.py`) is
+the final, frozen, Phase-4-eligible result — V1 through V5 are historical/
+experimental variants, retained for evidence but not canonical. See
+`phase3/PHASE3_COMPLETE_HISTORY_AND_ARCHIVE.md` for the full history and
+`phase3/experiments/PHASE4_HANDOFF_REPORT.md` for the Phase 4 interface and
+carried-forward limitations. This status line is the one part of this document
+actively maintained as stages complete; the sections below it describe 3.1's
+original specification output and remain historically accurate as written.
 
 ## Current dataset status (as of Phase 3.2-J.4)
 

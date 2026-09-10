@@ -1,0 +1,508 @@
+{
+  "V5-base": {
+    "task_id": "ae713a37de7c095811e54d5a",
+    "dataset": "locomo",
+    "status": "SUCCESSFUL_EVALUATION",
+    "trace": {
+      "experiment_id": "v5-stage3-targeted-locomo-ae713a37de7c095811e54d5a-V5-B",
+      "dataset": "locomo",
+      "dataset_revision": "phase3.2-frozen",
+      "record_id": "ae713a37de7c095811e54d5a",
+      "model": "Qwen/Qwen3-8B-GGUF",
+      "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+      "foundation": null,
+      "foundation_version": null,
+      "configuration": {
+        "condition": "GOLD_EVIDENCE",
+        "generation_config_fingerprint": "8c8f6643ccbe872f6090d8057b19008c55b33e8ff3859a360dc3b4eb96a9cb1f",
+        "model_metadata": {
+          "repo_id": "Qwen/Qwen3-8B-GGUF",
+          "file_name": "Qwen3-8B-Q4_K_M.gguf",
+          "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+          "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+          "quantization": "Q4_K_M",
+          "llama_cpp_build": "b10717",
+          "llama_cpp_commit": "a32af33de"
+        },
+        "foundation_identity": null,
+        "attempts": [],
+        "environment": {
+          "python_version": "3.11.3",
+          "platform": "Windows-10-10.0.26200-SP0"
+        }
+      },
+      "task": {
+        "task_id": "ae713a37de7c095811e54d5a",
+        "prompt": null
+      },
+      "memory_available": true,
+      "retrieved_memories": [],
+      "selected_memories": [],
+      "exposed_memories": [
+        "evidence-slot-1",
+        "evidence-slot-2"
+      ],
+      "used_memories": "NOT_OBSERVABLE",
+      "contributed_memories": "NOT_OBSERVABLE",
+      "lifecycle_per_memory": {},
+      "agent_output": "The memory content does not explicitly state how many children Melanie has. It only mentions \"my son\" and refers to \"their brother,\" which implies Melanie has at least one son and possibly more children, but the exact number is not specified.",
+      "evaluation_result": {
+        "success_status": "ANSWER_INCORRECT",
+        "success_value": 0.0
+      },
+      "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+      "latency": {
+        "total_latency_sec": 3.9537405967712402,
+        "attempt_latencies_sec": []
+      },
+      "fingerprints": {
+        "generation_config_fingerprint": "8c8f6643ccbe872f6090d8057b19008c55b33e8ff3859a360dc3b4eb96a9cb1f",
+        "trace_fingerprint": "51a3211963a188c6fadee1e7baaa3ae80045f44f9de8ed78cbace1bc6a328a13"
+      },
+      "v5": {
+        "structured_memory": {
+          "stages_run": [],
+          "fact_count": 0,
+          "consolidated_fact_count": 0,
+          "facts": [],
+          "consolidated_facts": [],
+          "extraction_parse_error": null,
+          "extraction_finish_reason": null
+        },
+        "reasoning": {
+          "draft_answer": "The memory content does not explicitly state how many children Melanie has. It only mentions \"my son\" and refers to \"their brother,\" which implies Melanie has at least one son and possibly more children, but the exact number is not specified.",
+          "was_revised": false,
+          "verification": null,
+          "verification_parse_error": null,
+          "stages": [
+            {
+              "stage": "DRAFT",
+              "latency_sec": 3.95182204246521,
+              "finish_reason": "stop",
+              "attempts": 1
+            }
+          ],
+          "total_reasoning_latency_sec": 3.95182204246521
+        }
+      },
+      "v5_config": "V5-base"
+    },
+    "latency_sec": 3.9537405967712402,
+    "vram_mib": 5887
+  },
+  "V5+structured": {
+    "task_id": "ae713a37de7c095811e54d5a",
+    "dataset": "locomo",
+    "status": "SUCCESSFUL_EVALUATION",
+    "trace": {
+      "experiment_id": "v5-stage3-targeted-locomo-ae713a37de7c095811e54d5a-V5-B",
+      "dataset": "locomo",
+      "dataset_revision": "phase3.2-frozen",
+      "record_id": "ae713a37de7c095811e54d5a",
+      "model": "Qwen/Qwen3-8B-GGUF",
+      "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+      "foundation": null,
+      "foundation_version": null,
+      "configuration": {
+        "condition": "GOLD_EVIDENCE",
+        "generation_config_fingerprint": "8c8f6643ccbe872f6090d8057b19008c55b33e8ff3859a360dc3b4eb96a9cb1f",
+        "model_metadata": {
+          "repo_id": "Qwen/Qwen3-8B-GGUF",
+          "file_name": "Qwen3-8B-Q4_K_M.gguf",
+          "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+          "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+          "quantization": "Q4_K_M",
+          "llama_cpp_build": "b10717",
+          "llama_cpp_commit": "a32af33de"
+        },
+        "foundation_identity": null,
+        "attempts": [],
+        "environment": {
+          "python_version": "3.11.3",
+          "platform": "Windows-10-10.0.26200-SP0"
+        }
+      },
+      "task": {
+        "task_id": "ae713a37de7c095811e54d5a",
+        "prompt": null
+      },
+      "memory_available": true,
+      "retrieved_memories": [],
+      "selected_memories": [],
+      "exposed_memories": [
+        "evidence-slot-1",
+        "evidence-slot-2"
+      ],
+      "used_memories": "NOT_OBSERVABLE",
+      "contributed_memories": "NOT_OBSERVABLE",
+      "lifecycle_per_memory": {},
+      "agent_output": "The memory content does not provide explicit information about how many children Melanie has. It only mentions \"my son\" and \"their brother,\" which suggests at least two children, but the exact number is not stated.",
+      "evaluation_result": {
+        "success_status": "ANSWER_INCORRECT",
+        "success_value": 0.0
+      },
+      "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+      "latency": {
+        "total_latency_sec": 19.799177408218384,
+        "attempt_latencies_sec": []
+      },
+      "fingerprints": {
+        "generation_config_fingerprint": "8c8f6643ccbe872f6090d8057b19008c55b33e8ff3859a360dc3b4eb96a9cb1f",
+        "trace_fingerprint": "b722ec52e500ba3ea5f84e34af61322d286a2dc2859bec2606fe87cc0551a6ce"
+      },
+      "v5": {
+        "structured_memory": {
+          "stages_run": [
+            "EXTRACT",
+            "ENTITY_RESOLUTION",
+            "CONSOLIDATION"
+          ],
+          "fact_count": 5,
+          "consolidated_fact_count": 5,
+          "facts": [
+            {
+              "entity": "Melanie's son",
+              "canonical_entity": "melanie son",
+              "attribute": "involvement",
+              "value": "into an accident",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            },
+            {
+              "entity": "Melanie's son",
+              "canonical_entity": "melanie son",
+              "attribute": "status",
+              "value": "okay",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            },
+            {
+              "entity": "Melanie's children",
+              "canonical_entity": "melanie children",
+              "attribute": "reaction",
+              "value": "scared",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            },
+            {
+              "entity": "Melanie's children",
+              "canonical_entity": "melanie children",
+              "attribute": "reassurance",
+              "value": "reassured and explained their brother would be OK",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            },
+            {
+              "entity": "Melanie's children",
+              "canonical_entity": "melanie children",
+              "attribute": "characteristic",
+              "value": "tough kids",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            }
+          ],
+          "consolidated_facts": [
+            {
+              "canonical_entity": "melanie son",
+              "attribute": "involvement",
+              "values": [
+                "into an accident"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            },
+            {
+              "canonical_entity": "melanie son",
+              "attribute": "status",
+              "values": [
+                "okay"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            },
+            {
+              "canonical_entity": "melanie children",
+              "attribute": "reaction",
+              "values": [
+                "scared"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            },
+            {
+              "canonical_entity": "melanie children",
+              "attribute": "reassurance",
+              "values": [
+                "reassured and explained their brother would be OK"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            },
+            {
+              "canonical_entity": "melanie children",
+              "attribute": "characteristic",
+              "values": [
+                "tough kids"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            }
+          ],
+          "extraction_parse_error": null,
+          "extraction_finish_reason": "stop"
+        },
+        "reasoning": {
+          "draft_answer": "The memory content does not provide explicit information about how many children Melanie has. It only mentions \"my son\" and \"their brother,\" which suggests at least two children, but the exact number is not stated.",
+          "was_revised": false,
+          "verification": null,
+          "verification_parse_error": null,
+          "stages": [
+            {
+              "stage": "DRAFT",
+              "latency_sec": 3.45827317237854,
+              "finish_reason": "stop",
+              "attempts": 1
+            }
+          ],
+          "total_reasoning_latency_sec": 3.45827317237854
+        }
+      },
+      "v5_config": "V5+structured"
+    },
+    "latency_sec": 19.799177408218384,
+    "vram_mib": 5887
+  },
+  "V5-full": {
+    "task_id": "ae713a37de7c095811e54d5a",
+    "dataset": "locomo",
+    "status": "SUCCESSFUL_EVALUATION",
+    "trace": {
+      "experiment_id": "v5-stage3-targeted-locomo-ae713a37de7c095811e54d5a-V5-B",
+      "dataset": "locomo",
+      "dataset_revision": "phase3.2-frozen",
+      "record_id": "ae713a37de7c095811e54d5a",
+      "model": "Qwen/Qwen3-8B-GGUF",
+      "model_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+      "foundation": null,
+      "foundation_version": null,
+      "configuration": {
+        "condition": "GOLD_EVIDENCE",
+        "generation_config_fingerprint": "8c8f6643ccbe872f6090d8057b19008c55b33e8ff3859a360dc3b4eb96a9cb1f",
+        "model_metadata": {
+          "repo_id": "Qwen/Qwen3-8B-GGUF",
+          "file_name": "Qwen3-8B-Q4_K_M.gguf",
+          "repo_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+          "file_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+          "quantization": "Q4_K_M",
+          "llama_cpp_build": "b10717",
+          "llama_cpp_commit": "a32af33de"
+        },
+        "foundation_identity": null,
+        "attempts": [],
+        "environment": {
+          "python_version": "3.11.3",
+          "platform": "Windows-10-10.0.26200-SP0"
+        }
+      },
+      "task": {
+        "task_id": "ae713a37de7c095811e54d5a",
+        "prompt": null
+      },
+      "memory_available": true,
+      "retrieved_memories": [],
+      "selected_memories": [],
+      "exposed_memories": [
+        "evidence-slot-1",
+        "evidence-slot-2"
+      ],
+      "used_memories": "NOT_OBSERVABLE",
+      "contributed_memories": "NOT_OBSERVABLE",
+      "lifecycle_per_memory": {},
+      "agent_output": "The memory content does not provide explicit information about how many children Melanie has. It only mentions \"my son\" and \"their brother,\" which suggests at least two children, but the exact number is not stated.",
+      "evaluation_result": {
+        "success_status": "ANSWER_INCORRECT",
+        "success_value": 0.0
+      },
+      "failure_stage": "AGENT_FAILURE_WITH_EVIDENCE",
+      "latency": {
+        "total_latency_sec": 20.972397327423096,
+        "attempt_latencies_sec": []
+      },
+      "fingerprints": {
+        "generation_config_fingerprint": "8c8f6643ccbe872f6090d8057b19008c55b33e8ff3859a360dc3b4eb96a9cb1f",
+        "trace_fingerprint": "ceda19bfe6bbc5651e49ff773577a3641890b7257a1890e61d52b70bb75dc4cc"
+      },
+      "v5": {
+        "structured_memory": {
+          "stages_run": [
+            "EXTRACT",
+            "ENTITY_RESOLUTION",
+            "CONSOLIDATION"
+          ],
+          "fact_count": 5,
+          "consolidated_fact_count": 5,
+          "facts": [
+            {
+              "entity": "Melanie's son",
+              "canonical_entity": "melanie son",
+              "attribute": "involvement",
+              "value": "into an accident",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            },
+            {
+              "entity": "Melanie's son",
+              "canonical_entity": "melanie son",
+              "attribute": "status",
+              "value": "okay",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            },
+            {
+              "entity": "Melanie's children",
+              "canonical_entity": "melanie children",
+              "attribute": "reaction",
+              "value": "scared",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            },
+            {
+              "entity": "Melanie's children",
+              "canonical_entity": "melanie children",
+              "attribute": "reassurance",
+              "value": "reassured and explained their brother would be OK",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            },
+            {
+              "entity": "Melanie's children",
+              "canonical_entity": "melanie children",
+              "attribute": "characteristic",
+              "value": "tough kids",
+              "source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "confidence": "EXTRACTED"
+            }
+          ],
+          "consolidated_facts": [
+            {
+              "canonical_entity": "melanie son",
+              "attribute": "involvement",
+              "values": [
+                "into an accident"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            },
+            {
+              "canonical_entity": "melanie son",
+              "attribute": "status",
+              "values": [
+                "okay"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            },
+            {
+              "canonical_entity": "melanie children",
+              "attribute": "reaction",
+              "values": [
+                "scared"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            },
+            {
+              "canonical_entity": "melanie children",
+              "attribute": "reassurance",
+              "values": [
+                "reassured and explained their brother would be OK"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            },
+            {
+              "canonical_entity": "melanie children",
+              "attribute": "characteristic",
+              "values": [
+                "tough kids"
+              ],
+              "all_source_memory_ids": [
+                "cff2bb227deffc896168b944"
+              ],
+              "contributing_fact_count": 1
+            }
+          ],
+          "extraction_parse_error": null,
+          "extraction_finish_reason": "stop"
+        },
+        "reasoning": {
+          "draft_answer": "The memory content does not provide explicit information about how many children Melanie has. It only mentions \"my son\" and \"their brother,\" which suggests at least two children, but the exact number is not stated.",
+          "was_revised": false,
+          "verification": {
+            "commits_to_answer": true,
+            "grounded": true,
+            "verdict": "ACCEPT",
+            "instruction": ""
+          },
+          "verification_parse_error": null,
+          "stages": [
+            {
+              "stage": "DRAFT",
+              "latency_sec": 2.317199230194092,
+              "finish_reason": "stop",
+              "attempts": 1
+            },
+            {
+              "stage": "VERIFY",
+              "latency_sec": 4.394561767578125,
+              "finish_reason": "stop",
+              "attempts": 1
+            }
+          ],
+          "total_reasoning_latency_sec": 6.711760997772217
+        }
+      },
+      "v5_config": "V5-full"
+    },
+    "latency_sec": 20.972397327423096,
+    "vram_mib": 5887
+  }
+}

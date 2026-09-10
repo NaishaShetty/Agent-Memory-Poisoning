@@ -80,7 +80,14 @@ def evaluate_answer_correctness_normalized(
 
     norm_expected = _normalize(expected_answer)
     norm_actual = _normalize(execution_result.answer)
-    is_correct = bool(norm_expected) and (norm_expected in norm_actual or norm_actual in norm_expected)
+    # KNOWN BUG, discovered 2026-09-08 (Phase 3.3-RESEARCH Round 12): an empty
+    # `norm_actual` is a substring of every string, so a genuinely empty/truncated
+    # answer was previously auto-credited as ANSWER_CORRECT via `norm_actual in
+    # norm_expected`. Never surfaced with Qwen3-8B (which essentially never returned a
+    # truly empty answer); surfaced immediately when a reasoning model exhausted its
+    # token budget mid-thinking and returned "". Guarding `bool(norm_actual)`
+    # explicitly -- an empty answer can never be correct, regardless of gold content.
+    is_correct = bool(norm_expected) and bool(norm_actual) and (norm_expected in norm_actual or norm_actual in norm_expected)
 
     return MetricResult(
         metric_name=METRIC_NAME,

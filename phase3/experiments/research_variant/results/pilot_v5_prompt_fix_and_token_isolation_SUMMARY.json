@@ -1,0 +1,49 @@
+{
+  "v3_baseline": {
+    "normalized": 67,
+    "content_recall": 80,
+    "date_normalized": 11,
+    "date_applicable": 13,
+    "number_word": 68,
+    "llm_judge": 97,
+    "n": 120
+  },
+  "v5_configs": {
+    "V5-base-CORRECTED@64": {
+      "n": 120,
+      "normalized": 65,
+      "content_recall": 74,
+      "date_normalized": 9,
+      "date_applicable": 13,
+      "number_word": 66,
+      "llm_judge": 94
+    },
+    "V5-base-CORRECTED@256": {
+      "n": 120,
+      "normalized": 65,
+      "content_recall": 74,
+      "date_normalized": 9,
+      "date_applicable": 13,
+      "number_word": 66,
+      "llm_judge": 94
+    },
+    "V5-verified-CORRECTED@64": {
+      "n": 120,
+      "normalized": 67,
+      "content_recall": 76,
+      "date_normalized": 10,
+      "date_applicable": 13,
+      "number_word": 68,
+      "llm_judge": 98
+    },
+    "V5-verified-CORRECTED@256": {
+      "n": 120,
+      "normalized": 69,
+      "content_recall": 78,
+      "date_normalized": 11,
+      "date_applicable": 13,
+      "number_word": 70,
+      "llm_judge": 99
+    }
+  }
+}

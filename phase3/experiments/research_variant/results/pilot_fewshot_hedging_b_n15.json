@@ -1,0 +1,409 @@
+{
+  "task_ids": [
+    "049537bf444dae889b00ded4",
+    "0578b06c6c3f8b573bd3cd48",
+    "0c1f43ec474037e71f0a8463",
+    "0c3beff1a8a6e768737c8c64",
+    "0ce9ad7ea1a3ba8902d48205",
+    "0fcb813ce72251b94cdc77cf",
+    "0fcf6438d001c0faca50578b",
+    "126ae0c137b64f734349d25e",
+    "12a964943f64be562cf53a50",
+    "13880aaa9a0b734cd8ffab67",
+    "148efc9d6c4439d58dc7d35d",
+    "14a1480e7cf980ac43eca8cf",
+    "14fb0e72df72faf7c2108ff3",
+    "1896111b9e08e7bd0b68b7a7",
+    "1c33578ae3e16064c9cec6ca"
+  ],
+  "tasks": [
+    {
+      "task_id": "049537bf444dae889b00ded4",
+      "question": "What is Caroline's identity?",
+      "answer": "Transgender woman",
+      "evidence_memory_ids": [
+        "82172fb18cea047df88299be"
+      ]
+    },
+    {
+      "task_id": "0578b06c6c3f8b573bd3cd48",
+      "question": "What new hobby did James become interested in on 9 July, 2022?",
+      "answer": "Extreme sports",
+      "evidence_memory_ids": [
+        "f2ea8316a2e3cdecf8363726"
+      ]
+    },
+    {
+      "task_id": "0c1f43ec474037e71f0a8463",
+      "question": "How did Jolene feel about her progress in practicing mindfulness and gratitude?",
+      "answer": "experiencing a new level of joy and happiness",
+      "evidence_memory_ids": [
+        "465d33bc313e3334b60f74f8"
+      ]
+    },
+    {
+      "task_id": "0c3beff1a8a6e768737c8c64",
+      "question": "When did Calvin's place get flooded in Tokyo?",
+      "answer": "On a week before 16 May, 2023",
+      "evidence_memory_ids": [
+        "36157c1b850a7a7ea7716499"
+      ]
+    },
+    {
+      "task_id": "0ce9ad7ea1a3ba8902d48205",
+      "question": "What achievement did John share with Tim in January 2024?",
+      "answer": "endorsement with a popular beverage company",
+      "evidence_memory_ids": [
+        "f821433d82df2fa41d0079fb"
+      ]
+    },
+    {
+      "task_id": "0fcb813ce72251b94cdc77cf",
+      "question": "Where did Evan take his family for a road trip on 24 May, 2023?",
+      "answer": "Jasper",
+      "evidence_memory_ids": [
+        "909dc38acbf5515ac6b3e12e"
+      ]
+    },
+    {
+      "task_id": "0fcf6438d001c0faca50578b",
+      "question": "What workshop did Dave get picked for on 11 August, 2023?",
+      "answer": "Car mod workshop",
+      "evidence_memory_ids": [
+        "42068a6eaab6ef6200307e2c"
+      ]
+    },
+    {
+      "task_id": "126ae0c137b64f734349d25e",
+      "question": "According to Evan, what is important for Sam to believe in concerning his weight?",
+      "answer": "Your worth is not defined by your weight",
+      "evidence_memory_ids": [
+        "55c7120647099eeae62064e8"
+      ]
+    },
+    {
+      "task_id": "12a964943f64be562cf53a50",
+      "question": "What kind of counseling and mental health services is Caroline interested in pursuing?",
+      "answer": "working with trans people, helping them accept themselves and supporting their mental health",
+      "evidence_memory_ids": [
+        "dd8bff8ec58edaf739fd2428"
+      ]
+    },
+    {
+      "task_id": "13880aaa9a0b734cd8ffab67",
+      "question": "How did \"The Alchemist\" impact John's perspective on following dreams?",
+      "answer": "made him think again about following dreams and searching for personal legends",
+      "evidence_memory_ids": [
+        "6e43009d0ab8c9d20324c3dd"
+      ]
+    },
+    {
+      "task_id": "148efc9d6c4439d58dc7d35d",
+      "question": "When did Nate win his first video game tournament?",
+      "answer": "the week before 21Janury, 2022",
+      "evidence_memory_ids": [
+        "9b50c7c15aa253e7816dffa2"
+      ]
+    },
+    {
+      "task_id": "14a1480e7cf980ac43eca8cf",
+      "question": "Why had Evan been going through a tough time lately?",
+      "answer": "Lost their job due to downsizing",
+      "evidence_memory_ids": [
+        "ce2271f3e84561607fcecfc8"
+      ]
+    },
+    {
+      "task_id": "14fb0e72df72faf7c2108ff3",
+      "question": "How long did Calvin plan to stay in Japan?",
+      "answer": "A few months",
+      "evidence_memory_ids": [
+        "228fba93ff8c09a4428f1f58"
+      ]
+    },
+    {
+      "task_id": "1896111b9e08e7bd0b68b7a7",
+      "question": "What kind of dream did James have recently?",
+      "answer": "a dream with a medieval castle full of puzzles and traps",
+      "evidence_memory_ids": [
+        "68432c5fff30090aba2a36ca"
+      ]
+    },
+    {
+      "task_id": "1c33578ae3e16064c9cec6ca",
+      "question": "What filling did Joanna use in the cake she made recently in May 2022?",
+      "answer": "strawberry",
+      "evidence_memory_ids": [
+        "aa3bc4a14f62b3ff8e3cb466"
+      ]
+    }
+  ],
+  "results": {
+    "049537bf444dae889b00ded4": {
+      "B_NO_FEWSHOT": {
+        "answer": "Caroline's identity is transgender.",
+        "latency_sec": 0.26471662521362305,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Not stated in the provided memories.",
+        "latency_sec": 0.3539924621582031,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "0578b06c6c3f8b573bd3cd48": {
+      "B_NO_FEWSHOT": {
+        "answer": "The information provided does not specify the exact date of James becoming interested in extreme sports. Therefore, it is not possible to determine the new hobby he became interested in on 9 July, 2022, based on the given evidence.",
+        "latency_sec": 1.4374432563781738,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_CORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Not stated in the provided memories.",
+        "latency_sec": 0.28638195991516113,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "0c1f43ec474037e71f0a8463": {
+      "B_NO_FEWSHOT": {
+        "answer": "Jolene felt a new level of joy and happiness about her progress in practicing mindfulness and gratitude [evidence-slot-1].",
+        "latency_sec": 0.7972822189331055,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Not stated in the provided memories.",
+        "latency_sec": 0.338653564453125,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "0c3beff1a8a6e768737c8c64": {
+      "B_NO_FEWSHOT": {
+        "answer": "The information provided does not specify the exact date or time when Calvin's place got flooded in Tokyo. The only detail given is that the incident occurred \"last week.\" Without additional context or a specific date, it is not possible to determine the exact time of the flooding.",
+        "latency_sec": 1.5631306171417236,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Not stated in the provided memories.",
+        "latency_sec": 0.3125913143157959,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "0ce9ad7ea1a3ba8902d48205": {
+      "B_NO_FEWSHOT": {
+        "answer": "John shared that he got an endorsement with a popular beverage company [evidence-slot-1].",
+        "latency_sec": 0.6079866886138916,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_CORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Not stated in the provided memories.",
+        "latency_sec": 0.2990894317626953,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "0fcb813ce72251b94cdc77cf": {
+      "B_NO_FEWSHOT": {
+        "answer": "Jasper [evidence-slot-1]",
+        "latency_sec": 0.3803384304046631,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_CORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Jasper",
+        "latency_sec": 0.19071149826049805,
+        "exact_status": "ANSWER_CORRECT",
+        "normalized_status": "ANSWER_CORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      }
+    },
+    "0fcf6438d001c0faca50578b": {
+      "B_NO_FEWSHOT": {
+        "answer": "The provided information does not specify the name of the workshop Dave got picked for on 11 August, 2023.",
+        "latency_sec": 0.8915348052978516,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "car mod workshop",
+        "latency_sec": 0.17818808555603027,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_CORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      }
+    },
+    "126ae0c137b64f734349d25e": {
+      "B_NO_FEWSHOT": {
+        "answer": "Evan emphasizes that it is important for Sam to believe in himself, rather than his weight. [evidence-slot-1]",
+        "latency_sec": 0.8128335475921631,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Evan says it's important for Sam to believe in himself, as his worth is not defined by his weight.",
+        "latency_sec": 0.7323305606842041,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      }
+    },
+    "12a964943f64be562cf53a50": {
+      "B_NO_FEWSHOT": {
+        "answer": "Caroline is interested in pursuing counseling and mental health services that focus on supporting trans people in accepting themselves and their mental well-being, specifically through LGBTQ+ counseling and therapeutic methods tailored for trans individuals [evidence-slot-1].",
+        "latency_sec": 1.336144208908081,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Counseling and mental health services for trans people, focusing on self-acceptance and support. [evidence-slot-1]",
+        "latency_sec": 0.8412950038909912,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "13880aaa9a0b734cd8ffab67": {
+      "B_NO_FEWSHOT": {
+        "answer": "\"The Alchemist\" inspired John to think again about following dreams and searching for his personal legend, making him feel motivated and hopeful. [evidence-slot-1]",
+        "latency_sec": 0.9869675636291504,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Inspired and motivated John to think about following dreams and searching for his personal legend.",
+        "latency_sec": 0.5846905708312988,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "148efc9d6c4439d58dc7d35d": {
+      "B_NO_FEWSHOT": {
+        "answer": "last week [evidence-slot-1]",
+        "latency_sec": 0.35019683837890625,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "last week",
+        "latency_sec": 0.19847702980041504,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "14a1480e7cf980ac43eca8cf": {
+      "B_NO_FEWSHOT": {
+        "answer": "Evan had been going through a tough time lately because he lost his job last month [evidence-slot-1].",
+        "latency_sec": 0.7677295207977295,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "Evan lost his job last month. [evidence-slot-1]",
+        "latency_sec": 0.5107455253601074,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      }
+    },
+    "14fb0e72df72faf7c2108ff3": {
+      "B_NO_FEWSHOT": {
+        "answer": "The answer is not provided in the given information.",
+        "latency_sec": 0.3649742603302002,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_INCORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "a few months",
+        "latency_sec": 0.24326801300048828,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_CORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      }
+    },
+    "1896111b9e08e7bd0b68b7a7": {
+      "B_NO_FEWSHOT": {
+        "answer": "James had a dream about a medieval castle with a labyrinth full of puzzles and traps, which felt like playing a video game in real life [evidence-slot-1].",
+        "latency_sec": 1.0060949325561523,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "A dream about a medieval castle with a labyrinth full of puzzles and traps.",
+        "latency_sec": 0.49910449981689453,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_INCORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      }
+    },
+    "1c33578ae3e16064c9cec6ca": {
+      "B_NO_FEWSHOT": {
+        "answer": "strawberry filling [evidence-slot-1]",
+        "latency_sec": 0.38927340507507324,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_CORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      },
+      "B_FEWSHOT": {
+        "answer": "strawberry filling",
+        "latency_sec": 0.21415448188781738,
+        "exact_status": "ANSWER_INCORRECT",
+        "normalized_status": "ANSWER_CORRECT",
+        "content_recall_status": "ANSWER_CORRECT"
+      }
+    }
+  },
+  "fewshot_turns": [
+    {
+      "role": "user",
+      "content": "Relevant retrieved memories (cite the [id] you use, if any):\n[m1] Priya: My new car is a bright red convertible, I love it.\n\nQuestion: What color is Priya's car?"
+    },
+    {
+      "role": "assistant",
+      "content": "red"
+    },
+    {
+      "role": "user",
+      "content": "Relevant retrieved memories (cite the [id] you use, if any):\n[m2] Marcus: The meeting got moved to 3pm on Thursday.\n[m3] Marcus: Also don't forget to bring the quarterly reports.\n\nQuestion: What time is the meeting?"
+    },
+    {
+      "role": "assistant",
+      "content": "3pm on Thursday"
+    },
+    {
+      "role": "user",
+      "content": "Relevant retrieved memories (cite the [id] you use, if any):\n[m4] Lena: I'm heading to the gym after work today.\n\nQuestion: What did Lena order for lunch?"
+    },
+    {
+      "role": "assistant",
+      "content": "Not stated in the provided memories."
+    }
+  ]
+}
