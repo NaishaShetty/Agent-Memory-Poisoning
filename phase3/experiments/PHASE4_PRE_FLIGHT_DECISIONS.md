@@ -6,6 +6,17 @@ Inventory & Source Verification) may begin. It records the four experimental
 constraints Phase 4 must operate under, with an explicit choice made for each —
 no option is left open or deferred.
 
+**Revision note**: an earlier version of this document named V1
+(`runner.py::run_agent_task()`) as the canonical reference agent. That is now
+stale. Per the final Phase 3 closure
+([PHASE4_HANDOFF_REPORT.md](PHASE4_HANDOFF_REPORT.md),
+[PHASE3_COMPLETE_HISTORY_AND_ARCHIVE.md](../PHASE3_COMPLETE_HISTORY_AND_ARCHIVE.md)),
+**V3-Hybrid is the final, canonical Phase 3 memory foundation** — a validated
+composition of V1/V3's unchanged Condition A, V3's unchanged Condition C
+(Mem0 + A-MEM), and V3's Condition B plus a bounded verify/revise reasoning step.
+The four decisions below are unchanged in substance; only the canonical
+references have been corrected.
+
 These decisions are fixed for the duration of Phase 4. Any later change requires:
 explicit documentation, identification of affected experiments, validation of the
 changed configuration, updated reproducibility metadata, and disclosure of the
@@ -103,18 +114,44 @@ Phase 4.1 — Attack Inventory & Source Verification is authorized to begin. The
 four decisions are treated as fixed experimental constraints throughout Phase 4
 unless explicitly revised per the change process above.
 
-## Phase 4 Baseline Invariant (carried forward, unchanged)
+## Phase 4 Baseline Invariant (updated for V3-Hybrid)
 
-- V1 (`runner.py::run_agent_task()`) remains the canonical reference agent.
+- **V3-Hybrid** (`phase3/evaluation/agent_runtime/campaign_v3_hybrid_runner.py`)
+  is the canonical reference agent/memory foundation — not V1, V2, V3, V4, or V5
+  individually. V1's Condition A logic and V3's Condition C logic are reused
+  unchanged inside it; V1–V5 remain historical/experimental, retained for
+  evidence, never imported by new Phase 4 code (a real V5-coupling isolation
+  violation was found and fixed during Phase 3 closure, now guarded by a
+  regression test — see the archive, §22/§5 item 11).
+- The bounded draft→verify→[revise] reasoning step
+  (`canonical_verified_reasoning.py`) applies to Condition B only. It is
+  validated to help Condition B; it does **not** reliably help Condition C
+  (flat on A-MEM, a measured regression on Mem0 at full n=120 scale). Any Phase 4
+  attack targeting reasoning/verification behavior must respect this asymmetry
+  rather than assume verification is uniformly active.
 - Mem0 and A-MEM remain the qualified active foundations.
 - Graphiti and Letta remain out of scope, unqualified, unrevived.
-- The canonical Phase 3 dataset
-  (`clean_agent_dataset_locomo_120x2.json`, 240 records) remains unchanged.
+- The canonical Phase 3 dataset is
+  `phase3/experiments/results/canonical_store/v3_hybrid_candidate/dataset_full/clean_agent_dataset_v3_hybrid_locomo_120x2.json`
+  (240 records = 120 LoCoMo tasks × {Mem0, A-MEM}). The V1/V2/V3/V5 dataset
+  variants under `canonical_store/` remain retained as historical evidence, not
+  canonical baselines.
+- Retrieval/selection (`hybrid_selection.py`: pool=20, top-8, cosine 0.5 /
+  token-overlap 0.3 / entity-overlap 0.2) and temporal resolution
+  (`temporal_resolution.py`) are unchanged since V2/V3 and carried into
+  V3-Hybrid unmodified.
 - The selection-policy variant does not silently become canonical (Decision 1).
 - Phase 3 legacy code (`phase3_reference/`) remains disavowed, zero live
   dependency.
 - Existing ledger/lifecycle/provenance/taint infrastructure is reused for Phase 4
   poison-artifact and injection modeling (4.6) rather than replaced.
+- `campaign_v3_hybrid_runner.py`'s composition logic (which pieces go to which
+  condition) is the final, validated architecture — Phase 4 does not modify it
+  without a real, disclosed, separately-validated reason.
+- `"PROCESS DOCUMENTATION.docx"` remains deleted in the working tree (confirmed
+  tracked since the initial commit, deletion not attributable to any Phase 3
+  closure action). This is carried forward as an open item for the user's own
+  review, not a Phase 4 blocker.
 
 ## Phase 4 Scoping Decisions Recorded Alongside This Gate
 

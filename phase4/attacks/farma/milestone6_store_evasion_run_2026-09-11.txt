@@ -1,0 +1,59 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 9282.82it/s]
+C:\h4venv\Lib\site-packages\mem0\embeddings\huggingface.py:29: FutureWarning: The `get_sentence_embedding_dimension` method has been renamed to `get_embedding_dimension`.
+  self.config.embedding_dims = self.config.embedding_dims or self.model.get_sentence_embedding_dimension()
+Resetting all memories
+Resetting index h4_conformance...
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+Failed to load spaCy lemma model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+fastembed not installed - BM25 keyword search disabled. Install it with: pip install "mem0ai[extras]"
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+Failed to load spaCy full model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+Variant: store_evasion
+Ingesting 17 real LoCoMo turns (task 0, sessions 1-2)...
+Injected 11 reasoning_trace-content records, all tagged content_type='CONVERSATIONAL_FACT' (indistinguishable by content_type from the benign pool above).
+
+Query: 'When is Melanie planning on going camping?'
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 4865.89it/s]
+
+select_by_hybrid_score top-8 result:
+  rank 1: 763e5c4b-4407-4be5-a836-09afc6039b21 (FARMA (store_evasion))
+  rank 2: 260b57d4-b125-4e26-8b1e-48ac795aea7f (FARMA (store_evasion))
+  rank 3: 204f752d-ea68-4bc4-8811-76a5d6c7a38e (FARMA (store_evasion))
+  rank 4: 1c209560-8f62-4301-bd13-a73b3060918e (FARMA (store_evasion))
+  rank 5: f2619c64-1b35-4e66-ab29-e13762a929bc (FARMA (store_evasion))
+  rank 6: c587ce2c-0547-4370-8b98-1937d36bbbb1 (FARMA (store_evasion))
+  rank 7: 2d81938f-98b5-4ef2-abd0-6189872da493 (FARMA (store_evasion))
+  rank 8: a059de6a-37d1-4f8a-be3d-a57ea503bc30 (FARMA (store_evasion))
+
+FARMA records selected into top-8: 8 of 11 injected.
+
+====================================================================================================
+VERDICT -- comparison to base variant's Milestone 4 result (8 of 8 slots)
+====================================================================================================
+store_evasion (content_type blended with benign pool): 8 of 8 slots. Retrieval hijack does not depend on the REASONING_TRACE content_type tag being present -- select_by_hybrid_score reranks on the query's real text content (cosine/token-overlap/entity-overlap), not the content_type metadata field, so this result is expected to match the base variant closely; reported here as measured, not assumed.

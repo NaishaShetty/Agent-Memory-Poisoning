@@ -1,0 +1,17 @@
+Loading sentence-transformers/all-MiniLM-L6-v2 via BertModel/BertTokenizer (no agentdriver import anywhere)...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 11052.61it/s]
+Real candidate pool (db_embeddings source): 17 genuine LoCoMo turns.
+db_embeddings shape: (17, 384)
+Fitted GaussianMixture: 3 cluster centers.
+Initial trigger tokens: ['[MASK]', '[MASK]', '[MASK]', '[MASK]', '[MASK]', '[MASK]']
+Iteration 0: current_score=3.3839, best_candidate_score=3.4260  UPDATED position 5: '[MASK]' -> 'ned'
+Iteration 1: current_score=3.4260, best_candidate_score=3.4532  UPDATED position 0: '[MASK]' -> 'ned'
+Iteration 2: current_score=3.4532, best_candidate_score=3.4595  UPDATED position 0: 'ned' -> 'stalin'
+Iteration 3: current_score=3.4595, best_candidate_score=3.4854  UPDATED position 5: 'ned' -> 'mao'
+Iteration 4: current_score=3.4854, best_candidate_score=3.5052  UPDATED position 2: '[MASK]' -> 'cain'
+
+Initial trigger: ['[MASK]', '[MASK]', '[MASK]', '[MASK]', '[MASK]', '[MASK]']
+Final trigger:   ['stalin', '[MASK]', 'cain', '[MASK]', '[MASK]', 'mao']
+Trigger changed at least once: True
+
+This confirms the extracted domain-agnostic core (fitness math, GradientStorage, HotFlip) runs end-to-end against real LoCoMo data and Mem0's real embedding function, entirely outside agentdriver's dataset/loading code. Iteration/candidate counts are smoke-test scale, not campaign scale -- see module docstring.

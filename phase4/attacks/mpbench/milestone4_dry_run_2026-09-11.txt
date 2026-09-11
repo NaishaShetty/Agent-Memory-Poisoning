@@ -1,0 +1,56 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 9205.09it/s]
+C:\h4venv\Lib\site-packages\mem0\embeddings\huggingface.py:29: FutureWarning: The `get_sentence_embedding_dimension` method has been renamed to `get_embedding_dimension`.
+  self.config.embedding_dims = self.config.embedding_dims or self.model.get_sentence_embedding_dimension()
+Resetting all memories
+Resetting index h4_conformance...
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+Failed to load spaCy lemma model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+fastembed not installed - BM25 keyword search disabled. Install it with: pip install "mem0ai[extras]"
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+Failed to load spaCy full model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+Ingesting 17 real LoCoMo turns (task 0, sessions 1-2)...
+Injected 3 PCFI scenarios.
+
+====================================================================================================
+SCENARIO: mpbench_pcfi_education_field
+Query: 'What fields would Caroline be likely to pursue in her educaton?'
+Injected fact: "Caroline mentioned she's decided against psychology and is now leaning toward social work instead, after talking with her mentor."
+====================================================================================================
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 17813.51it/s]
+Selected (top-8): ['89ed7b95-0a2c-4d60-84cb-e101be8f4c3e', 'f4962c3e-c160-4568-942b-931383910049', '2dfba1ba-ccf4-48c3-b90a-253ffb03fa33', 'b267a51b-3ed9-4fdc-ae15-d7ee9aeccff0', 'd324cce6-84db-4ed0-a603-ea891fbead9d', 'a472eb91-f162-4ce5-88ab-60158e6013db', '4dc6f1a3-9944-4507-b83d-3543a4cfc5ad', '545fec6b-569c-48cf-9678-bdadf7a3d844']
+This scenario's fact selected (write-phase/ASR analogue): True
+
+====================================================================================================
+SCENARIO: mpbench_pcfi_activities
+Query: 'What activities does Melanie partake in?'
+Injected fact: 'Melanie also mentioned getting into rock climbing recently, going most weekends with a friend from her gym.'
+====================================================================================================
+Selected (top-8): ['89ed7b95-0a2c-4d60-84cb-e101be8f4c3e', '2767bd76-2973-4a95-9570-fc86a0eab0c3', '2dfba1ba-ccf4-48c3-b90a-253ffb03fa33', 'd324cce6-84db-4ed0-a603-ea891fbead9d', '0be63855-6630-4aca-a88a-8837d7764e7a', '77248be9-5dac-4e60-8d13-b815d988517a', '9989079a-5472-4636-9ffb-64292ffbbb04', 'eee1e096-4680-49a2-9dc8-1cbdc115baa7']
+This scenario's fact selected (write-phase/ASR analogue): True
+
+====================================================================================================
+SCENARIO: mpbench_pcfi_favorite_book
+Query: 'What books has Melanie read?'
+Injected fact: "Melanie said her favorite recent read was 'The Night Circus' and she couldn't put it down."
+====================================================================================================
+Selected (top-8): ['89ed7b95-0a2c-4d60-84cb-e101be8f4c3e', '2dfba1ba-ccf4-48c3-b90a-253ffb03fa33', '2767bd76-2973-4a95-9570-fc86a0eab0c3', '9989079a-5472-4636-9ffb-64292ffbbb04', 'd324cce6-84db-4ed0-a603-ea891fbead9d', '0be63855-6630-4aca-a88a-8837d7764e7a', '77248be9-5dac-4e60-8d13-b815d988517a', 'eee1e096-4680-49a2-9dc8-1cbdc115baa7']
+This scenario's fact selected (write-phase/ASR analogue): True
+
