@@ -1,3 +1,11 @@
 PyYAML>=6.0
 pytest>=7.0
 pyarrow>=14.0  # reads SWE-bench Verified's parquet metadata (data/raw/swebench_verified)
+
+# Phase 4 -- main-interpreter attack code (AgentPoison/DSRM real embedding +
+# gradient-based trigger/retrieval-text optimization; does NOT require the
+# separate C:\h4venv interpreter, which is only for mem0ai/a-mem-sys -- see
+# phase3/experiments/PHASE4_4_11_PHASE4_REPRODUCIBILITY.md Section 1).
+torch>=2.0
+transformers>=4.30
+scikit-learn>=1.3

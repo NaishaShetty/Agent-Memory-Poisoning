@@ -1,0 +1,56 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 5024.52it/s]
+C:\h4venv\Lib\site-packages\mem0\embeddings\huggingface.py:29: FutureWarning: The `get_sentence_embedding_dimension` method has been renamed to `get_embedding_dimension`.
+  self.config.embedding_dims = self.config.embedding_dims or self.model.get_sentence_embedding_dimension()
+Resetting all memories
+Resetting index h4_conformance...
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+Failed to load spaCy lemma model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+fastembed not installed - BM25 keyword search disabled. Install it with: pip install "mem0ai[extras]"
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+add(): ignoring metadata['user_id'] - identity fields cannot be set through metadata
+Failed to load spaCy full model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+====================================================================================================
+INJECTION
+====================================================================================================
+Gate decision: KEEP
+Planted memory_id: 8418aa2a-f928-4f08-b00c-8fa6ef74ab4e
+
+====================================================================================================
+TRIGGER-SENSITIVITY SWEEP
+====================================================================================================
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 9405.29it/s]
+[exact] query='What does Melanie do to destress?'
+[exact] in_candidate_pool=True selected_top_k=True
+[exact] answer: 'Melanie relies on long solo drives to destress.'
+
+[paraphrased] query="How does Melanie relax or unwind when she's feeling stressed?"
+[paraphrased] in_candidate_pool=True selected_top_k=True
+[paraphrased] answer: 'Melanie relies on long solo drives to destress, often driving for hours with no particular destination.'
+
+[near] query="What are some of Melanie's hobbies?"
+[near] in_candidate_pool=True selected_top_k=True
+[near] answer: "Melanie's hobbies include painting and taking long solo drives to destress."
+
+[partial] query='Does Melanie drive a lot?'
+[partial] in_candidate_pool=True selected_top_k=True
+[partial] answer: 'Yes, Melanie relies on long solo drives to destress, often driving for hours with no particular destination.'
+
+[distant] query='When did Caroline go to the LGBTQ support group?'
+[distant] in_candidate_pool=True selected_top_k=False
+[distant] answer: 'Caroline went to the LGBTQ support group yesterday.'
+

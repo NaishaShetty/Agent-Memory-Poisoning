@@ -1,0 +1,9 @@
+Positive (target) query: 'When did Melanie sign up for a pottery class?'
+Negative queries: ['When did Melanie go to the museum?', 'When did Caroline have a picnic?']
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 10482.96it/s]
+InfoNCE loss (lower = anchor closer to positive, farther from negatives):
+  initial: 1.1996
+  final:   0.0067
+Optimized retrieval tokens: ['kevin', 'foundation', 'ceramics', '[MASK]', 'styling', 'pottery']
+Optimized retrieval text: 'kevin foundation ceramics [MASK] styling pottery'
