@@ -1,5 +1,18 @@
 # Phase 5 Handoff Report
 
+**Historical document — preserved as scientific record, not current guidance.** Written
+at the point of Phase 4's freeze (2026-09-11), before Phase 5's actual scope was decided.
+Phase 5 in fact became **Instrumentation & Monitoring** (event schema, lifecycle/
+retrieval/agent-decision/lineage instrumentation, trace assembly, validation), not the
+"defense evaluation" direction this document's own Section 7 recommended — that
+recommendation was never binding (Section 7 says so explicitly) and a different, real
+research need (observability before defense) was chosen instead. Phase 5 is now complete
+and frozen; see [`phase5/PHASE5_CHECKLIST.md`](phase5/PHASE5_CHECKLIST.md) for its actual
+final state and [`PHASE6_HANDOFF_REPORT.md`](PHASE6_HANDOFF_REPORT.md) for the current,
+up-to-date handoff into Phase 6. This document is kept unmodified below for chronology —
+it accurately records what Phase 4 established and what was open at that exact point in
+time, not what is true of the repository today.
+
 Status: **Handoff document, not a Phase 5 implementation plan.** Written
 at the point of Phase 4's freeze (2026-09-11), for whoever (human or
 agent) picks up Phase 5 next. This document does not decide Phase 5's
