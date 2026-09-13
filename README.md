@@ -13,11 +13,25 @@ injection → admission → storage → retrieval → selection → exposure/use
 → propagation → influence → detection → attribution
 ```
 
-## Phase 4 status
+## Project status
 
-**Phase 4 — FROZEN (2026-09-11).** See
+**Phase 3 — FROZEN.** **Phase 4 — FROZEN (2026-09-11).** **Phase 5 (Instrumentation &
+Monitoring) — COMPLETE, OFFICIALLY FROZEN (2026-09-13).** **Attribution (post-Phase-5
+analytical layer) — PASS (2026-09-13).** Combined regression across Phase 3, Phase 4,
+Phase 5, and Attribution: 2,079 passed, 19 skipped, 0 failures. See
 [`phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md`](phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md)
-for the full freeze record and master document index.
+for the Phase 4 freeze record, [`phase5/PHASE5_CHECKLIST.md`](phase5/PHASE5_CHECKLIST.md)
+for the Phase 5 official freeze statement, and
+[`PHASE6_HANDOFF_REPORT.md`](PHASE6_HANDOFF_REPORT.md) for the current Phase 1–5 +
+Attribution summary, consolidated limitations, and Phase 6 starting state.
+
+Phase 5 adds a read-only instrumentation and monitoring layer over Phases 3–4 (event
+schema, run/episode identity, memory lifecycle/retrieval/agent-decision instrumentation,
+provenance/lineage, trace assembly, a derived Memory Behavior Dataset, and
+non-interference validation) — never a redesign of the victim architecture or the seven
+attacks below. Attribution is a separate, top-level, read-only analytical layer consuming
+that evidence substrate (origin, lineage, propagation, exposure, influence, and
+references attribution) — not part of Phase 5 semantics.
 
 ## Seven attacks
 
@@ -106,5 +120,9 @@ new phases, new evidence, new documents — never a silent rewrite of what
 is already here. This benchmark does not claim exhaustive attack
 coverage, statistically powered success rates, or defense evaluation.
 
-See [`PHASE5_HANDOFF_REPORT.md`](PHASE5_HANDOFF_REPORT.md) for the
-handoff into the next phase.
+This freeze statement describes Phase 4 only; Phase 4's own frozen results are
+unmodified by all later Phase 5/Attribution work. See
+[`PHASE6_HANDOFF_REPORT.md`](PHASE6_HANDOFF_REPORT.md) for the current handoff (Phase
+1–5 + Attribution summary, limitations, Phase 6 starting state), and
+[`PHASE5_HANDOFF_REPORT.md`](PHASE5_HANDOFF_REPORT.md) for the original, historical
+Phase 4→5 handoff written at this freeze point.
