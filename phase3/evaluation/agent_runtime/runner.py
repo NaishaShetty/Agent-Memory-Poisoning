@@ -118,6 +118,18 @@ class GenerationAttempt:
     succeeded: bool
     latency_sec: float
     error: Optional[str] = None
+    # P2 fix (2026-09-14): the provider's own finish_reason for this attempt (e.g.
+    # "stop", "length"), None for a failed attempt. Previously captured by
+    # LLMProvider.generate() (GenerationResult.finish_reason) but discarded by
+    # generate_with_retries() -- a DRAFT/answer that hit max_tokens ("length") was
+    # fed into downstream verification/reranking, or returned as final, exactly like
+    # a genuinely complete generation, with no way to later tell the two apart.
+    # Added here (not a new field on AgentRunOutcome, which already exposes
+    # `attempts`) so every existing caller of generate_with_retries() keeps its
+    # exact 2-tuple return shape -- was_truncated()/final_finish_reason() below read
+    # it from `attempts` without any caller needing to change how it unpacks that
+    # return value.
+    finish_reason: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -248,6 +260,7 @@ def generate_with_retries(
                     attempt_number=attempt_number,
                     succeeded=True,
                     latency_sec=time.time() - attempt_t0,
+                    finish_reason=generation_result.finish_reason,
                 )
             )
             generation_text = generation_result.text
@@ -262,6 +275,34 @@ def generate_with_retries(
                 )
             )
     return generation_text, tuple(attempts)
+
+
+FINISH_REASON_STOP = "stop"
+
+
+def final_finish_reason(attempts: Sequence["GenerationAttempt"]) -> Optional[str]:
+    """P2 fix (2026-09-14): the `finish_reason` of the LAST successful attempt in
+    `attempts` (the one whose text `generate_with_retries()` actually returned), or
+    `None` if no attempt succeeded (or `attempts` is empty). Reads `attempts` --
+    never a new parameter threaded through every caller -- so this is opt-in for
+    any caller that wants to check truncation, with zero required changes to
+    existing `generate_with_retries()` call sites."""
+    for attempt in reversed(attempts):
+        if attempt.succeeded:
+            return attempt.finish_reason
+    return None
+
+
+def was_truncated(attempts: Sequence["GenerationAttempt"]) -> bool:
+    """True iff the final successful attempt's `finish_reason` is a real, known
+    value other than `FINISH_REASON_STOP` (e.g. "length" -- the provider stopped
+    because it hit `max_tokens`, not because the model naturally finished). A
+    `None` finish_reason (no successful attempt, or a provider/fixture that never
+    populated it) is NOT treated as truncated -- absence of evidence is not
+    evidence of truncation; this function only ever asserts what it can actually
+    observe, per this project's own "never fabricate a fact" discipline."""
+    reason = final_finish_reason(attempts)
+    return reason is not None and reason != FINISH_REASON_STOP
 
 
 def run_agent_task(
@@ -385,4 +426,7 @@ __all__ = [
     "select_from_retrieved",
     "generate_with_retries",
     "run_agent_task",
+    "FINISH_REASON_STOP",
+    "final_finish_reason",
+    "was_truncated",
 ]

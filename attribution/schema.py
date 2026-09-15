@@ -41,7 +41,13 @@ from dataclasses import dataclass
 from typing import Any, Mapping, Optional, Tuple
 
 from phase3.evaluation.security.reproducibility import fingerprint
-from phase5.wiring.lineage import EVIDENCE_KINDS
+from phase5.wiring.lineage import (
+    EVIDENCE_COUNTERFACTUAL,
+    EVIDENCE_EXPOSURE_ONLY,
+    EVIDENCE_KINDS,
+    EVIDENCE_LINEAGE_REACHABILITY,
+    EVIDENCE_OBSERVED_EVENT,
+)
 
 # ---------------------------------------------------------------------------
 # Attribution target -- WHAT is being attributed. Kept minimal and precise: a "downstream
@@ -75,6 +81,32 @@ ATTRIBUTION_TYPES: Tuple[str, ...] = (
     ATTRIBUTION_ORIGIN, ATTRIBUTION_LINEAGE, ATTRIBUTION_PROPAGATION, ATTRIBUTION_EXPOSURE,
     ATTRIBUTION_INFLUENCE, ATTRIBUTION_REFERENCES,
 )
+
+# ---------------------------------------------------------------------------
+# P1 fix (2026-09-14) -- evidence_kind <-> attribution_type is now a SCHEMA
+# invariant, not just a convention every wiring module happens to follow.
+#
+# Before this fix, `attribution/wiring/*.py` each hardcoded the "right"
+# evidence_kind constant for its own attribution type (e.g. `exposure.py`
+# always passes EVIDENCE_EXPOSURE_ONLY, `influence.py` always passes
+# EVIDENCE_COUNTERFACTUAL) -- correct today, by convention, but nothing in
+# `AttributionResult.__post_init__` stopped a future or buggy wiring
+# function (or a hand-constructed `AttributionResult` anywhere else in the
+# codebase) from legally building, say, an INFLUENCE result grounded in
+# EXPOSURE_ONLY evidence -- directly contradicting ATTRIBUTION_METHODOLOGY.md
+# Section 5's "reused vocabulary, never invented" evidence-discipline table,
+# which this map reproduces verbatim (no evidence_kind here was invented;
+# every entry is that same table's own row, made an enforced constraint).
+# ---------------------------------------------------------------------------
+
+ATTRIBUTION_TYPE_ALLOWED_EVIDENCE_KINDS: Mapping[str, Tuple[str, ...]] = {
+    ATTRIBUTION_ORIGIN: (EVIDENCE_OBSERVED_EVENT,),
+    ATTRIBUTION_LINEAGE: (EVIDENCE_OBSERVED_EVENT,),
+    ATTRIBUTION_PROPAGATION: (EVIDENCE_LINEAGE_REACHABILITY,),
+    ATTRIBUTION_EXPOSURE: (EVIDENCE_EXPOSURE_ONLY,),
+    ATTRIBUTION_INFLUENCE: (EVIDENCE_COUNTERFACTUAL,),
+    ATTRIBUTION_REFERENCES: (EVIDENCE_OBSERVED_EVENT,),
+}
 
 # ---------------------------------------------------------------------------
 # Attribution source -- WHAT KIND of thing the target is being attributed to.
@@ -204,6 +236,14 @@ class AttributionResult:
         _require(isinstance(self.evidence_event_ids, tuple), "evidence_event_ids must be a tuple.")
         if self.evidence_kind is not None:
             _require(self.evidence_kind in EVIDENCE_KINDS, f"evidence_kind {self.evidence_kind!r} is not one of {EVIDENCE_KINDS!r}.")
+            allowed = ATTRIBUTION_TYPE_ALLOWED_EVIDENCE_KINDS.get(self.attribution_type, ())
+            _require(
+                self.evidence_kind in allowed,
+                f"evidence_kind={self.evidence_kind!r} is not legal for attribution_type={self.attribution_type!r} "
+                f"(allowed: {allowed!r}). See ATTRIBUTION_TYPE_ALLOWED_EVIDENCE_KINDS / "
+                "ATTRIBUTION_METHODOLOGY.md Section 5 -- e.g. INFLUENCE may only ever be grounded in "
+                "COUNTERFACTUAL_EVIDENCE, never EXPOSURE_ONLY or any weaker evidence kind.",
+            )
         if self.status in (
             STATUS_UNIQUE, STATUS_INFLUENCE_ESTABLISHED, STATUS_EXPOSURE_ESTABLISHED, STATUS_REFERENCES_ESTABLISHED,
         ):

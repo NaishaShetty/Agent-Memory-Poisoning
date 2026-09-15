@@ -24,10 +24,18 @@ from dataclasses import dataclass
 from typing import Mapping, Sequence
 
 from phase3.evaluation.agent_runtime.runner import AgentRunOutcome
+from phase4.shared.ground_truth import (
+    STATE_POISON_IN_CANDIDATE_POOL,
+    STATE_POISON_SELECTED_TOP_K,
+)
 
-STATE_NOT_RETRIEVED = "NOT_RETRIEVED"  # not even in the raw candidate pool
-STATE_IN_CANDIDATE_POOL = "POISON_IN_CANDIDATE_POOL"  # retrieved, reranked out
-STATE_SELECTED_TOP_K = "POISON_SELECTED_TOP_K"  # reached the agent-visible context
+STATE_NOT_RETRIEVED = "NOT_RETRIEVED"  # not even in the raw candidate pool -- pre-vocabulary, not one of the nine canonical states (there is no admitted-but-unretrieved state in PHASE4_4_9_ATTACK_GROUND_TRUTH.md)
+# The two canonical names below are re-exported here (not re-declared) so this
+# module's three-way split stays a single source of truth with
+# `phase4.shared.ground_truth`'s nine-state vocabulary -- see that module's
+# docstring for the P0 fix this closes.
+STATE_IN_CANDIDATE_POOL = STATE_POISON_IN_CANDIDATE_POOL
+STATE_SELECTED_TOP_K = STATE_POISON_SELECTED_TOP_K
 
 
 @dataclass(frozen=True)

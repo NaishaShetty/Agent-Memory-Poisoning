@@ -1,5 +1,27 @@
 # Phase 4.9 — Attack Ground Truth (Consolidated Registry)
 
+**2026-09-14 addendum (additive, per this project's own "preserve the
+record" discipline — nothing below this note is edited):** an external
+audit found that the nine-state chain this document consolidates existed,
+at the time, only as prose and hand-typed strings across 26 campaign
+scripts — no enum, dataclass, or transition table anywhere validated that a
+reported state sequence was even internally consistent. `phase4/shared/
+ground_truth.py` closes this: the nine states, and the real transitions
+this document's own Section 1 table and Section 2 discussion describe, are
+now a real, importable, validated state machine
+(`ALLOWED_TRANSITIONS`/`validate_transition()`/`GroundTruthTrace`), mirroring
+the same pattern Phase 6's `defense/policy/states.py` later established for
+its own security-state vocabulary. `phase4/tests/test_ground_truth.py`
+grounds every legal edge directly in this document's own real,
+already-published campaign observations (AgentPoison's full success chain,
+FARMA's real candidate-pool/selected split, MemoryGraft's real gate
+refusal, MINJA's real selected-but-not-success single-mask trial) and
+proves the illegal edges this document's own verdicts implicitly rely on
+never having been made (e.g. `ATTACK_SUCCESS` with no prior
+`POISON_INFLUENCED_RESPONSE`) are now rejected, not merely avoided by
+convention. This is new, additive code — no existing verdict, campaign log,
+or number in this document is changed.
+
 Status: **DONE (2026-09-11); updated 2026-09-11 with real, previously-missing
 evidence closing three disclosed gaps** — `retrieved_memory_ids` now
 logged for all seven attacks (Section 2.1, RESOLVED), real
@@ -190,6 +212,47 @@ check it. The contract's own §7b (multi-artifact protocol) already
 anticipates this, but Section 1's registry is the first place in this
 project the two verdicts are shown side-by-side for the same real trial,
 making the relativity concrete rather than abstract.
+
+#### 2026-09-14 addendum (additive — nothing above this note is edited)
+
+An external audit raised two related, previously-undisclosed methodology
+gaps, both now closed by new, additive code
+(`phase4/shared/counterfactual_confound_controls.py`), with zero changes to
+this section's own real numbers or to either frozen masking module
+(`phase3/evaluation/agent_runtime/counterfactual.py`,
+`phase4/shared/counterfactual_joint_mask.py`):
+
+1. **No placebo-mask control existed anywhere.** Removing a memory and
+   re-rendering/re-generating in the same step means a
+   `COUNTERFACTUALLY_INFLUENTIAL` verdict was, on its own, at least as
+   consistent with "removing *any* memory shortened/reshaped the prompt" as
+   with "removing *this poison's* content changed the answer." Neither
+   frozen masking module tested a placebo condition (masking a different,
+   benign memory of comparable size instead). `run_placebo_controlled_single_mask()`/
+   `run_placebo_controlled_joint_mask()` now provide that control, returning
+   a four-way verdict (`CONFOUND_CONTROLLED_INFLUENTIAL`,
+   `CONFOUND_SUSPECTED`, `NOT_INFLUENTIAL`, `INCONCLUSIVE`) rather than
+   silently folding a possible confound into a bare binary. This does not
+   retroactively reclassify any of this document's own already-published
+   verdicts above — they remain exactly what they always were: real evidence
+   under the original, disclosed, uncontrolled protocol. The placebo control
+   is available for new and re-run trials going forward.
+2. **The single-mask-vs-joint-mask disagreement this very section
+   describes had no rule, fixed in advance, for which protocol is
+   canonical when they disagree** — the project's own headline lines
+   (e.g. "`ATTACK_SUCCESS`-consistent (joint-mask)" in Section 1's table)
+   picked the more favorable result after seeing both. `canonical_protocol_for()`
+   now fixes that rule *before* any result is inspected: joint masking is
+   canonical whenever more than one artifact was injected for the same
+   claim (exactly the condition this section's own MINJA/FARMA evidence
+   motivates), single masking otherwise. `canonical_verdict()` always
+   returns both statuses, never silently dropping the non-canonical one.
+   `phase4/tests/test_counterfactual_confound_controls.py::test_canonical_verdict_reproduces_the_real_farma_disagreement`
+   reproduces this section's own real FARMA numbers directly and confirms
+   the rule selects joint-mask as canonical for that trial (n=11 artifacts),
+   exactly matching the verdict this document already reports — the fix
+   formalizes the choice this project already made in practice, it does not
+   change it.
 
 ## 3. What This Registry Confirms Versus What Remains Open
 

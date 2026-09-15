@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mgp_decision_record.schema.json",
+  "title": "MGPDecisionRecord",
+  "description": "JSON Schema for phase6.defense.policy.records.MGPDecisionRecord -- mirrors phase3/schemas/memory_schema.json's own convention (a real, checkable schema alongside the Python dataclass, not a substitute for it). Every field name and type here corresponds exactly to the real dataclass fields; this schema is validated against real, constructed instances by phase6/tests/test_schemas.py, not hand-verified once and left to drift.",
+  "type": "object",
+  "required": [
+    "decision_id",
+    "candidate_memory_id",
+    "policy_version",
+    "signals_used",
+    "action",
+    "reason",
+    "run_id",
+    "timestamp",
+    "evidence_refs"
+  ],
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "pattern": "^MGPDEC-[0-9a-f]{64}$",
+      "description": "Deterministic SHA-256-derived identity, minted by mint_decision_id() -- never a random UUID."
+    },
+    "candidate_memory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "e.g. 'mgp-1.0.0' -- read from records.CURRENT_POLICY_VERSION, the single source-of-truth constant."
+    },
+    "signals_used": {
+      "type": "object",
+      "description": "Raw signal name/value pairs. Must never contain a key from phase6.defense.policy.records.FORBIDDEN_SIGNAL_KEYS -- enforced at construction time in code; this schema only checks shape, not the denylist itself (a JSON Schema cannot express 'not one of this dynamic Python set' cleanly, so the real enforcement stays in Python)."
+    },
+    "action": {
+      "type": "string",
+      "enum": ["ALLOW", "ALLOW_WITH_RESTRICTION", "REQUIRE_VALIDATION", "QUARANTINE", "BLOCK", "RELEASE", "DOWNRANK"]
+    },
+    "resulting_state": {
+      "type": ["string", "null"],
+      "enum": ["UNASSESSED", "TRUSTED", "SUSPICIOUS", "QUARANTINED", "BLOCKED", "RELEASED", null]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Must be evidence-grounded, built from signals_used -- never fabricated independently (Policy document Section 4)."
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_id": {
+      "type": ["string", "null"]
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO-8601, human-audit only -- never used for ordering logic."
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "description": "At least one real Phase 3/5 event id -- a decision with no evidence reference is a bare claim, forbidden by Policy document Section 4."
+    }
+  },
+  "additionalProperties": false
+}

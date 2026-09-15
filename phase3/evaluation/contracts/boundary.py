@@ -64,7 +64,16 @@ FORBIDDEN_KEYS: frozenset[str] = frozenset(
 
 
 def _find_forbidden_keys(payload: Any, path: str = "$") -> list[str]:
-    """Recursively walk payload, returning dotted paths of any forbidden key found."""
+    """Recursively walk payload, returning dotted paths of any forbidden key found.
+
+    P2 fix (2026-09-14): recurses `tuple` as well as `list` -- the audit found (and
+    live-verified) that a forbidden key nested inside a tuple crossed this check
+    undetected, e.g. `{"memories": ({"gold_answer": "leak"},)}`. `tuple` is this
+    codebase's own default container for ordered fields elsewhere (e.g.
+    `CanonicalMemoryRecord.parent_ids`, `CanonicalEvent.memory_ids`), so treating it
+    identically to `list` here closes the exact gap a payload assembled from one of
+    those dataclasses' own ordered fields could otherwise slip through.
+    """
     hits: list[str] = []
     if isinstance(payload, dict):
         for key, value in payload.items():
@@ -73,7 +82,7 @@ def _find_forbidden_keys(payload: Any, path: str = "$") -> list[str]:
             if key_str.lower() in FORBIDDEN_KEYS:
                 hits.append(child_path)
             hits.extend(_find_forbidden_keys(value, child_path))
-    elif isinstance(payload, list):
+    elif isinstance(payload, (list, tuple)):
         for index, item in enumerate(payload):
             hits.extend(_find_forbidden_keys(item, f"{path}[{index}]"))
     return hits

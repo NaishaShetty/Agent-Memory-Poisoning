@@ -47,6 +47,7 @@ writing into `v3_candidate`, `v5_candidate`, or any other existing store.
 
 from __future__ import annotations
 
+import sys
 import time
 from pathlib import Path
 
@@ -60,9 +61,19 @@ from phase3.evaluation.agent_runtime.runner import AgentRunOutcome
 from phase3.evaluation.agent_runtime.trace import evaluate_and_trace
 from phase3.evaluation.contracts.boundary import AgentVisibilityViolation
 from phase3.evaluation.foundations.temporal_resolution import render_content_with_temporal_annotations
+from phase3.evaluation.llm.provider import LLMProviderError
 from phase3.evaluation.security import content_leakage as sec_content_leakage
+from phase3.evaluation.security.content_leakage import ContentLeakageDetectedError
 
 V3_HYBRID_STORE = OUTPUT_DIR / "canonical_store" / "v3_hybrid_candidate"
+
+# P2 fix (2026-09-14): exception types this loop genuinely expects to see from a
+# real campaign run (an LLM connection drop, a genuine boundary/leakage rejection
+# this module itself raises as RuntimeError below) -- NOT a signal that every
+# other exception type is impossible, but a way to distinguish "ordinary
+# experimental failure" from "this task silently triggered a bug in the
+# assembler." See EXPECTED_RUNTIME_EXCEPTION_TYPES's use in the except block below.
+EXPECTED_RUNTIME_EXCEPTION_TYPES = (LLMProviderError, ContentLeakageDetectedError, RuntimeError)
 
 
 def _load_jsonl(path: Path):
@@ -101,9 +112,21 @@ def run_condition_b_hybrid(all_tasks, llm_provider, generation_config, campaign_
         t0 = time.time()
         try:
             evidence_items = []
+            unresolved_evidence_ids = []  # P2 fix (2026-09-14) -- see below
             for eid in task.evidence_memory_ids:
                 row = memory_rows_by_id.get(eid)
                 if row is None:
+                    # P2 fix (2026-09-14): a gold evidence id that fails to resolve
+                    # against memory_records.jsonl (stale id, dataset-revision
+                    # mismatch, path typo) used to be silently dropped here -- the
+                    # model could then receive partial or EMPTY gold evidence with
+                    # nothing in the trace distinguishing "the LLM was given full
+                    # gold evidence" from "a data-pipeline bug silently starved it,"
+                    # on Condition B specifically -- the condition V3-Hybrid's
+                    # headline improvement is measured on (module docstring). Now
+                    # recorded explicitly, always (not just when non-empty), so
+                    # downstream analysis can filter/aggregate without guessing.
+                    unresolved_evidence_ids.append(eid)
                     continue
                 base_content = f"{row['source_role']}: {row['content']}"
                 content_text = base_content
@@ -149,6 +172,7 @@ def run_condition_b_hybrid(all_tasks, llm_provider, generation_config, campaign_
                 expected_answer=task.answer, gold_evidence_ids=task.evidence_memory_ids,
             )
             trace_dict = dict(trace)
+            trace_dict["unresolved_evidence_ids"] = tuple(unresolved_evidence_ids)
             trace_dict["v3_hybrid_reasoning"] = {
                 "draft_answer": answer_result.draft_answer,
                 "was_revised": answer_result.was_revised,
@@ -165,12 +189,36 @@ def run_condition_b_hybrid(all_tasks, llm_provider, generation_config, campaign_
                 "trace": trace_dict, "latency_sec": run_latency, "vram_mib": _gpu_vram_mib(),
             })
         except Exception as exc:
-            results.append({"task_id": task.task_id, "dataset": task.dataset, "status": "EXECUTION_FAILURE", "error": repr(exc), "latency_sec": time.time() - t0})
+            # P2 fix (2026-09-14): still catches broadly (so one task's real infra
+            # failure doesn't abort an entire long campaign run over many tasks --
+            # that continue-on-failure behavior is preserved deliberately), but no
+            # longer treats every exception type identically. An exception type this
+            # loop does NOT expect (AttributeError/KeyError/TypeError from a genuine
+            # programming bug, not a runtime condition) is tagged and printed loudly
+            # here, rather than silently recorded as an ordinary EXECUTION_FAILURE
+            # indistinguishable from a real LLM connection drop -- previously, a
+            # systematic bug affecting many tasks would only ever show up as an
+            # elevated EXECUTION_FAILURE rate, never as a loud, investigable signal.
+            is_expected = isinstance(exc, EXPECTED_RUNTIME_EXCEPTION_TYPES)
+            if not is_expected:
+                print(
+                    f"[campaign_v3_hybrid_runner] UNEXPECTED exception type "
+                    f"{type(exc).__name__} for task {task.task_id!r} (Condition B) -- "
+                    "not one of EXPECTED_RUNTIME_EXCEPTION_TYPES; this may be a real "
+                    "code bug rather than an ordinary experimental failure.",
+                    file=sys.stderr,
+                )
+            results.append({
+                "task_id": task.task_id, "dataset": task.dataset, "status": "EXECUTION_FAILURE",
+                "error": repr(exc), "latency_sec": time.time() - t0,
+                "failure_kind": "EXPECTED_RUNTIME_FAILURE" if is_expected else "UNEXPECTED_EXCEPTION",
+            })
     return results
 
 
 __all__ = [
     "V3_HYBRID_STORE",
+    "EXPECTED_RUNTIME_EXCEPTION_TYPES",
     "run_condition_a",
     "run_condition_b_hybrid",
     "run_condition_c_v3_mem0",

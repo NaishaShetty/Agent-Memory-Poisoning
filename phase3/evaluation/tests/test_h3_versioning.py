@@ -41,6 +41,7 @@ from phase3.evaluation.foundations.memory_versioning import (
     NoLifecycleHistoryError,
     STATUS_FULLY_RETIRED,
     STATUS_FULLY_SUPERSEDED,
+    STATUS_SUPERSEDED_EVENT_AND_LINKAGE,
     SupersessionCollisionError,
     SupersessionLedger,
     SupersessionRecord,
@@ -618,6 +619,66 @@ def test_38_linkage_write_failure_reported_explicitly_not_silently_repaired(tmp_
     assert result.status == STATUS_SUPERSEDED_EVENT_ONLY
     # The superseded event IS durably recorded despite the linkage failure.
     assert event_ledger.get_event(superseded_event.event_id) is not None
+
+
+def test_38b_retired_event_write_failure_after_linkage_reported_not_lost(tmp_path):
+    """P2 fix (2026-09-14) -- the mirror case of test_38 above, one step later:
+    the SUPERSEDED event AND the SupersessionRecord linkage both succeed, but
+    the FINAL retired-event append fails (forced here via a genuine
+    CanonicalEventCollisionError: a colliding event pre-seeded under the exact
+    same content-derived event_id the real retired_event will use, but with
+    different content). Before this fix, this exception propagated
+    uncaught out of supersede_memory() -- the caller lost the SupersessionResult
+    entirely, despite the superseded event and linkage already being durable.
+    STATUS_SUPERSEDED_EVENT_AND_LINKAGE (defined but never returned before this
+    fix) must now be returned instead, and both already-durable facts must
+    still be readable afterward."""
+    import dataclasses
+
+    memory_ledger, event_ledger, supersession_ledger = _system(tmp_path)
+    _seed_memory(memory_ledger, event_ledger, "m1")
+    memory_ledger.put(_memory_record("m2"))
+    event_ledger.append(_created_event("m2", "2026-01-01T00:01:00Z"))
+
+    superseded_event = build_canonical_event(
+        event_type=EVENT_SUPERSEDED, memory_ids=("m1",), timestamp="2026-01-02T00:00:00Z",
+        actor="creation_policy", reason="m2 supersedes m1.", previous_state=LIFECYCLE_CREATED, new_state=LIFECYCLE_RETIRED,
+    )
+    retired_event = build_canonical_event(
+        event_type=EVENT_RETIRED, memory_ids=("m1",), timestamp="2026-01-02T00:00:01Z",
+        actor="creation_policy", reason="m1 retired.", previous_state=LIFECYCLE_CREATED, new_state=LIFECYCLE_RETIRED,
+    )
+    # A colliding event: a genuine, FIRST-occurrence `retired` event for an
+    # unrelated decoy memory ("m-decoy"), forced to carry the SAME event_id
+    # the real retired_event (for m1) will use. Deliberately about a
+    # DIFFERENT memory, so it (a) passes the single-occurrence check on its
+    # own append (it IS the first retired-type event for m-decoy), (b) does
+    # not affect m1's own reconstructed version history or trip
+    # supersede_memory()'s own upfront AlreadyRetiredError guard, and (c)
+    # still collides on id (different memory_ids/reason) with the REAL
+    # retired_event once supersede_memory() tries to append it for m1.
+    # event_id is content-derived in real minting, but
+    # CanonicalEvent.__post_init__ only checks it is a non-empty string (like
+    # every ledger in this framework, before this project's own Phase 5 P1
+    # fix closed the equivalent gap for Phase5Event), so this
+    # hand-constructed collision is possible and is exactly what a real
+    # ledger-level corruption or id-collision bug would look like.
+    memory_ledger.put(_memory_record("m-decoy"))
+    event_ledger.append(_created_event("m-decoy", "2026-01-01T00:01:30Z"))
+    decoy_retired_event = build_canonical_event(
+        event_type=EVENT_RETIRED, memory_ids=("m-decoy",), timestamp="2026-01-01T00:01:31Z",
+        actor="creation_policy", reason="m-decoy retired, unrelated to m1", previous_state=LIFECYCLE_CREATED, new_state=LIFECYCLE_RETIRED,
+    )
+    colliding_event = dataclasses.replace(decoy_retired_event, event_id=retired_event.event_id)
+    event_ledger.append(colliding_event)
+
+    result = supersede_memory(event_ledger, memory_ledger, supersession_ledger, "m1", "m2", superseded_event=superseded_event, retired_event=retired_event)
+    assert result.status == STATUS_SUPERSEDED_EVENT_AND_LINKAGE
+    assert result.superseded_event_id == superseded_event.event_id
+    assert result.retired_event_id is None  # the failed step has no id to report
+    # Both already-durable facts remain readable.
+    assert event_ledger.get_event(superseded_event.event_id) is not None
+    assert supersession_ledger.superseder_of("m1") == "m2"
 
 
 def test_39_reload_after_partial_failure_shows_honest_state(tmp_path):

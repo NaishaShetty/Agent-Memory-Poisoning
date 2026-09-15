@@ -53,6 +53,34 @@ produced them.
 | `sleeper` | `sleeper` | Hidden in Memory, Sleeper Dataset Generator |
 | `evaluation` | `security_benchmark` | MemSecBench, MEMSAD, MemAudit, A-MemGuard, ASB, AgentDojo, InjecAgent |
 
+**Reading the `memory` row (resource-reconciliation note, 2026-09-15):** these
+four datasets share the memory-foundation *role* and are equally covered by
+the boundary invariant below, but they are not equally active as task-level
+QA experimental substrate. LoCoMo and LongMemEval are the datasets every real
+campaign actually draws QA tasks from; MSC and Conversation Chronicles
+contribute UMR schema validation, provenance, and cross-dataset structural
+checks, not task-level QA data (their `task_records.jsonl` files are empty by
+design, not by omission). See `phase3/specification/
+DATASET_CAPABILITY_MATRIX.md` for the full per-dataset treatment. A paper
+claim of "evaluated across four memory-foundation datasets" needs this same
+qualifier — it is accurate for the corpus, not for the active experimental
+substrate.
+
+**Reading the `workload` row (resource-reconciliation note, 2026-09-15):**
+none of these nine resources is used by any Phase 3-6 experiment. This is a
+scope decision, not a missing implementation — each registry entry's own
+`intended_later_phase` frames its adoption as conditional ("if tool-use scale
+beyond API-Bank is needed," "if a web-agent pathway is added," "if a
+code-agent pathway is added"), and MAMBench's actual research question
+(memory-poisoning mechanics in agents with persistent conversational memory)
+never required triggering that conditional expansion. Where three of the
+nine appear in later-phase prose at all (StrategyQA/EHRAgent in AgentPoison's
+and FARMA's dossiers, WebShop in MINJA's), it is to document that the real
+attack reconstruction deliberately substitutes LoCoMo for the original
+paper's domain — a disclosed decision, not silent neglect of the workload
+resource. MIMIC-III/eICU remain excluded because the credentialing this
+project never obtained is a genuine access barrier, not a priority call.
+
 The mapping (`preprocessing.benchmark_organization._CATEGORY_TO_ROLE`) is
 total (every category the registry currently emits has exactly one role)
 and fixed at 1:1 — no resource currently documents a genuine second role,

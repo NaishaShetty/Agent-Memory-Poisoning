@@ -40,11 +40,20 @@ from phase4.attacks.memorygraft.locomo_seed import GOLD_ANSWER, SEED_RESEARCH_TO
 from phase4.attacks.memorygraft.persistence_gate import DECISION_KEEP, FOUNDATION_MEM0, judge_persistence
 from phase4.shared.campaign_runner import retrieve_select_generate
 from phase4.shared.dormancy_report import print_dormancy_report
+from phase4.shared.role_provider_disclosure import disclose_role_sharing
 
 USER_ID = "memorygraft-milestone3-4"
 
 
-def main() -> int:
+def main(judge_llm_provider=None) -> int:
+    """`judge_llm_provider`: P1 fix -- optional override so the persistence
+    gate can be judged by a genuinely different model instance than the one
+    generating the victim agent's answer, for a future real run with more
+    than one reachable server. Defaults to `None`, which reuses the single
+    shared provider EXACTLY as every prior real run of this script did --
+    this default preserves this script's own already-persisted, real
+    campaign logs as exactly reproducible; it is not a retroactive change to
+    what those runs did."""
     endpoint = LlamaServerEndpoint()
     llm_provider = LlamaServerProvider(endpoint=endpoint)
     if not llm_provider.health_check():
@@ -56,6 +65,9 @@ def main() -> int:
         print(f"Server identity verification failed: {exc}", file=sys.stderr)
         return 1
 
+    judge_provider = judge_llm_provider if judge_llm_provider is not None else llm_provider
+    disclose_role_sharing("memorygraft-milestone3-4", attacker=llm_provider, victim=llm_provider, judge=judge_provider)
+
     gate_generation_config = GenerationConfig(
         temperature=0.0, seed=42, max_tokens=64, enable_thinking=False, n_ctx=2048,
     )
@@ -66,7 +78,7 @@ def main() -> int:
     print(f"req: {SEED_RESEARCH_TOPIC.req!r}")
     print(f"resp: {SEED_RESEARCH_TOPIC.resp!r}")
     judgment = judge_persistence(
-        SEED_RESEARCH_TOPIC, llm_provider, gate_generation_config, foundation=FOUNDATION_MEM0,
+        SEED_RESEARCH_TOPIC, judge_provider, gate_generation_config, foundation=FOUNDATION_MEM0,
     )
     print(f"Gate decision: {judgment.decision}")
     print(f"Gate rationale: {judgment.rationale!r}\n")
@@ -110,7 +122,7 @@ def main() -> int:
     print("=" * 100)
     injector = MemoryGraftInjector(
         foundation_adapter=foundation, foundation_label=FOUNDATION_MEM0,
-        llm_provider=llm_provider, generation_config=gate_generation_config,
+        llm_provider=judge_provider, generation_config=gate_generation_config,
     )
     injection_result = injector.inject(SEED_RESEARCH_TOPIC, extra_metadata={"user_id": USER_ID})
     print(f"Injection admission_status: {injection_result.admission_status}")

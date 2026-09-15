@@ -217,14 +217,87 @@ def test_attack_injection_admitted_requires_memory_id():
     event = Phase5Event(**admitted)
     assert event.memory_id == "mem-9"
 
-    rejected = dict(admitted, admission_status=ADMISSION_STATUS_REJECTED, memory_id=None)
+    # P1 fix note: build `rejected`/`rejected_with_memory` from `admitted` MINUS its own
+    # `event_id` key -- reusing `admitted` (which already carries a computed `event_id`)
+    # directly would pollute generate_phase5_event_id()'s own defining-fields payload
+    # with a stale event_id, which no real phase5/wiring/*.py call site ever does (none
+    # of them include event_id in the kwargs dict passed to generate_phase5_event_id()).
+    admitted_fields = {k: v for k, v in admitted.items() if k != "event_id"}
+
+    rejected = dict(admitted_fields, admission_status=ADMISSION_STATUS_REJECTED, memory_id=None)
     rejected["event_id"] = generate_phase5_event_id(**rejected)
     Phase5Event(**rejected)  # must not raise
 
-    rejected_with_memory = dict(admitted, admission_status=ADMISSION_STATUS_REJECTED)
+    rejected_with_memory = dict(admitted_fields, admission_status=ADMISSION_STATUS_REJECTED)
     rejected_with_memory["event_id"] = generate_phase5_event_id(**rejected_with_memory)
     with pytest.raises(Phase5EventValidationError, match="memory_id must be None"):
         Phase5Event(**rejected_with_memory)
+
+
+# ---------------------------------------------------------------------------
+# P1 fix (2026-09-14) -- event_id must actually equal a fresh recomputation
+# from an event's own defining fields, not merely be a non-empty string. The
+# audit finding this closes: __post_init__ only checked event_id was a
+# non-empty string, so a hand-picked id (or a bug in a future wiring module)
+# would go undetected -- the module's own "two calls describing the
+# identical fact coalesce onto the same id" claim was a convention, not an
+# enforced invariant.
+# ---------------------------------------------------------------------------
+
+
+def test_hand_picked_event_id_is_rejected():
+    kwargs = dict(_rcs_kwargs())
+    kwargs["event_id"] = "P5EVT-hand-picked-not-a-real-hash"
+    with pytest.raises(Phase5EventValidationError, match="does not match a fresh recomputation"):
+        Phase5Event(**kwargs)
+
+
+def test_correctly_minted_event_id_is_accepted():
+    event = Phase5Event(**_rcs_kwargs())
+    assert event.event_id.startswith("P5EVT-")
+
+
+def test_two_calls_with_identical_defining_fields_coalesce_onto_the_same_id():
+    """The module's own stated guarantee, actually verified now (previously
+    only asserted in prose)."""
+    assert _rcs_kwargs()["event_id"] == _rcs_kwargs()["event_id"]  # two independent builds
+
+
+def test_event_id_changes_when_a_defining_field_changes():
+    id_a = _rcs_kwargs()["event_id"]
+    id_b = _rcs_kwargs(cosine_score=0.99)["event_id"]
+    assert id_a != id_b
+
+
+def test_event_id_reconstruction_handles_an_optional_group_field_left_unset():
+    """context_assembled's decision_id is optional within its active group
+    (unlike attack_injection's memory_id, which is a deliberate, documented
+    exception -- see event.py's __post_init__ comment) -- a real event built
+    without it must still validate cleanly."""
+    kwargs = dict(
+        event_type=CONTEXT_ASSEMBLED, timestamp=TS, actor="retrieval_wiring",
+        reason="context assembled", task_id="task-1",
+        context_memory_ids=("mem-1",),
+        rendered_messages=({"role": "system", "content": "x"},),
+        rendered_context_fingerprint=compute_rendered_context_fingerprint(
+            ({"role": "system", "content": "x"},)
+        ),
+    )
+    event_id = generate_phase5_event_id(**kwargs)
+    event = Phase5Event(event_id=event_id, **kwargs)
+    assert event.decision_id is None
+
+
+def test_event_id_reconstruction_handles_attack_injection_rejected_with_memory_id_none():
+    kwargs = dict(
+        event_type=ATTACK_INJECTION, timestamp=TS, actor="farma_injector",
+        reason="artifact rejected", attack_id="farma", injection_id="INJ-2",
+        artifact_id="farma-artifact-8", admission_status=ADMISSION_STATUS_REJECTED,
+        memory_id=None,
+    )
+    event_id = generate_phase5_event_id(**kwargs)
+    event = Phase5Event(event_id=event_id, **kwargs)
+    assert event.memory_id is None
 
 
 def test_ground_truth_transition_requires_derivation_source():

@@ -15,6 +15,7 @@ assertion.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import dataclass
 from typing import Dict
@@ -71,7 +72,38 @@ RESULTS: Dict[str, str] = {}
 
 
 def _scripted_provider(reply_text: str) -> LlamaServerProvider:
+    """Fixed-reply provider -- still used where a test deliberately needs a
+    CONSTANT reply regardless of prompt (e.g. simulating MemoryGraft's
+    persistence-gate judge always returning a specific verdict). NOT used for
+    the shared `_run_config()` downstream-generation path any more -- see
+    `_content_sensitive_provider()` below for why."""
     def post_json(url, body, timeout):
+        payload = {
+            "choices": [{"message": {"content": reply_text}, "finish_reason": "stop"}],
+            "usage": {"prompt_tokens": 10, "completion_tokens": 5},
+            "system_fingerprint": "b10717-a32af33de",
+        }
+        return _RawHttpResponse(status=200, body=json.dumps(payload).encode("utf-8"))
+    return LlamaServerProvider(endpoint=LlamaServerEndpoint(), post_json=post_json)
+
+
+def _content_sensitive_provider() -> LlamaServerProvider:
+    """P0 fix (audit finding): the old `_scripted_provider(reply_text)` ignored
+    its `body` argument entirely and always returned the same fixed
+    `reply_text` regardless of prompt content -- so
+    `instrumented_text == baseline_text` was guaranteed to pass even if Phase
+    5 instrumentation silently corrupted the rendered prompt, with all real
+    signal actually carried by the separate messages-equality assertion. This
+    provider instead derives its reply DETERMINISTICALLY from the real
+    request body (the actual rendered messages sent), so a divergence in what
+    the baseline vs. instrumented path sends the model shows up as a
+    divergent generated answer, not just a coincidentally-matching constant.
+    Still fully deterministic/offline (a hash of `body`, not a real model
+    call) -- this is not a real-runtime test, it is a stronger scripted one.
+    """
+    def post_json(url, body, timeout):
+        digest = hashlib.sha256(body).hexdigest()[:16]
+        reply_text = f"{REPLY} (prompt-fingerprint={digest})"
         payload = {
             "choices": [{"message": {"content": reply_text}, "finish_reason": "stop"}],
             "usage": {"prompt_tokens": 10, "completion_tokens": 5},
@@ -83,7 +115,7 @@ def _scripted_provider(reply_text: str) -> LlamaServerProvider:
 
 def _run_config():
     return RunConfiguration(
-        llm_provider=_scripted_provider(REPLY),
+        llm_provider=_content_sensitive_provider(),
         generation_config=GenerationConfig(temperature=0.0, seed=42, max_tokens=64, enable_thinking=False, n_ctx=1024),
         system_prompt=DEFAULT_SYSTEM_PROMPT, max_retries=0,
     )
@@ -99,6 +131,114 @@ def _baseline_downstream(memory_id: str, content: str):
     messages = render_messages(context, system_prompt=DEFAULT_SYSTEM_PROMPT)
     text, _ = generate_with_retries(messages, _run_config())
     return selection, messages, text
+
+
+def _baseline_downstream_multi(candidates, top_k):
+    """Multi-candidate variant of `_baseline_downstream` -- raw Phase 3
+    primitives only, over a real candidate POOL rather than the single-item
+    pool every one of the seven per-attack tests above exercises."""
+    selection = select_by_hybrid_score(QUERY, candidates, top_k=top_k)
+    context = build_agent_visible_context(
+        condition=CONDITION_RETRIEVED_MEMORY, task_id="task-baseline-multi", prompt=QUERY,
+        memory_items=[{"memory_id": c.memory_id, "content": c.content} for c in selection.selected],
+    )
+    messages = render_messages(context, system_prompt=DEFAULT_SYSTEM_PROMPT)
+    text, _ = generate_with_retries(messages, _run_config())
+    return selection, messages, text
+
+
+def _instrumented_downstream_multi(ledgers, candidates, top_k):
+    """Multi-candidate variant of `_instrumented_downstream`."""
+    report = instrument_retrieval_and_selection(
+        memory_ledger=ledgers["memory_ledger"], event_ledger=ledgers["event_ledger"],
+        phase5_event_ledger=ledgers["phase5_ledger"], membership_ledger=ledgers["membership_ledger"],
+        run_id=ledgers["run_id"], task_id="task-instrumented-multi", query=QUERY,
+        candidates=candidates, config_fingerprint=CFG, actor="test", timestamp=TS, top_k=top_k,
+    )
+    context = build_agent_visible_context(
+        condition=CONDITION_RETRIEVED_MEMORY, task_id="task-instrumented-multi", prompt=QUERY,
+        memory_items=[{"memory_id": c.memory_id, "content": c.content} for c in report.hybrid_result.selected],
+    )
+    messages = render_messages(context, system_prompt=DEFAULT_SYSTEM_PROMPT)
+    exposed_ids = tuple(c.memory_id for c in report.hybrid_result.selected)
+    decision = instrument_agent_decision(
+        phase5_event_ledger=ledgers["phase5_ledger"], membership_ledger=ledgers["membership_ledger"],
+        run_id=ledgers["run_id"], task_id="task-instrumented-multi", decision_id="dec-ni-multi", action_id="act-ni-multi",
+        exposed_memory_ids=exposed_ids, messages=messages, run_config=_run_config(), actor="test", timestamp=TS,
+    )
+    return report, messages, decision.generation_text
+
+
+def test_non_interference_multi_candidate_pool_with_tied_scores(tmp_path):
+    """P0 fix (audit finding): every one of the seven per-attack tests above
+    exercises retrieval/selection over exactly ONE candidate (top_k=1) -- a
+    degenerate pool where ranking/tie-breaking logic that could plausibly
+    diverge between the baseline and instrumented wiring is never invoked.
+    This test builds a real 3-candidate pool, including two candidates with
+    IDENTICAL content text (verified below to land within float ULP of each
+    other on blended_score -- hybrid_selection's semantic term has tiny
+    batch-order floating-point jitter even for identical text, so this is a
+    near-tie, not an exact one; what matters for non-interference is that
+    baseline and instrumented resolve that near-tie the SAME way, not that
+    the two candidates score identically to each other), retrieves the real
+    AgentPoison-injected memory alongside them, and diffs baseline vs.
+    instrumented selection order,
+    blended scores, rendered messages, and (via the now content-sensitive
+    provider) generated text -- the same non-interference standard the seven
+    single-candidate tests apply, extended to a pool large enough to exercise
+    ranking."""
+    baseline_foundation = MockMem0Adapter()
+    baseline_foundation.initialize({})
+    # Must match run_live_agentpoison_injection()'s own internal artifact
+    # exactly (phase5/wiring/live_attack_runs.py) -- baseline and instrumented
+    # have to inject IDENTICAL content, or a memory_id mismatch is just a test
+    # setup error, not a real non-interference divergence.
+    artifact = AgentPoisonArtifact(
+        poison_id="phase5_live_agentpoison_001", trigger_tokens=["a", "b", "c"], trigger_text="a b c",
+        malicious_demonstration="Regarding a b c: some forged claim.",
+        fitness_score_initial=1.0, fitness_score_final=2.0, iterations_run=5, num_grad_iter=3, num_cand=20,
+    )
+    baseline_poison = AgentPoisonInjector(baseline_foundation).inject(artifact)
+
+    tied_content = "The meeting notes were filed away for later reference."
+    baseline_candidates = [
+        (baseline_poison.canonical_memory_id, baseline_poison.stored_text),
+        ("MEM-TIED-A", tied_content),
+        ("MEM-TIED-B", tied_content),  # identical content -> a near-tied score (see docstring)
+    ]
+    baseline_selection, baseline_messages, baseline_text = _baseline_downstream_multi(
+        baseline_candidates, top_k=3,
+    )
+    assert len(baseline_selection.selected) == 3, "sanity: all 3 candidates should be selected at top_k=3"
+
+    with _tmp_ledgers(tmp_path, "agentpoison_multi") as (ledgers,):
+        instrumented = run_live_agentpoison_injection(
+            memory_ledger=ledgers["memory_ledger"], event_ledger=ledgers["event_ledger"],
+            phase5_event_ledger=ledgers["phase5_ledger"], membership_ledger=ledgers["membership_ledger"],
+            run_id=ledgers["run_id"], timestamp=TS,
+        )
+        instrumented_memory_id = instrumented.memory_creation.created_event.memory_ids[0]
+        instrumented_content = ledgers["memory_ledger"].get(instrumented_memory_id).content["text"]
+        instrumented_candidates = [
+            (instrumented_memory_id, instrumented_content),
+            ("MEM-TIED-A", tied_content),
+            ("MEM-TIED-B", tied_content),
+        ]
+        report, messages, text = _instrumented_downstream_multi(ledgers, instrumented_candidates, top_k=3)
+
+        # Full-pool non-interference: order, every blended score, rendered
+        # messages, and generated text -- not just the first selected item
+        # (which is all the single-candidate tests above could ever check).
+        assert len(report.hybrid_result.selected) == len(baseline_selection.selected) == 3
+        baseline_order = [c.memory_id for c in baseline_selection.selected]
+        instrumented_order = [c.memory_id for c in report.hybrid_result.selected]
+        assert instrumented_order == baseline_order
+        baseline_scores = [c.blended_score for c in baseline_selection.selected]
+        instrumented_scores = [c.blended_score for c in report.hybrid_result.selected]
+        assert instrumented_scores == baseline_scores
+        assert messages == baseline_messages
+        assert text == baseline_text
+        RESULTS["agentpoison_multi_candidate"] = VERIFIED
 
 
 @pytest.fixture(scope="module", autouse=True)

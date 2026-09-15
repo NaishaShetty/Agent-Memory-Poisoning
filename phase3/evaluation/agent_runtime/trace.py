@@ -7,8 +7,23 @@ This is the one place gold data and agent-produced data are ever brought togethe
 happens entirely OUTSIDE the agent runtime (`runner.py` never imports this module) --
 mirroring `EVALUATION_CONTRACT.md`'s standing separation between agent execution and
 evaluation. Every classification below is a direct, unmodified call into existing Phase
-3.2 code (`agent.outcomes`, `agent.diagnostics`, `foundations.lifecycle`) -- this module
-adds no new metric and no new failure-stage vocabulary.
+3.2/3.3 code (`agent.outcomes`, `agent.normalized_correctness`, `agent.diagnostics`,
+`foundations.lifecycle`) -- this module invents no new metric and no new failure-stage
+vocabulary of its own; it only surfaces metrics that already exist elsewhere.
+
+Resource-reconciliation fix (2026-09-15): `evaluation_result` (the frozen,
+deliberately-strict `evaluate_answer_correctness()` exact-match-after-`.strip()`
+metric -- see `outcomes.py`'s own docstring for why it is strict by design, not a
+bug) is now reported ADDITIVELY alongside `evaluation_result_normalized`
+(`agent.normalized_correctness.evaluate_answer_correctness_normalized()`, already
+built for `research_variant/score_v3_hybrid_full_campaign.py` and other scoring
+scripts, just not previously surfaced in the raw per-task trace itself). Neither
+metric replaces the other -- `normalized_correctness.py`'s own module docstring is
+explicit that "both metrics are meant to be reported side by side, never one
+silently substituted for the other," and this trace now honors that for the raw
+trace, not only for downstream re-scoring scripts. `evaluation_result["success_status"]`
+and `failure_stage` are UNCHANGED -- this is a strictly additive field, not a
+redefinition of "success."
 """
 
 from __future__ import annotations
@@ -21,6 +36,7 @@ from phase3.evaluation.agent.diagnostics import (
     classify_observed_failure_stage,
     classify_retrieval_utilization,
 )
+from phase3.evaluation.agent.normalized_correctness import evaluate_answer_correctness_normalized
 from phase3.evaluation.agent.outcomes import classify_agent_success
 from phase3.evaluation.foundations.adapter import MemoryFoundationAdapter
 from phase3.evaluation.foundations.lifecycle import build_lifecycle_trace
@@ -85,6 +101,7 @@ def evaluate_and_trace(
     that keeps the evaluator outside the agent.
     """
     success = classify_agent_success(outcome.execution_result, expected_answer)
+    success_normalized = evaluate_answer_correctness_normalized(outcome.execution_result, expected_answer)
     failure_stage = classify_observed_failure_stage(
         outcome.execution_result,
         expected_answer,
@@ -138,6 +155,13 @@ def evaluate_and_trace(
         "evaluation_result": {
             "success_status": success.status,
             "success_value": success.value,
+        },
+        # Additive, non-replacing -- see module docstring's 2026-09-15 note. Never
+        # read by `failure_stage` or by `success` above, which remain governed
+        # exclusively by the frozen strict metric, unchanged.
+        "evaluation_result_normalized": {
+            "success_status": success_normalized.status,
+            "success_value": success_normalized.value,
         },
         "failure_stage": failure_stage.status,
         "latency": {

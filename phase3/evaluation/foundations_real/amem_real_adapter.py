@@ -385,5 +385,47 @@ class RealAMemAdapter(MemoryFoundationAdapter):
     def conformance_records(self) -> list:
         return list(self._records)
 
+    def conformance_summary(self) -> Mapping[str, Any]:
+        """P2 fix (2026-09-15): the audit finding this closes -- every real
+        `add_memory()` call after the first one genuinely attempts a real
+        Ollama connection (via A-mem-sys's own `process_memory()` evolution
+        step) that this environment cannot reach, and A-mem-sys's own
+        except-block swallows the resulting connection error. That failure
+        was ALREADY honestly recorded per-call (`conformance_tag=MODEL_DEPENDENT`,
+        `code_path_executed=True` -- see `add_memory()`'s own comments) --
+        what was missing was an aggregate SUMMARY a campaign consumer could
+        read at a glance, rather than having to manually filter
+        `conformance_records()`'s raw per-call list themselves. This method
+        makes that previously-implicit noise level an explicit, quantified
+        fact: how many real operations hit the known Ollama-unreachable
+        confound, out of how many total, per operation type -- so a real
+        campaign's results can report (or a caller can assert against) the
+        actual noise rate instead of it staying buried in an unaggregated log.
+        """
+        counts: dict = {}
+        for rec in self._records:
+            key = (rec.operation, rec.conformance_tag)
+            counts[key] = counts.get(key, 0) + 1
+        totals_by_operation: dict = {}
+        for (operation, _tag), count in counts.items():
+            totals_by_operation[operation] = totals_by_operation.get(operation, 0) + count
+
+        model_dependent_by_operation = {
+            operation: count
+            for (operation, tag), count in counts.items()
+            if tag == MODEL_DEPENDENT
+        }
+        return {
+            "total_operations": len(self._records),
+            "counts_by_operation_and_tag": {
+                f"{operation}:{tag}": count for (operation, tag), count in counts.items()
+            },
+            "model_dependent_count": sum(model_dependent_by_operation.values()),
+            "model_dependent_rate_by_operation": {
+                operation: model_dependent_by_operation.get(operation, 0) / totals_by_operation[operation]
+                for operation in totals_by_operation
+            },
+        }
+
 
 __all__ = ["RealAMemAdapter"]

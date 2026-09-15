@@ -114,6 +114,14 @@ class MembershipCollisionError(ValueError):
     `run_id`/`episode_id` -- an event belongs to exactly one run, never two."""
 
 
+class UnknownEventError(KeyError):
+    """P1 fix (2026-09-14) -- raised by `EventRunMembershipLedger.append()` when the
+    relevant event ledger for `membership.event_schema` was supplied to this ledger's
+    constructor AND the referenced `event_id` does not exist there. Only raised when
+    that existence-check is actually possible (see `EventRunMembershipLedger`'s own
+    docstring for why the check is optional-but-strict rather than unconditional)."""
+
+
 def _require(condition: bool, message: str) -> None:
     if not condition:
         raise RunIdentityValidationError(message)
@@ -333,15 +341,56 @@ class EventRunMembershipLedger:
     """Append-only join between an event id (either schema) and the run/episode it
     belongs to. Constructed WITH an `ExperimentRunLedger` so `append()` can enforce
     "every membership references a registered run" -- exactly the existence-check
-    relationship `CanonicalEventLedger` holds with `CanonicalMemoryLedger`."""
+    relationship `CanonicalEventLedger` holds with `CanonicalMemoryLedger`.
 
-    def __init__(self, storage_dir: Union[str, Path], run_ledger: ExperimentRunLedger) -> None:
+    P1 fix (2026-09-14): this module's own docstring already claims membership is
+    "one authoritative, append-only, EXISTENCE-CHECKED join between ANY event id...
+    and the run/episode it belongs to" -- but `append()` previously only checked that
+    `run_id` was registered, never that `event_id` itself actually existed in the
+    matching event ledger, so a caller could register membership for a fabricated
+    event_id and nothing would catch it. `canonical_event_ledger`/`phase5_event_ledger`
+    are now OPTIONAL constructor parameters (default `None`, preserving every existing
+    call site's exact behavior unchanged) -- when the relevant ledger for a
+    membership's `event_schema` is supplied, `append()` now verifies the event_id
+    actually exists there before accepting the membership. Not made a hard, non-optional
+    requirement here because many real call sites and this module's own test fixtures
+    construct this ledger before, or independently of, the event ledgers it would need
+    to check -- an optional, additive check that is strict whenever the caller has
+    the relevant ledger available is the safe way to close this gap without a breaking
+    signature change across every `EventRunMembershipLedger(...)` construction in the
+    repository.
+    """
+
+    def __init__(
+        self,
+        storage_dir: Union[str, Path],
+        run_ledger: ExperimentRunLedger,
+        *,
+        canonical_event_ledger: Optional[object] = None,
+        phase5_event_ledger: Optional[object] = None,
+    ) -> None:
         self._dir = Path(storage_dir)
         self._dir.mkdir(parents=True, exist_ok=True)
         self._path = self._dir / _MEMBERSHIP_FILE
         self._run_ledger = run_ledger
+        self._canonical_event_ledger = canonical_event_ledger
+        self._phase5_event_ledger = phase5_event_ledger
         self._memberships: Dict[str, EventRunMembership] = {}
         self._load()
+
+    def _event_exists(self, event_id: str, event_schema: str) -> Optional[bool]:
+        """Returns True/False when the relevant event ledger for `event_schema` was
+        supplied to this ledger's constructor, or `None` when it was not (meaning: no
+        existence-check is possible, matching this ledger's pre-fix behavior)."""
+        if event_schema == EVENT_SCHEMA_CANONICAL_EVENT:
+            if self._canonical_event_ledger is None:
+                return None
+            return self._canonical_event_ledger.get_event(event_id) is not None
+        if event_schema == EVENT_SCHEMA_PHASE5_EVENT:
+            if self._phase5_event_ledger is None:
+                return None
+            return self._phase5_event_ledger.exists(event_id)
+        return None
 
     def _load(self) -> None:
         if self._path.exists():
@@ -360,6 +409,15 @@ class EventRunMembershipLedger:
                 f"{membership.run_id!r} is not registered in the ExperimentRunLedger. "
                 "Runs must be registered before any event membership referencing them "
                 "(authoritative write order, mirroring canonical memory-before-event ordering)."
+            )
+        exists = self._event_exists(membership.event_id, membership.event_schema)
+        if exists is False:
+            raise UnknownEventError(
+                f"cannot record membership for event_id {membership.event_id!r} "
+                f"(event_schema={membership.event_schema!r}): no such event exists in the "
+                "event ledger supplied to this EventRunMembershipLedger. A membership "
+                "record must reference a real, already-persisted event -- never a "
+                "fabricated or not-yet-written one."
             )
         existing = self._memberships.get(membership.event_id)
         if existing is not None:
@@ -397,6 +455,7 @@ __all__ = [
     "RunCollisionError",
     "UnknownRunError",
     "MembershipCollisionError",
+    "UnknownEventError",
     "generate_run_id",
     "generate_episode_id",
     "ExperimentRunRecord",

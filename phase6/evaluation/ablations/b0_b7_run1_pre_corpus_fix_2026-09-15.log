@@ -1,0 +1,101 @@
+=== ORIGINAL (ungated, shipped Stage 6.6 default) -- INVALIDATED, see docs ===
+Config   PoisonDetect  BenignFPR  n_poison  n_benign 
+-----------------------------------------------------
+B0              0.0%      0.0%        9       11
+    FARMA                          detection=0.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=0.0%
+B1             12.5%      0.0%        8        9
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+B2             33.3%    100.0%        9       11
+    FARMA                          detection=100.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=100.0%
+    propagated                     detection=100.0%
+B3             11.1%      0.0%        9       11
+    FARMA                          detection=0.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+B4             25.0%    100.0%        8        9
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=100.0%
+    propagated                     detection=100.0%
+B5             33.3%    100.0%        9       11
+    FARMA                          detection=100.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=100.0%
+    propagated                     detection=100.0%
+B6             12.5%      0.0%        8        9
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+B7             25.0%    100.0%        8        9
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=100.0%
+    propagated                     detection=100.0%
+SLEEPER        11.1%      0.0%        9       11
+    FARMA                          detection=0.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=100.0%
+    propagated                     detection=0.0%
+
+EXCLUDED (pool, config) pairs -- admission guard correctly raised IllegalTransitionError for a TRUSTED-default scenario the guard determined must go straight to BLOCKED; that pool's outcomes are excluded from the config's metrics above, not silently absorbed as a miss:
+    config='B1' pool='POOL-FARMA': MGP policy forbids 'TRUSTED' -> 'BLOCKED' via action 'BLOCK'
+    config='B4' pool='POOL-FARMA': MGP policy forbids 'TRUSTED' -> 'BLOCKED' via action 'BLOCK'
+    config='B6' pool='POOL-FARMA': MGP policy forbids 'TRUSTED' -> 'BLOCKED' via action 'BLOCK'
+    config='B7' pool='POOL-FARMA': MGP policy forbids 'TRUSTED' -> 'BLOCKED' via action 'BLOCK'
+
+=== CORRECTED (min-cluster-size gate applied to all retrieval-enabled configs) ===
+Config   PoisonDetect  BenignFPR  n_poison  n_benign 
+-----------------------------------------------------
+B0              0.0%      0.0%        9       11
+    FARMA                          detection=0.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=0.0%
+B1             12.5%      0.0%        8        9
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+B2              0.0%      9.1%        9       11
+    FARMA                          detection=0.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=0.0%
+B3             11.1%      0.0%        9       11
+    FARMA                          detection=0.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+B4             12.5%     11.1%        8        9
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+B5             11.1%      9.1%        9       11
+    FARMA                          detection=0.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+B6             12.5%      0.0%        8        9
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+B7             12.5%     11.1%        8        9
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=0.0%
+    propagated                     detection=100.0%
+SLEEPER        11.1%      0.0%        9       11
+    FARMA                          detection=0.0%
+    MemoryGraft-style-volume       detection=0.0%
+    Sleeper                        detection=100.0%
+    propagated                     detection=0.0%
+
+EXCLUDED (pool, config) pairs -- admission guard correctly raised IllegalTransitionError for a TRUSTED-default scenario the guard determined must go straight to BLOCKED; that pool's outcomes are excluded from the config's metrics above, not silently absorbed as a miss:
+    config='B1' pool='POOL-FARMA': MGP policy forbids 'TRUSTED' -> 'BLOCKED' via action 'BLOCK'
+    config='B4' pool='POOL-FARMA': MGP policy forbids 'TRUSTED' -> 'BLOCKED' via action 'BLOCK'
+    config='B6' pool='POOL-FARMA': MGP policy forbids 'TRUSTED' -> 'BLOCKED' via action 'BLOCK'
+    config='B7' pool='POOL-FARMA': MGP policy forbids 'TRUSTED' -> 'BLOCKED' via action 'BLOCK'
