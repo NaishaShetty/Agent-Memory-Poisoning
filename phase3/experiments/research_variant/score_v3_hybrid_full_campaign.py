@@ -3,6 +3,17 @@
 multi_reference as of this pass), mirroring score_v5_full_campaign.py, for direct
 comparison against V3's own frozen numbers and V5_VERIFIED's numbers already
 gathered this session.
+
+Part M regression-search fix (2026-09-15): `_DATASET` now points at
+`..._locomo_120x2_P2FIX.json`, the corrected assembly (regenerated Condition
+B + unchanged Conditions A/C-mem0/C-amem, per the resource-reconciliation
+pass's own §4/§14) -- this script was found still pointing at the
+pre-regeneration file, a real stale-pathway bug: Condition A/C-mem0/C-amem
+scores are identical either way (those conditions were never regenerated),
+but Condition B scores from the old file would have been stale relative to
+the P2 fix. The pre-fix file remains on disk
+(`..._locomo_120x2_OLD.json`, under `checkpoints/pre_p2_fix_backup_2026-09-15/`)
+for historical comparison, not deleted.
 """
 
 from __future__ import annotations
@@ -27,7 +38,7 @@ from phase3.evaluation.agent.outcomes import EXECUTION_STATUS_SUCCESS, AgentExec
 from phase3.evaluation.llm.provider import LlamaServerEndpoint, LlamaServerProvider
 
 _DATA_ROOT = _REPO_ROOT / "data" / "processed"
-_DATASET = _REPO_ROOT / "phase3" / "experiments" / "results" / "canonical_store" / "v3_hybrid_candidate" / "dataset_full" / "clean_agent_dataset_v3_hybrid_locomo_120x2.json"
+_DATASET = _REPO_ROOT / "phase3" / "experiments" / "results" / "canonical_store" / "v3_hybrid_candidate" / "dataset_full" / "clean_agent_dataset_v3_hybrid_locomo_120x2_P2FIX.json"
 _OUT_DIR = Path(__file__).resolve().parent / "results"
 
 

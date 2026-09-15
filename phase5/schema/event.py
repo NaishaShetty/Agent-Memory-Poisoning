@@ -419,6 +419,63 @@ class Phase5Event:
                 "(contract OR-12 / this module's own discipline against unexplained auto-judgment).",
             )
 
+        # P1 fix (2026-09-14): event_id must actually equal a fresh recomputation from
+        # this event's own defining fields -- mirrors rendered_context_fingerprint's own
+        # "supplied value must match a fresh recomputation" check a few lines above,
+        # extended to the event_id itself. Before this fix, __post_init__ only checked
+        # event_id was a non-empty string -- the module's own selling point ("two calls
+        # describing the identical fact coalesce onto the same id") was a convention every
+        # call site was trusted to follow, never a verified invariant. `defining_fields`
+        # reconstructs exactly what every real phase5/wiring/*.py call site already passes
+        # to generate_phase5_event_id() (confirmed against all 6 real call sites): the
+        # always-present identity fields plus task_id/config_fingerprint when this event
+        # type is scoped to them, plus this type's own active field group -- reusing the
+        # same `groups`/`_TASK_SCOPED_EVENT_TYPES`/`_CONFIG_SCOPED_EVENT_TYPES` constants
+        # this function already validated field membership against above, not a second,
+        # independently-maintained field list that could drift from them.
+        defining_fields: dict = {"timestamp": self.timestamp, "actor": self.actor, "reason": self.reason}
+        # experiment_id/run_id are generic, type-independent optional fields (never part
+        # of any per-type `groups` entry) -- the "convenience denormalization" the
+        # run_identity.py module docstring describes for a caller that already knows them
+        # at construction time. Included only when actually set, matching every field
+        # above and below this one.
+        if self.experiment_id is not None:
+            defining_fields["experiment_id"] = self.experiment_id
+        if self.run_id is not None:
+            defining_fields["run_id"] = self.run_id
+        if self.event_type in _TASK_SCOPED_EVENT_TYPES or self.task_id is not None:
+            defining_fields["task_id"] = self.task_id
+        if self.event_type in _CONFIG_SCOPED_EVENT_TYPES or self.config_fingerprint is not None:
+            defining_fields["config_fingerprint"] = self.config_fingerprint
+        for field_name in groups[self.event_type]:
+            value = getattr(self, field_name)
+            if value is not None:
+                # Matches every real phase5/wiring/*.py call site exactly: an optional
+                # field within the active group (e.g. context_assembled's decision_id,
+                # never required by this type's own checks above) is only included in
+                # the id-defining payload when the caller actually supplied a value --
+                # never as an explicit `field: None` entry, which no real call site ever
+                # passes to generate_phase5_event_id() either.
+                defining_fields[field_name] = value
+        if self.event_type == ATTACK_INJECTION:
+            # The one real, confirmed exception: memory_lifecycle.py's
+            # record_attack_injection() always passes `memory_id=memory_id` explicitly
+            # (even when a REJECTED/DISCARDed injection means memory_id is None) -- this
+            # is deliberate there ("nothing was created to reference," not "we forgot to
+            # check"), so the id-defining payload must include this key even when the
+            # value is None, matching that call site exactly rather than the
+            # "omit if None" rule every other event type's optional fields follow.
+            defining_fields["memory_id"] = self.memory_id
+        expected_event_id = generate_phase5_event_id(self.event_type, **defining_fields)
+        _require(
+            self.event_id == expected_event_id,
+            f"event_id {self.event_id!r} does not match a fresh recomputation ({expected_event_id!r}) from "
+            "this event's own defining fields -- event_id must always be minted via "
+            "generate_phase5_event_id(), never hand-picked or independently constructed. Two events "
+            "describing the identical fact must coalesce onto the same id; an event_id that does not "
+            "satisfy that is a correctness bug in whatever code constructed it.",
+        )
+
     # -- serialization ------------------------------------------------------------------
 
     def to_dict(self) -> dict:

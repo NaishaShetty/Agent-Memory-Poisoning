@@ -18,10 +18,14 @@ from phase3.evaluation.agent.conditions import CONDITION_NO_MEMORY, CONDITION_RE
 from phase3.evaluation.agent.diagnostics import STAGE_SUCCESS
 from phase3.evaluation.agent.outcomes import EXECUTION_STATUS_ERROR, EXECUTION_STATUS_SUCCESS
 from phase3.evaluation.agent_runtime.runner import (
+    FINISH_REASON_STOP,
     AgentRuntimeLeakageError,
     AgentTaskInput,
     RunConfiguration,
+    final_finish_reason,
+    generate_with_retries,
     run_agent_task,
+    was_truncated,
 )
 from phase3.evaluation.agent_runtime.trace import NOT_OBSERVABLE, evaluate_and_trace
 from phase3.evaluation.foundations.mocks.mock_mem0 import MockMem0Adapter
@@ -38,10 +42,11 @@ class FakeLLMProvider(LLMProvider):
     `test_llm_provider.py`'s job), a fake of the whole `LLMProvider` interface, so
     `agent_runtime` tests never touch HTTP/`urllib` at all."""
 
-    def __init__(self, response_text: str = "fake answer", fail: bool = False, fail_times: int = 0):
+    def __init__(self, response_text: str = "fake answer", fail: bool = False, fail_times: int = 0, finish_reason: str = "stop"):
         self.response_text = response_text
         self.fail = fail
         self.fail_times = fail_times
+        self.finish_reason = finish_reason
         self.calls: List[Sequence[Mapping[str, str]]] = []
 
     def generate(self, messages, config: GenerationConfig) -> GenerationResult:
@@ -50,7 +55,7 @@ class FakeLLMProvider(LLMProvider):
             raise LLMProviderError("simulated failure")
         return GenerationResult(
             text=self.response_text,
-            finish_reason="stop",
+            finish_reason=self.finish_reason,
             prompt_tokens=10,
             completion_tokens=5,
             latency_sec=0.01,
@@ -330,3 +335,122 @@ class TestEnableThinkingPassedThrough:
         # call succeeded with a non-default config without the runner silently
         # overriding it.
         assert len(provider.calls) == 1
+
+
+class TestFinishReasonTruncationDetection:
+    """P2 fix (2026-09-14) -- GenerationAttempt.finish_reason and the
+    final_finish_reason()/was_truncated() helpers. The audit finding this
+    closes: a DRAFT/answer that hit max_tokens ("length") was previously
+    indistinguishable from a genuinely complete generation anywhere
+    downstream of generate_with_retries()."""
+
+    def test_stop_finish_reason_is_not_truncated(self):
+        provider = FakeLLMProvider(response_text="a complete answer", finish_reason=FINISH_REASON_STOP)
+        text, attempts = generate_with_retries([{"role": "user", "content": "hi"}], RunConfiguration(llm_provider=provider, generation_config=_config()))
+        assert text == "a complete answer"
+        assert final_finish_reason(attempts) == FINISH_REASON_STOP
+        assert was_truncated(attempts) is False
+
+    def test_length_finish_reason_is_detected_as_truncated(self):
+        provider = FakeLLMProvider(response_text="a cut-off answ", finish_reason="length")
+        text, attempts = generate_with_retries([{"role": "user", "content": "hi"}], RunConfiguration(llm_provider=provider, generation_config=_config()))
+        assert text == "a cut-off answ"  # still returned -- this fix does not change acceptance, only observability
+        assert final_finish_reason(attempts) == "length"
+        assert was_truncated(attempts) is True
+
+    def test_finish_reason_reflects_the_successful_attempt_after_a_retry(self):
+        """A failed first attempt (no finish_reason) followed by a successful
+        retry must report the SUCCESSFUL attempt's finish_reason, not the
+        failed one's absence."""
+        provider = FakeLLMProvider(response_text="answer after retry", fail_times=1, finish_reason=FINISH_REASON_STOP)
+        text, attempts = generate_with_retries(
+            [{"role": "user", "content": "hi"}],
+            RunConfiguration(llm_provider=provider, generation_config=_config(), max_retries=1),
+        )
+        assert text == "answer after retry"
+        assert len(attempts) == 2
+        assert attempts[0].succeeded is False and attempts[0].finish_reason is None
+        assert attempts[1].succeeded is True and attempts[1].finish_reason == FINISH_REASON_STOP
+        assert final_finish_reason(attempts) == FINISH_REASON_STOP
+        assert was_truncated(attempts) is False
+
+    def test_no_successful_attempt_is_not_treated_as_truncated(self):
+        """Absence of evidence (every attempt failed, so there is no
+        finish_reason at all) must never be conflated with 'was truncated' --
+        only a real, observed 'length' (or similar) value counts."""
+        provider = FakeLLMProvider(fail=True)
+        text, attempts = generate_with_retries([{"role": "user", "content": "hi"}], RunConfiguration(llm_provider=provider, generation_config=_config()))
+        assert text is None
+        assert final_finish_reason(attempts) is None
+        assert was_truncated(attempts) is False
+
+    def test_finish_reason_is_recorded_on_a_real_agent_run_outcome(self):
+        """End-to-end: run_agent_task()'s own AgentRunOutcome.attempts carries
+        finish_reason, reachable without any change to AgentRunOutcome's own
+        dataclass fields."""
+        provider = FakeLLMProvider(response_text="Paris", finish_reason="length")
+        outcome = run_agent_task(
+            AgentTaskInput(task_id="t1", prompt="What is the capital of France?", condition=CONDITION_NO_MEMORY),
+            foundation=None,
+            config=RunConfiguration(llm_provider=provider, generation_config=_config()),
+        )
+        assert was_truncated(outcome.attempts) is True
+
+
+class TestEvaluateAndTraceNormalizedCorrectness:
+    """Resource-reconciliation fix (2026-09-15): `evaluate_and_trace()` now also
+    reports `evaluation_result_normalized`, additively, alongside the frozen
+    strict `evaluation_result`. Real regression discovered during the
+    V3-Hybrid Condition B revalidation: a live model answer of "Shinjuku."
+    against gold "Shinjuku" scored ANSWER_INCORRECT under the strict metric
+    purely due to the trailing period -- the normalized metric (already built,
+    already used by research_variant/score_v3_hybrid_full_campaign.py, just
+    not previously surfaced in the raw trace) scores this correctly."""
+
+    def test_trailing_period_is_answer_incorrect_under_the_strict_metric(self):
+        provider = FakeLLMProvider(response_text="Shinjuku.")
+        outcome = run_agent_task(
+            AgentTaskInput(task_id="t1", prompt="Where did Sam go?", condition=CONDITION_NO_MEMORY),
+            foundation=None,
+            config=RunConfiguration(llm_provider=provider, generation_config=_config()),
+        )
+        trace = evaluate_and_trace(
+            outcome, experiment_id="exp-1", dataset="locomo", dataset_revision="test-rev",
+            record_id="t1", expected_answer="Shinjuku", gold_evidence_ids=[],
+        )
+        assert trace["evaluation_result"]["success_status"] == "ANSWER_INCORRECT"
+
+    def test_trailing_period_is_answer_correct_under_the_normalized_metric(self):
+        """The exact real-world case this fix closes: identical setup to the
+        test above, same trace, but reading the new additive field."""
+        provider = FakeLLMProvider(response_text="Shinjuku.")
+        outcome = run_agent_task(
+            AgentTaskInput(task_id="t1", prompt="Where did Sam go?", condition=CONDITION_NO_MEMORY),
+            foundation=None,
+            config=RunConfiguration(llm_provider=provider, generation_config=_config()),
+        )
+        trace = evaluate_and_trace(
+            outcome, experiment_id="exp-1", dataset="locomo", dataset_revision="test-rev",
+            record_id="t1", expected_answer="Shinjuku", gold_evidence_ids=[],
+        )
+        assert trace["evaluation_result_normalized"]["success_status"] == "ANSWER_CORRECT"
+        # The strict metric is UNCHANGED by this fix -- both fields coexist,
+        # neither silently overrides the other.
+        assert trace["evaluation_result"]["success_status"] == "ANSWER_INCORRECT"
+
+    def test_genuinely_wrong_answer_is_incorrect_under_both_metrics(self):
+        """Guards against the fix over-correcting: a real wrong answer must
+        stay ANSWER_INCORRECT under the normalized metric too, not become a
+        rubber stamp."""
+        provider = FakeLLMProvider(response_text="Ikebukuro.")
+        outcome = run_agent_task(
+            AgentTaskInput(task_id="t1", prompt="Where did Sam go?", condition=CONDITION_NO_MEMORY),
+            foundation=None,
+            config=RunConfiguration(llm_provider=provider, generation_config=_config()),
+        )
+        trace = evaluate_and_trace(
+            outcome, experiment_id="exp-1", dataset="locomo", dataset_revision="test-rev",
+            record_id="t1", expected_answer="Shinjuku", gold_evidence_ids=[],
+        )
+        assert trace["evaluation_result"]["success_status"] == "ANSWER_INCORRECT"
+        assert trace["evaluation_result_normalized"]["success_status"] == "ANSWER_INCORRECT"

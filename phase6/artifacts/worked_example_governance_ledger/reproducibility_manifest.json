@@ -1,0 +1,62 @@
+{
+  "manifest_schema_version": "phase6-reproducibility-manifest-1.0.0",
+  "campaign_id": "worked-example-campaign-1",
+  "run_id": "worked-example-run-1",
+  "episode_id": "episode-1",
+  "defense_component_versions": {
+    "admission.reasoning_guard": "reasoning-guard-1.0.0",
+    "retrieval.consensus_guard": "consensus-guard-1.1.0",
+    "propagation.containment_guard": "propagation-containment-guard-1.0.0",
+    "sleeper.sleeper_guard": "sleeper-guard-1.0.0"
+  },
+  "policy_version": "mgp-1.0.0",
+  "configuration": {
+    "admission": {
+      "signal_weights": {
+        "self_reference_score": 0.2,
+        "decision_log_vocabulary_score": 0.2,
+        "perfection_claim_score": 0.2,
+        "template_anomaly_score": 0.2,
+        "provenance_anomaly_score": 0.2
+      },
+      "threshold_allow_with_restriction": 0.15,
+      "threshold_quarantine": 0.3,
+      "threshold_block": 0.5
+    },
+    "retrieval": {
+      "near_duplicate_threshold": 0.7,
+      "dedup_dampening_exponent": 0.5,
+      "threshold_downrank": 0.6,
+      "threshold_escalate_to_quarantine": 0.85,
+      "min_total_flags_for_escalation": 2
+    },
+    "propagation": {
+      "threshold_allow_with_restriction": 0.15,
+      "threshold_require_validation": 0.35,
+      "threshold_quarantine": 0.6
+    },
+    "sleeper": {
+      "admission_threshold_quarantine": 0.5,
+      "retrieval_threshold_allow_with_restriction": 0.2,
+      "retrieval_threshold_quarantine": 0.5
+    }
+  },
+  "model_versions": {
+    "D2_embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+  },
+  "seeds": {},
+  "attack_version": null,
+  "task_sample_description": null,
+  "memory_foundation": null,
+  "environment": {
+    "python_version": "3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "dependency_versions": {
+      "scipy": "1.17.1",
+      "sentence-transformers": "5.6.0",
+      "torch": "2.6.0+cu124",
+      "numpy": "2.4.6"
+    }
+  },
+  "canonical_identity": "f688534489d198fecbea045c61fac0fe22278d127bc343566b919f324ed0b12c"
+}

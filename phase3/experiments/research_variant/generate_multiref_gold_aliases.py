@@ -41,7 +41,12 @@ SYSTEM_PROMPT = (
     "ONLY a JSON array of strings, nothing else."
 )
 
-_DATASET = _REPO_ROOT / "phase3" / "experiments" / "results" / "canonical_store" / "v3_hybrid_candidate" / "dataset_full" / "clean_agent_dataset_v3_hybrid_locomo_120x2.json"
+# Part M regression-search fix (2026-09-15): repointed to the corrected
+# assembly (see score_v3_hybrid_full_campaign.py's own note) for consistency
+# with every other consumer of this dataset -- functionally identical here
+# either way, since this script only reads the task_id set (same 120 tasks
+# in both files), never any condition's answer content.
+_DATASET = _REPO_ROOT / "phase3" / "experiments" / "results" / "canonical_store" / "v3_hybrid_candidate" / "dataset_full" / "clean_agent_dataset_v3_hybrid_locomo_120x2_P2FIX.json"
 _DATA_ROOT = _REPO_ROOT / "data" / "processed"
 _OUT_DIR = Path(__file__).resolve().parent / "results"
 

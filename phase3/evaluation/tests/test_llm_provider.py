@@ -17,6 +17,7 @@ a mock result as a real-runtime result:
 from __future__ import annotations
 
 import json
+import os
 
 import pytest
 
@@ -250,17 +251,38 @@ class TestRealRuntime:
             -m C:\\Users\\naish\\mambench_llm_feasibility\\models\\Qwen3-8B-Q4_K_M.gguf
             -ngl 99 -c 4096 --port 8811
 
-    If no server is reachable, this test SKIPS (with an explicit reason), it does not
-    fail the regression suite and does not fall back to a mock and claim success.
+    DEFAULT (env var unset): if no server is reachable, this test SKIPS (with an
+    explicit reason), it does not fail the regression suite and does not fall back to
+    a mock and claim success.
+
+    P2 fix (2026-09-14): a normal pytest summary line doesn't distinguish "0 real-model
+    assertions ran" from "everything passed" -- a report/dashboard could present "all
+    tests green" as validation of real-model behavior when the real-model path was
+    never exercised. Set `MAMBENCH_REQUIRE_REAL_RUNTIME=1` to turn that silent skip
+    into a loud, explicit failure instead -- for a CI job or a session that specifically
+    intends to validate against a real server and wants to know immediately if one
+    isn't actually reachable, rather than discovering it later from an unexpectedly
+    small test count. Unset (the default) preserves the exact original skip behavior,
+    including in this environment, where no real server is reachable at all.
     """
 
     def _live_provider(self) -> LlamaServerProvider:
         return LlamaServerProvider(LlamaServerEndpoint(base_url="http://127.0.0.1:8811"))
 
+    def _skip_or_fail_if_unreachable(self, provider: LlamaServerProvider) -> None:
+        if provider.health_check(timeout_sec=2.0):
+            return
+        reason = "No llama-server reachable at http://127.0.0.1:8811."
+        if os.environ.get("MAMBENCH_REQUIRE_REAL_RUNTIME") == "1":
+            pytest.fail(
+                f"{reason} MAMBENCH_REQUIRE_REAL_RUNTIME=1 was set, so this REAL_RUNTIME_TEST "
+                "is required to actually run against a real server, not silently skip."
+            )
+        pytest.skip(f"{reason} REAL_RUNTIME_TEST skipped (set MAMBENCH_REQUIRE_REAL_RUNTIME=1 to fail loudly instead).")
+
     def test_generate_against_real_server_produces_coherent_answer(self):
         provider = self._live_provider()
-        if not provider.health_check(timeout_sec=2.0):
-            pytest.skip("No llama-server reachable at http://127.0.0.1:8811 -- REAL_RUNTIME_TEST skipped.")
+        self._skip_or_fail_if_unreachable(provider)
         result = provider.generate(
             [{"role": "user", "content": "Reply with only the single word: OK"}],
             _config(max_tokens=10),
@@ -270,8 +292,7 @@ class TestRealRuntime:
 
     def test_generate_against_real_server_handles_chinese_prompt(self):
         provider = self._live_provider()
-        if not provider.health_check(timeout_sec=2.0):
-            pytest.skip("No llama-server reachable at http://127.0.0.1:8811 -- REAL_RUNTIME_TEST skipped.")
+        self._skip_or_fail_if_unreachable(provider)
         result = provider.generate(
             [{"role": "user", "content": "请用一句话介绍北京。"}],
             _config(max_tokens=60),
@@ -283,7 +304,6 @@ class TestRealRuntime:
 
     def test_verify_server_identity_against_real_server(self):
         provider = self._live_provider()
-        if not provider.health_check(timeout_sec=2.0):
-            pytest.skip("No llama-server reachable at http://127.0.0.1:8811 -- REAL_RUNTIME_TEST skipped.")
+        self._skip_or_fail_if_unreachable(provider)
         result = provider.verify_server_identity()
         assert QWEN3_8B_Q4_K_M_IDENTITY.llama_cpp_build in result["system_fingerprint"]

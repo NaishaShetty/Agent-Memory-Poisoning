@@ -29,15 +29,41 @@ def test_token_overlap_recall_basic():
 
 
 def test_entity_overlap_recall_basic():
-    # NOTE: the entity regex is intentionally the exact, unmodified logic validated
-    # across research Rounds 5-11 -- it treats any capitalized word as a candidate
-    # "entity," including a sentence-initial word like "Where". This is a known,
-    # already-accepted quirk of the VALIDATED mechanism, not something to tune here
-    # (the task's own instruction: do not tune weights/thresholds/pool size).
-    # q_entities={Where,Evan,2022} (3); c_entities={Evan,Paris,2022}; overlap=2 -> 2/3
-    assert _entity_overlap_recall("Where did Evan go in 2022", "Evan went to Paris in 2022") == pytest.approx(2 / 3)
+    # P2 CORRECTION (2026-09-14): this test used to lock in a real bug as
+    # "intentional" -- the un-corrected regex treated ANY capitalized word as a
+    # candidate "entity," including a sentence-initial word with no entity meaning
+    # (e.g. "Where"), inflating the 0.2-weighted entity-overlap term on nearly every
+    # query. The `HYBRID_WEIGHT_*` blend itself (0.5/0.3/0.2, validated across
+    # Rounds 5-11, never tuned on results) is UNCHANGED by this fix -- only the
+    # entity-overlap TERM's own tokenization was a correctness bug, not a validated
+    # design choice; see `_proper_nouns()`'s docstring in hybrid_selection.py for the
+    # full account and the disclosed false-negative tradeoff this fix accepts.
+    #
+    # Corrected values for this same example:
+    # q_entities: "Where" (sentence-initial, now excluded) + {Evan, 2022} -> {Evan, 2022} (2)
+    # c_entities: "Evan" (sentence-initial in content, now excluded, the disclosed
+    #   tradeoff) + {Paris, 2022} -> {Paris, 2022}
+    # overlap = {2022} -> 1/2
+    assert _entity_overlap_recall("Where did Evan go in 2022", "Evan went to Paris in 2022") == pytest.approx(1 / 2)
     # lowercase-only query has no capitalized/digit entities -> 0.0 by construction
     assert _entity_overlap_recall("no entities here", "still none") == 0.0
+
+
+def test_entity_overlap_recall_sentence_initial_word_is_not_treated_as_an_entity():
+    """The exact audit scenario, reproduced directly and discriminating: query
+    and content both happen to start with the SAME non-entity word ("Where").
+    Before this fix, that shared sentence-initial capitalization spuriously
+    counted as an entity match (score 0.5, via "Where"=="Where"); after the
+    fix, with no real shared entity ("John" never appears in the content),
+    the score correctly drops to 0.0."""
+    assert _entity_overlap_recall("Where did John go?", "Where did he go, nobody knows.") == 0.0
+
+
+def test_entity_overlap_recall_still_detects_a_genuine_non_initial_proper_noun():
+    """The fix must not blunt real entity detection -- a proper noun that is
+    NOT the string's first word (in EITHER the query or the content) is still
+    correctly matched."""
+    assert _entity_overlap_recall("Where did John go?", "I saw John at the market.") == pytest.approx(1.0)
 
 
 def test_select_by_hybrid_score_empty_candidates():

@@ -121,6 +121,12 @@ class Phase5EventLedger:
             )
 
         if event.event_type == ATTACK_INJECTION and event.memory_id is not None:
+            # P2 doc fix (2026-09-14): this read-check-write is unlocked, consistent
+            # with (not an exception to) this module's own top-of-file "CONCURRENCY --
+            # EXPLICIT LIMITATION" section -- single-process, single-writer, no
+            # cross-process file lock, same as every other ledger in this framework.
+            # Called out explicitly here too so this specific check's own safety isn't
+            # read in isolation from that module-level disclosure.
             for other in self.all_events():
                 if (
                     other.event_type == ATTACK_INJECTION

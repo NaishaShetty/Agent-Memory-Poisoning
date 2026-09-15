@@ -48,11 +48,45 @@ def _token_overlap_recall(query: str, content: str) -> float:
     return len(q & c) / len(q)
 
 
+def _proper_nouns(text: str) -> set:
+    """P2 fix (2026-09-14): `_PROPER_RE` alone cannot distinguish a genuine proper
+    noun from an ordinary word that merely happens to start a sentence -- English
+    capitalizes both. Before this fix, `_entity_overlap_recall("Where did John go?",
+    ...)` matched BOTH "Where" and "John" (live-verified during the audit that found
+    this), inflating the 0.2-weighted entity-overlap term on nearly every query, since
+    most start with a capital letter. This excludes only the string's own first word
+    (the audit's exact, scoped finding and fix recommendation -- not a general
+    sentence-splitter, which risks new bugs of its own and was never the verified
+    finding). `content` strings' own first word is excluded identically, for the
+    same reason and by the same rule -- not scoped to queries only.
+
+    Disclosed tradeoff: a string whose first word IS a genuine proper noun (e.g.
+    content = "John went home.") now has that occurrence excluded too -- a
+    false-negative traded for removing the far more common false-positive
+    (nearly every query/sentence starts with a capital letter, entity or not).
+    A stopword-aware or NER-based heuristic would avoid this tradeoff but is out
+    of scope for this fix; not silently claimed to be solved.
+
+    Frozen-module correction discipline: `HYBRID_WEIGHT_*` (the validated,
+    never-tuned-on-results 0.5/0.3/0.2 blend) is UNCHANGED by this fix -- what
+    changes is which tokens the entity-overlap TERM itself counts as an entity, a
+    correctness fix to the term's own implementation, not a re-tuning of the
+    validated weights. See this module's docstring for why the weights are
+    frozen; this fix does not touch them.
+    """
+    stripped_leading_len = len(text) - len(text.lstrip())
+    return {
+        m.group()
+        for m in _PROPER_RE.finditer(text)
+        if m.start() != stripped_leading_len
+    }
+
+
 def _entity_overlap_recall(query: str, content: str) -> float:
-    q_entities = set(_PROPER_RE.findall(query)) | set(_DIGIT_RE.findall(query))
+    q_entities = _proper_nouns(query) | set(_DIGIT_RE.findall(query))
     if not q_entities:
         return 0.0
-    c_entities = set(_PROPER_RE.findall(content)) | set(_DIGIT_RE.findall(content))
+    c_entities = _proper_nouns(content) | set(_DIGIT_RE.findall(content))
     return len(q_entities & c_entities) / len(q_entities)
 
 

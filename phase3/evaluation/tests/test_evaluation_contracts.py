@@ -333,6 +333,48 @@ def test_boundary_rejects_non_dict_payload():
         boundary.validate_agent_visible("not a dict")  # type: ignore[arg-type]
 
 
+def test_boundary_rejects_forbidden_key_nested_inside_a_tuple():
+    """P2 fix regression test: reproduces the audit finding, live-verified before
+    this fix -- a forbidden key nested inside a TUPLE (this codebase's own default
+    container for ordered fields, e.g. CanonicalMemoryRecord.parent_ids) crossed
+    this check undetected, unlike the identical payload with a list in its place
+    (test_boundary_rejects_nested_forbidden_key above)."""
+    payload = {
+        "schema_version": "3.2-b.1",
+        "condition": "RETRIEVED_MEMORY",
+        "task": {"prompt": "hi"},
+        "memory_content": (
+            {
+                "memory_id": "m1",
+                "content": "text",
+                "gold_answer": "should-not-be-here",
+            },
+        ),
+    }
+    with pytest.raises(boundary.AgentVisibilityViolation):
+        boundary.validate_agent_visible(payload)
+
+
+def test_boundary_rejects_forbidden_key_nested_inside_a_tuple_inside_a_dict():
+    """A tuple nested deeper than the top level (e.g. inside a 'permitted_provenance'
+    blob, mirroring test_boundary_rejects_nested_forbidden_key's own dict-nesting
+    shape) must also be caught."""
+    payload = {
+        "schema_version": "3.2-b.1",
+        "condition": "RETRIEVED_MEMORY",
+        "task": {"prompt": "hi"},
+        "memory_content": [
+            {
+                "memory_id": "m1",
+                "content": "text",
+                "permitted_provenance": {"gold_evidence_ids": ("should-not-be-here",)},
+            }
+        ],
+    }
+    with pytest.raises(boundary.AgentVisibilityViolation):
+        boundary.validate_agent_visible(payload)
+
+
 def test_validate_agent_visible_signature_has_no_evaluator_reference_param():
     """The agent-visible validation path must not accept/require an EvaluatorReference.
 

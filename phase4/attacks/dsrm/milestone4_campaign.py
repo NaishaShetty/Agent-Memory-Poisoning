@@ -49,12 +49,22 @@ from phase4.attacks.dsrm.seeds import SEED_POTTERY
 from phase4.attacks.dsrm.srm import _Embedder
 from phase4.shared.campaign_runner import retrieve_select_generate
 from phase4.shared.dormancy_report import print_dormancy_report
+from phase4.shared.role_provider_disclosure import disclose_role_sharing
 
 USER_ID = "dsrm-milestone4"
 
 
 
-def main() -> int:
+def main(attacker_llm_provider=None) -> int:
+    """`attacker_llm_provider`: P1 fix -- optional override so the SRM/CSRM
+    adversarial-decision generator (attacker role) can use a genuinely
+    different model instance than the one generating the victim agent's
+    answer, for a future real run with more than one reachable server.
+    Defaults to `None`, which reuses the single shared provider EXACTLY as
+    every prior real run of this script did (see
+    `phase4/shared/role_provider_disclosure.py`'s module docstring). DSRM has
+    no persistence/admission gate (unlike MemoryGraft/Sleeper), so only
+    attacker/victim roles apply here."""
     endpoint = LlamaServerEndpoint()
     llm_provider = LlamaServerProvider(endpoint=endpoint)
     if not llm_provider.health_check():
@@ -66,11 +76,14 @@ def main() -> int:
         print(f"Server identity verification failed: {exc}", file=sys.stderr)
         return 1
 
+    attacker_provider = attacker_llm_provider if attacker_llm_provider is not None else llm_provider
+    disclose_role_sharing("dsrm-milestone4", attacker=attacker_provider, victim=llm_provider)
+
     srm_csrm_generation_config = GenerationConfig(
         temperature=0.7, seed=42, max_tokens=96, enable_thinking=False, n_ctx=4096,
     )
     srm_csrm_run_config = RunConfiguration(
-        llm_provider=llm_provider, generation_config=srm_csrm_generation_config,
+        llm_provider=attacker_provider, generation_config=srm_csrm_generation_config,
         system_prompt=DEFAULT_SYSTEM_PROMPT, max_retries=0,
     )
 

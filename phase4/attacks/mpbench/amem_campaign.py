@@ -133,6 +133,7 @@ def main() -> int:
     if not selected:
         print("\nNot selected -- no counterfactual check to run. Real negative result, "
               "reported as observed.")
+        _print_amem_conformance_summary(foundation)
         foundation.shutdown()
         return 0
 
@@ -145,8 +146,27 @@ def main() -> int:
         "answer), NOT causal proof, per PHASE4_PRE_FLIGHT_DECISIONS.md Decision 4."
     )
 
+    _print_amem_conformance_summary(foundation)
     foundation.shutdown()
     return 0
+
+
+def _print_amem_conformance_summary(foundation: RealAMemAdapter) -> None:
+    """Fix (2026-09-15): quantifies the DECISION 2 DISCLOSURE banner's own
+    "every call after the first genuinely attempts a real LLM evolution step
+    against an unreachable Ollama backend" claim, instead of leaving it as an
+    unaggregated stream of stderr noise -- see
+    RealAMemAdapter.conformance_summary()'s own docstring for the full
+    rationale this closes."""
+    summary = foundation.conformance_summary()
+    print("\n" + "=" * 100)
+    print("A-MEM CONFORMANCE SUMMARY (quantifies the Ollama-unreachable confound disclosed above)")
+    print("=" * 100)
+    print(f"Total real foundation operations recorded: {summary['total_operations']}")
+    print(f"Operations that hit the known MODEL_DEPENDENT (Ollama-unreachable) confound: {summary['model_dependent_count']}")
+    for operation, rate in sorted(summary["model_dependent_rate_by_operation"].items()):
+        print(f"  {operation}: {rate:.1%} of that operation's calls")
+    print("=" * 100)
 
 
 if __name__ == "__main__":

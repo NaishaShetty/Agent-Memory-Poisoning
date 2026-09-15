@@ -54,6 +54,7 @@ from phase4.attacks.sleeper_memory_poisoning.adapter import SleeperAdapter
 from phase4.attacks.sleeper_memory_poisoning.artifact import SEED_DESTRESS
 from phase4.attacks.sleeper_memory_poisoning.injector import ADMISSION_ADMITTED
 from phase4.shared.campaign_runner import retrieve_select_generate
+from phase4.shared.role_provider_disclosure import disclose_role_sharing
 
 USER_ID_CLEAN = "sleeper-m8-clean"
 USER_ID_POISONED = "sleeper-m8-poisoned"
@@ -77,7 +78,13 @@ def report_dormancy_state(label: str, outcome, injected_memory_id) -> None:
     print(f"[{label}] answer: {outcome.execution_result.answer!r}")
 
 
-def main() -> int:
+def main(judge_llm_provider=None) -> int:
+    """`judge_llm_provider`: P1 fix -- optional override so the injection
+    gate can be judged by a genuinely different model instance than the one
+    generating the victim agent's answers, for a future real run with more
+    than one reachable server. Defaults to `None`, which reuses the single
+    shared provider EXACTLY as every prior real run of this script did (see
+    `phase4/shared/role_provider_disclosure.py`'s module docstring)."""
     endpoint = LlamaServerEndpoint()
     llm_provider = LlamaServerProvider(endpoint=endpoint)
     if not llm_provider.health_check():
@@ -89,11 +96,14 @@ def main() -> int:
         print(f"Server identity verification failed: {exc}", file=sys.stderr)
         return 1
 
+    judge_provider = judge_llm_provider if judge_llm_provider is not None else llm_provider
+    disclose_role_sharing("sleeper-memory-poisoning-campaign", attacker=llm_provider, victim=llm_provider, judge=judge_provider)
+
     gate_generation_config = GenerationConfig(
         temperature=0.0, seed=42, max_tokens=64, enable_thinking=False, n_ctx=2048,
     )
     gate_run_config = RunConfiguration(
-        llm_provider=llm_provider, generation_config=gate_generation_config,
+        llm_provider=judge_provider, generation_config=gate_generation_config,
         system_prompt=DEFAULT_SYSTEM_PROMPT, max_retries=0,
     )
     campaign_generation_config = GenerationConfig(

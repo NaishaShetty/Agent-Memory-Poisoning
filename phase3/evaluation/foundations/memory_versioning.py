@@ -133,7 +133,12 @@ from phase3.evaluation.foundations.canonical_event import (
     EVENT_RETIRED,
     EVENT_SUPERSEDED,
 )
-from phase3.evaluation.foundations.event_ledger import CanonicalEventLedger
+from phase3.evaluation.foundations.event_ledger import (
+    CanonicalEventCollisionError,
+    CanonicalEventLedger,
+    SingleOccurrenceViolationError,
+    UnknownCanonicalMemoryError,
+)
 from phase3.evaluation.foundations.ledger import CanonicalMemoryLedger
 
 _CREATION_EVENT_TYPES: Tuple[str, ...] = (EVENT_CREATED, EVENT_DERIVED)
@@ -584,7 +589,25 @@ def supersede_memory(
             note=f"superseded event recorded, but linkage failed: {exc}",
         )
 
-    event_ledger.append(retired_event)
+    # P2 fix (2026-09-14): this final append previously had no error handling at all,
+    # unlike the linkage step above -- if it raised, the caller lost the
+    # SupersessionResult entirely, even though the `superseded` event AND the
+    # SupersessionRecord linkage were already durably written at that point. The
+    # module's own docstring already claims "a failure between steps leaves an HONEST
+    # partial state, reported via status" -- STATUS_SUPERSEDED_EVENT_AND_LINKAGE exists
+    # for exactly this case and is returned here for the first time, mirroring the
+    # STATUS_SUPERSEDED_EVENT_ONLY handling immediately above rather than a different,
+    # ad hoc pattern.
+    try:
+        event_ledger.append(retired_event)
+    except (CanonicalEventCollisionError, UnknownCanonicalMemoryError, SingleOccurrenceViolationError) as exc:
+        return SupersessionResult(
+            status=STATUS_SUPERSEDED_EVENT_AND_LINKAGE,
+            superseded_memory_id=superseded_memory_id,
+            superseding_memory_id=superseding_memory_id,
+            superseded_event_id=superseded_event.event_id,
+            note=f"superseded event and linkage recorded, but the retired event append failed: {exc}",
+        )
 
     return SupersessionResult(
         status=STATUS_FULLY_SUPERSEDED,

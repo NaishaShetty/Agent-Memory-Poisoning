@@ -123,3 +123,116 @@ def test_run_condition_b_hybrid_makes_at_most_three_llm_calls_per_task():
     assert provider.calls == 3
     assert results[0]["status"] == "SUCCESSFUL_EVALUATION"
     assert results[0]["trace"]["v3_hybrid_reasoning"]["was_revised"] is True
+    assert results[0]["trace"]["unresolved_evidence_ids"] == ()  # P2 fix: always present, empty here
+
+
+def test_condition_b_hybrid_records_unresolved_evidence_ids_instead_of_silently_dropping_them():
+    """P2 fix regression test (2026-09-14): a gold evidence id with no matching
+    row in memory_records.jsonl used to be silently skipped, with nothing in
+    the trace distinguishing full gold evidence from a data-pipeline bug that
+    silently starved the model. Reproduces that exact scenario -- one real,
+    resolvable id plus one deliberately unresolvable one -- and confirms the
+    unresolvable one is now recorded explicitly, while evaluation still
+    proceeds on the evidence that DID resolve (never a hard failure for a
+    partial-evidence case, matching the audit's own suggested fix)."""
+    import json
+
+    from phase3.evaluation.llm.provider import GenerationResult
+
+    class _ScriptedProvider:
+        def __init__(self, script):
+            self._script = list(script)
+            self.calls = 0
+
+        def generate(self, messages, config):
+            self.calls += 1
+            text, finish_reason = self._script[self.calls - 1]
+            return GenerationResult(
+                text=text, finish_reason=finish_reason, prompt_tokens=None,
+                completion_tokens=None, latency_sec=0.0, server_fingerprint=None, raw_response={},
+            )
+
+        def configuration_fingerprint(self, config):
+            return "fp"
+
+        def model_metadata(self):
+            return {}
+
+    class _TaskShim:
+        def __init__(self, task_id, dataset, question, answer, evidence_memory_ids):
+            self.task_id = task_id
+            self.dataset = dataset
+            self.question = question
+            self.answer = answer
+            self.evidence_memory_ids = evidence_memory_ids
+
+    revise_json = json.dumps({"commits_to_answer": True, "grounded": True, "verdict": "ACCEPT", "instruction": ""})
+    provider = _ScriptedProvider([
+        ("A few months.", "stop"),
+        (revise_json, "stop"),
+    ])
+    # "definitely-nonexistent-evidence-id-xyz" cannot exist in the real
+    # memory_records.jsonl -- guaranteed unresolvable, exercising the branch
+    # this fix targets. Not asserting on any real evidence id resolving
+    # (that would couple this test to the real LoCoMo dataset's contents),
+    # only that the unresolvable one is correctly recorded.
+    task = _TaskShim("t1", "locomo", "How long?", "A few months", ["definitely-nonexistent-evidence-id-xyz"])
+
+    results = hybrid.run_condition_b_hybrid([task], provider, generation_config=None, campaign_id="test")
+    assert results[0]["status"] == "SUCCESSFUL_EVALUATION"
+    assert results[0]["trace"]["unresolved_evidence_ids"] == ("definitely-nonexistent-evidence-id-xyz",)
+
+
+def test_condition_b_hybrid_distinguishes_expected_from_unexpected_exceptions():
+    """P2 fix regression test (2026-09-14): a genuine programming bug
+    (AttributeError, not a real-world runtime condition) must be tagged
+    failure_kind=UNEXPECTED_EXCEPTION, distinct from an expected runtime
+    failure (RuntimeError -- the type this module itself raises for a
+    boundary/leakage rejection) tagged EXPECTED_RUNTIME_FAILURE -- both are
+    still caught (a long real campaign must not abort on one task's
+    failure), but no longer indistinguishable in the recorded result.
+
+    Note: LLMProviderError itself is NOT used here to exercise the "expected"
+    path -- generate_with_retries() (runner.py) already catches it internally
+    as a normal retry-exhaustion case (answer=None, no exception propagates
+    to this loop at all), which is itself the correct, pre-existing design;
+    RuntimeError is what this module's own boundary/leakage checks actually
+    raise when they DO propagate to this except block, so it is the
+    representative real "expected" case here."""
+
+    class _TaskShim:
+        def __init__(self, task_id, dataset, question, answer, evidence_memory_ids):
+            self.task_id = task_id
+            self.dataset = dataset
+            self.question = question
+            self.answer = answer
+            self.evidence_memory_ids = evidence_memory_ids
+
+    class _RaisingProvider:
+        def __init__(self, exc):
+            self._exc = exc
+
+        def generate(self, messages, config):
+            raise self._exc
+
+        def configuration_fingerprint(self, config):
+            return "fp"
+
+        def model_metadata(self):
+            return {}
+
+    expected_task = _TaskShim("t-expected", "locomo", "q", "a", [])
+    expected_results = hybrid.run_condition_b_hybrid(
+        [expected_task], _RaisingProvider(RuntimeError("simulated boundary/leakage rejection")),
+        generation_config=None, campaign_id="test",
+    )
+    assert expected_results[0]["status"] == "EXECUTION_FAILURE"
+    assert expected_results[0]["failure_kind"] == "EXPECTED_RUNTIME_FAILURE"
+
+    buggy_task = _TaskShim("t-buggy", "locomo", "q", "a", [])
+    buggy_results = hybrid.run_condition_b_hybrid(
+        [buggy_task], _RaisingProvider(AttributeError("simulated real code bug")),
+        generation_config=None, campaign_id="test",
+    )
+    assert buggy_results[0]["status"] == "EXECUTION_FAILURE"
+    assert buggy_results[0]["failure_kind"] == "UNEXPECTED_EXCEPTION"

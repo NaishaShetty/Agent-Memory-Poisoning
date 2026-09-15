@@ -153,6 +153,93 @@ def test_attribution_result_rejects_multiple_sources_with_one_candidate():
         )
 
 
+# ---------------------------------------------------------------------------
+# P1 fix (2026-09-14) -- evidence_kind <-> attribution_type is now a schema
+# invariant (ATTRIBUTION_TYPE_ALLOWED_EVIDENCE_KINDS), not just a convention
+# every attribution/wiring/*.py module happened to follow. This reproduces
+# the exact scenario the audit finding described: constructing an INFLUENCE
+# result grounded in EXPOSURE_ONLY evidence -- directly contradicting
+# ATTRIBUTION_METHODOLOGY.md Section 5's "influence is grounded exclusively
+# in counterfactual evidence" claim. Before this fix, the schema accepted
+# this silently; the real `attribute_influence()` wiring was already
+# correct by convention, but nothing structural prevented drift.
+# ---------------------------------------------------------------------------
+
+
+def test_attribution_result_rejects_influence_grounded_in_exposure_only_evidence():
+    """The exact audit scenario: INFLUENCE_ESTABLISHED must be grounded ONLY
+    in COUNTERFACTUAL_EVIDENCE, never EXPOSURE_ONLY -- even though
+    EXPOSURE_ONLY is itself a legal evidence_kind for a DIFFERENT
+    attribution_type (EXPOSURE)."""
+    with pytest.raises(AttributionValidationError, match="is not legal for attribution_type"):
+        AttributionResult(
+            attribution_id="ATTR-BAD-1", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+            attribution_type=ATTRIBUTION_INFLUENCE, status=STATUS_INFLUENCE_ESTABLISHED,
+            evidence_event_ids=("evt-1",), evidence_kind="EXPOSURE_ONLY",
+        )
+
+
+def test_attribution_result_rejects_origin_grounded_in_lineage_reachability():
+    """ORIGIN must be grounded ONLY in OBSERVED_EVENT (a real attack_injection
+    event) -- LINEAGE_REACHABILITY is legal for PROPAGATION, not ORIGIN."""
+    with pytest.raises(AttributionValidationError, match="is not legal for attribution_type"):
+        AttributionResult(
+            attribution_id="ATTR-BAD-2", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+            attribution_type=ATTRIBUTION_ORIGIN, status=STATUS_UNIQUE, source_id="attack-x",
+            evidence_event_ids=("evt-1",), evidence_kind="LINEAGE_REACHABILITY",
+        )
+
+
+def test_attribution_result_rejects_exposure_grounded_in_counterfactual_evidence():
+    """The inverse direction: EXPOSURE must be grounded ONLY in
+    EXPOSURE_ONLY -- COUNTERFACTUAL_EVIDENCE is legal for INFLUENCE, not
+    EXPOSURE (exposure and influence must never be conflated, per this
+    project's own 'RETRIEVED != SELECTED != EXPOSED != USED != INFLUENCED'
+    discipline)."""
+    with pytest.raises(AttributionValidationError, match="is not legal for attribution_type"):
+        AttributionResult(
+            attribution_id="ATTR-BAD-3", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+            attribution_type="EXPOSURE", status=STATUS_EXPOSURE_ESTABLISHED,
+            evidence_event_ids=("evt-1",), evidence_kind="COUNTERFACTUAL_EVIDENCE",
+        )
+
+
+def test_attribution_result_accepts_every_real_type_evidence_kind_pairing():
+    """The positive complement -- every legitimate (attribution_type,
+    evidence_kind) pairing this project's own wiring modules actually use
+    must still construct cleanly (no false positives from the new check)."""
+    AttributionResult(  # ORIGIN + OBSERVED_EVENT
+        attribution_id="ATTR-OK-ORIGIN", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+        attribution_type=ATTRIBUTION_ORIGIN, status=STATUS_UNIQUE, source_id="attack-x",
+        evidence_event_ids=("evt-1",), evidence_kind="OBSERVED_EVENT",
+    )
+    AttributionResult(  # LINEAGE + OBSERVED_EVENT
+        attribution_id="ATTR-OK-LINEAGE", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+        attribution_type=ATTRIBUTION_LINEAGE, status=STATUS_UNIQUE, source_id="mem-x",
+        evidence_event_ids=("evt-1",), evidence_kind="OBSERVED_EVENT",
+    )
+    AttributionResult(  # PROPAGATION + LINEAGE_REACHABILITY
+        attribution_id="ATTR-OK-PROPAGATION", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+        attribution_type="PROPAGATION", status=STATUS_NO_LINEAGE_ANCESTOR,
+        evidence_kind="LINEAGE_REACHABILITY",
+    )
+    AttributionResult(  # EXPOSURE + EXPOSURE_ONLY
+        attribution_id="ATTR-OK-EXPOSURE", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+        attribution_type="EXPOSURE", status=STATUS_EXPOSURE_ESTABLISHED,
+        evidence_event_ids=("evt-1",), evidence_kind="EXPOSURE_ONLY",
+    )
+    AttributionResult(  # INFLUENCE + COUNTERFACTUAL_EVIDENCE
+        attribution_id="ATTR-OK-INFLUENCE", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+        attribution_type=ATTRIBUTION_INFLUENCE, status=STATUS_INFLUENCE_ESTABLISHED,
+        evidence_event_ids=("evt-1",), evidence_kind="COUNTERFACTUAL_EVIDENCE",
+    )
+    AttributionResult(  # REFERENCES + OBSERVED_EVENT
+        attribution_id="ATTR-OK-REFERENCES", run_id="RUN-1", target_type="MEMORY", target_id="m1",
+        attribution_type="REFERENCES", status=STATUS_REFERENCES_ESTABLISHED,
+        evidence_event_ids=("evt-1",), evidence_kind="OBSERVED_EVENT",
+    )
+
+
 def test_attribution_result_round_trips_through_dict():
     result = AttributionResult(
         attribution_id="ATTR-5", run_id="RUN-1", target_type="MEMORY", target_id="m1",
@@ -355,6 +442,56 @@ def test_scenario_g_temporal_order_trap_does_not_produce_influence(ledgers):
     result = attribute_influence("mem-g-early", run_id=ledgers["run_id"], event_ledger=ledgers["event_ledger"])
     assert result.status == STATUS_INFLUENCE_NOT_ESTABLISHED
     assert result.evidence_event_ids == ()
+
+
+def test_scenario_g2_decoy_counterfactual_event_for_a_different_memory_does_not_cross_attribute(ledgers):
+    """P2 fix (2026-09-14) -- stronger version of the temporal-order trap.
+    Scenario G only proves "no evidence at all" produces NOT_ESTABLISHED --
+    it can't catch a filtering bug (e.g. matching on the wrong id field)
+    because there is nothing in the ledger for such a bug to latch onto.
+    This scenario adds a REAL counterfactually_influential event for a
+    DIFFERENT memory in the SAME run/ledger, then confirms the target
+    memory (which has no counterfactual event of its own, only exposure)
+    still correctly reports NOT_ESTABLISHED -- proving attribute_influence()
+    filters on the right field (source_id == memory_id) rather than merely
+    "some counterfactual event exists in this ledger."""
+    target = _foundation_record("mem-g2-target", "exposed but never counterfactually tested")
+    decoy = _foundation_record("mem-g2-decoy", "a different memory with a real counterfactual finding")
+    for rec in (target, decoy):
+        record_memory_creation(
+            memory_ledger=ledgers["memory_ledger"], event_ledger=ledgers["event_ledger"],
+            membership_ledger=ledgers["membership_ledger"], run_id=ledgers["run_id"],
+            record=rec, actor="test", reason="seed", timestamp=TS,
+        )
+    record_agent_decision(
+        phase5_event_ledger=ledgers["phase5_ledger"], membership_ledger=ledgers["membership_ledger"],
+        run_id=ledgers["run_id"], task_id="task-g2", decision_id="dec-g2",
+        exposed_memory_ids=("mem-g2-target",), output="the answer",
+        finish_reason=FINISH_REASON_GENERATED, model_identity="qwen3-8b", config_fingerprint=CFG,
+        used_memories_observability=USED_MEMORIES_NOT_OBSERVABLE,
+        actor="test", reason="generation completed", timestamp=TS2,
+    )
+    # The decoy: a REAL counterfactually_influential event, but for mem-g2-decoy,
+    # not mem-g2-target -- and even for a different task_id.
+    decoy_counterfactual_event = CanonicalEvent(
+        event_id="evt-g2-decoy-counterfactual", event_type=EVENT_COUNTERFACTUALLY_INFLUENTIAL,
+        memory_ids=("mem-g2-decoy",), timestamp=TS2, actor="test", reason="masking changed a DIFFERENT task's answer",
+        task_id="task-g2-decoy-task", config_fingerprint=CFG, counterfactual_answer_hash="hash-masked-decoy",
+        baseline_answer_hash="hash-baseline-decoy", diff_criterion="exact_match_changed",
+        masking_method=MASKING_METHOD_SELECTED_SET_REMOVAL,
+    )
+    ledgers["event_ledger"].append(decoy_counterfactual_event)
+
+    target_result = attribute_influence("mem-g2-target", run_id=ledgers["run_id"], event_ledger=ledgers["event_ledger"])
+    assert target_result.status == STATUS_INFLUENCE_NOT_ESTABLISHED
+    assert target_result.evidence_event_ids == ()
+
+    # Sanity: the decoy's OWN influence attribution must independently succeed --
+    # confirms the decoy event is real and would have been picked up if the
+    # filtering bug this test guards against were actually present.
+    decoy_result = attribute_influence("mem-g2-decoy", run_id=ledgers["run_id"], event_ledger=ledgers["event_ledger"])
+    assert decoy_result.status == STATUS_INFLUENCE_ESTABLISHED
+    assert decoy_result.evidence_event_ids == ("evt-g2-decoy-counterfactual",)
 
 
 # ---------------------------------------------------------------------------
