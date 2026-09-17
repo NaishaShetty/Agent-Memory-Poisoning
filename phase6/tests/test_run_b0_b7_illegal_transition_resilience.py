@@ -49,7 +49,7 @@ def test_run_all_does_not_crash_on_the_real_b0_to_b7_matrix():
     against the actual, shipped corpus must complete and return metrics for
     EVERY configuration, not abort partway through."""
     results, exclusions = run_all()
-    assert len(results) == 9  # B0-B7 + SLEEPER_ONLY
+    assert len(results) == 10  # B0-B7 + SLEEPER_ONLY + B8 (2026-09-17)
     assert all(m.config_name for m in results)
 
 
@@ -63,7 +63,7 @@ def test_real_b0_to_b7_matrix_now_has_zero_exclusions():
     exercised by the real corpus, only kept as defensive code."""
     results, exclusions = run_all()
     assert exclusions == []
-    assert len(results) == 9
+    assert len(results) == 10  # B0-B7 + SLEEPER_ONLY + B8 (2026-09-17)
 
 
 def test_exclusion_mechanism_still_works_for_an_explicit_trusted_scenario():

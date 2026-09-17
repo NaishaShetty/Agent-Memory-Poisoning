@@ -60,16 +60,24 @@ def test_v1_fully_evades_reasoning_guard():
 
 
 def test_v2_wider_spread_narrows_but_does_not_close_lexical_gap():
-    """REAL, NON-OBVIOUS RESULT: spreading poison across 6 differently-worded
-    variants (vs. Stage 6.6's original 3) REDUCES the poison group's own
-    internal lexical cohesion -- their mutual divergence rises toward the
-    truth's, narrowing (not closing) the gap that let the 3-variant case hide
-    more comfortably below detection. This means aggressive wording diversity
-    is a DOUBLE-EDGED evasion strategy under the lexical metric: it evades
-    the near-duplicate CLUSTERING mechanism specifically, but at the cost of
-    looking less like a coherent, hidden consensus."""
+    """REAL, NON-OBVIOUS RESULT (historical, pre-min-cluster-gate mechanism):
+    spreading poison across 6 differently-worded variants (vs. Stage 6.6's
+    original 3) REDUCES the poison group's own internal lexical cohesion --
+    their mutual divergence rises toward the truth's, narrowing (not closing)
+    the gap that let the 3-variant case hide more comfortably below detection.
+    This means aggressive wording diversity is a DOUBLE-EDGED evasion strategy
+    under the lexical metric: it evades the near-duplicate CLUSTERING
+    mechanism specifically, but at the cost of looking less like a coherent,
+    hidden consensus.
+
+    `min_cluster_size_to_flag=1` (the pre-2026-09-17 ungated behavior) is used
+    explicitly here to reproduce and preserve this specific historical
+    finding -- see `test_v2_shipped_default_no_longer_misflags_the_lone_truth`
+    below for what the SHIPPED default now does with this exact pool (all 7
+    candidates are singletons, so the min-cluster-size gate correctly
+    recognizes no real majority exists and stops misflagging the truth)."""
     contents = V2_WIDER_SPREAD_PARAPHRASED_POISON + [V2_LONE_TRUTH]
-    signals = pool_consensus_divergence_signals(contents)
+    signals = pool_consensus_divergence_signals(contents, min_cluster_size_to_flag=1)
     poison_scores = [s["consensus_divergence_score"] for s in signals[:-1]]
     truth_score = signals[-1]["consensus_divergence_score"]
 
@@ -83,6 +91,20 @@ def test_v2_wider_spread_narrows_but_does_not_close_lexical_gap():
         f"expected the gap to have narrowed substantially with wider spread; "
         f"got truth/poison-max ratio {ratio:.3f}"
     )
+
+
+def test_v2_shipped_default_no_longer_misflags_the_lone_truth():
+    """The min-cluster-size gate's real effect on THIS pool: all 7 candidates
+    (6 wide-spread poison paraphrases + 1 lone truth) are mutually below the
+    lexical near-duplicate threshold -- i.e. every candidate is its own
+    singleton cluster, no real majority anywhere. The shipped default
+    (2026-09-17) therefore forces every score to 0.0: the lone truth is no
+    longer wrongly penalized. This does NOT newly catch the poison (it was
+    never caught here either way) -- it only stops an innocent bystander from
+    being punished for an evasion the lexical metric was already blind to."""
+    contents = V2_WIDER_SPREAD_PARAPHRASED_POISON + [V2_LONE_TRUTH]
+    signals = pool_consensus_divergence_signals(contents)  # shipped default
+    assert all(s["consensus_divergence_score"] == 0.0 for s in signals)
 
 
 def test_v2_semantic_still_separates_poison_from_truth_despite_wider_spread():

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from phase6.defense.orchestration.pipeline import (
     B0_TO_B7,
+    B8_ALL_FOUR,
     SLEEPER_ONLY,
     DefenseConfiguration,
     IllegalTransitionError,
@@ -61,7 +62,7 @@ class IllegalTransitionExclusion:
 
 def run_all(configs=None):
     pools = all_pools()
-    configs = configs if configs is not None else B0_TO_B7 + (SLEEPER_ONLY,)
+    configs = configs if configs is not None else B0_TO_B7 + (SLEEPER_ONLY, B8_ALL_FOUR)
     results = []
     exclusions = []
     for config in configs:
@@ -76,20 +77,25 @@ def run_all(configs=None):
     return results, exclusions
 
 
-def gated_configs():
-    """The same B0-B7 matrix, but every retrieval-enabled configuration uses
-    the min-cluster-size-gated divergence function instead of the shipped,
-    ungated Stage 6.6 default -- the scientifically honest comparison, since
-    the ungated numbers are inflated by the diverse-benign-pool bug this
-    stage discovered (see docs/phase6/DEFENSE_COMPOSITION_AND_ABLATION.md)."""
-    gated = pool_consensus_divergence_signals_with_min_cluster_gate
+def ungated_configs():
+    """UPDATE (2026-09-17): the min-cluster-size gate is now the SHIPPED
+    default (`signals.py` 1.2.0) -- plain `run_all()` with no override
+    already reproduces what used to require `gated_configs()`'s explicit
+    override. This function is kept, renamed, to reproduce the HISTORICAL,
+    pre-fix ungated numbers on demand (`min_cluster_size_to_flag=1`), so the
+    original, now-superseded finding remains reproducible rather than lost."""
+    from functools import partial
+
+    from phase6.defense.retrieval.signals import pool_consensus_divergence_signals
+
+    ungated = partial(pool_consensus_divergence_signals, min_cluster_size_to_flag=1)
     return tuple(
         DefenseConfiguration(
             c.name, admission_enabled=c.admission_enabled, retrieval_enabled=c.retrieval_enabled,
-            retrieval_divergence_fn_override=gated if c.retrieval_enabled else None,
+            retrieval_divergence_fn_override=ungated if c.retrieval_enabled else None,
             propagation_enabled=c.propagation_enabled, sleeper_enabled=c.sleeper_enabled,
         )
-        for c in B0_TO_B7 + (SLEEPER_ONLY,)
+        for c in B0_TO_B7 + (SLEEPER_ONLY, B8_ALL_FOUR)
     )
 
 
@@ -152,8 +158,8 @@ def print_report(results, exclusions=()):
 
 
 if __name__ == "__main__":
-    print("=== ORIGINAL (ungated, shipped Stage 6.6 default) -- INVALIDATED, see docs ===")
-    print_report(*run_all())
+    print("=== HISTORICAL (pre-2026-09-17 ungated default) -- SUPERSEDED, reproduced on demand ===")
+    print_report(*run_all(ungated_configs()))
     print()
-    print("=== CORRECTED (min-cluster-size gate applied to all retrieval-enabled configs) ===")
-    print_report(*run_all(gated_configs()))
+    print("=== SHIPPED (2026-09-17: min-cluster-size gate is now the default; B8 = all four layers) ===")
+    print_report(*run_all())

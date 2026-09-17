@@ -35,8 +35,19 @@ script was written, not assumed.
 
 MUST RUN INSIDE C:\\h4venv (both mem0ai AND a-mem-sys are only importable
 there) WITH A REAL, REACHABLE llama-server INSTANCE (for the agent's own
-generation step -- A-MEM's own internal LLM calls target Ollama, per the
-disclosed confound above, and are unrelated to this generation call).
+generation step -- A-MEM's own internal LLM calls also target llama-server
+now, per the correction below, so ONE running instance serves both).
+
+CORRECTION (2026-09-16): the "hard constraint... never permits" framing
+above no longer applies -- editing `amem_real_adapter.py` was done in a
+later session, on explicit instruction, to wire Decision 2's own fix (see
+that file's own module docstring). This campaign was re-run against the
+real, reachable, `--reasoning off` llama-server backend (see that file's
+docstring for why `--reasoning off` specifically is required). The
+"confound" paragraph above is preserved as the historical record of this
+script's first real run, not deleted -- but no longer describes the current
+state. See `_print_amem_conformance_summary()`'s own 2026-09-16 correction
+for what the re-run actually found.
 """
 
 from __future__ import annotations
@@ -64,12 +75,14 @@ USER_ID = "mpbench-pcfi-amem-gapclose"
 
 def main() -> int:
     print("=" * 100)
-    print("DECISION 2 DISCLOSURE: this campaign targets the real, UNMODIFIED RealAMemAdapter.")
-    print("The Ollama-to-llama-server evolution-step fix has NOT been wired (doing so would")
-    print("require editing a frozen Phase 3 file). Every add_memory() call after the first")
-    print("genuinely attempts a real LLM evolution step against an unreachable Ollama backend")
-    print("and gracefully fails -- storage/embedding/retrieval remain real throughout. Latency")
-    print("figures from this run are NOT comparable to any Mem0 campaign in this project.")
+    print("DECISION 2 UPDATE (2026-09-16): the Ollama-to-llama-server evolution-step fix IS now")
+    print("wired in RealAMemAdapter (on explicit instruction; see that file's own module")
+    print("docstring correction). This campaign now runs against a real, reachable llama-server")
+    print("backend (started with --reasoning off -- required, see RealAMemAdapter's own docstring")
+    print("for why). Every add_memory() call after the first genuinely attempts a real LLM")
+    print("evolution step; whether it evolves the note is now a genuine model judgment, not an")
+    print("infrastructure failure. Latency figures from this run ARE now meaningfully comparable")
+    print("to a Mem0 campaign's own real evolution-free timing, unlike the original disclosure below.")
     print("=" * 100 + "\n")
 
     endpoint = LlamaServerEndpoint()
@@ -100,7 +113,8 @@ def main() -> int:
 
     real_pool = load_db_locomo(max_turns=17)
     print(f"Ingesting {len(real_pool)} real LoCoMo turns into A-MEM (task 0, sessions 1-2)...")
-    print("(every call after the first will print a real, expected Ollama connection error to stderr)")
+    print("(every call after the first genuinely attempts real evolution against the now-reachable")
+    print("llama-server backend -- see the summary below for how many actually evolved)")
     for text in real_pool:
         foundation.add_memory(
             memory_id=None, content={"text": text, "content_type": "CONVERSATIONAL_FACT"},
@@ -157,13 +171,27 @@ def _print_amem_conformance_summary(foundation: RealAMemAdapter) -> None:
     against an unreachable Ollama backend" claim, instead of leaving it as an
     unaggregated stream of stderr noise -- see
     RealAMemAdapter.conformance_summary()'s own docstring for the full
-    rationale this closes."""
+    rationale this closes.
+
+    CORRECTION (2026-09-16): Decision 2's own fix (repoint A-MEM's backend at
+    llama-server) was wired in `amem_real_adapter.py` this same session, and
+    this campaign was re-run against the real, reachable, `--reasoning off`
+    llama-server backend. The MODEL_DEPENDENT count below is NO LONGER
+    attributable to an unreachable backend -- a live probe now confirms
+    reachability for each such record. What it actually reflects, verified
+    directly by inspecting individual real conformance records rather than
+    assumed: A-mem-sys's own `process_memory()` genuinely ran, against a
+    genuinely reachable model, and for most of these real LoCoMo turns
+    (short, topically disjoint smalltalk) genuinely did not produce a
+    `should_evolve=True` verdict -- a real model judgment on real diverse
+    conversational content, not an infrastructure failure. The print label
+    below is corrected to stop naming "Ollama-unreachable" as the cause."""
     summary = foundation.conformance_summary()
     print("\n" + "=" * 100)
-    print("A-MEM CONFORMANCE SUMMARY (quantifies the Ollama-unreachable confound disclosed above)")
+    print("A-MEM CONFORMANCE SUMMARY (see 2026-09-16 correction: no longer an Ollama-unreachable confound)")
     print("=" * 100)
     print(f"Total real foundation operations recorded: {summary['total_operations']}")
-    print(f"Operations that hit the known MODEL_DEPENDENT (Ollama-unreachable) confound: {summary['model_dependent_count']}")
+    print(f"Operations where the real, reachable evolution-decision step did not evolve the note: {summary['model_dependent_count']}")
     for operation, rate in sorted(summary["model_dependent_rate_by_operation"].items()):
         print(f"  {operation}: {rate:.1%} of that operation's calls")
     print("=" * 100)

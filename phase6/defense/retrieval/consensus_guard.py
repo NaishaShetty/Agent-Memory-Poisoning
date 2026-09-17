@@ -74,12 +74,19 @@ def semantic_divergence_fn(contents: Sequence[str]) -> Tuple[Dict[str, float], .
     return signals
 
 
-GUARD_VERSION = "consensus-guard-1.1.0"
+GUARD_VERSION = "consensus-guard-1.2.0"
 
-# Uncalibrated v1 thresholds (same disclosure discipline as
-# reasoning_guard.py's THRESHOLD_* constants -- frozen starting defaults, not
-# validated against real MAMBench attack content; Stage 6.9's job).
-THRESHOLD_DOWNRANK = 0.6
+# Calibrated default, adopted 2026-09-17 (was: uncalibrated v1 THRESHOLD_DOWNRANK
+# = 0.6, same disclosure discipline as reasoning_guard.py's THRESHOLD_*
+# constants). Stage 6.9's own `sweep.py`, run against the DISJOINT dev corpus
+# (`dev_corpus.py` -- never the corpus.py pools any reported metric is measured
+# on, so this is not calibration circularity), found the shipped 0.6 default
+# "far too conservative": 0.0% detection at 0.6, vs. 50.0% detection at an
+# acceptable 12.5% FPR anywhere in [0.2, 0.4] once the min-cluster-size gate is
+# also applied (`docs/phase6/DEFENSE_COMPOSITION_AND_ABLATION.md` Section 3).
+# That recommendation sat unshipped pending explicit authorization; it was
+# given 2026-09-17. 0.3 (the midpoint of the recommended range) is adopted here.
+THRESHOLD_DOWNRANK = 0.3
 THRESHOLD_ESCALATE_TO_QUARANTINE = 0.85
 
 # Evidence-accumulation requirement for escalation (2026-09-14 fix): a SINGLE

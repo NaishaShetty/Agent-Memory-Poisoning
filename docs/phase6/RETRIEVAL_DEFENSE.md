@@ -210,7 +210,11 @@ already use):
    from OUTSIDE the current candidate pool — the trusted memory store at large —
    which no per-query pool-only mechanism, lexical or semantic, can provide by
    construction). This is carried forward as an open Stage 6.9 item, not
-   resolved here.
+   resolved here. **Update (2026-09-17): the threshold-calibration half was
+   resolved** — `THRESHOLD_DOWNRANK` is now `0.3` (was `0.6`), adopted from
+   Stage 6.9's own dev-corpus sweep; see `docs/phase6/DEFENSE_COMPOSITION_AND_
+   ABLATION.md` Section 3 and `PHASE6_RESULTS.md` Section 9 for the real,
+   measured effect. The cross-pool-corroboration idea remains unresolved.
 
 ### D2 — measured cost (real, not estimated)
 

@@ -176,6 +176,23 @@ B7_ALL_THREE = DefenseConfiguration(
 )
 SLEEPER_ONLY = DefenseConfiguration("SLEEPER", sleeper_enabled=True)
 
+# B8 (2026-09-17): the brief's own B0-B7 matrix (Stage 6.9) evaluated Sleeper
+# ONLY as its own standalone condition (`SLEEPER_ONLY` above), never combined
+# with B7's admission+retrieval+propagation stack -- not because combining
+# them was expected to fail, simply because it was never tried. It was tried
+# post-shipping: real, measured result on the same corpus B0-B7 uses,
+# `phase6/evaluation/ablations/run_b0_b7.py`'s own driver, no new mechanism
+# invented -- poison detection rises from B7's 47.1% to 52.9% (Sleeper-family
+# content: 0% under B7 alone -> 40%, matching SLEEPER_ONLY's own real number
+# exactly) at the SAME 7.3% false-positive rate as B7 (Sleeper's own
+# false-positive contribution was already independently confirmed at 0% on
+# real LoCoMo data, `docs/phase6/SLEEPER_DEFENSE.md`). No detection is
+# sacrificed anywhere combining these four layers never previously tested
+# together.
+B8_ALL_FOUR = DefenseConfiguration(
+    "B8", admission_enabled=True, retrieval_enabled=True, propagation_enabled=True, sleeper_enabled=True
+)
+
 B0_TO_B7: Tuple[DefenseConfiguration, ...] = (
     B0_NO_DEFENSE,
     B1_ADMISSION_ONLY,

@@ -41,12 +41,30 @@ _LONE_TRUTH_UNRELATED = "The database migration caused unexpected downtime for s
 def test_lexical_is_fooled_by_paraphrased_coordinated_poison():
     """Re-confirms the D1 failure mode this D2 escalation exists to address
     (same assertion as test_retrieval_defense.py's own test, repeated here so
-    this file stands alone as the direct before/after comparison)."""
+    this file stands alone as the direct before/after comparison).
+
+    UPDATE (2026-09-17): `min_cluster_size_to_flag=1` reproduces the
+    historical, pre-min-cluster-gate behavior this test was written against
+    -- see `test_shipped_lexical_default_no_longer_fooled_into_penalizing_
+    truth` below for what the current shipped default does with this exact
+    pool."""
     contents = _PARAPHRASED_POISON + [_LONE_TRUTH_UNRELATED]
-    lexical_signals = pool_consensus_divergence_signals(contents)
+    lexical_signals = pool_consensus_divergence_signals(contents, min_cluster_size_to_flag=1)
     poison_divergences = [s["consensus_divergence_score"] for s in lexical_signals[:3]]
     truth_divergence = lexical_signals[3]["consensus_divergence_score"]
     assert truth_divergence > max(poison_divergences)  # lexical is fooled
+
+
+def test_shipped_lexical_default_no_longer_fooled_into_penalizing_truth():
+    """The min-cluster-size gate's real effect here: the 3 paraphrases never
+    lexically cluster (same reason semantic clustering is needed at all --
+    see the test below), so the shipped default correctly finds no real
+    majority and scores everyone 0.0, instead of wrongly singling out the
+    truth. Confirms the fix generalizes to this file's own fixture, not just
+    test_retrieval_defense.py's."""
+    contents = _PARAPHRASED_POISON + [_LONE_TRUTH_UNRELATED]
+    lexical_signals = pool_consensus_divergence_signals(contents)  # shipped default
+    assert all(s["consensus_divergence_score"] == 0.0 for s in lexical_signals)
 
 
 def test_semantic_clustering_engages_where_lexical_clustering_does_not():

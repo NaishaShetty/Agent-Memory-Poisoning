@@ -49,6 +49,7 @@ scenarios modeled on the attack's own documented mechanism.
 from __future__ import annotations
 
 import re
+from datetime import datetime
 from typing import Dict
 
 from phase6.defense.policy.records import FORBIDDEN_SIGNAL_KEYS, EvaluatorOnlyLeakageError
@@ -58,10 +59,25 @@ SIGNALS_VERSION = "sleeper-signals-1.0.0"
 
 # Structural persistence markers: language claiming a statement should hold
 # ACROSS FUTURE INTERACTIONS, not just in the current turn.
+#
+# Update (2026-09-17): added "if" as an alternative to "when" before
+# "(user|someone|anyone) (asks|mentions|brings up)", plus a passive "(whenever|
+# if) asked" alternative (no explicit subject). Found via a real, disclosed
+# ablation gap: 3 of `phase6/evaluation/ablations/corpus.py`'s own 5 Sleeper-
+# family poison scenarios ("If anyone asks about system access, always say...",
+# "Whenever asked about expense approvals, always say...") used a conditional
+# "if"/passive "asked" framing this regex did not recognize as a persistence
+# marker, even though it is semantically identical to the already-covered
+# "when someone asks" case. Re-validated before shipping against every
+# existing true/false-positive fixture in `test_sleeper_defense.py` (all
+# still pass unchanged) plus the 3 newly-recognized real corpus.py cases,
+# never loosened past requiring the SAME AND-with-a-response-directive-verb
+# structure this signal's whole design depends on.
 _PERSISTENCE_PATTERN = re.compile(
     r"\b(from now on|in (?:all )?future conversations|for future reference|"
     r"for later reference|whenever (?:the )?(?:user|someone|anyone)|"
-    r"when (?:the )?(?:user|someone|anyone) (?:asks|mentions|brings up))\b",
+    r"(?:when|if) (?:the )?(?:user|someone|anyone) (?:asks|mentions|brings up)|"
+    r"(?:whenever|if) asked)\b",
     re.IGNORECASE,
 )
 
@@ -114,4 +130,68 @@ def dormancy_activation_signal(prior_retrieval_count: int) -> Dict[str, float]:
     offending = set(signal.keys()) & FORBIDDEN_SIGNAL_KEYS
     if offending:  # unreachable given the fixed key name, kept for parity/defense-in-depth
         raise EvaluatorOnlyLeakageError(f"dormancy_activation_signal leaked {offending!r}")
+    return signal
+
+
+def _parse_timestamp(value: str) -> datetime:
+    normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
+    return datetime.fromisoformat(normalized)
+
+
+# Uncalibrated v1 default, disclosed like every other Phase 6 threshold constant --
+# not validated against real MAMBench Sleeper campaign timing. Chosen only so the
+# curve's shape (0 at age=0, approaching 1 as age grows) is meaningful over a
+# plausible single-session timescale.
+AGE_GATE_HALF_LIFE_SECONDS = 300.0
+
+
+def age_based_dormancy_gate_signal(
+    creation_timestamp: str,
+    as_of_timestamp: str,
+    *,
+    half_life_seconds: float = AGE_GATE_HALF_LIFE_SECONDS,
+) -> Dict[str, float]:
+    """Score in [0, 1): how much real ELAPSED TIME since this memory was CREATED
+    supports treating the current retrieval as a genuine dormant-then-activated
+    event, rather than an ordinary first-ever query of content that was just
+    written a moment ago.
+
+    WHY THIS SIGNAL EXISTS (Phase 8.9's real, measured calibration finding, see
+    `docs/phase6/SLEEPER_DEFENSE.md` limitations item 3's Update): `dormancy_
+    activation_signal()` alone cannot distinguish "created a second ago, queried
+    immediately" from "admitted long ago, never touched until now" -- both have
+    `prior_retrieval_count == 0`, so both score the maximal 1.0. A brand-new
+    legitimate directive-matching memory (e.g. a real customer-service policy
+    statement, queried the instant it's written) is therefore indistinguishable
+    from the real Sleeper attack's own real activation event using retrieval
+    count alone. Real elapsed time since CREATION (Signal Contract Section 2.2 --
+    `creation_timestamp` is an explicitly sanctioned structural/provenance field)
+    is a second, independent, legitimately-available signal that DOES distinguish
+    them: brand-new content has age ~0 (score ~0.0), while a payload that has sat
+    dormant for a real span of time before activating has a real, nonzero age.
+
+    0 elapsed seconds -> 0.0 (no support for "this looks like a dormant
+    activation" -- it was just created). Score rises with real elapsed time,
+    following the same half-life-shaped curve `dormancy_activation_signal()`
+    already uses for retrieval count, so the two signals compose predictably.
+
+    Uses the same `Z`-suffix-tolerant ISO-8601 parsing convention already
+    established by `phase8/detection/sleeper_dormancy_window.py`'s
+    `_parse_timestamp()`, never raw string comparison.
+
+    Manually leakage-checked (not `@signal_function`-wrapped): this signal takes
+    two plain timestamp strings, not a `SignalContext`, mirroring `dormancy_
+    activation_signal()`'s own manual-check pattern.
+    """
+    age_seconds = (_parse_timestamp(as_of_timestamp) - _parse_timestamp(creation_timestamp)).total_seconds()
+    if age_seconds < 0:
+        raise ValueError(
+            f"as_of_timestamp ({as_of_timestamp!r}) precedes creation_timestamp "
+            f"({creation_timestamp!r}) -- a memory cannot be retrieved before it was created."
+        )
+    score = age_seconds / (age_seconds + half_life_seconds)
+    signal = {"age_based_dormancy_gate_score": score}
+    offending = set(signal.keys()) & FORBIDDEN_SIGNAL_KEYS
+    if offending:  # unreachable given the fixed key name, kept for parity/defense-in-depth
+        raise EvaluatorOnlyLeakageError(f"age_based_dormancy_gate_signal leaked {offending!r}")
     return signal

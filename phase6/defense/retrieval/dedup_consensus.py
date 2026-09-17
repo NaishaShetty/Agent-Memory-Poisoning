@@ -52,6 +52,22 @@ def cluster_by_similarity_matrix(
     return cluster_of
 
 
+def has_real_majority_cluster(cluster_of: Sequence[int], min_cluster_size_to_flag: int) -> bool:
+    """True iff at least one cluster has size >= `min_cluster_size_to_flag` --
+    i.e., a real majority/consensus actually exists in the pool for anything to
+    be divergent FROM. If every candidate is its own singleton cluster (a
+    fully topically-diverse pool, the common ordinary case), there is no real
+    majority, and "divergence from the rest of the pool" is not a meaningful
+    concept -- see `dampened_divergence()`'s own docstring update below and
+    `docs/phase6/DEFENSE_COMPOSITION_AND_ABLATION.md`'s "Major Finding" for the
+    real, measured 100% false-positive rate this gate exists to close.
+    """
+    cluster_sizes: Dict[int, int] = {}
+    for cluster_id in cluster_of:
+        cluster_sizes[cluster_id] = cluster_sizes.get(cluster_id, 0) + 1
+    return any(size >= min_cluster_size_to_flag for size in cluster_sizes.values())
+
+
 def dampened_divergence(
     similarity_matrix: Sequence[Sequence[float]],
     cluster_of: Sequence[int],

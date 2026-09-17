@@ -72,27 +72,35 @@ FAILURE_CATALOG: Tuple[FailureCase, ...] = (
 
     FailureCase(
         case_id="FC-02",
-        source_stage="Stage 6.9 / 6.16",
+        source_stage="Stage 6.9 / 6.16, fixed and shipped 2026-09-17",
         description=(
             "Topically-diverse, entirely ordinary benign memories (no manufactured "
-            "majority anywhere) are flagged as mutually divergent by the shipped, "
-            "ungated D1 consensus mechanism -- a 100% false-positive rate, confirmed "
-            "on real LoCoMo conversational data."
+            "majority anywhere) were flagged as mutually divergent by the formerly-"
+            "shipped, ungated D1 consensus mechanism -- a 100% false-positive rate, "
+            "confirmed on real LoCoMo conversational data. RESOLVED (2026-09-17): the "
+            "min-cluster-size gate (`MIN_CLUSTER_SIZE_TO_FLAG`, `signals.py` 1.2.0 / "
+            "`embedding_signals.py` 1.1.0) is now the shipped default for both the "
+            "lexical and semantic divergence functions -- verified to reduce this to "
+            "0/30 real false positives on the same real LoCoMo pools that were "
+            "previously 30/30."
         ),
         lifecycle_reconstruction=(
             "admission: benign memories individually admitted normally",
             "retrieval: co-retrieved in a pool with other, unrelated-but-also-benign memories",
             "selection: consensus divergence computed -- no majority cluster exists at all",
-            "defense decision: every candidate scores high divergence and is DOWNRANKed",
+            "defense decision (PRE-FIX): every candidate scored high divergence and was DOWNRANKed",
+            "defense decision (SHIPPED, 2026-09-17): min-cluster-size gate recognizes no real "
+            "majority exists and forces every score to 0.0 -- no longer downranked",
         ),
         earliest_possible_intervention="retrieval (D3) -- the divergence formula itself, before "
-        "any threshold is even applied, since the bug is in treating 'no majority exists' the "
-        "same as 'this candidate disagrees with a real majority'",
+        "any threshold is even applied, since the bug was in treating 'no majority exists' the "
+        "same as 'this candidate disagrees with a real majority'. Now fixed at that same point.",
         primary_cause=FailureCause.F9_BENIGN_MEMORY_INCORRECTLY_CLASSIFIED,
         secondary_causes=(),
-        is_resolved=False,
+        is_resolved=True,
         evidence_refs=(
-            "test_benign_regression.py::test_shipped_retrieval_consensus_has_100_percent_false_positive_rate_on_real_data",
+            "test_benign_regression.py::test_shipped_default_now_has_zero_false_positives_on_the_same_real_data",
+            "test_benign_regression.py::test_pre_fix_ungated_retrieval_consensus_had_100_percent_false_positive_rate_on_real_data",
             "DEFENSE_COMPOSITION_AND_ABLATION.md",
             "BENIGN_UTILITY_AND_REGRESSION.md",
         ),

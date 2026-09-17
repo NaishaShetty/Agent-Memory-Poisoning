@@ -110,14 +110,20 @@ def test_sleeper_layer_zero_false_positives_on_real_benign_corpus():
 # ---------------------------------------------------------------------------
 
 
-def test_shipped_retrieval_consensus_has_100_percent_false_positive_rate_on_real_data():
-    """DELIBERATE, PERMANENT regression test (module docstring): the
-    shipped, ungated Stage 6.6 default flags EVERY real benign turn in
-    EVERY pool as a false positive, on genuine LoCoMo conversational
-    content -- not just the hand-constructed synthetic example Stage 6.9
-    first found this with. This is kept asserting the bug's presence, not
-    fixed here, per this project's own discipline of never silently
-    modifying a shipped default outside its own stage."""
+def test_pre_fix_ungated_retrieval_consensus_had_100_percent_false_positive_rate_on_real_data():
+    """UPDATE (2026-09-17): the bug this test originally pinned down as the
+    SHIPPED default's behavior was fixed and shipped (see `signals.py`'s
+    2026-09-17 Update) -- the min-cluster-size gate is now the default.
+    `min_cluster_size_to_flag=1` reproduces the historical, pre-fix ungated
+    behavior explicitly, so this real, measured historical finding (100% FP
+    on genuine LoCoMo content) remains on record and reproducible, without
+    misrepresenting it as still being what ships today."""
+    from functools import partial
+
+    from phase6.defense.retrieval.signals import pool_consensus_divergence_signals
+
+    pre_fix_ungated = partial(pool_consensus_divergence_signals, min_cluster_size_to_flag=1)
+
     total_flags = 0
     total_candidates = 0
     for pool_idx, pool in enumerate(REAL_BENIGN_POOLS):
@@ -126,17 +132,35 @@ def test_shipped_retrieval_consensus_has_100_percent_false_positive_rate_on_real
         result = evaluate_retrieval_defense(
             candidates, run_id="reg", episode_id="e1", timestamp="2026-09-14T00:00:00Z",
             evidence_refs_for=lambda mid: (f"E-{mid}",),
+            divergence_fn=pre_fix_ungated,
         )
         total_flags += len(result.downrank_decisions) + len(result.escalation_decisions)
     assert total_candidates == 30
-    assert total_flags == 30  # 100% false-positive rate, confirmed on real data
+    assert total_flags == 30  # 100% false-positive rate, the historical bug, reproduced on demand
+
+
+def test_shipped_default_now_has_zero_false_positives_on_the_same_real_data():
+    """The real, measured, current state as of the 2026-09-17 fix: calling
+    `evaluate_retrieval_defense()` with NO override (i.e. exactly what every
+    real caller gets) now produces zero false positives on the same real
+    LoCoMo pools that used to be 100% false-flagged."""
+    total_flags = 0
+    for pool_idx, pool in enumerate(REAL_BENIGN_POOLS):
+        candidates = _pool_candidates(pool_idx, pool)
+        result = evaluate_retrieval_defense(
+            candidates, run_id="reg", episode_id="e1", timestamp="2026-09-14T00:00:00Z",
+            evidence_refs_for=lambda mid: (f"E-{mid}",),
+        )
+        total_flags += len(result.downrank_decisions) + len(result.escalation_decisions)
+    assert total_flags == 0
 
 
 def test_gated_retrieval_consensus_resolves_it_on_the_same_real_data():
-    """The Stage 6.9 experimental fix (never adopted as a shipped default)
-    reduces this to zero false positives on the SAME real pools -- a real,
-    generalizing confirmation, not limited to the original synthetic
-    example."""
+    """The Stage 6.9 experimental fix, now ALSO the shipped default (see test
+    above) -- this test keeps exercising the explicit `divergence_fn=`
+    override path directly, so a future change to the shipped default's
+    signature doesn't silently stop covering the calibration.py helper
+    itself."""
     total_flags = 0
     for pool_idx, pool in enumerate(REAL_BENIGN_POOLS):
         candidates = _pool_candidates(pool_idx, pool)

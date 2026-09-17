@@ -20,6 +20,15 @@ here before it can be marked PASS.
 
 ## Item 1 — D1 vs. D2 retrieval-consensus threshold calibration (from Stage 6.6, 2026-09-14)
 
+**Update (2026-09-17): the recalibration recommendation this item produced
+was adopted.** `THRESHOLD_DOWNRANK` shipped at `0.3` (was `0.6`); the
+min-cluster-size gate (a separate, related fix) also shipped as the default.
+Real, non-circular result on the reported corpus: B7 47.1% → 55.9% detection
+at an unchanged 7.3% FPR. See `DEFENSE_COMPOSITION_AND_ABLATION.md` Section 3
+and `PHASE6_RESULTS.md` Section 9 for the full account, including a related
+threshold change that was tried, found to be calibration-circular, and
+correctly NOT shipped.
+
 ### Background
 
 `RETRIEVAL_DEFENSE.md` documents a corrected finding: an earlier draft of Stage
