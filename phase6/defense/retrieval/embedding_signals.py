@@ -75,12 +75,14 @@ from dataclasses import dataclass
 from typing import Dict, Optional, Sequence, Tuple
 
 from phase6.defense.policy.records import FORBIDDEN_SIGNAL_KEYS, EvaluatorOnlyLeakageError
-from phase6.defense.retrieval.dedup_consensus import cluster_by_similarity_matrix, dampened_divergence
-from phase6.defense.retrieval.signals import DEDUP_DAMPENING_EXPONENT
+from phase6.defense.retrieval.dedup_consensus import cluster_by_similarity_matrix, dampened_divergence, has_real_majority_cluster
+from phase6.defense.retrieval.signals import DEDUP_DAMPENING_EXPONENT, MIN_CLUSTER_SIZE_TO_FLAG
 
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 NEAR_DUPLICATE_THRESHOLD_SEMANTIC = 0.85
-SEMANTIC_SIGNALS_VERSION = "retrieval-semantic-signals-1.0.0"
+# 1.1.0 (2026-09-17): adopts the same min-cluster-size gate as the lexical
+# signal's 1.2.0 update -- same real 100%-FP bug, same fix, same shared core.
+SEMANTIC_SIGNALS_VERSION = "retrieval-semantic-signals-1.1.0"
 
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
 
@@ -117,12 +119,15 @@ def pool_consensus_divergence_signals_semantic(
     *,
     near_duplicate_threshold: float = NEAR_DUPLICATE_THRESHOLD_SEMANTIC,
     dampening_exponent: float = DEDUP_DAMPENING_EXPONENT,
+    min_cluster_size_to_flag: int = MIN_CLUSTER_SIZE_TO_FLAG,
 ) -> Tuple[Tuple[Dict[str, float], ...], EmbeddingComputationCost]:
     """The semantic (D2) counterpart of `signals.pool_consensus_divergence_
     signals`, built on the SAME `dedup_consensus` clustering/dampening core,
     differing only in how pairwise similarity is computed (real cosine
     similarity of `all-MiniLM-L6-v2` sentence embeddings, instead of Jaccard
-    token overlap).
+    token overlap). Shares the same min-cluster-size gate (see `signals.py`'s
+    2026-09-17 Update) -- a fully diverse pool with no real majority cluster
+    anywhere gets every score forced to 0.0.
 
     Returns `(signals, cost)`: the same `{"consensus_divergence_score": v}`
     tuple shape `signals.py` returns, plus a real, measured
@@ -144,6 +149,12 @@ def pool_consensus_divergence_signals_semantic(
         [float(embeddings[i] @ embeddings[j]) for j in range(n)] for i in range(n)
     ]
     cluster_of = cluster_by_similarity_matrix(similarity_matrix, near_duplicate_threshold)
+
+    if not has_real_majority_cluster(cluster_of, min_cluster_size_to_flag):
+        no_majority_results = tuple({"consensus_divergence_score": 0.0} for _ in range(n))
+        cost = EmbeddingComputationCost(pool_size=n, encode_latency_seconds=encode_latency, model_name=EMBEDDING_MODEL_NAME)
+        return no_majority_results, cost
+
     divergences = dampened_divergence(similarity_matrix, cluster_of, dampening_exponent)
 
     results = []

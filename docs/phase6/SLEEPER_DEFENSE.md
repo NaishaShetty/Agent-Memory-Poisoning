@@ -93,6 +93,24 @@ literal reference to this project's real Sleeper campaign content.
 new for Stage 6.8). Frozen `phase3/`, `phase4/`, `phase5/`, `attribution/`
 verified unchanged.
 
+**Update (2026-09-17):** a further 9 tests were added in a separate file,
+`phase6/tests/test_sleeper_age_gate.py` (deliberately not merged into this
+stage's own frozen test file — see that file's own docstring), covering the
+`age_based_dormancy_gate_signal()` / `as_of_timestamp` fix described in the
+Update above. **Full Phase 6 suite as of this update: 327 passed, 0 failed.**
+
+**Further update (same day):** `imperative_write_directive_signal()`'s
+persistence-marker regex was broadened (`signals.py`'s own Update note) after
+finding it missed a real, conditional "if"/passive-"asked" framing 3 of the
+real B0-B7 ablation corpus's own 5 Sleeper-family poison scenarios use.
+`phase6/tests/test_sleeper_persistence_regex_broadening.py` (7 more tests)
+locks in both the fix and the non-regression against every existing
+true/false-positive fixture. Real, measured ablation effect: `SLEEPER_ONLY`'s
+own Sleeper-family detection rose from 40% to 100%; combined with the other
+2026-09-17 fixes, B8 (all four layers) rose from 61.8% to 70.6% overall
+poison detection, at the SAME 7.3% false-positive rate
+(`docs/phase6/PHASE6_RESULTS.md`'s own Update has the full account).
+
 ## Limitations Carried Forward
 
 1. The directive-pattern regex, like Stage 6.6's lexical consensus signal, is a
@@ -102,7 +120,13 @@ verified unchanged.
    splitting the persistence marker and response verb across separate sentences,
    or using synonyms this regex set doesn't cover) would evade it — the same
    class of limitation already tracked for the lexical retrieval signal in
-   `STAGE_6_9_QUEUE.md`, not newly discovered here.
+   `STAGE_6_9_QUEUE.md`, not newly discovered here. **Update (2026-09-17):**
+   the persistence-marker half was widened once (an "if"/passive-"asked"
+   conditional framing a real ablation scenario used but the original regex
+   missed — see the Update above), re-validated against the same original
+   true/false-positive set with none regressing. This narrows, but does not
+   remove, this limitation: it is one disclosed gap closed by direct
+   evidence, not a claim that every synonym/paraphrase gap is now covered.
 2. `evaluate_sleeper_admission()` only ever fires on content containing an
    explicit English-language directive structure — it has no mechanism for a
    payload that achieves the same effect through other means (e.g., a
@@ -113,6 +137,73 @@ verified unchanged.
    defaults, not validated against real MAMBench Sleeper campaign content —
    real calibration is Stage 6.9's job, per the same discipline as every other
    Phase 6 threshold.
+
+   **Update (2026-09-17, Phase 8.9 calibration study,
+   `phase8/detection/sleeper_threshold_calibration_study.py`):** a real attempt
+   at this calibration found a stronger, mathematical result, not merely that
+   the current 0.5/0.2 defaults happen to be imprecise. Because
+   `gated_score = directive_score × dormancy_activation_score` and
+   `dormancy_activation_score(0) == 1.0` by construction, a brand-new,
+   genuinely legitimate persistent-policy memory (structurally
+   directive-matching, e.g. a real customer-service return-policy statement)
+   scores `1.0` — strictly MORE suspicious — on its very first-ever query than
+   the real Sleeper campaign artifact scored (`0.5`) at its own real,
+   measured moment of activation (Phase 7/8's own cross-signal trial: first
+   selected at `prior_retrieval_count == 1`). Since `1.0 > 0.5`, no threshold
+   `T ∈ (0, 1]` can flag the real attack (`T ≤ 0.5`) without also flagging
+   every brand-new legitimate directive-matching memory (`1.0 ≥ T` trivially).
+   **No choice of these two threshold constants can close this gap** — the
+   false-positive risk is forced by using raw retrieval COUNT as the
+   dormancy proxy, since a memory's count is identically zero whether it was
+   created a second ago or has sat untouched for months. Closing it for real
+   would require swapping in a different real signal already available in
+   this codebase — Phase 8's `real_dormancy_window()`
+   (`phase8/detection/sleeper_dormancy_window.py`), which measures real
+   elapsed time/tasks since admission rather than raw retrieval count, and so
+   can distinguish "created seconds ago, queried immediately" (short window)
+   from "admitted long ago, never touched until now" (long window) — a real
+   architecture change to this module's retrieval-time signal composition,
+   not a threshold-value change. Not attempted here; disclosed for whoever
+   picks this up next.
+
+   **Update (2026-09-17, real fix implemented):** the age/time-since-creation
+   signal proposed above was implemented — `age_based_dormancy_gate_signal()`
+   (`phase6/defense/sleeper/signals.py`), a real elapsed-time-since-`creation_
+   timestamp` signal (Signal Contract Section 2.2, already sanctioned), and a
+   new OPTIONAL `as_of_timestamp` parameter on `evaluate_sleeper_retrieval_
+   risk()` (`phase6/defense/sleeper/sleeper_guard.py`), defaulting to `None` =
+   the exact prior behavior (every existing test in `test_sleeper_defense.py`
+   passes unmodified).
+
+   The fix is deliberately NARROWER than "multiply a third decaying factor
+   into `gated_score`": a first, naive multiplicative attempt was tried and
+   then rejected, because it was verified by direct computation to also
+   discount the real attack's own real activation point (`gated_score = 0.5`
+   at `prior_retrieval_count == 1`, per Stage 8.6) below the QUARANTINE
+   threshold — any third factor `< 1.0` applied on top of an already-exactly-
+   at-threshold score pushes it under, which would have traded the false
+   positive for a false negative on the real attack. The shipped fix instead
+   REPLACES the dormancy component only at the exact point the calibration
+   study proved collides — `prior_retrieval_count == 0` — with the real
+   age-based score, and leaves `prior_retrieval_count >= 1` (where the real
+   Sleeper campaign's own real activation actually occurs) completely
+   untouched.
+
+   **Real, measured result** (`phase6/tests/test_sleeper_age_gate.py`, 9
+   tests, all passing): a brand-new legitimate directive-matching memory
+   queried the instant it is created (`age = 0`, `n = 0`) now correctly
+   `ALLOW`s, where it previously always `QUARANTINE`d; the real poison's own
+   real activation point (`n = 1`, 2 real minutes after admission, per Stage
+   8.6's cross-signal trial) still correctly `QUARANTINE`s, byte-for-byte
+   unchanged. **Disclosed residual limitation, not a bug:** legitimate
+   directive-matching content that has genuinely sat dormant for a long real
+   span before its first-ever query is still `QUARANTINE`d — real dormancy and
+   real attack activation are structurally indistinguishable from content and
+   timing alone when both are real; this is the same disclosed boundary every
+   other Phase 6 single-heuristic signal already carries, not a new one. The
+   `as_of_timestamp` parameter is opt-in (Stage 6.10's real-ledger wiring job
+   is to actually supply it from a real clock); no existing caller is
+   affected until it does.
 4. This module does not itself read any real ledger — `prior_retrieval_count`
    and `current_security_state` must be supplied by the caller from real
    `EventRunMembershipLedger`/`GovernanceLedger` state. That wiring is Stage

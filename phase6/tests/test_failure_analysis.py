@@ -103,15 +103,18 @@ def test_resolved_cases_are_real_caught_before_shipping_or_by_design_cases():
     or deliberately designed around BEFORE it became a live risk -- not a
     case where the underlying poison/evasion problem was quietly waved away."""
     resolved = [c for c in FAILURE_CATALOG if c.is_resolved]
-    assert {c.case_id for c in resolved} == {"FC-03", "FC-11", "FC-12"}
+    # FC-02 (2026-09-17): the min-cluster-size gate was actually shipped as the
+    # default, verified to reduce the real 100%-FP LoCoMo regression to 0/30 --
+    # a real fix, not a waved-away case.
+    assert {c.case_id for c in resolved} == {"FC-02", "FC-03", "FC-11", "FC-12"}
 
 
 def test_summary_arithmetic_matches_the_real_catalog():
     summary = summarize()
     assert summary.total_cases == len(FAILURE_CATALOG)
     assert summary.resolved_cases + summary.unresolved_cases == summary.total_cases
-    assert summary.resolved_cases == 3
-    assert summary.unresolved_cases == 10
+    assert summary.resolved_cases == 4
+    assert summary.unresolved_cases == 9
 
 
 def test_summarize_rejects_empty_catalog():

@@ -61,6 +61,23 @@ requires information this signal, by the Signal Contract's own design (Stage
 6.4), does not have access to (attacker identity, corroboration from a source
 outside the candidate pool itself). This remains an open, structural limitation,
 carried forward rather than claimed solved.
+
+UPDATE (2026-09-17) -- THE MIN-CLUSTER-SIZE GATE IS NOW THE SHIPPED DEFAULT
+--------------------------------------------------------------------------------
+Stage 6.9 discovered a second, independent, real bug: a fully topically-diverse
+benign retrieval pool (every candidate its own singleton, no near-duplicate
+cluster anywhere) produced a **100% false-positive rate**, because "divergence
+from the rest of the pool" was computed even when there was no real majority to
+diverge FROM (`DEFENSE_COMPOSITION_AND_ABLATION.md`'s "Major Finding"). A fix
+(`pool_consensus_divergence_signals_with_min_cluster_gate()` in
+`phase6/evaluation/ablations/calibration.py`) was built and validated at the
+time, but was deliberately NOT adopted as the Stage 6.6 default then, pending
+explicit authorization. That authorization was given (2026-09-17); the gate is
+now merged directly into this function as `MIN_CLUSTER_SIZE_TO_FLAG` (default
+2), replacing the old, buggy always-flag behavior. Verified before shipping:
+the gate only changes output when NO cluster reaches the minimum size -- every
+case where a real majority exists (the ordinary case this signal is designed
+to catch) is computed identically to before.
 """
 
 from __future__ import annotations
@@ -69,15 +86,26 @@ import re
 from typing import Dict, Sequence, Tuple
 
 from phase6.defense.policy.records import FORBIDDEN_SIGNAL_KEYS, EvaluatorOnlyLeakageError
-from phase6.defense.retrieval.dedup_consensus import cluster_by_similarity_matrix, dampened_divergence
+from phase6.defense.retrieval.dedup_consensus import cluster_by_similarity_matrix, dampened_divergence, has_real_majority_cluster
 
 _TOKEN_PATTERN = re.compile(r"[A-Za-z0-9']+")
 
 # Uncalibrated v1 defaults (module docstring above) -- versioned via
 # SIGNALS_VERSION so a future recalibration (Stage 6.9) is traceable.
-SIGNALS_VERSION = "retrieval-signals-1.1.0"
+# 1.2.0 (2026-09-17): adopts the min-cluster-size gate as the shipped default
+# (see MIN_CLUSTER_SIZE_TO_FLAG below and the module docstring's "Update").
+SIGNALS_VERSION = "retrieval-signals-1.2.0"
 NEAR_DUPLICATE_THRESHOLD = 0.7
 DEDUP_DAMPENING_EXPONENT = 0.5  # 0.0 = no dampening (original behavior); 1.0 = full dedup
+
+# Stage 6.9's real, measured finding (docstring "Update" below): the ungated
+# mechanism produces a 100% false-positive rate on a fully topically-diverse
+# benign pool (every candidate its own singleton cluster -- no real majority
+# exists at all). Gating on "does a real majority cluster exist" closes this
+# without weakening genuine majority-vs-minority detection (verified: this
+# gate only changes behavior when NO cluster reaches this size; the divergence
+# computation itself, whenever a real majority DOES exist, is unchanged).
+MIN_CLUSTER_SIZE_TO_FLAG = 2
 
 
 def _tokenize(text: str) -> frozenset:
@@ -98,6 +126,7 @@ def pool_consensus_divergence_signals(
     *,
     near_duplicate_threshold: float = NEAR_DUPLICATE_THRESHOLD,
     dampening_exponent: float = DEDUP_DAMPENING_EXPONENT,
+    min_cluster_size_to_flag: int = MIN_CLUSTER_SIZE_TO_FLAG,
 ) -> Tuple[Dict[str, float], ...]:
     """For each candidate in `contents`, compute its dedup-weighted LEXICAL
     (Jaccard token-set) divergence against every OTHER candidate in the same
@@ -114,11 +143,25 @@ def pool_consensus_divergence_signals(
     A pool of size 0 or 1 has no "rest of pool" to compare against -- every
     candidate gets a divergence score of 0.0 (no signal, not a maximal-anomaly
     default; an isolated candidate is not evidence of anything on its own).
+
+    MIN-CLUSTER-SIZE GATE (shipped default as of 2026-09-17, see module
+    docstring's "Update"): if no cluster in the pool reaches
+    `min_cluster_size_to_flag` (default 2 -- i.e. every candidate is its own
+    singleton, no real majority exists anywhere in the pool), every
+    candidate's score is forced to 0.0 rather than the ungated mechanism's
+    meaningless-but-nonzero values in that regime. Pass `min_cluster_size_to_
+    flag=1` to recover the original, pre-2026-09-17 ungated behavior exactly
+    (kept only for `test_ablation_framework.py`'s own B0-B7 historical
+    reproduction, not recommended for new use).
     """
     tokenized = [_tokenize(text) for text in contents]
     n = len(tokenized)
     similarity_matrix = [[_jaccard_similarity(tokenized[i], tokenized[j]) for j in range(n)] for i in range(n)]
     cluster_of = cluster_by_similarity_matrix(similarity_matrix, near_duplicate_threshold)
+
+    if not has_real_majority_cluster(cluster_of, min_cluster_size_to_flag):
+        return tuple({"consensus_divergence_score": 0.0} for _ in range(n))
+
     divergences = dampened_divergence(similarity_matrix, cluster_of, dampening_exponent)
 
     results = []

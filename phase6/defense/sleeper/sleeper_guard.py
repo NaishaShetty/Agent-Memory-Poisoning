@@ -38,7 +38,7 @@ not enough alone to justify the strongest, least-reversible action).
 
 from __future__ import annotations
 
-from typing import Sequence
+from typing import Optional, Sequence
 
 from phase6.defense.policy.records import MGPDecisionRecord, build_decision
 from phase6.defense.policy.states import (
@@ -48,6 +48,7 @@ from phase6.defense.policy.states import (
     validate_transition,
 )
 from phase6.defense.sleeper.signals import (
+    age_based_dormancy_gate_signal,
     dormancy_activation_signal,
     imperative_write_directive_signal,
 )
@@ -107,6 +108,7 @@ def evaluate_sleeper_retrieval_risk(
     episode_id: str,
     timestamp: str,
     evidence_refs: Sequence[str],
+    as_of_timestamp: Optional[str] = None,
 ) -> MGPDecisionRecord:
     """Retrieval-time check: does the COMBINATION of directive-structured
     content and a first-activation-shaped retrieval pattern suggest a dormant
@@ -117,11 +119,44 @@ def evaluate_sleeper_retrieval_risk(
     `validate_transition()` is called before returning whenever the action
     would be persistent (QUARANTINE), exactly as every other Phase 6 decision
     layer does.
+
+    `as_of_timestamp` (OPTIONAL, default `None`): the real, precisely-targeted
+    fix for Phase 8.9's calibration finding (see `docs/phase6/SLEEPER_DEFENSE.md`
+    limitations item 3's Update). The collision the calibration study proved is
+    specific to `prior_retrieval_count == 0`: `dormancy_activation_signal(0)`
+    is ALWAYS exactly `1.0` by construction, so it cannot distinguish a memory
+    retrieved the instant it was created (ordinary, the common case for most
+    real memories) from one that sat genuinely dormant before its first real
+    activation -- the real Sleeper campaign's own real activation point (Phase
+    8's cross-signal trial) actually occurs at `prior_retrieval_count == 1`,
+    NOT `0`, so it is untouched by this change.
+
+    When `as_of_timestamp` is supplied AND `prior_retrieval_count == 0`, the
+    dormancy component used in `gated_score` is REPLACED by `age_based_
+    dormancy_gate_signal()` -- real elapsed time between `content_context.
+    creation_timestamp` and this retrieval -- instead of the naive, always-1.0
+    ceiling. For `prior_retrieval_count >= 1`, `as_of_timestamp` has no effect:
+    `dormancy_activation_signal()`'s existing, already-adequate decay curve is
+    used exactly as before (multiplying a further decaying age factor onto an
+    already-decayed score would push the real attack's own real activation
+    point, `gated_score == 0.5` at `n=1`, below the QUARANTINE threshold --
+    verified by direct computation before this narrower design was chosen).
+
+    When `as_of_timestamp` is omitted (the default) or `prior_retrieval_count
+    != 0`, this function's behavior is IDENTICAL to before this parameter
+    existed -- every existing caller and test is unaffected.
     """
     directive_signal = imperative_write_directive_signal(content_context)
     dormancy_signal = dormancy_activation_signal(prior_retrieval_count)
-    gated_score = directive_signal["imperative_write_directive_score"] * dormancy_signal["dormancy_activation_score"]
     signals_used = {**directive_signal, **dormancy_signal}
+
+    dormancy_component = dormancy_signal["dormancy_activation_score"]
+    if as_of_timestamp is not None and prior_retrieval_count == 0:
+        age_signal = age_based_dormancy_gate_signal(content_context.creation_timestamp, as_of_timestamp)
+        dormancy_component = age_signal["age_based_dormancy_gate_score"]
+        signals_used = {**signals_used, **age_signal}
+
+    gated_score = directive_signal["imperative_write_directive_score"] * dormancy_component
 
     if gated_score >= RETRIEVAL_THRESHOLD_QUARANTINE:
         action = QUARANTINE
@@ -140,10 +175,12 @@ def evaluate_sleeper_retrieval_risk(
         # project's own "verify before claiming correct" discipline).
         action = ALLOW
 
+    age_gate_used = as_of_timestamp is not None and prior_retrieval_count == 0
+    age_gate_note = f", age_gate_dormancy={dormancy_component:.3f}" if age_gate_used else ""
     reason = (
         f"gated_score={gated_score:.3f} ({GUARD_VERSION}); "
         f"directive={directive_signal['imperative_write_directive_score']:.1f}, "
-        f"dormancy={dormancy_signal['dormancy_activation_score']:.3f}; action={action}"
+        f"dormancy={dormancy_signal['dormancy_activation_score']:.3f}{age_gate_note}; action={action}"
     )
     return build_decision(
         candidate_memory_id=memory_id,

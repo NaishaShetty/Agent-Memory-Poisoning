@@ -307,7 +307,18 @@ class TestRealGraphitiAdapter:
 
 
 class TestRealAMemAdapter:
-    def test_first_note_is_real_zero_llm_and_second_note_is_model_dependent(self):
+    def test_first_note_is_real_zero_llm_and_second_note_runs_a_real_evolution_decision(self):
+        # Renamed 2026-09-16 (amem_real_adapter.py's own module docstring correction):
+        # this test used to assert the second note's evolution attempt is always
+        # MODEL_DEPENDENT, on the assumption Ollama is permanently unreachable in this
+        # environment. That assumption no longer holds universally (a real, reachable
+        # Ollama server became available in a later session) and real LLM sampling is
+        # not deterministic, so the second note's evolution can now genuinely SUCCEED
+        # (REAL_FOUNDATION_CONFORMANCE) or genuinely fail to produce a verdict
+        # (MODEL_DEPENDENT) from one real run to the next -- both are legitimate real
+        # outcomes of the same genuinely-executed code path. This test now checks that
+        # the evolution-decision step itself ran for real (distinct from "never
+        # attempted"), not which of the two real outcomes it happened to produce.
         adapter = RealAMemAdapter()
         init = adapter.initialize({})
         if not adapter._import_ok:
@@ -331,13 +342,22 @@ class TestRealAMemAdapter:
         assert set(retrieved.value) >= {"note-1", "note-2"}
 
         records = adapter.conformance_records()
-        model_dependent = [r for r in records if r.conformance_tag == cr.MODEL_DEPENDENT]
-        # The SECOND add (non-empty store) genuinely attempts evolution -- a real,
-        # executed, gracefully-failed LLM call, not a never-attempted one.
-        assert any(r.code_path_executed is True for r in model_dependent), (
+        # The evolution-decision record specifically (as opposed to the separate
+        # storage/embedding record every ADD_MEMORY also produces) is identified by its
+        # own native_result carrying `links`/`evolution_history` -- present regardless
+        # of which real tag (MODEL_DEPENDENT or REAL_FOUNDATION_CONFORMANCE) this run's
+        # real outcome earned.
+        evolution_records = [
+            r for r in records
+            if r.operation == "ADD_MEMORY" and r.code_path_executed is True
+            and isinstance(r.native_result, dict) and "links" in r.native_result
+        ]
+        assert evolution_records, (
             "A-mem-sys's evolution step for the second note must be a REAL, executed "
-            "(if fruitless) code path -- distinct from never having been attempted."
+            "code path -- distinct from never having been attempted -- regardless of "
+            "whether that real attempt genuinely evolved the note or not."
         )
+        assert evolution_records[0].conformance_tag in (cr.MODEL_DEPENDENT, cr.REAL_FOUNDATION_CONFORMANCE)
 
         adapter.inspect_memory("note-1")
         adapter.export_state()

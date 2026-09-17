@@ -140,6 +140,15 @@ completely misses. **This is a concrete, evidence-based recalibration
 recommendation**, not adopted automatically — it requires the same explicit
 authorization any change to a shipped default does.
 
+**Update (2026-09-17): adopted.** Explicit authorization was given;
+`THRESHOLD_DOWNRANK` is now `0.3` (the midpoint of the recommended range),
+shipped in `consensus_guard.py` 1.2.0. Measured fresh on the real REPORTED
+corpus (never touched during calibration, which used only the disjoint dev
+corpus above): B7 rises from 47.1% to 55.9% poison detection at an UNCHANGED
+7.3% false-positive rate (`PHASE6_RESULTS.md`'s own 2026-09-17 Update has the
+full account, including a related, tempting-but-circular threshold change
+that was tried, caught, and NOT shipped).
+
 **Disclosed limitation**: this dev corpus is small (4 poison / 8 benign
 instances in the sweep). This is a real, reportable calibration signal, not a
 statistically powered claim (Rule 3/4) — a larger, real campaign-scale
@@ -270,9 +279,10 @@ erode back into overlap.
 **This does not overturn Section 3's qualitative conclusion** (D2 shows no
 matched-FPR advantage over a correctly-calibrated D1; the shipped
 `THRESHOLD_DOWNRANK = 0.6` default remains far too conservative for
-lexical detection specifically) — but the exact numbers differ from
-Section 3's table, confirming those original numbers were at least partly
-corpus-specific rather than a property of the mechanism alone. Both
+lexical detection specifically — historical description; **now shipped at
+0.3, see Section 3's own 2026-09-17 Update**) — but the exact numbers differ
+from Section 3's table, confirming those original numbers were at least
+partly corpus-specific rather than a property of the mechanism alone. Both
 sweeps remain small (4 poison / 8 benign instances), so neither table
 should be read as a statistically powered claim (Rule 3/4) — this
 correction narrows one validity threat (calibration circularity), it does

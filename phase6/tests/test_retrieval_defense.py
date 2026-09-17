@@ -134,6 +134,19 @@ def test_benign_uniform_pool_all_eligible_no_penalty():
 
 
 def test_lone_outlier_downranked_not_excluded():
+    """UPDATE (2026-09-17): `THRESHOLD_DOWNRANK` was recalibrated 0.6 -> 0.3
+    (a real, dev-corpus-validated fix -- see `consensus_guard.py`'s own
+    Update note). At the new, lower threshold, the two majority-cluster
+    members' own dampened divergence from the outlier (~0.56-0.60) now ALSO
+    clears the bar -- not just the outlier's (~0.85). This is the real,
+    disclosed cost the dev-corpus sweep already measured (12.5% FPR on dev
+    data) in exchange for real detection gains (real held-out corpus.py: B7
+    47.1%->55.9%, B8 52.9%->61.8%, at an UNCHANGED 7.3% benign FPR -- the
+    real LoCoMo benign-pool regression, `test_benign_regression.py`, still
+    shows 0/30, since a fully diverse pool never even reaches this branch).
+    All three candidates here are still only DOWNRANKed (query-local, never
+    excluded or persisted), consistent with the outlier's own original
+    guarantee."""
     candidates = [
         _candidate("MEM-1", "Sarah went to the store and bought apples today"),
         _candidate("MEM-2", "Sarah went to the market and bought apples today"),
@@ -146,9 +159,13 @@ def test_lone_outlier_downranked_not_excluded():
     assert outlier.adjusted_blended_score < next(
         c for c in candidates if c.memory_id == "MEM-OUTLIER"
     ).raw_blended_score
-    assert len(result.downrank_decisions) == 1
-    assert result.downrank_decisions[0].candidate_memory_id == "MEM-OUTLIER"
-    assert result.downrank_decisions[0].resulting_state is None  # query-local only
+    # The outlier is still the MOST divergent, and still just a query-local
+    # downrank, never excluded or persisted -- the original guarantee this
+    # test exists to check.
+    assert all(d.resulting_state is None for d in result.downrank_decisions)
+    outlier_decision = next(d for d in result.downrank_decisions if d.candidate_memory_id == "MEM-OUTLIER")
+    assert outlier_decision.resulting_state is None
+    assert outlier.consensus_divergence_score == max(c.consensus_divergence_score for c in result.adjusted_candidates)
 
 
 _PLANTED_NEAR_DUPLICATE_POISON = [
@@ -207,7 +224,15 @@ def test_paraphrased_coordinated_poison_still_fully_evades_dedup():
     NEAR_DUPLICATE_THRESHOLD never clusters, so dampening never engages --
     this is exactly as exploitable as the pre-fix mechanism. This test
     exists specifically so this boundary cannot be silently forgotten or
-    later miscast as "solved" by the dedup fix above."""
+    later miscast as "solved" by the dedup fix above.
+
+    UPDATE (2026-09-17): with the min-cluster-size gate now shipped as the
+    default, this exact pool (poison never clusters with itself either, so
+    all 4 candidates are singletons) triggers the gate too -- the truth is no
+    longer WRONGLY penalized for the poison's evasion (see the new test
+    below). The evasion itself (poison never being flagged) is unchanged and
+    still disclosed as open; `min_cluster_size_to_flag=1` reproduces the
+    historical pre-gate behavior this test originally measured."""
     paraphrased_poison = [
         "The deployment passed the safety review and was cleared for release",
         "Our safety review confirmed the deployment was cleared for release",
@@ -215,7 +240,7 @@ def test_paraphrased_coordinated_poison_still_fully_evades_dedup():
     ]
     lone_truth_unrelated_topic = "The database migration caused unexpected downtime for several hours"
     contents = paraphrased_poison + [lone_truth_unrelated_topic]
-    signals = pool_consensus_divergence_signals(contents)
+    signals = pool_consensus_divergence_signals(contents, min_cluster_size_to_flag=1)
     poison_divergences = [s["consensus_divergence_score"] for s in signals[:3]]
     truth_divergence = signals[3]["consensus_divergence_score"]
     assert truth_divergence > max(poison_divergences), (
@@ -224,6 +249,24 @@ def test_paraphrased_coordinated_poison_still_fully_evades_dedup():
         "accidentally clustered; the LIMITATION, not the mitigation, is what "
         "this test verifies"
     )
+
+
+def test_shipped_default_no_longer_misflags_truth_for_this_evasion():
+    """The real, positive side-effect of shipping the min-cluster-size gate:
+    since NEITHER the poison nor the truth clusters with anything here (every
+    candidate is a singleton), the shipped default now correctly recognizes
+    no real majority exists and stops singling out the truth. The poison
+    still isn't caught (unchanged, still disclosed as open) -- but an
+    innocent, unrelated fact is no longer punished for it."""
+    paraphrased_poison = [
+        "The deployment passed the safety review and was cleared for release",
+        "Our safety review confirmed the deployment was cleared for release",
+        "The release was cleared after the deployment passed its safety review",
+    ]
+    lone_truth_unrelated_topic = "The database migration caused unexpected downtime for several hours"
+    contents = paraphrased_poison + [lone_truth_unrelated_topic]
+    signals = pool_consensus_divergence_signals(contents)  # shipped default
+    assert all(s["consensus_divergence_score"] == 0.0 for s in signals)
 
 
 def test_already_quarantined_candidate_excluded_no_new_decision():

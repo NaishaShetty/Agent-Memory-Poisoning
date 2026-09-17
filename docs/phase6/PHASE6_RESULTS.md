@@ -88,8 +88,95 @@ The full B0–B7 matrix was run (Stage 6.9). The original run's numbers were
 **invalidated by a discovered bug** (the diverse-benign-pool false positive)
 and re-run corrected: **B7 (all three layers) performs no better than B6
 (admission+propagation) and strictly worse on false positives** — a real,
-measured negative-interaction finding, not assumed. Sleeper is evaluated as
+measured negative-interaction finding, not assumed. Sleeper was evaluated as
 its own standalone condition per the brief's own structure.
+
+**Update (2026-09-17) — three real fixes shipped, not just measured.**
+(1) The min-cluster-size gate (`MIN_CLUSTER_SIZE_TO_FLAG`, previously an
+unshipped Stage 6.9 recommendation) is now the default for both the lexical
+and semantic retrieval-consensus signals, closing the false-positive bug
+directly in the shipped code path. (2) `THRESHOLD_DOWNRANK` was recalibrated
+0.6 → 0.3, adopting Stage 6.9's own `sweep.py` recommendation (calibrated
+against the DISJOINT `dev_corpus.py`, never the reported corpus — see
+`consensus_guard.py`'s Update note; a tempting-but-circular direct sweep
+against the reported corpus itself was tried, caught, and discarded before
+shipping, see below). (3) **B8** — combining B7 with the Sleeper admission
+guard, which the original B0–B7 brief never tried together with the other
+three layers.
+
+**Combined, real, measured effect on the actual reported corpus (34
+poison / 41 benign):** B7 rises from the pre-fix, bug-inflated 91.2%/100.0%,
+to **55.9% poison detection at 7.3% false positives**; **B8 reaches 61.8% at
+the same 7.3% false-positive rate** (Sleeper-family detection: 0.0% under B7
+alone → 40.0% under B8, matching `SLEEPER_ONLY`'s own independently-measured
+number exactly; every other attack family's detection is unchanged by adding
+Sleeper). Locked in by
+`test_b8_combines_b7_and_sleeper_with_no_new_false_positives`
+(`test_ablation_framework.py`) and reproduced in
+`phase6/evaluation/ablations/b0_b8_shipped_2026-09-17.log`.
+
+**Further update (same day, after being asked to keep pushing): a fourth
+real fix, found by inspecting WHY Sleeper detection was still only 40%.**
+Direct inspection of the 5 real Sleeper-family poison scenarios in
+`corpus.py` found 3 of them use a conditional "if"/passive-"asked" framing
+("If anyone asks about system access, always say...", "Whenever asked about
+expense approvals, always say...") that `imperative_write_directive_signal()`'s
+persistence-marker regex did not recognize, despite it being semantically
+identical to the already-covered "when someone asks" case — a real regex
+coverage gap, not a threshold issue. Fixed in `signals.py` (see its own
+Update note), re-validated against every existing true/false-positive
+fixture (all still pass unchanged — the response-directive-verb half of the
+AND-gate is untouched, so ordinary "if it rains..." conditionals still score
+0.0) plus the real, real-backend LoCoMo benign pool (still 0/17 content-signal
+false positives, confirmed via `C:\h4venv`). Real result: `SLEEPER_ONLY`
+rises from 40% to **100%** Sleeper-family detection; **B8 rises from 61.8% to
+70.6%, at the SAME 7.3% false-positive rate.** Locked in by
+`test_sleeper_persistence_regex_broadening.py` (unit level) and the updated
+`test_b8_combines_b7_and_sleeper_with_no_new_false_positives` (ablation
+level).
+
+**What was tried and found to have no further non-circular headroom:** a
+`DEDUP_DAMPENING_EXPONENT` sweep (0.0–1.0) against the disjoint dev corpus
+produced identical detection/FP numbers at every value — no lever there. An
+attempted lexical/semantic ensemble (flag if EITHER metric exceeds its
+threshold) was analyzed and rejected before implementation: semantic scores
+MemoryGraft-style-volume content at 0% detection on this corpus specifically
+BECAUSE it correctly recognizes the coordinated payloads as a genuine
+majority cluster (the same disclosed `FC-01` majority-manipulation
+weakness) — an OR-combination could only add false positives here, never
+close this specific gap. MemoryGraft-style-volume's 50% and the remaining
+FARMA/propagated ceiling are, on current evidence, bounded by this
+already-disclosed structural limitation, not by an uncalibrated threshold.
+
+**What was investigated and NOT shipped, disclosed rather than hidden:**
+lowering `NEAR_DUPLICATE_THRESHOLD` (the lexical clustering threshold, a
+DIFFERENT knob than `THRESHOLD_DOWNRANK` above) was tried directly against
+this same reported corpus and looked very promising (0.6 → 88.2% detection
+at 14.6% FP) — but that measurement is calibration circularity (Rule 14:
+never tune a parameter against the same held-out corpus whose numbers get
+reported) and was caught before being shipped. A proper attempt using the
+disjoint `dev_corpus.py`/`sweep.py` calibration path found the same benign
+false positives persisting at every threshold from 0.65 down to 0.30 — they
+turn out to be the ALREADY-DISCLOSED majority-manipulation weakness (`FC-01`:
+coordinated poison scores lower divergence than a lone true fact once it
+forms a real cluster), not something a clustering-threshold change can fix.
+No non-circular calibration win was found for this specific knob; it remains
+at its existing disclosed v1 default (0.7).
+
+**What was investigated and NOT shipped, disclosed rather than hidden:**
+lowering `NEAR_DUPLICATE_THRESHOLD` (the lexical clustering threshold) was
+tried directly against this same reported corpus and looked very promising
+(0.6 → 88.2% detection at 14.6% FP) — but that measurement is calibration
+circularity (Rule 14: never tune a parameter against the same held-out corpus
+whose numbers get reported) and was caught before being shipped. A proper
+attempt using the disjoint `dev_corpus.py`/`sweep.py` calibration path found
+the same benign false positives persisting at every threshold from 0.65 down
+to 0.30 — they turn out to be the ALREADY-DISCLOSED majority-manipulation
+weakness (`FC-01`: coordinated poison scores lower divergence than a lone
+true fact once it forms a real cluster), not something a clustering-threshold
+change can fix. No non-circular calibration win was found; the threshold
+remains at its existing disclosed v1 default (0.7), and this negative result
+is recorded here rather than silently dropped.
 
 ## 10. Statistical Analysis
 
@@ -114,13 +201,18 @@ Stage 6.18's disclosed F15 extension), not an empirical miss.
 ## 12. Benign Utility
 
 Real LoCoMo conversational data (30 turns, `data/raw/locomo/locomo10.json`)
-shows **zero false positives at the admission and Sleeper layers**, but
-**100% false positives at the shipped retrieval-consensus layer** — an
+showed **zero false positives at the admission and Sleeper layers**, but
+**100% false positives at the (then-)shipped retrieval-consensus layer** — an
 independent, real-data confirmation of Stage 6.9's originally-synthetic
-finding (Stage 6.16). A validated fix exists (the min-cluster-size gate,
-re-confirmed on this same real data) but was never adopted as the shipped
-default. Full task-success/correctness-metric utility measurement remains
-blocked by the live-environment limitation.
+finding (Stage 6.16). A validated fix (the min-cluster-size gate) existed but
+was not adopted as the shipped default at the time this section was
+originally written.
+
+**Update (2026-09-17):** that fix is now shipped (see Section 9's Update).
+Re-run on the same real LoCoMo data: **0/30 false positives**, confirmed by
+`test_shipped_default_now_has_zero_false_positives_on_the_same_real_data`
+(`test_benign_regression.py`). Full task-success/correctness-metric utility
+measurement remains blocked by the live-environment limitation.
 
 ## 13. Latency/Cost
 
