@@ -10,16 +10,24 @@ this synthetic single-pass corpus does not model) -- disclosed here and in
 
 from __future__ import annotations
 
+from phase6.defense.admission.reasoning_guard import compute_signals as admission_signals
 from phase6.defense.orchestration.pipeline import (
     B0_TO_B7,
     B8_ALL_FOUR,
     SLEEPER_ONLY,
     DefenseConfiguration,
     IllegalTransitionError,
+    MemoryOutcome,
     compute_metrics,
     evaluate_pool,
 )
+from phase6.defense.propagation.signals import lineage_taint_signal
 from phase6.defense.retrieval.consensus_guard import RetrievalCandidate, evaluate_retrieval_defense
+from phase6.defense.retrieval.signals import pool_consensus_divergence_signals
+from phase6.defense.risk.risk_action import action_for_risk_estimate
+from phase6.defense.risk.risk_score import GROUPED_GATED, compute_memory_risk_score
+from phase6.defense.signals.contract import build_signal_context
+from phase6.defense.sleeper.signals import imperative_write_directive_signal
 from phase6.evaluation.ablations.calibration import pool_consensus_divergence_signals_with_min_cluster_gate
 from phase6.evaluation.ablations.corpus import all_pools
 
@@ -140,6 +148,86 @@ def run_retrieval_gated_comparison():
     return compute_metrics(outcomes, "B2-gated")
 
 
+def _b9_signal_context(scenario):
+    return build_signal_context(
+        memory_id=scenario.scenario_id, content_text=scenario.content_text,
+        content_type="CONVERSATIONAL_FACT", memory_type=scenario.memory_type,
+        parent_ids=scenario.parent_ids, lifecycle_state="ACTIVE",
+        creation_timestamp="2026-09-14T00:00:00Z",
+    )
+
+
+def run_b9_risk_composed():
+    """Phase 10 plan Section 10.5 -- the real B9 "risk-composed" ablation
+    configuration: instead of B8's four independent guards each voting a
+    discrete action and `combined_action()` taking the max severity, every
+    memory's REAL signals across all four guard families (the SAME signal
+    functions B8 already calls -- no new signal invented) are combined into
+    one `RiskEstimate` (Stage 10.1's `compute_memory_risk_score()`,
+    `GROUPED_GATED` rule) and routed through Stage 10.2's
+    `action_for_risk_estimate()` decision surface.
+
+    SIGNALS SUPPLIED, AND WHY -- mirrors this driver's own disclosed B0-B8
+    scope exactly (module docstring: "Only the ADMISSION-side Sleeper defense
+    is included... the retrieval-risk layer needs a real, multi-query
+    retrieval-history simulation this synthetic single-pass corpus does not
+    model"):
+      - admission's five content signals (per-memory, always available)
+      - retrieval's `consensus_divergence_score` (pool-level, same call B2/
+        B4/B5/B7/B8 already make)
+      - propagation's `lineage_taint_score` (only when the scenario has real
+        ancestors -- `lineage_taint_signal()` itself returns 0.0 with none)
+      - sleeper's `imperative_write_directive_score`, PLUS
+        `dormancy_activation_score=1.0`. The 1.0 is not invented: this
+        corpus models a single ADMISSION event with no retrieval history yet
+        (exactly what B0-B8's own `evaluate_sleeper_admission()` call
+        assumes for every scenario here), and `dormancy_activation_signal()`'s
+        own real, documented formula gives EXACTLY 1.0 at
+        `prior_retrieval_count=0` -- the real, legitimate value for "this
+        content has never been retrieved," not a synthetic stand-in.
+
+    Same per-(config, pool) `IllegalTransitionError` exclusion discipline as
+    `run_all()` -- a pool whose combined risk-driven action is illegal from
+    its scenario's `current_security_state` is excluded from B9's metrics and
+    reported, never silently absorbed as a miss or crashing the whole run.
+    """
+    pools = all_pools()
+    outcomes = []
+    exclusions = []
+    for pool in pools:
+        contents = [m.content_text for m in pool.memories]
+        divergence = pool_consensus_divergence_signals(contents)
+        pool_outcomes = []
+        try:
+            for m, div in zip(pool.memories, divergence):
+                ctx = _b9_signal_context(m)
+                signals = {
+                    **admission_signals(ctx),
+                    **div,
+                    **imperative_write_directive_signal(ctx),
+                    "dormancy_activation_score": 1.0,
+                }
+                if m.ancestors:
+                    signals.update(lineage_taint_signal(m.content_text, m.ancestors))
+                estimate = compute_memory_risk_score(m.scenario_id, signals, rule=GROUPED_GATED)
+                action = action_for_risk_estimate(
+                    estimate, current_security_state=m.current_security_state
+                )
+                pool_outcomes.append(
+                    MemoryOutcome(
+                        scenario_id=m.scenario_id, admission_action=None, retrieval_action=None,
+                        propagation_action=None, sleeper_action=None, combined_action=action,
+                        is_poison_ground_truth=m.is_poison_ground_truth,
+                        attack_family_ground_truth=m.attack_family_ground_truth,
+                    )
+                )
+        except IllegalTransitionError as exc:
+            exclusions.append(IllegalTransitionExclusion("B9", pool.pool_id, str(exc)))
+            continue
+        outcomes.extend(pool_outcomes)
+    return compute_metrics(outcomes, "B9"), exclusions
+
+
 def print_report(results, exclusions=()):
     header = f"{'Config':8} {'PoisonDetect':13} {'BenignFPR':10} {'n_poison':9} {'n_benign':9}"
     print(header)
@@ -162,4 +250,9 @@ if __name__ == "__main__":
     print_report(*run_all(ungated_configs()))
     print()
     print("=== SHIPPED (2026-09-17: min-cluster-size gate is now the default; B8 = all four layers) ===")
-    print_report(*run_all())
+    b0_b8_results, b0_b8_exclusions = run_all()
+    print_report(b0_b8_results, b0_b8_exclusions)
+    print()
+    print("=== Phase 10 plan Section 10.5: B9 (risk-composed) vs B8 (max-severity), same 75-scenario corpus ===")
+    b9_metrics, b9_exclusions = run_b9_risk_composed()
+    print_report([b9_metrics], b9_exclusions)

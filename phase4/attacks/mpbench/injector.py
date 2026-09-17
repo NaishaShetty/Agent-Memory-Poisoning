@@ -56,7 +56,7 @@ class MPBenchPCFIInjector:
         metadata = dict(extra_metadata or {})
         metadata.update({
             "attacker_originated": True,
-            "attack_id": "mpbench_pcfi",
+            "attack_id": "mpbench",  # 2026-09-17: matches MPBenchPCFIAdapter.attack_id -- see its own Update note
             "retrieval_query": scenario.retrieval_query,
             "adversarial_goal": scenario.adversarial_goal,
         })

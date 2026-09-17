@@ -18,7 +18,14 @@ from phase4.shared.adapter import AttackAdapter
 
 
 class MPBenchPCFIAdapter(AttackAdapter):
-    attack_id = "mpbench_pcfi"
+    # Update (2026-09-17): was "mpbench_pcfi" -- every real Phase 5+ wiring call site
+    # (live_attack_runs.py, attack_integration.py, attack_study.py, mpbench_study.py)
+    # already independently used the literal "mpbench" when recording real events, a
+    # real, pre-existing inconsistency found during Phase 9 validation and fixed here
+    # to match what every later phase already assumes, rather than the reverse (a much
+    # larger change touching 15+ already-frozen files across phases 5/6/7/9 instead of
+    # this one class attribute, its one real metadata write, and its one frozen test).
+    attack_id = "mpbench"
 
     def validate(self, request: Any) -> bool:
         # C2 channel (system-prompt-driven write): directly maps onto
