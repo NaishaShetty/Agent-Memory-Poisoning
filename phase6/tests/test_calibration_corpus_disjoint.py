@@ -39,6 +39,13 @@ def _all_calibration_content() -> set:
     texts = set()
     for contents, _labels in _dev_pools().values():
         texts.update(contents)
+    for m in dev_corpus.dev_admission_pool().memories:
+        texts.add(m.content_text)
+    for m in dev_corpus.dev_sleeper_pool().memories:
+        texts.add(m.content_text)
+    for _scenario_id, descendant_content, ancestors, _label in dev_corpus.dev_propagation_scenarios():
+        texts.add(descendant_content)
+        texts.update(a.content_text for a in ancestors)
     return texts
 
 
@@ -48,6 +55,12 @@ def _all_calibration_scenario_ids() -> set:
         ids.add(m.scenario_id)
     for m in dev_corpus.dev_paraphrased_pool().memories:
         ids.add(m.scenario_id)
+    for m in dev_corpus.dev_admission_pool().memories:
+        ids.add(m.scenario_id)
+    for m in dev_corpus.dev_sleeper_pool().memories:
+        ids.add(m.scenario_id)
+    for scenario_id, _descendant_content, _ancestors, _label in dev_corpus.dev_propagation_scenarios():
+        ids.add(scenario_id)
     return ids
 
 

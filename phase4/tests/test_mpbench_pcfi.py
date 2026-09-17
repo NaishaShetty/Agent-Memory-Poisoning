@@ -48,7 +48,10 @@ class MPBenchPCFIInjectorTests(unittest.TestCase):
         self.assertEqual(stored.content["content_type"], CONTENT_TYPE_GENERAL_FACT)
         self.assertNotIn("mpbench", stored.content["content_type"].lower())
         self.assertNotIn("attack_label", stored.metadata)
-        self.assertEqual(stored.metadata["attack_id"], "mpbench_pcfi")
+        # Update (2026-09-17): was "mpbench_pcfi" -- fixed to match every real Phase 5+
+        # wiring call site, which already independently used "mpbench" (see
+        # MPBenchPCFIAdapter.attack_id's own Update note).
+        self.assertEqual(stored.metadata["attack_id"], "mpbench")
 
     def test_inject_many_writes_all_three_scenarios(self) -> None:
         results = self.injector.inject_many(PCFI_SCENARIOS)
