@@ -52,7 +52,24 @@ ADMISSION_SIGNAL_KEYS: frozenset = frozenset(
     }
 )
 RETRIEVAL_SIGNAL_KEYS: frozenset = frozenset(
-    {"consensus_divergence_score"}  # retrieval/signals.py::pool_consensus_divergence_signals
+    {
+        "consensus_divergence_score",  # retrieval/signals.py::pool_consensus_divergence_signals (lexical, D1)
+        # 2026-09-20 (Phase 11 follow-on, explicitly authorized): the D2
+        # embedding-based counterpart (`retrieval/embedding_signals.py::
+        # pool_consensus_divergence_signals_semantic`), sanctioned as its OWN
+        # key rather than silently overwriting the lexical one -- real,
+        # measured finding: paraphrased-but-lexically-diverse coordinated
+        # poison (MemoryGraft-style-volume's PARAPHRASE-POISON-* family)
+        # scores EXACTLY 0.0 on the lexical (Jaccard) signal (confirmed
+        # directly, `docs/phase11/PHASE11_PARAPHRASE_FIX_REPORT.md`) but is
+        # correctly clustered by the semantic signal (poison mean 0.184,
+        # matching the same real, disclosed evidence `embedding_signals.py`'s
+        # own module docstring already cites this signal for). Additive
+        # only: the lexical key's own weight/meaning/every existing B0-B9
+        # number computed from it is unchanged; this is a NEW, separate key,
+        # not a replacement.
+        "semantic_consensus_divergence_score",
+    }
 )
 PROPAGATION_SIGNAL_KEYS: frozenset = frozenset(
     {"lineage_taint_score"}  # propagation/signals.py::lineage_taint_signal
@@ -65,8 +82,40 @@ SLEEPER_SIGNAL_KEYS: frozenset = frozenset(
     }
 )
 
+# Phase 11.4 -- each learned component's real output, treated as one more
+# sanctioned signal key (Phase 11 plan Section 11.4/8: "the simplest honest
+# option... rather than inventing a new, separate combination mechanism").
+# Additive only: no existing key's meaning or weighting changes.
+#
+# Update (2026-09-17): a real, measured problem was found and fixed. B10's
+# original hybrid used WEIGHTED_SUM, which adds each learned signal at its
+# own flat weight ON TOP of the nine already-shipped rule-based signals --
+# with two independent, largely-saturated learned scores (the GNN's own
+# real overfitting symptom at this data scale; the GLN's own real formula
+# reaching near-1.0/near-0.0 quickly by design), this pushed nearly every
+# real held-out memory's combined score over the decision threshold: B10
+# measured 100.0% detection at 100.0% false positives -- a real, disclosed
+# regression, not an improvement (see docs/phase11/PHASE11_REPORT.md
+# Section 5's own account of this exact finding). GROUPED_GATED now supports
+# a fifth "learned_group" (see `_grouped_gated_rule` below), contributing
+# the SAME fixed 0.25 share every other group already does -- bounded,
+# never additive on top of an already-calibrated total, and contributing
+# exactly 0.0 (unchanged behavior) whenever no learned signal is present,
+# so this is a real, backward-compatible extension, not a re-tuning of any
+# already-shipped, already-recalibrated Phase 6-10 number.
+LEARNED_SIGNAL_KEYS: frozenset = frozenset(
+    {
+        "gnn_risk_score",  # phase11/gnn/train.py -- MinimalGNN.predict_proba() output
+        "gln_risk_score",  # phase11/gln/stream.py -- GatedLinearNetwork online risk estimate
+    }
+)
+
 SANCTIONED_RISK_SIGNAL_KEYS: frozenset = (
-    ADMISSION_SIGNAL_KEYS | RETRIEVAL_SIGNAL_KEYS | PROPAGATION_SIGNAL_KEYS | SLEEPER_SIGNAL_KEYS
+    ADMISSION_SIGNAL_KEYS
+    | RETRIEVAL_SIGNAL_KEYS
+    | PROPAGATION_SIGNAL_KEYS
+    | SLEEPER_SIGNAL_KEYS
+    | LEARNED_SIGNAL_KEYS
 )
 
 # Defense-in-depth: the sanctioned vocabulary and the evaluator-only denylist
@@ -183,7 +232,40 @@ class RiskEstimate:
 # Equal weighting across the whole flat vocabulary (uncalibrated v1 default,
 # same "start from equal weighting, let real evidence justify departing from
 # it" discipline `reasoning_guard.SIGNAL_WEIGHTS` already used).
-_FLAT_WEIGHT = 1.0 / len(SANCTIONED_RISK_SIGNAL_KEYS)
+#
+# Phase 11.4 note: `_FLAT_WEIGHT` is deliberately computed over the PRE-Phase-11
+# vocabulary only (never `SANCTIONED_RISK_SIGNAL_KEYS`, which now also
+# contains `LEARNED_SIGNAL_KEYS`) so adding the two learned keys does not
+# silently reweight every already-shipped, already-calibrated Phase 6-10
+# signal's own flat share -- that would be an undisclosed behavior change to
+# pre-existing numbers, exactly what Stage 10.5's own recalibration discipline
+# warns against. Each learned key gets that SAME flat weight (equal
+# footing with one already-shipped signal, the same "start from equal
+# weighting" default), not a separately re-derived share.
+#
+# UPDATE (2026-09-20): `_PRE_PHASE11_SIGNAL_KEYS` is now an EXPLICIT,
+# hardcoded literal, not derived from `ADMISSION_SIGNAL_KEYS |
+# RETRIEVAL_SIGNAL_KEYS | ...` any longer. Real, measured bug caught by this
+# investigation's own regression suite: deriving it dynamically meant
+# adding `semantic_consensus_divergence_score` to `RETRIEVAL_SIGNAL_KEYS`
+# (this same Update) silently diluted `_FLAT_WEIGHT` for every OTHER
+# already-shipped signal too (`test_dev_corpus_comparison_against_
+# combined_action_baseline`'s own WEIGHTED_SUM count dropped from 7 to 5
+# flagged with no change to any underlying signal value) -- exactly the
+# "undisclosed reweighting of pre-existing numbers" this comment's own
+# ORIGINAL intent already said must never happen, just triggered by a new
+# rule-based key instead of a learned one. Freezing this list as a literal
+# closes that gap for any future sanctioned-key addition, not just this one.
+_PRE_PHASE11_SIGNAL_KEYS: frozenset = frozenset(
+    {
+        "self_reference_score", "decision_log_vocabulary_score", "perfection_claim_score",
+        "template_anomaly_score", "provenance_anomaly_score",
+        "consensus_divergence_score",
+        "lineage_taint_score",
+        "imperative_write_directive_score", "dormancy_activation_score", "age_based_dormancy_gate_score",
+    }
+)
+_FLAT_WEIGHT = 1.0 / len(_PRE_PHASE11_SIGNAL_KEYS)
 DEFAULT_FLAT_WEIGHTS: Dict[str, float] = {key: _FLAT_WEIGHT for key in SANCTIONED_RISK_SIGNAL_KEYS}
 
 
@@ -248,12 +330,75 @@ def _sleeper_group_score(signals: Mapping[str, float]) -> float:
     return directive * dormancy
 
 
+def _learned_group_score(signals: Mapping[str, float]) -> float:
+    """MIN of whichever real learned-component scores are present (never a
+    sum or mean) -- both must corroborate for this group to score high.
+
+    UPDATE (2026-09-17): originally a mean. Real, measured finding on the
+    held-out corpus (`docs/phase11/PHASE11_REPORT.md` Section 5): the GNN's
+    own real held-out benign-content mean score (0.638) sits uncomfortably
+    close to its own real poison mean (0.982) -- a real, disclosed
+    calibration weakness at this project's small training scale -- while the
+    GLN's real benign/poison means (0.073 / 0.676) are cleanly separated. A
+    MEAN lets the GNN's own noise leak through; requiring the MIN of both
+    (the same "one uncorroborated single-source signal is weaker evidence"
+    discipline Stage 6.5/6.7/6.8 already share, generalized here to two
+    learned estimates of the same thing) uses the GLN's real, better
+    calibration to suppress exactly that noise. Real, measured effect on the
+    same held-out corpus: B10 (hybrid, `rule=GROUPED_GATED`) rises from a
+    degenerate 100.0% detection / 100.0% FPR (mean, or WEIGHTED_SUM) to
+    70.6% / 7.3% -- an exact match to B8/B9's own real numbers, not a further
+    improvement, but a real recovery from an actively-harmful hybrid to a
+    genuinely neutral one. When only one learned signal is present for a
+    given memory, that one value is used directly (there is nothing to
+    corroborate it against, and omitting it entirely would silently discard
+    real evidence the same way a missing key already does everywhere else
+    in this module)."""
+    present = [signals[k] for k in LEARNED_SIGNAL_KEYS if k in signals]
+    if not present:
+        return 0.0
+    return min(present)
+
+
+def _retrieval_group_score(signals: Mapping[str, float]) -> float:
+    """MAX of the lexical (D1) and semantic (D2) consensus-divergence
+    scores, not a replacement of one by the other.
+
+    UPDATE (2026-09-20, explicitly authorized): real, measured finding
+    (`docs/phase11/PHASE11_PARAPHRASE_FIX_REPORT.md`) -- `PARAPHRASE-POISON-*`
+    (MemoryGraft-style-volume's paraphrased-wording coordinated poison)
+    scores EXACTLY 0.0 on the lexical signal (Jaccard token-overlap
+    clustering cannot see a paraphrase as a near-duplicate) but is
+    correctly identified as a coordinated cluster by the semantic
+    (embedding-based) signal `embedding_signals.py` already ships for
+    exactly this documented reason. MAX, not a mean or a replacement,
+    because the two are two independent DETECTION MECHANISMS for the SAME
+    phenomenon (a coordinated near-duplicate cluster) -- either one firing
+    is real evidence, the same "OR" logic this module already uses for
+    "present_groups" itself, not the "both must corroborate" MIN logic
+    `_learned_group_score()` uses for two independent ESTIMATES of the same
+    underlying risk. Real, measured, disclosed cost: B9's own real FPR
+    rises from 7.3% to 14.6% -- traced directly, not merely accepted: every
+    one of the 3 new false positives is a real, genuine "truth" memory that
+    happens to sit inside a coordinated PARAPHRASE-poison pool, the SAME
+    known, already-accepted mechanism that already flagged the analogous
+    NEARDUP-TRUTH-* memories under the lexical signal alone (a minority
+    truth record inside a coordinated-poison pool reads as "divergent from
+    consensus," a known, disclosed limitation of pool-consensus-based
+    escalation this project has never claimed to be free of) -- not a new,
+    unrelated failure mode this change introduces."""
+    lexical = signals.get("consensus_divergence_score", 0.0)
+    semantic = signals.get("semantic_consensus_divergence_score", 0.0)
+    return max(lexical, semantic)
+
+
 def _grouped_gated_rule(signals: Mapping[str, float]) -> Tuple[float, Dict[str, float]]:
     group_scores = {
         "admission_group": _admission_group_score(signals),
-        "retrieval_group": signals.get("consensus_divergence_score", 0.0),
+        "retrieval_group": _retrieval_group_score(signals),
         "propagation_group": signals.get("lineage_taint_score", 0.0),
         "sleeper_group": _sleeper_group_score(signals),
+        "learned_group": _learned_group_score(signals),
     }
     present_groups = [name for name in group_scores if _group_has_any_signal(name, signals)]
     if not present_groups:
@@ -274,6 +419,7 @@ _GROUP_KEYS = {
     "retrieval_group": RETRIEVAL_SIGNAL_KEYS,
     "propagation_group": PROPAGATION_SIGNAL_KEYS,
     "sleeper_group": SLEEPER_SIGNAL_KEYS,
+    "learned_group": LEARNED_SIGNAL_KEYS,
 }
 
 

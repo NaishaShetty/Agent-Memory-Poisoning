@@ -52,30 +52,40 @@ from phase6.evaluation.ablations.run_b0_b7 import run_all, run_b9_risk_composed
 
 
 def test_b9_real_measured_numbers_locked_in():
+    """UPDATE (2026-09-20, explicitly authorized): re-measured after
+    `run_b9_risk_composed()` was given `semantic_consensus_divergence_score`
+    alongside the existing lexical signal (`_retrieval_group_score()`'s own
+    Update note, `phase6/defense/risk/risk_score.py`) -- real, measured
+    result: detection rises from 70.6% to 100.0%, FPR from 7.3% to 14.6%.
+    See `docs/phase11/PHASE11_PARAPHRASE_FIX_REPORT.md` for the full,
+    disclosed account of why this is a real, traced improvement (closes the
+    PARAPHRASE-POISON blind spot) and not merely a bigger number."""
     metrics, exclusions = run_b9_risk_composed()
     assert exclusions == []  # every risk-driven action was a legal MGP transition
     assert metrics.n_poison == 34
     assert metrics.n_benign == 41
-    assert round(metrics.poison_detection_rate, 3) == 0.706
-    assert round(metrics.benign_false_positive_rate, 3) == 0.073
+    assert round(metrics.poison_detection_rate, 3) == 1.0
+    assert round(metrics.benign_false_positive_rate, 3) == 0.146
 
 
-def test_b9_now_matches_b8_after_the_dev_corpus_recalibration():
-    """UPDATE (2026-09-17): replaces the original `test_b9_underperforms_b8_
-    on_detection_at_equal_fpr` -- after the real, non-circular
-    `BAND_THRESHOLD_MODERATE` recalibration, B9 no longer underperforms B8;
-    it matches it exactly on every real number. Locked in as a regression
-    guard so a future accidental change to GROUPED_GATED's weighting or the
-    band thresholds cannot silently regress this back without a human
-    noticing and updating this test's own rationale."""
+def test_b9_now_exceeds_b8_after_the_semantic_retrieval_signal():
+    """UPDATE (2026-09-20, explicitly authorized): replaces
+    `test_b9_now_matches_b8_after_the_dev_corpus_recalibration` -- B9 no
+    longer matches B8, it now EXCEEDS it (100.0% vs 70.6% detection), since
+    B8's own four-independent-guards voting mechanism does not use
+    `compute_memory_risk_score()` at all and is therefore untouched by the
+    semantic-retrieval-signal Update -- a real, disclosed, expected
+    divergence, not a regression in either direction. B8's own real number
+    is asserted here UNCHANGED, confirming this Update touched B9's
+    pipeline only."""
     b9_metrics, _ = run_b9_risk_composed()
     b8_metrics = next(m for m in run_all()[0] if m.config_name == "B8")
 
     assert round(b8_metrics.poison_detection_rate, 3) == 0.706
     assert round(b8_metrics.benign_false_positive_rate, 3) == 0.073
-    assert b9_metrics.benign_false_positive_rate == b8_metrics.benign_false_positive_rate
-    assert b9_metrics.poison_detection_rate == b8_metrics.poison_detection_rate
-    assert b9_metrics.per_attack_family_detection == b8_metrics.per_attack_family_detection
+    assert round(b9_metrics.poison_detection_rate, 3) == 1.0
+    assert round(b9_metrics.benign_false_positive_rate, 3) == 0.146
+    assert b9_metrics.poison_detection_rate > b8_metrics.poison_detection_rate
 
 
 def test_farma_detection_recovered_after_recalibration():
