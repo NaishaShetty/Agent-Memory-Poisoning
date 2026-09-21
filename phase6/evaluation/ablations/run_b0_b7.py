@@ -23,6 +23,7 @@ from phase6.defense.orchestration.pipeline import (
 )
 from phase6.defense.propagation.signals import lineage_taint_signal
 from phase6.defense.retrieval.consensus_guard import RetrievalCandidate, evaluate_retrieval_defense
+from phase6.defense.retrieval.embedding_signals import pool_consensus_divergence_signals_semantic
 from phase6.defense.retrieval.signals import pool_consensus_divergence_signals
 from phase6.defense.risk.risk_action import action_for_risk_estimate
 from phase6.defense.risk.risk_score import GROUPED_GATED, compute_memory_risk_score
@@ -190,6 +191,15 @@ def run_b9_risk_composed():
     `run_all()` -- a pool whose combined risk-driven action is illegal from
     its scenario's `current_security_state` is excluded from B9's metrics and
     reported, never silently absorbed as a miss or crashing the whole run.
+
+    UPDATE (2026-09-20, explicitly authorized): also supplies
+    `semantic_consensus_divergence_score` (`embedding_signals.py`'s D2
+    signal) alongside the existing lexical `consensus_divergence_score` --
+    `_retrieval_group_score()`'s own Update note
+    (`phase6/defense/risk/risk_score.py`) has the full, real, measured
+    before/after account. Real result: B9 detection rises from 70.6% to
+    100.0%, FPR from 7.3% to 14.6% -- see
+    `docs/phase11/PHASE11_PARAPHRASE_FIX_REPORT.md`.
     """
     pools = all_pools()
     outcomes = []
@@ -197,13 +207,15 @@ def run_b9_risk_composed():
     for pool in pools:
         contents = [m.content_text for m in pool.memories]
         divergence = pool_consensus_divergence_signals(contents)
+        semantic_divergence, _cost = pool_consensus_divergence_signals_semantic(contents)
         pool_outcomes = []
         try:
-            for m, div in zip(pool.memories, divergence):
+            for m, div, semantic_div in zip(pool.memories, divergence, semantic_divergence):
                 ctx = _b9_signal_context(m)
                 signals = {
                     **admission_signals(ctx),
                     **div,
+                    "semantic_consensus_divergence_score": semantic_div["consensus_divergence_score"],
                     **imperative_write_directive_signal(ctx),
                     "dormancy_activation_score": 1.0,
                 }
