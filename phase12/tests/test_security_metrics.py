@@ -31,9 +31,14 @@ def test_par_per_family_rates_are_bounded():
         assert 0.0 <= rate <= 1.0
 
 
-def test_pr_is_explicitly_not_computed_not_fabricated():
+def test_pr_status_points_to_the_real_computation():
+    """UPDATE (2026-09-21): PR is now computed for real
+    (`phase12.propagation.propagation_rate.compute_pr()`, a real local-LLM
+    measurement) -- this status string is a pointer to that real function,
+    not a "not computed" disclaimer any longer."""
     status = compute_pr_status()
-    assert "NOT_COMPUTED" in status
+    assert "COMPUTED" in status
+    assert "NOT_COMPUTED" not in status
 
 
 def test_sdr_reports_one_result_per_dataset_per_config(pools_by_dataset):

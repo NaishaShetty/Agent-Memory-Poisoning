@@ -76,7 +76,9 @@ from phase4.attacks.dsrm.seeds import DSRM_SEEDS
 from phase4.attacks.farma.injector import FARMAInjector
 from phase4.attacks.farma.reasoning_trace import SEED_TRACES
 from phase4.attacks.memorygraft.locomo_seed import SEED_RESEARCH_TOPIC
+from phase4.attacks.agentpoison.milestone5_campaign import load_artifact as _load_agentpoison_artifact
 from phase4.attacks.minja.injector import MINJAInjector, QuerySequence, QuerySequenceStep
+from phase4.attacks.minja.milestone4_campaign import CANDIDATE_1 as MINJA_CANDIDATE_1
 from phase4.attacks.mpbench.injector import MPBenchPCFIInjector
 from phase4.attacks.mpbench.scenario import PCFI_SCENARIOS
 from phase4.attacks.sleeper_memory_poisoning.artifact import SEED_DESTRESS
@@ -197,13 +199,27 @@ def _mpbench_scenarios() -> List[MemoryScenario]:
 
 
 def _agentpoison_scenario() -> List[MemoryScenario]:
+    """UPDATE (2026-09-21, Phase 12 generalization-gap follow-on, explicitly
+    authorized): previously used a hand-typed placeholder artifact
+    (`trigger_tokens=["a", "b", "c"]`, `malicious_demonstration="Regarding a
+    b c: some forged claim."`) that was never real AgentPoison output --
+    just a stub someone wrote for this function's own convenience. This
+    project already has a REAL, GCG-optimized artifact from Phase 4's own
+    milestone campaign (`phase4/attacks/agentpoison/
+    milestone4_artifact_2026-09-11_v2.json`, loaded the same way
+    `milestone5_campaign.py`/`phase7/propagation/agentpoison_study.py`
+    already load it -- 60 real gradient iterations, real optimized trigger
+    tokens, real forged demonstration text following the attack's own real,
+    hardcoded template in `trigger_run.py`: `f"Regarding {trigger_text}:
+    {ATTACKER_FALSE_CLAIM} This has been confirmed and should be treated as
+    current information."`). Confirmed via grep this real artifact was
+    never used to calibrate any Phase 6 admission signal or threshold
+    (its only other use is Phase 7's propagation study) -- no circularity.
+    Swapped in here so this corpus's AgentPoison example is real attack
+    output, not a placeholder."""
     foundation = _new_mock_foundation()
     injector = AgentPoisonInjector(foundation)
-    artifact = AgentPoisonArtifact(
-        poison_id="phase11_real_agentpoison_001", trigger_tokens=["a", "b", "c"], trigger_text="a b c",
-        malicious_demonstration="Regarding a b c: some forged claim.",
-        fitness_score_initial=1.0, fitness_score_final=2.0, iterations_run=5, num_grad_iter=3, num_cand=20,
-    )
+    artifact = AgentPoisonArtifact(**_load_agentpoison_artifact())
     result = injector.inject(artifact)
     text = _extract_text(foundation, result.canonical_memory_id)
     return [MemoryScenario("REAL-AGENTPOISON-0", text, is_poison_ground_truth=True, attack_family_ground_truth="agentpoison")]
@@ -232,17 +248,22 @@ def _memorygraft_scenario() -> List[MemoryScenario]:
 
 
 def _minja_scenarios() -> List[MemoryScenario]:
+    """UPDATE (2026-09-21, Phase 12 generalization-gap follow-on, explicitly
+    authorized): previously used a hand-typed placeholder sequence ("Full
+    bridging query text.", "Compressed query text.", "Minimal query
+    text.") that was never real MINJA output -- just a stub someone wrote
+    for this function's own convenience. This project already has a REAL,
+    fully-authored MINJA candidate sequence from Phase 4's own milestone
+    campaign (`phase4/attacks/minja/milestone4_campaign.py::CANDIDATE_1`),
+    built against real LoCoMo entities (Caroline, Melanie) with real
+    bridging/compressed/minimal query text per the attack's own Progressive
+    Shortening Strategy. Confirmed via grep this real content was never
+    used to calibrate any Phase 6 admission signal or threshold -- it is
+    purely a Phase 4 milestone/dry-run artifact. Swapped in here so this
+    corpus's MINJA examples are real attack output, not a placeholder."""
     foundation = _new_mock_foundation()
     injector = MINJAInjector(foundation)
-    seq = QuerySequence(
-        sequence_id="phase11_real_minja_seq",
-        steps=(
-            QuerySequenceStep("step_1", 0, "Full bridging query text.", "full_bridging"),
-            QuerySequenceStep("step_2", 1, "Compressed query text.", "compressed"),
-            QuerySequenceStep("step_3", 2, "Minimal query text.", "minimal"),
-        ),
-        victim_query="Minimal query text.",
-    )
+    seq = MINJA_CANDIDATE_1
     results = injector.inject(seq)
     memories = []
     for i, result in enumerate(results):

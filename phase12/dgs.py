@@ -10,12 +10,28 @@ the SAME corpus B0-B8 report their real numbers against) is read-only here,
 never modified. `new_pools` (`phase12.eval_corpus`) is real content this
 project has never evaluated any B0-B8 configuration against before.
 
-SCOPE OF THIS PASS: B0-B8 only (rule-based configurations). B9/B10 (the
-risk-composed and GNN/GLN-hybrid configurations) require retraining a
-learned model per corpus and are out of scope for this pass -- an explicit,
-disclosed scope limit, not a silent omission (Plan Section 5: "no fabricated
-ground truth... a negative or mixed result is a complete, acceptable, and
-expected finding").
+SCOPE OF THIS PASS: B0-B8 only (rule-based configurations, via
+`evaluate_pool()`/`DefenseConfiguration`). B9/B10 (the risk-composed and
+GNN/GLN-hybrid configurations) use a DIFFERENT code path entirely
+(`phase11.evaluation.run_b10`'s own bespoke risk-composed/blended scoring,
+never a `DefenseConfiguration`) and cannot be plugged into `compute_dgs()`
+below directly.
+
+UPDATE (2026-09-21, Phase 12 generalization-gap follow-on, explicitly
+authorized): B9/B10's OWN generalization is now real and measured, just not
+via this module -- `phase11/gnn/real_attack_corpus_detector.py::
+run_with_tuned_comparison()` computes the identical DGS-style tuned-vs-real
+comparison for the learned GNN+grouped-raw blend, non-circularly (trained
+on `all_dev_pools()` only, real content from `real_corpus.py`/
+`poison_regeneration.py` never seen during training). Real result: 67.6%
+tuned-corpus detection -> 98.75% mean real-corpus detection at the same
+9.1% FPR (generalization ratio 1.46) -- positive generalization, the same
+direction as this module's own B8 result. See
+`docs/phase12/PHASE12_SECURITY_METRICS_REPORT.md` Section 2.5 for the full
+writeup. This was NOT a new retraining effort -- the fix already existed in
+this project's own Phase 11 work (committed before this Phase 12 follow-on
+began); it had simply never been wired into Phase 12's own reporting or
+compared against the SAME held-out corpus this module uses for B0-B8.
 """
 
 from __future__ import annotations

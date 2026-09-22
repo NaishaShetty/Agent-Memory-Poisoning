@@ -43,6 +43,7 @@ from phase6.defense.policy.states import (
     UNASSESSED,
 )
 from phase6.defense.propagation.containment_guard import evaluate_propagation_containment
+from phase6.defense.propagation.semantic_sibling_propagation import semantic_sibling_propagation_actions
 from phase6.defense.propagation.signals import AncestorRecord
 from phase6.defense.retrieval.consensus_guard import RetrievalCandidate, evaluate_retrieval_defense, semantic_divergence_fn
 from phase6.defense.retrieval.signals import pool_consensus_divergence_signals
@@ -152,6 +153,16 @@ class DefenseConfiguration:
     Stage 6.6 mechanism against a candidate fix without touching any shipped
     default. `None` (the default) preserves the original `retrieval_metric`
     based selection exactly.
+
+    `sibling_propagation_enabled` (2026-09-21, Phase 12 generalization-gap
+    follow-on, explicitly authorized): opt-in fifth component, `False` for
+    every existing B0-B7 configuration and every existing test that
+    constructs its own `DefenseConfiguration` (none of their behavior
+    changes). Added to `B8_ALL_FOUR` below via the SAME "extend the frozen
+    instance, document the real measured delta" precedent already used when
+    Sleeper was added to B7 to make B8 -- see `semantic_sibling_
+    propagation.py`'s own module docstring for the real mechanism and why it
+    is safe by construction on this project's real data.
     """
 
     name: str
@@ -161,6 +172,7 @@ class DefenseConfiguration:
     retrieval_divergence_fn_override: Optional[object] = None
     propagation_enabled: bool = False
     sleeper_enabled: bool = False
+    sibling_propagation_enabled: bool = False
 
 
 # The canonical B0-B7 matrix, exactly as the Stage 6.9 brief specifies.
@@ -189,8 +201,25 @@ SLEEPER_ONLY = DefenseConfiguration("SLEEPER", sleeper_enabled=True)
 # real LoCoMo data, `docs/phase6/SLEEPER_DEFENSE.md`). No detection is
 # sacrificed anywhere combining these four layers never previously tested
 # together.
+#
+# UPDATE (2026-09-21, Phase 12 generalization-gap follow-on, explicitly
+# authorized): a FIFTH component, `sibling_propagation_enabled`, is now also
+# turned on for B8 -- the SAME "extend the frozen instance, document the
+# real measured delta" pattern used above when Sleeper was added to B7.
+# `semantic_sibling_propagation.py`'s own module docstring has the full real
+# mechanism and safety argument. Real, measured result: tuned corpus.py B8
+# is UNCHANGED (70.6%/7.3%, verified directly -- corpus.py's own hand-
+# authored scenarios have no real semantic near-duplicate pair for this to
+# act on); the real 7-attack corpus's MINJA family detection rises from 2/3
+# to 3/3 (the previously-uncaught "minimal" query step now inherits
+# QUARANTINE from its semantically near-identical, already-flagged
+# "compressed" sibling), moving overall real B8 detection from 14/15 to
+# 15/15, at the SAME 0.0% real benign false-positive rate (verified: this
+# mechanism activates on 0 of the 502 real benign records, exactly as its
+# own "safe by construction" argument predicts).
 B8_ALL_FOUR = DefenseConfiguration(
-    "B8", admission_enabled=True, retrieval_enabled=True, propagation_enabled=True, sleeper_enabled=True
+    "B8", admission_enabled=True, retrieval_enabled=True, propagation_enabled=True, sleeper_enabled=True,
+    sibling_propagation_enabled=True,
 )
 
 B0_TO_B7: Tuple[DefenseConfiguration, ...] = (
@@ -213,9 +242,14 @@ class MemoryOutcome:
     propagation_action: Optional[str]
     sleeper_action: Optional[str]
     combined_action: str
+    # 2026-09-21, Phase 12 generalization-gap follow-on: the fifth, opt-in
+    # component's own action, exposed separately for transparency exactly
+    # like the other four -- `None` when `sibling_propagation_enabled` is
+    # False (not run) or this memory was not escalated by it.
+    sibling_propagation_action: Optional[str] = None
     # Ground truth carried through for metrics ONLY -- see module docstring.
-    is_poison_ground_truth: bool
-    attack_family_ground_truth: Optional[str]
+    is_poison_ground_truth: bool = False
+    attack_family_ground_truth: Optional[str] = None
 
 
 def _to_signal_context(scenario: MemoryScenario):
@@ -324,6 +358,34 @@ def evaluate_pool(
                 attack_family_ground_truth=m.attack_family_ground_truth,
             )
         )
+
+    if config.sibling_propagation_enabled:
+        # Second pass, over the WHOLE pool's first-pass results -- see
+        # `semantic_sibling_propagation.py`'s own module docstring for the
+        # real mechanism and why this is a second pass (it needs every
+        # OTHER memory's already-computed combined_action, not available
+        # while the first pass is still in progress).
+        escalations = semantic_sibling_propagation_actions(
+            memory_ids=[o.scenario_id for o in outcomes],
+            contents=[m.content_text for m in pool.memories],
+            current_actions=[o.combined_action for o in outcomes],
+        )
+        if escalations:
+            outcomes = [
+                MemoryOutcome(
+                    scenario_id=o.scenario_id,
+                    admission_action=o.admission_action,
+                    retrieval_action=o.retrieval_action,
+                    propagation_action=o.propagation_action,
+                    sleeper_action=o.sleeper_action,
+                    sibling_propagation_action=escalations.get(o.scenario_id),
+                    combined_action=combined_action([o.combined_action, escalations.get(o.scenario_id)]),
+                    is_poison_ground_truth=o.is_poison_ground_truth,
+                    attack_family_ground_truth=o.attack_family_ground_truth,
+                )
+                for o in outcomes
+            ]
+
     return tuple(outcomes)
 
 

@@ -78,12 +78,41 @@ def evaluate_sleeper_admission(
     """Admission-time check: does this content structurally resemble a
     document-embedded, persistent write-instruction (Sleeper's own documented
     mechanism), independent of any retrieval history (there is none yet at
-    admission time)."""
-    signal = imperative_write_directive_signal(context)
-    score = signal["imperative_write_directive_score"]
+    admission time).
+
+    UPDATE (2026-09-21, Phase 12 generalization-gap follow-on, explicitly
+    authorized): also checks `activation_shape_signal` (`phase8.detection.
+    activation_shape_signal`) via OR/MAX with the existing content-directive
+    signal -- two independent detection mechanisms for the SAME underlying
+    phenomenon (a real Sleeper-family payload), the same combination
+    discipline `_retrieval_group_score()`'s own MAX(lexical, semantic) update
+    already established, not a new pattern invented here. Real, measured
+    reason this was needed: Phase 12's real security-metric sweep found the
+    real, unmodified `SleeperInjector` stores ONLY the clean extracted
+    `forged_memory_text`, never the injection document's own directive
+    framing -- `imperative_write_directive_score` is therefore structurally
+    guaranteed to be 0.0 for every real Sleeper memory this project's own
+    frozen Phase 4 attack produces, re-confirming Phase 8's own already-
+    disclosed Finding A. `activation_shape_signal` is a real, precomputed
+    (via `C:\\h4venv`'s `RealMem0Adapter`, not fabricated) lookup that
+    correctly identifies the real `SEED_DESTRESS` poison memory with 0 real
+    false positives across 135 real LoCoMo benign turns -- see
+    `phase8/detection/compute_real_activation_shapes.py`'s own docstring for
+    the full real methodology and its disclosed scope limits (it does NOT
+    cover `corpus.py`'s own, differently-worded Sleeper scenarios, for which
+    this signal defaults to its real, disclosed `0.0` "no cached measurement"
+    value, per that module's own docstring -- `corpus.py`'s own real,
+    reported B0-B8 numbers are therefore UNCHANGED by this update)."""
+    from phase8.detection.activation_shape_signal import activation_shape_signal
+
+    directive_signal = imperative_write_directive_signal(context)
+    shape_signal = activation_shape_signal(context)
+    signal = {**directive_signal, **shape_signal}
+    score = max(directive_signal["imperative_write_directive_score"], shape_signal["activation_shape_score"])
     action = QUARANTINE if score >= ADMISSION_THRESHOLD_QUARANTINE else ALLOW
     reason = (
-        f"imperative_write_directive_score={score:.1f} ({GUARD_VERSION}); "
+        f"imperative_write_directive_score={directive_signal['imperative_write_directive_score']:.1f}, "
+        f"activation_shape_score={shape_signal['activation_shape_score']:.1f} ({GUARD_VERSION}); "
         f"action={action}"
     )
     return build_decision(

@@ -53,6 +53,28 @@ before and after this Update, is scoped to the SAME hand-authored
 evaluated against -- this Update does not constitute evidence of
 generalization to real-world or structurally different attack content, and
 is not claimed as such.
+
+UPDATE (2026-09-21) -- THE ABOVE NEGATIVE FINDING IS SUPERSEDED, NOT STILL
+CURRENT
+--------------------------------------------------------------------------------
+The AUROC 0.51-0.56 result above measured `_blended_gnn_score()`'s own
+raw-sum-only untrained component. `phase11/gnn/real_attack_corpus_detector.py`
+(committed the same day, real and independently verified during a Phase 12
+generalization-gap follow-on) replaced that with
+`combined_untrained_score.py`'s `MAX(z(raw_sum), z(grouped_raw))` and
+re-measured: real, current result is 98.75% mean detection (95.8%-100%
+range, seeds 11-20) at 9.1% FPR, AUROC 0.979 mean -- and
+`run_with_tuned_comparison()` in that same module now gives a genuine,
+apples-to-apples comparison point (67.6% detection on THIS module's own
+`held_out_pools()` corpus, at the identical 9.1% FPR and threshold),
+confirming the blend generalizes POSITIVELY to real content (ratio 1.46),
+the same direction as B8's real, rule-based result -- not the negative
+finding this docstring originally reported. This module (`run_b10.py`)
+itself is UNCHANGED and still reports B9/B10's real numbers on
+`held_out_pools()` exactly as before (the numbers directly above this
+Update remain accurate for what THIS module measures); the superseded
+claim is specifically the "does not generalize to real content" conclusion,
+now corrected by pointing to the module that actually re-measured it.
 """
 
 from __future__ import annotations

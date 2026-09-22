@@ -28,10 +28,16 @@ from typing import Dict, Sequence, Tuple
 
 from phase6.defense.admission.signals import (
     decision_log_vocabulary_signal,
+    entity_link_directive_signal,
+    forged_provenance_confirmation_signal,
+    interrogative_restatement_signal,
     perfection_claim_signal,
     provenance_anomaly_signal,
     self_reference_signal,
+    stale_precedent_dismissal_signal,
+    task_completion_note_signal,
     template_anomaly_signal,
+    third_person_report_signal,
 )
 from phase6.defense.policy.records import MGPDecisionRecord, build_decision
 from phase6.defense.policy.states import (
@@ -46,16 +52,57 @@ from phase6.defense.signals.contract import SignalContext
 
 GUARD_VERSION = "reasoning-guard-1.0.0"
 
-# Equal weighting across all five signals, mirroring SENTINEL's own reported
-# design (5 signals, each weighted 0.2) -- a disclosed choice to start from
-# the source paper's own weighting rather than inventing a different one
-# without evidence to justify it.
+# Equal weighting across the original five signals, mirroring SENTINEL's own
+# reported design (5 signals, each weighted 0.2) -- a disclosed choice to
+# start from the source paper's own weighting rather than inventing a
+# different one without evidence to justify it. UNCHANGED by the Signal 6
+# addition below (see its own weight comment for why).
 SIGNAL_WEIGHTS: Dict[str, float] = {
     "self_reference_score": 0.2,
     "decision_log_vocabulary_score": 0.2,
     "perfection_claim_score": 0.2,
     "template_anomaly_score": 0.2,
     "provenance_anomaly_score": 0.2,
+    # UPDATE (2026-09-21, Phase 12 follow-on, explicitly authorized):
+    # `interrogative_restatement_score` (Signal 6, `signals.py`'s own module
+    # docstring has the full real justification and false-positive testing).
+    # Given the SAME 0.2 weight as the original five, rather than
+    # renormalizing all six to 1/6 -- renormalizing would SHRINK the
+    # original five signals' own already-shipped, already-tuned
+    # contributions even though Signal 6 is real, measured, completely
+    # INERT (0.0) on every one of `corpus.py`'s 75 real scenarios (none are
+    # Q+A-shaped) -- silently changing the real, historically-reported
+    # 70.6%/7.3% B8 number would be exactly the undisclosed-reweighting
+    # mistake `phase6/defense/risk/risk_score.py`'s own `_PRE_PHASE11_SIGNAL_KEYS`
+    # fix already exists to prevent, just recurring here in a different
+    # module. Verified directly, not assumed: tuned-corpus B8 is
+    # byte-identical (70.6%/7.3%) after this addition.
+    "interrogative_restatement_score": 0.2,
+    # Same reasoning, same session: `task_completion_note_score` (Signal 7,
+    # `signals.py`'s own module docstring has the full real justification).
+    # Also completely inert on `corpus.py`'s 75 real scenarios -- verified
+    # directly.
+    "task_completion_note_score": 0.2,
+    # Same reasoning, same session: `stale_precedent_dismissal_score`
+    # (Signal 8, `signals.py`'s own module docstring has the full real
+    # justification, including why it is a NEW key rather than a
+    # broadening of Signal 1's `self_reference_score`). Also completely
+    # inert on `corpus.py`'s 75 real scenarios -- verified directly.
+    "stale_precedent_dismissal_score": 0.2,
+    # Same reasoning, same session: `third_person_report_score` (Signal 9,
+    # `signals.py`'s own module docstring has the full real justification).
+    # Also completely inert on `corpus.py`'s 75 real scenarios -- verified
+    # directly.
+    "third_person_report_score": 0.2,
+    # Same reasoning, same session: `entity_link_directive_score` (Signal
+    # 10, MINJA) and `forged_provenance_confirmation_score` (Signal 11,
+    # AgentPoison) -- `signals.py`'s own module docstrings have the full
+    # real justification, including why these were fixable test-harness
+    # gaps (a placeholder eval corpus) rather than architectural limits.
+    # Both completely inert on `corpus.py`'s 75 real scenarios -- verified
+    # directly.
+    "entity_link_directive_score": 0.2,
+    "forged_provenance_confirmation_score": 0.2,
 }
 
 # Uncalibrated v1 action thresholds on the weighted sum (module docstring).
@@ -69,6 +116,12 @@ _SIGNAL_FUNCTIONS = (
     perfection_claim_signal,
     template_anomaly_signal,
     provenance_anomaly_signal,
+    interrogative_restatement_signal,
+    task_completion_note_signal,
+    stale_precedent_dismissal_signal,
+    third_person_report_signal,
+    entity_link_directive_signal,
+    forged_provenance_confirmation_signal,
 )
 
 
