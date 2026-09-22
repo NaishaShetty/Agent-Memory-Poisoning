@@ -49,6 +49,40 @@ ADMISSION_SIGNAL_KEYS: frozenset = frozenset(
         "perfection_claim_score",  # admission/signals.py::perfection_claim_signal
         "template_anomaly_score",  # admission/signals.py::template_anomaly_signal
         "provenance_anomaly_score",  # admission/signals.py::provenance_anomaly_signal
+        # 2026-09-21 (Phase 12 follow-on, explicitly authorized):
+        # `interrogative_restatement_score` (admission/signals.py's own
+        # module docstring has the full real justification -- DSRM's real
+        # "question + forged answer" construction, 0/502 real benign false
+        # positives, 0/75 real corpus.py scenarios, completely inert on the
+        # tuned corpus). Additive only: no existing key's weight changes;
+        # `_admission_group_score()` below picks this up automatically at
+        # the same 0.2 weight as the original five, verified to leave the
+        # real, historically-reported 70.6%/7.3% B8/B9 numbers unchanged.
+        "interrogative_restatement_score",
+        # Same session: `task_completion_note_score` (admission/signals.py's
+        # own module docstring has the full real justification -- also
+        # verified inert on corpus.py's 75 real scenarios).
+        "task_completion_note_score",
+        # Same session: `stale_precedent_dismissal_score` (admission/
+        # signals.py's own module docstring has the full real justification,
+        # including why this is a NEW key rather than a broadening of
+        # `self_reference_score` -- that alternative was tried and reverted
+        # because `self_reference_score` is one of Phase 11's own closed
+        # GNN `FEATURE_KEYS`, and broadening it silently shifted 10 already-
+        # locked-in Phase 11 real numbers). Also verified inert on
+        # corpus.py's 75 real scenarios.
+        "stale_precedent_dismissal_score",
+        # Same session: `third_person_report_score` (admission/signals.py's
+        # own module docstring has the full real justification -- also
+        # verified inert on corpus.py's 75 real scenarios).
+        "third_person_report_score",
+        # Same session: `entity_link_directive_score` (MINJA) and
+        # `forged_provenance_confirmation_score` (AgentPoison) --
+        # admission/signals.py's own module docstrings have the full real
+        # justification. Also verified inert on corpus.py's 75 real
+        # scenarios.
+        "entity_link_directive_score",
+        "forged_provenance_confirmation_score",
     }
 )
 RETRIEVAL_SIGNAL_KEYS: frozenset = frozenset(

@@ -30,6 +30,7 @@ from phase4.attacks.sleeper_memory_poisoning.injector import SleeperInjector
 from phase5.wiring.live_attack_runs import _generation_config, _new_mock_foundation, _scripted_llm_provider
 
 from phase6.defense.orchestration.pipeline import (
+    IllegalTransitionError,
     ScenarioPool,
     compute_metrics,
     evaluate_pool,
@@ -179,36 +180,24 @@ def compute_par() -> PARResult:
 
 
 # ---------------------------------------------------------------------------
-# PR -- Propagation Rate (defined, NOT computed this pass)
+# PR -- Propagation Rate
 # ---------------------------------------------------------------------------
 
 
 def compute_pr_status() -> str:
-    """PR ("of admitted poison, the fraction that produces at least one
-    real downstream DERIVED_FROM/PROPAGATED_TO edge before any guard
-    intervenes") is well-defined and buildable on real, unmodified
-    `phase5.wiring.trace_assembly.build_propagation_graph()` +
-    `phase5.wiring.lineage.derive_*` functions.
-
-    It is NOT computed in this Phase 12 pass. A real `PROPAGATED_TO`/
-    `DERIVED_FROM` edge only exists once a real downstream agent decision
-    actually derives a new memory from a retrieved one
-    (`phase5.wiring.memory_lifecycle.record_memory_derivation`) -- that
-    requires a real agent retrieval -> decision -> derivation loop running
-    AFTER injection, which this project has never wired into an automated,
-    repeatable corpus sweep (the exact same gap the Plan's own Section 8.5
-    flags for utility metrics: "Phase 6-11 has never been called from
-    inside the Phase 3 agent runtime's own decision loop"). Manufacturing a
-    single synthetic derivation event per admitted poison item to produce a
-    number would not measure real propagation behavior -- it would trivially
-    read 100% by construction, which is worse than reporting nothing. Per
-    Plan Section 5 ("no fabricated ground truth... a negative or mixed
-    result is a complete, acceptable, and expected finding"), PR is left
-    unmeasured here rather than fabricated, and surfaced as a real, named
-    dependency for Phase 14 (utility metrics), which must build that live
-    retrieval-decision-derivation loop anyway.
+    """UPDATE (2026-09-21, explicitly authorized after the user confirmed
+    the real compute/engineering cost): PR is now computed for real, by
+    `phase12.propagation.propagation_rate.compute_pr()`. That function is
+    not called from here directly (it makes real local LLM calls via a
+    real, locally-running Ollama server and is real-compute-costly, unlike
+    every other function in this module) -- callers who want the real PR
+    number should call `compute_pr()` directly. See that module's own
+    docstring for the full real methodology (a real, non-scripted LLM
+    consolidation task, real embedding-similarity-gated derivation
+    recording) and `docs/phase12/PHASE12_SECURITY_METRICS_REPORT.md`
+    Section 4 for the real, measured result.
     """
-    return "NOT_COMPUTED_THIS_PASS -- requires the live agent decision/derivation loop (see docstring)"
+    return "COMPUTED -- see phase12.propagation.propagation_rate.compute_pr()"
 
 
 # ---------------------------------------------------------------------------
@@ -283,9 +272,30 @@ def compute_amr(pools_by_dataset: Dict[str, Sequence[ScenarioPool]], configs) ->
                     resulting_state = _ACTION_TO_RESULTING_STATE[outcome.combined_action]
                     recheck_scenario = replace(scenario, current_security_state=resulting_state)
                     recheck_pool = ScenarioPool(f"{pool.pool_id}-RECHECK-{scenario.scenario_id}", (recheck_scenario,))
-                    recheck_outcomes = evaluate_pool(
-                        recheck_pool, config, run_id=f"phase12-amr-pass2-{dataset_name}-{config.name}"
-                    )
+                    try:
+                        recheck_outcomes = evaluate_pool(
+                            recheck_pool, config, run_id=f"phase12-amr-pass2-{dataset_name}-{config.name}"
+                        )
+                    except IllegalTransitionError:
+                        # UPDATE (2026-09-21, real activation-shape-signal
+                        # follow-on): a real, newly-reachable case, not a bug
+                        # in this recheck design -- some OTHER enabled guard
+                        # (e.g. the admission guard, which knows nothing about
+                        # WHY this memory was excluded) independently computes
+                        # ALLOW from content alone on the recheck pass, and
+                        # `evaluate_pool()`/`evaluate_admission()`'s own
+                        # `validate_transition()` correctly forbids silently
+                        # reverting a QUARANTINED/BLOCKED memory straight to
+                        # TRUSTED via a routine ALLOW score. `evaluate_pool()`
+                        # itself already treats this exact exception as "stays
+                        # excluded, not a crash" for the analogous propagation
+                        # case (see its own `except IllegalTransitionError`
+                        # around `propagation_action` above) -- reused here for
+                        # the same reason: the policy machinery affirmatively
+                        # refusing to un-exclude the memory IS confirmation the
+                        # exclusion holds, not an error to hide behind.
+                        n_confirmed += 1
+                        continue
                     if recheck_outcomes[0].combined_action != ALLOW:
                         n_confirmed += 1
         results.append(

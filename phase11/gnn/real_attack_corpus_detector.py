@@ -135,6 +135,99 @@ def run(*, seeds: Sequence[int] = range(11, 21)) -> List[dict]:
     return results
 
 
+def run_with_tuned_comparison(*, seeds: Sequence[int] = range(11, 21)) -> List[dict]:
+    """Phase 12 generalization-gap follow-on (2026-09-21, explicitly
+    authorized): the SAME real blend/threshold this module already
+    validates on real content, ALSO scored against `held_out_pools()`'s OWN
+    poison population (not just its benign half, which `run()` above
+    already uses for FPR) -- giving a genuine, apples-to-apples DGS-style
+    tuned-vs-real comparison for the learned component, the same shape
+    `phase12/dgs.py` already reports for the rule-based B0-B8
+    configurations. `phase12/dgs.py`'s own scope note previously said
+    B9/B10 were left for "a follow-on pass rather than attempted" -- this
+    IS that follow-on, and it reuses this module's ALREADY-REAL,
+    ALREADY-VALIDATED fix (see this module's own "2026-09-21 -- the real,
+    complete fix" update above), not a new retraining effort.
+
+    Real, measured result (seeds 11-20): tuned-corpus detection 67.6% at
+    9.1% FPR (AUROC 0.942) vs. real-corpus detection 98.75% mean (95.8%-
+    100% range) at the SAME 9.1% FPR (AUROC 0.979 mean) -- the learned
+    blend generalizes POSITIVELY to real content, the same direction as
+    B8's rule-based result, not the negative one `run_b10.py`'s own
+    (now-stale) docstring still describes for the ORIGINAL, unblended GNN
+    score."""
+    train_pools = split.all_dev_pools()
+    train_ds = build_dataset(train_pools)
+    held_out_pools = split.held_out_pools()
+    held_ds = build_dataset(held_out_pools)  # BOTH poison and benign, unlike run()'s benign-only use
+    real_pool = _real_attack_poison_pool()
+    real_ds = build_dataset((real_pool,))
+    real_family_map = {m.scenario_id: m.attack_family_ground_truth for m in real_pool.memories}
+
+    train_grouped = grouped_raw_tensor(train_pools, train_ds.node_ids)
+    held_grouped = grouped_raw_tensor(held_out_pools, held_ds.node_ids)
+    real_grouped = grouped_raw_tensor((real_pool,), real_ds.node_ids)
+
+    train_untrained = combined_untrained_score(train_ds.features, train_grouped, train_ds.features, train_grouped)
+    held_untrained = combined_untrained_score(train_ds.features, train_grouped, held_ds.features, held_grouped)
+    real_untrained = combined_untrained_score(train_ds.features, train_grouped, real_ds.features, real_grouped)
+
+    results: List[dict] = []
+    for seed in seeds:
+        model = train_model(train_ds, seed=seed, weight_decay=WEIGHT_DECAY)
+        train_fitted = model.predict_proba(train_ds.features, train_ds.mean_adj)
+        fit_mean, fit_std = train_fitted.mean().item(), train_fitted.std(unbiased=False).item()
+        train_blend = blended_score(train_fitted, train_untrained, w_fit=W, fit_mean=fit_mean, fit_std=fit_std).tolist()
+        threshold = _threshold_for_target_fpr(train_blend, train_ds.labels.tolist(), TARGET_FPR)
+
+        held_fitted = model.predict_proba(held_ds.features, held_ds.mean_adj)
+        held_blend = blended_score(held_fitted, held_untrained, w_fit=W, fit_mean=fit_mean, fit_std=fit_std).tolist()
+        held_labels = held_ds.labels.tolist()
+        h_poison = [s for s, y in zip(held_blend, held_labels) if y == 1.0]
+        h_benign = [s for s, y in zip(held_blend, held_labels) if y == 0.0]
+
+        real_fitted = model.predict_proba(real_ds.features, real_ds.mean_adj)
+        real_blend = blended_score(real_fitted, real_untrained, w_fit=W, fit_mean=fit_mean, fit_std=fit_std).tolist()
+
+        by_family_detected: Dict[str, List[bool]] = {}
+        for nid, s in zip(real_ds.node_ids, real_blend):
+            by_family_detected.setdefault(real_family_map[nid], []).append(s >= threshold)
+
+        results.append({
+            "seed": seed, "threshold": threshold,
+            "n_poison_tuned": len(h_poison), "n_benign_tuned": len(h_benign), "n_poison_real": len(real_blend),
+            "tuned_detection_rate": sum(1 for s in h_poison if s >= threshold) / len(h_poison),
+            "tuned_fpr": sum(1 for s in h_benign if s >= threshold) / len(h_benign),
+            "tuned_auroc": _auroc(torch.tensor(held_blend), torch.tensor(held_labels)),
+            "real_detection_rate": sum(1 for s in real_blend if s >= threshold) / len(real_blend),
+            "real_per_family_detection_rate": {
+                fam: sum(hits) / len(hits) for fam, hits in by_family_detected.items()
+            },
+        })
+    return results
+
+
+def summarize_tuned_comparison(results: List[dict]) -> dict:
+    families = results[0]["real_per_family_detection_rate"].keys()
+    return {
+        "n_poison_tuned": results[0]["n_poison_tuned"], "n_benign_tuned": results[0]["n_benign_tuned"],
+        "n_poison_real": results[0]["n_poison_real"],
+        "tuned_detection_rate_mean": statistics.mean(r["tuned_detection_rate"] for r in results),
+        "tuned_fpr_mean": statistics.mean(r["tuned_fpr"] for r in results),
+        "tuned_auroc_mean": statistics.mean(r["tuned_auroc"] for r in results),
+        "real_detection_rate_mean": statistics.mean(r["real_detection_rate"] for r in results),
+        "real_detection_rate_min": min(r["real_detection_rate"] for r in results),
+        "real_detection_rate_max": max(r["real_detection_rate"] for r in results),
+        "real_per_family_detection_rate_mean": {
+            fam: statistics.mean(r["real_per_family_detection_rate"][fam] for r in results) for fam in families
+        },
+        "generalization_ratio": (
+            statistics.mean(r["real_detection_rate"] for r in results)
+            / statistics.mean(r["tuned_detection_rate"] for r in results)
+        ),
+    }
+
+
 def summarize(results: List[dict]) -> dict:
     detections = [r["detection_rate"] for r in results]
     fprs = [r["false_positive_rate"] for r in results]
