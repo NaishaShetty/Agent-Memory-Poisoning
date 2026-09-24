@@ -1,0 +1,64 @@
+{
+  "track_a": {
+    "B0": {
+      "config": "B0",
+      "n_tasks": 40,
+      "n_success": 22,
+      "task_success_rate": 0.55,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0
+    },
+    "B1": {
+      "config": "B1",
+      "n_tasks": 40,
+      "n_success": 21,
+      "task_success_rate": 0.525,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0
+    },
+    "B9": {
+      "config": "B9",
+      "n_tasks": 40,
+      "n_success": 21,
+      "task_success_rate": 0.525,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0
+    }
+  },
+  "track_b": {
+    "B0": {
+      "config": "B0",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 3,
+      "n_poison_excluded": 0,
+      "gold_rate": 0.0,
+      "forged_rate": 0.3333333333333333,
+      "exclusion_rate": 0.0
+    },
+    "B1": {
+      "config": "B1",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 3,
+      "n_poison_excluded": 1,
+      "gold_rate": 0.0,
+      "forged_rate": 0.3333333333333333,
+      "exclusion_rate": 0.1111111111111111
+    },
+    "B9": {
+      "config": "B9",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 3,
+      "n_poison_excluded": 0,
+      "gold_rate": 0.0,
+      "forged_rate": 0.3333333333333333,
+      "exclusion_rate": 0.0
+    }
+  },
+  "urs": {
+    "B1": 0.9545454545454545,
+    "B9": 0.9545454545454545
+  }
+}

@@ -100,6 +100,30 @@ LLM_JUDGE_D3 = ComponentCostProfile(
     ),
 )
 
+CONSOLIDATION_GUARD = ComponentCostProfile(
+    component_name="consolidation.consolidation_guard (Phase 12's fifth defense component)",
+    model_call_overhead=0,
+    token_overhead=0,
+    # Real measurement (2026-09-23, Phase 14, explicitly authorized): this
+    # component did not exist when this module was last touched, so it had
+    # no profile at all -- not even a disclosed `None`. `phase14.
+    # latency_measurement.measure_consolidation_guard_latency()` measured it
+    # directly on this same real local machine, 20 real trials: mean 19.0ms,
+    # min 6.6ms, max 161.6ms (stdev 32.8ms -- the real spread traced to the
+    # semantic-embedding model's own lazy-loaded, amortized-per-process cost,
+    # the SAME real cause RETRIEVAL_SEMANTIC_D2's own docstring already
+    # discloses for the identical reason).
+    measured_latency_seconds=0.019,
+    latency_measurement_note=(
+        "Real, measured 2026-09-23 (Phase 14): calls evaluate_admission() + "
+        "evaluate_sleeper_admission() + semantic_sibling_propagation_actions() "
+        "per real source, plus clause-level embedding similarity -- mean "
+        "19.0ms over 20 real trials on this project's own local machine; see "
+        "phase14/latency_measurement.py and docs/phase14/"
+        "PHASE14_UTILITY_METRICS_REPORT.md for the full real measurement."
+    ),
+)
+
 ALL_COMPONENT_PROFILES = (
     ADMISSION_REASONING_GUARD,
     RETRIEVAL_LEXICAL_D1,
@@ -107,6 +131,7 @@ ALL_COMPONENT_PROFILES = (
     PROPAGATION_CONTAINMENT,
     SLEEPER_GUARD,
     LLM_JUDGE_D3,
+    CONSOLIDATION_GUARD,
 )
 
 

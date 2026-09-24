@@ -306,6 +306,12 @@ def test_grouped_gated_band_threshold_recalibration_dev_corpus_sweep():
     results = {r["threshold"]: r for r in sweep_band_thresholds([0.025, 0.05, 0.10, 0.15])}
     assert round(results[0.05]["poison_detection_rate"], 3) == round(14 / 15, 3)
     assert round(results[0.05]["false_positive_rate"], 3) == 0.25
+    # UPDATE (2026-09-23): a `_admission_group_score()` 2-corroborator floor
+    # was tried as a Phase 14 follow-on (which would have raised this value
+    # to 0.40) but was REVERTED after it was found to degrade Phase 11's own
+    # real, already-calibrated z-score-based detectors elsewhere (see the
+    # UPDATE note on `_admission_group_score()` in `risk_score.py`). This
+    # value is therefore back to its original, real, measured 0.20.
     assert round(results[0.15]["poison_detection_rate"], 3) == 0.20
     assert round(results[0.15]["false_positive_rate"], 3) == 0.25  # same FPR as 0.05 -- the real, exploited headroom
     # The real boundary: at or below the benign near-miss's own real score

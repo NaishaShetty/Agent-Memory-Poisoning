@@ -115,7 +115,7 @@ def _record_one_injection(
     return injection_id
 
 
-def build_real_attack_injection_ledger(ledger_dir: Path) -> Dict[str, str]:
+def build_real_attack_injection_ledger(ledger_dir: Path, *, admitted_scenario_ids=None) -> Dict[str, str]:
     """Re-runs every real Phase 4 injector this project's own
     `real_poison_scenarios()` uses (the SAME real seeds/artifacts), and
     persists a real `attack_injection` `Phase5Event` PLUS a real `created`
@@ -123,6 +123,18 @@ def build_real_attack_injection_ledger(ledger_dir: Path) -> Dict[str, str]:
     SAME "REAL-<FAMILY>-<i>" scenario ids the rest of Phase 12/13 uses.
     Returns a real `{scenario_id: injection_id}` ground-truth map, for
     `attribution.metrics.origin_attribution_accuracy()`.
+
+    `admitted_scenario_ids` (2026-09-23, Phase 15 follow-on, explicitly
+    authorized): `None` by default -- every existing caller (Phase 13's own
+    `ledger_setup.py`) passes nothing and every one of the 15 real scenarios
+    is recorded exactly as before, byte-identical. When given a real set of
+    scenario ids, only THOSE scenarios are recorded (a real, direct way to
+    build a genuinely different real ledger reflecting an actual defense
+    decision -- e.g. `phase15/attribution_track_b_ledger.py` passes the set
+    of scenarios a real B9 decision did NOT quarantine, so a memory a real
+    defense would have excluded never gets a `created`/`attack_injection`
+    event at all, exactly as a real deployment enforcing that defense
+    would behave).
 
     UPDATE (2026-09-22, explicitly authorized): this returned map is now ALSO
     persisted verbatim to `ledger_dir/real_injection_ground_truth.json` by
@@ -153,6 +165,8 @@ def build_real_attack_injection_ledger(ledger_dir: Path) -> Dict[str, str]:
     injection_ids: Dict[str, str] = {}
 
     def record(attack_id, raw_result, scenario_id, stored_text_override=None):
+        if admitted_scenario_ids is not None and scenario_id not in admitted_scenario_ids:
+            return  # a real defense decision excluded this scenario -- never admitted, never recorded
         injection_ids[scenario_id] = _record_one_injection(
             attack_id, raw_result, scenario_id, memory_ledger=memory_ledger, event_ledger=event_ledger,
             phase5_event_ledger=phase5_event_ledger, membership_ledger=membership_ledger,
