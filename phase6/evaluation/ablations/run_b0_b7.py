@@ -28,6 +28,7 @@ from phase6.defense.retrieval.signals import pool_consensus_divergence_signals
 from phase6.defense.risk.risk_action import action_for_risk_estimate
 from phase6.defense.risk.risk_score import GROUPED_GATED, compute_memory_risk_score
 from phase6.defense.signals.contract import build_signal_context
+from phase8.detection.activation_shape_signal import activation_shape_signal
 from phase6.defense.sleeper.signals import imperative_write_directive_signal
 from phase6.evaluation.ablations.calibration import pool_consensus_divergence_signals_with_min_cluster_gate
 from phase6.evaluation.ablations.corpus import all_pools
@@ -158,7 +159,7 @@ def _b9_signal_context(scenario):
     )
 
 
-def run_b9_risk_composed():
+def run_b9_risk_composed(pools=None, *, rule=GROUPED_GATED):
     """Phase 10 plan Section 10.5 -- the real B9 "risk-composed" ablation
     configuration: instead of B8's four independent guards each voting a
     discrete action and `combined_action()` taking the max severity, every
@@ -200,8 +201,46 @@ def run_b9_risk_composed():
     before/after account. Real result: B9 detection rises from 70.6% to
     100.0%, FPR from 7.3% to 14.6% -- see
     `docs/phase11/PHASE11_PARAPHRASE_FIX_REPORT.md`.
-    """
-    pools = all_pools()
+
+    UPDATE (2026-09-23, Phase 15 follow-on, explicitly authorized): `pools`
+    is now an optional parameter, `None` by default -- every existing call
+    site (this module's own tests, `docs/phase10/PHASE10_REPORT.md`'s
+    historically-reported 70.6%/7.3% and Phase 11's 100.0%/14.6% numbers)
+    passes nothing and gets the SAME real frozen 75-scenario corpus
+    (`all_pools()`) as before, byte-identical. A caller wanting B9's real
+    per-memory computation run against a DIFFERENT real corpus (e.g. Phase
+    12's own per-dataset `DatasetCorpus.pools`, to fold B9 into the same
+    per-(dataset, config) matrix shape `run_security_matrix()` already
+    produces for B0-B8) can now pass one in, reusing this exact real
+    mechanism rather than a second, duplicated implementation -- see
+    `phase15/security_matrix_extension.py`.
+
+    UPDATE (2026-09-23, same-day follow-on, explicitly authorized): also
+    supplies `activation_shape_score` (`phase8/detection/
+    activation_shape_signal.py`) alongside the existing `imperative_write_
+    directive_score` -- real, measured reason: Phase 15's own per-dataset B9
+    reshape found B9 detects 0% of the real Sleeper-family scenario
+    (`REAL-SLEEPER-0`) while B8 detects it at 100% on the exact same
+    content, root-caused to this project's own frozen `SleeperInjector`
+    never embedding directive language in its forged memory text (Phase 8's
+    already-disclosed Finding A) -- `imperative_write_directive_score` is
+    therefore structurally 0.0 for every real Sleeper memory, leaving B9
+    with no detection basis at all. `evaluate_sleeper_admission()` (B8's own
+    dedicated guard) already combines `activation_shape_score` via
+    `max(...)` for exactly this reason; `_sleeper_group_score()`
+    (`risk_score.py`) now does the same.
+
+    `rule` (2026-09-23, same-day follow-on, explicitly authorized): `GROUPED_
+    GATED` by default -- every existing call site (this module's own tests,
+    every historically-reported B9 number) passes nothing and is therefore
+    completely unaffected. A caller may pass `GROUPED_GATED_RETRIEVAL_
+    CORROBORATED` instead (`risk_score.py`'s own module note has the full
+    real root cause and validation -- Phase 15's per-dataset reshape found a
+    real 50% false-positive rate on LongMemEval driven by uncorroborated
+    retrieval-only evidence) to suppress that specific real failure mode
+    without touching this function's own default, frozen-corpus behavior at
+    all."""
+    pools = all_pools() if pools is None else pools
     outcomes = []
     exclusions = []
     for pool in pools:
@@ -217,11 +256,12 @@ def run_b9_risk_composed():
                     **div,
                     "semantic_consensus_divergence_score": semantic_div["consensus_divergence_score"],
                     **imperative_write_directive_signal(ctx),
+                    **activation_shape_signal(ctx),
                     "dormancy_activation_score": 1.0,
                 }
                 if m.ancestors:
                     signals.update(lineage_taint_signal(m.content_text, m.ancestors))
-                estimate = compute_memory_risk_score(m.scenario_id, signals, rule=GROUPED_GATED)
+                estimate = compute_memory_risk_score(m.scenario_id, signals, rule=rule)
                 action = action_for_risk_estimate(
                     estimate, current_security_state=m.current_security_state
                 )

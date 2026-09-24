@@ -35,9 +35,12 @@ from phase6.defense.admission.signals import (
     provenance_anomaly_signal,
     self_reference_signal,
     stale_precedent_dismissal_signal,
+    synthetic_repetition_padding_signal,
     task_completion_note_signal,
     template_anomaly_signal,
+    preference_decision_update_signal,
     third_person_report_signal,
+    unverifiable_closure_signal,
 )
 from phase6.defense.policy.records import MGPDecisionRecord, build_decision
 from phase6.defense.policy.states import (
@@ -103,6 +106,23 @@ SIGNAL_WEIGHTS: Dict[str, float] = {
     # directly.
     "entity_link_directive_score": 0.2,
     "forged_provenance_confirmation_score": 0.2,
+    # UPDATE (2026-09-23, Phase 14 follow-on, explicitly authorized):
+    # `synthetic_repetition_padding_score` (Signal 12, DSRM isolated-instance
+    # fix -- `signals.py`'s own module comment has the full real
+    # justification and false-positive testing). Same 0.2 weight, same
+    # non-renormalization reasoning as every prior addition above.
+    "synthetic_repetition_padding_score": 0.2,
+    # UPDATE (2026-09-23, same session): `unverifiable_closure_score` (Signal
+    # 13, FARMA isolated-instance fix -- `signals.py`'s own module comment
+    # has the full real justification and false-positive testing). Same 0.2
+    # weight, same non-renormalization reasoning as every prior addition.
+    "unverifiable_closure_score": 0.2,
+    # UPDATE (2026-09-23, same session): `preference_decision_update_score`
+    # (Signal 14, MPBench isolated-instance fix -- `signals.py`'s own module
+    # comment has the full real justification, including the disclosed
+    # shared-sub-condition reasoning, and false-positive testing). Same 0.2
+    # weight, same non-renormalization reasoning as every prior addition.
+    "preference_decision_update_score": 0.2,
 }
 
 # Uncalibrated v1 action thresholds on the weighted sum (module docstring).
@@ -122,6 +142,9 @@ _SIGNAL_FUNCTIONS = (
     third_person_report_signal,
     entity_link_directive_signal,
     forged_provenance_confirmation_signal,
+    synthetic_repetition_padding_signal,
+    preference_decision_update_signal,
+    unverifiable_closure_signal,
 )
 
 

@@ -1,0 +1,72 @@
+{
+  "track_a": {
+    "B0": {
+      "config": "B0",
+      "n_tasks": 40,
+      "n_success": 21,
+      "task_success_rate": 0.525,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 0
+    },
+    "B1": {
+      "config": "B1",
+      "n_tasks": 40,
+      "n_success": 21,
+      "task_success_rate": 0.525,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 40
+    },
+    "B9": {
+      "config": "B9",
+      "n_tasks": 40,
+      "n_success": 21,
+      "task_success_rate": 0.525,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 40
+    }
+  },
+  "track_b": {
+    "B0": {
+      "config": "B0",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 3,
+      "n_poison_excluded": 0,
+      "gold_rate": 0.0,
+      "forged_rate": 0.3333333333333333,
+      "exclusion_rate": 0.0
+    },
+    "B1": {
+      "config": "B1",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 0,
+      "n_poison_excluded": 9,
+      "gold_rate": 0.0,
+      "forged_rate": 0.0,
+      "exclusion_rate": 1.0
+    },
+    "B9": {
+      "config": "B9",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 3,
+      "n_poison_excluded": 0,
+      "gold_rate": 0.0,
+      "forged_rate": 0.3333333333333333,
+      "exclusion_rate": 0.0
+    }
+  },
+  "track_b_consolidation_stage": {
+    "n_tasks": 9,
+    "n_protected": 9,
+    "protection_rate": 1.0
+  },
+  "urs": {
+    "B1": 1.0,
+    "B9": 1.0
+  }
+}

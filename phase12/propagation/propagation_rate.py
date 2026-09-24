@@ -72,7 +72,7 @@ import statistics
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence, Tuple
+from typing import Collection, Dict, List, Optional, Sequence, Tuple
 
 from phase3.evaluation.foundations.canonical import (
     CanonicalMemoryRecord,
@@ -413,7 +413,14 @@ def _record_real_derivation_events(results: Sequence[PRScenarioResult], ledger_d
 def compute_pr(
     *, provider: Optional[LLMProvider] = None, config: Optional[GenerationConfig] = None,
     ledger_dir: Optional[Path] = None, distractors: Sequence[str] = _DISTRACTOR_TURNS,
+    scenario_ids: Optional[Collection[str]] = None,
 ) -> PRResult:
+    # `scenario_ids` (2026-09-23, Phase 15 follow-on, explicitly authorized):
+    # `None` by default -- every existing caller measures all 15 real
+    # scenarios exactly as before. A caller may restrict measurement to a
+    # subset (e.g. only the scenarios a real defense did NOT quarantine, see
+    # `phase15/attribution_track_b_ledger.py`); `known_related_memories`
+    # siblings are still drawn from the FULL real pool, unchanged.
     provider = provider or OllamaProvider()
     config = config or GenerationConfig(
         temperature=0.0, seed=42, max_tokens=100, enable_thinking=False, n_ctx=2048, request_timeout_sec=120.0,
@@ -442,6 +449,8 @@ def compute_pr(
 
     scenario_results: List[PRScenarioResult] = []
     for m in pool.memories:
+        if scenario_ids is not None and m.scenario_id not in scenario_ids:
+            continue
         siblings = tuple(text for sid, text in all_poison_texts.items() if sid != m.scenario_id)
         scenario_results.append(
             _run_one_scenario(

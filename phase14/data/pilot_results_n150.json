@@ -1,0 +1,142 @@
+{
+  "track_a_locomo": {
+    "B0": {
+      "config": "B0",
+      "n_tasks": 150,
+      "n_success": 90,
+      "task_success_rate": 0.6,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 0
+    },
+    "B1": {
+      "config": "B1",
+      "n_tasks": 150,
+      "n_success": 90,
+      "task_success_rate": 0.6,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 150
+    },
+    "B9": {
+      "config": "B9",
+      "n_tasks": 150,
+      "n_success": 90,
+      "task_success_rate": 0.6,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 150
+    }
+  },
+  "track_a_longmemeval": {
+    "B0": {
+      "config": "B0",
+      "n_tasks": 150,
+      "n_success": 29,
+      "task_success_rate": 0.19333333333333333,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 0
+    },
+    "B1": {
+      "config": "B1",
+      "n_tasks": 150,
+      "n_success": 29,
+      "task_success_rate": 0.19333333333333333,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 150
+    },
+    "B9": {
+      "config": "B9",
+      "n_tasks": 150,
+      "n_success": 29,
+      "task_success_rate": 0.19333333333333333,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 150
+    }
+  },
+  "track_a_combined": {
+    "B0": {
+      "config": "B0",
+      "n_tasks": 300,
+      "n_success": 119,
+      "task_success_rate": 0.39666666666666667,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 0
+    },
+    "B1": {
+      "config": "B1",
+      "n_tasks": 300,
+      "n_success": 119,
+      "task_success_rate": 0.39666666666666667,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 300
+    },
+    "B9": {
+      "config": "B9",
+      "n_tasks": 300,
+      "n_success": 119,
+      "task_success_rate": 0.39666666666666667,
+      "n_false_positive_exclusions": 0,
+      "n_false_positive_task_failures": 0,
+      "n_reused_baseline": 300
+    }
+  },
+  "track_a_datasets_with_no_real_task_layer": [
+    "msc",
+    "conversation_chronicles"
+  ],
+  "track_b": {
+    "B0": {
+      "config": "B0",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 3,
+      "n_poison_excluded": 0,
+      "gold_rate": 0.0,
+      "forged_rate": 0.3333333333333333,
+      "exclusion_rate": 0.0
+    },
+    "B1": {
+      "config": "B1",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 0,
+      "n_poison_excluded": 9,
+      "gold_rate": 0.0,
+      "forged_rate": 0.0,
+      "exclusion_rate": 1.0
+    },
+    "B9": {
+      "config": "B9",
+      "n_tasks": 9,
+      "n_matches_gold": 0,
+      "n_matches_forged": 0,
+      "n_poison_excluded": 9,
+      "gold_rate": 0.0,
+      "forged_rate": 0.0,
+      "exclusion_rate": 1.0
+    }
+  },
+  "track_b_consolidation_stage": {
+    "n_tasks": 9,
+    "n_protected": 9,
+    "protection_rate": 1.0
+  },
+  "urs_locomo": {
+    "B1": 1.0,
+    "B9": 1.0
+  },
+  "urs_longmemeval": {
+    "B1": 1.0,
+    "B9": 1.0
+  },
+  "urs_combined": {
+    "B1": 1.0,
+    "B9": 1.0
+  }
+}

@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "<string>", line 4, in <module>
+  File "C:\Agent Memory Poisoning\phase14\campaign.py", line 204, in run_full_pilot
+    track_a_longmemeval = run_track_a_longmemeval(pilot_size_longmemeval)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase14\campaign.py", line 121, in run_track_a_longmemeval
+    return _run_track_a_generic(cases, run_track_a_longmemeval_case)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase14\campaign.py", line 76, in _run_track_a_generic
+    baseline_results = {case.task_id: run_case_fn(case, CONFIG_B0_NO_DEFENSE) for case in cases}
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase14\campaign.py", line 76, in <dictcomp>
+    baseline_results = {case.task_id: run_case_fn(case, CONFIG_B0_NO_DEFENSE) for case in cases}
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase14\track_a_longmemeval.py", line 138, in run_track_a_longmemeval_case
+    normalized = evaluate_answer_correctness_normalized(outcome.execution_result, case.gold_answer)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase3\evaluation\agent\normalized_correctness.py", line 81, in evaluate_answer_correctness_normalized
+    norm_expected = _normalize(expected_answer)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase3\evaluation\agent\normalized_correctness.py", line 46, in _normalize
+    lowered = text.lower().translate(_PUNCT_TABLE)
+              ^^^^^^^^^^
+AttributeError: 'int' object has no attribute 'lower'

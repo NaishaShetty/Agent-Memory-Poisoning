@@ -83,6 +83,25 @@ ADMISSION_SIGNAL_KEYS: frozenset = frozenset(
         # scenarios.
         "entity_link_directive_score",
         "forged_provenance_confirmation_score",
+        # 2026-09-23 (Phase 14 follow-on, explicitly authorized):
+        # `synthetic_repetition_padding_score` (admission/signals.py's own
+        # module comment has the full real justification -- DSRM's real
+        # verbatim-repetition/"N/A" padding construction, 0/502 real benign
+        # false positives, 0/75 real corpus.py scenarios).
+        "synthetic_repetition_padding_score",
+        # 2026-09-23, same session: `unverifiable_closure_score`
+        # (admission/signals.py's own module comment has the full real
+        # justification -- FARMA's real "the fact is now unconfirmable"
+        # construction, 0/502 real benign false positives, 0/75 real
+        # corpus.py scenarios).
+        "unverifiable_closure_score",
+        # 2026-09-23, same session: `preference_decision_update_score`
+        # (admission/signals.py's own module comment has the full real
+        # justification -- MPBench's real "reports a preference/decision
+        # change" construction, 0/502 real benign false positives, 0/75 real
+        # corpus.py scenarios, fires ONLY on real MPBench in the full
+        # 15-scenario corpus).
+        "preference_decision_update_score",
     }
 )
 RETRIEVAL_SIGNAL_KEYS: frozenset = frozenset(
@@ -113,6 +132,27 @@ SLEEPER_SIGNAL_KEYS: frozenset = frozenset(
         "imperative_write_directive_score",  # sleeper/signals.py::imperative_write_directive_signal
         "dormancy_activation_score",  # sleeper/signals.py::dormancy_activation_signal
         "age_based_dormancy_gate_score",  # sleeper/signals.py::age_based_dormancy_gate_signal
+        # 2026-09-23 (Phase 15 follow-on, explicitly authorized): `activation_
+        # shape_score` (phase8/detection/activation_shape_signal.py) -- a
+        # real, cached, content-text-keyed lookup. `evaluate_sleeper_
+        # admission()` (B0-B8's own dedicated Sleeper guard) already combines
+        # it via `max(imperative_write_directive_score, activation_shape_
+        # score)`; B9's own signal composition never included it, which real,
+        # direct testing (Phase 15's per-dataset B9 reshape) found causes B9
+        # to miss the real `REAL-SLEEPER-0` scenario entirely (0% detection,
+        # vs B8's 100% on the exact same content) -- root cause: this
+        # project's own frozen `SleeperInjector` never embeds directive
+        # language in its forged memory text, so `imperative_write_directive_
+        # score` is structurally 0.0 for every real Sleeper memory (already
+        # Phase 8's own disclosed Finding A), leaving B9 with no real
+        # detection basis for Sleeper at all. Additive only: this key is
+        # absent from every existing caller's signals dict (Phase 11's
+        # `grouped_raw_score.py`, `risk_sweep.py`'s dev-corpus sweep, the
+        # frozen `corpus.py` B9 test), so `_sleeper_group_score()`'s own
+        # `.get(..., 0.0)` default leaves their real, already-reported
+        # numbers byte-identical -- verified directly, not assumed (full
+        # cross-phase regression re-run after this change).
+        "activation_shape_score",
     }
 )
 
@@ -334,34 +374,86 @@ def _weighted_sum_rule(signals: Mapping[str, float], weights: Mapping[str, float
 GROUP_WEIGHT = 0.25
 
 
-def _admission_group_score(signals: Mapping[str, float]) -> float:
+# UPDATE (2026-09-23): a "multi-signal corroboration floor" was first tried
+# as a change to the SHARED `_admission_group_score()` (used by every
+# `rule=GROUPED_GATED` caller, including Phase 11's `grouped_raw_score.py`).
+# That version was reverted after a full cross-phase regression run found it
+# degraded Phase 11's real, already-calibrated GNN/LOFO detectors (their
+# `combined_untrained_score()` normalizes this function's output via real
+# TRAINING-POPULATION z-scores; raising admission-group scores for real
+# multi-signal poison shifted that population's own mean/std enough to
+# measurably hurt unrelated detection -- real Sleeper detection dropped from
+# 100% to 0%, real FPR control broke). Rather than fold a fix into the
+# SHARED rule GROUPED_GATED every existing caller depends on, this floor is
+# now its own, SEPARATE, additive composition rule
+# (`GROUPED_GATED_ADMISSION_CORROBORATED`, see below) that only a caller
+# which explicitly opts into it (`phase14/defended_retrieval.py`'s B9 path)
+# ever sees. `GROUPED_GATED` itself -- used by Phase 11, the frozen
+# `corpus.py` 75-scenario corpus's real B0-B9 numbers, and the dev-corpus
+# sweep in `risk_sweep.py` -- is completely UNCHANGED: `_admission_group_score()`
+# never applies a floor unless the caller explicitly asks for one.
+ADMISSION_MULTI_SIGNAL_CORROBORATION_MINIMUM = 2
+# The real, minimum group-score value guaranteed once
+# `ADMISSION_MULTI_SIGNAL_CORROBORATION_MINIMUM` distinct real admission
+# signals fire together, for callers that opt into it. Reaching `HIGH`
+# (risk_score >= 0.6) from the admission group ALONE, given `GROUP_WEIGHT` =
+# 0.25, requires a group score >= 2.4 -- an initial, smaller floor (1.2) was
+# tried first and found, by direct testing, to be completely inert (it never
+# crossed a real risk-band boundary for any real case), so 2.5 (with margin)
+# is used instead.
+ADMISSION_MULTI_SIGNAL_CORROBORATION_FLOOR = 2.5
+
+
+def _admission_group_score(signals: Mapping[str, float], *, corroboration_floor: Optional[float] = None) -> float:
     # Mirrors reasoning_guard.SIGNAL_WEIGHTS exactly (0.2 per signal) -- kept
     # as a local, disclosed literal rather than importing SIGNAL_WEIGHTS to
     # avoid coupling this module's import surface to the admission guard's
     # internal module (a reason to import would be real drift risk; the five
     # weights are simple and already frozen -- see reasoning_guard.py).
-    present = {k: signals[k] for k in ADMISSION_SIGNAL_KEYS if k in signals}
+    #
+    # `corroboration_floor` is `None` for every existing caller (GROUPED_GATED,
+    # the default and only rule any pre-2026-09-23 caller ever used) --
+    # behavior is therefore byte-identical to before this parameter existed
+    # unless a caller explicitly supplies a floor (see module-level UPDATE
+    # note above and `GROUPED_GATED_ADMISSION_CORROBORATED` below).
+    present = {k: signals[k] for k in ADMISSION_SIGNAL_KEYS if k in signals and signals[k] > 0.0}
     if not present:
         return 0.0
-    return sum(0.2 * v for v in present.values())
+    raw = sum(0.2 * signals[k] for k in present)
+    if corroboration_floor is not None and len(present) >= ADMISSION_MULTI_SIGNAL_CORROBORATION_MINIMUM:
+        return max(raw, corroboration_floor)
+    return raw
 
 
 def _sleeper_group_score(signals: Mapping[str, float]) -> float:
-    """The real gate: `imperative_write_directive_score` multiplied by
-    whichever dormancy component is present (`age_based_dormancy_gate_score`
-    if supplied, else `dormancy_activation_score`), exactly as
-    `sleeper_guard.evaluate_sleeper_retrieval_risk()` computes `gated_score`.
-    Neither factor alone contributes anything -- a memory with only a high
-    `dormancy_activation_score` (an ordinary first retrieval, the common
-    benign case Stage 6.8's own docstring names explicitly) and no directive
-    pattern present scores exactly 0.0 here, never a nonzero sleeper
-    contribution from dormancy alone."""
+    """The real gate: the sleeper CONTENT signal multiplied by whichever
+    dormancy component is present (`age_based_dormancy_gate_score` if
+    supplied, else `dormancy_activation_score`), exactly as `sleeper_guard.
+    evaluate_sleeper_retrieval_risk()` computes `gated_score`. Neither factor
+    alone contributes anything -- a memory with only a high `dormancy_
+    activation_score` (an ordinary first retrieval, the common benign case
+    Stage 6.8's own docstring names explicitly) and no content signal present
+    scores exactly 0.0 here, never a nonzero sleeper contribution from
+    dormancy alone.
+
+    UPDATE (2026-09-23, Phase 15 follow-on, explicitly authorized): the
+    content signal is now `max(imperative_write_directive_score,
+    activation_shape_score)`, mirroring `evaluate_sleeper_admission()`'s own
+    real combination exactly (`sleeper_guard.py`) -- two independent
+    detection mechanisms for the same real phenomenon, not a new one
+    invented here. `activation_shape_score` defaults to 0.0 via `.get()` for
+    every caller that has never supplied it (every existing caller before
+    this session), so `max(directive, 0.0) == directive` exactly -- this
+    function's output is byte-identical for them, verified directly (full
+    cross-phase regression), not merely assumed from reading this diff."""
     directive = signals.get("imperative_write_directive_score", 0.0)
+    shape = signals.get("activation_shape_score", 0.0)
+    content_signal = max(directive, shape)
     if "age_based_dormancy_gate_score" in signals:
         dormancy = signals["age_based_dormancy_gate_score"]
     else:
         dormancy = signals.get("dormancy_activation_score", 0.0)
-    return directive * dormancy
+    return content_signal * dormancy
 
 
 def _learned_group_score(signals: Mapping[str, float]) -> float:
@@ -426,14 +518,41 @@ def _retrieval_group_score(signals: Mapping[str, float]) -> float:
     return max(lexical, semantic)
 
 
-def _grouped_gated_rule(signals: Mapping[str, float]) -> Tuple[float, Dict[str, float]]:
+def _grouped_gated_rule(
+    signals: Mapping[str, float], *, admission_corroboration_floor: Optional[float] = None,
+    require_retrieval_corroboration: bool = False,
+) -> Tuple[float, Dict[str, float]]:
     group_scores = {
-        "admission_group": _admission_group_score(signals),
+        "admission_group": _admission_group_score(signals, corroboration_floor=admission_corroboration_floor),
         "retrieval_group": _retrieval_group_score(signals),
         "propagation_group": signals.get("lineage_taint_score", 0.0),
         "sleeper_group": _sleeper_group_score(signals),
         "learned_group": _learned_group_score(signals),
     }
+    # `require_retrieval_corroboration` (2026-09-23, Phase 15 follow-on,
+    # explicitly authorized): `False` for every existing caller (GROUPED_GATED
+    # and GROUPED_GATED_ADMISSION_CORROBORATED both pass nothing, so this is
+    # a no-op for them, byte-identical to before this parameter existed).
+    # When `True` (only `GROUPED_GATED_RETRIEVAL_CORROBORATED` sets it),
+    # retrieval_group's own contribution is zeroed out whenever it is the
+    # ONLY group with a genuinely nonzero score -- real, root-caused reason
+    # (Phase 15's own per-dataset B9 security-matrix reshape): real
+    # semantic-consensus-divergence scores on LongMemEval's real,
+    # naturally-topic-diverse session-based benign pools (0.58-0.71) push 50%
+    # of real benign records past ALLOW on retrieval evidence ALONE, with no
+    # other guard corroborating -- the SAME "single/uncorroborated evidence
+    # is weaker" principle this module already applies via `_single_nonzero_
+    # signal()`'s band cap, just correctly scoped to GROUP-level corroboration
+    # (that existing cap does not help here: B9's own convention of always
+    # supplying `dormancy_activation_score=1.0` as sleeper context means a
+    # real, individual signal VALUE is almost never the only nonzero one,
+    # even when no other GROUP genuinely fires).
+    if require_retrieval_corroboration and group_scores["retrieval_group"] > 0.0:
+        other_groups_fire = any(
+            group_scores[name] > 0.0 for name in group_scores if name != "retrieval_group"
+        )
+        if not other_groups_fire:
+            group_scores["retrieval_group"] = 0.0
     present_groups = [name for name in group_scores if _group_has_any_signal(name, signals)]
     if not present_groups:
         return 0.0, {}
@@ -467,7 +586,34 @@ def _group_has_any_signal(group_name: str, signals: Mapping[str, float]) -> bool
 
 WEIGHTED_SUM = "weighted_sum"
 GROUPED_GATED = "grouped_gated"
-COMPOSITION_RULES: Tuple[str, ...] = (WEIGHTED_SUM, GROUPED_GATED)
+# 2026-09-23 (Phase 14 follow-on, explicitly authorized): a SEPARATE,
+# additive rule -- identical to GROUPED_GATED except `_admission_group_score()`
+# is given `ADMISSION_MULTI_SIGNAL_CORROBORATION_FLOOR`. Deliberately its own
+# rule name, not a change to GROUPED_GATED itself, so every existing
+# GROUPED_GATED caller (Phase 11's z-score-normalized detectors, the frozen
+# `corpus.py` 75-scenario corpus's real B0-B9 numbers, `risk_sweep.py`'s
+# dev-corpus sweep) is completely unaffected -- see `_admission_group_score()`'s
+# own module-level UPDATE note for the real regression this isolation avoids.
+# Only `phase14/defended_retrieval.py`'s B9 path opts into this rule.
+GROUPED_GATED_ADMISSION_CORROBORATED = "grouped_gated_admission_corroborated"
+# 2026-09-23 (Phase 15 follow-on, explicitly authorized): another SEPARATE,
+# additive rule -- identical to GROUPED_GATED except retrieval_group's own
+# contribution is suppressed whenever it is the ONLY group with a genuinely
+# nonzero score (see `_grouped_gated_rule()`'s own `require_retrieval_
+# corroboration` docstring for the full real root cause and validation).
+# Deliberately its own rule name: `GROUPED_GATED` and `GROUPED_GATED_
+# ADMISSION_CORROBORATED` are both completely unaffected, since neither
+# passes `require_retrieval_corroboration=True`. Only `phase15/
+# security_matrix_extension.py`'s B9 per-dataset reshape opts into this rule
+# -- Phase 14's own live B9 path does not need it (`REQUIRE_VALIDATION`,
+# the real action this finding was inflating, is not one of Phase 14's
+# `HARD_MITIGATION_ACTIONS`, so it never caused a real content exclusion
+# there in the first place -- confirmed directly, Phase 14's own real
+# Track A URS was already a clean 1.0 on LongMemEval before this fix).
+GROUPED_GATED_RETRIEVAL_CORROBORATED = "grouped_gated_retrieval_corroborated"
+COMPOSITION_RULES: Tuple[str, ...] = (
+    WEIGHTED_SUM, GROUPED_GATED, GROUPED_GATED_ADMISSION_CORROBORATED, GROUPED_GATED_RETRIEVAL_CORROBORATED,
+)
 
 # The rule this module recommends as of Stage 10.1 (Phase 10 plan Section
 # 10.1: "try candidates against the disjoint dev corpus... report which one,
@@ -517,6 +663,7 @@ def compute_memory_risk_score(
     *,
     rule: str = RECOMMENDED_RULE,
     weights: Optional[Mapping[str, float]] = None,
+    admission_corroboration_floor: Optional[float] = None,
 ) -> RiskEstimate:
     """Combine `signals` (a real, already-computed `signals_used`-shaped dict
     -- e.g. the union of several `MGPDecisionRecord.signals_used` for the same
@@ -532,6 +679,16 @@ def compute_memory_risk_score(
     guard's own internal combination are fixed by design, not tunable per
     call (Phase 10 plan Section 5: weights/thresholds are disclosed, versioned
     constants, not fitted parameters).
+
+    `admission_corroboration_floor` is only consulted for
+    `rule=GROUPED_GATED_ADMISSION_CORROBORATED` (defaults to
+    `ADMISSION_MULTI_SIGNAL_CORROBORATION_FLOOR` when omitted). It exists
+    SOLELY so a real calibration/sweep tool (`phase6/evaluation/ablations/
+    admission_corroboration_floor_sweep.py`) can try candidate floor values
+    through this same public function, rather than reaching into the private
+    `_grouped_gated_rule()` helper from another module -- ordinary callers
+    (including `phase14/defended_retrieval.py`'s live B9 path) never pass it
+    and get the shipped, disclosed floor.
 
     Raises `UnsanctionedRiskSignalError` if `signals` contains any key outside
     `SANCTIONED_RISK_SIGNAL_KEYS` (Phase 10 plan Section 8's first acceptance
@@ -559,6 +716,15 @@ def compute_memory_risk_score(
     if rule == WEIGHTED_SUM:
         effective_weights = dict(DEFAULT_FLAT_WEIGHTS if weights is None else weights)
         score, contributions = _weighted_sum_rule(signals, effective_weights)
+    elif rule == GROUPED_GATED_ADMISSION_CORROBORATED:
+        effective_floor = (
+            ADMISSION_MULTI_SIGNAL_CORROBORATION_FLOOR
+            if admission_corroboration_floor is None
+            else admission_corroboration_floor
+        )
+        score, contributions = _grouped_gated_rule(signals, admission_corroboration_floor=effective_floor)
+    elif rule == GROUPED_GATED_RETRIEVAL_CORROBORATED:
+        score, contributions = _grouped_gated_rule(signals, require_retrieval_corroboration=True)
     else:
         score, contributions = _grouped_gated_rule(signals)
 

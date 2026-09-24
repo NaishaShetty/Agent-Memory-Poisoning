@@ -54,7 +54,7 @@ non-footprint-shaped finding.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Sequence, Tuple
+from typing import Any, Dict, Mapping, Optional, Sequence, Tuple
 
 
 @dataclass(frozen=True)
@@ -86,17 +86,32 @@ def run_amem_real_evolution_study(
         "Melanie also mentioned she enjoys ceramics and clay work as a creative outlet.",
         "Melanie has been going to the pottery studio most Saturdays since she signed up.",
     ),
+    configuration: Optional[Mapping[str, Any]] = None,
 ) -> AMemEvolutionStudyResult:
     """Add each of `texts` as a real note via the real, frozen
     `RealAMemAdapter`, then inspect each real `MemoryNote`'s own post-hoc
     state. Requires the real A-MEM stack to be importable and a real,
-    reachable Ollama server with the `llama2` model pulled -- run this only
-    under `C:\\h4venv`'s interpreter with Ollama running; call
-    `is_real_amem_available()` first to check."""
+    reachable LLM backend for `process_memory()`'s evolution step -- run this
+    only under `C:\\h4venv`'s interpreter; call `is_real_amem_available()`
+    first to check.
+
+    UPDATE (2026-09-23, Phase 14 follow-on, explicitly authorized): added
+    `texts` scale-up support (this parameter already existed; only the
+    original 3-sentence default was ever exercised) and a real, additive
+    `configuration` parameter -- `initialize()` was previously hardcoded to
+    `adapter.initialize({})`, which resolves to `RealAMemAdapter`'s own
+    default (`llm_backend="openai"` against llama-server, per its own
+    2026-09-16 Decision-2 wiring) rather than the `llm_backend="ollama"` this
+    module's original 2026-09-16 3-note run actually used. Passing
+    `configuration={"llm_backend": "ollama"}` reproduces that same real,
+    already-validated backend explicitly rather than relying on whatever
+    the adapter's own default happens to be at call time -- a real, disclosed
+    fix for a latent staleness risk (the adapter's default backend changed
+    after this module was written), not a new capability."""
     from phase3.evaluation.foundations_real.amem_real_adapter import RealAMemAdapter
 
     adapter = RealAMemAdapter()
-    init_field = adapter.initialize({})
+    init_field = adapter.initialize(dict(configuration) if configuration is not None else {})
     from phase3.evaluation.foundations.adapter import FOUNDATION_AVAILABLE, FOUNDATION_PARTIAL
     if init_field.availability not in (FOUNDATION_AVAILABLE, FOUNDATION_PARTIAL):
         raise RuntimeError(

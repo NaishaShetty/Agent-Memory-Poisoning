@@ -267,7 +267,11 @@ def test_semantic_d2_has_real_measured_latency():
 
 
 def test_all_component_profiles_present():
-    assert len(ALL_COMPONENT_PROFILES) == 6
+    # UPDATE (2026-09-23, Phase 14, explicitly authorized): the Consolidation
+    # Guard (Phase 12's fifth defense component) now has a real profile too --
+    # it had none at all when this test was written, since it did not yet
+    # exist. 6 -> 7, additive only; every prior profile is unchanged.
+    assert len(ALL_COMPONENT_PROFILES) == 7
 
 
 def test_total_query_latency_is_none_if_any_component_unmeasured():
