@@ -2,6 +2,42 @@
 
 **Memory and Agent Manipulation Benchmark**
 
+## Current status (2026-09-27): Phase 17 — Ablation & Generalization
+
+Phases 1–16 (dataset foundation, clean agent, attack benchmark, instrumentation,
+governance defense, propagation monitoring, sleeper detection, attribution/forensics,
+adaptive risk-based hardening, GNN/GLN learned components, security evaluation,
+attribution evaluation, scalability evaluation, integrated evaluation, final validation)
+are **COMPLETE**. Phase 17 (ablation of every defense component + generalization to
+unseen attack mechanisms/datasets/languages/memory foundations) is the **current** phase.
+
+- **Defense evaluation exists** (superseding the "No defense/mitigation evaluation
+  exists" line further down, kept below as the historical Phase-4-freeze statement it
+  was written as): `phase6/defense/` is the full provenance/governance defense stack;
+  `phase14/defended_retrieval.py::REAL_CONFIGS` names 13 live defense configurations
+  (`B0`..`B12`), evaluated for detection, false-positive rate, and utility cost across
+  Phases 6–17.
+- **Canonical benchmark artifacts** (Phase 17, Workstreams H–K):
+  [`docs/phase17/BENCHMARK_SPECIFICATION.md`](docs/phase17/BENCHMARK_SPECIFICATION.md)
+  (scenario/result schema), [`docs/BENCHMARK_CARD.md`](docs/BENCHMARK_CARD.md) (intended
+  use, threat model, known limitations), `phase17/canonical_matrix.py` (cross-phase
+  result matrix), `phase17/bench_runner.py` (a minimal, real entry point:
+  `python -m phase17.bench_runner --defense B12 --split held_out_novel`).
+- **Full Phase 17 report**: [`docs/phase17/PHASE17_ABLATION_GENERALIZATION_REPORT.md`](docs/phase17/PHASE17_ABLATION_GENERALIZATION_REPORT.md)
+  — ablation of every defense component, generalization to 6 unseen attack mechanisms,
+  Chinese-language poison, a live A-mem-sys memory foundation, leave-mechanism-out
+  detector generalization, evaluator-independence and LLM-nondeterminism measurements,
+  adversarial provenance-integrity stress tests, and sanity/bound baselines.
+- **Updated methodology**: [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) reorganizes the
+  full Phase 1–17 story (the original `Methodology Draft.docx`/`Methodology.pdf` are
+  preserved unmodified as the historical draft).
+
+Everything below this section is the **original Phase 4 README**, preserved as written
+at the Phase 4 freeze (2026-09-11) — including limitations later phases closed (defense
+evaluation, statistical power, CI). Read it as history, not current status.
+
+---
+
 ## What it is
 
 A unified benchmark for studying memory poisoning and manipulation

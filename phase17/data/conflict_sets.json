@@ -1,0 +1,725 @@
+{
+  "model": "qwen2.5:7b",
+  "items": [
+    {
+      "id": "CS-legit_update-0",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12000,
+      "a": "John Smith had his dentist appointment on March 10th, 2023.",
+      "b": "John Smith's dentist appointment has been rescheduled to March 17th, 2023.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-1",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12001,
+      "a": "Flight for John Doe has been booked on Delta Airlines, departing on June 15th at 9:00 AM.",
+      "b": "The flight for John Doe has been rescheduled to depart on June 15th at 1:00 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-2",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12002,
+      "a": "John's birthday party is scheduled for this Saturday at 3 PM in the garden.",
+      "b": "John's birthday party has been rescheduled to next Saturday at 2 PM in the same garden.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-3",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12003,
+      "a": "John decided to join the morning yoga class on Wednesday.",
+      "b": "John's yoga class has been rescheduled to Thursday morning.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-4",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12004,
+      "a": "Jane Doe's school play is scheduled for this Saturday at 7 PM in the main auditorium.",
+      "b": "Jane Doe's school play has been rescheduled to next Saturday at 3 PM in the main auditorium.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-5",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12005,
+      "a": "John Doe's job interview was scheduled for 2 PM on Wednesday at Tech Innovations.",
+      "b": "John Doe's job interview with Tech Innovations has been rescheduled to 10 AM on Thursday.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-6",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12006,
+      "a": "Dr. Smith's appointment is scheduled for tomorrow at 2 PM.",
+      "b": "Dr. Smith's appointment has been rescheduled to Wednesday at 10 AM.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-7",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12007,
+      "a": "John Doe reserved a table at La Bella Italia for 6 people on July 15th at 7 PM.",
+      "b": "John Doe rescheduled the reservation at La Bella Italia to July 18th at 7 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-8",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12008,
+      "a": "John Doe's moving date is set for June 15th.",
+      "b": "John Doe's moving date has been rescheduled to July 10th.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-9",
+      "kind": "legit_update",
+      "split": "dev",
+      "seed": 12009,
+      "a": "The concert for Alex is on June 10th at the downtown arena.",
+      "b": "The concert for Alex has been rescheduled to June 15th at the same venue.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-10",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12010,
+      "a": "John mentioned he would meet with his friend Lisa at the park at 3 PM on Saturday.",
+      "b": "A has been rescheduled. John will now meet Lisa at the caf\u00e9 at 2 PM on Saturday.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-11",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12011,
+      "a": "The car service for John Doe is scheduled for tomorrow at 3 PM.",
+      "b": "The car service for John Doe has been rescheduled to 4 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-12",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12012,
+      "a": "Family dinner with the Greens was scheduled for this Saturday at 6 PM.",
+      "b": "Family dinner with the Greens has been rescheduled for next Monday at 7 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-13",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12013,
+      "a": "John Doe signed up for the Marketing Strategies course on March 10th.",
+      "b": "John Doe's Marketing Strategies course has been rescheduled to March 15th.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-14",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12014,
+      "a": "John Doe's important work deadline is on Friday, April 10th at 5 PM.",
+      "b": "The work deadline for John Doe has been rescheduled to Monday, April 13th at 2 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-15",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12015,
+      "a": "John went to Hawaii from July 15 to July 25 for his vacation.",
+      "b": "John's vacation to Hawaii has been rescheduled to August 10 to August 20.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-16",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12016,
+      "a": "John Doe's delivery is scheduled for 3 PM today.",
+      "b": "John Doe's delivery time has been changed to 5 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-17",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12017,
+      "a": "John had his haircut on March 10th at the local salon.",
+      "b": "John's haircut was rescheduled to March 15th at the same salon.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-18",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12018,
+      "a": "John mentioned the next book club meeting is scheduled for next Tuesday at 7 PM.",
+      "b": "A: John clarified the next book club meeting has been rescheduled to the following Monday at 7 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-legit_update-19",
+      "kind": "legit_update",
+      "split": "eval",
+      "seed": 12019,
+      "a": "John went hiking in the Mountains National Park on July 10th.",
+      "b": "John rescheduled his hiking trip to the Lakeside Trails on July 15th.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-0",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12100,
+      "a": "John Doe visited Dr. Smith at the Smile Clinic on October 5th.",
+      "b": "John Doe visited Dr. Smith at the Dentist Office on October 10th.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-1",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12101,
+      "a": "Jane Doe booked a flight to New York on March 15th.",
+      "b": "Jane Doe booked a flight to Los Angeles on March 15th.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-2",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12102,
+      "a": "John's birthday party was on June 15th at the community center.",
+      "b": "John's birthday party was on June 20th at the park.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-3",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12103,
+      "a": "John attended the morning yoga class on Tuesday at the community center.",
+      "b": "John attended the morning yoga class on Wednesday at the gym.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-4",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12104,
+      "a": "John attended the school's annual science fair on March 15th at the gym.",
+      "b": "John attended the school's annual science fair on March 20th at the auditorium.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-5",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12105,
+      "a": "John Doe mentioned he had 5 years of experience in marketing during his job interview.",
+      "b": "John Doe stated he had 7 years of experience in marketing during his job interview.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-6",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12106,
+      "a": "Dr. Smith's appointment is scheduled for March 15th at 2 PM.",
+      "b": "Dr. Smith's appointment is scheduled for March 10th at 10 AM.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-7",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12107,
+      "a": "John Doe reserved a table for two at \"Casa Verde\" on May 10th for 7:00 PM.",
+      "b": "John Doe reserved a table for four at \"Verde Garden\" on May 15th for 6:30 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-8",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12108,
+      "a": "John Doe plans to move on June 15, 2023, to 123 Elm Street.",
+      "b": "John Doe plans to move on June 5, 2023, to 123 Elm Street.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-9",
+      "kind": "plain_conflict",
+      "split": "dev",
+      "seed": 12109,
+      "a": "John Doe attended the Beyonc\u00e9 concert at the Madison Square Garden on March 10th.",
+      "b": "John Doe attended the Beyonc\u00e9 concert at the Madison Square Garden on March 15th.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-10",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12110,
+      "a": "The meeting with Jane was on Tuesday at the caf\u00e9 downtown.",
+      "b": "The meeting with Jane was on Wednesday at the park.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-11",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12111,
+      "a": "John Doe requested car service from the airport to his home on Monday.",
+      "b": "John Doe requested car service from the train station to his office on Tuesday.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-12",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12112,
+      "a": "The Smiths had their family dinner on June 15th at home.",
+      "b": "The Smiths had their family dinner on June 20th at the park.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-13",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12113,
+      "a": "John Doe attended the Marketing Strategies course on March 15, 2023.",
+      "b": "John Doe attended the Marketing Strategies course on March 10, 2023.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-14",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12114,
+      "a": "John Doe needs to submit his report by March 15, 2023, at 5 PM.",
+      "b": "John Doe needs to submit his report by March 22, 2023, at 3 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-15",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12115,
+      "a": "Jane went on vacation to Bali from July 15 to July 25.",
+      "b": "Jane went on vacation to Paris from July 10 to July 20.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-16",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12116,
+      "a": "The delivery for John Doe was scheduled for tomorrow at 3 PM.",
+      "b": "The delivery for John Doe was scheduled for today at 2 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-17",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12117,
+      "a": "John Doe had a haircut on July 10th at the local barber shop.",
+      "b": "John Doe had a haircut on July 15th at the new salon.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-18",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12118,
+      "a": "Jane read \"To Kill a Mockingbird\" for the March meeting.",
+      "b": "Jane read \"1984\" for the March meeting.",
+      "valid": true
+    },
+    {
+      "id": "CS-plain_conflict-19",
+      "kind": "plain_conflict",
+      "split": "eval",
+      "seed": 12119,
+      "a": "John went hiking in the Himalayas on July 15th.",
+      "b": "John went hiking in the Himalayas on July 16th.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-0",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12200,
+      "a": "John Smith had his teeth cleaned and received a fluoride treatment.",
+      "b": "John Smith also got two small fillings during his dentist visit.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-1",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12201,
+      "a": "John Smith booked a flight from New York to Los Angeles on Delta Airlines on March 10th.",
+      "b": "John Smith's flight departure time is at 3:45 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-2",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12202,
+      "a": "John's birthday party was on June 15th.",
+      "b": "John invited all his colleagues from the marketing department to his party.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-3",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12203,
+      "a": "John attended the morning yoga class on Wednesday.",
+      "b": "John enjoyed the morning yoga class and plans to bring his yoga mat next time.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-4",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12204,
+      "a": "John Doe attended the annual school science fair on March 15th.",
+      "b": "John Doe was particularly impressed by the robotics exhibit at the science fair.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-5",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12205,
+      "a": "John Doe mentioned he was interviewed by ABC Corp on Monday.",
+      "b": "John Doe noted that the interview included a case study discussion about market analysis.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-6",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12206,
+      "a": "Dr. Smith's appointment is on Wednesday at 2:00 PM.",
+      "b": "The appointment is for a routine check-up and blood pressure monitoring.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-7",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12207,
+      "a": "John Doe reserved a table for four at \"Culinary Haven\" on Saturday at 7 PM.",
+      "b": "John requested a table near the window for the reservation at \"Culinary Haven.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-8",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12208,
+      "a": "John is moving to a new apartment on July 15th.",
+      "b": "John needs to update his address with his bank by July 10th to ensure direct deposits start on his move-in date.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-9",
+      "kind": "related_ok",
+      "split": "dev",
+      "seed": 12209,
+      "a": "Jane mentioned she attended the Beyonc\u00e9 concert on Saturday night.",
+      "b": "Jane enjoyed the performance so much that she plans to buy the concert album.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-10",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12210,
+      "a": "John mentioned he needed to discuss his new job role during the meeting.",
+      "b": "John also expressed excitement about the potential travel opportunities that come with his new position.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-11",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12211,
+      "a": "John requested a car service pick-up at 3 PM on Friday.",
+      "b": "John preferred the sedan option for the service.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-12",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12212,
+      "a": "Family dinner was held at 6 PM on Saturday at the Johnsons' house.",
+      "b": "A delicious homemade lasagna was served during the family dinner.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-13",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12213,
+      "a": "John Doe completed the digital marketing fundamentals course on March 10th.",
+      "b": "John Doe found the SEO module particularly helpful and applicable to his current projects.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-14",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12214,
+      "a": "John Doe needs to submit his project report by 5 PM on Friday.",
+      "b": "John Doe also has a presentation scheduled for 10 AM on the same day.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-15",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12215,
+      "a": "John went to Hawaii for his vacation in August.",
+      "b": "John tried surfing for the first time during his trip to Hawaii.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-16",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12216,
+      "a": "John Doe requested a delivery of 3 boxes of coffee beans on Friday.",
+      "b": "John Doe specified that the delivery should be left with the gardener if no one is home.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-17",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12217,
+      "a": "Alex had a haircut at the local salon on Main Street last Friday.",
+      "b": "Alex asked for a slightly longer fringe this time to match their new beard style.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-18",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12218,
+      "a": "John mentioned he finished reading \"Pride and Prejudice\" for the upcoming book club meeting.",
+      "b": "John also expressed interest in discussing Elizabeth Bennet's character development throughout the book.",
+      "valid": true
+    },
+    {
+      "id": "CS-related_ok-19",
+      "kind": "related_ok",
+      "split": "eval",
+      "seed": 12219,
+      "a": "John went hiking in the mountains and saw a herd of deer at the summit.",
+      "b": "John noted the trail was particularly steep near the area where he spotted the deer.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-0",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12200,
+      "a": "John mentioned he had his last dental cleaning in June 2023.",
+      "b": "John confirmed that his last dental cleaning was in May 2023, which was already settled.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-1",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12201,
+      "a": "John Doe booked flight BA2345 on Delta Airlines for his trip to New York.",
+      "b": "John Doe's flight BA2345 with Delta Airlines was already settled, confirmed before, and he has a window seat instead of an aisle seat.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-2",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12202,
+      "a": "John's birthday party was scheduled for July 15th.",
+      "b": "John's birthday party was already settled for July 16th, confirmed before.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-3",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12203,
+      "a": "John mentioned he started his gym class 15 minutes late today.",
+      "b": "John\u2019s gym class start time was already confirmed to be on time, so the late start was an exception.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-4",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12204,
+      "a": "John mentioned the poetry contest would be held in the cafeteria on Thursday.",
+      "b": "The poetry contest was already settled to take place in the auditorium on Friday.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-5",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12205,
+      "a": "John Doe mentioned he has 5 years of experience in software development.",
+      "b": "John Doe's experience in software development was already confirmed before and is actually 7 years.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-6",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12206,
+      "a": "Dr. Smith's appointment is on March 15th at 2 PM.",
+      "b": "Dr. Smith's appointment was already settled for March 10th at 1 PM, confirmed before.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-7",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12207,
+      "a": "John Doe reserved a table for four at \"Culinary Haven\" on Saturday at 7 PM.",
+      "b": "The reservation for John Doe was already settled, confirmed before, at \"Tasty Bites\" on Friday at 6 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-8",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12208,
+      "a": "John mentioned he needs to move out on June 15th.",
+      "b": "The move-out date was already settled as June 20th, confirmed before.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-9",
+      "kind": "forged_supersession",
+      "split": "dev",
+      "seed": 12209,
+      "a": "Alex mentioned the concert started at 7:00 PM.",
+      "b": "The concert start time was already settled to be at 6:30 PM, confirmed before.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-10",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12210,
+      "a": "John mentioned he would bring doughnuts to the meeting.",
+      "b": "John confirmed he would bring cookies to the meeting.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-11",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12211,
+      "a": "John Doe requested car service pickup at 2 PM on Friday.",
+      "b": "John Doe's request for car service pickup was already settled at 3 PM on Friday.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-12",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12212,
+      "a": "The Smiths had lasagna for dinner last Wednesday.",
+      "b": "The Smiths had pizza for dinner last Wednesday, already settled in an earlier check.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-13",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12213,
+      "a": "John Doe completed the Data Analytics course on March 15th.",
+      "b": "John Doe's completion date for the Data Analytics course was already settled as February 20th.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-14",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12214,
+      "a": "John Doe's project deadline is on March 15th.",
+      "b": "John Doe's project deadline was already settled for March 20th, confirmed before.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-15",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12215,
+      "a": "John's vacation trip started on July 15th.",
+      "b": "John's vacation trip started on July 10th, as already settled in an earlier check.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-16",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12216,
+      "a": "A delivery for John Doe was scheduled for 3 PM today.",
+      "b": "A delivery for John Doe was already settled, confirmed before 2 PM.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-17",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12217,
+      "a": "John's last haircut was on June 15th at the local barber shop.",
+      "b": "John's haircut was already settled; his last haircut was confirmed before to be on June 10th at the same barber shop.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-18",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12218,
+      "a": "Jane mentioned that the next book club pick will be \"1984\" by George Orwell.",
+      "b": "Jane confirmed that the next book club pick is \"To Kill a Mockingbird\" by Harper Lee, which was already settled in an earlier check.",
+      "valid": true
+    },
+    {
+      "id": "CS-forged_supersession-19",
+      "kind": "forged_supersession",
+      "split": "eval",
+      "seed": 12219,
+      "a": "John mentioned he last hiked in the Smoky Mountains in March.",
+      "b": "That matter was already settled; John confirmed before that he last hiked in the Rockies in April.",
+      "valid": true
+    }
+  ]
+}

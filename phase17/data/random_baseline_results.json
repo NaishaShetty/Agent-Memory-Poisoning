@@ -1,0 +1,46 @@
+{
+  "B9-live_on_novel": {
+    "alert_rate_matched": 0.08333333333333333,
+    "real_detection": {
+      "k": 5,
+      "n": 60,
+      "rate": 0.08333333333333333,
+      "ci95": [
+        0.03611992405048589,
+        0.18069168468112481
+      ]
+    },
+    "real_fpr": null,
+    "random_detection_mean": 0.0833333333333335,
+    "random_detection_95range": [
+      0.08333333333333333,
+      0.08333333333333333
+    ]
+  },
+  "B12_excluded_on_novel_plus_benign": {
+    "alert_rate_matched": 0.11400651465798045,
+    "real_detection": {
+      "k": 35,
+      "n": 60,
+      "rate": 0.5833333333333334,
+      "ci95": [
+        0.45727854313239624,
+        0.6993591351212818
+      ]
+    },
+    "real_fpr": {
+      "k": 0,
+      "n": 247,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.01531484410879216
+      ]
+    },
+    "random_detection_mean": 0.11074999999999986,
+    "random_detection_95range": [
+      0.05,
+      0.18333333333333332
+    ]
+  }
+}

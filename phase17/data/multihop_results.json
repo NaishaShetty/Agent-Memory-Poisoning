@@ -1,0 +1,1729 @@
+{
+ "rows": [
+  {
+   "q": "What was the artists Calvin used to listen to when he was a kid?",
+   "gold": "Tupac and Dr. Dre",
+   "subs": [
+    "What kind of music did Calvin listen to as a kid?",
+    "Which artists were popular in Calvin's childhood music collection?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Tupac and Dr. Dre",
+     "qwen": "Calvin used to listen to Tupac and Dr. Dre when he was a kid."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Tupac and Dr. Dre",
+     "qwen": "Calvin used to listen to Tupac and Dr. Dre when he was a kid."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Tupac and Dr. Dre",
+     "qwen": "Calvin used to listen to Tupac and Dr. Dre when he was a kid."
+    }
+   }
+  },
+  {
+   "q": "What kind of car does Evan drive?",
+   "gold": "Prius",
+   "subs": [
+    "What kind of car does Evan drive?",
+    "What brand is Evan's car?",
+    "What model is Evan's car?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.8,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Evan drives a Prius.",
+     "qwen": "Evan drives a Prius."
+    },
+    "decomposed": {
+     "evidence_recall": 0.4,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Evan drives a Toyota Prius.",
+     "qwen": "Evan drives a new Prius."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "Based on the memories provided, Evan drives a Prius.",
+     "qwen": "Evan drives a Prius."
+    }
+   }
+  },
+  {
+   "q": "What books has Tim read?",
+   "gold": "Harry Potter, Game of Thrones, the Name of the Wind, The Alchemist, The Hobbit, A Dance with Dragons, and the Wheel of Time.",
+   "subs": [
+    "Has Tim read any books recently?",
+    "What specific books has Tim read in the past?",
+    "Has Tim read any classics or bestsellers?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.42857142857142855,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Tim has read:\n\n* \"A Dance with Dragons\"\n* \"The Alchemist\"",
+     "qwen": "Tim has read \"A Dance with Dragons\" and enjoyed \"The Alchemist.\""
+    },
+    "decomposed": {
+     "evidence_recall": 0.2857142857142857,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Tim has read \"The Alchemist\".",
+     "qwen": "Based on the memories, Tim has read \"The Alchemist.\" He also mentioned enjoying books that take him to other places, indicating he has read other books as well, but the specific titles are not mentioned."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 7,
+     "llama2": "Based on the memories provided, Tim has read the following books:\n\n1. \"The Name of the Wind\"\n2. \"The Alchemist\"\n3. \"The Hobbit\"\n4. A popular fantasy series (not specified)\n5. \"A Dance with Dragons\"",
+     "qwen": "Tim has read \"The Name of the Wind,\" \"The Alchemist,\" and \"A Dance with Dragons.\" He also mentioned a love for \"The Hobbit\" and is excited about \"The Wheel of Time\" book series."
+    }
+   }
+  },
+  {
+   "q": "What exercises has John done?",
+   "gold": "Weight training, Circuit training, Kickboxing, yoga",
+   "subs": [
+    "Has John done any weightlifting exercises?",
+    "What about jogging or running sessions has John participated in?",
+    "Has John tried any yoga or stretching routines?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.75,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John has done weight training, yoga, and kickboxing.",
+     "qwen": "John has done weight training, yoga, and kickboxing."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 3,
+     "llama2": "John has done weight training and yoga.",
+     "qwen": "John has done weight training, yoga, and circuit training."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John has done weight training and kickboxing.",
+     "qwen": "John has done weight training, yoga, and kickboxing."
+    }
+   }
+  },
+  {
+   "q": "What music events has John attended?",
+   "gold": "Live music event, violin concert",
+   "subs": [
+    "Has John attended any music festivals?",
+    "What concerts has John attended?",
+    "Are there any live music events that John has participated in?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "According to the memories, John has attended a violin concert and a live music event.",
+     "qwen": "John attended a live music event last week where he saw his family dancing and having fun. He also enjoyed a violin concert the previous week."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "According to the memories, John has attended a violin concert and a live music event.",
+     "qwen": "John attended a live music event last week, where they enjoyed the energy and fun of the audience dancing. Additionally, he found a violin concert that the family enjoyed together."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "According to the memories, John has attended a live music event last week.",
+     "qwen": "John attended a live music event and a violin concert."
+    }
+   }
+  },
+  {
+   "q": "Who supports Caroline when she has a negative experience?",
+   "gold": "Her mentors, family, and friends",
+   "subs": [
+    "Does Caroline have someone to support her during negative experiences?",
+    "Who provides support to Caroline when she faces negative experiences?",
+    "Are there people who support Caroline during her negative experiences?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Mel.",
+     "qwen": "Caroline's close friends support her when she has a negative experience, such as encountering a group of religious conservatives on a hike who said something upsetting about LGBTQ rights."
+    },
+    "decomposed": {
+     "evidence_recall": 0.0,
+     "n_mem": 2,
+     "llama2": "The memories suggest that Caroline's support system consists of her friends. Therefore, the answer to the question is \"her friends.\"",
+     "qwen": "Caroline's friends have been there to support her, especially after her tough breakup."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Caroline's friends and family.",
+     "qwen": "Caroline's friends, family, and mentors support her when she has a negative experience."
+    }
+   }
+  },
+  {
+   "q": "What is Dave's favorite activity?",
+   "gold": "Restoring cars",
+   "subs": [
+    "What is Dave's favorite activity?",
+    "Does Dave prefer indoor or outdoor activities?",
+    "How often does Dave engage in his favorite activity?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.3333333333333333,
+     "n_mem": 4,
+     "llama2": "Dave's favorite activity is restoring things.",
+     "qwen": "Dave's favorite activity, based on the memories, is restoring cars and writing on his blog."
+    },
+    "decomposed": {
+     "evidence_recall": 0.0,
+     "n_mem": 3,
+     "llama2": "Dave's favorite activity is music.",
+     "qwen": "Based on the memories provided, Dave's favorite activity doesn't seem to be explicitly stated. However, from the conversation, we can infer that Dave enjoys creating a good atmosphere through music and might find it therapeutic. His interest in others' creative endeavors, such as Calvin's blog and car mods, also suggests an appreciation for creativity and community."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Dave's favorite activity is restoring cars.",
+     "qwen": "Dave's favorite activity is restoring old cars."
+    }
+   }
+  },
+  {
+   "q": "Which cities has Jon visited?",
+   "gold": "Paris, Rome",
+   "subs": [
+    "Has Jon visited any major cities?",
+    "Which specific cities has Jon traveled to?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Rome and Paris.",
+     "qwen": "Jon visited Rome and Paris."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Rome and Paris.",
+     "qwen": "Jon visited Rome and Paris."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Jon has visited Paris and Rome.",
+     "qwen": "Jon has visited Paris and Rome."
+    }
+   }
+  },
+  {
+   "q": "What does help Calvin stay connected to the creative process?",
+   "gold": "Calvin stays connected to the creative process by always staying up-to-date on world events and watching documentaries about artists.",
+   "subs": [
+    "Does Calvin use specific tools or methods to stay connected to the creative process?",
+    "Does Calvin have a routine or schedule that helps maintain his connection to creativity?",
+    "Does Calvin engage in any particular activities that support his creative flow?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Watching music videos, concerts, and documentaries about artists and their creative process.",
+     "qwen": "Watching music videos, concerts, and documentaries about artists and their creative process helps Calvin stay connected to the creative process."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Calvin stays connected to the creative process by:\n\n* Watching music videos, concerts, and documentaries about artists and their creative process (Memory 3)",
+     "qwen": "Watching music videos, concerts, and documentaries about artists and their creative process helps Calvin stay connected to the creative process."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "- Calvin: Staying connected and up-to-date on world events.",
+     "qwen": "Watching music videos, concerts, and documentaries about artists and their creative process helps Calvin stay connected to the creative process."
+    }
+   }
+  },
+  {
+   "q": "What recipes has Joanna made?",
+   "gold": "dairy free vanilla cake with strawberry filling and coconut cream frosting, parfait, strawberry chocolate cake, chocolate coconut cupcakes, chocolate raspberry tart, chocolate cake with raspberries, blueberry cheesecake bars",
+   "subs": [
+    "Has Joanna made any recipes recently?",
+    "What specific recipes has Joanna created?",
+    "Has Joanna shared any recipes online?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.1111111111111111,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Joanna has made the following recipes:\n\n1. Desserts such as cookies, pies, and cakes.\n2. A dairy-free cake.",
+     "qwen": "Joanna has been making a variety of desserts, including cookies, pies, cakes, and other treats that are dairy-free. She recently made a dairy-free cake."
+    },
+    "decomposed": {
+     "evidence_recall": 0.1111111111111111,
+     "n_mem": 4,
+     "llama2": "Joanna has made dairy-free dessert recipes, including a cake, cookies, and pies.",
+     "qwen": "Joanna has been making dairy-free dessert recipes, including a cake that she shared a picture of. She also makes cookies and pies."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 9,
+     "llama2": "Here are the recipes that Joanna has made based on the memories:\n\n1. Dairy-free vanilla cake with strawberry filling and coconut cream frosting.\n2. Dairy-free chocolate coconut cupcakes with raspberry frosting.\n3. Almond flour crust choc",
+     "qwen": "Joanna has made a dairy-free vanilla cake with strawberry filling and coconut cream frosting, dairy-free chocolate coconut cupcakes with raspberry frosting, an amazing chocolate raspberry tart with an almond flour crust and fresh raspberries, and a dessert made with blueberries, coconut milk, and a gluten-free crust."
+    }
+   }
+  },
+  {
+   "q": "In what ways is Caroline participating in the LGBTQ community?",
+   "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+   "subs": [
+    "How is Caroline involved in the LGBTQ community?",
+    "In what specific activities is Caroline participating within the LGBTQ community?",
+    "What roles does Caroline play in supporting the LGBTQ community?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Caroline is participating in the LGBTQ community through various activities, including:\n\n1. Joining an LGBTQ activist group (Tuesday)\n2. Participating in a mentorship program for LGBTQ youth (last weekend)\n3. Attending an LGBTQ+ pride parade (last week)\n4",
+     "qwen": "Caroline is participating in the LGBTQ community by joining an activist group, mentoring LGBTQ youth, attending pride parades, and hosting an art show."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 2,
+     "llama2": "Caroline is participating in the LGBTQ community through activism and mentorship.",
+     "qwen": "Caroline is participating in the LGBTQ community by joining an activist group and a mentorship program for LGBTQ youth, where she is giving her voice and helping the community."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Caroline is participating in the LGBTQ community through various activities, including:\n\n1. Joining an LGBTQ activist group\n2. Attending an LGBTQ pride parade\n3. Hosting an LGBTQ art show\n4. Participating in a mentorship program for LGBTQ youth.",
+     "qwen": "Caroline is participating in the LGBTQ community by joining an activist group, attending a pride parade, organizing an art show, and mentoring LGBTQ youth."
+    }
+   }
+  },
+  {
+   "q": "What health scares did Sam and Evan experience?",
+   "gold": "Sam faced a health scare with stomach pains that turned out to be gastritis, prompting him to rethink his health habits. Evan, on the other hand, experienced two separate incidents: a sudden heart palpitation incident and a different event involving a misunderstanding during a medical check-up. These experiences have significantly influenced their perspectives on health and well-being.",
+   "subs": [
+    "Did Sam experience any health scares?",
+    "Did Evan face any health issues or scares?",
+    "Were there any specific health scares that both Sam and Evan experienced?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.75,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Sam experienced a health scare with a severe stomachache that turned out to be gastritis, while Evan experienced a health scare with a heart palpitation incident.",
+     "qwen": "Evan experienced a health scare with a sudden heart palpitation incident, while Sam had a severe stomachache that turned out to be gastritis."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Sam and Evan experienced the following health scares:\n\n* Evan had a health scare last week when he had a sudden heart palpitation incident.\n* Evan had a health scare a few days ago when they found something suspicious during a check-up.\n\nTherefore, the answer is: heart palp",
+     "qwen": "Evan experienced a health scare due to a sudden heart palpitation incident and had to go to the hospital for a check-up. Sam had a health scare during a check-up that was initially suspicious but turned out to be a misunderstanding."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Sam experienced a health scare with gastritis, while Evan experienced a health scare with a lost tourist encounter.",
+     "qwen": "Evan experienced a sudden heart palpitation incident that led to a hospital visit, while Sam had a severe stomachache diagnosed as gastritis."
+    }
+   }
+  },
+  {
+   "q": "What kind of subjects does Evan enjoy painting?",
+   "gold": "nature landscapes, portraits, abstract minimalism",
+   "subs": [
+    "Does Evan enjoy painting landscapes?",
+    "Does Evan prefer painting portraits?",
+    "Does Evan paint still lifes as a favorite subject?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.8,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Evan enjoys painting landscapes and figurative art.",
+     "qwen": "Evan enjoys painting landscapes and contemporary figurative paintings, particularly those that capture moments of introspection and emotional states."
+    },
+    "decomposed": {
+     "evidence_recall": 0.4,
+     "n_mem": 2,
+     "llama2": "Evan enjoys painting landscapes and figurative works, focusing on capturing emotional states through expressive brushwork and vibrant color choices.",
+     "qwen": "Evan enjoys painting landscapes and contemporary figurative paintings."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "Based on the memories provided, Evan enjoys painting landscapes and figurative art, with a focus on capturing emotions and introspection.",
+     "qwen": "Evan enjoys painting landscapes and contemporary figurative paintings."
+    }
+   }
+  },
+  {
+   "q": "Did Audrey and Andrew grow up with a pet dog?",
+   "gold": "Yes",
+   "subs": [
+    "Did Audrey grow up with a pet dog?",
+    "Did Andrew grow up with a pet dog?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Yes, Audrey and Andrew grew up with a pet dog. Audrey shared memories of taking long walks with her childhood dog, Max, and Andrew mentioned his family's dog in the photo he shared.",
+     "qwen": "Yes, Audrey and Andrew grew up with a pet dog. Audrey shared memories of walking Max in the neighborhood, and Andrew is considering getting a dog, suggesting they are familiar with having a dog in their lives."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "No, Audrey and Andrew did not grow up with a pet dog.\n\nAudrey's memories of taking long walks with her friend Max and sharing her worries and hopes with him suggest that Max was not a dog, but rather a different kind of companion.\n\nAndrew's memories of wanting a furry buddy to cuddle and hang",
+     "qwen": "Yes, Audrey grew up with a pet dog, Max, who was a significant part of her childhood. Andrew's comment about getting a dog suggests he might be considering one, but it's not explicitly stated that he grew up with a pet dog."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "No, Audrey and Andrew did not grow up with a pet dog.",
+     "qwen": "Yes, based on the memories, both Audrey and Andrew grew up with a pet dog named Max."
+    }
+   }
+  },
+  {
+   "q": "How many roadtrips did Evan take in May 2023?",
+   "gold": "two",
+   "subs": [
+    "How many road trips did Evan take in May 2023?",
+    "Did Evan go on any road trips in May 2023?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Evan took one road trip in May 2023.",
+     "qwen": "Evan took one road trip in May 2023 to Jasper."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 2,
+     "llama2": "According to the memories provided, Evan took one road trip in May 2023, which was a trip to Jasper with his family.",
+     "qwen": "Based on the memory, Evan took one road trip in May 2023 to Jasper."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Evan took two roadtrips in May 2023:\n\n1. A trip to the Rockies with his Prius, which he decided to repair and sell.\n2. A family road trip to Jasper, where they drove through the Icefields Parkway and saw glaciers and lakes.",
+     "qwen": "Evan took one road trip in May 2023 to Jasper."
+    }
+   }
+  },
+  {
+   "q": "What types of pottery have Melanie and her kids made?",
+   "gold": "bowls, cup",
+   "subs": [
+    "What types of pottery has Melanie made?",
+    "What types of pottery have Melanie's kids made?",
+    "Have Melanie and her kids made any specific types of pottery together?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Melanie and her kids have made pottery.",
+     "qwen": "The memories do not specify what types of pottery Melanie and her kids made. They only mention that the kids made something with clay during a pottery activity."
+    },
+    "decomposed": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Melanie and her kids have made various types of pottery, including:\n\n* Clay\n* Handmade pottery\n* Creative pottery\n* Imagination-inspired pottery\n* Kids' pottery",
+     "qwen": "The memories provided do not specify the types of pottery Melanie and her kids made. They only indicate that the kids made something with clay, but the exact types are not mentioned."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Melanie and her kids have made pottery that includes:\n\n1. Clay creations: Melanie mentioned that the kids loved getting their hands dirty and making something with clay.\n2. Imagination and creativity: Melanie highlighted the kids' creativity and imagination when making their pottery.\n3.",
+     "qwen": "The memories provided do not specify the types of pottery Melanie and her kids made. They only mention that the kids made something with clay during an activity Melanie enjoyed."
+    }
+   }
+  },
+  {
+   "q": "Where has Melanie camped?",
+   "gold": "beach, mountains, forest",
+   "subs": [
+    "Has Melanie camped in the mountains?",
+    "Has Melanie camped by the lake?",
+    "Has Melanie camped in a national park?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Melanie has camped at the beach, in the forest, and in the mountains.",
+     "qwen": "Melanie has camped at the beach, in the forest, and in the mountains."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Melanie has camped in the mountains, the forest, and the beach.",
+     "qwen": "Melanie has camped in the mountains, the forest, and at the beach."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Melanie has camped at the beach, in the mountains, and in the forest.",
+     "qwen": "Melanie has camped at the beach, in the mountains, and in the forest."
+    }
+   }
+  },
+  {
+   "q": "What has Melanie painted?",
+   "gold": "Horse, sunset, sunrise",
+   "subs": [
+    "Has Melanie painted any landscapes?",
+    "What subjects has Melanie painted?",
+    "Has Melanie painted any portraits?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.3333333333333333,
+     "n_mem": 4,
+     "llama2": "Melanie has painted a lake sunrise.",
+     "qwen": "Melanie painted a lake sunrise last year."
+    },
+    "decomposed": {
+     "evidence_recall": 0.3333333333333333,
+     "n_mem": 3,
+     "llama2": "Melanie has painted:\n\n* Nature-inspired works\n* A lake sunrise\n* \"Embracing Identity\"",
+     "qwen": "Melanie painted a lake sunrise last year."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Melanie has painted a horse and nature-inspired works, including a recent painting from last weekend.",
+     "qwen": "Melanie has painted a horse. She also shared a photo of her latest work, which is a nature-inspired painting done with a friend last weekend."
+    }
+   }
+  },
+  {
+   "q": "What shelters does Maria volunteer at?",
+   "gold": "The homeless shelter, the dog shelter",
+   "subs": [
+    "Does Maria volunteer at animal shelters?",
+    "Does Maria volunteer at homeless shelters?",
+    "Does Maria volunteer at any other types of shelters?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Maria volunteers at a homeless shelter and a local dog shelter.",
+     "qwen": "Maria volunteers at a homeless shelter and a local dog shelter."
+    },
+    "decomposed": {
+     "evidence_recall": 0.3333333333333333,
+     "n_mem": 2,
+     "llama2": "Maria volunteers at a homeless shelter.",
+     "qwen": "Maria volunteers at one homeless shelter where she gives talks and helps prepare for a fundraiser."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Maria volunteers at a homeless shelter and a local dog shelter.",
+     "qwen": "Maria volunteers at a homeless shelter and a local dog shelter."
+    }
+   }
+  },
+  {
+   "q": "What kind of art does Caroline make?",
+   "gold": "abstract art",
+   "subs": [
+    "What kind of art does Caroline create?",
+    "Does Caroline specialize in any particular type of art?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Caroline makes inclusive and diverse art that represents the LGBTQ+ community and promotes acceptance.",
+     "qwen": "Caroline makes paintings that represent inclusivity and diversity, often speaking up for the LGBTQ+ community and pushing for acceptance. Her recent work includes a painting called 'Embracing Identity' that focuses on finding comfort and love in being yourself."
+    },
+    "decomposed": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Caroline creates paintings that represent inclusivity and diversity, and she uses her art to speak up for the LGBTQ+ community and push for acceptance.",
+     "qwen": "Caroline makes paintings that represent inclusivity and diversity, often speaking up for the LGBTQ+ community and pushing for acceptance."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Caroline makes art that represents inclusivity and diversity, particularly in the LGBTQ+ community. Her art often deals with themes of self-acceptance and love.",
+     "qwen": "Caroline makes paintings that focus on themes of self-acceptance, inclusivity, and diversity, often representing the LGBTQ+ community."
+    }
+   }
+  },
+  {
+   "q": "What activities has Dave participated in with his friends?",
+   "gold": "weekly visits to local parks, countryside roadtrip, celebration of the opening of his car maintenance shop, card-playing nights",
+   "subs": [
+    "Has Dave participated in any outdoor activities with his friends?",
+    "What indoor activities has Dave engaged in with his friends?",
+    "Has Dave joined any group events or clubs with his friends?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.75,
+     "n_mem": 4,
+     "llama2": "Dave has participated in the following activities with his friends:\n\n1. Card night\n2. Road trip\n3. Park walks",
+     "qwen": "Dave has participated in card-night with friends, a road trip through stunning countryside, and regular walks in the park with friends."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Dave has participated in the following activities with his friends:\n\n1. Card night with friends\n2. Hanging out in parks\n3. Regular walks together in the park\n4. Performing with someone he admires on stage",
+     "qwen": "Dave has participated in card-night with friends and regular walks in the park with friends."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Dave has participated in the following activities with his friends:\n\n1. Road trip with friends\n2. Regular walks in the park\n3. Car maintenance and opening a car shop\n4. Card night with friends",
+     "qwen": "Dave has participated in regular walks in the park, a road trip through stunning countryside, opened a car shop and celebrated with friends, and had a card-night with friends."
+    }
+   }
+  },
+  {
+   "q": "What outdoor activities has John done with his colleagues?",
+   "gold": "Hiking, mountaineering",
+   "subs": [
+    "Has John gone hiking with his colleagues?",
+    "Has John participated in any team-building outdoor activities?",
+    "Has John gone camping with his colleagues?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Mountaineering trip",
+     "qwen": "John went on a mountaineering trip with some workmates last week."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 5,
+     "llama2": "Mountaineering.",
+     "qwen": "John went on a mountaineering trip with some workmates last week."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Mountaineering trip",
+     "qwen": "John went on a mountaineering trip with some workmates last week."
+    }
+   }
+  },
+  {
+   "q": "How many dogs has Maria adopted from the dog shelter she volunteers at?",
+   "gold": "two",
+   "subs": [
+    "How many dogs has Maria adopted from the shelter?",
+    "Does Maria adopt dogs from the shelter she volunteers at?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "According to the memories, Maria has adopted one dog from the shelter. In the first memory, Maria mentions that she just adopted a cute pup from a shelter last week. In the second memory, Maria refers to the puppy she adopted as \"Coco,\" indicating that she has adopted only one dog.",
+     "qwen": "Maria has adopted one dog from the shelter she volunteers at. Her puppy's name is Coco."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Maria has adopted one dog from the shelter.",
+     "qwen": "Maria adopted one dog from the shelter."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Maria has adopted one dog from the shelter.",
+     "qwen": "Maria adopted one dog from the shelter."
+    }
+   }
+  },
+  {
+   "q": "What kind of programming-related events has John hosted?",
+   "gold": "online programming competition, programming seminar",
+   "subs": [
+    "Has John hosted any programming competitions?",
+    "Has John organized any coding workshops?",
+    "Has John facilitated any developer conferences?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John has hosted a programming seminar and an online competition.",
+     "qwen": "John hosted an online programming seminar last week."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "John has hosted a programming seminar and an online competition.",
+     "qwen": "John hosted an online programming seminar last week."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "John has hosted an online competition and a programming seminar.",
+     "qwen": "John hosted an online programming competition and an seminar last week."
+    }
+   }
+  },
+  {
+   "q": "What mediums does Nate use to play games?",
+   "gold": "Gamecube, PC,Playstation.",
+   "subs": [
+    "Does Nate use consoles to play games?",
+    "Does Nate play games on a computer?",
+    "Does Nate use mobile devices to play games?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Nate plays video games on a \"really big\" console and on his \"home computer\".",
+     "qwen": "Based on the memories provided, Nate uses home equipment to play video games."
+    },
+    "decomposed": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Nate plays video games on a \"really big\" console.",
+     "qwen": "Based on the memories, Nate plays video games, likely on a console or computer, as he mentions playing video games to unwind."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Nate plays games on a video game console.",
+     "qwen": "The memories provided do not contain any information about the mediums Nate uses to play games."
+    }
+   }
+  },
+  {
+   "q": "What kind of tricks do James's pets know?",
+   "gold": "swimming, catching frisbees, balancing on a skateboard, sit, stay, paw, and rollover",
+   "subs": [
+    "What tricks do James's dogs know?",
+    "What tricks can James's cats perform?",
+    "Does James's parrot know any tricks?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.75,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, James's pets know the following tricks:\n\n* Sit\n* Stay\n* Paw\n* Rollover",
+     "qwen": "James's pets can do tricks like sit, stay, paw, and rollover."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, James's pets know the following tricks:\n\n* Sit\n* Stay\n* Paw\n* Rollover",
+     "qwen": "James's pets can do tricks like sit, stay, paw, and rollover."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, James's pets know the following tricks:\n\n* Sit\n* Stay\n* Paw\n* Rollover",
+     "qwen": "James's pets can do tricks like sit, stay, paw, and rollover."
+    }
+   }
+  },
+  {
+   "q": "What types of yoga has Maria practiced?",
+   "gold": "Aerial, kundalini",
+   "subs": [
+    "Has Maria practiced Hatha yoga?",
+    "Has Maria tried Vinyasa yoga?",
+    "Has Maria engaged in any other types of yoga?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Maria has practiced the following types of yoga:\n\n1. Aerial yoga\n2. Kundalini yoga",
+     "qwen": "Maria has practiced aerial yoga and kundalini yoga."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Maria has practiced the following types of yoga:\n\n1. Aerial yoga\n2. Kundalini yoga",
+     "qwen": "Maria has practiced aerial yoga and kundalini yoga."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Maria has practiced the following types of yoga:\n\n1. Aerial yoga\n2. Kundalini yoga",
+     "qwen": "Maria has practiced aerial yoga and kundalini yoga."
+    }
+   }
+  },
+  {
+   "q": "What accidents has Evan's son faced lately?",
+   "gold": "injured at a soccer game, fell off his bike",
+   "subs": [
+    "Has Evan's son been involved in any accidents recently?",
+    "What specific accidents has Evan's son faced lately?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Evan's son has faced two accidents recently: a bike accident last Tuesday and a soccer accident last Saturday.",
+     "qwen": "Evan's son had two accidents recently: he fell off his bike last Tuesday, and he hurt his ankle while playing soccer on Saturday."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "According to the memories, Evan's son has faced two recent accidents:\n\n1. He fell off his bike last Tuesday and it was rough.\n2. He hurt his ankle in a soccer accident last Saturday.",
+     "qwen": "Evan's son had two accidents recently: he fell off his bike last Tuesday and hurt himself, and he hurt his ankle while playing soccer on Saturday."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Soccer accident last Saturday and bike accident last Tuesday.",
+     "qwen": "Evan's son had two accidents recently: he hurt his ankle in a soccer game on Saturday, and he fell off his bike on Tuesday."
+    }
+   }
+  },
+  {
+   "q": "When did Nate get Tilly for Joanna?",
+   "gold": "25 May, 2022",
+   "subs": [
+    "When did Nate acquire Tilly for Joanna?",
+    "Did Nate get Tilly for Joanna in a specific year or event?",
+    "What was the reason behind Nate getting Tilly for Joanna?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "The memory with Nate saying \"Yep, Joanna. It's great!\" and \"Can't wait to see it, Joanna!\" suggests that Nate got Tilly for Joanna at some point. However, the memories do not provide a specific time frame for when this happened.",
+     "qwen": "Nate got a new pup for Joanna, but the exact time is not specified in the memories."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 2,
+     "llama2": "Nate got Tilly for Joanna... yesteryear.",
+     "qwen": "From the memories provided, it seems Nate got Tilly for Joanna, but the exact time is not specified."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Nate got Tilly for Joanna... yesteryear.",
+     "qwen": "From the memories provided, Nate got a new pup for Joanna, but the exact timing is not specified."
+    }
+   }
+  },
+  {
+   "q": "Which games have Jolene and her partner played together?",
+   "gold": "Detroit, Walking Dead, Battlefield 1, It Takes Two, Overcooked 2",
+   "subs": [
+    "Has Jolene played any games with her partner?",
+    "Which games did Jolene and her partner play together?",
+    "Have there been any specific games that Jolene and her partner frequently played together?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.8,
+     "n_mem": 4,
+     "llama2": "Detroit, It Takes Two, Overcooked 2, and Walking Dead.",
+     "qwen": "Jolene and her partner have played \"Detroit,\" \"It takes two,\" Overcooked 2, and are planning to play \"Walking Dead\" together."
+    },
+    "decomposed": {
+     "evidence_recall": 0.4,
+     "n_mem": 2,
+     "llama2": "Detroit and \"It Takes Two\"",
+     "qwen": "Jolene and her partner have played \"Detroit\" and \"It takes two\" together."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "Sure! Based on the memories provided, Jolene and her partner have played the following games together:\n\n1. Detroit\n2. Walking Dead\n3. Battlefield 1\n4. It Takes Two\n5. Overcooked 2",
+     "qwen": "Jolene and her partner have played \"Detroit,\" \"It takes two,\" \"Walking Dead,\" \"Battlefield 1,\" and \"Overcooked 2\" together."
+    }
+   }
+  },
+  {
+   "q": "Which book was John reading during his recovery from an ankle injury?",
+   "gold": "The Alchemist",
+   "subs": [
+    "What book was John reading while he was recovering from his ankle injury?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "The book John was reading during his recovery from an ankle injury is \"The Alchemist\".",
+     "qwen": "John was reading \"The Alchemist\" during his recovery from an ankle injury."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "The book John was reading during his recovery from an ankle injury is \"The Alchemist\".",
+     "qwen": "John was reading \"The Alchemist\" during his recovery from an ankle injury."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "The book John was reading during his recovery from an ankle injury is \"The Alchemist\".",
+     "qwen": "John was reading \"The Alchemist\" during his recovery from an ankle injury."
+    }
+   }
+  },
+  {
+   "q": "What gaming equipments did John buy or refurbish?",
+   "gold": "Sennheiser headphones, Logitech mouse, gaming desk",
+   "subs": [
+    "Did John buy any new gaming equipment?",
+    "Did John refurbish any gaming equipment?",
+    "What specific gaming equipment did John work on?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 4,
+     "llama2": "John bought new headphones and refurbished his gaming desk.",
+     "qwen": "John bought new headphones and refurbished his gaming desk."
+    },
+    "decomposed": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 3,
+     "llama2": "John bought new headphones.",
+     "qwen": "John bought new headphones and refurbished his gaming desk."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "John bought new headphones from Sennheiser and a mouse from Logitech.",
+     "qwen": "John bought new headphones from Sennheiser and a mouse from Logitech. He also refurbished his gaming desk."
+    }
+   }
+  },
+  {
+   "q": "What kind of tattoo does Audrey have on her arm?",
+   "gold": "Tattoos of her four dogs.",
+   "subs": [
+    "What kind of tattoo is located on Audrey's arm?",
+    "What specific design is featured in Audrey's arm tattoo?",
+    "Where exactly on her arm is Audrey's tattoo located?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Audrey has tattoos of her four dogs on her arm.",
+     "qwen": "Audrey has tattoos of her four dogs on her arm."
+    },
+    "decomposed": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 2,
+     "llama2": "Audrey has tattoos of her four dogs on her arm.",
+     "qwen": "Audrey has tattoos of her four dogs on her arm."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Audrey has tattoos of her four dogs on her arm.",
+     "qwen": "Audrey has tattoos of her four dogs on her arm."
+    }
+   }
+  },
+  {
+   "q": "Has Deborah tried surfing?",
+   "gold": "yes",
+   "subs": [
+    "Has Deborah tried surfing before?",
+    "Has Deborah ever gone surfing?",
+    "Has Deborah experienced surfing as a recreational activity?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Deborah: *smiling* Oh, absolutely! That beach is where I first tried surfing and fell in love with it. It's a special place that brings me joy and peace every time I visit. *looks at the confirmation* Yes, I'm glad to see you're interested in trying it out! *excitedly* And by the",
+     "qwen": "Yes, Deborah has tried surfing. She discovered her love for surfing at the beach where she got married."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Yes, Deborah has tried surfing.",
+     "qwen": "Yes, Deborah has tried surfing. She discovered her love for surfing at the beach where she got married."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Deborah: *smiling* Yes, I've tried surfing. *looks out at the ocean* It's where I found my peace and joy.",
+     "qwen": "Yes, Deborah has tried surfing. She discovered her love for surfing at the beach where she got married."
+    }
+   }
+  },
+  {
+   "q": "Who did Evan tell about his marriage?",
+   "gold": "To Sam, to his friends from work, and to his and his wife's families.",
+   "subs": [
+    "Did Evan tell his family about his marriage?",
+    "Did Evan share his marriage with any friends?",
+    "Who did Evan confide in regarding his marriage?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.8,
+     "n_mem": 4,
+     "llama2": "Evan told his extended family about his marriage.",
+     "qwen": "Evan told his extended family about his marriage."
+    },
+    "decomposed": {
+     "evidence_recall": 0.8,
+     "n_mem": 4,
+     "llama2": "Evan told his extended family about his marriage.",
+     "qwen": "Evan told his extended family about his marriage."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "Evan told his work friends and extended family about his marriage.",
+     "qwen": "Evan told his extended family about his marriage."
+    }
+   }
+  },
+  {
+   "q": "What places has Nate met new people?",
+   "gold": "A tournament and agaming convention.",
+   "subs": [
+    "Where has Nate met new people?",
+    "In which places has Nate encountered new individuals?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Game convention.",
+     "qwen": "Nate met new people at a game convention."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Game convention",
+     "qwen": "Nate met new people at a game convention."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "The memories suggest that Nate has met new people at video game tournaments and at a game convention.",
+     "qwen": "Nate met new people at a game convention last Friday."
+    }
+   }
+  },
+  {
+   "q": "Which events has Jon participated in to promote his business venture?",
+   "gold": "fair, networking events, dance competition",
+   "subs": [
+    "Has Jon participated in any trade shows to promote his business venture?",
+    "Has Jon engaged in any webinars or online events for promotion?",
+    "Has Jon attended any networking events to support his business venture?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Networking events.",
+     "qwen": "Jon participated in a fair to show off his studio and went to networking events to promote his business."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "- Fair\n- Networking events",
+     "qwen": "Jon participated in a fair to promote his business venture."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Jon has participated in networking events to promote his business venture.",
+     "qwen": "Jon participated in a fair and networking events to promote his business venture."
+    }
+   }
+  },
+  {
+   "q": "Which US cities does John mention visiting to Tim?",
+   "gold": "Seattle, Chicago, New York",
+   "subs": [
+    "Does John mention visiting any specific US cities to Tim?",
+    "Which US cities does John talk about visiting?",
+    "Can you list the US cities John mentions to Tim?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "John mentions visiting Seattle and New York City in the memories.",
+     "qwen": "John mentions visiting Seattle, New York City, and Chicago to Tim."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "John mentions visiting the following US cities to Tim:\n\n1. New York City\n2. Seattle\n3. Chicago",
+     "qwen": "John mentions visiting New York City, Seattle, and Chicago to Tim."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "John mentions visiting Seattle and Chicago to Tim.",
+     "qwen": "John mentions visiting Seattle and New York City, and he previously visited Chicago."
+    }
+   }
+  },
+  {
+   "q": "What style of guitars does Calvin own?",
+   "gold": "custom-made yellow guitar with an octopus on it, shiny purple guitar",
+   "subs": [
+    "What styles of guitars does Calvin own?",
+    "Does Calvin own acoustic guitars?",
+    "Are any of the guitars Calvin owns electric guitars?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.75,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Calvin owns a guitar with a \"gorgeous purple hue\" and a \"shiny\" finish.",
+     "qwen": "The memories do not provide specific information about the styles of guitars Calvin owns."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, Calvin owns a guitar with a \"gorgeous purple hue.\"",
+     "qwen": "The memory does not provide information about the style of guitars Calvin owns."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Calvin owns a guitar with a shiny purple hue.",
+     "qwen": "Based on the memories, Calvin owns a guitar with a gorgeous purple hue, which suggests it might be a stylized or custom guitar, possibly with a unique or artistic design."
+    }
+   }
+  },
+  {
+   "q": "Which of their family member do Calvin and Dave have nostalgic memories about?",
+   "gold": "Dad",
+   "subs": [
+    "Do Calvin and Dave have nostalgic memories about their grandparents?",
+    "Are Calvin and Dave nostalgic about any of their aunts or uncles?",
+    "Do Calvin and Dave remember any of their cousins with nostalgia?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Calvin and Dave have nostalgic memories about their time working together on projects. They do not mention any specific family members. Therefore, the answer is \"None\" or \"No family members.\"",
+     "qwen": "The memories provided do not mention any specific family member that Calvin and Dave have nostalgic memories about. The conversations focus on their plans and projects together rather than recalling memories of a family member."
+    },
+    "decomposed": {
+     "evidence_recall": 0.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Calvin and Dave have nostalgic memories about their time together working on projects. They do not mention any specific family members.",
+     "qwen": "The memories provided do not mention any specific family member that Calvin and Dave have nostalgic memories about. The conversation focuses on their plans to make new memories and does not refer to past memories of a family member."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Calvin and Dave have nostalgic memories about their fathers.\n\nDave mentions working on cars with his dad, which suggests that his father played a significant role in teaching him about cars and giving him a sense of fulfillment.\n\nCalvin mentions a road trip with his dad and singing along to a song together,",
+     "qwen": "Their father."
+    }
+   }
+  },
+  {
+   "q": "What kind of engineering projects has Jolene worked on?",
+   "gold": "electrical engineering, robotics, sustainable water purifier, productive and affordable aerial surveillance system",
+   "subs": [
+    "Has Jolene worked on civil engineering projects?",
+    "What types of engineering projects has Jolene been involved in?",
+    "Has Jolene participated in any architectural engineering projects?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.6,
+     "n_mem": 4,
+     "llama2": "Jolene has worked on the following engineering projects:\n\n* Designed and built a sustainable water purifier for a rural community in need\n* Planned and researched a huge robotics project for her engineering professor\n* Finished an electrical engineering project last week",
+     "qwen": "Jolene has worked on designing and building a sustainable water purifier, a robotics project, and an electrical engineering project."
+    },
+    "decomposed": {
+     "evidence_recall": 0.2,
+     "n_mem": 2,
+     "llama2": "- Water purifier for rural community",
+     "qwen": "Jolene has worked on designing and building a sustainable water purifier for a rural community."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "Jolene has worked on various engineering projects, including:\n\n1. Electrical engineering project\n2. Robotics project\n3. Designing and building a sustainable water purifier for a rural community in need\n4. Prototype for a more productive and affordable aerial surveillance system.",
+     "qwen": "Jolene has worked on a robotics project, a sustainable water purifier for a rural community, and a prototype for an aerial surveillance system."
+    }
+   }
+  },
+  {
+   "q": "What mishaps has Calvin run into?",
+   "gold": "flooding of his mansion, car accident",
+   "subs": [
+    "Has Calvin faced any accidents?",
+    "What difficulties has Calvin encountered?",
+    "Are there any mishaps that Calvin has experienced?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "- Car accident",
+     "qwen": "Calvin had a little car accident last Friday."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 3,
+     "llama2": "- Calvin: Hi Dave! Nice to hear from you. Since last chat, some things have happened. I had a lil car accident last Friday, kinda upsetting but no one was hurt. I've been dealing with insurance and repairs - taking up a lot of time and energy.",
+     "qwen": "Calvin had a car accident last Friday."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "- Car accident",
+     "qwen": "Calvin had a small car accident last Friday."
+    }
+   }
+  },
+  {
+   "q": "How many Prius has Evan owned?",
+   "gold": "two",
+   "subs": [
+    "How many Toyota Prius has Evan owned?",
+    "Has Evan owned more than one Toyota Prius?",
+    "How long has Evan owned a Toyota Prius?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Evan has owned 2 Prius.",
+     "qwen": "Evan has owned two Prius based on the memories provided."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Evan has owned 2 Prius.",
+     "qwen": "Evan has owned two Priuses."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Evan has owned 2 Prius.",
+     "qwen": "Evan has owned two Prius."
+    }
+   }
+  },
+  {
+   "q": "What book recommendations has Joanna given to Nate?",
+   "gold": "\"Little Women\",'A Court of Thorns andRoses'.",
+   "subs": [
+    "Has Joanna given any book recommendations to Nate?",
+    "What specific books did Joanna recommend to Nate?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.3333333333333333,
+     "n_mem": 4,
+     "llama2": "Joanna has given Nate book recommendations.",
+     "qwen": "The memories provided do not include any information about book recommendations Joanna has given to Nate."
+    },
+    "decomposed": {
+     "evidence_recall": 0.0,
+     "n_mem": 2,
+     "llama2": "Joanna: \"Oh, you know, the usual suspects. 'The Great Gatsby' by F. Scott Fitzgerald, 'To Kill a Mockingbird' by Harper Lee, 'The Catcher in the Rye' by J.D. Salinger... You know, the classics.\"",
+     "qwen": "The memories provided do not include any information about book recommendations Joanna has given to Nate. The conversation only mentions an invitation and a photo, without any discussion of books."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 3,
+     "llama2": "Fantasy book series.",
+     "qwen": "Joanna recommended a fantasy book series to Nate for him to read when he's trying to relax."
+    }
+   }
+  },
+  {
+   "q": "What events for veterans has John participated in?",
+   "gold": "Petition, march, party, visiting veterans hospital, 5K charity run",
+   "subs": [
+    "Has John participated in any veteran events?",
+    "Which specific veteran events has John attended?",
+    "What roles did John play in the veteran events he participated in?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.8,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John has participated in the following events for veterans:\n\n1. A marching event for veterans' rights\n2. A visit to a veteran's hospital\n3. A 5K charity run to help out veterans and their families.",
+     "qwen": "John participated in a marching event for veterans' rights and set up a 5K charity run in his neighborhood."
+    },
+    "decomposed": {
+     "evidence_recall": 0.6,
+     "n_mem": 3,
+     "llama2": "Based on the memories provided, John has participated in the following events for veterans:\n\n1. A marching event for veterans' rights.\n2. A 5K charity run to help out veterans and their families.\n3. A visit to a veteran's hospital.",
+     "qwen": "John participated in a marching event for veterans' rights and set up a 5K charity run in his neighborhood. He also visited a veteran's hospital."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "John has participated in the following events for veterans:\n\n* A marching event for veterans' rights\n* A visit to a veteran's hospital\n* A 5K charity run in his neighborhood.",
+     "qwen": "John participated in a marching event for veterans' rights and set up a 5K charity run in his neighborhood."
+    }
+   }
+  },
+  {
+   "q": "What causes does John feel passionate about supporting?",
+   "gold": "Veterans, schools, infrastructure",
+   "subs": [
+    "Does John feel passionate about supporting environmental causes?",
+    "Is John passionate about supporting charitable causes for education?",
+    "Does John support causes related to animal welfare?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John feels passionate about supporting:\n\n1. Education and infrastructure in their community.\n2. Veterans and their rights.\n3. Improving the community through his blog posts.",
+     "qwen": "John feels passionate about supporting veterans' rights, improving education and infrastructure in their community, and giving back through his blog posts."
+    },
+    "decomposed": {
+     "evidence_recall": 0.75,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John feels passionate about improving education and infrastructure in their community, supporting veterans and their rights, and giving back through various projects.",
+     "qwen": "John feels passionate about supporting education and infrastructure improvements in his community, as well as projects that benefit veterans and their rights."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John feels passionate about supporting veterans and their rights, education reform, and infrastructure development.",
+     "qwen": "John feels passionate about supporting veterans' rights, improving education, and infrastructure development in his community."
+    }
+   }
+  },
+  {
+   "q": "What areas of the U.S. has John been to or is planning to go to?",
+   "gold": "Pacific northwest, east coast",
+   "subs": [
+    "Has John visited any areas in the U.S. so far?",
+    "Are there any specific areas in the U.S. that John plans to visit?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "John has been to the East Coast and the Pacific Northwest.",
+     "qwen": "John has been to the Pacific Northwest and is planning a trip to the East Coast."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "John has been to the East Coast and the Pacific Northwest.",
+     "qwen": "John has been to the Pacific Northwest and is planning a trip to the East Coast."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "John has been to the Pacific Northwest and is planning to go to the East Coast.",
+     "qwen": "John has been to the Pacific Northwest and is planning a trip to the East Coast."
+    }
+   }
+  },
+  {
+   "q": "What outdoor activities does John enjoy?",
+   "gold": "Hiking, surfing",
+   "subs": [
+    "Does John enjoy hiking outdoors?",
+    "Does John like to go camping?",
+    "Does John participate in any other outdoor activities besides hiking and camping?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John enjoys surfing and hiking.",
+     "qwen": "John enjoys surfing and hiking."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John enjoys hiking and surfing.",
+     "qwen": "John enjoys hiking and surfing."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, John enjoys surfing and hiking.",
+     "qwen": "John enjoys surfing and hiking."
+    }
+   }
+  },
+  {
+   "q": "What kinds of things did Evan have broken?",
+   "gold": "His old Prius and his new Prius.",
+   "subs": [
+    "Did Evan have any broken bones?",
+    "Were there any electronic devices that Evan broke?",
+    "Did Evan experience any broken household items?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.2,
+     "n_mem": 4,
+     "llama2": "Using the memories provided, it can be inferred that Evan had his car break down.",
+     "qwen": "Evan's car broke down."
+    },
+    "decomposed": {
+     "evidence_recall": 0.2,
+     "n_mem": 4,
+     "llama2": "Using the memories provided, we can infer that Evan had his new Prius break down.",
+     "qwen": "Evan's new Prius broke down."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "Based on the memories provided, Evan had his new Prius break down, and his old Prius broke down as well.",
+     "qwen": "Evan's new Prius broke down."
+    }
+   }
+  },
+  {
+   "q": "Where did Jolene and her partner find a cool diving spot?",
+   "gold": "Phuket",
+   "subs": [
+    "Did Jolene and her partner discover a cool diving spot in a specific location?",
+    "Where exactly did Jolene and her partner find this cool diving spot?",
+    "What location did Jolene and her partner visit to find the cool diving spot?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Last Friday, Jolene and her partner found a cool diving spot.",
+     "qwen": "Last Friday, Jolene and her partner found a cool dive spot during their scuba diving lesson."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 2,
+     "llama2": "Last Friday.",
+     "qwen": "Last Friday, Jolene and her partner found a cool dive spot they can explore together."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Phuket.",
+     "qwen": "Jolene and her partner found a cool dive spot in Phuket."
+    }
+   }
+  },
+  {
+   "q": "Did Jon and Gina both participate in dance competitions?",
+   "gold": "Yes",
+   "subs": [
+    "Did Jon participate in dance competitions?",
+    "Did Gina participate in dance competitions?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.4,
+     "n_mem": 4,
+     "llama2": "Yes, both Jon and Gina have participated in dance competitions. Jon's memory mentions his dance crew winning first place in a local competition, while Gina's memory mentions her team winning first place at regionals when she was 15 years old.",
+     "qwen": "Yes, Jon's dance crew won a local competition, and Gina competed in a few dance competitions and shows, with her favorite memory being when her team won first place at regionals at age fifteen."
+    },
+    "decomposed": {
+     "evidence_recall": 0.4,
+     "n_mem": 3,
+     "llama2": "Yes, both Jon and Gina have participated in dance competitions. Jon's memory is of his dance crew winning first place in a local competition, while Gina's memory is of her team winning first place at a regional competition when she was 15 years old.",
+     "qwen": "Yes, Jon's dance crew won a local competition, and Gina competed in a few dance competitions and shows, with her favorite memory being when her team won first place at regionals at age fifteen."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "Yes, both Jon and Gina participated in dance competitions.\n\n* Jon: \"Way to go, Jon! Don't quit, remember, failures lead you closer to success.\" (From a dance competition)\n* Gina: \"I used to compete in a few dance competitions and shows.\" (From a dance competition)\n* Gina: \"H",
+     "qwen": "Yes, both Jon and Gina participated in dance competitions. Jon's dance crew won first place in a local competition, and Gina competed in a few dance competitions and shows, with a favorite memory of winning first place at regionals at age fifteen."
+    }
+   }
+  },
+  {
+   "q": "Why did Gina decide to start her own clothing store?",
+   "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+   "subs": [
+    "Did Gina decide to start her own clothing store due to dissatisfaction with existing options in the market?",
+    "Was Gina's decision to start her own clothing store influenced by her experience in the fashion industry?",
+    "Did Gina's personal passion for fashion play a role in her decision to open her own clothing store?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Gina decided to start her own clothing store because she is passionate about fashion trends and finding unique pieces, and she wanted to blend her love for dance and fashion.",
+     "qwen": "Gina decided to start her own clothing store because she is passionate about fashion trends and finding unique pieces, and she wanted to blend her love for dance and fashion."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 4,
+     "llama2": "Gina decided to start her own clothing store because she is passionate about fashion trends and finding unique pieces, and she wanted to blend her love for dance and fashion.",
+     "qwen": "Gina decided to start her own clothing store because she is passionate about fashion trends and finding unique pieces, and she wanted to blend her love for dance and fashion."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Gina decided to start her own clothing store because she was passionate about fashion trends and wanted to blend her love for dance and fashion.",
+     "qwen": "Gina decided to start her own clothing store because she is passionate about fashion trends and finding unique pieces, and she wanted to blend her love for dance and fashion."
+    }
+   }
+  },
+  {
+   "q": "What does John like about Lebron James?",
+   "gold": "His heart, determination, skills, and leadership.",
+   "subs": [
+    "What specific aspects does John appreciate about Lebron James?",
+    "What are some of John's favorite qualities of Lebron James?",
+    "Does John admire any particular skills or achievements of Lebron James?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "John likes LeBron James for his skills and leadership.",
+     "qwen": "John likes LeBron James for his skills and leadership, as well as his moments of determination and heart."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "John likes LeBron James' moments of determination and heart.",
+     "qwen": "John likes Lebron James for his moments of determination and heart, as well as his skills and leadership."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "John likes LeBron James' skills and leadership.",
+     "qwen": "John likes Lebron James for his skills and leadership, as well as his moments of determination and heart."
+    }
+   }
+  },
+  {
+   "q": "What are Maria's dogs' names?",
+   "gold": "Coco, Shadow",
+   "subs": [
+    "What are the names of Maria's dogs?",
+    "Are there any specific names for Maria's dogs mentioned?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Maria's dogs' names are:\n\n* Coco\n* Shadow",
+     "qwen": "Shadow"
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Maria's dogs' names are:\n\n* Coco\n* Shadow",
+     "qwen": "Shadow."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Maria's dogs' names are:\n\n* Coco\n* Shadow",
+     "qwen": "Shadow."
+    }
+   }
+  },
+  {
+   "q": "What was Dave doing in San Francisco?",
+   "gold": "attending a car modification workshop",
+   "subs": [
+    "What specific activities was Dave engaged in when he was in San Francisco?",
+    "Was Dave working, traveling, or pursuing a particular goal in San Francisco?",
+    "Did Dave attend any events or meetings in San Francisco?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Dave went to a car workshop in San Francisco.",
+     "qwen": "Dave was at a car workshop in San Francisco, learning about car restoration and modification."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 3,
+     "llama2": "Dave went to a car workshop in San Francisco.",
+     "qwen": "Dave was going to a car workshop in San Francisco for car restoration."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Dave was at a car workshop in San Francisco.",
+     "qwen": "Dave went to a car workshop in San Francisco, where he got to see different techniques in car restoration and met passionate and dedicated people."
+    }
+   }
+  },
+  {
+   "q": "What damages have happened to John's car?",
+   "gold": "Broken windshield, Car broke down",
+   "subs": [
+    "Has John's car suffered any damage?",
+    "What specific damages have occurred to John's car?",
+    "Are there any particular areas of damage on John's car?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, John's car broke down last Friday on his way to work.",
+     "qwen": "The memories do not provide specific details about the damages to John's car."
+    },
+    "decomposed": {
+     "evidence_recall": 0.5,
+     "n_mem": 2,
+     "llama2": "- Broken down car",
+     "qwen": "The memory provided does not specify any damages that have happened to John's car, only that it broke down on his way to work last Friday."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, it is not explicitly stated what damages have happened to John's car. However, it is mentioned that his car broke down last Friday on his way to work, and that it is putting a strain on his wallet. It is also mentioned that he is trying to get it fixed, which suggests that there may be some damage to the car that needs",
+     "qwen": "The memories do not provide specific details about the damages to John's car."
+    }
+   }
+  },
+  {
+   "q": "What are Dave's dreams?",
+   "gold": "open a car maintenance shop, work on classic cars, build a custom car from scratch",
+   "subs": [
+    "What are Dave's career dreams?",
+    "What are Dave's personal dreams?",
+    "What are Dave's educational dreams?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 4,
+     "llama2": "Dave's dreams are to open a shop and work on classic cars, as well as building a custom car from scratch.",
+     "qwen": "Dave's dreams include opening a shop, working on classic cars, and building a custom car from scratch."
+    },
+    "decomposed": {
+     "evidence_recall": 0.3333333333333333,
+     "n_mem": 2,
+     "llama2": "Dave's dreams are to open a shop and work on classic cars.",
+     "qwen": "Dave dreams of opening a shop and working on classic cars."
+    },
+    "oracle": {
+     "evidence_recall": 0.6666666666666666,
+     "n_mem": 3,
+     "llama2": "Dave's dreams are to:\n\n1. Open a shop\n2. Work on classic cars\n3. Build a custom car from scratch",
+     "qwen": "Dave's dreams are to open a shop and work on classic cars, and maybe even build a custom car from scratch someday."
+    }
+   }
+  },
+  {
+   "q": "What activity do Audrey's dogs like to do in the dog park?",
+   "gold": "Play fetch with ball and frisbee, run around and meet other dogs",
+   "subs": [
+    "Do Audrey's dogs like to play fetch at the dog park?",
+    "Do Audrey's dogs enjoy running around at the dog park?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.4,
+     "n_mem": 4,
+     "llama2": "According to the memories, Audrey's dogs like to play fetch and frisbee in the dog park.",
+     "qwen": "Audrey's dogs love to play fetch and frisbee in the dog park."
+    },
+    "decomposed": {
+     "evidence_recall": 0.4,
+     "n_mem": 3,
+     "llama2": "Fetch and Frisbee!",
+     "qwen": "Audrey's dogs like to play fetch and frisbee, run around, and meet other pups in the dog park."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 5,
+     "llama2": "Play fetch!",
+     "qwen": "Audrey's dogs love to play fetch and run around in the park."
+    }
+   }
+  },
+  {
+   "q": "How many times has Joanna's scripts been rejected?",
+   "gold": "Twice",
+   "subs": [
+    "How many times has Joanna's script been rejected?",
+    "Has Joanna's script been rejected multiple times?",
+    "Can you provide the exact number of times Joanna's script has been rejected?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 1.0,
+     "n_mem": 4,
+     "llama2": "Based on the memories provided, Joanna's scripts have been rejected 3 times:\n\n1. \"Another rejection from a production company.\"\n2. \"Rejection letter from a major company.\"\n3. \"Got a rejection letter from a major company.\"",
+     "qwen": "Based on the memories, Joanna has had at least one rejection from a production company."
+    },
+    "decomposed": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Joanna's scripts have been rejected 2 times.",
+     "qwen": "Based on the memories, Joanna has had at least two rejections from production companies."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 2,
+     "llama2": "Based on the memories provided, Joanna's scripts have been rejected 2 times.",
+     "qwen": "Based on the memories, Joanna has received at least two rejections from production companies."
+    }
+   }
+  },
+  {
+   "q": "What is a stress reliever for Evan?",
+   "gold": "Drawing, traveling, places with a beautiful view, yoga, sunsets or something comfortable for Evan",
+   "subs": [
+    "Is exercise a stress reliever for Evan?",
+    "Does listening to music help Evan relieve stress?",
+    "Does Evan find that spending time in nature reduces stress?"
+   ],
+   "conds": {
+    "single_shot": {
+     "evidence_recall": 0.36363636363636365,
+     "n_mem": 4,
+     "llama2": "Painting.",
+     "qwen": "Painting."
+    },
+    "decomposed": {
+     "evidence_recall": 0.36363636363636365,
+     "n_mem": 4,
+     "llama2": "A stress reliever for Evan is painting.",
+     "qwen": "Evan's stress reliever is painting."
+    },
+    "oracle": {
+     "evidence_recall": 1.0,
+     "n_mem": 11,
+     "llama2": "A stress reliever for Evan is painting.",
+     "qwen": "Painting is a stress reliever for Evan."
+    }
+   }
+  }
+ ]
+}

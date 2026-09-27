@@ -1,0 +1,3688 @@
+{
+ "summary": {
+  "n_cases": 150,
+  "repeats": 3,
+  "per_metric": {
+   "string_date": {
+    "rates": [
+     0.6066666666666667,
+     0.6066666666666667,
+     0.6133333333333333
+    ],
+    "mean": 0.6088888888888889,
+    "sd_across_runs": 0.003849001794597466,
+    "min_max": [
+     0.6066666666666667,
+     0.6133333333333333
+    ],
+    "cases_with_any_flip": 1
+   },
+   "llm_judge": {
+    "rates": [
+     0.9333333333333333,
+     0.94,
+     0.94
+    ],
+    "mean": 0.9377777777777778,
+    "sd_across_runs": 0.003849001794597466,
+    "min_max": [
+     0.9333333333333333,
+     0.94
+    ],
+    "cases_with_any_flip": 1
+   },
+   "nli": {
+    "rates": [
+     0.8533333333333334,
+     0.8533333333333334,
+     0.8533333333333334
+    ],
+    "mean": 0.8533333333333334,
+    "sd_across_runs": 0.0,
+    "min_max": [
+     0.8533333333333334,
+     0.8533333333333334
+    ],
+    "cases_with_any_flip": 0
+   },
+   "cosine": {
+    "rates": [
+     0.20666666666666667,
+     0.20666666666666667,
+     0.21333333333333335
+    ],
+    "mean": 0.2088888888888889,
+    "sd_across_runs": 0.0038490017945975136,
+    "min_max": [
+     0.20666666666666667,
+     0.21333333333333335
+    ],
+    "cases_with_any_flip": 1
+   }
+  },
+  "answer_text_identical_across_runs": 139,
+  "string_vs_llm_judge_disagreement_per_run": [
+   51,
+   52,
+   51
+  ],
+  "llm_judge_only_correct": [
+   50,
+   51,
+   50
+  ],
+  "string_only_correct": [
+   1,
+   1,
+   1
+  ]
+ },
+ "runs": [
+  [
+   {
+    "id": "phase14-track-a-0",
+    "answer": "Jon lost his job as a banker on January 19, 2023. [LOCOMO-T1-0]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-1",
+    "answer": "According to retrieved memory [LOCOMO-T1-1], Gina lost her job at Door Dash in January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-2",
+    "answer": "\nBoth Jon and Gina like to destress by dancing.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-3",
+    "answer": "\nBoth Jon and Gina lost their jobs and decided to start their own businesses.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-4",
+    "answer": "\nJon decided to start his dance studio to share his passion and follow his dream, as he lost his job. [LOCOMO-T1-4]",
+    "string_date": false,
+    "llm_judge": null,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-5",
+    "answer": "\nBased on the retrieved memories, Jon thinks the ideal dance studio should look like a studio by the water with natural light and Marley flooring. [LOCOMO-T1-5]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-6",
+    "answer": "Jon's group is performing at a festival in February 2023, as retrieved from [LOCOMO-T1-6].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-7",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T1-7], Gina launched an ad campaign for her store on January 29, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-8",
+    "answer": "Jon was not in Paris.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-9",
+    "answer": "\nBoth Jean and John visited Rome. [LOCOMO-T1-9]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-10",
+    "answer": "Gina teamed up with a local artist in February 2023. [LOCOMO-T1-10]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-11",
+    "answer": "Gina got her tattoo a few years ago, according to [LOCOMO-T1-11].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-12",
+    "answer": "Jon started going to the gym in March 2023, according to [LOCOMO-T1-12].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-13",
+    "answer": "According to retrieved memory [LOCOMO-T1-13], Gina opened her online clothing store on March 16, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-14",
+    "answer": "Jon started expanding his studio's social media presence in April 2023, as per [LOCOMO-T1-14].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-15",
+    "answer": "Jon hosted a dance competition in May 2023, as per [LOCOMO-T1-15].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-16",
+    "answer": "According to the retrieved memories, Jon went to a fair to get more exposure for his dance studio on 24 April, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-17",
+    "answer": "Maria had dinner with her mother on May 3, 2023. [LOCOMO-T2-17]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-18",
+    "answer": "Maria donated her car on December 21, 2022, according to [LOCOMO-T2-18].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-19",
+    "answer": "John has done Kickboxing. [LOCOMO-T2-19]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-20",
+    "answer": "\nBoth John and Maria have volunteered at a homeless shelter. [LOCOMO-T2-20]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-21",
+    "answer": "John joined the online support group [LOCOMO-T2-21] the week before 1 January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-22",
+    "answer": "Maria went to the beach in December 2022, according to [LOCOMO-T2-22].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-23",
+    "answer": "Maria has made friends at the homeless shelter. [LOCOMO-T2-23]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-24",
+    "answer": "\nJohn mentioned having a doll and a film camera as a child. [LOCOMO-T2-24]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-25",
+    "answer": "Based on the provided retrieved memories, John's financial status might be middle-class. [LOCOMO-T2-25]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-26",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T2-26], Maria's aunt gave her family money when Maria was younger and her family was going through tough times.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-27",
+    "answer": "Maria met Jean on February 24, 2023, according to [LOCOMO-T2-27].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-28",
+    "answer": "Maria has met and helped David, Jean, Cindy, and Laura while volunteering. [LOCOMO-T2-28]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-29",
+    "answer": "John has taken the military aptitude test multiple times. [LOCOMO-T2-29]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-30",
+    "answer": "Maria's grandmother passed away the week before 6 March 2023, according to [LOCOMO-T2-30].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-31",
+    "answer": "Yes, John would be considered a patriotic person. [LOCOMO-T2-31]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-32",
+    "answer": "Maria has taken poetry and creative writing classes. [LOCOMO-T2-32]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-33",
+    "answer": "John got his degree in the week before 2 April 2023, according to [LOCOMO-T2-33].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-34",
+    "answer": "Yes, it is likely that Nate has friends besides Joanna.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-35",
+    "answer": "Based on the retrieved memories provided, Joanna and Nate share an interest in watching movies.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-36",
+    "answer": "No relevant retrieved memories were provided, so the answer is: Joanna first watched \"Eternal Sunshine of the Spotless Mind\" in 2019.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-37",
+    "answer": "According to the retrieved memory [LOCOMO-T3-37], Nate won his first video game tournament the week before January 21, 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-38",
+    "answer": "Hairless cats or pigs, as they don't have fur, which is one of the main causes of Joanna's allergy. [LOCOMO-T3-38]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-39",
+    "answer": "Joanna's hobbies are writing, watching movies, exploring nature, and hanging with friends. (Citation: [LOCOMO-T3-39])",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-40",
+    "answer": "Nate has had his first two turtles for two years, as stated in retrieved memory [LOCOMO-T3-42].",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-41",
+    "answer": "According to retrieved memory [LOCOMO-T3-41], Joanna finished her first screenplay \"The Friday before 23January, 2022.\"",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-42",
+    "answer": "Nate got his first two turtles in 2019. [LOCOMO-T3-42]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-43",
+    "answer": "According to the retrieved memories, Joanna accomplished the major achievement of finishing her screenplay and printing it in January 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-44",
+    "answer": "\nJoanna is feeling hopeful about the screenplay she submitted. [LOCOMO-T3-44]",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-45",
+    "answer": "Joanna is allergic to most reptiles, animals with fur, cockroaches, and dairy.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-46",
+    "answer": "\nBased on Joanna's allergies, she might have an underlying condition such as asthma. [LOCOMO-T3-46]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-47",
+    "answer": "According to the retrieved memories, Joanna had an audition for a writing gig on March 23, 2022.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-48",
+    "answer": "According to retrieved memory [LOCOMO-T3-48], Nate uses the nickname \"Jo.\"",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-49",
+    "answer": "According to retrieved memory [LOCOMO-T3-49], Nate got purple hair the week before April 15, 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-50",
+    "answer": "Nate dyed his hair purple in April 2022. [LOCOMO-T3-50]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-51",
+    "answer": "\nJohn's goal with regards to his basketball career is to improve his shooting percentage.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-52",
+    "answer": "\nJohn's goals for his career that are not related to his basketball skills are to get endorsements, build his brand, and do charity work.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-53",
+    "answer": "John collects sneakers and fantasy movie DVDs.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-54",
+    "answer": "\nBased on the information provided, Tim would likely enjoy reading books by C. S. Lewis.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-55",
+    "answer": "Tim has read \"Harry Potter,\" \"Game of Thrones,\" \"The Name of the Wind,\" \"The Alchemist,\" \"The Hobbit,\" \"A Dance with Dragons,\" and \"The Wheel of Time.\" [LOCOMO-T4-55]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-56",
+    "answer": "\nBased on Tim's collections, he would enjoy visiting the House of MinaLima in New York city. [LOCOMO-T4-56]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-57",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T4-57], John achieved a career-high score in points in June 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-58",
+    "answer": "Tim has been to California and the Smoky Mountains.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-59",
+    "answer": "\nUnder Armour.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-60",
+    "answer": "John has been offered endorsement deals with Nike for basketball shoes and gear, as well as potential sponsorship with Gatorade and Moxie, an outdoor gear company.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-61",
+    "answer": "\nJohn was in Seattle for a game in early August 2023, according to retrieved memory [LOCOMO-T4-61].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-62",
+    "answer": "\nJohn likes surfing besides basketball. [LOCOMO-T4-63]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-63",
+    "answer": "John started surfing in 2018.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-64",
+    "answer": "\nTim reads fantasy books to escape reality.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-65",
+    "answer": "\nBased on the retrieved memories, Tim does writing articles on fantasy novels, studies characters, themes, and makes book recommendations.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-66",
+    "answer": "Anthony is likely John's friend or colleague, based on the information provided in the question.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-67",
+    "answer": "According to the retrieved memory [LOCOMO-T4-67], Tim reconnected with the fellow Harry Potter fan from California after three weeks.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-68",
+    "answer": "Audrey adopted the first three of her dogs in 2020.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-69",
+    "answer": "According to the retrieved memories, Andrew started his new job as a financial analyst the week before March 27, 2023. [LOCOMO-T5-69]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-70",
+    "answer": "\nAccording to the retrieved memories, Andrew and his girlfriend have pursued boardgames and wine tasting indoor activities together.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-71",
+    "answer": "\nAndrew and his girlfriend have checked out cafes and new places to eat around the city.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-72",
+    "answer": "Audrey made muffins for herself during the week of April 3rd to 9th, according to retrieved memory [LOCOMO-T5-72].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-73",
+    "answer": "Audrey saw a hummingbird in the first week of May 2023, according to retrieved memory [LOCOMO-T5-73].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-74",
+    "answer": "Audrey adopted Pixie around April 2, 2023. [LOCOMO-T5-74]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-75",
+    "answer": "\nThree years passed between Audrey adopting Pixie and her other three dogs. [Citation: [LOCOMO-T5-75]]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-76",
+    "answer": "No, according to retrieved memory [LOCOMO-T5-76], Andrew did not have a pet dog during March 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-77",
+    "answer": "Audrey has joined a positive reinforcement training workshop to bond with her pets, a dog training course, an agility training course, and a dog-owners group.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-78",
+    "answer": "According to the retrieved memories, Audrey's positive reinforcement training course for dogs took place in June 2023. [LOCOMO-T5-78]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-79",
+    "answer": "According to retrieved memory [LOCOMO-T5-80], Andrew has gone rock climbing. Therefore, the answer to the question is: Andrew went rock climbing in June 2023.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-80",
+    "answer": "\nAndrew has done rock climbing. [LOCOMO-T5-80]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-81",
+    "answer": "Audrey moved to a new place in June 2023, according to [LOCOMO-T5-81].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-82",
+    "answer": "\nAndrew really misses being in nature while working in the city. [LOCOMO-T5-82]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-83",
+    "answer": "\nAccording to the retrieved memories, the shared frustration regarding dog ownership for Audrey and Andrew is not being able to find pet-friendly spots.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-84",
+    "answer": "Andrew is going to go hiking with Audrey in August, as per retrieved memory [LOCOMO-T5-84].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-85",
+    "answer": "\nJohn is suspected to have obesity. [LOCOMO-T6-85]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-86",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T6-86], James was pursuing bowling on March 16, 2022.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-87",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T6-87], John and James have planned to meet at the VR Club and McGee's.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-88",
+    "answer": "No, John does not have pets.",
+    "string_date": true,
+    "llm_judge": false,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-89",
+    "answer": "John resumed playing drums in his adulthood in February 2022, according to [LOCOMO-T6-89].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-90",
+    "answer": "John and James' favorite games are CS:GO and Apex Legends.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-91",
+    "answer": "Yes, James lives in Connecticut. [LOCOMO-T6-91]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-92",
+    "answer": "Connecticut.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-93",
+    "answer": "James has three dogs.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-94",
+    "answer": "\nNed and Daisy are James's dogs, according to retrieved memories [LOCOMO-T6-94].",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-95",
+    "answer": "According to the retrieved memories provided, James adopted Ned in the first week of April 2022. [LOCOMO-T6-95]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-96",
+    "answer": "\nJohn was feeling seeking solitude on April 10, 2022. [LOCOMO-T6-96]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-97",
+    "answer": "No, according to retrieved memory [LOCOMO-T6-97], James did not have a girlfriend during April 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-98",
+    "answer": "James visited Italy in 2021, according to retrieved memory [LOCOMO-T6-98].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-99",
+    "answer": "According to the retrieved memories, James bought himself a new adventure book on April 26, 2022. [LOCOMO-T6-99]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-100",
+    "answer": "James started playing Civilization VI in March 2022, according to [LOCOMO-T6-100].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-101",
+    "answer": "\nThe game with different colored cards that John was talking about with James is UNO.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-102",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T7-102], Jolene was working on an electricity engineering project in the beginning of January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-103",
+    "answer": "\nAccording to the retrieved memories, Deborah's mother and Jolene's mother have passed away.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-104",
+    "answer": "Deborah's mother passed away a few years before 2023. [LOCOMO-T7-104]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-105",
+    "answer": "Jolene's mother passed away in 2022, according to [LOCOMO-T7-105].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-106",
+    "answer": "Jolene's mom gifted her a pendant in 2010, as per [LOCOMO-T7-106].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-107",
+    "answer": "France.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-108",
+    "answer": "\nDeborah has a pendant from her mother, while Jolene has a pendant from her mother.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-109",
+    "answer": "According to the retrieved memories, Jolene and her mother were visiting France in 2010.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-110",
+    "answer": "\nYoga helped Deborah find peace when grieving the deaths of her loved ones.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-111",
+    "answer": "According to the retrieved memories, Deborah's father passed away on January 25, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-112",
+    "answer": "According to retrieved memory [LOCOMO-T7-112], Deborah's parents were married in 1993.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-113",
+    "answer": "According to the retrieved memories, Deborah is married. [LOCOMO-T7-113]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-114",
+    "answer": "\nAccording to the retrieved memories, Deborah received an appreciation letter from her community on January 26, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-115",
+    "answer": "\nSitting in a spot by the window in her Mom's house gives Deborah peace. [LOCOMO-T7-115]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-116",
+    "answer": "Deborah's mother's hobbies were reading and traveling. [LOCOMO-T7-116]",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-117",
+    "answer": "Jolene has snakes.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-118",
+    "answer": "\nJolene's snakes are Susie and Seraphim. [LOCOMO-T7-118]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-119",
+    "answer": "Evan drives a Prius.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-120",
+    "answer": "Evan had his old Prius and his new Prius broken. [LOCOMO-T8-122]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-121",
+    "answer": "\nEvan has been on roadtrips with his family to the Rockies and Jasper. [LOCOMO-T8-121]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-122",
+    "answer": "\nEvan has owned two Prius. [LOCOMO-T8-122]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-123",
+    "answer": "According to the retrieved memories, Sam took up painting in May 2023. [LOCOMO-T8-123]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-124",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-124], Evan was visiting Canada in May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-125",
+    "answer": "\nEvan took two roadtrips in May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-126",
+    "answer": "Sam considered trying painting, kayaking, hiking, and cooking.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-127",
+    "answer": "\nEvan started practicing watercolor painting a few years ago that he enjoys. [LOCOMO-T8-127]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-128",
+    "answer": "According to retrieved memory [LOCOMO-T8-128], Evan went to Jasper with his family the weekend before May 24, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-129",
+    "answer": "\nBased on the retrieved memories, Evan would prefer a camping trip in the outdoors with his family. [LOCOMO-T8-129]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-130",
+    "answer": "\nSam faced a weight problem that motivated him to change his lifestyle. [LOCOMO-T8-130]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-131",
+    "answer": "According to retrieved memory [LOCOMO-T8-131], Sam first went to the doctor to find out he had a weight problem a few days before May 24, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-132",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-132], Evan had his sudden heart palpitation incident in the first week of June 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-133",
+    "answer": "Evan's favorite food is ginger snaps. [LOCOMO-T8-133]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-134",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-134], Sam enjoys eating soda.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-135",
+    "answer": "\nMalfunctioning self-checkout machines frustrate Sam at the grocery store. [LOCOMO-T8-135]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-136",
+    "answer": "According to retrieved memory [LOCOMO-T9-136], Calvin first traveled to Tokyo between 26 March and 20 April 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-137",
+    "answer": "\nAccording to the retrieved memories, Calvin bought a mansion in Japan and a luxury car Ferrari 488 GTB in March 2023.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-138",
+    "answer": "Dave saw Aerosmith perform live on an unknown date, as the relevant retrieved memory [LOCOMO-T9-138] does not provide any specific information on the date of the performance.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-139",
+    "answer": "Dave has enjoyed listening to Aerosmith. [LOCOMO-T9-139]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-140",
+    "answer": "United States.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-141",
+    "answer": "Dave dreams of opening a car maintenance shop and working on classic cars.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-142",
+    "answer": "\nDave likes classic vintage cars the most, according to retrieved memory [LOCOMO-T9-142].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-143",
+    "answer": "Yes, Dave's shop employs a lot of people. [LOCOMO-T9-143]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-144",
+    "answer": "Dave started his car maintenance shop on May 1, 2023, according to [LOCOMO-T9-144].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-145",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T9-145], a mishap occurred with Calvin's musical gear and favorite mic on a week before May 16, 2023.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-146",
+    "answer": "According to retrieved memory [LOCOMO-T9-146], Calvin's place got flooded in Tokyo about a week before May 16, 2023.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-147",
+    "answer": "Calvin has run into mishaps such as flooding of his mansion and car accidents. [LOCOMO-T9-147]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-148",
+    "answer": "According to retrieved memory [LOCOMO-T9-148], Calvin's concert in Tokyo took place in the last week of May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-149",
+    "answer": "Yes, Calvin would enjoy performing at the Hollywood Bowl. [LOCOMO-T9-149]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   }
+  ],
+  [
+   {
+    "id": "phase14-track-a-0",
+    "answer": "Jon lost his job as a banker on January 19, 2023. [LOCOMO-T1-0]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-1",
+    "answer": "According to retrieved memory [LOCOMO-T1-1], Gina lost her job at Door Dash in January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-2",
+    "answer": "\nBoth Jon and Gina like to destress by dancing.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-3",
+    "answer": "\nBoth Jon and Gina lost their jobs and decided to start their own businesses.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-4",
+    "answer": "\nJon decided to start his dance studio to share his passion and follow his dream, as he lost his job. [LOCOMO-T1-4]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-5",
+    "answer": "\nBased on the retrieved memories, Jon thinks the ideal dance studio should look like a studio by the water with natural light and Marley flooring. [LOCOMO-T1-5]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-6",
+    "answer": "Jon's group is performing at a festival in February 2023, as retrieved from [LOCOMO-T1-6].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-7",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T1-7], Gina launched an ad campaign for her store on January 29, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-8",
+    "answer": "Jon was not in Paris.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-9",
+    "answer": "\nBoth Jean and John visited Rome. [LOCOMO-T1-9]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-10",
+    "answer": "Gina teamed up with a local artist in February 2023. [LOCOMO-T1-10]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-11",
+    "answer": "Gina got her tattoo a few years ago, according to [LOCOMO-T1-11].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-12",
+    "answer": "Jon started going to the gym in March 2023, according to [LOCOMO-T1-12].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-13",
+    "answer": "According to retrieved memory [LOCOMO-T1-13], Gina opened her online clothing store on March 16, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-14",
+    "answer": "Jon started expanding his studio's social media presence in April 2023, as per [LOCOMO-T1-14].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-15",
+    "answer": "Jon hosted a dance competition in May 2023, as per [LOCOMO-T1-15].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-16",
+    "answer": "According to the retrieved memories, Jon went to a fair to get more exposure for his dance studio on 24 April, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-17",
+    "answer": "Maria had dinner with her mother on May 3, 2023. [LOCOMO-T2-17]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-18",
+    "answer": "Maria donated her car on December 21, 2022, according to [LOCOMO-T2-18].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-19",
+    "answer": "John has done Kickboxing. [LOCOMO-T2-19]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-20",
+    "answer": "\nBoth John and Maria have volunteered at a homeless shelter. [LOCOMO-T2-20]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-21",
+    "answer": "John joined the online support group [LOCOMO-T2-21] the week before 1 January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-22",
+    "answer": "Maria went to the beach in December 2022, according to [LOCOMO-T2-22].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-23",
+    "answer": "Maria has made friends at the homeless shelter. [LOCOMO-T2-23]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-24",
+    "answer": "\nJohn mentioned having a doll and a film camera as a child. [LOCOMO-T2-24]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-25",
+    "answer": "Based on the provided retrieved memories, John's financial status might be middle-class. [LOCOMO-T2-25]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-26",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T2-26], Maria's aunt gave her family money when Maria was younger and her family was going through tough times.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-27",
+    "answer": "Maria met Jean on February 24, 2023, according to [LOCOMO-T2-27].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-28",
+    "answer": "Maria has met and helped David, Jean, Cindy, and Laura while volunteering. [LOCOMO-T2-28]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-29",
+    "answer": "John has taken the military aptitude test multiple times. [LOCOMO-T2-29]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-30",
+    "answer": "Maria's grandmother passed away the week before 6 March 2023, according to [LOCOMO-T2-30].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-31",
+    "answer": "Yes, John would be considered a patriotic person. [LOCOMO-T2-31]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-32",
+    "answer": "Maria has taken poetry and creative writing classes. [LOCOMO-T2-32]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-33",
+    "answer": "John got his degree in the week before 2 April 2023, according to [LOCOMO-T2-33].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-34",
+    "answer": "Yes, it is likely that Nate has friends besides Joanna.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-35",
+    "answer": "Based on the retrieved memories provided, Joanna and Nate share an interest in watching movies.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-36",
+    "answer": "No relevant retrieved memories were provided, so the answer is: Joanna first watched \"Eternal Sunshine of the Spotless Mind\" in 2019.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-37",
+    "answer": "According to the retrieved memory [LOCOMO-T3-37], Nate won his first video game tournament the week before January 21, 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-38",
+    "answer": "Hairless cats or pigs, as they don't have fur, which is one of the main causes of Joanna's allergy. [LOCOMO-T3-38]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-39",
+    "answer": "Joanna's hobbies are writing, watching movies, exploring nature, and hanging with friends. (Citation: [LOCOMO-T3-39])",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-40",
+    "answer": "Nate has had his first two turtles for two years, as stated in retrieved memory [LOCOMO-T3-42].",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-41",
+    "answer": "According to retrieved memory [LOCOMO-T3-41], Joanna finished her first screenplay \"The Friday before 23January, 2022.\"",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-42",
+    "answer": "Nate got his first two turtles in 2019. [LOCOMO-T3-42]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-43",
+    "answer": "According to the retrieved memories, Joanna accomplished the major achievement of finishing her screenplay and printing it in January 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-44",
+    "answer": "\nJoanna is feeling hopeful about the screenplay she submitted. [LOCOMO-T3-44]",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-45",
+    "answer": "Joanna is allergic to most reptiles, animals with fur, cockroaches, and dairy.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-46",
+    "answer": "\nBased on Joanna's allergies, she might have an underlying condition such as asthma. [LOCOMO-T3-46]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-47",
+    "answer": "According to the retrieved memories, Joanna had an audition for a writing gig on March 23, 2022.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-48",
+    "answer": "According to retrieved memory [LOCOMO-T3-48], Nate uses the nickname \"Jo.\"",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-49",
+    "answer": "According to retrieved memory [LOCOMO-T3-49], Nate got purple hair the week before April 15, 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-50",
+    "answer": "Nate dyed his hair purple in April 2022. [LOCOMO-T3-50]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-51",
+    "answer": "\nJohn's goal with regards to his basketball career is to improve his shooting percentage.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-52",
+    "answer": "\nJohn's goals for his career that are not related to his basketball skills are to get endorsements, build his brand, and do charity work.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-53",
+    "answer": "John collects sneakers and fantasy movie DVDs.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-54",
+    "answer": "\nBased on the information provided, Tim would likely enjoy reading books by C. S. Lewis.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-55",
+    "answer": "Tim has read \"Harry Potter,\" \"Game of Thrones,\" \"The Name of the Wind,\" \"The Alchemist,\" \"The Hobbit,\" \"A Dance with Dragons,\" and \"The Wheel of Time.\" [LOCOMO-T4-55]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-56",
+    "answer": "\nBased on Tim's collections, he would enjoy visiting the House of MinaLima in New York city. [LOCOMO-T4-56]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-57",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T4-57], John achieved a career-high score in points in June 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-58",
+    "answer": "Tim has been to California and the Smoky Mountains.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-59",
+    "answer": "\nUnder Armour.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-60",
+    "answer": "John has been offered endorsement deals with Nike for basketball shoes and gear, as well as potential sponsorship with Gatorade and Moxie, an outdoor gear company.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-61",
+    "answer": "\nJohn was in Seattle for a game in early August 2023, according to retrieved memory [LOCOMO-T4-61].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-62",
+    "answer": "\nJohn likes surfing besides basketball. [LOCOMO-T4-63]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-63",
+    "answer": "John started surfing in 2018.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-64",
+    "answer": "\nTim reads fantasy books to escape reality.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-65",
+    "answer": "\nBased on the retrieved memories, Tim does writing articles on fantasy novels, studies characters, themes, and makes book recommendations.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-66",
+    "answer": "Anthony is likely John's friend or colleague, based on the information provided in the question.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-67",
+    "answer": "According to the retrieved memory [LOCOMO-T4-67], Tim reconnected with the fellow Harry Potter fan from California after three weeks.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-68",
+    "answer": "Audrey adopted the first three of her dogs in 2020.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-69",
+    "answer": "According to the retrieved memories, Andrew started his new job as a financial analyst the week before March 27, 2023. [LOCOMO-T5-69]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-70",
+    "answer": "\nAccording to the retrieved memories, Andrew and his girlfriend have pursued boardgames and wine tasting indoor activities together.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-71",
+    "answer": "\nAndrew and his girlfriend have checked out cafes and new places to eat around the city.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-72",
+    "answer": "Audrey made muffins for herself during the week of April 3rd to 9th, according to retrieved memory [LOCOMO-T5-72].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-73",
+    "answer": "Audrey saw a hummingbird in the first week of May 2023, according to retrieved memory [LOCOMO-T5-73].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-74",
+    "answer": "Audrey adopted Pixie around April 2, 2023. [LOCOMO-T5-74]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-75",
+    "answer": "\nThree years passed between Audrey adopting Pixie and her other three dogs. [Citation: [LOCOMO-T5-75]]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-76",
+    "answer": "No, according to retrieved memory [LOCOMO-T5-76], Andrew did not have a pet dog during March 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-77",
+    "answer": "Audrey has joined a positive reinforcement training workshop to bond with her pets, a dog training course, an agility training course, and a dog-owners group.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-78",
+    "answer": "According to the retrieved memories, Audrey's positive reinforcement training course for dogs took place in June 2023. [LOCOMO-T5-78]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-79",
+    "answer": "According to retrieved memory [LOCOMO-T5-80], Andrew has gone rock climbing. Therefore, the answer to the question is: Andrew went rock climbing in June 2023.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-80",
+    "answer": "\nAndrew has done rock climbing. [LOCOMO-T5-80]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-81",
+    "answer": "Audrey moved to a new place in June 2023, according to [LOCOMO-T5-81].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-82",
+    "answer": "\nAndrew really misses being in nature while working in the city. [LOCOMO-T5-82]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-83",
+    "answer": "\nAccording to the retrieved memories, the shared frustration regarding dog ownership for Audrey and Andrew is not being able to find pet-friendly spots.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-84",
+    "answer": "Andrew is going to go hiking with Audrey in August, as per retrieved memory [LOCOMO-T5-84].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-85",
+    "answer": "\nJohn is suspected to have obesity. [LOCOMO-T6-85]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-86",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T6-86], James was pursuing bowling on March 16, 2022.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-87",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T6-87], John and James have planned to meet at the VR Club and McGee's.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-88",
+    "answer": "No, John does not have pets.",
+    "string_date": true,
+    "llm_judge": false,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-89",
+    "answer": "John resumed playing drums in his adulthood in February 2022, according to [LOCOMO-T6-89].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-90",
+    "answer": "John and James' favorite games are CS:GO and Apex Legends.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-91",
+    "answer": "Yes, James lives in Connecticut. [LOCOMO-T6-91]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-92",
+    "answer": "Connecticut.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-93",
+    "answer": "James has three dogs.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-94",
+    "answer": "\nNed and Daisy are James's dogs, according to retrieved memories [LOCOMO-T6-94].",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-95",
+    "answer": "According to the retrieved memories provided, James adopted Ned in the first week of April 2022. [LOCOMO-T6-95]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-96",
+    "answer": "\nJohn was feeling seeking solitude on April 10, 2022. [LOCOMO-T6-96]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-97",
+    "answer": "No, according to retrieved memory [LOCOMO-T6-97], James did not have a girlfriend during April 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-98",
+    "answer": "James visited Italy in 2021, according to retrieved memory [LOCOMO-T6-98].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-99",
+    "answer": "According to the retrieved memories, James bought himself a new adventure book on April 26, 2022. [LOCOMO-T6-99]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-100",
+    "answer": "James started playing Civilization VI in March 2022, according to [LOCOMO-T6-100].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-101",
+    "answer": "\nThe game with different colored cards that John was talking about with James is UNO.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-102",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T7-102], Jolene was working on an electricity engineering project in the beginning of January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-103",
+    "answer": "\nAccording to the retrieved memories, Deborah's mother and Jolene's mother have passed away.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-104",
+    "answer": "Deborah's mother passed away a few years before 2023. [LOCOMO-T7-104]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-105",
+    "answer": "Jolene's mother passed away in 2022, according to [LOCOMO-T7-105].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-106",
+    "answer": "Jolene's mom gifted her a pendant in 2010, as per [LOCOMO-T7-106].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-107",
+    "answer": "France.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-108",
+    "answer": "\nDeborah has a pendant from her mother, while Jolene has a pendant from her mother.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-109",
+    "answer": "According to the retrieved memories, Jolene and her mother were visiting France in 2010.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-110",
+    "answer": "\nYoga helped Deborah find peace when grieving the deaths of her loved ones.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-111",
+    "answer": "According to the retrieved memories, Deborah's father passed away on January 25, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-112",
+    "answer": "According to retrieved memory [LOCOMO-T7-112], Deborah's parents were married in 1993.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-113",
+    "answer": "According to the retrieved memories, Deborah is married. [LOCOMO-T7-113]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-114",
+    "answer": "\nAccording to the retrieved memories, Deborah received an appreciation letter from her community on January 26, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-115",
+    "answer": "\nSitting in a spot by the window in her Mom's house gives Deborah peace. [LOCOMO-T7-115]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-116",
+    "answer": "Deborah's mother's hobbies were reading and traveling. [LOCOMO-T7-116]",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-117",
+    "answer": "Jolene has snakes.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-118",
+    "answer": "\nJolene's snakes are Susie and Seraphim. [LOCOMO-T7-118]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-119",
+    "answer": "Evan drives a Prius.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-120",
+    "answer": "Evan had his old Prius and his new Prius broken. [LOCOMO-T8-122]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-121",
+    "answer": "\nEvan has been on roadtrips with his family to the Rockies and Jasper. [LOCOMO-T8-121]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-122",
+    "answer": "\nEvan has owned two Prius. [LOCOMO-T8-122]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-123",
+    "answer": "According to the retrieved memories, Sam took up painting in May 2023. [LOCOMO-T8-123]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-124",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-124], Evan was visiting Canada in May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-125",
+    "answer": "\nEvan took two roadtrips in May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-126",
+    "answer": "Sam considered trying painting, kayaking, hiking, and cooking.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-127",
+    "answer": "\nEvan started practicing watercolor painting a few years ago that he enjoys. [LOCOMO-T8-127]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-128",
+    "answer": "According to retrieved memory [LOCOMO-T8-128], Evan went to Jasper with his family the weekend before May 24, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-129",
+    "answer": "\nBased on the retrieved memories, Evan would prefer a camping trip in the outdoors with his family. [LOCOMO-T8-129]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-130",
+    "answer": "\nSam faced a weight problem that motivated him to change his lifestyle. [LOCOMO-T8-130]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-131",
+    "answer": "According to retrieved memory [LOCOMO-T8-131], Sam first went to the doctor to find out he had a weight problem a few days before May 24, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-132",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-132], Evan had his sudden heart palpitation incident in the first week of June 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-133",
+    "answer": "Evan's favorite food is ginger snaps. [LOCOMO-T8-133]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-134",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-134], Sam enjoys eating soda.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-135",
+    "answer": "\nMalfunctioning self-checkout machines frustrate Sam at the grocery store. [LOCOMO-T8-135]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-136",
+    "answer": "According to retrieved memory [LOCOMO-T9-136], Calvin first traveled to Tokyo between 26 March and 20 April 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-137",
+    "answer": "\nAccording to the retrieved memories, Calvin bought a mansion in Japan and a luxury car Ferrari 488 GTB in March 2023.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-138",
+    "answer": "Dave saw Aerosmith perform live on an unknown date, as the relevant retrieved memory [LOCOMO-T9-138] does not provide any specific information on the date of the performance.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-139",
+    "answer": "Dave has enjoyed listening to Aerosmith. [LOCOMO-T9-139]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-140",
+    "answer": "United States.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-141",
+    "answer": "Dave dreams of opening a car maintenance shop and working on classic cars.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-142",
+    "answer": "\nDave likes classic vintage cars the most, according to retrieved memory [LOCOMO-T9-142].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-143",
+    "answer": "Yes, Dave's shop employs a lot of people. [LOCOMO-T9-143]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-144",
+    "answer": "Dave started his car maintenance shop on May 1, 2023, according to [LOCOMO-T9-144].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-145",
+    "answer": "According to retrieved memory [LOCOMO-T9-145], a mishap occurred with Calvin's musical gear and favorite mic on a week before May 16, 2023.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-146",
+    "answer": "According to retrieved memory [LOCOMO-T9-146], Calvin's place got flooded in Tokyo about a week before May 16, 2023.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-147",
+    "answer": "Calvin has run into mishaps such as flooding of his mansion and car accidents. [LOCOMO-T9-147]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-148",
+    "answer": "According to retrieved memory [LOCOMO-T9-148], Calvin's concert in Tokyo took place in the last week of May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-149",
+    "answer": "Yes, Calvin would enjoy performing at the Hollywood Bowl. [LOCOMO-T9-149]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   }
+  ],
+  [
+   {
+    "id": "phase14-track-a-0",
+    "answer": "Jon lost his job as a banker on January 19, 2023. [LOCOMO-T1-0]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-1",
+    "answer": "According to retrieved memory [LOCOMO-T1-1], Gina lost her job at Door Dash in January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-2",
+    "answer": "\nBoth Jon and Gina like to destress by dancing.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-3",
+    "answer": "\nBoth Jon and Gina lost their jobs and decided to start their own businesses.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-4",
+    "answer": "\nJon decided to start his dance studio to share his passion and follow his dream, as he lost his job. [LOCOMO-T1-4]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-5",
+    "answer": "\nBased on the retrieved memories, Jon thinks the ideal dance studio should look like a studio by the water with natural light and Marley flooring. [LOCOMO-T1-5]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-6",
+    "answer": "Jon's group is performing at a festival in February 2023, as retrieved from [LOCOMO-T1-6].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-7",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T1-7], Gina launched an ad campaign for her store on January 29, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-8",
+    "answer": "Jon was not in Paris.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-9",
+    "answer": "\nBoth Jean and John visited Rome. [LOCOMO-T1-9]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-10",
+    "answer": "Gina teamed up with a local artist in February 2023. [LOCOMO-T1-10]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-11",
+    "answer": "According to retrieved memory [LOCOMO-T1-11], Gina got her tattoo a few years ago.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-12",
+    "answer": "Jon started going to the gym in March 2023, according to [LOCOMO-T1-12].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-13",
+    "answer": "According to the retrieved memories, Gina opened her online clothing store on March 16, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-14",
+    "answer": "Jon started expanding his studio's social media presence in April 2023, as per [LOCOMO-T1-14].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-15",
+    "answer": "Jon hosted a dance competition in May 2023, as per [LOCOMO-T1-15].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-16",
+    "answer": "According to the retrieved memories, Jon went to a fair to get more exposure for his dance studio on 24 April, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-17",
+    "answer": "Maria had dinner with her mother on May 3, 2023. [LOCOMO-T2-17]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-18",
+    "answer": "Maria donated her car on December 21, 2022, according to [LOCOMO-T2-18].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-19",
+    "answer": "John has done Kickboxing. [LOCOMO-T2-19]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-20",
+    "answer": "\nBoth John and Maria have volunteered at a homeless shelter. [LOCOMO-T2-20]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-21",
+    "answer": "John joined the online support group [LOCOMO-T2-21] the week before 1 January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-22",
+    "answer": "Maria went to the beach in December 2022, according to [LOCOMO-T2-22].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-23",
+    "answer": "Maria has made friends at the homeless shelter. [LOCOMO-T2-23]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-24",
+    "answer": "\nJohn mentioned having a doll and a film camera as a child. [LOCOMO-T2-24]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-25",
+    "answer": "Based on the provided retrieved memories, John's financial status might be middle-class. [LOCOMO-T2-25]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-26",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T2-26], Maria's aunt gave her family money when Maria was younger and her family was going through tough times.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-27",
+    "answer": "Maria met Jean on February 24, 2023, according to [LOCOMO-T2-27].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-28",
+    "answer": "Maria has met and helped David, Jean, Cindy, and Laura while volunteering. [LOCOMO-T2-28]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-29",
+    "answer": "John has taken the military aptitude test multiple times. [LOCOMO-T2-29]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-30",
+    "answer": "Maria's grandmother passed away the week before 6 March 2023, according to [LOCOMO-T2-30].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-31",
+    "answer": "Yes, John would be considered a patriotic person. [LOCOMO-T2-31]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-32",
+    "answer": "Maria has taken poetry and creative writing classes. [LOCOMO-T2-32]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-33",
+    "answer": "John got his degree in the week before 2 April 2023, according to [LOCOMO-T2-33].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-34",
+    "answer": "Yes, it is likely that Nate has friends besides Joanna.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-35",
+    "answer": "Based on the retrieved memories provided, Joanna and Nate share an interest in watching movies.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-36",
+    "answer": "No relevant retrieved memories were provided, so the answer is: Joanna first watched \"Eternal Sunshine of the Spotless Mind\" in 2019.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-37",
+    "answer": "According to the retrieved memory [LOCOMO-T3-37], Nate won his first video game tournament the week before January 21, 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-38",
+    "answer": "Hairless cats or pigs, as they don't have fur, which is one of the main causes of Joanna's allergy. [LOCOMO-T3-38]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-39",
+    "answer": "Joanna's hobbies are writing, watching movies, exploring nature, and hanging with friends. (Citation: [LOCOMO-T3-39])",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-40",
+    "answer": "Nate has had his first two turtles for two years, as stated in retrieved memory [LOCOMO-T3-42].",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-41",
+    "answer": "According to retrieved memory [LOCOMO-T3-41], Joanna finished her first screenplay \"The Friday before 23January, 2022.\"",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-42",
+    "answer": "Nate got his first two turtles in 2019, according to [LOCOMO-T3-42].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-43",
+    "answer": "According to the retrieved memories, Joanna accomplished the major achievement of finishing her screenplay and printing it in January 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-44",
+    "answer": "\nJoanna is feeling hopeful about the screenplay she submitted. [LOCOMO-T3-44]",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-45",
+    "answer": "Joanna is allergic to most reptiles, animals with fur, cockroaches, and dairy.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-46",
+    "answer": "\nBased on Joanna's allergies, she might have an underlying condition such as asthma. [LOCOMO-T3-46]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-47",
+    "answer": "According to the retrieved memories, Joanna had an audition for a writing gig on March 23, 2022.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-48",
+    "answer": "According to retrieved memory [LOCOMO-T3-48], Nate uses the nickname \"Jo\" for Joanna.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-49",
+    "answer": "According to retrieved memory [LOCOMO-T3-49], Nate got purple hair the week before April 15, 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-50",
+    "answer": "Nate dyed his hair purple in April 2022. [LOCOMO-T3-50]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-51",
+    "answer": "\nJohn's goal with regards to his basketball career is to improve his shooting percentage.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-52",
+    "answer": "\nJohn's goals for his career that are not related to his basketball skills are to get endorsements, build his brand, and do charity work.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-53",
+    "answer": "John collects sneakers and fantasy movie DVDs.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-54",
+    "answer": "\nBased on the information provided, Tim would likely enjoy reading books by C. S. Lewis.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-55",
+    "answer": "Tim has read \"Harry Potter,\" \"Game of Thrones,\" \"The Name of the Wind,\" \"The Alchemist,\" \"The Hobbit,\" \"A Dance with Dragons,\" and \"The Wheel of Time.\" [LOCOMO-T4-55]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-56",
+    "answer": "\nBased on Tim's collections, he would enjoy visiting the House of MinaLima in New York city. [LOCOMO-T4-56]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-57",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T4-57], John achieved a career-high score in points in June 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-58",
+    "answer": "Tim has been to California and the Smoky Mountains.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-59",
+    "answer": "\nUnder Armour.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-60",
+    "answer": "John has been offered endorsement deals with Nike for basketball shoes and gear, as well as potential sponsorship with Gatorade and Moxie, an outdoor gear company.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-61",
+    "answer": "\nJohn was in Seattle for a game in early August 2023, according to retrieved memory [LOCOMO-T4-61].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-62",
+    "answer": "\nJohn likes surfing besides basketball. [LOCOMO-T4-63]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-63",
+    "answer": "John started surfing in 2018.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-64",
+    "answer": "\nTim reads fantasy books to escape reality.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-65",
+    "answer": "\nBased on the retrieved memories, Tim does writing articles on fantasy novels, studies characters, themes, and makes book recommendations.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-66",
+    "answer": "Anthony is likely John's friend or colleague, based on the information provided in the question.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-67",
+    "answer": "According to the retrieved memory [LOCOMO-T4-67], Tim reconnected with the fellow Harry Potter fan from California after three weeks.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-68",
+    "answer": "\nAccording to the retrieved memories, Audrey adopted the first three of her dogs in the year 2020.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-69",
+    "answer": "According to the retrieved memories, Andrew started his new job as a financial analyst the week before March 27, 2023. [LOCOMO-T5-69]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-70",
+    "answer": "\nAccording to the retrieved memories, Andrew and his girlfriend have pursued boardgames and wine tasting indoor activities together.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-71",
+    "answer": "\nAndrew and his girlfriend have checked out cafes and new places to eat around the city.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-72",
+    "answer": "Audrey made muffins for herself during the week of April 3rd to 9th, according to retrieved memory [LOCOMO-T5-72].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-73",
+    "answer": "Audrey saw a hummingbird in the first week of May 2023, according to retrieved memory [LOCOMO-T5-73].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-74",
+    "answer": "Audrey adopted Pixie around April 2, 2023. [LOCOMO-T5-74]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-75",
+    "answer": "\nThree years passed between Audrey adopting Pixie and her other three dogs. [Citation: [LOCOMO-T5-75]]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-76",
+    "answer": "No, according to retrieved memory [LOCOMO-T5-76], Andrew did not have a pet dog during March 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-77",
+    "answer": "Audrey has joined a positive reinforcement training workshop to bond with her pets, a dog training course, an agility training course, and a dog-owners group.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-78",
+    "answer": "According to the retrieved memories, Audrey's positive reinforcement training course for dogs took place in June 2023. [LOCOMO-T5-78]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-79",
+    "answer": "According to retrieved memory [LOCOMO-T5-80], Andrew has gone rock climbing. Therefore, the answer to the question is: Andrew went rock climbing in June 2023.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-80",
+    "answer": "\nAndrew has done rock climbing. [LOCOMO-T5-80]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-81",
+    "answer": "Audrey moved to a new place in June 2023, according to [LOCOMO-T5-81].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-82",
+    "answer": "\nAndrew really misses being in nature while working in the city. [LOCOMO-T5-82]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-83",
+    "answer": "\nAccording to the retrieved memories, a shared frustration regarding dog ownership for Audrey and Andrew is not being able to find pet-friendly spots.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-84",
+    "answer": "Andrew is going to go hiking with Audrey in August, as per retrieved memory [LOCOMO-T5-84].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-85",
+    "answer": "\nJohn is suspected to have obesity. [LOCOMO-T6-85]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-86",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T6-86], James was pursuing bowling on March 16, 2022.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-87",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T6-87], John and James have planned to meet at the VR Club and McGee's.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-88",
+    "answer": "No, John does not have pets.",
+    "string_date": true,
+    "llm_judge": false,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-89",
+    "answer": "John resumed playing drums in his adulthood in February 2022, according to [LOCOMO-T6-89].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-90",
+    "answer": "John and James' favorite games are CS:GO and Apex Legends.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-91",
+    "answer": "Yes, James lives in Connecticut. [LOCOMO-T6-91]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-92",
+    "answer": "Connecticut.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-93",
+    "answer": "James has three dogs.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-94",
+    "answer": "\nNed and Daisy are James's dogs, according to retrieved memories [LOCOMO-T6-94].",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-95",
+    "answer": "According to the retrieved memories provided, James adopted Ned in the first week of April 2022. [LOCOMO-T6-95]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-96",
+    "answer": "\nJohn was feeling seeking solitude on April 10, 2022. [LOCOMO-T6-96]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-97",
+    "answer": "No, according to retrieved memory [LOCOMO-T6-97], James did not have a girlfriend during April 2022.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-98",
+    "answer": "James visited Italy in 2021, according to retrieved memory [LOCOMO-T6-98].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-99",
+    "answer": "According to the retrieved memories, James bought himself a new adventure book on April 26, 2022. [LOCOMO-T6-99]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-100",
+    "answer": "James started playing Civilization VI in March 2022, according to [LOCOMO-T6-100].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-101",
+    "answer": "\nThe game with different colored cards that John was talking about with James is UNO. [1]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-102",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T7-102], Jolene was working on an electricity engineering project in the beginning of January 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-103",
+    "answer": "\nAccording to the retrieved memories, Deborah's mother and Jolene's mother have passed away.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-104",
+    "answer": "Deborah's mother passed away a few years before 2023. [LOCOMO-T7-104]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-105",
+    "answer": "Jolene's mother passed away in 2022, according to [LOCOMO-T7-105].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-106",
+    "answer": "Jolene's mom gifted her a pendant in 2010, as per [LOCOMO-T7-106].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-107",
+    "answer": "France.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-108",
+    "answer": "\nDeborah has a pendant from her mother, while Jolene has a pendant from her mother.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-109",
+    "answer": "According to the retrieved memories, Jolene and her mother were visiting France in 2010.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-110",
+    "answer": "\nYoga helped Deborah find peace when grieving the deaths of her loved ones.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-111",
+    "answer": "According to the retrieved memories, Deborah's father passed away on January 25, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-112",
+    "answer": "According to retrieved memory [LOCOMO-T7-112], Deborah's parents were married in 1993.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-113",
+    "answer": "According to the retrieved memories, Deborah is married. [LOCOMO-T7-113]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-114",
+    "answer": "\nAccording to the retrieved memories, Deborah received an appreciation letter from her community on January 26, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-115",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T7-115], Deborah finds peace in sitting by the window in her mother's house, by the beach, and in Bali.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-116",
+    "answer": "Deborah's mother's hobbies were reading and traveling. [LOCOMO-T7-116]",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-117",
+    "answer": "Jolene has snakes.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-118",
+    "answer": "\nJolene's snakes are Susie and Seraphim. [LOCOMO-T7-118]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-119",
+    "answer": "Evan drives a Prius.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-120",
+    "answer": "Evan had his old Prius and his new Prius broken. [LOCOMO-T8-122]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-121",
+    "answer": "\nEvan has been on roadtrips with his family to the Rockies and Jasper. [LOCOMO-T8-121]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-122",
+    "answer": "\nEvan has owned two Prius. [LOCOMO-T8-122]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-123",
+    "answer": "According to the retrieved memories, Sam took up painting in May 2023. [LOCOMO-T8-123]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-124",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-124], Evan was visiting Canada in May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-125",
+    "answer": "\nEvan took two roadtrips in May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-126",
+    "answer": "Sam considered trying painting, kayaking, hiking, and cooking.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-127",
+    "answer": "\nEvan started practicing watercolor painting a few years ago that he enjoys. [LOCOMO-T8-127]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-128",
+    "answer": "According to the retrieved memories, Evan went to Jasper with his family during the weekend before May 24, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-129",
+    "answer": "\nBased on the retrieved memories, Evan would prefer a camping trip in the outdoors with his family. [LOCOMO-T8-129]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-130",
+    "answer": "\nSam faced a weight problem that motivated him to change his lifestyle. [LOCOMO-T8-130]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-131",
+    "answer": "According to retrieved memory [LOCOMO-T8-131], Sam first went to the doctor to find out he had a weight problem a few days before May 24, 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-132",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-132], Evan had his sudden heart palpitation incident in the first week of June 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-133",
+    "answer": "Evan's favorite food is ginger snaps. [LOCOMO-T8-133]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-134",
+    "answer": "\nAccording to retrieved memory [LOCOMO-T8-134], Sam enjoys eating soda.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-135",
+    "answer": "\nMalfunctioning self-checkout machines frustrate Sam at the grocery store. [LOCOMO-T8-135]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-136",
+    "answer": "According to retrieved memory [LOCOMO-T9-136], Calvin first traveled to Tokyo between 26 March and 20 April 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-137",
+    "answer": "\nAccording to the retrieved memories, Calvin bought a mansion in Japan and a luxury car Ferrari 488 GTB in March 2023.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-138",
+    "answer": "Dave saw Aerosmith perform live on an unknown date, as the relevant retrieved memory [LOCOMO-T9-138] does not provide any specific information on the date of the performance.",
+    "string_date": false,
+    "llm_judge": false,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-139",
+    "answer": "Dave has enjoyed listening to Aerosmith. [LOCOMO-T9-139]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-140",
+    "answer": "United States.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-141",
+    "answer": "Dave dreams of opening a car maintenance shop and working on classic cars.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-142",
+    "answer": "\nDave likes classic vintage cars the most, according to retrieved memory [LOCOMO-T9-142].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": true
+   },
+   {
+    "id": "phase14-track-a-143",
+    "answer": "Yes, Dave's shop employs a lot of people. [LOCOMO-T9-143]",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-144",
+    "answer": "Dave started his car maintenance shop on May 1, 2023, according to [LOCOMO-T9-144].",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-145",
+    "answer": "According to retrieved memory [LOCOMO-T9-145], a mishap occurred with Calvin's musical gear and favorite mic on a week before May 16, 2023.",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-146",
+    "answer": "According to retrieved memory [LOCOMO-T9-146], Calvin's place got flooded in Tokyo \"on a week before 16 May, 2023.\"",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-147",
+    "answer": "Calvin has run into mishaps such as flooding of his mansion and car accidents. [LOCOMO-T9-147]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-148",
+    "answer": "According to retrieved memory [LOCOMO-T9-148], Calvin's concert in Tokyo took place in the last week of May 2023.",
+    "string_date": true,
+    "llm_judge": true,
+    "nli": true,
+    "cosine": false
+   },
+   {
+    "id": "phase14-track-a-149",
+    "answer": "Yes, Calvin would enjoy performing at the Hollywood Bowl. [LOCOMO-T9-149]",
+    "string_date": false,
+    "llm_judge": true,
+    "nli": false,
+    "cosine": false
+   }
+  ]
+ ]
+}

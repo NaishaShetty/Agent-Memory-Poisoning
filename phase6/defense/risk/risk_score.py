@@ -611,8 +611,15 @@ GROUPED_GATED_ADMISSION_CORROBORATED = "grouped_gated_admission_corroborated"
 # there in the first place -- confirmed directly, Phase 14's own real
 # Track A URS was already a clean 1.0 on LongMemEval before this fix).
 GROUPED_GATED_RETRIEVAL_CORROBORATED = "grouped_gated_retrieval_corroborated"
+# Phase 17 generalization fix (additive, opt-in): the live B9 rule PLUS
+# retrieval-only-evidence zeroing. Retrieval-divergence signals are
+# out-of-distribution for non-English text (root cause of the Phase 17 finding
+# that live B9 flagged 907/932 benign PerLTQA Chinese memories), so on their own
+# they must not move a memory. Only admission/sleeper evidence can.
+GROUPED_GATED_ADMISSION_AND_RETRIEVAL_CORROBORATED = "grouped_gated_admission_and_retrieval_corroborated"
 COMPOSITION_RULES: Tuple[str, ...] = (
     WEIGHTED_SUM, GROUPED_GATED, GROUPED_GATED_ADMISSION_CORROBORATED, GROUPED_GATED_RETRIEVAL_CORROBORATED,
+    GROUPED_GATED_ADMISSION_AND_RETRIEVAL_CORROBORATED,
 )
 
 # The rule this module recommends as of Stage 10.1 (Phase 10 plan Section
@@ -725,6 +732,14 @@ def compute_memory_risk_score(
         score, contributions = _grouped_gated_rule(signals, admission_corroboration_floor=effective_floor)
     elif rule == GROUPED_GATED_RETRIEVAL_CORROBORATED:
         score, contributions = _grouped_gated_rule(signals, require_retrieval_corroboration=True)
+    elif rule == GROUPED_GATED_ADMISSION_AND_RETRIEVAL_CORROBORATED:
+        effective_floor = (
+            ADMISSION_MULTI_SIGNAL_CORROBORATION_FLOOR
+            if admission_corroboration_floor is None
+            else admission_corroboration_floor
+        )
+        score, contributions = _grouped_gated_rule(
+            signals, admission_corroboration_floor=effective_floor, require_retrieval_corroboration=True)
     else:
         score, contributions = _grouped_gated_rule(signals)
 

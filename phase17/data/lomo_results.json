@@ -1,0 +1,80 @@
+{
+  "n_pos": 250,
+  "n_neg": 833,
+  "n_mechanisms": 37,
+  "variants": {
+    "concept_zero_shot": {
+      "auc": 0.8920264105642257,
+      "recall@0.5%fpr": {
+        "threshold": -0.385345457984375,
+        "recall": 0.4
+      },
+      "recall@1%fpr": {
+        "threshold": -1.3101081689132918,
+        "recall": 0.428
+      },
+      "macro_recall_over_mechanisms@0.5%": 0.3891891891891892,
+      "mechanisms_with_zero_recall@0.5%": [
+        "brand_steering",
+        "class:padding_restatement",
+        "contact_swap",
+        "date_trigger",
+        "fake_emergency_contact",
+        "fake_system_update",
+        "language_trigger",
+        "link_injection",
+        "reputation_smear",
+        "role_redefinition"
+      ]
+    },
+    "concept_fewshot_k6_LOMO": {
+      "auc": 0.9384537815126051,
+      "recall@0.5%fpr": {
+        "threshold": 8.053005523117019,
+        "recall": 0.34
+      },
+      "recall@1%fpr": {
+        "threshold": 5.375461672501398,
+        "recall": 0.416
+      },
+      "macro_recall_over_mechanisms@0.5%": 0.3189189189189189,
+      "mechanisms_with_zero_recall@0.5%": [
+        "brand_steering",
+        "class:padding_restatement",
+        "class:third_person_report",
+        "class:write_directive",
+        "concealment_rule",
+        "credential_harvest",
+        "fake_system_update",
+        "language_trigger",
+        "link_injection",
+        "persona_switch",
+        "price_anchoring",
+        "reputation_smear"
+      ]
+    },
+    "concept_fewshot_k12_LOMO": {
+      "auc": 0.9308715486194478,
+      "recall@0.5%fpr": {
+        "threshold": 5.47053531098528,
+        "recall": 0.412
+      },
+      "recall@1%fpr": {
+        "threshold": 2.0869903425441514,
+        "recall": 0.508
+      },
+      "macro_recall_over_mechanisms@0.5%": 0.3945945945945946,
+      "mechanisms_with_zero_recall@0.5%": [
+        "brand_steering",
+        "class:padding_restatement",
+        "class:write_directive",
+        "concealment_rule",
+        "credential_harvest",
+        "fake_system_update",
+        "language_trigger",
+        "link_injection",
+        "reputation_smear"
+      ]
+    }
+  }
+}

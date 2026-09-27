@@ -90,10 +90,13 @@ CONFIG_B7_ALL_THREE = "B7"
 CONFIG_B8_ALL_FOUR = "B8"
 CONFIG_B9_RISK_COMPOSED = "B9"
 CONFIG_B10_LEARNED_HYBRID = "B10"
+CONFIG_B11_GENERALIZED = "B11"  # Phase 17 generalization fix (phase17/b11_live.py)
+CONFIG_B12_STACKED = "B12"  # Phase 17 fix round 4: stacked detector (phase17/b12_live.py)
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
     CONFIG_B7_ALL_THREE, CONFIG_B8_ALL_FOUR, CONFIG_B9_RISK_COMPOSED, CONFIG_B10_LEARNED_HYBRID,
+    CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED,
 )
 
 # 2026-09-23 (Phase 15 follow-on, explicitly authorized): B2-B7 dispatch
@@ -152,7 +155,7 @@ def _b1_action(memory_id: str, content_text: str) -> str:
     return decision.action
 
 
-def _b9_actions(items: Sequence[Tuple[str, str]]) -> Dict[str, str]:
+def _b9_actions(items: Sequence[Tuple[str, str]], rule: str = GROUPED_GATED_ADMISSION_CORROBORATED) -> Dict[str, str]:
     """Real, per-task replication of `run_b0_b7.py::run_b9_risk_composed()`'s
     own per-memory decision -- SAME real signal functions,
     `action_for_risk_estimate()` decision surface. The retrieval-consensus
@@ -206,7 +209,7 @@ def _b9_actions(items: Sequence[Tuple[str, str]]) -> Dict[str, str]:
             **activation_shape_signal(ctx),
             "dormancy_activation_score": 1.0,
         }
-        estimate = compute_memory_risk_score(memory_id, signals, rule=GROUPED_GATED_ADMISSION_CORROBORATED)
+        estimate = compute_memory_risk_score(memory_id, signals, rule=rule)
         actions[memory_id] = action_for_risk_estimate(estimate, current_security_state=UNASSESSED)
     return actions
 
@@ -268,6 +271,22 @@ def apply_defense(
             DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
             for memory_id, _ in items
         )
+    elif config_name == CONFIG_B11_GENERALIZED:
+        from phase17.b11_live import b11_actions
+
+        actions = b11_actions(items)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
+            for memory_id, _ in items
+        )
+    elif config_name == CONFIG_B12_STACKED:
+        from phase17.b12_live import b12_actions
+
+        actions = b12_actions(items)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
+            for memory_id, _ in items
+        )
     elif config_name in _PIPELINE_CONFIGS:
         actions = _pipeline_actions(items, _PIPELINE_CONFIGS[config_name])
         decisions = tuple(
@@ -294,6 +313,8 @@ __all__ = [
     "CONFIG_B8_ALL_FOUR",
     "CONFIG_B9_RISK_COMPOSED",
     "CONFIG_B10_LEARNED_HYBRID",
+    "CONFIG_B11_GENERALIZED",
+    "CONFIG_B12_STACKED",
     "REAL_CONFIGS",
     "HARD_MITIGATION_ACTIONS",
     "DefenseDecision",

@@ -6,6 +6,15 @@ number below is drawn from Phases 12–15's own real, already-validated measurem
 recomputed or re-derived here; this document's only job is to place them side by side and state
 the real trade-off honestly.
 
+> **Qualification added by Phase 17 (read before the tables below).** The "detection" percentages in
+> Section 1 mean *flagged* (any action other than ALLOW, mostly `REQUIRE_VALIDATION`), measured on the
+> original 15 poison records that several signals were written from. Phase 17 measured what actually
+> *excludes* content and how results hold on held-out data: live B9 excludes 9/15 original, 1/9 held-out
+> regenerated and 0/47 evasion variants; the full stack flags 14/15 in-sample but 4/9 and 11/47 on
+> held-out and evasion sets; and removing the signals written from a family drives that family's
+> detection to zero. Treat this report's detection figures as in-sample flagging rates, not as general
+> protection. See `docs/phase17/PHASE17_ABLATION_GENERALIZATION_REPORT.md`.
+
 ## 1. The Full Real Security Matrix (11 Configs × 4 Datasets × 7 Attack Families)
 
 | Config | LoCoMo | LongMemEval | MSC | ConversationChronicles |

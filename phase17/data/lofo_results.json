@@ -1,0 +1,896 @@
+{
+  "dsrm": {
+    "admission_only(B1)": {
+      "n": 12,
+      "removed": [
+        "interrogative_restatement_score",
+        "synthetic_repetition_padding_score",
+        "template_anomaly_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 7,
+          "n": 12,
+          "rate": 0.5833333333333334,
+          "ci95": [
+            0.3195073356553728,
+            0.8067425380947535
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 7,
+          "detected_b": 0,
+          "only_a": 7,
+          "only_b": 0,
+          "p_exact": 0.015625
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 4,
+          "n": 12,
+          "rate": 0.3333333333333333,
+          "ci95": [
+            0.13811783989736134,
+            0.609382412602386
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 4,
+          "detected_b": 0,
+          "only_a": 4,
+          "only_b": 0,
+          "p_exact": 0.125
+        }
+      }
+    },
+    "rule_stack(B9-matrix)": {
+      "n": 12,
+      "removed": [
+        "interrogative_restatement_score",
+        "synthetic_repetition_padding_score",
+        "template_anomaly_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 7,
+          "n": 12,
+          "rate": 0.5833333333333334,
+          "ci95": [
+            0.3195073356553728,
+            0.8067425380947535
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 7,
+          "detected_b": 0,
+          "only_a": 7,
+          "only_b": 0,
+          "p_exact": 0.015625
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    }
+  },
+  "farma": {
+    "admission_only(B1)": {
+      "n": 12,
+      "removed": [
+        "self_reference_score",
+        "stale_precedent_dismissal_score",
+        "unverifiable_closure_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 5,
+          "n": 12,
+          "rate": 0.4166666666666667,
+          "ci95": [
+            0.19325746190524656,
+            0.6804926643446272
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 5,
+          "detected_b": 0,
+          "only_a": 5,
+          "only_b": 0,
+          "p_exact": 0.0625
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 3,
+          "n": 12,
+          "rate": 0.25,
+          "ci95": [
+            0.08894003962896138,
+            0.53231033912066
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 3,
+          "detected_b": 0,
+          "only_a": 3,
+          "only_b": 0,
+          "p_exact": 0.25
+        }
+      }
+    },
+    "rule_stack(B9-matrix)": {
+      "n": 12,
+      "removed": [
+        "self_reference_score",
+        "stale_precedent_dismissal_score",
+        "unverifiable_closure_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 5,
+          "n": 12,
+          "rate": 0.4166666666666667,
+          "ci95": [
+            0.19325746190524656,
+            0.6804926643446272
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 5,
+          "detected_b": 0,
+          "only_a": 5,
+          "only_b": 0,
+          "p_exact": 0.0625
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    }
+  },
+  "mpbench": {
+    "admission_only(B1)": {
+      "n": 12,
+      "removed": [
+        "preference_decision_update_score",
+        "third_person_report_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 10,
+          "n": 12,
+          "rate": 0.8333333333333334,
+          "ci95": [
+            0.5519636426153274,
+            0.9530358523851776
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 10,
+          "detected_b": 0,
+          "only_a": 10,
+          "only_b": 0,
+          "p_exact": 0.001953125
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 3,
+          "n": 12,
+          "rate": 0.25,
+          "ci95": [
+            0.08894003962896138,
+            0.53231033912066
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 3,
+          "detected_b": 0,
+          "only_a": 3,
+          "only_b": 0,
+          "p_exact": 0.25
+        }
+      }
+    },
+    "rule_stack(B9-matrix)": {
+      "n": 12,
+      "removed": [
+        "preference_decision_update_score",
+        "third_person_report_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 10,
+          "n": 12,
+          "rate": 0.8333333333333334,
+          "ci95": [
+            0.5519636426153274,
+            0.9530358523851776
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 10,
+          "detected_b": 0,
+          "only_a": 10,
+          "only_b": 0,
+          "p_exact": 0.001953125
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 12,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.2425007574992425
+          ]
+        },
+        "paired": {
+          "n": 12,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    }
+  },
+  "minja": {
+    "admission_only(B1)": {
+      "n": 17,
+      "removed": [
+        "entity_link_directive_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 2,
+          "n": 17,
+          "rate": 0.11764705882352941,
+          "ci95": [
+            0.03287908001292092,
+            0.3433684249770991
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 17,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.18432366037156456
+          ]
+        },
+        "paired": {
+          "n": 17,
+          "detected_a": 2,
+          "detected_b": 0,
+          "only_a": 2,
+          "only_b": 0,
+          "p_exact": 0.5
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 17,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.18432366037156456
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 17,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.18432366037156456
+          ]
+        },
+        "paired": {
+          "n": 17,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    },
+    "rule_stack(B9-matrix)": {
+      "n": 17,
+      "removed": [
+        "entity_link_directive_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 2,
+          "n": 17,
+          "rate": 0.11764705882352941,
+          "ci95": [
+            0.03287908001292092,
+            0.3433684249770991
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 17,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.18432366037156456
+          ]
+        },
+        "paired": {
+          "n": 17,
+          "detected_a": 2,
+          "detected_b": 0,
+          "only_a": 2,
+          "only_b": 0,
+          "p_exact": 0.5
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 17,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.18432366037156456
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 17,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.18432366037156456
+          ]
+        },
+        "paired": {
+          "n": 17,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    }
+  },
+  "agentpoison": {
+    "admission_only(B1)": {
+      "n": 6,
+      "removed": [
+        "forged_provenance_confirmation_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 1,
+          "n": 6,
+          "rate": 0.16666666666666666,
+          "ci95": [
+            0.03005258587173032,
+            0.563509436563646
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 1,
+          "detected_b": 0,
+          "only_a": 1,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    },
+    "rule_stack(B9-matrix)": {
+      "n": 6,
+      "removed": [
+        "forged_provenance_confirmation_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 1,
+          "n": 6,
+          "rate": 0.16666666666666666,
+          "ci95": [
+            0.03005258587173032,
+            0.563509436563646
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 1,
+          "detected_b": 0,
+          "only_a": 1,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    }
+  },
+  "memorygraft": {
+    "admission_only(B1)": {
+      "n": 6,
+      "removed": [
+        "decision_log_vocabulary_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 2,
+          "n": 6,
+          "rate": 0.3333333333333333,
+          "ci95": [
+            0.09676933255921683,
+            0.7000116786584712
+          ]
+        },
+        "family_signals_removed": {
+          "k": 2,
+          "n": 6,
+          "rate": 0.3333333333333333,
+          "ci95": [
+            0.09676933255921683,
+            0.7000116786584712
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 2,
+          "detected_b": 2,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    },
+    "rule_stack(B9-matrix)": {
+      "n": 6,
+      "removed": [
+        "decision_log_vocabulary_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 2,
+          "n": 6,
+          "rate": 0.3333333333333333,
+          "ci95": [
+            0.09676933255921683,
+            0.7000116786584712
+          ]
+        },
+        "family_signals_removed": {
+          "k": 2,
+          "n": 6,
+          "rate": 0.3333333333333333,
+          "ci95": [
+            0.09676933255921683,
+            0.7000116786584712
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 2,
+          "detected_b": 2,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    }
+  },
+  "sleeper_memory_poisoning": {
+    "admission_only(B1)": {
+      "n": 6,
+      "removed": [
+        "activation_shape_score",
+        "imperative_write_directive_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 1,
+          "n": 6,
+          "rate": 0.16666666666666666,
+          "ci95": [
+            0.03005258587173032,
+            0.563509436563646
+          ]
+        },
+        "family_signals_removed": {
+          "k": 1,
+          "n": 6,
+          "rate": 0.16666666666666666,
+          "ci95": [
+            0.03005258587173032,
+            0.563509436563646
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 1,
+          "detected_b": 1,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    },
+    "rule_stack(B9-matrix)": {
+      "n": 6,
+      "removed": [
+        "activation_shape_score",
+        "imperative_write_directive_score"
+      ],
+      "flagged": {
+        "full": {
+          "k": 2,
+          "n": 6,
+          "rate": 0.3333333333333333,
+          "ci95": [
+            0.09676933255921683,
+            0.7000116786584712
+          ]
+        },
+        "family_signals_removed": {
+          "k": 1,
+          "n": 6,
+          "rate": 0.16666666666666666,
+          "ci95": [
+            0.03005258587173032,
+            0.563509436563646
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 2,
+          "detected_b": 1,
+          "only_a": 1,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "excluded": {
+        "full": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "family_signals_removed": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      }
+    }
+  }
+}

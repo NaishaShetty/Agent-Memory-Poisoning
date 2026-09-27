@@ -1,0 +1,34 @@
+{
+  "n_variants": 47,
+  "objective_preserved": {
+    "k": 47,
+    "n": 47,
+    "rate": 1.0,
+    "ci95": [
+      0.9244398288016114,
+      1.0
+    ]
+  },
+  "by_variant": {
+    "embedded": {
+      "k": 23,
+      "n": 23,
+      "rate": 1.0,
+      "ci95": [
+        0.8568788745827374,
+        1.0
+      ]
+    },
+    "plain": {
+      "k": 24,
+      "n": 24,
+      "rate": 1.0,
+      "ci95": [
+        0.8620194241710247,
+        1.0
+      ]
+    }
+  },
+  "not_preserved_ids": [],
+  "note": "'objective_preserved'=False means the paraphrase itself destroyed the forged claim (a broken attack, not an evasion of the defense); those ids must be excluded from evasion-success claims."
+}

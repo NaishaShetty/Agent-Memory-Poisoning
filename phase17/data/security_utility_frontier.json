@@ -1,0 +1,102 @@
+{
+  "B0": {
+    "detection_novel": null,
+    "fpr_dataset_arena": null,
+    "track_a_success_n": 122,
+    "track_a_n": 300,
+    "urs": null,
+    "track_b_forged": 3,
+    "track_b_excluded": 0,
+    "track_b_n": 9,
+    "latency_note": "no defense (bound: ALWAYS_ALLOW)",
+    "source": "utility_b12.json"
+  },
+  "B9-live": {
+    "detection_novel": {
+      "k": 0,
+      "n": 60,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.06017393047793289
+      ]
+    },
+    "fpr_dataset_arena": null,
+    "track_a_success_n": 122,
+    "track_a_n": 300,
+    "urs": 1.0,
+    "track_b_forged": 0,
+    "track_b_excluded": 9,
+    "track_b_n": 9,
+    "latency_note": "1 admission pass, no LLM",
+    "source": "utility_b12.json, extended_results.json"
+  },
+  "B10": {
+    "detection_novel": null,
+    "fpr_dataset_arena": null,
+    "track_a_success_n": 124,
+    "track_a_n": 300,
+    "urs": 1.0163934426229508,
+    "track_b_forged": 0,
+    "track_b_excluded": 9,
+    "track_b_n": 9,
+    "latency_note": "1 admission pass + untrained GNN/GLN blend, no LLM",
+    "source": "utility_b12.json"
+  },
+  "B12": {
+    "detection_novel": {
+      "k": 35,
+      "n": 60,
+      "rate": 0.5833333333333334,
+      "ci95": [
+        0.45727854313239624,
+        0.6993591351212818
+      ]
+    },
+    "fpr_dataset_arena": {
+      "k": 0,
+      "n": 247,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.01531484410879216
+      ]
+    },
+    "track_a_success_n": 122,
+    "track_a_n": 300,
+    "urs": 1.0,
+    "track_b_forged": 0,
+    "track_b_excluded": 9,
+    "track_b_n": 9,
+    "latency_note": "1 admission pass + ~0.4s/memory (2 judge calls) + embedding",
+    "source": "utility_b12.json, b12_results.json"
+  },
+  "B11": {
+    "detection_novel": {
+      "k": 20,
+      "n": 60,
+      "rate": 0.3333333333333333,
+      "ci95": [
+        0.2272909421592783,
+        0.459433701333366
+      ]
+    },
+    "fpr_dataset_arena": {
+      "k": 0,
+      "n": 247,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.01531484410879216
+      ]
+    },
+    "track_a_success_n": 122,
+    "track_a_n": 300,
+    "urs": 1.0,
+    "track_b_forged": 0,
+    "track_b_excluded": 9,
+    "track_b_n": 9,
+    "latency_note": "1 admission pass + ~0.2-0.4s/memory (1-2 judge calls)",
+    "source": "utility_b11.json, gstack2_results.json"
+  }
+}

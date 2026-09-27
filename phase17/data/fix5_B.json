@@ -1,0 +1,24 @@
+{
+  "dev": {
+    "steering_dev_n": 35,
+    "steer_only": 15,
+    "steer_and_stackflag": 12,
+    "benign_dev_fp_steer_and_stackflag": 0,
+    "n_neg": 833
+  },
+  "eval": {
+    "hijack_steer": 5,
+    "hijack_steer_and_stackflag": 1,
+    "n": 10
+  },
+  "benign": {
+    "dataset_arena": {
+      "n": 247,
+      "steer_and_stackflag": 0
+    },
+    "convomem": {
+      "n": 360,
+      "steer_and_stackflag": 0
+    }
+  }
+}

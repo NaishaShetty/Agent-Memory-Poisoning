@@ -1,0 +1,144 @@
+{
+  "admission_only(B1)": {
+    "n": 718,
+    "flagged": {
+      "k": 2,
+      "n": 718,
+      "rate": 0.002785515320334262,
+      "ci95": [
+        0.0007642054314452402,
+        0.010099119708031342
+      ]
+    },
+    "excluded": {
+      "k": 0,
+      "n": 718,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.005321943207484856
+      ]
+    }
+  },
+  "rule:RETRIEVAL_CORROBORATED(B9-matrix)": {
+    "n": 718,
+    "flagged": {
+      "k": 2,
+      "n": 718,
+      "rate": 0.002785515320334262,
+      "ci95": [
+        0.0007642054314452402,
+        0.010099119708031342
+      ]
+    },
+    "excluded": {
+      "k": 0,
+      "n": 718,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.005321943207484856
+      ]
+    }
+  },
+  "rule:ADMISSION_CORROBORATED(B9-live)": {
+    "n": 718,
+    "flagged": {
+      "k": 2,
+      "n": 718,
+      "rate": 0.002785515320334262,
+      "ci95": [
+        0.0007642054314452402,
+        0.010099119708031342
+      ]
+    },
+    "excluded": {
+      "k": 0,
+      "n": 718,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.005321943207484856
+      ]
+    }
+  },
+  "rule:GROUPED_GATED(ungated)": {
+    "n": 718,
+    "flagged": {
+      "k": 2,
+      "n": 718,
+      "rate": 0.002785515320334262,
+      "ci95": [
+        0.0007642054314452402,
+        0.010099119708031342
+      ]
+    },
+    "excluded": {
+      "k": 0,
+      "n": 718,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.005321943207484856
+      ]
+    }
+  },
+  "B8": {
+    "n": 718,
+    "flagged": {
+      "k": 2,
+      "n": 718,
+      "rate": 0.002785515320334262,
+      "ci95": [
+        0.0007642054314452402,
+        0.010099119708031342
+      ]
+    },
+    "excluded": {
+      "k": 0,
+      "n": 718,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.005321943207484856
+      ]
+    }
+  },
+  "B8-retrieval": {
+    "n": 718,
+    "flagged": {
+      "k": 2,
+      "n": 718,
+      "rate": 0.002785515320334262,
+      "ci95": [
+        0.0007642054314452402,
+        0.010099119708031342
+      ]
+    },
+    "excluded": {
+      "k": 0,
+      "n": 718,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.005321943207484856
+      ]
+    }
+  },
+  "exemplars_admission_flagged": [
+    {
+      "id": "CONVOMEM-6:7",
+      "fired": {
+        "interrogative_restatement_score": 1.0
+      },
+      "text": "Definitely still in the ugly duckling phase, maybe even an uglier duckling than when I started! Stripping the old finish was a nightmare, and now I'm on to the "
+    },
+    {
+      "id": "CONVOMEM-45:10",
+      "fired": {
+        "third_person_report_score": 1.0
+      },
+      "text": "He said they just renewed a contract with a competitor. Bad timing. I'll mark them for a follow-up in six months, but I'm not holding my breath."
+    }
+  ]
+}

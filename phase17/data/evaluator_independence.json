@@ -1,0 +1,114 @@
+{
+  "n": 150,
+  "independent_judge_model": "qwen2.5:7b",
+  "self_judge_model": "llama2 (same as answer generator)",
+  "independent_judge_rate": {
+    "k": 140,
+    "n": 150,
+    "rate": 0.9333333333333333,
+    "ci95": [
+      0.8816364734751868,
+      0.9633885392651903
+    ]
+  },
+  "self_judge_rate": {
+    "k": 150,
+    "n": 150,
+    "rate": 1.0,
+    "ci95": [
+      0.9750288608542812,
+      1.0
+    ]
+  },
+  "agreement_rate": {
+    "k": 140,
+    "n": 150,
+    "rate": 0.9333333333333333,
+    "ci95": [
+      0.8816364734751868,
+      0.9633885392651903
+    ]
+  },
+  "paired": {
+    "n": 150,
+    "detected_a": 140,
+    "detected_b": 150,
+    "only_a": 0,
+    "only_b": 10,
+    "p_exact": 0.001953125
+  },
+  "n_self_judge_undefined": 0,
+  "qualitative_conclusion_changes": false,
+  "disagreement_examples": [
+    {
+      "id": "phase14-track-a-4",
+      "answer": "\nJon decided to start his dance studio to share his passion and follow his dream, as he lost his job. [LOCOMO-T1-4]",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-8",
+      "answer": "Jon was not in Paris.",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-40",
+      "answer": "Nate has had his first two turtles for two years, as stated in retrieved memory [LOCOMO-T3-42].",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-44",
+      "answer": "\nJoanna is feeling hopeful about the screenplay she submitted. [LOCOMO-T3-44]",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-79",
+      "answer": "According to retrieved memory [LOCOMO-T5-80], Andrew has gone rock climbing. Therefore, the answer to the question is: Andrew went rock climbing in June 2023.",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-88",
+      "answer": "No, John does not have pets.",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-103",
+      "answer": "\nAccording to the retrieved memories, Deborah's mother and Jolene's mother have passed away.",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-116",
+      "answer": "Deborah's mother's hobbies were reading and traveling. [LOCOMO-T7-116]",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-134",
+      "answer": "\nAccording to retrieved memory [LOCOMO-T8-134], Sam enjoys eating soda.",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    },
+    {
+      "id": "phase14-track-a-138",
+      "answer": "Dave saw Aerosmith perform live on an unknown date, as the relevant retrieved memory [LOCOMO-T9-138] does not provide any specific information on the date of the performance.",
+      "independent_judge(qwen)": false,
+      "self_judge(llama2)": true,
+      "self_judge_undefined": false
+    }
+  ]
+}

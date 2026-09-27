@@ -1,0 +1,96 @@
+{
+  "n_pos": 130,
+  "n_neg": 733,
+  "variants": {
+    "concept": {
+      "auc": 0.9108143561758841,
+      "recall@fpr0.005": {
+        "threshold": -0.385345457984375,
+        "recall": 0.4307692307692308
+      },
+      "recall@fpr0.01": {
+        "threshold": -5.092704750994461,
+        "recall": 0.5769230769230769
+      },
+      "recall@fpr0.02": {
+        "threshold": -8.360004097751233,
+        "recall": 0.6538461538461539
+      }
+    },
+    "broad": {
+      "auc": 0.8397103578549691,
+      "recall@fpr0.005": {
+        "threshold": 3.1771049174235593,
+        "recall": 0.3384615384615385
+      },
+      "recall@fpr0.01": {
+        "threshold": 2.012237624333931,
+        "recall": 0.4
+      },
+      "recall@fpr0.02": {
+        "threshold": 0.21659857134683227,
+        "recall": 0.5
+      }
+    },
+    "concept+fewshot": {
+      "auc": 0.9480742995067688,
+      "recall@fpr0.005": {
+        "threshold": 2.9032172347174416,
+        "recall": 0.5384615384615384
+      },
+      "recall@fpr0.01": {
+        "threshold": 2.232715577887131,
+        "recall": 0.5769230769230769
+      },
+      "recall@fpr0.02": {
+        "threshold": 0.14742285113198852,
+        "recall": 0.6615384615384615
+      }
+    },
+    "broad+fewshot": {
+      "auc": 0.9182285654318396,
+      "recall@fpr0.005": {
+        "threshold": 7.4878995627618785,
+        "recall": 0.2230769230769231
+      },
+      "recall@fpr0.01": {
+        "threshold": 4.612949513898922,
+        "recall": 0.38461538461538464
+      },
+      "recall@fpr0.02": {
+        "threshold": 3.742008253069354,
+        "recall": 0.4461538461538462
+      }
+    },
+    "mean(concept,broad)": {
+      "auc": 0.8927379578129919,
+      "recall@fpr0.005": {
+        "threshold": 0.8579616631136665,
+        "recall": 0.4230769230769231
+      },
+      "recall@fpr0.01": {
+        "threshold": -2.2150439733709284,
+        "recall": 0.5153846153846153
+      },
+      "recall@fpr0.02": {
+        "threshold": -5.16695018756899,
+        "recall": 0.6461538461538462
+      }
+    },
+    "mean(concept+fewshot,broad+fewshot)": {
+      "auc": 0.9502990869975864,
+      "recall@fpr0.005": {
+        "threshold": 2.771804724190144,
+        "recall": 0.5384615384615384
+      },
+      "recall@fpr0.01": {
+        "threshold": 1.2804298224614392,
+        "recall": 0.6
+      },
+      "recall@fpr0.02": {
+        "threshold": 0.3836307945416699,
+        "recall": 0.6846153846153846
+      }
+    }
+  }
+}

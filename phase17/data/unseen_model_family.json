@@ -1,0 +1,97 @@
+{
+  "n_novel": 40,
+  "n_benign": 40,
+  "gemini_available": true,
+  "models": {
+    "qwen2.5:7b": {
+      "recall_on_novel_mechanisms": {
+        "k": 9,
+        "n": 40,
+        "rate": 0.225,
+        "ci95": [
+          0.1231595325467853,
+          0.3750339640409305
+        ]
+      },
+      "false_positive_on_benign": {
+        "k": 0,
+        "n": 40,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.08762453925039232
+        ]
+      },
+      "n_undefined_responses": 0,
+      "agreement_with_qwen": {
+        "k": 80,
+        "n": 80,
+        "rate": 1.0,
+        "ci95": [
+          0.954180263735425,
+          1.0
+        ]
+      }
+    },
+    "phi3:mini": {
+      "recall_on_novel_mechanisms": {
+        "k": 0,
+        "n": 40,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.08762453925039232
+        ]
+      },
+      "false_positive_on_benign": {
+        "k": 0,
+        "n": 40,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.08762453925039232
+        ]
+      },
+      "n_undefined_responses": 0,
+      "agreement_with_qwen": {
+        "k": 71,
+        "n": 80,
+        "rate": 0.8875,
+        "ci95": [
+          0.7998158913432244,
+          0.9396738130517298
+        ]
+      }
+    },
+    "gemini-free-tier": {
+      "recall_on_novel_mechanisms": {
+        "k": 19,
+        "n": 40,
+        "rate": 0.475,
+        "ci95": [
+          0.32935229550181694,
+          0.6250289314607027
+        ]
+      },
+      "false_positive_on_benign": {
+        "k": 0,
+        "n": 40,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.08762453925039232
+        ]
+      },
+      "n_undefined_responses": 0,
+      "agreement_with_qwen": {
+        "k": 68,
+        "n": 80,
+        "rate": 0.85,
+        "ci95": [
+          0.7558657249889396,
+          0.9120604596258579
+        ]
+      }
+    }
+  }
+}
