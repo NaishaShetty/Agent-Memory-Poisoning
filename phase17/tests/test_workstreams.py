@@ -10,8 +10,16 @@ from phase17.provenance_integrity import structural_forgery_is_rejected
 from phase17.sanity_baselines import always_allow, always_quarantine, compare_to_random, random_budget_matched
 
 DATA = Path(__file__).resolve().parents[1] / "data"
+LOCOMO_RAW = Path("data/raw/locomo/locomo10.json")
+
+_needs_locomo_raw = pytest.mark.skipif(
+    not LOCOMO_RAW.exists(),
+    reason=f"{LOCOMO_RAW} is real, licensed raw dataset content, deliberately excluded from "
+           "git (see .gitignore) -- not present in a fresh checkout such as CI.",
+)
 
 
+@_needs_locomo_raw
 def test_leakage_audit_passes_on_real_data():
     report = leakage_audit.audit_all()
     assert set(report.passed) == set(report.checks)

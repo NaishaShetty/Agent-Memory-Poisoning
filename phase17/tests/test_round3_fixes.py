@@ -1,15 +1,33 @@
 """Tests for Phase 17 round-3 fix modules (structural checks; no live LLM calls)."""
+from pathlib import Path
+
+import pytest
+
 from phase17.evasion_real_context import _SOURCE_SAMPLE
 from phase17.gold_registry import gold_memories
 from phase17.sanity_baselines import always_allow
 
+# CORRECTION (external review round 3, follow-up, 2026-09-28): these four tests all
+# transitively load data/raw/locomo/locomo10.json, real licensed dataset content that is
+# deliberately excluded from git (see .gitignore) -- they failed in CI (not caught locally,
+# where every dev environment already has this file) once the earlier pandas/jsonschema gap
+# was fixed and let them actually run. Skipped, not removed, matching the existing pattern
+# for LLM-dependent tests in this same file.
+_needs_locomo_raw = pytest.mark.skipif(
+    not Path("data/raw/locomo/locomo10.json").exists(),
+    reason="data/raw/locomo/locomo10.json is real, licensed raw dataset content, deliberately "
+           "excluded from git -- not present in a fresh checkout such as CI.",
+)
 
+
+@_needs_locomo_raw
 def test_evasion_real_context_source_samples_cover_all_gold_parents():
     gold = gold_memories()
     assert set(_SOURCE_SAMPLE) == set(gold)
     assert all(isinstance(v, int) and v >= 0 for v in _SOURCE_SAMPLE.values())
 
 
+@_needs_locomo_raw
 def test_real_conversation_turns_are_nonempty_and_real():
     from phase17.evasion_real_context import _real_conversation_turns
 
@@ -18,6 +36,7 @@ def test_real_conversation_turns_are_nonempty_and_real():
     assert all(isinstance(t, tuple) and len(t) == 2 for t in turns[:5])
 
 
+@_needs_locomo_raw
 def test_query_trigger_reference_queries_are_diverse():
     from phase17.query_trigger_signal import _reference_queries
 
@@ -26,6 +45,7 @@ def test_query_trigger_reference_queries_are_diverse():
     assert len(set(qs)) > 400  # genuinely diverse, not one question repeated
 
 
+@_needs_locomo_raw
 def test_preference_corroboration_v2_conversation_loads():
     from phase17.preference_corroboration_v2 import _real_conversation_turns
 
