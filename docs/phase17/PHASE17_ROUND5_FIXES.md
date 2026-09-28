@@ -68,6 +68,16 @@ phi3:mini agree with EACH OTHER 93.3% of the time** — two independently differ
 families, blinded to the automated verdicts, converge strongly. phi3:mini agrees with
 the automated judge 80.0% of the time.
 
+**STALE (external review round 3, 2026-09-28):** the 76.7%/60.0%/80.0% "agrees with the
+automated judge/string metric" figures above were computed against
+`human_eval_packet_key.json` before its systematic packet-key misalignment was found and
+fixed (45 corrupted values across 33 of 60 items — see
+`docs/phase17/PHASE17_CURRENT_RESULTS.md` §8b). They are NOT re-verified against the
+corrected key. The Gemini/phi3-agree-with-EACH-OTHER figure (93.3%) is unaffected (it
+never used the packet key). This document is preserved as the historical record of round
+5's own work, not as a source of current numbers — see `PHASE17_CURRENT_RESULTS.md` §8b
+for the corrected, current agreement figures.
+
 **This is a real 2-model LLM-proxy panel, not a human evaluation** — still explicitly
 disclosed as such everywhere, and `HUMAN_EVAL_INSTRUCTIONS.md` is unchanged: a real human
 rating this SAME packet remains open. What changed: the proxy evidence is now complete

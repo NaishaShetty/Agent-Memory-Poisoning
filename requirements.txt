@@ -22,6 +22,20 @@ networkx>=3.6
 python-docx>=1.2
 numpy>=2.4
 
+# Found by the FIRST real CI run (2026-09-28, right after CI's `|| true` was removed and it
+# actually ran for the first time): `pandas` and `jsonschema` are real, load-bearing
+# imports in phase3's own dataset-validation and normalization modules
+# (phase3/evaluation/datasets/validation.py, phase3/datasets/candidates/memoryagentbench/
+# normalize.py), pulled in transitively by test collection, but were never listed here --
+# they happened to already be installed in every local dev environment this project was
+# ever run in, so `pip install -r requirements.txt` alone silently worked locally while
+# genuinely failing on a fresh checkout. Verified by installing ONLY this file into a
+# brand-new virtualenv and re-running every CI job's exact pytest invocation against it --
+# not just re-checking the local dev environment again, which is what let this ship the
+# first time.
+pandas>=3.0
+jsonschema>=4.26
+
 # External review round 2 (2026-09-28): "still only minimum versions (>=), with no lock
 # file." `>=` bounds above are kept as the real minimum requirement (they were verified to
 # work; an upper bound would just be a guess about future compatibility this project has

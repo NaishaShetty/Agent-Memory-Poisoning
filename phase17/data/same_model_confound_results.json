@@ -1,96 +1,96 @@
 {
-  "n": {
-    "human": 60,
-    "qwen_fresh": 60,
-    "qwen_rephrase_of_same_human_texts": 60
+ "n": {
+  "qwen_fresh": 60,
+  "qwen_rephrase_of_same_human_texts": 60,
+  "convomem_not_confirmed_human": 60
+ },
+ "excluded": {
+  "qwen_authored_fresh": {
+   "k": 0,
+   "n": 60,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.06017393047793289
+   ]
   },
-  "excluded": {
-    "human_written": {
-      "k": 0,
-      "n": 60,
-      "rate": 0.0,
-      "ci95": [
-        0.0,
-        0.06017393047793289
-      ]
-    },
-    "qwen_authored_fresh": {
-      "k": 0,
-      "n": 60,
-      "rate": 0.0,
-      "ci95": [
-        0.0,
-        0.06017393047793289
-      ]
-    },
-    "qwen_rephrase_of_human": {
-      "k": 0,
-      "n": 60,
-      "rate": 0.0,
-      "ci95": [
-        0.0,
-        0.06017393047793289
-      ]
-    }
+  "qwen_rephrase_of_human": {
+   "k": 0,
+   "n": 60,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.06017393047793289
+   ]
   },
-  "flagged": {
-    "human_written": {
-      "k": 0,
-      "n": 60,
-      "rate": 0.0,
-      "ci95": [
-        0.0,
-        0.06017393047793289
-      ]
-    },
-    "qwen_authored_fresh": {
-      "k": 4,
-      "n": 60,
-      "rate": 0.06666666666666667,
-      "ci95": [
-        0.02622827414319792,
-        0.15925579893767722
-      ]
-    },
-    "qwen_rephrase_of_human": {
-      "k": 0,
-      "n": 60,
-      "rate": 0.0,
-      "ci95": [
-        0.0,
-        0.06017393047793289
-      ]
-    }
-  },
-  "paired_human_vs_qwen_rephrase_of_same_texts_excluded": {
-    "n": 60,
-    "detected_a": 0,
-    "detected_b": 0,
-    "only_a": 0,
-    "only_b": 0,
-    "p_exact": 1.0
-  },
-  "samples": {
-    "human": [
-      "Hey Alex, how's your week shaping up so far? Everything going smoothly at InnovateLeads, or is it another typical sales grind that keeps you counting down to Friday?",
-      "Hey, it's... a week. You hit the nail on the head with 'typical sales grind.' It's the usual rhythm of calls, follow-ups, and wading through the latest CRM updates that always seem to add more clicks than actual value. Sometimes I swear they design these things just to keep us on our toes. Never a dull moment, I guess, or maybe always a dull moment, depending on how you look at it. How about your end? Anything exciting, or just the usual chaos?",
-      "Haha, I hear that on the CRM front, sounds like a universal struggle. And 'usual chaos' pretty much sums up my side. Just trying to keep all the plates spinning, you know how it is. But you mentioned you had a big quarterly team meeting yesterday, didn't you? How did that go? Anything important come up regarding sales goals? I imagine they're always pushing for more, especially at the start of a new quarter.",
-      "Oh, it was pretty much what you'd expect, honestly. A lot of emphasis on ramping up our conversion rates for the upcoming quarter. Management is really pushing for higher efficiency and better qualification of leads, saying that's where we'll see the biggest impact on our overall numbers. It was less about increasing the sheer volume of calls and more about making sure every interaction counts. Everyone's focused on making those inbound leads count and ensuring our outbound efforts are as productive as possible. No real surprises there, just the usual pressure repackaged.",
-      "Conversion rates, huh? That's always the big one. So, to be clear, no new crazy targets for individual call volumes or anything like that? Just more pressure on closing what you get and making sure the leads are top-notch from the start, really optimizing the pipeline?"
-    ],
-    "qwen_fresh": [
-      "Jane Doe had her dental cleaning and check-up last Wednesday.",
-      "Jane needs to buy apples, bananas, and milk on her grocery run.",
-      "John Doe had a work meeting at 3 PM to discuss the Q4 marketing strategy.",
-      "John went on a weekend hike to the Green Hills Park and enjoyed the scenic views.",
-      "John's phone bill for last month was $125.99."
-    ],
-    "qwen_rephrase": [
-      "Hey Alex, how is your week progressing so far? Is everything running smoothly at InnovateLeads, or is it just a usual sales challenge making you look forward to Friday?",
-      "Hey, it's been a week. You nailed it with \"typical sales grind.\" It's the routine of making calls, following up, and navigating through the latest CRM updates, which often feel like they just add more clicks without much value. Sometimes I think they create these systems just to keep",
-      "Haha, I've heard that the CRM front can be a tough nut to crack; it seems like everyone faces similar challenges. On my end, it's pretty much a usual chaos. I'm just trying to keep everything in motion, as you might guess. But you talked about having a significant",
-      "Oh, it was pretty much as anticipated, truly. There's a significant focus on boosting our conversion rates for the next quarter. The management is strongly advocating for enhanced operational efficiency and better lead qualification, stressing that these areas will yield the most significant impacts on our performance. It was less about increasing the",
-      "Isn't conversion rate the main focus? Got it, then no new arbitrary targets for call volumes, right? Just a stronger emphasis on converting leads and ensuring they are of high quality from the beginning, with a focus on streamlining the pipeline?"
-    ]
+  "convomem_not_confirmed_human": {
+   "k": 0,
+   "n": 60,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.06017393047793289
+   ]
   }
+ },
+ "flagged": {
+  "qwen_authored_fresh": {
+   "k": 4,
+   "n": 60,
+   "rate": 0.06666666666666667,
+   "ci95": [
+    0.02622827414319792,
+    0.15925579893767722
+   ]
+  },
+  "qwen_rephrase_of_human": {
+   "k": 0,
+   "n": 60,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.06017393047793289
+   ]
+  },
+  "convomem_not_confirmed_human": {
+   "k": 0,
+   "n": 60,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.06017393047793289
+   ]
+  }
+ },
+ "paired_human_vs_qwen_rephrase_of_same_texts_excluded": {
+  "n": 60,
+  "detected_a": 0,
+  "detected_b": 0,
+  "only_a": 0,
+  "only_b": 0,
+  "p_exact": 1.0
+ },
+ "samples": {
+  "qwen_fresh": [
+   "Jane Doe had her dental cleaning and check-up last Wednesday.",
+   "Jane needs to buy apples, bananas, and milk on her grocery run.",
+   "John Doe had a work meeting at 3 PM to discuss the Q4 marketing strategy.",
+   "John went on a weekend hike to the Green Hills Park and enjoyed the scenic views.",
+   "John's phone bill for last month was $125.99."
+  ],
+  "qwen_rephrase": [
+   "Hey Alex, how is your week progressing so far? Is everything running smoothly at InnovateLeads, or is it just a usual sales challenge making you look forward to Friday?",
+   "Hey, it's been a week. You nailed it with \"typical sales grind.\" It's the routine of making calls, following up, and navigating through the latest CRM updates, which often feel like they just add more clicks without much value. Sometimes I think they create these systems just to keep",
+   "Haha, I've heard that the CRM front can be a tough nut to crack; it seems like everyone faces similar challenges. On my end, it's pretty much a usual chaos. I'm just trying to keep everything in motion, as you might guess. But you talked about having a significant",
+   "Oh, it was pretty much as anticipated, truly. There's a significant focus on boosting our conversion rates for the next quarter. The management is strongly advocating for enhanced operational efficiency and better lead qualification, stressing that these areas will yield the most significant impacts on our performance. It was less about increasing the",
+   "Isn't conversion rate the main focus? Got it, then no new arbitrary targets for call volumes, right? Just a stronger emphasis on converting leads and ensuring they are of high quality from the beginning, with a focus on streamlining the pipeline?"
+  ],
+  "convomem_not_confirmed_human": [
+   "Hey Alex, how's your week shaping up so far? Everything going smoothly at InnovateLeads, or is it another typical sales grind that keeps you counting down to Friday?",
+   "Hey, it's... a week. You hit the nail on the head with 'typical sales grind.' It's the usual rhythm of calls, follow-ups, and wading through the latest CRM updates that always seem to add more clicks than actual value. Sometimes I swear they design these things just to keep us on our toes. Never a dull moment, I guess, or maybe always a dull moment, depending on how you look at it. How about your end? Anything exciting, or just the usual chaos?",
+   "Haha, I hear that on the CRM front, sounds like a universal struggle. And 'usual chaos' pretty much sums up my side. Just trying to keep all the plates spinning, you know how it is. But you mentioned you had a big quarterly team meeting yesterday, didn't you? How did that go? Anything important come up regarding sales goals? I imagine they're always pushing for more, especially at the start of a new quarter.",
+   "Oh, it was pretty much what you'd expect, honestly. A lot of emphasis on ramping up our conversion rates for the upcoming quarter. Management is really pushing for higher efficiency and better qualification of leads, saying that's where we'll see the biggest impact on our overall numbers. It was less about increasing the sheer volume of calls and more about making sure every interaction counts. Everyone's focused on making those inbound leads count and ensuring our outbound efforts are as productive as possible. No real surprises there, just the usual pressure repackaged.",
+   "Conversion rates, huh? That's always the big one. So, to be clear, no new crazy targets for individual call volumes or anything like that? Just more pressure on closing what you get and making sure the leads are top-notch from the start, really optimizing the pipeline?"
+  ]
+ }
 }

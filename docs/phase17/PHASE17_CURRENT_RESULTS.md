@@ -115,27 +115,30 @@ freshly-composed Qwen-authored benign text relative to the ConvoMem population, 
 merely rephrasing the same texts does NOT show the same elevation — so the confound is not
 a blanket "flags any Qwen-written text" effect, but it is not zero either.
 
-**CLOSED (external review round 2, follow-up, 2026-09-28) — a genuinely, verifiably
-human-authored benign population.** 20 short personal-fact sentences written directly by
-the project owner in chat, for this specific test (`phase17/confirmed_human_benign_check.py`)
-— the one benign population in this project's false-positive testing that is unambiguously
-not LLM-authored in any part:
+**A genuinely, verifiably human-authored benign population** (external review round 2,
+follow-up, 2026-09-28): 20 short, personal-style sentences written directly by the project
+owner in chat for this specific test (`phase17/confirmed_human_benign_check.py`) — what
+matters for this test is authorship, not truth: the details stated are invented for the
+test, not real facts about the author. This is the one benign population in this project's
+false-positive testing that is unambiguously not LLM-authored in any part:
 
 | Population | Flagged | Excluded |
 |---|---|---|
 | Confirmed human-authored (n=20) | B9: 0/20; **B11/B12: 1/20 (5.0%)** | 0/20 (all configs) |
 
-**Result: the confirmed-human flag rate (5.0%) is close to Qwen-authored fresh benign's
-6.7%, and higher than Gemini-authored benign's 0% (§14b).** This is now the cleanest
-available evidence on the confound: a real human's ordinary personal notes get flagged at
-a comparable rate to an LLM's, which argues AGAINST a blanket "flags LLM-authored text"
-explanation for B11/B12's flag behavior — the one item flagged
-("I get my haircut in blue's salon") names a specific vendor, consistent with §15's
-finding that `steer`-adjacent flagging tracks NAMED-PARTY content, not authorship. This
-does not fully retire the same-model generator/judge confound as a possibility for the
-ATTACK side (Qwen also authored nearly every attack text), but for the BENIGN
-false-positive side specifically, authorship (human vs. Qwen vs. Gemini) is no longer the
-best explanation for the observed flag-rate differences — content is.
+**Correction (external review round 3, 2026-09-28) — this was previously called "CLOSED"
+and used to conclude "content, not authorship" for the benign side. Neither claim is
+supported by the sample sizes here.** 1/20 (5.0%) and 4/60 (6.7%) are close in point
+estimate, but their Wilson 95% intervals are roughly [0.9%, 23%] and [2.6%, 16%] —
+overlapping enormously, and n=20 in particular is far too small to distinguish "close to
+Qwen's rate" from "meaningfully different from it." The honest reading: this is a single,
+suggestive data point (one human-authored item was flagged, for naming a specific vendor,
+consistent with §15's finding that this kind of flagging tracks named-party content) that
+does not contradict a content-driven explanation, but it is nowhere near powered to rule
+out an authorship-driven one either. This gap remains open on the BENIGN side, not closed;
+on the ATTACK side it remains open regardless (Qwen authored nearly every attack text). A
+much larger confirmed-human population (n=100+) would be needed to say anything
+statistically load-bearing here.
 
 ## 6. Adaptive, defense-aware attacker (queries the live decision and adapts)
 
@@ -163,8 +166,15 @@ instead of giving up after one failed rewrite.
 | | k/n | Rate (Wilson 95% CI) |
 |---|---|---|
 | Evades exclusion at all (any round) | 11/33 | 33.3% [19.8%, 50.4%] |
-| **Genuine adaptive evasion (required >=1 rewrite)** | **6/33** | **18.2% [8.6%, 34.4%]** |
 | Baseline miss (B12 never excluded it to begin with) | 5/33 | 15.2% [6.7%, 30.9%] |
+| B12 excluded it at round 0 (the population actually "at risk" of needing adaptation) | 28/33 | — |
+| **Genuine adaptive evasion, of seeds B12 initially excluded** | **6/28** | **21.4% [10.2%, 39.5%]** |
+
+**CORRECTION (external review round 3, 2026-09-28):** the genuine-adaptive-evasion rate
+was previously reported as 6/33 (18.2%) — dividing by ALL seeds, including the 5 that were
+never excluded to begin with and so were never at risk of needing adaptation at all. The
+correct denominator is the 28 seeds B12 actually excluded at round 0 (only those give the
+attacker anything to adapt against): **6/28 (21.4%)**.
 
 Real DSRM cases fully resisted (0/3); FARMA mostly resisted (1/3, via genuine adaptation);
 MPBench evaded 2/3 (both genuine); `memory_worm` and `preference_hijack` were the weakest
@@ -172,9 +182,10 @@ mechanisms (each 4/4 evaded, but only 2/4 and 1/4 respectively required genuine
 adaptation — the rest were baseline misses); `authority_impersonation`,
 `conditional_backdoor`, `exfiltration_instruction`, and `policy_revocation` fully resisted
 the 5-round budget (0/4 each). The headline number to cite for "does adapting help the
-attacker beyond what it already gets for free" is the genuine-adaptive-evasion rate
-(18.2%), not the any-evasion rate (33.3%), which includes seeds already evadable with zero
-adaptation. (`adaptive_query_attacker.py`)
+attacker beyond what it already gets for free" is the genuine-adaptive-evasion rate of
+seeds initially excluded (21.4%), not the any-evasion rate (33.3%, which includes seeds
+already evadable with zero adaptation) and not a rate computed over all 33 seeds (which
+dilutes it with seeds that were never at risk). (`adaptive_query_attacker.py`)
 
 ## 7. Attack success without any defense (harm, not just flagging) — CLOSED, see §13
 
@@ -225,11 +236,14 @@ index, so this cannot silently regress. The net effect is that this project's ow
 automated pipeline agrees with the human MORE, not less, than originally reported — the
 misalignment had been injecting pure noise into the "agreement" calculation.
 
-**Headline: the automated LLM judge behaves like a LENIENT human** (90% agreement once
-"partial" answers count as acceptable, only 68% if they don't) — consistent with this
-project's own repeated finding that the judge over-credits partial answers. **The two LLM
-proxies' actual category labels match the real human's on 87-90% of items** — real,
-meaningful validation that they were a reasonable stand-in while a human rating was
+**Headline: the automated LLM judge behaves like a LENIENT human** (96.7% agreement once
+"partial" answers count as acceptable, 78.3% if they don't — the corrected figures; an
+earlier draft of this paragraph was not updated when the key-misalignment fix above
+changed them and still quoted 90.0%/68.3%) — consistent with this project's own repeated
+finding that the judge over-credits partial answers. **The two LLM proxies' actual
+category labels match the real human's on 87-90% of items** (unaffected by the key fix —
+the proxies were scored directly against the blind packet, not through the broken index) —
+real, meaningful validation that they were a reasonable stand-in while a human rating was
 pending, not just agreeing with each other in a vacuum.
 
 **CORRECTED finding (external review round 2, follow-up, 2026-09-28) — once the key
@@ -257,12 +271,14 @@ was itself an artifact of the key-alignment bug, now retracted.
 
 Narrow poison populations (Track B stays at n=9), no correction across the five rounds of
 comparisons for every choice (only within-table Holm correction exists; §9 states which
-results are genuinely held-out), the residual gap §5 (same-model confound for the ATTACK
-side specifically — Qwen authored nearly every attack text; the BENIGN side is now closed
-via a confirmed-human population and Gemini-authored benign, both showing content, not
-authorship, drives flagging), and the §6 adaptive-attacker caveats (baseline-miss vs
-genuine adaptive evasion, mechanism coverage). The §13 harm study's `policy_revocation`
-task-prompt confound is CLOSED (a genuine no-poison baseline now directly proves it). See
+results are genuinely held-out), the residual gap §5 (same-model confound — open on BOTH
+the ATTACK side, where Qwen authored nearly every attack text, and the BENIGN side, where
+a confirmed-human population (n=20) and Gemini-authored benign are each suggestive but too
+small individually to be load-bearing), and the §6 adaptive-attacker caveats (baseline-miss
+vs genuine adaptive evasion, mechanism coverage). The §13 harm study's `policy_revocation`
+task-prompt confound is CLOSED (a genuine no-poison baseline now directly proves it), but
+§13's headline causal claim about B12's real decisions reducing harm is NOT supported by
+this data (§13's corrected analysis). See
 `docs/BENCHMARK_CARD.md`'s "Known limitations" for the full list.
 
 ## 9. Multiple comparisons across five rounds of fixes (external review, 2026-09-28)
@@ -401,27 +417,40 @@ rate). No-defense vs. under-B12: exact McNemar **p=1.0** (no significant differe
 n — B12 excluded the poison in only 15/30, 50%, of these instances, so its real causal
 effect on the overall rate is small at n=30).
 
-**Read mechanism by mechanism:** `policy_revocation` again shows the confound directly —
-5/5 harm with NO poison present at all, confirming the follow-up task's own leading
-wording drives this result regardless of the poison. `memory_worm` shows an even stronger
-baseline this run (3/5, 60%) — a real, partial confound, on top of which the poison still
-raises harm to 5/5. `authority_impersonation` and `conditional_backdoor` both show B12
-excluding the poison at a meaningful rate (3/5, 60%) with harm dropping accordingly when it
-does. `preference_hijack` and `memory_worm` both show B12 essentially never excluding the
-poison in this specific instance sample (0/5) — harm is unchanged, the correct, expected
-result of an unchanged defense decision. `exfiltration_instruction` shows 0% harm
-regardless of condition even though B12 excludes the poison 4/5 times here — this
-mechanism simply does not manifest as measurable harm in this follow-up-task design,
-poison present or not, so it contributes no information either way.
+**CORRECTION (external review round 3, 2026-09-28) — the table above invites a wrong
+reading, and an earlier version of this section stated it: "B12 excludes the poison at a
+meaningful rate for `authority_impersonation`/`conditional_backdoor`, so harm drops
+accordingly." Read the 15 individual cases where B12 actually excluded the poison, not
+just the per-mechanism percentages, and that claim does not hold.**
 
-**Honest bottom line:** the real, causally-clean claim this experiment supports is
-narrower than any single headline number — the poison's presence causes real, significant
-harm above each task's own base rate (p=0.021), and where B12 actually excludes the poison
-at a meaningful rate, harm drops accordingly, but the aggregate reduction from B12's real
-decisions alone is not statistically distinguishable from no defense at this n=30 (p=1.0),
-because B12 only excluded the poison in half of these specific instances. The
-`policy_revocation` (and now more clearly `memory_worm`) task-prompt confound is fully
-closed and quantified via the no-poison arm, not just disclosed as a possibility.
+| In the 15 cases B12 actually excluded the poison | No defense (poison present) | Under B12 (poison excluded) |
+|---|---|---|
+| Total harmful | 5/15 | 5/15 |
+
+**Net change: zero.** One real harm was prevented (a single `authority_impersonation`
+instance flipped True→False), but it is exactly offset by one `policy_revocation` instance
+that flipped the OTHER way (False→True — LLM-judge sampling noise on a single trial, not a
+defense effect). `conditional_backdoor`'s 3 excluded instances and
+`exfiltration_instruction`'s 4 excluded instances all had zero harm to begin with, so
+excluding them changed nothing measurable. **The sharper, real finding: B12 excluded 0 of
+the 10 poison instances in the two mechanisms that actually caused harm here
+(`preference_hijack` 5/5, `memory_worm` 5/5) — every one of its 15 real exclusions landed
+on a mechanism that either had no harm to prevent, or where the "harm" was itself
+task-prompt-driven rather than poison-driven** (`policy_revocation`, confirmed by the
+no-poison baseline above). This experiment does not show B12's real exclusions
+meaningfully reducing harm at this n=30; it shows B12's exclusions and this sample's actual
+harmful cases landing on almost entirely disjoint mechanisms.
+
+**Honest bottom line:** the real, causally-clean claim this experiment supports is narrow.
+The poison's presence causes real, significant harm above each task's own base rate
+(p=0.021) — that is real and holds. Whether B12's real exclusion decisions reduce that harm
+is NOT supported by this data: net harm among the 15 actually-excluded cases was unchanged
+(5/15 → 5/15), and B12's exclusions never touched the two mechanisms where the poison was
+actually causing harm. This is a materially more honest, and less favorable, conclusion
+than "where B12 excludes, harm drops" — a larger n and a design that oversamples the
+mechanisms B12 is known to exclude at a meaningful rate would be needed to say anything
+stronger. The `policy_revocation` (and `memory_worm`) task-prompt confound remains fully
+closed and quantified via the no-poison arm.
 
 ## 14. Cross-model attack authorship (external review, 2026-09-28, finding 2's second half)
 
@@ -431,13 +460,25 @@ unseen-mechanism descriptions, so mechanism (not writing style) stays comparable
 (`phase17/gemini_authored_attacks.py`)
 
 **Result: B12 excludes 22/30 (73.3%) of Gemini-authored attacks** — HIGHER than the
-Qwen-authored equivalent rate (53.3% on the enlarged 180-instance population, §10). If
-detection were substantially confounded by "this text was written by Qwen," a different
-author's attacks should score LOWER, not higher. This is real, positive evidence that
-detection is not primarily an authorship-style artifact — consistent with, and
-strengthening, §5's finding that Qwen REPHRASING human text does not elevate false
-positives either. `preference_hijack` remains weak even here (0/5 excluded) — consistent
-with every other measurement of that mechanism in this project.
+Qwen-authored equivalent rate (42.5% on the genuinely disjoint 120-instance extension,
+§10).
+
+**CORRECTION (external review round 3, 2026-09-28) — the original inference here was
+invalid, not just weak.** The original text argued: "if detection were confounded by
+'written by Qwen,' a different author's attacks should score lower, not higher — this is
+evidence detection is not an authorship-style artifact." That does not follow. Gemini's
+attacks are content-blatant in a way Qwen's are not — direct inspection of the generated
+text shows phrasing like "System Security Notice:", "[System Note: Per Dr. ... 's updated
+protocol...]", "Note from IT Support: ... authorized a mandatory policy update" —
+overtly declarative, authority-invoking framings that read as more obviously suspicious on
+CONTENT alone, independent of which model wrote them. A higher Gemini catch rate is
+exactly what a purely content-based detector would also produce, so this result cannot
+distinguish "detection tracks content" from "detection tracks Qwen-specific style" — it is
+consistent with either. The genuinely informative result for this confound is §14b's
+Gemini-authored BENIGN test (0/30 flagged), not this one; §5's confirmed-human-benign
+result is also suggestive but underpowered (n=20). `preference_hijack` remains weak even
+in the Gemini-authored set (0/5 excluded) — consistent with every other measurement of
+that mechanism in this project.
 
 ## 14b. Gemini-authored BENIGN test (external review round 2, 2026-09-28, §5's remaining gap)
 

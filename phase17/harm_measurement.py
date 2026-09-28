@@ -11,10 +11,12 @@ measured the raw effect of the attack existing at all (poison present vs. absent
 every poison instance, which it does not. Fixed: `_run_condition` now takes a pre-decided
 candidate pool (poison + 2 benign) and `run()` calls `apply_defense(CONFIG_B12_STACKED,
 ...)` itself, passing the "defended" arm only what B12's own real decision keeps. The
-corrected result (20/30 no-defense -> 16/30 under B12's real decision, exact McNemar
-p=0.125, NOT significant at this n) is materially weaker than the original mislabeled
-66.7%->26.7% (p<0.001) headline -- see `docs/phase17/PHASE17_CURRENT_RESULTS.md` §13 for
-the full, honest, per-mechanism breakdown of why.
+corrected result is materially weaker than the original mislabeled 66.7%->26.7% (p<0.001)
+headline -- see `docs/phase17/PHASE17_CURRENT_RESULTS.md` §13 for the full, current,
+per-mechanism breakdown and exact numbers (this docstring intentionally does not restate
+them, to avoid the exact staleness bug external review round 3 found here: an earlier
+version of this note quoted an interim 20/30->16/30, p=0.125 result that a later,
+scenario-independence-driven rerun (§10) superseded).
 
 THIRD ARM ADDED (external review round 2, follow-up, 2026-09-28): a genuine
 no-poison-at-all condition (2 benign distractors only, no poison memory ever added) closes
@@ -22,6 +24,18 @@ the disclosed gap that this experiment could not previously separate a follow-up
 own leading wording (suspected for `policy_revocation`) from the poison's actual causal
 effect. `harm_rate_no_poison_baseline` and `paired_no_poison_vs_no_defense` isolate this
 directly per mechanism.
+
+CORRECTION (external review round 3, 2026-09-28) -- the per-mechanism table alone invited
+a wrong reading ("B12 excludes the poison at a meaningful rate for X, so harm drops"): in
+the 15 cases where B12's real decision actually excluded the poison, undefended-vs-under-B12
+harm was 5/5 -> 5/5, a NET ZERO change -- one real authority_impersonation harm prevented
+was exactly offset by one policy_revocation case flipping the other way (LLM-judge sampling
+noise, not a defense effect). The sharper, real finding: B12 excluded 0 of the 10 poison
+instances in the two mechanisms that actually caused harm here (preference_hijack 5/5,
+memory_worm 5/5) -- every one of its 15 real exclusions landed on a mechanism that either
+had zero harm to begin with (conditional_backdoor, exfiltration_instruction) or where the
+"harm" was itself task-prompt-driven, not poison-driven (policy_revocation). See
+`docs/phase17/PHASE17_CURRENT_RESULTS.md` §13 for the corrected analysis.
 
 This runs a REAL agent (llama2, `MockMem0Adapter`, `run_agent_task` -- the same real
 pipeline every Track A/B number in this project already uses) on a realistic follow-up

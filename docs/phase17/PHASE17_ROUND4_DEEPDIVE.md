@@ -116,6 +116,15 @@ the same direction as the LLM judge, not the string metric. Label distribution: 
 correct, 11 partial, 1 paraphrase, 0 incorrect/abstains/ambiguous in this sample — no
 case where Gemini flatly disagreed that the answer was in the right direction.
 
+**STALE (external review round 3, 2026-09-28):** the LLM-judge/string-metric values these
+Gemini agreement percentages were computed against came from
+`human_eval_packet_key.json`, which was later found to have a systematic packet-key
+misalignment (45 corrupted values across 33 of 60 items — see
+`docs/phase17/PHASE17_CURRENT_RESULTS.md` §8b and `phase17/rescore_human_eval.py`). The
+74.5%/56.9% figures above are NOT re-verified against the corrected key and should not be
+cited as current; this document is preserved as the historical record of round 4's own
+work, not as a source of current numbers.
+
 ## Full regression
 
 Run after all of the above (`phase6/ phase8/ phase11/ phase12/ phase13/ phase14/

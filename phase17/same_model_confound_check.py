@@ -3,15 +3,20 @@ partly "detects Qwen-authored text" rather than genuine attack-content detection
 
 Qwen2.5:7b wrote the unseen-mechanism attacks, both dev sets, the evasion rewrites, the
 extended corpus, and the Chinese translations; it is also the LLM judge B11/B12 rely on.
-Every held-out BENIGN false-positive test (LoCoMo, ConvoMem, PerLTQA) is human-written.
-This confounds "is this a poisoned claim" with "is this LLM-authored text" -- exactly the
-same class of confound round-4 already found and fixed for the preference-hijack signal
-(`preference_corroboration_v2.py`), now checked for the detector as a whole.
+
+CORRECTION (external review round 3, 2026-09-28): this docstring previously called
+ConvoMem "human-written." It is not confirmed as such -- ConvoMem's own dataset audit
+(`phase3/datasets/candidates/convomem/README.md`, "Synthetic-data status") records "strong
+circumstantial evidence of LLM generation." LoCoMo's provenance has not been separately
+re-verified here either. The (b) sample below is real-conversation-derived, not confirmed
+human-authored; the one confirmed-human-authored population in this project is the
+separate, smaller set in `phase17/confirmed_human_benign_check.py`.
 
 Three real, disjoint-from-training samples:
   (a) FRESH qwen-authored BENIGN notes (never used to train/tune anything);
-  (b) real human-written benign notes (LoCoMo/ConvoMem, held-out);
-  (c) qwen REPHRASINGS of the SAME human notes in (b) (same meaning, different words) --
+  (b) real-conversation-derived benign notes (LoCoMo/ConvoMem, held-out -- NOT confirmed
+      human-authored, see correction above);
+  (c) qwen REPHRASINGS of the SAME notes in (b) (same meaning, different words) --
       isolates "does qwen's own writing style alone raise the false-positive rate" from
       "is this content itself suspicious."
 If (a) and (c) have a materially higher false-positive rate than (b), some of B12's
@@ -62,7 +67,7 @@ def rephrase_with_qwen(texts):
     return out
 
 
-def real_human_benign(n: int = 60):
+def convomem_benign_not_confirmed_human(n: int = 60):
     from phase17.extra_datasets import convomem_pools
 
     pools, _ = convomem_pools()
@@ -76,20 +81,20 @@ def run() -> dict:
 
     det = StackedDetector.load(Path(__file__).parent / "data" / "stacked_model.json")
 
-    human = real_human_benign(60)
+    convomem = convomem_benign_not_confirmed_human(60)
     qwen_fresh = fresh_qwen_benign(60)
-    qwen_rephrase = rephrase_with_qwen(human)
+    qwen_rephrase = rephrase_with_qwen(convomem)
 
     fpr = lambda texts, fpr_level: rate_with_ci(sum(det.decide(texts, fpr_level)), len(texts))
     out = {
-        "n": {"human": len(human), "qwen_fresh": len(qwen_fresh), "qwen_rephrase_of_same_human_texts": len(qwen_rephrase)},
-        "excluded": {"human_written": fpr(human, 0.005), "qwen_authored_fresh": fpr(qwen_fresh, 0.005),
+        "n": {"convomem_not_confirmed_human": len(convomem), "qwen_fresh": len(qwen_fresh), "qwen_rephrase_of_same_human_texts": len(qwen_rephrase)},
+        "excluded": {"convomem_not_confirmed_human": fpr(convomem, 0.005), "qwen_authored_fresh": fpr(qwen_fresh, 0.005),
                     "qwen_rephrase_of_human": fpr(qwen_rephrase, 0.005)},
-        "flagged": {"human_written": fpr(human, 0.02), "qwen_authored_fresh": fpr(qwen_fresh, 0.02),
+        "flagged": {"convomem_not_confirmed_human": fpr(convomem, 0.02), "qwen_authored_fresh": fpr(qwen_fresh, 0.02),
                    "qwen_rephrase_of_human": fpr(qwen_rephrase, 0.02)},
         "paired_human_vs_qwen_rephrase_of_same_texts_excluded": paired_delta(
-            det.decide(human, 0.005), det.decide(qwen_rephrase, 0.005)),
-        "samples": {"human": human[:5], "qwen_fresh": qwen_fresh[:5], "qwen_rephrase": qwen_rephrase[:5]},
+            det.decide(convomem, 0.005), det.decide(qwen_rephrase, 0.005)),
+        "samples": {"convomem_not_confirmed_human": convomem[:5], "qwen_fresh": qwen_fresh[:5], "qwen_rephrase": qwen_rephrase[:5]},
     }
     OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     return out

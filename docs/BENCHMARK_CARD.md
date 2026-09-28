@@ -135,9 +135,11 @@ Section 5 for the evidence-status vocabulary every number carries.
   fill my prescriptions at the CVS on Main St" — the original held-out benign controls
   deliberately named no party at all and so missed this entirely
   (`phase17/steer_holdout_check.py::HOLDOUT_BENIGN_NAMED_PARTY`).
-- **The genuine query-budget adaptive-attacker evasion rate is 18.2% (6/33), not the raw
-  33.3% "any evasion" figure** — roughly half of the raw figure is seeds B12 never excluded
-  to begin with (a baseline miss, not something the attacker's adaptation achieved). All 6
+- **The genuine query-budget adaptive-attacker evasion rate is 21.4% (6/28 seeds B12
+  initially excluded), not the raw 33.3% "any evasion" figure and not 6/33** — roughly a
+  third of the raw figure is seeds B12 never excluded to begin with (a baseline miss, not
+  something the attacker's adaptation achieved), so the correct denominator for "genuine
+  evasion" is the 28 seeds actually at risk of needing adaptation, not all 33. All 6
   attack mechanisms are covered; `authority_impersonation`, `conditional_backdoor`,
   `exfiltration_instruction`, and `policy_revocation` fully resisted the 5-round budget,
   while `memory_worm` and `preference_hijack` were the weakest (`phase17/adaptive_query_attacker.py`).
@@ -150,16 +152,22 @@ Section 5 for the evidence-status vocabulary every number carries.
   mechanisms show 0/5 no-poison-baseline harm (no confound); overall, poison-present vs.
   no-poison-baseline is itself real and significant (53.3% vs 26.7%, exact McNemar
   p=0.021). See `docs/phase17/PHASE17_CURRENT_RESULTS.md` §13 for the full breakdown.
-- **Same-model generator/judge confound is closed for the BENIGN false-positive side, still
-  open for the ATTACK side**: a genuinely human-authored benign population (20 sentences
-  written by the project owner directly, `phase17/confirmed_human_benign_check.py`) flags
-  at 1/20 (5.0%) on B11/B12 — comparable to Qwen-authored fresh benign (6.7%) and higher
-  than Gemini-authored benign (0%). This is real evidence that content, not authorship,
-  drives B11/B12's benign flag rate. The ATTACK side remains only partially isolated:
-  Qwen authored nearly every attack text this project's detectors are tested against, and
-  while Gemini-authored attacks score even higher (evidence against a blanket "detects
-  Qwen style" explanation), no confirmed-human-authored ATTACK population has been tested
-  (`docs/phase17/PHASE17_CURRENT_RESULTS.md` §5/§14b).
+- **Same-model generator/judge confound remains open on BOTH the BENIGN and ATTACK
+  sides** (corrected external review round 3, 2026-09-28: previously overclaimed as
+  "closed" for the benign side). A genuinely human-authored benign population (20
+  sentences written by the project owner directly, `phase17/confirmed_human_benign_check.py`)
+  flags at 1/20 (5.0%) on B11/B12 vs. Qwen-authored fresh benign's 4/60 (6.7%) — close in
+  point estimate, but their Wilson intervals overlap enormously and n=20 is far too small
+  to distinguish "similar to Qwen" from "meaningfully different," so this is suggestive,
+  not conclusive. Similarly, Gemini-authored attacks scoring higher than Qwen-authored ones
+  (§14) does NOT rule out an authorship confound the way it was previously argued to —
+  direct inspection shows Gemini's attacks use more overtly declarative, content-blatant
+  phrasing ("System Security Notice:", "[System Note: ...]"), so a higher catch rate is
+  exactly what a purely content-based detector would also produce. The one genuinely clean
+  result here is the Gemini-authored BENIGN test (0/30 flagged, §14b) — real, if partial,
+  evidence against a blanket "flags any LLM text" effect. No confirmed-human-authored
+  ATTACK population has been tested at all (`docs/phase17/PHASE17_CURRENT_RESULTS.md`
+  §5/§14/§14b).
 - **`steer` tier flags 4/6 named-vendor benign preferences, but none are hard-excluded**
   (all `ALLOW_WITH_RESTRICTION`, zero `QUARANTINE`/`BLOCK`) — a real, structural
   precision/recall tradeoff (an injected routing rule and an ordinary named-vendor habit

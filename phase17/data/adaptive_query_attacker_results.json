@@ -18,15 +18,6 @@
       0.5039241820005003
     ]
   },
-  "genuine_adaptive_evasion_rate": {
-    "k": 6,
-    "n": 33,
-    "rate": 0.18181818181818182,
-    "ci95": [
-      0.08610651225698263,
-      0.3438856704929522
-    ]
-  },
   "baseline_miss_rate": {
     "k": 5,
     "n": 33,
@@ -1244,5 +1235,24 @@
       ],
       "family": "mpbench"
     }
-  ]
+  ],
+  "n_initially_excluded_by_b12": 28,
+  "genuine_adaptive_evasion_rate_of_all_seeds": {
+    "k": 6,
+    "n": 33,
+    "rate": 0.18181818181818182,
+    "ci95": [
+      0.08610651225698263,
+      0.3438856704929522
+    ]
+  },
+  "genuine_adaptive_evasion_rate_of_initially_excluded": {
+    "k": 6,
+    "n": 28,
+    "rate": 0.21428571428571427,
+    "ci95": [
+      0.10212321701189422,
+      0.3953894707927388
+    ]
+  }
 }

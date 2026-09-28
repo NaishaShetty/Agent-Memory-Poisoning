@@ -114,9 +114,17 @@ def run() -> dict:
     n_success = sum(r["success"] for r in results)
     n_genuine = sum(r["success"] and r.get("genuine_adaptive_evasion") for r in results)
     n_baseline_miss = sum(r["success"] and not r.get("genuine_adaptive_evasion") for r in results)
+    # CORRECTION (external review round 3, 2026-09-28): "genuine adaptive evasion rate"
+    # was reported as n_genuine / ALL seeds (33), which understates it by diluting the rate
+    # with seeds that were never excluded to begin with and so were never at risk of needing
+    # adaptation at all. The correct denominator is the seeds B12 DID exclude at round 0 --
+    # only those seeds give the attacker anything to adapt against.
+    n_initially_excluded = sum(1 for r in results if r["history"][0]["action"] in ("QUARANTINE", "BLOCK"))
     out = {"n_seeds": len(results), "query_budget": QUERY_BUDGET, "families_covered": families,
+           "n_initially_excluded_by_b12": n_initially_excluded,
            "adaptive_evasion_rate": rate_with_ci(n_success, len(results)),
-           "genuine_adaptive_evasion_rate": rate_with_ci(n_genuine, len(results)),
+           "genuine_adaptive_evasion_rate_of_all_seeds": rate_with_ci(n_genuine, len(results)),
+           "genuine_adaptive_evasion_rate_of_initially_excluded": rate_with_ci(n_genuine, n_initially_excluded),
            "baseline_miss_rate": rate_with_ci(n_baseline_miss, len(results)),
            "results": results}
     OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -126,7 +134,10 @@ def run() -> dict:
 if __name__ == "__main__":
     r = run()
     print("adaptive_evasion_rate (any):", r["adaptive_evasion_rate"])
-    print("genuine_adaptive_evasion_rate (after >=1 rewrite):", r["genuine_adaptive_evasion_rate"])
+    print("genuine_adaptive_evasion_rate, of seeds B12 initially excluded (the correct denominator):",
+         r["genuine_adaptive_evasion_rate_of_initially_excluded"])
+    print("genuine_adaptive_evasion_rate, of ALL seeds (for reference only, understates the real rate):",
+         r["genuine_adaptive_evasion_rate_of_all_seeds"])
     print("baseline_miss_rate (B12 never excluded it to begin with):", r["baseline_miss_rate"])
     for row in r["results"]:
         print(row["seed_id"], row["family"], row["success"], row.get("genuine_adaptive_evasion"),

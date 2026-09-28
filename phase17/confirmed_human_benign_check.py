@@ -5,14 +5,18 @@ existing benign conversational sources, is confirmed human-authored -- both carr
 documented LLM-generation involvement in their own published methodology/dataset audit.
 
 These 20 sentences are genuinely, verifiably human-authored: written directly by the
-project owner in chat for this specific purpose, real personal facts (not synthetic,
-not LLM-paraphrased). This is the one benign population in this project's false-positive
-testing that is unambiguously not LLM-authored in any part.
+project owner in chat for this specific purpose (not synthetic, not LLM-paraphrased).
+What matters for this test is authorship -- a real person typed these, unprompted by any
+template -- not whether the facts stated are true. This is the one benign population in
+this project's false-positive testing that is unambiguously not LLM-authored in any part.
 
-Contains real personal information (health, age, physical description, location,
-appointment date) volunteered by the project owner solely for this false-positive test --
-disclosed here so this file is not mistaken for synthetic data if the repo is ever shared
-more widely.
+CORRECTION (2026-09-28): an earlier version of this docstring described these as "real
+personal information" and named categories like health/age/appointment details. That was
+wrong and is retracted -- the project owner confirmed the specific facts in these
+sentences are INVENTED for this test, not true statements about themselves. Restated
+plainly: these are human-authored, but not verified-true, personal-style statements.
+Nothing here should be read as real personal, health, or medical information about
+anyone.
 """
 from __future__ import annotations
 
