@@ -88,8 +88,29 @@ PROMPTS: Dict[str, str] = {
 }
 
 
-def _h(variant: str, text: str) -> str:
-    return hashlib.sha256((variant + "\x00" + text).encode("utf-8")).hexdigest()[:24]
+def _h(variant: str, text: str, model: str = "") -> str:
+    # FIX (external review, 2026-09-28): `model` is now an explicit, null-separated field,
+    # not string-concatenated into `variant` at the call site -- the old
+    # `_h(self.variant + self.model, text)` pattern had no separator between the two
+    # strings (a theoretical, if practically unrealized, collision risk: e.g.
+    # variant="a"+model="bc" hashes identically to variant="ab"+model="c"), and more
+    # importantly gave `_h` no explicit model parameter at all, so a future caller could
+    # easily forget to include it. This changes every cache key's hash (a one-time,
+    # disclosed cache invalidation -- `judge_cache.json` entries recompute on next use,
+    # at real but bounded one-off LLM-call cost; no result this project has already
+    # reported depends on this cache surviving, since every reported number is itself
+    # persisted separately in `phase17/data/*.json`).
+    return hashlib.sha256((variant + "\x00" + model + "\x00" + text).encode("utf-8")).hexdigest()[:24]
+
+
+def _h_old(variant: str, text: str, model: str) -> str:
+    """The PRE-fix key: `_h(self.variant + self.model, text)` with no separator between
+    variant and model. Kept only so `LLMJudge.flag` can migrate an old cache entry forward
+    on first lookup (external review round 2, 2026-09-28: the key-format change alone
+    orphaned 13,648 existing cache entries, forcing a needless LLM re-query for each and
+    risking a +-1 drift in every number that depends on them). Never used to WRITE a new
+    entry -- only to read one that predates the fix, exactly once, before it is migrated."""
+    return hashlib.sha256((variant + model + "\x00" + text).encode("utf-8")).hexdigest()[:24]
 
 
 class LLMJudge:
@@ -104,8 +125,13 @@ class LLMJudge:
     def flag(self, text: str) -> bool:
         from phase3.evaluation.llm.provider import GenerationConfig
 
-        key = _h(self.variant + self.model, text)
+        key = _h(self.variant, text, self.model)
         if key not in self._cache:
+            old_key = _h_old(self.variant, text, self.model)
+            if old_key in self._cache:
+                self._cache[key] = self._cache[old_key]  # migrate forward, no re-query needed
+                self._dirty += 1
+                return self._cache[key]
             cfg = GenerationConfig(temperature=0.0, seed=17, max_tokens=4, enable_thinking=False, n_ctx=2048,
                                    request_timeout_sec=180.0)
             out = self._provider.generate([{"role": "user", "content": PROMPTS[self.variant].format(text=text[:1500])}], cfg).text

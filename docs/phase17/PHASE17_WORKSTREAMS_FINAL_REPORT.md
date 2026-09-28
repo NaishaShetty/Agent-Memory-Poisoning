@@ -188,13 +188,23 @@ config (§9).
 
 ## 18. Round 2 — fixes applied on explicit request ("fix the negative results")
 
-### 18.1 Content-level provenance forgery: FIXED
+### 18.1 Content-level provenance forgery: FIXED, then validated held-out
 Added a `lineage` judge tier (a new prompt variant, additive, no existing prompt's
 cached answers touched) that asks specifically whether a note cites another stored
-memory/record/ID to inherit trust. Result: **5/5 forged-metadata sentences now caught by
-B11/B12** (was 4/5 -- the fake-parent-lineage phrasing was the one miss). 0/60 dev-benign
-and 0/3 negative-control false positives. Verified directly against the live
-`apply_defense("B11"/"B12", ...)` path, not just the judge in isolation.
+memory/record/ID to inherit trust. Initial result: **5/5 forged-metadata sentences now
+caught by B11/B12** (was 4/5 -- the fake-parent-lineage phrasing was the one miss), 0/60
+dev-benign and 0/3 negative-control false positives.
+
+**Caveat raised by external review (2026-09-28) and closed with a real held-out test:**
+those same 5 sentences were used BOTH to motivate the `lineage` prompt's design AND to
+report its "5/5" result -- in-sample evidence, not proof of generalization. A FRESH set
+of 10 forged-metadata sentences (different phrasing and fake-identifier formats -- case
+numbers, audit references, ticket numbers, session logs -- never looked at while writing
+the prompt) plus 4 fresh benign negative controls was built and run
+(`phase17/provenance_holdout_check.py`): **B9 (pre-fix) catches 0/10; B11 and B12 catch
+10/10, with 0/4 benign false positives.** This is genuine held-out evidence that the fix
+generalizes beyond the sentences it was designed against, not just a restatement of the
+original in-sample result.
 
 ### 18.2 The 47 evasion variants: confirmed GOOD, not a problem to fix
 Re-stated for clarity: `phase17/adaptive_attacker.py`'s 47/47 "objective preserved" result

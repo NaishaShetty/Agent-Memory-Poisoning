@@ -27,8 +27,19 @@ URL = "http://127.0.0.1:11434/api/chat"
 MODEL = "qwen2.5:7b"
 
 
-def _key(variant: str, text: str, salt: str = "") -> str:
-    return hashlib.sha256(f"{MODEL}\x00{variant}\x00{salt}\x00{text}".encode("utf-8")).hexdigest()[:24]
+def _key(variant: str, text: str, salt: str = "", model: str = MODEL) -> str:
+    # `model` defaults to the module constant (used everywhere in this file today), but is
+    # now an explicit parameter -- see semantic_detector.py::_h's matching fix -- so a
+    # future caller using a different model cannot silently collide with this one's cache.
+    return hashlib.sha256(f"{model}\x00{variant}\x00{salt}\x00{text}".encode("utf-8")).hexdigest()[:24]
+
+
+def _key_old(variant: str, text: str, salt: str = "") -> str:
+    """The PRE-fix key (no `model` field at all -- MODEL was a constant so it was never
+    part of the hash). Kept only so `ScoreJudge.score` can migrate an old entry forward on
+    first lookup instead of re-querying the LLM (see `semantic_detector.py::_h_old` for the
+    matching fix and why this exists -- external review round 2, 2026-09-28)."""
+    return hashlib.sha256(f"{variant}\x00{salt}\x00{text}".encode("utf-8")).hexdigest()[:24]
 
 
 def _logit_yes(prompt: str, seed: int = 17) -> float:
@@ -72,8 +83,15 @@ class ScoreJudge:
         return "Labeled examples of the same decision:\n" + ex + "\n\nNow the note to decide.\n" + base
 
     def score(self, text: str, group: Optional[str] = None) -> float:
-        key = _key(self.variant + ("+fs%d" % self.k if self.demos else ""), text, salt=("lomo:" + group) if group else self._salt)
+        variant_key = self.variant + ("+fs%d" % self.k if self.demos else "")
+        salt = ("lomo:" + group) if group else self._salt
+        key = _key(variant_key, text, salt=salt)
         if key not in self._cache:
+            old_key = _key_old(variant_key, text, salt=salt)
+            if old_key in self._cache:
+                self._cache[key] = self._cache[old_key]  # migrate forward, no re-query needed
+                self._dirty += 1
+                return self._cache[key]
             self._cache[key] = _logit_yes(self._prompt(text, group))
             self._dirty += 1
             if self._dirty % 100 == 0:

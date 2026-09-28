@@ -13,10 +13,27 @@ HERE = Path(__file__).parent
 CONFIGS = (CONFIG_B0_NO_DEFENSE, CONFIG_B9_RISK_COMPOSED, CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED)
 
 
+def resolve_case_items(case: dict) -> tuple:
+    """THIS case's own (memory_id, text) pairs for its own retrieved_ids -- pulled out of
+    `main()`'s loop (external review round 2, 2026-09-28) so the regression test in
+    `phase17/tests/test_live_foundation_stages.py` calls the REAL function instead of
+    re-implementing the same logic inline, which would not have caught a regression."""
+    text_by_id = dict(case["items"])  # THIS case's own pairs only
+    return tuple((mid, text_by_id[mid]) for mid in case["retrieved_ids"] if mid in text_by_id)
+
+
 def main():
     data = json.loads((HERE / "stage1_out.json").read_text(encoding="utf-8"))
     base = {c.task_id: c for c in build_track_b_cases()}
-    text_by_id = {mid: t for c in data for mid, t in c["items"]}
+    # BUG FIX (found by external review, 2026-09-28): this MUST be built per-case, not as
+    # one global dict across all 27 cases. The original/plain/embedded variants of the SAME
+    # parent all reuse the same `poison_id` string as their memory_id (by design, so
+    # cross-variant comparisons line up) -- a single global `{mid: text for c in data for
+    # mid, text in c["items"]}` therefore let each later case's variant text silently
+    # overwrite the earlier one under the same key, so every "original"/"plain" case was
+    # actually scored against whichever variant happened to be last in `data` (usually
+    # "embedded"). Every prior number from this script (this file's own git history) is
+    # WRONG and is superseded by the corrected run this fix produces.
     res = {"poison_retrieved_by_mem0": {}, "by_kind": {}}
     for kind in ("poison_original", "poison_plain", "poison_embedded"):
         cs = [c for c in data if c["kind"] == kind]
@@ -25,7 +42,7 @@ def main():
     for cfg in CONFIGS:
         agg = {}
         for c in data:
-            items = tuple((mid, text_by_id[mid]) for mid in c["retrieved_ids"] if mid in text_by_id)
+            items = resolve_case_items(c)
             if not items:
                 continue
             _, dec = apply_defense(cfg, items)

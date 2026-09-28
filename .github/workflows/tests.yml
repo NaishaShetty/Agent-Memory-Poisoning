@@ -1,0 +1,74 @@
+name: MAMBench tests
+
+# Added in response to external review (2026-09-28): "no CI, no single command that
+# reproduces everything." SCOPE, disclosed honestly: this runs the Phases 1-16 regression
+# suite, which does not require a local LLM. Most of Phase 17's own tests either need a
+# local Ollama server (qwen2.5:7b, llama2, phi3:mini) or a GEMINI_API_KEY, neither of
+# which is available in this hosted runner -- those tests are run in a separate,
+# best-effort job that is allowed to fail (`continue-on-error`) rather than block CI,
+# and a smaller set of purely-structural Phase 17 tests (no network/LLM calls) is run
+# unconditionally. This is NOT yet "one command reproduces everything" -- closing that
+# fully needs a self-hosted runner with Ollama installed, which is out of scope for this
+# fix.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  frozen-phases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Phases 1-16 regression (no local LLM required)
+        run: >
+          python -m pytest phase6/ phase8/ phase11/ phase12/ phase13/ phase14/ phase15/
+          attribution/ phase7/ phase3/ -m "not slow" -q
+
+  phase17-structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Phase 17 tests that need no local LLM/API key
+        # CORRECTION (external review round 2, 2026-09-28): this step previously ended in
+        # `|| true`, which made it succeed unconditionally regardless of test failures --
+        # a CI job that can never fail is not a real gate. Removed. It also omitted the two
+        # newest test files (headline-number and live-foundation-stage regression guards);
+        # added. This has never actually run in CI yet (nothing has been pushed since it
+        # was added), so it is unverified against a clean runner until the next push.
+        run: >
+          python -m pytest
+          phase17/tests/test_workstreams.py
+          phase17/tests/test_bench_runner.py
+          phase17/tests/test_external_review_fixes.py
+          phase17/tests/test_headline_numbers.py
+          phase17/tests/test_live_foundation_stages.py
+          phase17/tests/test_round3_fixes.py
+          phase17/leakage_audit.py
+          -q
+
+  phase17-full-best-effort:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Attempt full Phase 17 suite (expected to fail without a local Ollama server)
+        run: python -m pytest phase17/ -m "not slow" -q

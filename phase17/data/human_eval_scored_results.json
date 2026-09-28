@@ -1,0 +1,399 @@
+{
+  "n": 60,
+  "human_label_distribution": {
+    "correct": 42,
+    "partial": 15,
+    "incorrect": 2,
+    "paraphrase": 1
+  },
+  "human_strict_correct_rate": {
+    "k": 43,
+    "n": 60,
+    "rate": 0.7166666666666667,
+    "ci95": [
+      0.5923247495026482,
+      0.8149332139569141
+    ]
+  },
+  "human_lenient_correct_rate": {
+    "k": 58,
+    "n": 60,
+    "rate": 0.9666666666666667,
+    "ci95": [
+      0.8863601247107462,
+      0.9908108735098498
+    ]
+  },
+  "agreement_pct": {
+    "string_date_strict": 78.3,
+    "string_date_lenient": 56.7,
+    "llm_judge_strict": 78.3,
+    "llm_judge_lenient": 96.7,
+    "nli_strict": 88.3,
+    "nli_lenient": 86.7
+  },
+  "key_rebuilt_from_source": true,
+  "key_corrections_applied": [
+    {
+      "item_id": 0,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-28",
+      "true_internal_id": "phase14-track-a-6"
+    },
+    {
+      "item_id": 1,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-6",
+      "true_internal_id": "phase14-track-a-20"
+    },
+    {
+      "item_id": 2,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-70",
+      "true_internal_id": "phase14-track-a-142"
+    },
+    {
+      "item_id": 2,
+      "field": "nli",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-70",
+      "true_internal_id": "phase14-track-a-142"
+    },
+    {
+      "item_id": 4,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-57",
+      "true_internal_id": "phase14-track-a-44"
+    },
+    {
+      "item_id": 4,
+      "field": "llm_judge",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-57",
+      "true_internal_id": "phase14-track-a-44"
+    },
+    {
+      "item_id": 4,
+      "field": "nli",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-57",
+      "true_internal_id": "phase14-track-a-44"
+    },
+    {
+      "item_id": 5,
+      "field": "llm_judge",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-35",
+      "true_internal_id": "phase14-track-a-79"
+    },
+    {
+      "item_id": 5,
+      "field": "nli",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-35",
+      "true_internal_id": "phase14-track-a-79"
+    },
+    {
+      "item_id": 7,
+      "field": "llm_judge",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-139",
+      "true_internal_id": "phase14-track-a-103"
+    },
+    {
+      "item_id": 10,
+      "field": "llm_judge",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-8",
+      "true_internal_id": "phase14-track-a-58"
+    },
+    {
+      "item_id": 10,
+      "field": "nli",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-8",
+      "true_internal_id": "phase14-track-a-58"
+    },
+    {
+      "item_id": 11,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-7",
+      "true_internal_id": "phase14-track-a-108"
+    },
+    {
+      "item_id": 12,
+      "field": "nli",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-23",
+      "true_internal_id": "phase14-track-a-71"
+    },
+    {
+      "item_id": 14,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-59",
+      "true_internal_id": "phase14-track-a-24"
+    },
+    {
+      "item_id": 21,
+      "field": "nli",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-71",
+      "true_internal_id": "phase14-track-a-19"
+    },
+    {
+      "item_id": 23,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-97",
+      "true_internal_id": "phase14-track-a-68"
+    },
+    {
+      "item_id": 23,
+      "field": "nli",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-97",
+      "true_internal_id": "phase14-track-a-68"
+    },
+    {
+      "item_id": 24,
+      "field": "llm_judge",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-103",
+      "true_internal_id": "phase14-track-a-147"
+    },
+    {
+      "item_id": 24,
+      "field": "nli",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-103",
+      "true_internal_id": "phase14-track-a-147"
+    },
+    {
+      "item_id": 25,
+      "field": "nli",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-20",
+      "true_internal_id": "phase14-track-a-97"
+    },
+    {
+      "item_id": 26,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-89",
+      "true_internal_id": "phase14-track-a-43"
+    },
+    {
+      "item_id": 27,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-54",
+      "true_internal_id": "phase14-track-a-89"
+    },
+    {
+      "item_id": 28,
+      "field": "nli",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-43",
+      "true_internal_id": "phase14-track-a-23"
+    },
+    {
+      "item_id": 29,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-144",
+      "true_internal_id": "phase14-track-a-113"
+    },
+    {
+      "item_id": 32,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-126",
+      "true_internal_id": "phase14-track-a-55"
+    },
+    {
+      "item_id": 38,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-45",
+      "true_internal_id": "phase14-track-a-140"
+    },
+    {
+      "item_id": 40,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-44",
+      "true_internal_id": "phase14-track-a-15"
+    },
+    {
+      "item_id": 40,
+      "field": "llm_judge",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-44",
+      "true_internal_id": "phase14-track-a-15"
+    },
+    {
+      "item_id": 40,
+      "field": "nli",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-44",
+      "true_internal_id": "phase14-track-a-15"
+    },
+    {
+      "item_id": 42,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-33",
+      "true_internal_id": "phase14-track-a-90"
+    },
+    {
+      "item_id": 43,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-125",
+      "true_internal_id": "phase14-track-a-139"
+    },
+    {
+      "item_id": 43,
+      "field": "nli",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-125",
+      "true_internal_id": "phase14-track-a-139"
+    },
+    {
+      "item_id": 45,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-93",
+      "true_internal_id": "phase14-track-a-70"
+    },
+    {
+      "item_id": 45,
+      "field": "nli",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-93",
+      "true_internal_id": "phase14-track-a-70"
+    },
+    {
+      "item_id": 48,
+      "field": "llm_judge",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-15",
+      "true_internal_id": "phase14-track-a-8"
+    },
+    {
+      "item_id": 48,
+      "field": "nli",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-15",
+      "true_internal_id": "phase14-track-a-8"
+    },
+    {
+      "item_id": 49,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-113",
+      "true_internal_id": "phase14-track-a-73"
+    },
+    {
+      "item_id": 50,
+      "field": "string_date",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-10",
+      "true_internal_id": "phase14-track-a-77"
+    },
+    {
+      "item_id": 52,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-37",
+      "true_internal_id": "phase14-track-a-107"
+    },
+    {
+      "item_id": 53,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-80",
+      "true_internal_id": "phase14-track-a-27"
+    },
+    {
+      "item_id": 53,
+      "field": "nli",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-80",
+      "true_internal_id": "phase14-track-a-27"
+    },
+    {
+      "item_id": 54,
+      "field": "llm_judge",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-79",
+      "true_internal_id": "phase14-track-a-26"
+    },
+    {
+      "item_id": 57,
+      "field": "nli",
+      "stored_wrong_value": true,
+      "corrected_value": false,
+      "stored_wrong_internal_id": "phase14-track-a-24",
+      "true_internal_id": "phase14-track-a-80"
+    },
+    {
+      "item_id": 58,
+      "field": "string_date",
+      "stored_wrong_value": false,
+      "corrected_value": true,
+      "stored_wrong_internal_id": "phase14-track-a-90",
+      "true_internal_id": "phase14-track-a-33"
+    }
+  ],
+  "proxy_agreement_note": "see llm_proxy_human_eval_results.json for the Gemini/phi3 exact-category agreement numbers (unaffected by this fix -- they compare category labels, not the string_date field)"
+}

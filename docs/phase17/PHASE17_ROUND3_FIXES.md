@@ -86,18 +86,40 @@ The project's own existing, previously-never-exercised `RealMem0Adapter`
 (LLM-free `infer=False` add path, real on-disk Qdrant, real HuggingFace embeddings) now
 runs for real: `initialize` → `AVAILABLE`, `add_memory` → real assigned id, `retrieve` →
 `PARTIAL` (real ids returned). Ran the same 27 real Track B poison cases used for the
-A-MEM live test: **poison retrieved 27/27 (100%)**, but **0/27 excluded** by any config
-(`B0`/`B9`/`B11`/`B12`) — though **18/27 (66.7%) were still flagged** (non-`ALLOW`).
+A-MEM live test: poison retrieved 27/27 (100%).
 
-**Root cause, confirmed by direct comparison:** Mem0's own real search returned a
-SMALLER candidate pool (mean 3.56 items) than A-mem-sys's search did for the identical
-inputs (4 items) — Mem0's own relevance filtering dropped one distractor. Because the
-retrieval-consensus divergence signal is computed over the WHOLE candidate pool at once,
-a different pool composition genuinely changes the numeric divergence score, which was
-enough to keep the risk estimate in the `REQUIRE_VALIDATION` band instead of reaching
-`QUARANTINE`. **This is a real, disclosed memory-foundation-dependence finding, not a
-bug**: the SAME defense code, given a different real foundation's real retrieval
-behavior, produces a measurably weaker outcome. (`phase17/mem0_live/`)
+**CORRECTION (2026-09-28, found by external review — the original result below was
+WRONG, not a real foundation-dependence finding.** `phase17/mem0_live/stage2_defend.py`
+built one global `{memory_id: text}` lookup across all 27 cases before scoring any of
+them. The `original`/`plain`/`embedded` variants of the SAME poison case deliberately
+reuse the SAME `poison_id` string as their memory_id (so the three variants line up
+across comparisons) — which meant the global dict let each later case's text silently
+overwrite the earlier one under that shared key, so every `original` and `plain` case
+was actually scored against whichever variant happened to be written last into the
+dict (in practice, usually `embedded`), never its own real text. The fix is to build
+that lookup fresh per case (`text_by_id = dict(c["items"])` inside the per-case loop,
+matching how `amem_live/stage2_defend.py` already did it correctly using each case's own
+`retrieved` list). Re-scored on the SAME stage-1 retrieval output (no new Mem0/Ollama
+calls needed):
+
+| | Wrong (published) | Corrected |
+|---|---|---|
+| B9/B11/B12, `poison_original` excluded | 0/9 | **9/9** |
+| B11/B12, `poison_plain` excluded | 0/9 | **1/9** |
+| B11/B12, `poison_embedded` excluded | 0/9 | 0/9 (unchanged) |
+
+**Corrected conclusion: Mem0 behaves essentially the same as A-mem-sys** (9/9 original
+poison excluded on both real foundations) — there is no real, measured
+memory-foundation-dependence effect here. The "smaller candidate pool changed the
+divergence score" explanation in the original write-up was invented to fit a wrong
+number and never held up: it could not have explained B12's result either, since B12
+scores each retrieved text independently and does not depend on the rest of the pool's
+composition the way the retrieval-consensus signal does. `phase17/canonical_matrix.py`'s
+12 live-Mem0 rows and every downstream document citing the old numbers are superseded by
+this correction; `phase17/mem0_live/stage2_results.json` and `canonical_matrix.json` have
+been regenerated. This finding is a genuine engineering bug this project made and is
+disclosed as such, per this project's own "never let a wrong result stand uncorrected"
+discipline.
 
 ## 6. Chinese-language exclusion — alternative approach validated, not a clear win
 

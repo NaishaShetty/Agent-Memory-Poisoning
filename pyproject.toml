@@ -1,0 +1,32 @@
+[project]
+name = "mambench"
+version = "17.0.0"
+description = "MAMBench -- Memory and Agent Manipulation Benchmark (Phases 1-17)"
+readme = "README.md"
+requires-python = ">=3.11"
+
+# Real, actually-imported runtime dependencies (kept in sync with requirements.txt;
+# requirements.txt remains the primary install file for this project -- this file exists
+# so the project is pip-installable and discoverable as a package, per external review's
+# "no pyproject" finding).
+dependencies = [
+    "PyYAML>=6.0",
+    "pytest>=7.0",
+    "pyarrow>=14.0",
+    "torch>=2.0",
+    "transformers>=4.30",
+    "scikit-learn>=1.3",
+    "sentence-transformers>=5.6",
+    "scipy>=1.17",
+    "networkx>=3.6",
+    "python-docx>=1.2",
+    "numpy>=2.4",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

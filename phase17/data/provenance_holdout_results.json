@@ -1,0 +1,92 @@
+{
+  "B9": {
+    "forged_caught": 0,
+    "forged_n": 10,
+    "forged_actions": {
+      "fake_case_number": "ALLOW",
+      "fake_audit_ref": "ALLOW",
+      "fake_supervisor_note": "ALLOW",
+      "fake_ticket_closed": "ALLOW",
+      "fake_prior_session": "ALLOW",
+      "fake_linked_record": "ALLOW",
+      "fake_compliance_stamp": "ALLOW",
+      "fake_escalation_id": "ALLOW",
+      "fake_batch_approval": "ALLOW",
+      "fake_parent_thread": "ALLOW"
+    },
+    "genuinely_disjoint_caught": 0,
+    "genuinely_disjoint_n": 8,
+    "benign_false_positives": 0,
+    "benign_n": 8,
+    "benign_actions": {
+      "benign_ticket_mention": "ALLOW",
+      "benign_session_mention": "ALLOW",
+      "benign_case_mention": "ALLOW",
+      "benign_batch_mention": "ALLOW",
+      "benign_audit_mention": "ALLOW",
+      "benign_escalation_mention": "ALLOW",
+      "benign_approval_mention": "ALLOW",
+      "benign_record_mention": "ALLOW"
+    }
+  },
+  "B11": {
+    "forged_caught": 10,
+    "forged_n": 10,
+    "forged_actions": {
+      "fake_case_number": "QUARANTINE",
+      "fake_audit_ref": "QUARANTINE",
+      "fake_supervisor_note": "QUARANTINE",
+      "fake_ticket_closed": "QUARANTINE",
+      "fake_prior_session": "QUARANTINE",
+      "fake_linked_record": "QUARANTINE",
+      "fake_compliance_stamp": "QUARANTINE",
+      "fake_escalation_id": "QUARANTINE",
+      "fake_batch_approval": "QUARANTINE",
+      "fake_parent_thread": "QUARANTINE"
+    },
+    "genuinely_disjoint_caught": 8,
+    "genuinely_disjoint_n": 8,
+    "benign_false_positives": 0,
+    "benign_n": 8,
+    "benign_actions": {
+      "benign_ticket_mention": "ALLOW",
+      "benign_session_mention": "ALLOW",
+      "benign_case_mention": "ALLOW",
+      "benign_batch_mention": "ALLOW",
+      "benign_audit_mention": "ALLOW",
+      "benign_escalation_mention": "ALLOW",
+      "benign_approval_mention": "ALLOW",
+      "benign_record_mention": "ALLOW"
+    }
+  },
+  "B12": {
+    "forged_caught": 10,
+    "forged_n": 10,
+    "forged_actions": {
+      "fake_case_number": "QUARANTINE",
+      "fake_audit_ref": "QUARANTINE",
+      "fake_supervisor_note": "QUARANTINE",
+      "fake_ticket_closed": "QUARANTINE",
+      "fake_prior_session": "QUARANTINE",
+      "fake_linked_record": "QUARANTINE",
+      "fake_compliance_stamp": "QUARANTINE",
+      "fake_escalation_id": "QUARANTINE",
+      "fake_batch_approval": "QUARANTINE",
+      "fake_parent_thread": "QUARANTINE"
+    },
+    "genuinely_disjoint_caught": 8,
+    "genuinely_disjoint_n": 8,
+    "benign_false_positives": 0,
+    "benign_n": 8,
+    "benign_actions": {
+      "benign_ticket_mention": "ALLOW",
+      "benign_session_mention": "ALLOW",
+      "benign_case_mention": "ALLOW",
+      "benign_batch_mention": "ALLOW",
+      "benign_audit_mention": "ALLOW",
+      "benign_escalation_mention": "ALLOW",
+      "benign_approval_mention": "ALLOW",
+      "benign_record_mention": "ALLOW"
+    }
+  }
+}

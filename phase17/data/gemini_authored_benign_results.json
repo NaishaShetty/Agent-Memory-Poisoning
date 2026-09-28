@@ -1,0 +1,31 @@
+{
+  "n_gemini": 30,
+  "excluded_gemini_fresh": {
+    "k": 0,
+    "n": 30,
+    "rate": 0.0,
+    "ci95": [
+      0.0,
+      0.113517091390478
+    ]
+  },
+  "flagged_gemini_fresh": {
+    "k": 0,
+    "n": 30,
+    "rate": 0.0,
+    "ci95": [
+      0.0,
+      0.113517091390478
+    ]
+  },
+  "note": "Compare against same_model_confound_results.json's qwen_authored_fresh and human_written rows at the SAME thresholds -- this file only adds the Gemini arm.",
+  "samples": {
+    "gemini_fresh": [
+      "User Arthur had a dental check-up on Tuesday and was told he needs a filling next month.",
+      "Remembered that Arthur prefers oat milk over dairy for his weekly grocery run.",
+      "User Mark has a weekly sync with his engineering team every Tuesday at 10 AM.",
+      "User Leo went on a weekend hike at Blue Ridge Trail and mentioned seeing a lot of wild turkeys along the path.",
+      "Arthur's phone bill is due on the 15th of every month."
+    ]
+  }
+}

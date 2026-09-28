@@ -178,13 +178,28 @@ McNemar paired test against the full stack (`phase17/experiments.py`).
 ### 4.3 Evaluator independence (Workstream B)
 
 The Track A agent (`llama2`) and the Phase 17 judge/detector model (`qwen2.5:7b`) are
-different model families by default. `phase17/evaluator_independence.py` measures what
-happens if the SAME model self-judges its own answers: self-judging inflates correctness
-from 93.3% (independent judge) to 100% (self-judge) on the identical 150 real answers —
-a real, measured argument for never self-judging in a headline claim. A blinded human
-evaluation subset was scoped in the workstream brief but not executed this round (no
-human evaluator was available in this session); disclosed as not attempted, not
-fabricated.
+different model families by default FOR QA ANSWER-QUALITY EVALUATION. This does NOT hold
+for security detection: Qwen2.5:7b authored nearly every synthetic attack text this
+project's detectors are tested against and is also the detector's own judge model — a
+real, disclosed confound for that side, tracked separately in
+`docs/phase17/PHASE17_CURRENT_RESULTS.md` §5/§14, not this section.
+`phase17/evaluator_independence.py` measures what happens if the SAME model self-judges
+its own answers: self-judging inflates correctness from 93.3% (independent judge) to
+100% (self-judge) on the identical 150 real answers — a real, measured argument for never
+self-judging in a headline claim.
+
+**Update (2026-09-28, closed, corrected 2026-09-28):** the blinded human-evaluation subset
+scoped in the workstream brief has now been run — the project owner rated all 60 blinded
+items themselves. Result: human strict-correct rate 71.7% (43/60), lenient 96.7% (58/60);
+the LLM judge agrees with the human 96.7% of the time once "partial" counts as acceptable
+(78.3% if it does not); NLI agrees 88.3%/86.7%; both independent LLM proxies (Gemini,
+phi3:mini) match the human's exact category on 87-90% of items. A systematic key-alignment
+bug in the original scoring (fixed 2026-09-28 — see `phase17/rescore_human_eval.py`)
+initially made it look like every automated method missed the two clearest factual errors
+a human caught; correcting it shows this project's own pipeline (LLM judge, NLI,
+string/date) actually agreed with the human on both — only the two EXTERNAL LLM proxies
+(Gemini, phi3:mini) missed them. Full detail and the exact per-item breakdown:
+`docs/phase17/PHASE17_CURRENT_RESULTS.md` §8b, `phase17/rescore_human_eval.py`.
 
 ### 4.4 LLM nondeterminism (Workstream C)
 

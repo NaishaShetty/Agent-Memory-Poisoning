@@ -23,11 +23,17 @@ unseen attack mechanisms/datasets/languages/memory foundations) is the **current
   use, threat model, known limitations), `phase17/canonical_matrix.py` (cross-phase
   result matrix), `phase17/bench_runner.py` (a minimal, real entry point:
   `python -m phase17.bench_runner --defense B12 --split held_out_novel`).
+- **Current numbers (read this one first)**: [`docs/phase17/PHASE17_CURRENT_RESULTS.md`](docs/phase17/PHASE17_CURRENT_RESULTS.md)
+  — the single source of truth for what each Phase 17 number IS right now (external
+  review, 2026-09-28: Phase 17's numbers drifted across five round-by-round documents; this
+  one states the current, corrected figure for each and traces it to its artifact).
 - **Full Phase 17 report**: [`docs/phase17/PHASE17_ABLATION_GENERALIZATION_REPORT.md`](docs/phase17/PHASE17_ABLATION_GENERALIZATION_REPORT.md)
   — ablation of every defense component, generalization to 6 unseen attack mechanisms,
   Chinese-language poison, a live A-mem-sys memory foundation, leave-mechanism-out
   detector generalization, evaluator-independence and LLM-nondeterminism measurements,
-  adversarial provenance-integrity stress tests, and sanity/bound baselines.
+  adversarial provenance-integrity stress tests, and sanity/bound baselines. Historical
+  record of HOW each number was reached; where it differs from `PHASE17_CURRENT_RESULTS.md`,
+  the latter is correct.
 - **Updated methodology**: [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) reorganizes the
   full Phase 1–17 story (the original `Methodology Draft.docx`/`Methodology.pdf` are
   preserved unmodified as the historical draft).
@@ -71,7 +77,13 @@ references attribution) — not part of Phase 5 semantics.
 
 ## Seven attacks
 
-1. **AgentPoison** — white-box, gradient-optimized retrieval trigger
+1. **AgentPoison** — white-box, gradient-optimized retrieval trigger (this project's
+   reconstruction uses a disclosed, limited number of optimization iterations, not the
+   real paper's full white-box gradient search; Phase 17 measured directly that it does
+   NOT exhibit the broad-retrievability "universal magnet" property the real technique is
+   designed to produce — see `docs/phase17/PHASE17_ROUND5_FIXES.md` §1 — so numbers
+   reported against it should be read as a reconstruction, not the real attack's full
+   strength)
 2. **MINJA** — query-only, agent-mediated insertion
 3. **FARMA** — forged reasoning traces with self-referential amplification (MAMBench reconstruction)
 4. **MemoryGraft** — gated, LLM-judged forged "successful experience" records
