@@ -10,3 +10,20 @@ phase3/datasets/candidates/memoryagentbench/normalized/memory_records.jsonl filt
 phase3/evaluation/fixtures/** text eol=lf
 phase3/datasets/candidates/membench/raw/repo_bundle/** text eol=lf
 phase3/datasets/candidates/perltqa/raw/** text eol=lf
+
+# Same fix as above, scoped to text extensions only (this bundle also contains binary
+# files -- png/mp3/sqlite/ico -- that must NOT go through text/eol conversion).
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.py text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.txt text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.yaml text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.md text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.json text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.sh text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.js text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.ini text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.html text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.css text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.csv text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.gbnf text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/LICENSE text eol=lf
+phase3/datasets/candidates/memoryagentbench/raw/github_repo/.gitignore text eol=lf
