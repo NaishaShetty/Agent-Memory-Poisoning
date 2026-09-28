@@ -15,6 +15,13 @@ __pycache__/
 .venv/
 venv/
 env/
+# Exception (external review round 3, follow-up, 2026-09-28): the generic `env/` rule
+# above -- meant to exclude Python virtualenvs -- was also silently matching this
+# candidate dataset's own, legitimately-named `raw/env/` subdirectory (real vendored
+# MemoryArena environment-simulation code, not a venv). 110 real files were never
+# committed because of this collision, undetected until CI actually ran a fresh checkout
+# and the frozen file-count test caught the gap that already existed locally.
+!phase3/datasets/candidates/memoryarena/raw/env/
 *.egg
 build/
 dist/
