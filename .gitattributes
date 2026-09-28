@@ -1,2 +1,12 @@
 *.psd filter=lfs diff=lfs merge=lfs -text
 phase3/datasets/candidates/memoryagentbench/normalized/memory_records.jsonl filter=lfs diff=lfs merge=lfs -text
+
+# Fixed (external review round 3, follow-up, 2026-09-28): these frozen-fingerprint/manifest
+# JSON and Python files were being checked out with CRLF on Windows (core.autocrlf=true)
+# but LF is what git actually has committed -- the "frozen" fingerprints in this project
+# were generated against the CRLF-converted Windows working tree, not the true committed
+# bytes, so they would fail on ANY fresh Linux/Mac clone, not just CI. Forcing LF makes the
+# working tree match the committed blob on every platform.
+phase3/evaluation/fixtures/** text eol=lf
+phase3/datasets/candidates/membench/raw/repo_bundle/** text eol=lf
+phase3/datasets/candidates/perltqa/raw/** text eol=lf
