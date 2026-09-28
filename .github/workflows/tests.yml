@@ -22,13 +22,29 @@ jobs:
   frozen-phases:
     runs-on: ubuntu-latest
     steps:
+      # CORRECTION (external review round 3, follow-up, 2026-09-28): the FIRST real CI run
+      # of this job (after the pandas/jsonschema fix let it get this far) showed
+      # `actions/checkout@v4` without `lfs: true` leaves this repo's git-lfs-tracked file
+      # (phase3/datasets/candidates/memoryagentbench/normalized/memory_records.jsonl, see
+      # .gitattributes) as an unresolved LFS pointer on the runner, not its real content --
+      # causing digest-mismatch and JSON-parse failures in every test that reads it or a
+      # frozen fingerprint derived from it. Added `lfs: true`.
       - uses: actions/checkout@v4
+        with:
+          lfs: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run Phases 1-16 regression (no local LLM required)
+        # A real, fresh CI checkout also lacks: (1) real, licensed raw dataset files
+        # deliberately excluded from git for licensing (data/raw/, data/processed/ -- see
+        # .gitignore), and (2) a cached/downloadable embedding or cross-encoder model when
+        # this runner cannot reach huggingface.co. `conftest.py` at the repo root
+        # auto-skips (does not fail) any test that hits exactly these known, external
+        # causes, so this job still gates everything that only depends on this repo's own
+        # committed code and data.
         run: >
           python -m pytest phase6/ phase8/ phase11/ phase12/ phase13/ phase14/ phase15/
           attribution/ phase7/ phase3/ -m "not slow" -q
@@ -37,6 +53,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -65,6 +83,8 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
