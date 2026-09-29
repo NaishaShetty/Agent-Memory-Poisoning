@@ -10,6 +10,17 @@ name: MAMBench tests
 # unconditionally. This is NOT yet "one command reproduces everything" -- closing that
 # fully needs a self-hosted runner with Ollama installed, which is out of scope for this
 # fix.
+#
+# GREEN AS OF 2026-09-29, PRECISELY SCOPED (external review round 3, follow-up): getting
+# frozen-phases to actually pass (not just run) surfaced and fixed several real,
+# previously-invisible bugs -- a .gitignore rule silently excluding real dataset files, three
+# frozen fingerprints computed against Windows-CRLF content instead of the true committed
+# bytes, and actions/checkout not fetching this repo's git-lfs content. `frozen-phases`
+# passing means: a fresh clone installs correctly and the frozen Phases 1-16 logic +
+# Phase 17's structural tests hold on that clean checkout. It does NOT mean any
+# LLM-dependent Phase 17 result was re-verified -- 302 tests are auto-skipped by the root
+# `conftest.py` because this runner has neither the real raw datasets (gitignored for
+# licensing) nor Ollama nor the isolated foundation environments those results depend on.
 
 on:
   push:

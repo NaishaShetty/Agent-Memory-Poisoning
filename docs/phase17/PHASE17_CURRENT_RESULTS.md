@@ -10,6 +10,17 @@ historical record of HOW each number was reached and are preserved, but this doc
 now the one to read for WHAT the current number is. Every number below states which
 document/artifact it traces to and, where an earlier figure differed, why.
 
+**A note on CI (added 2026-09-29):** CI (`.github/workflows/tests.yml`) is green as of this
+writing, but that proves a narrower thing than "every number below is verified." It proves
+a fresh clone installs and imports correctly, and that the frozen Phases 1-16 logic plus
+Phase 17's structural tests hold on that clean checkout — nothing more. 302 tests are
+auto-skipped in CI (`conftest.py`) because the runner has neither the real raw datasets
+(deliberately gitignored for licensing), a local Ollama server, nor the isolated
+`C:\h4venv`/`C:\mem0venv` foundation environments. Every number in this document that
+depends on qwen2.5:7b, llama2, phi3:mini, a live memory foundation, or the raw candidate
+datasets is only reproducible on a machine that has those in place — CI passing is not
+independent confirmation of those specific numbers.
+
 ## 1. Unseen attack mechanism (60 novel-mechanism attacks)
 
 **Correction (external review round 2, 2026-09-28):** this section's heading previously
@@ -492,10 +503,18 @@ Qwen-fresh-benign arm (§5).
 **Result: Gemini-authored benign is 0/30 (0%) excluded AND 0/30 (0%) flagged** — LOWER
 than Qwen-authored fresh benign's 4/60 (6.7%) flag rate, not higher. If the confound were
 "any LLM-authored text gets flagged," a different model's fresh benign writing should show
-a comparable or higher rate, not zero. This is real, positive evidence (alongside §14's
-attack-side result) that detection is not primarily an authorship-model-identity artifact
-— it strengthens, rather than fully closes, §5's remaining open question, since a
-genuinely human-authored (not LLM-suspected) benign population still has not been tested.
+a comparable or higher rate, not zero. This is real, positive evidence that detection is
+not primarily an authorship-model-identity artifact.
+
+**Correction (external review round 3, follow-up, 2026-09-28):** this used to also cite
+"alongside §14's attack-side result" as supporting evidence — dropped, since §14 now
+discloses that its Gemini-authored-attack result cannot distinguish a content-based
+explanation from an authorship-based one (Gemini's attacks are independently more
+content-blatant). It also used to say "a genuinely human-authored benign population still
+has not been tested" — also outdated: §5 now has one (20 sentences written directly by the
+project owner), which flags at 1/20 (5.0%). That result is suggestive, not conclusive
+(n=20 is underpowered to distinguish it from Qwen's 6.7%), so this remains a real, open gap
+— just no longer an untested one.
 
 ## 15. Steer-tier held-out validation (external review, 2026-09-28, finding 3 fully closed)
 

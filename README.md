@@ -37,6 +37,21 @@ unseen attack mechanisms/datasets/languages/memory foundations) is the **current
 - **Updated methodology**: [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) reorganizes the
   full Phase 1–17 story (the original `Methodology Draft.docx`/`Methodology.pdf` are
   preserved unmodified as the historical draft).
+- **CI exists and is green** ([`.github/workflows/tests.yml`](.github/workflows/tests.yml))
+  — what it actually checks, precisely: a fresh clone installs and imports correctly, and
+  the frozen Phases 1–16 logic + Phase 17's structural tests hold on a genuinely clean
+  checkout (this caught several real, previously-invisible bugs — a `.gitignore` rule
+  silently excluding real dataset files, frozen fingerprints computed against
+  Windows-CRLF content instead of the true committed bytes, git-lfs content never being
+  fetched). **It does NOT re-run or re-verify any LLM-dependent result.** 302 tests are
+  auto-skipped (`conftest.py`) because CI has neither the real raw datasets (deliberately
+  gitignored for licensing) nor a local Ollama server nor the isolated `C:\h4venv`/
+  `C:\mem0venv` environments. Every number in `PHASE17_CURRENT_RESULTS.md` that depends on
+  qwen2.5:7b/llama2/phi3:mini, a live memory foundation, or the raw candidate datasets is
+  only reproducible on a machine with those in place (see
+  `phase17/ISOLATED_ENVIRONMENTS.md`, `phase17/OLLAMA_MODEL_PINS.md`) — CI passing is not
+  evidence those specific numbers still hold, only that the code that produced them still
+  imports and the parts of it that don't need those resources still work.
 
 Everything below this section is the **original Phase 4 README**, preserved as written
 at the Phase 4 freeze (2026-09-11) — including limitations later phases closed (defense
