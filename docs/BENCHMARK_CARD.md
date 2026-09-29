@@ -108,6 +108,14 @@ Section 5 for the evidence-status vocabulary every number carries.
 
 ## Known limitations (see `docs/phase17/PHASE17_ABLATION_GENERALIZATION_REPORT.md` §0–§11 for the full, dated list)
 
+- **Memory-store scale — partially addressed** (external review round 4, 2026-09-29): every
+  test before this used a 1-poison-plus-3-distractor pool, far smaller than a real
+  assistant's store. A first check at 100 real distractors (24 instances, B12 only) found
+  detection unchanged (0/24 flipped) and cost sub-linear (~8x time for ~33x more items),
+  plus a real, previously invisible baseline benign-flag cost (1.25%) at that scale. Not yet
+  run at the full 180-instance population, not yet run for B9/B11, and not a simulation of
+  a memory store that grows and consolidates over time — see
+  `docs/phase17/PHASE17_CURRENT_RESULTS.md` §17.
 - Content-only detection cannot catch a defense-aware paraphrase that reads as an
   ordinary, non-contradictory fact (additive fabrications), or a fabricated long-standing
   preference — these need provenance/behavioral evidence this benchmark's memory

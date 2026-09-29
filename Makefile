@@ -25,7 +25,7 @@ regression:
 	$(MAKE) phase17-structural
 
 phase17-structural:
-	python -m pytest phase17/tests/test_workstreams.py phase17/tests/test_bench_runner.py phase17/tests/test_external_review_fixes.py phase17/tests/test_headline_numbers.py phase17/tests/test_live_foundation_stages.py phase17/tests/test_round3_fixes.py phase17/leakage_audit.py -q
+	python -m pytest phase17/tests/test_workstreams.py phase17/tests/test_bench_runner.py phase17/tests/test_external_review_fixes.py phase17/tests/test_headline_numbers.py phase17/tests/test_live_foundation_stages.py phase17/tests/test_round3_fixes.py phase17/tests/test_arenas.py phase17/leakage_audit.py -q
 
 phase17-live:
 	python -m pytest phase17/ -m "not slow" -q

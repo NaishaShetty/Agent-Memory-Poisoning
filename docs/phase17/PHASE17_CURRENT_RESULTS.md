@@ -585,3 +585,55 @@ batch that this fix has not seen, not these 6.
   candidates/` were removed in the end**; the other ~624MB is genuinely load-bearing real
   dataset content (`phase17/perltqa.py`, `phase17/extra_datasets.py`, and Phase 3/11's own
   code all read it directly) and was never a candidate for removal once inspected.
+
+## 17. Detection and cost at a realistic memory-store scale (external review round 4, 2026-09-29)
+
+Every Phase 17 test before this used `N_DISTRACTORS = 3` (`phase17/arenas.py::isolated_arena`)
+— a real assistant's memory store holds hundreds to thousands of memories, and neither
+whether a poison memory is even retrieved when it must compete against many more real
+memories, nor B12's own real per-item cost at that scale, had ever been measured.
+`phase17/arenas.py::realistic_arena` builds the same one-pool-per-record structure with a
+configurable, much larger distractor count (100 real benign items, drawn from LoCoMo +
+ConvoMem, vs. 3) and `phase17/realistic_scale_check.py` runs B12 on both scales for direct
+comparison.
+
+**Result (24 instances, stratified 4 per family across all 6 unseen mechanisms):**
+
+| | 3 distractors (standard) | 100 distractors (realistic) |
+|---|---|---|
+| Poison excluded | 14/24 | 14/24 |
+| Detection changed by scale | — | **0/24** |
+| Total wall-clock time | 7.0s | 56.5s |
+| Benign distractors excluded | — | 0/2400 |
+| Benign distractors flagged | — | **30/2400 (1.25%)** |
+
+**Detection held perfectly steady: every single one of the 24 instances got the exact
+same action (ALLOW / ALLOW_WITH_RESTRICTION / QUARANTINE / REQUIRE_VALIDATION) at 100
+real competing memories as it did at 3.** This is real, direct evidence against the
+concern that a poison memory simply gets lost or out-competed once it has to survive
+retrieval against a realistically large store — at least up to 100 competitors, drawn
+from real conversational text, it does not.
+
+**Cost scales sub-linearly, not proportionally: ~8x more wall-clock time for ~33x more
+items per pool** (2.35s/instance average at 100-distractor scale). This is because most
+of B12's own signals are embedding-based or rule-based (cheap, and the LLM judge tiers'
+answers are cached by text, so repeated benign text across pools costs nothing after the
+first hit) — the reviewer's concern that "B12 makes one LLM call per memory added" is
+real per-item, but the realized wall-clock cost at this scale is far from prohibitive.
+
+**A real, previously invisible utility cost did appear: 30/2400 (1.25%) of ordinary real
+benign distractor text gets flagged (never excluded) once a pool this large and diverse
+is actually tested** — a cost the 3-distractor tests structurally could not have
+surfaced, since there was never enough benign volume for it to show up. This adds to,
+rather than contradicts, §11's legitimate-imperatives finding (B11 72.5%, B12 35% flag
+rate on a dedicated hard benign set) — at realistic scale, on ordinary conversational
+content, the baseline flag rate is smaller (1.25%) but real and nonzero.
+
+**Honest limits of this result:** n=24 is a real, meaningful sample but not exhaustive —
+a stronger claim would need the full 180-instance population at this scale (not run here
+due to real LLM-call cost: ~56s for 24 instances extrapolates to roughly 7 minutes for
+all 180, which is feasible and a natural next step, not run in this pass). This tests
+`isolated_arena`'s poison-plus-distractors shape scaled up, not a genuinely temporal,
+growing memory store (memories added and consolidated over time) — the "memory store"
+here is a single large retrieval snapshot, not a simulation of accumulation. B9/B11 were
+not tested at this scale in this pass, only B12.
