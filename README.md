@@ -2,7 +2,45 @@
 
 **Memory and Agent Manipulation Benchmark**
 
-## Current status (2026-09-27): Phase 17 — Ablation & Generalization
+## What this benchmark currently shows — and doesn't (updated 2026-09-29)
+
+A short, balanced summary for readers who won't open the 500-line results doc. Every
+number below is sourced and current in [`docs/phase17/PHASE17_CURRENT_RESULTS.md`](docs/phase17/PHASE17_CURRENT_RESULTS.md);
+read that document, not this summary, before citing a specific figure.
+
+**Shows:**
+- The best config (B12) excludes roughly 42–58% of unseen-mechanism attacks (the range
+  depends on how strictly "unseen" is defined — see §10) at 0 benign exclusions.
+- Detection generalizes somewhat beyond the exact attacks it was designed against — to
+  novel mechanisms, a different generator model, and (weakly) Chinese-language poison.
+- Detection is not purely an artifact of who authored the benign text: a genuinely
+  human-authored benign population and a Gemini-authored one both flag at rates close to
+  or below Qwen-authored benign text.
+
+**Does not show:**
+- **That the best defense reduces real, measured harm.** In the one real n=30 harm study,
+  the 15 poison instances B12 actually excluded showed harm 5/15 before and 5/15 after
+  (net zero — one real prevention exactly offset by one false flip), and B12 excluded 0 of
+  10 poison instances in the two mechanisms that actually caused harm in this study
+  (preference hijack, memory worm).
+- **That legitimate use is unaffected.** B11 flags 72.5% and B12 flags 35% of genuinely
+  legitimate standing instructions in a dedicated test; a real, harmless preference that
+  names a specific vendor gets flagged 4/6 times.
+- **That detection survives an attacker who knows about it.** B12 excludes only 4/47
+  (8.5%) of simple, fixed-prompt defense-aware rewrites; a genuine adaptive attacker that
+  queries the live defense and rewrites in response still evades 6/28 (21.4%) of the
+  seeds it was initially caught on.
+- **That this holds against attacks the project didn't author itself.** Every attack text
+  in this benchmark is LLM-authored, mostly by Qwen2.5:7b — the same model family behind
+  several of the detector's own signals. This confound is open, not closed.
+- **Full harm coverage across attack mechanisms.** Only 3 of 7 attack families (DSRM,
+  FARMA, MPBench) have end-to-end evidence the attack actually changes what the agent
+  says; the other 4 have detection numbers but no behavioral-harm confirmation.
+- **Behavior at realistic memory-store scale.** Every test in this project uses 1 poison
+  memory plus 3 distractors. A real assistant's memory store holds hundreds to thousands
+  of memories; both attack success and detection cost at that scale are untested.
+
+## Current status (2026-09-29): Phase 17 — Ablation & Generalization
 
 Phases 1–16 (dataset foundation, clean agent, attack benchmark, instrumentation,
 governance defense, propagation monitoring, sleeper detection, attribution/forensics,

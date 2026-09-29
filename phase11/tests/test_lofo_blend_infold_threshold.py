@@ -48,7 +48,11 @@ def test_pure_fitted_blend_w1_is_close_to_the_prior_weight_decay_result():
     results = run_fold("FARMA")
     summary = summarize(results[1.0])
     assert abs(summary["auroc_mean"] - 0.488) < 0.05
-    assert summary["detection_rate_mean"] == 0.0
+    # CORRECTION (external review round 3, follow-up, 2026-09-28): this was an exact `== 0.0`
+    # despite the docstring's own disclosure that z-score tie-breaking noise can flip a held-out
+    # score's outcome -- confirmed for real by a CI run that got 1/35 (0.0286) instead of 0/35.
+    # A small tolerance matches what the docstring already says is expected, real noise.
+    assert summary["detection_rate_mean"] < 0.05
 
 
 def test_blend_never_uses_the_excluded_family_for_threshold_or_zscore_stats():

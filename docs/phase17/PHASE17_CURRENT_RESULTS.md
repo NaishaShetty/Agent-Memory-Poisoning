@@ -37,7 +37,7 @@ NEW-only 120 instances (§10), the provenance holdout (§4), and the steer holdo
 | Config | Excluded | Flagged | Note |
 |---|---|---|---|
 | Live rule (pre-Phase 17) | 0/60 | 5/60 | `extended_results.json` |
-| B11 (judge + language-safe rule) | **20/60** | 44/60 | `gstack2_results.json`, current (after the `lineage` tier was added to `b11_live.py`; an earlier run before that addition read 19/60 — a real code change, not an inconsistency) |
+| B11 (judge + language-safe rule) | **20/60** | 47/60 | `gstack2_results.json`, current (after the `lineage` tier was added to `b11_live.py`; an earlier run before that addition read 19/60 — a real code change, not an inconsistency). **Correction (external review round 3, follow-up, 2026-09-28): this row previously said 44/60 flagged — stale; the persisted `gstack2_results.json` itself already says 47/60 and `phase17/bench_runner.py` now reproduces it exactly (see below).** |
 | B12 (stacked detector) | **35/60** | 44/60 | `b12_results.json`, current |
 | B12 leave-mechanism-out CV estimate (honest ceiling on truly unseen mechanisms) | ~60% recall @ 0.5% dev FPR | — | `lomo_results.json` |
 

@@ -54,17 +54,35 @@ class RunManifest:
 
 def run(split: str, defense: str, out_path: Path) -> dict:
     from phase14.defended_retrieval import REAL_CONFIGS, apply_defense
-    from phase17.engine import EXCLUDING_ACTIONS
+    from phase17.arenas import isolated_arena
 
     if defense not in REAL_CONFIGS:
         raise ValueError(f"Unknown defense {defense!r}; must be one of {REAL_CONFIGS!r}")
     if split not in SPLITS:
         raise ValueError(f"Unknown split {split!r}; must be one of {sorted(SPLITS)!r}")
     records = SPLITS[split]()
-    items: Tuple[Tuple[str, str], ...] = tuple((r.scenario_id, r.text) for r in records)
-    _, decisions = apply_defense(defense, items)
-    rows = [{"scenario_id": d.memory_id, "family": next((r.family for r in records if r.scenario_id == d.memory_id), None),
-             "action": d.action, "excluded": d.excluded, "flagged": d.action != "ALLOW"} for d in decisions]
+    # CORRECTION (external review round 3, follow-up, 2026-09-28): this used to put all
+    # `records` into ONE shared pool with apply_defense(defense, items), with no benign
+    # distractors at all. The published numbers this runner is supposed to reproduce use
+    # `phase17.arenas.isolated_arena` -- one real candidate pool PER record, each with 3
+    # real benign distractors -- because pool-relative signals (e.g. B9's
+    # retrieval-consensus divergence, computed from the OTHER items in the same pool) give
+    # a genuinely different answer depending on what else is in the pool. Confirmed by
+    # direct comparison on held_out_novel: the one-big-pool version reproduced B12 exactly
+    # (44/35, pool-independent) but not B9 (1/0 vs published 5/0) or B11's flag count
+    # (47/20 vs published 44/20) -- both of which DO depend on pool composition. Fixed by
+    # building the same one-pool-per-record structure with real distractors and calling
+    # apply_defense once per pool, keeping only each record's own decision.
+    by_family = {r.scenario_id: r.family for r in records}
+    pools, _truth = isolated_arena(records)
+    rows = []
+    for pool in pools:
+        pool_items: Tuple[Tuple[str, str], ...] = tuple((m.scenario_id, m.content_text) for m in pool.memories)
+        _, decisions = apply_defense(defense, pool_items)
+        poison_id = pool.memories[0].scenario_id  # isolated_arena always puts the poison record first
+        d = next(dec for dec in decisions if dec.memory_id == poison_id)
+        rows.append({"scenario_id": d.memory_id, "family": by_family.get(d.memory_id),
+                    "action": d.action, "excluded": d.excluded, "flagged": d.action != "ALLOW"})
     n = len(rows)
     manifest = RunManifest(
         scenario_id=f"bench-{split}-{defense}", split=split, defense=defense, n_records=n, git_commit=_git_commit(),
