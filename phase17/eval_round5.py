@@ -117,7 +117,16 @@ def run(reference: str = "B14") -> dict:
     print(f"warming judge tiers over {len(all_texts)} texts", flush=True)
     warm_all_tiers(all_texts)
 
+    # Which (system, population) pairs are IN-SAMPLE, recorded by the harness rather than
+    # left to prose: B14 is fitted on external-DEV and on the dev pool, so its numbers there
+    # are training-set numbers and must never be read as results. The baselines are fitted on
+    # nothing here, but their dev-calibrated THRESHOLD is set on the dev negatives, which is
+    # a benign-side in-sample dependency only.
+    in_sample = {"B14": sorted([k for k in _attack_pops() if k.startswith("extdev_")])}
     out = {"configs": list(CONFIGS), "baselines": list(BASELINES), "reference": reference,
+           "in_sample_do_not_cite": in_sample,
+           "headline_population": "external_test (frozen; no config or baseline was fitted or "
+                                  "thresholded on it)",
            "attack_populations": {}, "benign_populations": {}, "timing": {}, "working_subset": {}}
     raw: Dict[str, Dict[str, List[bool]]] = {c: {} for c in CONFIGS}
 
@@ -184,12 +193,14 @@ def run(reference: str = "B14") -> dict:
 
 
 def table(r: dict, group: str = "external_test") -> str:
+    flag = {s: " (IN-SAMPLE, not a result)" for s, pops in r.get("in_sample_do_not_cite", {}).items()
+            if group == "external_dev" and pops}
     rows = [f"| system | {group} |", "|---|---|"]
     for s, v in sorted(r["aggregates"][group].items(), key=lambda kv: -(kv[1]["rate"] if isinstance(kv[1], dict) and "rate" in kv[1] else -1)):
         if not (isinstance(v, dict) and "rate" in v):
             continue
         ci = v["ci95"]
-        rows.append(f"| {s} | {v['k']}/{v['n']} = {v['rate']:.1%} [{ci[0]:.1%}, {ci[1]:.1%}] |")
+        rows.append(f"| {s}{flag.get(s, '')} | {v['k']}/{v['n']} = {v['rate']:.1%} [{ci[0]:.1%}, {ci[1]:.1%}] |")
     return "\n".join(rows)
 
 
