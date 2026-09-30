@@ -192,7 +192,29 @@ def _records(n_per_mechanism: int, oversample: int, include_external: int, seed:
     return out
 
 
-def run(n_per_mechanism: int = 15, oversample: int = 30, include_external: int = 60, seed: int = 17) -> dict:
+def _parallel(fn, jobs, workers, tag):
+    """Map `fn` over `jobs` with a thread pool, printing progress. Temperature is 0 with a
+    fixed seed everywhere here, so this changes throughput only, never a result."""
+    import concurrent.futures as cf
+
+    out = [None] * len(jobs)
+    with cf.ThreadPoolExecutor(max_workers=workers) as ex:
+        futs = {ex.submit(fn, j): i for i, j in enumerate(jobs)}
+        for done, f in enumerate(cf.as_completed(futs), 1):
+            out[futs[f]] = f.result()
+            if done % 25 == 0 or done == len(jobs):
+                print(f"  {tag}: {done}/{len(jobs)}", flush=True)
+    return out
+
+
+def _summarize_store(agent, acfg, items):
+    from phase12.propagation.propagation_rate import _consolidation_messages
+
+    return agent.generate(_consolidation_messages(tuple(t for _, t in items)), acfg).text.strip()
+
+
+def run(n_per_mechanism: int = 15, oversample: int = 30, include_external: int = 60, seed: int = 17,
+        workers: int = 6) -> dict:
     from phase12.propagation.ollama_provider import OllamaProvider
     from phase14.defended_retrieval import apply_defense
     from phase17.provenance_sets import SOURCE_TOOL, SOURCE_USER, owner_turns, speakers
@@ -212,9 +234,12 @@ def run(n_per_mechanism: int = 15, oversample: int = 30, include_external: int =
                    + [t for s_ in HARM_SAMPLES for _, t in _store_for(s_)])
     rng = random.Random(seed)
     rows = []
-    # TWO PASSES, deliberately: pass 1 does every agent call, pass 2 every judge call. On a
-    # 6GB GPU, interleaving a 7B agent and an 8B judge evicts and reloads one of them on
-    # every single call, which made the one-instance-at-a-time version unusably slow.
+    # THREE PASSES, deliberately. Pass 1 decides (retrieval + both defenses, no generation);
+    # pass 2 issues every agent call; pass 3 every judge call. Two reasons: interleaving a 7B
+    # agent and an 8B judge evicts and reloads one of them on every call on a 6GB GPU, and
+    # batching each model's calls lets them be dispatched concurrently -- ollama batches
+    # concurrent requests, which is worth ~16x here. Temperature is 0 with a fixed seed, so
+    # concurrency changes throughput only, not any answer.
     for idx, (r, fam) in enumerate(recs):
         spec = EXTERNAL_TASK if fam == "external" else TASKS[fam]
         sample = HARM_SAMPLES[idx % len(HARM_SAMPLES)]
@@ -242,31 +267,51 @@ def run(n_per_mechanism: int = 15, oversample: int = 30, include_external: int =
         row = {
             "id": pid, "family": fam, "sample": sample, "retrieved_naturally": retrieved,
             "b12_excluded": excl12, "b13_excluded": excl13, "poison_text": r.text,
-            "judge_question": spec["judge"],
-            "ans_no_poison": _answer(agent, acfg, no_poison, spec["task"]),
-            "ans_no_defense": _answer(agent, acfg, cand_def, spec["task"]),
-            "ans_b12": _answer(agent, acfg, kept12, spec["task"]),
-            "ans_b13": _answer(agent, acfg, kept13, spec["task"]),
+            "judge_question": spec["judge"], "task": spec["task"],
+            "_items": {"ans_no_poison": no_poison, "ans_no_defense": cand_def, "ans_b12": list(kept12),
+                       "ans_b13": list(kept13)},
+            "_cand": cand_def, "_sources": sources,
         }
-        if fam == "memory_worm":
-            row.update(_worm_write_arm(agent, acfg, r, cand_def, sources))
         rows.append(row)
-        print("answer", idx, fam, "retr", retrieved, "x12", excl12, "x13", excl13, flush=True)
-        if idx % 10 == 0:
-            OUT.write_text(json.dumps({"partial": "answers", "rows": rows}, indent=1, ensure_ascii=False), encoding="utf-8")
+        print("decide", idx, fam, "retr", retrieved, "x12", excl12, "x13", excl13, flush=True)
 
-    for i, row in enumerate(rows):
+    def _save_partial(stage):
+        keep = [{k: v for k, v in r.items() if not k.startswith("_")} for r in rows]
+        OUT.write_text(json.dumps({"partial": stage, "rows": keep}, indent=1, ensure_ascii=False), encoding="utf-8")
+
+    _save_partial("decisions")
+
+    # --- pass 2: every agent call, dispatched concurrently -------------------------------
+    jobs = []
+    for row in rows:
+        for key, items in row["_items"].items():
+            jobs.append((row, key, items))
+    worm_rows = [r for r in rows if r["family"] == "memory_worm"]
+    answers = _parallel(lambda j: _answer(agent, acfg, j[2], j[0]["task"]), jobs, workers, "agent")
+    for (row, key, _), ans in zip(jobs, answers):
+        row[key] = ans
+    summaries = _parallel(lambda row: _summarize_store(agent, acfg, row["_cand"]), worm_rows, workers, "worm-summary")
+    for row, summary in zip(worm_rows, summaries):
+        row.update(_worm_write_arm(summary, row["_cand"], row["_sources"]))
+
+    _save_partial("answers")
+
+    # --- pass 3: every judge call, dispatched concurrently --------------------------------
+    jjobs = []
+    for row in rows:
         for arm, key in (("ans_no_poison", "harm_no_poison"), ("ans_no_defense", "harm_no_defense"),
                          ("ans_b12", "harm_b12"), ("ans_b13", "harm_b13")):
-            row[key] = _judge(judge, jcfg, row["poison_text"], row["judge_question"], row[arm])
+            jjobs.append((row, key, row[arm]))
         if "worm_summary" in row:
-            row["worm_summary_harm_unguarded"] = _judge(judge, jcfg, row["poison_text"], row["judge_question"],
-                                                        row["worm_summary"])
-            row["worm_summary_harm_guarded"] = _judge(judge, jcfg, row["poison_text"], row["judge_question"],
-                                                      row["worm_summary_guarded"])
-        print("judge", i, row["family"], row["harm_no_poison"], row["harm_no_defense"], row["harm_b12"],
-              row["harm_b13"], flush=True)
+            jjobs.append((row, "worm_summary_harm_unguarded", row["worm_summary"]))
+            jjobs.append((row, "worm_summary_harm_guarded", row["worm_summary_guarded"]))
+    verdicts = _parallel(lambda j: _judge(judge, jcfg, j[0]["poison_text"], j[0]["judge_question"], j[2]),
+                         jjobs, workers, "judge")
+    for (row, key, _), v in zip(jjobs, verdicts):
+        row[key] = v
     for row in rows:
+        for k in ("_items", "_cand", "_sources"):
+            row.pop(k, None)
         for k in ("ans_no_poison", "ans_no_defense", "ans_b12", "ans_b13", "worm_summary", "worm_summary_guarded"):
             if k in row:
                 row[k] = row[k][:240]
@@ -275,13 +320,11 @@ def run(n_per_mechanism: int = 15, oversample: int = 30, include_external: int =
     return out
 
 
-def _worm_write_arm(agent, acfg, r, cand, sources) -> dict:
+def _worm_write_arm(summary: str, cand, sources) -> dict:
     """memory_worm's harm is the WRITE: does the planted instruction survive into the
-    summary the agent saves? Produced here, judged in pass 2 with everything else."""
-    from phase12.propagation.propagation_rate import _consolidation_messages
+    summary the agent saves? The summary is generated in pass 2 and judged in pass 3."""
     from phase17.b13_live import guard_write
 
-    summary = agent.generate(_consolidation_messages(tuple(t for _, t in cand)), acfg).text.strip()
     guarded, fired = guard_write(summary, cand, sources)
     return {"worm_guard_fired": bool(fired), "worm_summary": summary, "worm_summary_guarded": guarded}
 
