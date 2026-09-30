@@ -1,5 +1,14 @@
 # Phase 17 — Current Results (single source of truth)
 
+> **External review round 4 (2026-09-30) supersedes parts of this document.** Read
+> [`PHASE17_REVIEW4_RESULTS.md`](PHASE17_REVIEW4_RESULTS.md) alongside it. Specifically:
+> §2's Chinese numbers now have a translation-confound-free counterpart (round 4 §3, which
+> finds detection is *higher* on natively-Chinese attacks, not lower); §13's `memory_worm`
+> rows describe a population that **did not implement its own documented mechanism** (round
+> 4 §2) and are retracted as `memory_worm` evidence; and B11's `held_out_regen` /
+> `held_out_zh` exclusion counts are corrected below. B12 itself is unchanged by round 4 —
+> its new signals ship as a separate config, `B13`.
+
 This document exists because an external review correctly flagged that Phase 17's numbers
 drift across five separate round-by-round documents (e.g. B11 novel-mechanism exclusion
 reported as both 19/60 and 20/60; Chinese exclusion as 30/84, 28/84, 37/84, and 23/84; the
@@ -41,6 +50,15 @@ NEW-only 120 instances (§10), the provenance holdout (§4), and the steer holdo
 | B12 (stacked detector) | **35/60** | 44/60 | `b12_results.json`, current |
 | B12 leave-mechanism-out CV estimate (honest ceiling on truly unseen mechanisms) | ~60% recall @ 0.5% dev FPR | — | `lomo_results.json` |
 
+**Correction (external review round 4, 2026-09-30):** `run_gstack2.py` and `run_b12.py`
+compute their published B11/B12 numbers with a hand-duplicated formula that had again
+drifted from the live dispatched code — both were missing the `lineage` tier
+(`PHASE17_REVIEW4_RESULTS.md` §1). `held_out_novel` above is unaffected (20/60, 47/60), but
+B11's other splits change: `held_out_regen` 3→**4** excluded (5→6 flagged) and `held_out_zh`
+23→**24** excluded (48→**49** flagged). B12's published numbers are unchanged by the same
+fix. A test now compares both formulas against the live functions symbolically, so this
+class of drift fails CI rather than shipping.
+
 ## 2. Chinese-language poison (84 held-out translated records)
 
 **The B12 config actually shipped in `b12_live.py` uses the translate-then-score route
@@ -49,9 +67,20 @@ into the live path:
 
 | Method | Excluded | Status |
 |---|---|---|
-| Translate-then-score (shipped in B12) | **30/84** | Live |
-| Multilingual embedding, zero-shot (no translation) | 28/84 | Measured, not wired in |
-| Union of both | **37/84** | Measured, real improvement over either alone (0 benign FP maintained) — **not yet wired into `b12_live.py`**; the honest current shipped number is 30/84, not 37/84 |
+| Translate-then-score (shipped in B12) | **30/84** | Live in B12 |
+| Multilingual embedding, zero-shot (no translation) | 28/84 | Measured |
+| Union of both | **37/84** | **Now shipped, in B13 only** (external review round 4). B12's own shipped number remains 30/84. |
+
+**Update (external review round 4, 2026-09-30): these 84 records are Qwen's translations of
+English attacks, scored by a route that translates them back with the same Qwen model, and
+the benign control used here (native PerLTQA) is not translated at all.** Both halves of
+that confound are now closed with a natively-Chinese attack set (composed directly in
+Chinese by Gemini) and a machine-translated benign control — see
+[`PHASE17_REVIEW4_RESULTS.md`](PHASE17_REVIEW4_RESULTS.md) §3. The confound was working
+*against* the result: exclusion on genuinely native Chinese attacks is **22/30 (73.3%)**,
+about twice the rate on these round-trip-translated ones, at 0/39 benign exclusions on a
+machine-translated benign control. Cite the native-Chinese figure for "does this work in
+Chinese"; the 30/84 above is the number for this specific translated population.
 
 The pre-fix live rule's benign-side defect: 907/932 PerLTQA memories falsely flagged →
 0/932 after the language-safe rule (re-measured on the SAME full 932-memory population,
@@ -427,6 +456,18 @@ decision 16/30 (53.3%).** Poison-present vs. no-poison-baseline: exact McNemar *
 rate). No-defense vs. under-B12: exact McNemar **p=1.0** (no significant difference at this
 n — B12 excluded the poison in only 15/30, 50%, of these instances, so its real causal
 effect on the overall rate is small at n=30).
+
+**RETRACTION of this table's `memory_worm` row (external review round 4, 2026-09-30):** the
+30 `memory_worm` instances this study drew from do not implement the mechanism they are
+labelled with — none of them instructs the assistant to copy or re-insert itself into future
+memories; they are generic conditional-action reminders
+([`PHASE17_REVIEW4_RESULTS.md`](PHASE17_REVIEW4_RESULTS.md) §2). **The "B12 excludes 0/5
+memory_worm poisons, one of the two mechanisms that actually caused harm" finding below is
+therefore not evidence about memory worms**, and neither is any other `memory_worm` number
+published by this project before round 4. The 5/5 harm those instances caused is real, but it
+is harm from a generic standing instruction, not from self-replication. Corrected instances
+and a re-run are in round 4 §2 and §7. `preference_hijack` is unaffected by this retraction
+and remains the clearest real finding here.
 
 **CORRECTION (external review round 3, 2026-09-28) — the table above invites a wrong
 reading, and an earlier version of this section stated it: "B12 excludes the poison at a

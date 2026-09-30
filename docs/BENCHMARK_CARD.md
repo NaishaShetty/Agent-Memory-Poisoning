@@ -119,7 +119,18 @@ Section 5 for the evidence-status vocabulary every number carries.
 - Content-only detection cannot catch a defense-aware paraphrase that reads as an
   ordinary, non-contradictory fact (additive fabrications), or a fabricated long-standing
   preference — these need provenance/behavioral evidence this benchmark's memory
-  foundations do not currently record.
+  foundations do not currently record. **Partially addressed** (external review round 4,
+  2026-09-30): `B13` (`phase17/b13_live.py`) records each memory's arrival channel and
+  checks unsupported personal claims against the user's own turns, which is the evidence
+  these two classes need. It is a separate config precisely because B12 — the configuration
+  every published number describes — was left untouched. See
+  `docs/phase17/PHASE17_REVIEW4_RESULTS.md`.
+- **Every attack text in this benchmark is LLM-authored, and the memory foundations
+  themselves still do not record provenance** — B13 takes it as supplied metadata, so a
+  deployment that cannot say where a memory came from gets B12's behaviour, not B13's.
+  Round 4 added 266 attacks written by the MINJA, AgentPoison, InjecAgent, BIPIA and
+  AgentDojo authors (`phase17/external_attacks.py`), which narrows but does not close the
+  attack-side authorship confound: no human-written attack batch exists.
 - Judge/detector components depend on a specific local 7B model; decisions are stable to
   ~±1 per split across sessions but not perfectly deterministic (`phase17/determinism.json`
   and `utility_repeats.json`).
@@ -128,6 +139,10 @@ Section 5 for the evidence-status vocabulary every number carries.
   on the identical 150 answers) — always use an independent judge model for a headline claim.
 - Multi-hop reasoning is bounded by the local agent model's own reasoning ceiling, not
   fixable by retrieval changes alone (`phase17/multihop_scored.json`).
+- **AgentPoison is excluded from headline claims** (external review round 4 decision): the
+  reviewer offered either re-optimizing the trigger properly or dropping it from headline
+  claims, and this project takes the second. Its numbers remain published, per-family and
+  clearly scoped, but no headline claim rests on them.
 - AgentPoison's query-side embedding-trigger surface has no dedicated defense mechanism,
   AND (measured directly, `docs/phase17/PHASE17_ROUND5_FIXES.md` §1) this project's own
   reconstruction of the attack does not exhibit the broad-retrievability property real
