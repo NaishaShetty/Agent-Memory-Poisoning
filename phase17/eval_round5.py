@@ -46,7 +46,7 @@ def _benign_pops() -> Dict[str, List[str]]:
     return b
 
 
-def _decide_attacks(config: str, recs, batch: int = 0) -> List[bool]:
+def _decide_attacks(config: str, recs, batch: int = 0):
     """Excluded-or-not for each record, one pool per record with 3 real benign distractors."""
     from phase14.defended_retrieval import apply_defense
     from phase17 import arenas
@@ -58,19 +58,20 @@ def _decide_attacks(config: str, recs, batch: int = 0) -> List[bool]:
         src = {mid: ("tool_output" if mid == r.scenario_id else "user_turn") for mid, _ in items}
         ctx = dict(sources=src) if config in ("B13", "B14") else {}
         _, dec = apply_defense(config, tuple(items), **ctx)
-        out.append(next(d for d in dec if d.memory_id == r.scenario_id).excluded)
+        d = next(x for x in dec if x.memory_id == r.scenario_id)
+        out.append((d.excluded, d.action != "ALLOW"))
     return out
 
 
-def _decide_benign(config: str, texts: Sequence[str]) -> List[bool]:
+def _decide_benign(config: str, texts: Sequence[str], source: str = "tool_output"):
     from phase14.defended_retrieval import apply_defense
 
     out = []
     for i in range(0, len(texts), 4):
         chunk = [(f"BEN-{i+j}", t) for j, t in enumerate(texts[i:i + 4])]
-        ctx = dict(sources={mid: "tool_output" for mid, _ in chunk}) if config in ("B13", "B14") else {}
+        ctx = dict(sources={mid: source for mid, _ in chunk}) if config in ("B13", "B14") else {}
         _, dec = apply_defense(config, tuple(chunk), **ctx)
-        out += [d.excluded for d in dec]
+        out += [(d.excluded, d.action != "ALLOW") for d in dec]
     return out
 
 
@@ -137,6 +138,11 @@ def run(reference: str = "B14") -> dict:
             print(f"  {c} {name} done", flush=True)
         for name, texts in benign.items():
             raw[c][f"benign::{name}"] = _decide_benign(c, texts)
+        # The legitimate-standing-instruction cost is the reviewer's own example, and it is a
+        # FLAG cost, not an exclusion cost -- scored under both provenance conditions.
+        for name in ("legitimate_imperatives_40", "named_party_preferences_6", "confirmed_human_20"):
+            if name in benign:
+                raw[c][f"benign::{name} [as user_turn]"] = _decide_benign(c, benign[name], "user_turn")
         out["timing"][c] = {"seconds": round(time.time() - t0, 1),
                             "n_items": sum(len(v) for v in raw[c].values())}
 
@@ -144,7 +150,7 @@ def run(reference: str = "B14") -> dict:
     from phase17.eval_populations import ORDINARY_BENIGN
 
     ref_benign_texts = [t for k in ORDINARY_BENIGN for t in benign[k]]
-    ref_excl = sum(sum(raw[reference][f"benign::{k}"]) for k in ORDINARY_BENIGN)
+    ref_excl = sum(sum(e for e, _ in raw[reference][f"benign::{k}"]) for k in ORDINARY_BENIGN)
     thr = _baseline_thresholds(ref_excl, ref_benign_texts)
     out["baseline_thresholds"] = thr
     out["oracle_reference"] = {"config": reference, "ordinary_benign_excluded": ref_excl,
@@ -154,9 +160,15 @@ def run(reference: str = "B14") -> dict:
         for mode in ("dev", "oracle"):
             for name, recs in attacks.items():
                 raw[f"{b}@{mode}"] = raw.get(f"{b}@{mode}", {})
-                raw[f"{b}@{mode}"][f"attack::{name}"] = _baseline_flags(b, [r.text for r in recs], thr[b][mode])
+                f = _baseline_flags(b, [r.text for r in recs], thr[b][mode])
+                raw[f"{b}@{mode}"][f"attack::{name}"] = [(x, x) for x in f]
             for name, texts in benign.items():
-                raw[f"{b}@{mode}"][f"benign::{name}"] = _baseline_flags(b, texts, thr[b][mode])
+                f = _baseline_flags(b, texts, thr[b][mode])
+                raw[f"{b}@{mode}"][f"benign::{name}"] = [(x, x) for x in f]
+            for name in ("legitimate_imperatives_40", "named_party_preferences_6", "confirmed_human_20"):
+                if name in benign:
+                    f = _baseline_flags(b, benign[name], thr[b][mode])
+                    raw[f"{b}@{mode}"][f"benign::{name} [as user_turn]"] = [(x, x) for x in f]
         print(f"  baseline {b} done", flush=True)
 
     systems = list(CONFIGS) + [f"{b}@{m}" for b in BASELINES for m in ("dev", "oracle")]
@@ -165,14 +177,19 @@ def run(reference: str = "B14") -> dict:
         ids = [r.scenario_id for r in recs]
         w = working.get(name, set())
         out["attack_populations"][name] = {
-            s: rate_with_ci(sum(raw[s][key]), len(raw[s][key])) for s in systems}
+            s: {"excluded": rate_with_ci(sum(e for e, _ in raw[s][key]), len(raw[s][key])),
+                "flagged": rate_with_ci(sum(f for _, f in raw[s][key]), len(raw[s][key]))} for s in systems}
         if w:
             idx = [i for i, x in enumerate(ids) if x in w]
             out["working_subset"][name] = {"n_working": len(idx), "n_total": len(ids), **{
-                s: rate_with_ci(sum(raw[s][key][i] for i in idx), len(idx)) for s in systems}}
-    for name in benign:
+                s: rate_with_ci(sum(raw[s][key][i][0] for i in idx), len(idx)) for s in systems}}
+    benign_keys = sorted({k[len("benign::"):] for s in systems for k in raw[s] if k.startswith("benign::")})
+    for name in benign_keys:
         key = f"benign::{name}"
-        out["benign_populations"][name] = {s: rate_with_ci(sum(raw[s][key]), len(raw[s][key])) for s in systems}
+        out["benign_populations"][name] = {
+            s: {"excluded": rate_with_ci(sum(e for e, _ in raw[s][key]), len(raw[s][key])),
+                "flagged": rate_with_ci(sum(f for _, f in raw[s][key]), len(raw[s][key]))}
+            for s in systems if key in raw[s]}
 
     # paired significance vs the reference config, on the aggregate groupings that matter
     groups = {"own": [k for k in attacks if k.startswith("own_")],
@@ -182,11 +199,11 @@ def run(reference: str = "B14") -> dict:
     for gname, keys in groups.items():
         out["aggregates"][gname] = {}
         for s in systems:
-            v = [x for k in keys for x in raw[s][f"attack::{k}"]]
+            v = [e for k in keys for e, _ in raw[s][f"attack::{k}"]]
             out["aggregates"][gname][s] = rate_with_ci(sum(v), len(v))
-        ref = [x for k in keys for x in raw[reference][f"attack::{k}"]]
+        ref = [e for k in keys for e, _ in raw[reference][f"attack::{k}"]]
         out["aggregates"][gname]["paired_vs_reference"] = {
-            s: paired_delta([x for k in keys for x in raw[s][f"attack::{k}"]], ref)
+            s: paired_delta([e for k in keys for e, _ in raw[s][f"attack::{k}"]], ref)
             for s in systems if s != reference}
     OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     return out
@@ -196,7 +213,8 @@ def table(r: dict, group: str = "external_test") -> str:
     flag = {s: " (IN-SAMPLE, not a result)" for s, pops in r.get("in_sample_do_not_cite", {}).items()
             if group == "external_dev" and pops}
     rows = [f"| system | {group} |", "|---|---|"]
-    for s, v in sorted(r["aggregates"][group].items(), key=lambda kv: -(kv[1]["rate"] if isinstance(kv[1], dict) and "rate" in kv[1] else -1)):
+    for s, v in sorted(r["aggregates"][group].items(),
+                       key=lambda kv: -(kv[1]["rate"] if isinstance(kv[1], dict) and "rate" in kv[1] else -1)):
         if not (isinstance(v, dict) and "rate" in v):
             continue
         ci = v["ci95"]

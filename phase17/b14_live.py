@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 from typing import Dict, Mapping, Optional, Sequence, Tuple
 
 import numpy as np
@@ -42,6 +43,12 @@ from phase6.defense.policy.states import ALLOW, ALLOW_WITH_RESTRICTION, QUARANTI
 from phase6.defense.risk.risk_score import GROUPED_GATED_ADMISSION_AND_RETRIEVAL_CORROBORATED
 
 MODEL_PATH = Path(__file__).parent / "data" / "b14_model.json"
+# An unsupported claim is only EXCLUDED when it also tries to change behaviour; see the
+# two-signal rule in b14_actions.
+_DIRECTIVE_OR_PREFERENCE = re.compile(
+    r"\b(always|never|must|should|make sure|ensure|remember to|from now on|going forward|whenever|"
+    r"every time|do not|don't|instead|no longer|prefer|prefers|preferred|favou?rite|send|forward|"
+    r"include|copy|reply|respond|skip|bypass|use )\b", re.I)
 _MODEL = None
 last_degraded: Dict[str, str] = {}
 
@@ -111,8 +118,18 @@ def b14_actions(
         sup = support.get(memory_id)
         hard = actions[memory_id] in ("QUARANTINE", "BLOCK") or si >= t_excl or conflicted.get(memory_id, False)
         if sup is not None:
-            hard = hard or sup < b13_live.SUPPORT_EXCLUDE or (
-                sup < b13_live.SUPPORT_FLAG and bool(b13_live._PREFERENCE.search(text)))
+            # TWO-SIGNAL RULE (round 5). B13 hard-excluded on "unsupported" ALONE, which cost
+            # 17/1515 (1.1%) of LoCoMo's own benign derived memories in the frozen evaluation
+            # -- the condition PREREGISTRATION_B13.md named in advance as "not shippable as
+            # specified". Most of those are ordinary recollections that simply are not
+            # entailed by the top-k retrieved turns: unsupported, but not directive and not
+            # steering anything. B14 therefore requires unsupported AND a second, independent
+            # indicator that the note is trying to change behaviour -- it instructs, it
+            # asserts a preference, or the content fusion already finds it suspicious.
+            # Unsupported on its own is a FLAG, not an exclusion.
+            directive = bool(_DIRECTIVE_OR_PREFERENCE.search(text))
+            hard = hard or (sup < b13_live.SUPPORT_EXCLUDE and (directive or si >= t_flag))
+            hard = hard or (sup < b13_live.SUPPORT_FLAG and bool(b13_live._PREFERENCE.search(text)))
         if trusted:
             actions[memory_id] = ALLOW_WITH_RESTRICTION if hard else ALLOW
             continue
