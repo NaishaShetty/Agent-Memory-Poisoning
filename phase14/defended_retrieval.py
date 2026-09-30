@@ -100,11 +100,16 @@ CONFIG_B12_STACKED = "B12"  # Phase 17 fix round 4: stacked detector (phase17/b1
 # byte unchanged while the round-4 signals were added and evaluated. Implementation:
 # `phase17/b13_live.py`. Anything B13 adds over B12 is listed in that module's docstring.
 CONFIG_B13_PROVENANCE = "B13"
+# B14 -- external review round 5 (2026-09-30), also new in this project, not from an earlier
+# phase: a calibrated fusion over intent/effect signals (including three PUBLISHED detectors)
+# with B12's raw text embedding removed, plus everything structural B13 added. Rationale and
+# the diagnosis it answers: `phase17/b14_live.py` and `phase17/fusion_features.py`.
+CONFIG_B14_FUSION = "B14"
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
     CONFIG_B7_ALL_THREE, CONFIG_B8_ALL_FOUR, CONFIG_B9_RISK_COMPOSED, CONFIG_B10_LEARNED_HYBRID,
-    CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED, CONFIG_B13_PROVENANCE,
+    CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED, CONFIG_B13_PROVENANCE, CONFIG_B14_FUSION,
 )
 
 # 2026-09-23 (Phase 15 follow-on, explicitly authorized): B2-B7 dispatch
@@ -306,6 +311,14 @@ def apply_defense(
             DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
             for memory_id, _ in items
         )
+    elif config_name == CONFIG_B14_FUSION:
+        from phase17.b14_live import b14_actions
+
+        actions = b14_actions(items, **context)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
+            for memory_id, _ in items
+        )
     elif config_name in _PIPELINE_CONFIGS:
         actions = _pipeline_actions(items, _PIPELINE_CONFIGS[config_name])
         decisions = tuple(
@@ -335,6 +348,7 @@ __all__ = [
     "CONFIG_B11_GENERALIZED",
     "CONFIG_B12_STACKED",
     "CONFIG_B13_PROVENANCE",
+    "CONFIG_B14_FUSION",
     "REAL_CONFIGS",
     "HARD_MITIGATION_ACTIONS",
     "DefenseDecision",
