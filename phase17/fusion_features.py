@@ -77,7 +77,7 @@ def _shared_cache():
     return _CACHE
 
 
-def build(texts: Sequence[str], workers: int = 8, warm: bool = True) -> np.ndarray:
+def build(texts: Sequence[str], workers: int = 4, warm: bool = True) -> np.ndarray:
     """Feature matrix for `texts`. Every LLM-backed column is cached and warmed concurrently."""
     from phase17.external_baselines import SCORERS, ScoreCache
     from phase17.judge_scores import ScoreJudge

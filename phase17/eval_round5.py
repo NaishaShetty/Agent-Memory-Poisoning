@@ -126,8 +126,9 @@ def run(reference: str = "B14") -> dict:
         from phase11.relational_signals.locomo_qa_counterfactuals import flat_counterfactual_pool
 
         distractors = [d.declarative_text for d in flat_counterfactual_pool()]
-        print(f"precomputing B14 fusion features over {len(all_texts) + len(distractors)} texts", flush=True)
-        _fb(all_texts + distractors, workers=8, warm=False)
+        print(f"precomputing B14 fusion features over {len(all_texts) + len(distractors)} texts "
+              f"(4-way: 8 was thrashing a 6GB card and tripping read timeouts)", flush=True)
+        _fb(all_texts + distractors, workers=4, warm=False)
         print("  fusion features ready", flush=True)
 
     # Which (system, population) pairs are IN-SAMPLE, recorded by the harness rather than

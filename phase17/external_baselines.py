@@ -110,14 +110,32 @@ class ScoreCache:
         merge_write(self.path, self.d)
 
 
-def _ollama_first_token_prob(model: str, content: str, positive: Sequence[str]) -> float:
+def _ollama_first_token_prob(model: str, content: str, positive: Sequence[str], _tries: int = 3) -> float:
+    """Retries on timeout: on a 6GB card an 8-way batch against a partly CPU-offloaded 8B
+    model can exceed a 300s read timeout, and a single stalled request should not take down a
+    multi-hour evaluation."""
+    import time
+
+    import requests
+
+    for attempt in range(_tries):
+        try:
+            return _ollama_call(model, content, positive)
+        except (requests.exceptions.RequestException, OSError):
+            if attempt == _tries - 1:
+                raise
+            time.sleep(5.0 * (attempt + 1))
+
+
+def _ollama_call(model: str, content: str, positive: Sequence[str]) -> float:
     import requests
 
     # keep_alive holds the model resident between calls (a reload per call dominated the
     # cost otherwise); num_ctx is sized to these short prompts so more layers fit on the GPU.
     r = requests.post(OLLAMA, json={"model": model, "messages": [{"role": "user", "content": content}], "stream": False,
                                     "logprobs": True, "top_logprobs": 10, "keep_alive": "30m",
-                                    "options": {"temperature": 0, "num_predict": 2, "seed": 17, "num_ctx": 1024}}, timeout=300)
+                                    "options": {"temperature": 0, "num_predict": 2, "seed": 17, "num_ctx": 1024}},
+                      timeout=900)
     r.raise_for_status()
     lp = r.json().get("logprobs") or []
     if not lp:
