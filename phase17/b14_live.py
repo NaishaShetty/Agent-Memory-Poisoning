@@ -111,6 +111,15 @@ def b14_actions(
 
     coordinated = coordinated_members(items)
 
+    # PRECISE TIERS KEPT AS RULES, not folded into the fusion (round 5 fix, caught by reading
+    # the fitted coefficients): `worm` came out at -0.15 and `lineage` at +0.86 inside the
+    # learned combination, because the dev pool contains very few positives of either. Both
+    # are validated zero-false-positive detectors on their own -- worm catches 29/29 corrected
+    # self-replicating notes at 0/1125 benign, lineage 8/8 genuinely-disjoint held-out forged
+    # provenance claims at 0/8 benign -- so averaging them into a fusion that has barely seen
+    # them throws away precision B13 already had. They stay as hard rules, exactly as in B13.
+    lineage_j, worm_j = b11_live._judge("lineage"), b11_live._judge("worm")
+
     # B13's context-dependent corroboration, unchanged.
     support: Dict[str, float] = {}
     if evidence:
@@ -124,7 +133,9 @@ def b14_actions(
     for (memory_id, text), si in zip(items, s):
         trusted = sources.get(memory_id) in b13_live.TRUSTED_SOURCES
         sup = support.get(memory_id)
-        hard = actions[memory_id] in ("QUARANTINE", "BLOCK") or si >= t_excl or conflicted.get(memory_id, False)
+        hard = (actions[memory_id] in ("QUARANTINE", "BLOCK") or si >= t_excl
+                or conflicted.get(memory_id, False)
+                or lineage_j.flag(text) or worm_j.flag(text))
         # A coordinated cluster escalates a FLAG to an exclusion, but never creates one from
         # nothing: the memory must already be independently suspicious.
         if memory_id in coordinated and si >= t_flag:
@@ -151,6 +162,8 @@ def b14_actions(
         elif (si >= t_flag or contested.get(memory_id, False)
               or (sup is not None and sup < b13_live.SUPPORT_FLAG)) and actions[memory_id] == ALLOW:
             actions[memory_id] = ALLOW_WITH_RESTRICTION
+    lineage_j.save()
+    worm_j.save()
     return actions
 
 
