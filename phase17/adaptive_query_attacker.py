@@ -96,7 +96,13 @@ def attack_one(seed_id: str, seed_text: str, config_name: str = "B12") -> dict:
     return {"seed_id": seed_id, "success": False, "reason": "query budget exhausted", "rounds_used": QUERY_BUDGET, "history": history}
 
 
-def run() -> dict:
+def run(config_name: str = "B12", out_path=None, n_external: int = 12) -> dict:
+    """ADDED (external review round 5, 2026-09-30): `config_name` so the same adaptive
+    attacker can be pointed at B13/B14, and `n_external` so the seed set also includes
+    externally-authored attacks (external-DEV only -- adapting against the frozen external
+    TEST corpus would be tuning on the test set). Called with no arguments this reproduces
+    the published B12 seed set and number exactly."""
+    from phase17.external_attacks import external_records
     from phase17.novel_attacks import novel_records
     from phase17.poison_sets import original_records
 
@@ -106,9 +112,17 @@ def run() -> dict:
     for fam in families:
         per_family_seeds += [(r.scenario_id, r.text, fam) for r in novel if r.family == fam][:4]
     seeds = per_family_seeds + [(r.scenario_id, r.text, r.family) for r in original_records()][:9]
+    if n_external:
+        ext = external_records()
+        by_src = {}
+        for r in ext:
+            by_src.setdefault(r.family, []).append(r)
+        per = max(1, n_external // max(len(by_src), 1))
+        for src, rs in sorted(by_src.items()):
+            seeds += [(r.scenario_id, r.text, src) for r in rs[:per]]
     results = []
     for sid, text, fam in seeds:
-        row = attack_one(sid, text)
+        row = attack_one(sid, text, config_name)
         row["family"] = fam
         results.append(row)
     n_success = sum(r["success"] for r in results)
@@ -120,21 +134,29 @@ def run() -> dict:
     # adaptation at all. The correct denominator is the seeds B12 DID exclude at round 0 --
     # only those seeds give the attacker anything to adapt against.
     n_initially_excluded = sum(1 for r in results if r["history"][0]["action"] in ("QUARANTINE", "BLOCK"))
-    out = {"n_seeds": len(results), "query_budget": QUERY_BUDGET, "families_covered": families,
-           "n_initially_excluded_by_b12": n_initially_excluded,
+    out = {"config": config_name, "n_seeds": len(results), "query_budget": QUERY_BUDGET, "families_covered": families,
+           "n_initially_excluded": n_initially_excluded,
            "adaptive_evasion_rate": rate_with_ci(n_success, len(results)),
            "genuine_adaptive_evasion_rate_of_all_seeds": rate_with_ci(n_genuine, len(results)),
            "genuine_adaptive_evasion_rate_of_initially_excluded": rate_with_ci(n_genuine, n_initially_excluded),
            "baseline_miss_rate": rate_with_ci(n_baseline_miss, len(results)),
+           "by_family": {f: {"n": sum(1 for r in results if r["family"] == f),
+                             "evaded": sum(1 for r in results if r["family"] == f and r["success"])}
+                         for f in sorted({r["family"] for r in results})},
            "results": results}
-    OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
+    (out_path or OUT).write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     return out
 
 
 if __name__ == "__main__":
-    r = run()
+    import sys
+    from pathlib import Path as _P
+
+    cfg = sys.argv[1] if len(sys.argv) > 1 else "B12"
+    r = run(cfg, out_path=(OUT if cfg == "B12" else _P(str(OUT).replace(".json", f"_{cfg}.json"))))
+    print("config:", r["config"])
     print("adaptive_evasion_rate (any):", r["adaptive_evasion_rate"])
-    print("genuine_adaptive_evasion_rate, of seeds B12 initially excluded (the correct denominator):",
+    print("genuine_adaptive_evasion_rate, of seeds initially excluded (the correct denominator):",
          r["genuine_adaptive_evasion_rate_of_initially_excluded"])
     print("genuine_adaptive_evasion_rate, of ALL seeds (for reference only, understates the real rate):",
          r["genuine_adaptive_evasion_rate_of_all_seeds"])
