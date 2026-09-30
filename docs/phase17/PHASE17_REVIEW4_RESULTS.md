@@ -492,6 +492,37 @@ model is not better (32 vs 36 at the ceiling). So this is genuinely a reasoning 
 knowing, because that remedy *is* being applied to Track A utility (§10), where the task is
 single-hop factual recall and the headroom argument does hold.
 
+## 10. Utility, re-measured with an agent that has headroom
+
+Reviewer: *"llama2 solves 122/300 (40.7%) even without a defense. With that little headroom,
+'no utility cost' is hard to interpret."* Re-run with `qwen2.5:7b` as the agent and
+`llama3.1:8b` as an independent judge (not the agent, since
+`evaluator_independence.py` measured self-judging inflating correctness 93.3% → 100% on
+identical answers). Same Track A cases, same `run_track_a_case` harness, n=100.
+(`phase17/b13_utility_strong_agent.py`)
+
+| Config | string/date (strict) | NLI | LLM judge | gold memory excluded |
+|---|---|---|---|---|
+| B0 (no defense) | 64/100 | 97/100 | 97/100 | 0/100 |
+| B12 | 65/100 | 96/100 | 96/100 | **0/100** |
+| B13 | 66/100 | 96/100 | 97/100 | **0/100** |
+
+Paired vs B0: every comparison p ≥ 0.5, with at most one answer changing either way. **No
+measurable utility cost, now on an agent with real headroom** — 36 points of it on the strict
+metric, against llama2's 59.3% error rate being mostly the model failing the task at all.
+
+**The honest caveat is the same one §11 raised and this does not remove:** the reason there
+is no cost is that **neither defense excluded the gold memory even once (0/100)**. So this
+still measures "the defense left the relevant memory alone" rather than "the defense damages
+nothing." What it adds is that the agent was *capable* of being hurt this time and was not.
+The place a real cost does appear remains §11's dedicated legitimate-standing-instruction set
+(B12 flags 35%), and §6's provenance finding (B13 excludes 1.1% of benign derived memories).
+
+Note on the artifact: `context_unchanged_vs_no_defense` reads 0/100 because this run
+deliberately does not use `run_track_a_case`'s `reuse_if_context_unchanged` path — every arm
+is generated independently so the three configs are compared on real, separately sampled
+answers rather than on reused ones. It is not a measurement of anything.
+
 ## 9. What this round did NOT fix
 
 - **AgentPoison's trigger was not re-optimized** (§8b explains what was done instead, and
