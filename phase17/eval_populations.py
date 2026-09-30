@@ -73,5 +73,9 @@ def _text(x) -> str:
 # Benign sets that make up the "ordinary content" FPR used for matched-FPR comparisons.
 # The legitimate-imperative / named-party sets are reported separately: they are deliberately
 # hard cases, not a sample of ordinary memory content.
-ORDINARY_BENIGN = ("dataset_arena_test_half", "convomem_test_half", "perltqa_zh_test_half", "confirmed_human_20",
-                   "gemini_benign_5 (only 5 of 30 texts were persisted)")
+# The Gemini benign set is deliberately NOT in this reference pool: only 5 of its 30 texts
+# were ever persisted (`gemini_authored_benign_results.json` stored the aggregate and a
+# 5-item sample), and an n=5 population would move a matched-FPR reference around for no
+# statistical reason. It is still scored and reported on its own.
+ORDINARY_BENIGN = ("dataset_arena_test_half", "convomem_test_half", "perltqa_zh_test_half",
+                   "confirmed_human_20")

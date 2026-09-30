@@ -222,6 +222,46 @@ retrieval-side numbers are restored to ordinary standing, carrying the construct
 above; the `n=1` reconstruction record remains far too small a population for any rate
 claim on its own.
 
+## 8c. Two "leave it as an honest limit" items, checked rather than assumed
+
+The reviewer listed several findings as better left as disclosed limits. Two of them make
+claims that its own data can confirm or refute, so they were checked rather than restated.
+
+**B10's learned GNN contributes exactly nothing in the shipped configuration — confirmed,
+and the decision is now recorded.** `b10_ablation_results.json` runs the blend weight at
+W=0 (no learned component), W=0.25 (shipped) and W=1 (learned only), gated and ungated:
+
+| Variant | in-sample 15 | regen 9 | evasion 47 | frozen75 34 | benign FPR (502) |
+|---|---|---|---|---|---|
+| gated, W=0 / W=0.25 / W=1 | 14/15 | 4/9 | 11/47 | 16/34 | 0/502 |
+| ungated, W=1 (GNN only) | 1/15 | 0/9 | 0/47 | **33/34** | **18/502** |
+
+**Every gated variant is byte-identical across all three weights** (`only_a = only_b = 0`,
+p=1.0 on every population): the gate decides everything and the learned score changes no
+decision at all. The one place the learned component does something real is *ungated* on
+`frozen75`, the arena that contains coordinated near-duplicate poison pools — 33/34 versus
+16/34 — and it pays for that with a 3.6% benign false-positive rate and near-total loss of
+isolated-poison detection (0/47 on evasion variants). **Decision: B10 is retired from the
+shipped stack and kept only as a documented ungated variant for coordinated attacks**,
+which is exactly what the reviewer proposed, now with the ablation numbers attached.
+
+**Multi-hop 27/60 really is the model's reasoning ceiling, not a retrieval or defense
+problem — and a stronger agent does not move it.** `multihop_scored.json` already contains
+the controlled comparison, including an oracle condition that hands the agent exactly the
+gold evidence turns:
+
+| Condition | llama2 | qwen2.5:7b |
+|---|---|---|
+| single-shot retrieval | 27/60 | 28/60 |
+| query decomposition | 28/60 | 25/60 |
+| **oracle (gold evidence supplied)** | **36/60** | **32/60** |
+
+Perfect retrieval buys roughly 9 questions and still tops out near 60%, and the stronger
+model is not better (32 vs 36 at the ceiling). So this is genuinely a reasoning limit of
+7B-class local models, and the "use a stronger agent" remedy does not apply to it — worth
+knowing, because that remedy *is* being applied to Track A utility (§10), where the task is
+single-hop factual recall and the headroom argument does hold.
+
 ## 9. What this round did NOT fix
 
 - **AgentPoison's trigger was not re-optimized** (§8b explains what was done instead, and
