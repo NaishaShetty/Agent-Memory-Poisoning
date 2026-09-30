@@ -20,21 +20,29 @@ from phase6.defense.risk.risk_score import (
 )
 
 OUT = Path(__file__).parent / "data" / "gstack2_results.json"
-KEYS = ("base_f", "base_x", "g1_f", "g1_x", "concept", "broad", "steer", "B11_flag", "B11_excl")
+KEYS = ("base_f", "base_x", "g1_f", "g1_x", "concept", "broad", "steer", "lineage", "B11_flag", "B11_excl")
 
 
-def rows_for(pools, ids, jc, jb, js=None):
+def rows_for(pools, ids, jc, jb, js=None, jl=None):
+    # CORRECTION (external review round 4, 2026-09-29): B11_flag/B11_excl here used to be
+    # `gf or c or b or st` / `gx or c` -- missing the `lineage` tier that b11_live.py's own
+    # b11_actions() (the live dispatched code) has applied since round 4. A hand-duplicated
+    # formula silently drifting from the real function; fixed so both compute the same
+    # thing. `phase17/tests/test_review4_fixes.py` now checks this file against
+    # b11_actions() directly so it cannot drift again.
     js = js or LLMJudge("steer")
+    jl = jl or LLMJudge("lineage")
     table = build_signal_table(pools)
     base, g1 = rule_actions(table, rule=LIVE), rule_actions(table, rule=G1)
     text = {m.scenario_id: m.content_text for p in pools for m in p.memories}
     rows = {}
     for i in (x for x in table if x in ids):
-        c, b, st = jc.flag(text[i]), jb.flag(text[i]), js.flag(text[i])
+        c, b, st, ln = jc.flag(text[i]), jb.flag(text[i]), js.flag(text[i]), jl.flag(text[i])
         gf, gx = g1[i] != ALLOW, g1[i] in EXCLUDING_ACTIONS
         rows[i] = {"base_f": base[i] != ALLOW, "base_x": base[i] in EXCLUDING_ACTIONS, "g1_f": gf, "g1_x": gx,
-                   "concept": c, "broad": b, "steer": st, "B11_flag": gf or c or b or st, "B11_excl": gx or c}
-    jc.save(); jb.save(); js.save()
+                   "concept": c, "broad": b, "steer": st, "lineage": ln,
+                   "B11_flag": gf or c or b or st or ln, "B11_excl": gx or c or ln}
+    jc.save(); jb.save(); js.save(); jl.save()
     return rows
 
 

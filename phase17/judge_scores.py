@@ -100,9 +100,9 @@ class ScoreJudge:
 
     def save(self) -> None:
         # merge with what other processes wrote (concurrent runs once clobbered this cache)
-        disk = json.loads(CACHE.read_text(encoding="utf-8")) if CACHE.exists() else {}
-        disk.update(self._cache)
-        CACHE.write_text(json.dumps(disk), encoding="utf-8")
+        from phase17.cache_io import merge_write
+
+        merge_write(CACHE, self._cache)
 
 
 def roc_auc(pos: Sequence[float], neg: Sequence[float]) -> float:

@@ -92,11 +92,12 @@ CONFIG_B9_RISK_COMPOSED = "B9"
 CONFIG_B10_LEARNED_HYBRID = "B10"
 CONFIG_B11_GENERALIZED = "B11"  # Phase 17 generalization fix (phase17/b11_live.py)
 CONFIG_B12_STACKED = "B12"  # Phase 17 fix round 4: stacked detector (phase17/b12_live.py)
+CONFIG_B13_PROVENANCE = "B13"  # Phase 17 external review round 4: B12 + source trust/corroboration/worm (phase17/b13_live.py)
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
     CONFIG_B7_ALL_THREE, CONFIG_B8_ALL_FOUR, CONFIG_B9_RISK_COMPOSED, CONFIG_B10_LEARNED_HYBRID,
-    CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED,
+    CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED, CONFIG_B13_PROVENANCE,
 )
 
 # 2026-09-23 (Phase 15 follow-on, explicitly authorized): B2-B7 dispatch
@@ -238,7 +239,7 @@ def _pipeline_actions(items: Sequence[Tuple[str, str]], config: DefenseConfigura
 
 
 def apply_defense(
-    config_name: str, items: Sequence[Tuple[str, str]],
+    config_name: str, items: Sequence[Tuple[str, str]], **context,
 ) -> Tuple[Tuple[Tuple[str, str], ...], Tuple[DefenseDecision, ...]]:
     """`items`: real `(memory_id, content_text)` pairs, in real retrieval
     order, for ONE real task. Returns `(kept_items, decisions)` -- `kept_items`
@@ -247,6 +248,9 @@ def apply_defense(
     including the excluded ones (never silently dropped from the return
     value -- Phase 14's own cost/utility accounting needs to see what was
     excluded, not just what survived).
+
+    `context` (B13 only; ignored by every other config): `sources` ({memory_id: channel}),
+    `evidence` (the owner's own turns) and `evidence_names` -- see phase17/b13_live.py.
     """
     if config_name == CONFIG_B0_NO_DEFENSE:
         decisions = tuple(DefenseDecision(memory_id, ALLOW, False) for memory_id, _ in items)
@@ -287,6 +291,14 @@ def apply_defense(
             DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
             for memory_id, _ in items
         )
+    elif config_name == CONFIG_B13_PROVENANCE:
+        from phase17.b13_live import b13_actions
+
+        actions = b13_actions(items, **context)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
+            for memory_id, _ in items
+        )
     elif config_name in _PIPELINE_CONFIGS:
         actions = _pipeline_actions(items, _PIPELINE_CONFIGS[config_name])
         decisions = tuple(
@@ -315,6 +327,7 @@ __all__ = [
     "CONFIG_B10_LEARNED_HYBRID",
     "CONFIG_B11_GENERALIZED",
     "CONFIG_B12_STACKED",
+    "CONFIG_B13_PROVENANCE",
     "REAL_CONFIGS",
     "HARD_MITIGATION_ACTIONS",
     "DefenseDecision",

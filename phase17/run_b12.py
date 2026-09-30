@@ -19,11 +19,16 @@ from phase6.defense.policy.states import ALLOW
 from phase6.defense.risk.risk_score import GROUPED_GATED_ADMISSION_AND_RETRIEVAL_CORROBORATED as G1
 
 OUT = Path(__file__).parent / "data" / "b12_results.json"
-KEYS = ("g1_f", "g1_x", "stack_x", "stack_f", "steer", "B12_flag", "B12_excl")
+KEYS = ("g1_f", "g1_x", "stack_x", "stack_f", "steer", "lineage", "B12_flag", "B12_excl")
 
 
 def rows_for(pools, ids):
-    det, steer = _detector(), _judge("steer")
+    # CORRECTION (external review round 4, 2026-09-29): B12_flag/B12_excl here used to be
+    # `gf or f or x or st` / `gx or x` -- missing the `lineage` tier that b12_live.py's own
+    # b12_actions() (the live dispatched code) applies. Same class of bug as run_gstack2.py's
+    # B11 formula drift; fixed so both compute the same thing, and checked against
+    # b12_actions() directly in `phase17/tests/test_review4_fixes.py`.
+    det, steer, lineage = _detector(), _judge("steer"), _judge("lineage")
     table = build_signal_table(pools)
     g1 = rule_actions(table, rule=G1)
     text = {m.scenario_id: m.content_text for p in pools for m in p.memories}
@@ -31,16 +36,21 @@ def rows_for(pools, ids):
     xs, fs = det.decide([text[i] for i in order], 0.005), det.decide([text[i] for i in order], 0.02)
     rows = {}
     for i, x, f in zip(order, xs, fs):
-        st = steer.flag(text[i]); gf, gx = g1[i] != ALLOW, g1[i] in EXCLUDING_ACTIONS
-        rows[i] = {"g1_f": gf, "g1_x": gx, "stack_x": x, "stack_f": f, "steer": st, "B12_flag": gf or f or x or st, "B12_excl": gx or x}
-    steer.save()
+        st, ln = steer.flag(text[i]), lineage.flag(text[i])
+        gf, gx = g1[i] != ALLOW, g1[i] in EXCLUDING_ACTIONS
+        rows[i] = {"g1_f": gf, "g1_x": gx, "stack_x": x, "stack_f": f, "steer": st, "lineage": ln,
+                  "B12_flag": gf or f or x or st or ln, "B12_excl": gx or x or ln}
+    steer.save(); lineage.save()
     return rows
 
 
 def main():
+    from phase17.memory_worm_regen import worm_regen_records
+
     out = {"poison": {}, "benign": {}}
     recs = {"signal_source": original_records(), "held_out_regen": regenerated_records(), "held_out_evasion": evasion_records(),
-            "held_out_novel": novel_records(), "held_out_zh": zh_records()}
+            "held_out_novel": novel_records(), "held_out_zh": zh_records(),
+            "held_out_novel_worm_regen": worm_regen_records()}
     got = {}
     for name, rs in recs.items():
         pools, _ = arenas.isolated_arena(rs)

@@ -33,6 +33,6 @@ def to_english(text: str) -> str:
 
 
 def save() -> None:
-    disk = json.loads(CACHE.read_text(encoding="utf-8")) if CACHE.exists() else {}
-    disk.update(_c)
-    CACHE.write_text(json.dumps(disk, ensure_ascii=False), encoding="utf-8")
+    from phase17.cache_io import merge_write
+
+    merge_write(CACHE, _c, ensure_ascii=False)
