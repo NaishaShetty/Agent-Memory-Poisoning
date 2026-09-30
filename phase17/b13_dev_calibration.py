@@ -20,7 +20,12 @@ ADJ = Path(__file__).parent / "data" / "agentdojo_benign_tool_outputs.json"
 
 
 def agentdojo_benign(split: str):
-    return [i["text"] for i in json.loads(ADJ.read_text(encoding="utf-8"))["items"] if i["split"] == split]
+    """Re-exported from `phase17.agentdojo_benign`, which owns the extraction and the
+    deduplicated dev/test split (round 5 found the original inline extraction let one
+    repeated calendar event land in both halves)."""
+    from phase17.agentdojo_benign import agentdojo_benign as _a
+
+    return _a(split)
 
 
 def run() -> dict:
