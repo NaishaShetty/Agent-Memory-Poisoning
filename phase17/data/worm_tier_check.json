@@ -1,0 +1,91 @@
+{
+  "original_memory_worm": {
+    "n": 30,
+    "flagged_by_worm_tier": {
+      "k": 0,
+      "n": 30,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.113517091390478
+      ]
+    }
+  },
+  "corrected_memory_worm": {
+    "n": 29,
+    "flagged_by_worm_tier": {
+      "k": 29,
+      "n": 29,
+      "rate": 1.0,
+      "ci95": [
+        0.8830264055344442,
+        1.0
+      ]
+    }
+  },
+  "benign_false_positives": {
+    "dataset_arena_test_half": {
+      "k": 0,
+      "n": 247,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.01531484410879216
+      ]
+    },
+    "convomem_test_half": {
+      "k": 0,
+      "n": 360,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.010558440816003448
+      ]
+    },
+    "perltqa_zh_test_half": {
+      "k": 0,
+      "n": 447,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.008520952813582418
+      ]
+    },
+    "legitimate_imperatives_40": {
+      "k": 0,
+      "n": 40,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.08762453925039232
+      ]
+    },
+    "confirmed_human_20": {
+      "k": 0,
+      "n": 20,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.16113012549493322
+      ]
+    },
+    "named_party_preferences_6": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.3903430336530645
+      ]
+    },
+    "gemini_benign_5 (only 5 of 30 texts were persisted)": {
+      "k": 0,
+      "n": 5,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.43449149475208104
+      ]
+    }
+  }
+}

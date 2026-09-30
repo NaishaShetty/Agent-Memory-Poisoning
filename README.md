@@ -30,9 +30,16 @@ read that document, not this summary, before citing a specific figure.
   (8.5%) of simple, fixed-prompt defense-aware rewrites; a genuine adaptive attacker that
   queries the live defense and rewrites in response still evades 6/28 (21.4%) of the
   seeds it was initially caught on.
-- **That this holds against attacks the project didn't author itself.** Every attack text
-  in this benchmark is LLM-authored, mostly by Qwen2.5:7b — the same model family behind
-  several of the detector's own signals. This confound is open, not closed.
+- **That it beats published defenses on attacks the project didn't write.** Measured
+  directly against Llama Guard 3, ProtectAI's prompt-injection classifier, a perplexity
+  filter and plain "is this malicious?" prompts, all calibrated the same way: B12's margin
+  over the best baseline is **2.80x on the 296 attacks this project authored and 1.03x —
+  none — on the 266 written by other projects**. At a threshold chosen in the baselines'
+  favour, B12 *loses* on externally-authored attacks to a one-line prompt sent to its own
+  backbone model. The authorship confound is no longer an open question; it is most of the
+  apparent advantage. See `PHASE17_REVIEW4_RESULTS.md` §8. What the stack does keep is a far
+  lower false-positive rate at its operating point (0/1,074 ordinary benign items vs Llama
+  Guard 3's 12).
 - **Full harm coverage across attack mechanisms.** Only 3 of 7 attack families (DSRM,
   FARMA, MPBench) have end-to-end evidence the attack actually changes what the agent
   says; the other 4 have detection numbers but no behavioral-harm confirmation.

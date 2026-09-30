@@ -47,7 +47,23 @@ attack it claimed to be.** The corrected instances (`memory_worm_regen.py`, 29 v
 validated at generation time against the mechanism, by a generator that had to satisfy the
 check before the instance was accepted) are used everywhere in this round.
 
-Numbers: §6 (frozen evaluation) and §7 (harm study).
+**Verified independently this round** (`phase17/worm_tier_check.py`), not taken on trust
+from the session that found it:
+
+| Population | Flagged by the `worm` tier |
+|---|---|
+| The original 30 `memory_worm` instances | **0/30** |
+| The corrected instances (`memory_worm_regen.py`) | **29/29** |
+| Every benign population (1,125 items) | **0** |
+
+The 0/30 is the substantive part: a judge that catches 29/29 of genuinely self-replicating
+notes finds the mechanism in *none* of the 30 instances previously labelled with it. The
+0 false positives include **0/40 on the legitimate standing instructions** ("always CC my
+wife on invoices"), which is the obvious confusion case for a rule about instructions that
+persist — so this tier is a genuine addition at no measured benign cost, which is why B13
+carries it.
+
+Further numbers: §6 (frozen evaluation) and §7 (harm study).
 
 ## 3. The Chinese result, with the translation confound removed
 
