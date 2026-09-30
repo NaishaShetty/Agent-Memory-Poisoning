@@ -206,6 +206,10 @@ def run(n_per_mechanism: int = 15, oversample: int = 30, include_external: int =
                             request_timeout_sec=300.0)
     model = _retriever()
     recs = _records(n_per_mechanism, oversample, include_external, seed)
+    from phase17.semantic_detector import warm_all_tiers
+
+    warm_all_tiers([r.text for r, _ in recs]
+                   + [t for s_ in HARM_SAMPLES for _, t in _store_for(s_)])
     rng = random.Random(seed)
     rows = []
     # TWO PASSES, deliberately: pass 1 does every agent call, pass 2 every judge call. On a

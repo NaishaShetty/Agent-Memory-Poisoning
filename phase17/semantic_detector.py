@@ -131,20 +131,60 @@ class LLMJudge:
         self._cache: Dict[str, bool] = json.loads(cache_path.read_text(encoding="utf-8")) if cache_path.exists() else {}
         self._dirty = 0
 
-    def flag(self, text: str) -> bool:
+    def _cfg(self):
         from phase3.evaluation.llm.provider import GenerationConfig
 
+        return GenerationConfig(temperature=0.0, seed=17, max_tokens=4, enable_thinking=False, n_ctx=2048,
+                                request_timeout_sec=180.0)
+
+    def _query(self, text: str) -> bool:
+        out = self._provider.generate(
+            [{"role": "user", "content": PROMPTS[self.variant].format(text=text[:1500])}], self._cfg()).text
+        return out.strip().upper().startswith("YES")
+
+    def _lookup(self, text: str):
+        """(key, cached_value_or_None), applying the forward key migration."""
         key = _h(self.variant, text, self.model)
-        if key not in self._cache:
-            old_key = _h_old(self.variant, text, self.model)
-            if old_key in self._cache:
-                self._cache[key] = self._cache[old_key]  # migrate forward, no re-query needed
+        if key in self._cache:
+            return key, self._cache[key]
+        old_key = _h_old(self.variant, text, self.model)
+        if old_key in self._cache:
+            self._cache[key] = self._cache[old_key]  # migrate forward, no re-query needed
+            self._dirty += 1
+            return key, self._cache[key]
+        return key, None
+
+    def warm(self, texts: Sequence[str], workers: int = 8) -> None:
+        """Pre-compute every uncached judgment CONCURRENTLY, then fill the cache, so the
+        ordinary sequential `flag()` calls that follow are all cache hits.
+
+        Ollama batches concurrent requests: measured on this project's own machine, 8-way
+        concurrency takes a llama-guard3 call from 5.6s to 0.35s effective -- a ~16x
+        throughput gain that decides whether a full-population evaluation is hours or days.
+        Results are identical to calling `flag()` one at a time: the same provider, the same
+        prompt and the same GenerationConfig (temperature 0, fixed seed) are used, only the
+        dispatch is parallel. `OllamaProvider.generate` holds no mutable state.
+        """
+        import concurrent.futures as cf
+
+        todo, seen = [], set()
+        for t in texts:
+            key, val = self._lookup(t)
+            if val is None and key not in seen:
+                seen.add(key)
+                todo.append((key, t))
+        if not todo:
+            return
+        with cf.ThreadPoolExecutor(max_workers=workers) as ex:
+            for (key, _), val in zip(todo, ex.map(lambda kt: self._query(kt[1]), todo)):
+                self._cache[key] = val
                 self._dirty += 1
-                return self._cache[key]
-            cfg = GenerationConfig(temperature=0.0, seed=17, max_tokens=4, enable_thinking=False, n_ctx=2048,
-                                   request_timeout_sec=180.0)
-            out = self._provider.generate([{"role": "user", "content": PROMPTS[self.variant].format(text=text[:1500])}], cfg).text
-            self._cache[key] = out.strip().upper().startswith("YES")
+        self.save()
+
+    def flag(self, text: str) -> bool:
+        key, val = self._lookup(text)
+        if val is None:
+            self._cache[key] = self._query(text)
             self._dirty += 1
             if self._dirty % 50 == 0:
                 self.save()
@@ -160,6 +200,21 @@ class LLMJudge:
 
         merge_write(self.cache_path, self._cache)
         self._saved_at = self._dirty
+
+
+def warm_all_tiers(texts: Sequence[str], tiers: Sequence[str] = ("steer", "lineage", "worm", "concept", "broad"),
+                   workers: int = 8) -> None:
+    """Pre-compute every judge tier's answers for `texts` concurrently.
+
+    `apply_defense` decides pool by pool and would issue these one at a time. Calling this
+    first with every text an experiment will touch makes those calls cache hits, which is a
+    ~16x wall-clock difference on this project's own hardware. The decisions are identical:
+    same prompts, same model, temperature 0 and a fixed seed.
+    """
+    from phase17 import b11_live
+
+    for tier in tiers:
+        b11_live._judge(tier).warm(list(texts), workers=workers)
 
 
 def _embed(texts: Sequence[str]) -> np.ndarray:

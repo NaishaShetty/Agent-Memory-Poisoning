@@ -71,7 +71,16 @@ def run() -> dict:
     from phase17.external_attacks import external_records
     from phase17.provenance_sets import TEST_SAMPLES, fabrications, observations, owner_turns, speakers
 
+    from phase17.semantic_detector import warm_all_tiers
+
     out = {"configs": list(CONFIGS), "populations": {}, "primary": {}, "raw": {}}
+    # Pre-compute every judge-tier answer concurrently; the per-pool decisions below are
+    # then cache hits and identical to running them one at a time.
+    warm_all_tiers([f["text"] for f in fabrications("test")]
+                   + [o["text"] for s_ in TEST_SAMPLES for o in observations(s_)]
+                   + [t for v in attack_populations().items() for t in v[1]]
+                   + [t for v in benign_populations().items() for t in v[1]]
+                   + agentdojo_benign("test") + translated_benign_texts())
 
     # --- 1. provenance test fabrications + LoCoMo's own observations, per conversation ----
     fabs = fabrications("test")

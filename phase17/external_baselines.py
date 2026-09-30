@@ -63,6 +63,33 @@ class ScoreCache:
             self.d[k] = float(fn(text))
         return self.d[k]
 
+    def get_many(self, name, texts, fn, workers: int = 0):
+        """Score `texts`, computing the uncached ones concurrently when `workers` > 1.
+
+        Ollama batches concurrent requests: 8-way concurrency measured 0.35s/call against
+        5.6s sequential on this machine. That is the difference between a full-population
+        baseline comparison taking ~1h and taking >10h, which is why the LLM baselines are
+        no longer subsampled. The scores themselves are unaffected -- same model, same
+        temperature 0 and fixed seed, only the dispatch is parallel.
+        """
+        import concurrent.futures as cf
+
+        todo = []
+        seen = set()
+        for t in texts:
+            k = _h(name, t)
+            if k not in self.d and k not in seen:
+                seen.add(k)
+                todo.append((k, t))
+        if todo and workers > 1:
+            with cf.ThreadPoolExecutor(max_workers=workers) as ex:
+                for (k, _), v in zip(todo, ex.map(lambda kt: float(fn(kt[1])), todo)):
+                    self.d[k] = v
+        elif todo:
+            for k, t in todo:
+                self.d[k] = float(fn(t))
+        return [self.d[_h(name, t)] for t in texts]
+
     def save(self):
         self.path.write_text(json.dumps(self.d), encoding="utf-8")
 
@@ -70,9 +97,11 @@ class ScoreCache:
 def _ollama_first_token_prob(model: str, content: str, positive: Sequence[str]) -> float:
     import requests
 
+    # keep_alive holds the model resident between calls (a reload per call dominated the
+    # cost otherwise); num_ctx is sized to these short prompts so more layers fit on the GPU.
     r = requests.post(OLLAMA, json={"model": model, "messages": [{"role": "user", "content": content}], "stream": False,
-                                    "logprobs": True, "top_logprobs": 10,
-                                    "options": {"temperature": 0, "num_predict": 2, "seed": 17}}, timeout=300)
+                                    "logprobs": True, "top_logprobs": 10, "keep_alive": "30m",
+                                    "options": {"temperature": 0, "num_predict": 2, "seed": 17, "num_ctx": 1024}}, timeout=300)
     r.raise_for_status()
     lp = r.json().get("logprobs") or []
     if not lp:
@@ -143,6 +172,9 @@ def live_decisions(config: str, attacks: Dict[str, List[str]], benign: Dict[str,
     from phase17 import arenas
     from phase17.poison_sets import PoisonRecord
 
+    from phase17.semantic_detector import warm_all_tiers
+
+    warm_all_tiers([t for v in attacks.values() for t in v] + [t for v in benign.values() for t in v])
     out = {"attacks": {}, "benign": {}}
     for name, texts in attacks.items():
         recs = [PoisonRecord(f"A-{i}", t, name, "eval") for i, t in enumerate(texts)]
@@ -162,23 +194,15 @@ def live_decisions(config: str, attacks: Dict[str, List[str]], benign: Dict[str,
     return out
 
 
-# The three ollama-based baselines cost one LLM call per text. Scoring every dev negative
-# and every test benign item with each of them is ~7,500 calls (>10h on this machine), so
-# they run on a FIXED RANDOM SUBSAMPLE, drawn with a fixed seed before any score is seen and
-# identical for every baseline and every config. The two local-model baselines
-# (deberta_pi_v2, perplexity_gpt2) are cheap and score the full populations; their
-# subsampled and full numbers are both reported so the subsample's effect is visible.
-SUBSAMPLE_SEED = 17
-N_DEV_NEG = 400
-N_BENIGN_PER_POP = 120
+# The three ollama-based baselines cost one LLM call per text, which at first measurement
+# (5.6s/call sequential) made a full-population comparison a >10h job and forced a
+# subsample. Ollama batches concurrent requests, so dispatching them 8 at a time takes the
+# effective cost to ~0.35s/call and the whole comparison back under an hour: EVERY
+# population is scored in full, and nothing here is subsampled. `LLM_BASELINES` only
+# selects which baselines get the parallel dispatch (the two local-model ones are
+# GPU/GIL-bound and do not benefit).
 LLM_BASELINES = ("llama_guard3", "llm_prompt_qwen", "llm_prompt_llama31")
-
-
-def _subsample(texts: Sequence[str], n: int, tag: str) -> List[str]:
-    if len(texts) <= n:
-        return list(texts)
-    rng = random.Random(f"{SUBSAMPLE_SEED}:{tag}")
-    return rng.sample(list(texts), n)
+WORKERS = 8
 
 
 def run(baselines: Sequence[str] = BASELINES, live_configs: Sequence[str] = ("B12",)) -> dict:
@@ -214,23 +238,21 @@ def run(baselines: Sequence[str] = BASELINES, live_configs: Sequence[str] = ("B1
 
     for b in baselines:
         fn = SCORERS[b]
-        sub = b in LLM_BASELINES
-        dev_t = _subsample(dev_neg_texts, N_DEV_NEG, "dev") if sub else dev_neg_texts
-        ben_t = {k: (_subsample(v, N_BENIGN_PER_POP, k) if sub else v) for k, v in benign.items()}
-        dev_s = [cache.get(b, t, fn) for t in dev_t]
+        w = WORKERS if b in LLM_BASELINES else 0
+        dev_s = cache.get_many(b, dev_neg_texts, fn, w)
         cache.save()
         thr = {"exclude@0.5%devFPR": threshold_at_fpr(dev_s, 0.005), "flag@2%devFPR": threshold_at_fpr(dev_s, 0.02)}
-        a_s = {k: [cache.get(b, t, fn) for t in v] for k, v in attacks.items()}
+        a_s = {k: cache.get_many(b, v, fn, w) for k, v in attacks.items()}
         cache.save()
-        b_s = {k: [cache.get(b, t, fn) for t in v] for k, v in ben_t.items()}
+        b_s = {k: cache.get_many(b, v, fn, w) for k, v in benign.items()}
         cache.save()
         ord_scores = [s for k in ORDINARY_BENIGN for s in b_s[k]]
         # Oracle: the threshold giving this baseline the SAME number of ordinary-benign exclusions B12 has.
         srt = sorted(ord_scores, reverse=True)
         oracle = (srt[ref_ord_excl] + 1e-9) if ref_ord_excl < len(srt) else srt[-1]
         thr[f"oracle_matched_to_{ref}"] = oracle
-        res = {"thresholds": thr, "subsampled": sub, "n_dev_negatives_used": len(dev_t),
-               "benign_n_used": {k: len(v) for k, v in ben_t.items()}, "attacks": {}, "benign": {}}
+        res = {"thresholds": thr, "subsampled": False, "n_dev_negatives_used": len(dev_neg_texts),
+               "benign_n_used": {k: len(v) for k, v in benign.items()}, "attacks": {}, "benign": {}}
         for tname, t in thr.items():
             res["attacks"][tname] = {k: rate_with_ci(sum(s >= t for s in v), len(v)) for k, v in a_s.items()}
             res["benign"][tname] = {k: rate_with_ci(sum(s >= t for s in v), len(v)) for k, v in b_s.items()}
