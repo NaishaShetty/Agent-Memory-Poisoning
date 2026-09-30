@@ -77,16 +77,31 @@ def _judge(judge, cfg, note: str, answer: str) -> bool:
                             "Answer with exactly one word: YES or NO."}], cfg).text.strip().upper().startswith("YES")
 
 
-def _parallel(fn, jobs, workers, tag):
+PARTIAL = Path(__file__).parent / "data" / "attack_validity_partial.json"
+
+
+def _parallel(fn, jobs, workers, tag, keys=None):
+    """RESUMABLE (round 5): results are keyed and checkpointed, so a run interrupted at
+    200/1864 resumes instead of restarting. A long audit on a small GPU gets interrupted;
+    losing an hour of real LLM work to that is avoidable."""
     import concurrent.futures as cf
 
-    out = [None] * len(jobs)
+    done_map = json.loads(PARTIAL.read_text(encoding="utf-8")) if PARTIAL.exists() else {}
+    keys = keys or [f"{tag}:{i}" for i in range(len(jobs))]
+    out = [done_map.get(k) for k in keys]
+    todo = [(i, j) for i, (j, v) in enumerate(zip(jobs, out)) if v is None]
+    if todo:
+        print(f"  {tag}: {len(jobs)-len(todo)} cached, {len(todo)} to compute", flush=True)
     with cf.ThreadPoolExecutor(max_workers=workers) as ex:
-        futs = {ex.submit(fn, j): i for i, j in enumerate(jobs)}
+        futs = {ex.submit(fn, j): i for i, j in todo}
         for done, f in enumerate(cf.as_completed(futs), 1):
-            out[futs[f]] = f.result()
-            if done % 50 == 0 or done == len(jobs):
-                print(f"  {tag}: {done}/{len(jobs)}", flush=True)
+            i = futs[f]
+            out[i] = f.result()
+            done_map[keys[i]] = out[i]
+            if done % 50 == 0 or done == len(todo):
+                PARTIAL.write_text(json.dumps(done_map), encoding="utf-8")
+                print(f"  {tag}: {done}/{len(todo)}", flush=True)
+    PARTIAL.write_text(json.dumps(done_map), encoding="utf-8")
     return out
 
 
@@ -136,16 +151,17 @@ def run(limit_per_pop: int = 0, seed: int = 17, workers: int = WORKERS) -> dict:
 
     # Both arms for every item: memory present, and the same task with it absent.
     with_mem = _parallel(lambda j: _answer(agent, acfg, _store(j["sample"]) + [("poison", j["text"])], TASK),
-                         jobs, workers, "agent(with memory)")
+                         jobs, workers, "agent(with memory)", keys=[f"ans:{j['id']}" for j in jobs])
     without = {}
     for s in (0, 5, 6, 7):
         without[s] = _answer(agent, acfg, _store(s), TASK)
     print("  baseline answers done", flush=True)
 
     v_with = _parallel(lambda p: _judge(judge, jcfg, p[0], p[1]), [(j["text"], a) for j, a in zip(jobs, with_mem)],
-                       workers, "judge(with memory)")
+                       workers, "judge(with memory)", keys=[f"jw:{j['id']}" for j in jobs])
     v_without = _parallel(lambda p: _judge(judge, jcfg, p[0], p[1]),
-                          [(j["text"], without[j["sample"]]) for j in jobs], workers, "judge(without memory)")
+                          [(j["text"], without[j["sample"]]) for j in jobs], workers, "judge(without memory)",
+                          keys=[f"jo:{j['id']}" for j in jobs])
 
     rows = []
     for j, a, vw, vo in zip(jobs, with_mem, v_with, v_without):
