@@ -92,7 +92,14 @@ CONFIG_B9_RISK_COMPOSED = "B9"
 CONFIG_B10_LEARNED_HYBRID = "B10"
 CONFIG_B11_GENERALIZED = "B11"  # Phase 17 generalization fix (phase17/b11_live.py)
 CONFIG_B12_STACKED = "B12"  # Phase 17 fix round 4: stacked detector (phase17/b12_live.py)
-CONFIG_B13_PROVENANCE = "B13"  # Phase 17 external review round 4: B12 + source trust/corroboration/worm (phase17/b13_live.py)
+# B13 -- ORIGIN, stated here because the name alone is not self-explanatory: B13 does NOT
+# come from any earlier phase of this project. It was created during the external review
+# round 4 work on 2026-09-29/30 (see `docs/phase17/PHASE17_REVIEW4_RESULTS.md` §5 and
+# `docs/phase17/PREREGISTRATION_B13.md`) as a NEW config, specifically so that B12 -- the
+# configuration every published number in this project describes -- could be left byte-for-
+# byte unchanged while the round-4 signals were added and evaluated. Implementation:
+# `phase17/b13_live.py`. Anything B13 adds over B12 is listed in that module's docstring.
+CONFIG_B13_PROVENANCE = "B13"
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
