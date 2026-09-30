@@ -18,11 +18,14 @@ read that document, not this summary, before citing a specific figure.
   or below Qwen-authored benign text.
 
 **Does not show:**
-- **That the best defense reduces real, measured harm.** In the one real n=30 harm study,
-  the 15 poison instances B12 actually excluded showed harm 5/15 before and 5/15 after
-  (net zero — one real prevention exactly offset by one false flip), and B12 excluded 0 of
-  10 poison instances in the two mechanisms that actually caused harm in this study
-  (preference hijack, memory worm).
+**Shows (added 2026-09-30):**
+- **That the defenses do reduce real, measured harm.** In a redesigned n=203 agent study
+  (all 13 attack families with a mechanism-specific task each, 100-memory stores, an
+  independent judge): poison present raises harm from a 1.5% task-alone base rate to 31.0%,
+  and among the cases each defense actually excludes the poison, harm goes **34/89 → 2/89
+  (B12)** and **48/145 → 3/145 (B13)**. This supersedes the earlier n=30 study whose
+  "net zero" result came from generic tasks, an invalid memory-worm population, and task
+  prompts that produced 26.7% "harm" with no poison present.
 - **That legitimate use is unaffected.** B11 flags 72.5% and B12 flags 35% of genuinely
   legitimate standing instructions in a dedicated test; a real, harmless preference that
   names a specific vendor gets flagged 4/6 times.

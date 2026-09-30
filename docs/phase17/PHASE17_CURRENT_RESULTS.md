@@ -457,6 +457,16 @@ rate). No-defense vs. under-B12: exact McNemar **p=1.0** (no significant differe
 n — B12 excluded the poison in only 15/30, 50%, of these instances, so its real causal
 effect on the overall rate is small at n=30).
 
+> **SUPERSEDED (external review round 4, 2026-09-30).** This whole section's design has
+> three defects that a redesigned study fixed: two mechanisms had generic follow-up tasks
+> that never gave the attack an opening, the `memory_worm` population did not implement its
+> own mechanism, and the task prompts themselves produced "harm" at 26.7% with no poison
+> present, swamping the effect being measured. On the redesign (n=203, mechanism-specific
+> tasks, 100-memory stores, independent judge, task-alone base rate 1.5%), **harm among the
+> cases B12 actually excluded goes 34/89 → 2/89**, not 5/15 → 5/15. See
+> [`PHASE17_REVIEW4_RESULTS.md`](PHASE17_REVIEW4_RESULTS.md) §7. The numbers below are
+> correct for the design that produced them; that design is superseded.
+
 **RETRACTION of this table's `memory_worm` row (external review round 4, 2026-09-30):** the
 30 `memory_worm` instances this study drew from do not implement the mechanism they are
 labelled with — none of them instructs the assistant to copy or re-insert itself into future

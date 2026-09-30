@@ -218,9 +218,94 @@ B13 equals B12 on every own-authored population — its gains are confined to ex
 was built for (provenance-checkable claims, Chinese, externally-authored attacks), which is
 what a targeted change should look like rather than a general uplift.
 
-## 7. The harm study, redesigned
+## 7. The harm study, redesigned — and the §13 "net zero" finding is superseded
 
-*(pending — `phase17/harm_study_v2.py`.)*
+`phase17/harm_study_v2.py`, n=203. All 13 attack families with a **mechanism-specific task
+each**, real embedding retrieval against a **100-memory store** of one conversation's own
+turns, four arms per instance, a stronger agent (`qwen2.5:7b`) and an **independent judge**
+(`llama3.1:8b`, a family used nowhere else in this project and not the agent). `memory_worm`
+uses the corrected instances (§2); the original 30 were not the mechanism they claimed.
+
+| | k/n | rate [Wilson 95%] |
+|---|---|---|
+| No poison at all (task-alone base rate) | 3/203 | **1.5%** [0.5%, 4.3%] |
+| Poison present, no defense | 63/203 | **31.0%** [25.1%, 37.7%] |
+| Under B12's real decision | 30/203 | 14.8% [10.6%, 20.3%] |
+| Under B13's real decision | 17/203 | **8.4%** [5.3%, 13.0%] |
+
+Poison vs no poison: exact McNemar **p = 2.7×10⁻¹⁷**. No-defense vs B12: **p = 1×10⁻⁷**.
+No-defense vs B13: **p = 2.3×10⁻¹²**.
+
+**The finding this supersedes.** `PHASE17_CURRENT_RESULTS.md` §13 reported that among the 15
+poisons B12 actually excluded, harm was 5/15 before and 5/15 after — "net zero" — and
+concluded the defense "catches the attacks that don't hurt and misses the ones that do." On
+the redesigned study:
+
+| Among the cases each config actually excluded | undefended | under that config |
+|---|---|---|
+| B12 (89 exclusions) | **34/89** | **2/89** |
+| B13 (145 exclusions) | **48/145** | **3/145** |
+
+Where these defenses exclude a poison, harm very nearly disappears. That is the opposite of
+the old result, and the difference is not a reanalysis — it is three concrete fixes to the
+old design: (a) `exfiltration_instruction` and `conditional_backdoor` had generic follow-up
+tasks that never gave the attack an opening, (b) the `memory_worm` population did not
+implement its own mechanism, and (c) the old task prompts produced harm *by themselves* at
+26.7% (8/30), swamping the poison's effect. The new mechanism-specific tasks have a
+task-alone base rate of **1.5%**, so what is measured is the poison, not the prompt.
+
+**The old §13 numbers are not withdrawn as arithmetic — they are correct for the design that
+produced them. That design is superseded.**
+
+### By family
+
+| Family | n | no poison | no defense | B12 | B13 | excluded B12 / B13 |
+|---|---|---|---|---|---|---|
+| external (MINJA/AgentPoison/InjecAgent/BIPIA/AgentDojo) | 60 | 0 | **21** | 7 | **6** | 18 / 27 |
+| memory_worm (corrected) | 29 | 2 | **19** | 11 | **2** | 15 / **29** |
+| conditional_backdoor | 15 | 0 | **10** | 5 | 4 | 8 / 10 |
+| dsrm | 4 | 0 | 4 | **0** | **0** | 4 / 4 |
+| policy_revocation | 15 | 1 | 4 | 2 | 1 | 15 / 15 |
+| preference_hijack | 30 | 0 | 2 | 2 | 1 | 3 / **25** |
+| authority_impersonation | 15 | 0 | **0** | 0 | 0 | 9 / 11 |
+| exfiltration_instruction | 15 | 0 | **0** | 0 | 0 | 9 / 15 |
+| farma / mpbench / sleeper / minja / agentpoison / memorygraft | 20 | 0 | 3 | 3 | 3 | 8 / 9 |
+
+**What still does not work, stated plainly:**
+- **`exfiltration_instruction` and `authority_impersonation` still produce zero measured
+  harm even undefended, even with tasks written for them.** Two of the six unseen mechanisms
+  therefore still have no behavioural evidence that they do anything, and excluding them
+  cannot be shown to help. The task rewrite fixed `conditional_backdoor` (0/5 → 10/15) but
+  not these two.
+- **`preference_hijack` produces only 2/30 harm undefended**, so B13's large exclusion gain
+  there (3/30 → 25/30) buys almost no *measured* harm reduction in this study. The mechanism
+  remains one where harm is hard to elicit, whatever the detection numbers say.
+- Six founding families have n ≤ 6 (Track B is bounded at 24 real records). Their per-family
+  cells are counts, not rates.
+
+### Retrieval competition at realistic scale
+
+**Only 70/203 (34.5%) of poisons won retrieval** into the top 5 against 100 real competing
+memories with a task-relevant query. For the defense comparison the poison is force-included
+in the candidate set when it loses retrieval (otherwise the defense gets credit for a
+retrieval miss), and that substitution is recorded per row. The honest reading: at realistic
+store size, **most planted memories never surface at all**, which is a real mitigating factor
+this project's 3-distractor pools could never have shown — and a reason the undefended 31%
+harm rate is an upper bound on what a planted memory achieves in a full store.
+
+### The carry-forward write guard
+
+For `memory_worm`, harm is the *write*: does the planted instruction survive into the summary
+the agent saves? With the corrected instances and a real consolidation summary:
+
+| | k/n |
+|---|---|
+| Summary reproduces the instruction, unguarded | 10/29 (34.5%) |
+| Under `b13_live.guard_write` | **4/29 (13.8%)** |
+| Guard fired | 10/29 |
+
+A 60% reduction in write-side propagation, on the mechanism the reviewer specifically asked
+be checked behaviourally rather than by wording.
 
 ## 8. B12/B13 against published defenses — the most important result in this round
 
