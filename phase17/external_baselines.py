@@ -29,6 +29,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import random
 from pathlib import Path
 from typing import Callable, Dict, List, Sequence
 
@@ -161,6 +162,25 @@ def live_decisions(config: str, attacks: Dict[str, List[str]], benign: Dict[str,
     return out
 
 
+# The three ollama-based baselines cost one LLM call per text. Scoring every dev negative
+# and every test benign item with each of them is ~7,500 calls (>10h on this machine), so
+# they run on a FIXED RANDOM SUBSAMPLE, drawn with a fixed seed before any score is seen and
+# identical for every baseline and every config. The two local-model baselines
+# (deberta_pi_v2, perplexity_gpt2) are cheap and score the full populations; their
+# subsampled and full numbers are both reported so the subsample's effect is visible.
+SUBSAMPLE_SEED = 17
+N_DEV_NEG = 400
+N_BENIGN_PER_POP = 120
+LLM_BASELINES = ("llama_guard3", "llm_prompt_qwen", "llm_prompt_llama31")
+
+
+def _subsample(texts: Sequence[str], n: int, tag: str) -> List[str]:
+    if len(texts) <= n:
+        return list(texts)
+    rng = random.Random(f"{SUBSAMPLE_SEED}:{tag}")
+    return rng.sample(list(texts), n)
+
+
 def run(baselines: Sequence[str] = BASELINES, live_configs: Sequence[str] = ("B12",)) -> dict:
     from phase17.eval_populations import ORDINARY_BENIGN, attack_populations, benign_populations
     from phase17.tune_lomo import dev_pool
@@ -171,7 +191,16 @@ def run(baselines: Sequence[str] = BASELINES, live_configs: Sequence[str] = ("B1
     cache = ScoreCache()
     out = {"n_dev_negatives": len(dev_neg_texts), "baselines": {}, "live": {}}
 
-    live = {c: live_decisions(c, attacks, benign) for c in live_configs}
+    live = {}
+    for c in live_configs:
+        p = DATA / f"live_decisions_{c}.json"
+        if p.exists():
+            live[c] = {k: {kk: [tuple(x) for x in vv] for kk, vv in v.items()} for k, v in
+                       json.loads(p.read_text(encoding="utf-8")).items()}
+        else:
+            live[c] = live_decisions(c, attacks, benign)
+            p.write_text(json.dumps(live[c]), encoding="utf-8")
+        print("live decisions", c, "ready", flush=True)
     for c, dec in live.items():
         out["live"][c] = {
             "attacks": {k: {"excluded": rate_with_ci(sum(e for e, _ in v), len(v)), "flagged": rate_with_ci(sum(f for _, f in v), len(v))}
@@ -185,19 +214,23 @@ def run(baselines: Sequence[str] = BASELINES, live_configs: Sequence[str] = ("B1
 
     for b in baselines:
         fn = SCORERS[b]
-        dev_s = [cache.get(b, t, fn) for t in dev_neg_texts]
+        sub = b in LLM_BASELINES
+        dev_t = _subsample(dev_neg_texts, N_DEV_NEG, "dev") if sub else dev_neg_texts
+        ben_t = {k: (_subsample(v, N_BENIGN_PER_POP, k) if sub else v) for k, v in benign.items()}
+        dev_s = [cache.get(b, t, fn) for t in dev_t]
         cache.save()
         thr = {"exclude@0.5%devFPR": threshold_at_fpr(dev_s, 0.005), "flag@2%devFPR": threshold_at_fpr(dev_s, 0.02)}
         a_s = {k: [cache.get(b, t, fn) for t in v] for k, v in attacks.items()}
         cache.save()
-        b_s = {k: [cache.get(b, t, fn) for t in v] for k, v in benign.items()}
+        b_s = {k: [cache.get(b, t, fn) for t in v] for k, v in ben_t.items()}
         cache.save()
         ord_scores = [s for k in ORDINARY_BENIGN for s in b_s[k]]
         # Oracle: the threshold giving this baseline the SAME number of ordinary-benign exclusions B12 has.
         srt = sorted(ord_scores, reverse=True)
         oracle = (srt[ref_ord_excl] + 1e-9) if ref_ord_excl < len(srt) else srt[-1]
         thr[f"oracle_matched_to_{ref}"] = oracle
-        res = {"thresholds": thr, "attacks": {}, "benign": {}}
+        res = {"thresholds": thr, "subsampled": sub, "n_dev_negatives_used": len(dev_t),
+               "benign_n_used": {k: len(v) for k, v in ben_t.items()}, "attacks": {}, "benign": {}}
         for tname, t in thr.items():
             res["attacks"][tname] = {k: rate_with_ci(sum(s >= t for s in v), len(v)) for k, v in a_s.items()}
             res["benign"][tname] = {k: rate_with_ci(sum(s >= t for s in v), len(v)) for k, v in b_s.items()}

@@ -36,9 +36,12 @@ read that document, not this summary, before citing a specific figure.
 - **Full harm coverage across attack mechanisms.** Only 3 of 7 attack families (DSRM,
   FARMA, MPBench) have end-to-end evidence the attack actually changes what the agent
   says; the other 4 have detection numbers but no behavioral-harm confirmation.
-- **Behavior at realistic memory-store scale.** Every test in this project uses 1 poison
-  memory plus 3 distractors. A real assistant's memory store holds hundreds to thousands
-  of memories; both attack success and detection cost at that scale are untested.
+- **Behavior at realistic memory-store scale — partially shown now.** Most tests use 1
+  poison memory plus 3 distractors. A first check at 100 real competing memories (24
+  instances, B12 only) found detection unchanged and cost sub-linear, plus a real 1.25%
+  baseline benign-flag cost the small pools could never have surfaced (§17). Not yet run at
+  the full population or for other configs, and it is one large retrieval snapshot, not a
+  store that grows and consolidates over time.
 
 ## Current status (2026-09-29): Phase 17 — Ablation & Generalization
 
