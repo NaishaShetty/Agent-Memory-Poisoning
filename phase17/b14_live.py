@@ -103,6 +103,14 @@ def b14_actions(
     elif conflict != "off":
         raise ValueError(f"conflict must be off/ordered/order_free, got {conflict!r}")
 
+    # Pool-level coordination (round 5): the ONLY thing B10's learned component was ever good
+    # at was coordinated near-duplicate clusters, and B10 shipped it gated into having no
+    # effect at all. Here it acts as a pool property -- a memory can only be escalated if it
+    # sits in a near-duplicate clique, so an isolated benign memory can never be touched by it.
+    from phase17.coordination_signal import coordinated_members
+
+    coordinated = coordinated_members(items)
+
     # B13's context-dependent corroboration, unchanged.
     support: Dict[str, float] = {}
     if evidence:
@@ -117,6 +125,10 @@ def b14_actions(
         trusted = sources.get(memory_id) in b13_live.TRUSTED_SOURCES
         sup = support.get(memory_id)
         hard = actions[memory_id] in ("QUARANTINE", "BLOCK") or si >= t_excl or conflicted.get(memory_id, False)
+        # A coordinated cluster escalates a FLAG to an exclusion, but never creates one from
+        # nothing: the memory must already be independently suspicious.
+        if memory_id in coordinated and si >= t_flag:
+            hard = True
         if sup is not None:
             # TWO-SIGNAL RULE (round 5). B13 hard-excluded on "unsupported" ALONE, which cost
             # 17/1515 (1.1%) of LoCoMo's own benign derived memories in the frozen evaluation
