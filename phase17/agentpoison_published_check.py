@@ -65,10 +65,25 @@ def _pool_and_labels() -> Dict[str, List[str]]:
     return groups
 
 
-def _triggers() -> List[str]:
+def _triggers() -> Dict[str, str]:
+    """Every trigger in play, each read from its own source artifact rather than hardcoded.
+
+    CORRECTION (2026-09-30, found while reviewing this module's own first result): the first
+    version tested the reconstruction ONLY against the PUBLISHED triggers, never against the
+    trigger it was itself optimized to produce -- which is the same error this module was
+    written to correct in `PHASE17_ROUND5_FIXES.md` §1 (measuring a backdoor outside its own
+    trigger condition). A backdoor not fired by its own trigger tells you nothing. Both
+    families' own triggers are now tested against both families' poison.
+    """
     from phase17.external_attacks import AGENTPOISON_TRIGGERS
 
-    return list(AGENTPOISON_TRIGGERS)
+    out = {f"published_{i}": t for i, t in enumerate(AGENTPOISON_TRIGGERS)}
+    for art in sorted(Path("phase4/attacks/agentpoison").glob("milestone4_artifact_*.json")):
+        d = json.loads(art.read_text(encoding="utf-8"))
+        t = d.get("trigger_text", "").replace("[MASK]", "").strip()
+        if t:
+            out[f"reconstruction_{art.stem.split('_')[-1]}"] = " ".join(t.split())
+    return out
 
 
 def run() -> dict:
@@ -84,9 +99,11 @@ def run() -> dict:
     E = _ap_embed(texts)
 
     out = {"n_pool": len(texts), "n_queries": len(queries), "top_k": TOP_K, "conditions": {}}
+    trigs = _triggers()
+    out["triggers"] = trigs
     conditions = {"plain_queries": queries}
-    for i, trig in enumerate(_triggers()):
-        conditions[f"trigger_{i}_queries"] = [f"{q} {trig}" for q in queries]
+    for name, trig in trigs.items():
+        conditions[f"trigger::{name}"] = [f"{q} {trig}" for q in queries]
 
     for cond, qs in conditions.items():
         Q = _ap_embed(qs)
@@ -109,19 +126,24 @@ def run() -> dict:
     from phase17.poison_sets import PoisonRecord
     from phase17.semantic_detector import warm_all_tiers
 
-    pub = groups["published::agentpoison"] + groups["published::minja"]
-    warm_all_tiers(pub)
+    targets = {"published::agentpoison": groups["published::agentpoison"],
+               "published::minja": groups["published::minja"],
+               "reconstruction::agentpoison": groups["reconstruction::agentpoison"]}
+    warm_all_tiers([t for v in targets.values() for t in v])
     for cfg in ("B9", "B11", "B12", "B13"):
-        recs = [PoisonRecord(f"AP-{i}", t, "published", "check") for i, t in enumerate(pub)]
-        pools, _ = arenas.isolated_arena(recs)
-        excl = flag = 0
-        for p, r in zip(pools, recs):
-            _, dec = apply_defense(cfg, tuple((m.scenario_id, m.content_text) for m in p.memories))
-            d = next(x for x in dec if x.memory_id == r.scenario_id)
-            excl += d.excluded
-            flag += d.action != "ALLOW"
-        out["detection"][cfg] = {"excluded": rate_with_ci(excl, len(pub)), "flagged": rate_with_ci(flag, len(pub))}
-        print("detection", cfg, excl, "/", len(pub), flush=True)
+        out["detection"][cfg] = {}
+        for gname, texts in targets.items():
+            recs = [PoisonRecord(f"AP-{i}", t, "published", "check") for i, t in enumerate(texts)]
+            pools, _ = arenas.isolated_arena(recs)
+            excl = flag = 0
+            for p, r in zip(pools, recs):
+                _, dec = apply_defense(cfg, tuple((m.scenario_id, m.content_text) for m in p.memories))
+                d = next(x for x in dec if x.memory_id == r.scenario_id)
+                excl += d.excluded
+                flag += d.action != "ALLOW"
+            out["detection"][cfg][gname] = {"excluded": rate_with_ci(excl, len(texts)),
+                                            "flagged": rate_with_ci(flag, len(texts))}
+            print("detection", cfg, gname, excl, "/", len(texts), flush=True)
 
     OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     return out

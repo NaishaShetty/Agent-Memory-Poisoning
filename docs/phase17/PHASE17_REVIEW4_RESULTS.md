@@ -157,43 +157,70 @@ repository): their poisoned-knowledge templates and the trigger strings their sc
 actually ship, extracted verbatim by `external_attacks.py`.
 
 The protocol is `PHASE17_ROUND5_FIXES.md` §1's own — one shared candidate pool, 300 diverse
-real LoCoMo questions, top-3 appearances — run in three conditions instead of one:
+real LoCoMo questions, top-3 appearances — but run in **every trigger condition, including
+each attack's own trigger**, rather than on plain queries alone. Each trigger is read from
+its own source artifact (`phase4/attacks/agentpoison/milestone4_artifact_*.json` for the
+reconstruction, the authors' released scripts for the published material).
 
-| Pool item | plain queries | + authors' trigger string | + the "parallel universe" trigger |
+| Pool item | plain queries | + published trigger | + the reconstruction's OWN trigger |
 |---|---|---|---|
-| **Published AgentPoison material** | **0.6%** | **36.2%** | 9.8% |
-| This project's AgentPoison reconstruction | **0.0%** | **0.0%** | **0.0%** |
-| reconstruction: minja / mpbench / dsrm | 27.2% / 24.4% / 16.1% | 7.9% / 8.7% / 3.3% | 26.0% / 19.0% / 11.7% |
-| benign floor (50 real memories) | 0.5% | 0.0% | 0.3% |
+| **Published AgentPoison material** | 0.6% | **36.2%** | 2.6% |
+| **This project's AgentPoison reconstruction** | **0.0%** | 0.0% | **100.0%** |
+| reconstruction: minja / mpbench / dsrm | 27.2% / 24.4% / 16.1% | 7.9% / 8.7% / 3.3% | 4.1% / 12.2% / 6.3% |
+| benign floor (50 real memories) | 0.5% | 0.0% | 0.5% |
 
-**This changes the interpretation of `PHASE17_ROUND5_FIXES.md` §1, which should be read
-with this table.** That section concluded, from plain queries alone, that AgentPoison's
-trigger is *less* broadly retrievable than every other family and that this "refutes the
-universal magnet premise." Measured on plain queries only, a backdoor trigger *should* look
-inert — being invisible until the trigger appears is the design, not a failure of it. The
-published material shows exactly that signature: indistinguishable from benign background
-on ordinary queries (0.6% vs 0.5%), and a **60x jump to 36.2% — the highest of anything in
-the pool — the moment a query carries the authors' own trigger string.**
+**Both this project's earlier conclusion and this section's own first draft were wrong, for
+the same reason: a backdoor was being measured outside its own trigger condition.**
 
-**This project's reconstruction is 0.0% in every condition, including with the trigger
-present.** It is not a weak attack; on this measurement it is an inert one. That is a
-sharper and better-evidenced version of the existing disclosure, and it is why AgentPoison
-stays out of headline claims.
+`PHASE17_ROUND5_FIXES.md` §1 concluded from plain queries that AgentPoison's reconstruction
+is "less broadly retrievable than every other family," refuting the universal-magnet premise
+— and the first version of this section then called it "inert." Neither holds. Fired with
+the trigger it was actually optimized to produce, **the reconstruction is retrieved into the
+top 3 for 100.0% of 300 diverse, unrelated real queries, while sitting at 0.0% without it
+and 0.0% under a different attack's trigger.** That is not a weak attack or an inert one; it
+is a near-perfect retrieval backdoor with clean trigger specificity, and the benign floor
+stays at ~0.5% in the same condition, so it is a real signal and not an artifact of adding
+tokens to queries.
 
-Detection on the published material (27 items):
+**The reviewer's premise for this item — "it's the least retrievable of the 7 families, so
+every AgentPoison defense number is measured against an attack that barely works" — is
+therefore not correct, and neither was this project's own supporting measurement.** A
+backdoor that is invisible on ordinary queries is working as designed; "low top-3 rate on
+plain queries" was never evidence of weakness.
 
-| Config | Excluded | Flagged |
-|---|---|---|
-| B9 | 0/27 | 2/27 |
-| B11 | 13/27 | 17/27 |
-| B12 | 13/27 | 16/27 |
-| B13 | 15/27 | 17/27 |
+**The real, remaining caveat is different and narrower, and Phase 4 already disclosed it:**
+the reconstruction reaches 100% because the optimized trigger tokens are embedded as
+*visible text inside the poison record itself* (`trigger_run.py`'s docstring states this
+plainly: proximity is guaranteed "by shared tokens (not by a second gradient
+optimization)"), so the retrieval win is substantially by construction. The paper's
+passage-side optimization is not ported. The published material, which does not take that
+shortcut, reaches 36.2% on its own trigger. So the honest ordering is: the reconstruction
+demonstrates the backdoor *effect* reliably but by an easier mechanism than the paper's, and
+the published material demonstrates it at a lower but still large rate by the authors' own
+construction.
 
-So AgentPoison-family detection numbers now exist against published attack material and not
-only against an inert reconstruction — which was the reviewer's actual concern. What is
-still not done: the paper's white-box gradient search is not reproduced, so this is the
-authors' released artifacts measured in this project's embedding space, not the full attack
-run end to end.
+Detection, by source:
+
+| Config | Published AgentPoison (6) | Published MINJA (21) | Reconstruction (1) |
+|---|---|---|---|
+| B9 | 0/6 | 0/21 | 0/1 |
+| B11 | 4/6 | 9/21 | 0/1 |
+| B12 | 2/6 | 11/21 | 0/1 |
+| B13 | **4/6** | **11/21** | 0/1 |
+
+**A genuine weakness this exposes, stated plainly:** every config excludes the
+reconstruction 0/1, and B12 excludes only 2/6 of the published AgentPoison records. The
+attack works (100% trigger retrieval) and the content-level defenses largely do not catch
+it — the poison text reads as an ordinary address-update note plus a nonsense token run.
+B13 recovers 4/6 on the published material but still misses the reconstruction. This is now
+a *defense* gap backed by a *working* attack, which is a more useful finding than the
+previous "the attack doesn't work, so the numbers don't mean much."
+
+**Consequence for headline claims:** the reason AgentPoison was being dropped from headline
+claims was attack weakness, and that reason does not survive this measurement. AgentPoison
+retrieval-side numbers are restored to ordinary standing, carrying the construction caveat
+above; the `n=1` reconstruction record remains far too small a population for any rate
+claim on its own.
 
 ## 9. What this round did NOT fix
 

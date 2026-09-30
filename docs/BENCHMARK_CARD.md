@@ -139,17 +139,20 @@ Section 5 for the evidence-status vocabulary every number carries.
   on the identical 150 answers) — always use an independent judge model for a headline claim.
 - Multi-hop reasoning is bounded by the local agent model's own reasoning ceiling, not
   fixable by retrieval changes alone (`phase17/multihop_scored.json`).
-- **AgentPoison is excluded from headline claims** (external review round 4 decision): the
-  reviewer offered either re-optimizing the trigger properly or dropping it from headline
-  claims, and this project takes the second. Its numbers remain published, per-family and
-  clearly scoped, but no headline claim rests on them. Measured directly
-  (`phase17/agentpoison_published_check.py`): this project's reconstruction is retrieved
-  into the top 3 for **0.0%** of 300 diverse queries in every condition — including when
-  the query carries the trigger — so it is inert, not merely weak. The AgentPoison authors'
-  own published material, measured identically, sits at the benign floor on plain queries
-  and reaches **36.2%** on trigger-carrying queries, which is the backdoor signature the
-  reconstruction lacks. Detection numbers against that published material now exist
-  (B12 13/27, B13 15/27 excluded).
+- **AgentPoison, corrected** (external review round 4, 2026-09-30): this project
+  previously reported that its AgentPoison reconstruction is the least retrievable of the 7
+  families and does not behave like a "universal retrieval magnet". That measurement used
+  only trigger-free queries, which is the wrong condition for a backdoor. Re-measured with
+  each attack's own trigger (`phase17/agentpoison_published_check.py`), the reconstruction
+  goes from 0.0% to **100.0%** top-3 retrieval across 300 diverse real queries against a
+  ~0.5% benign floor, and 0.0% under a different attack's trigger — a near-perfect,
+  trigger-specific retrieval backdoor. The remaining, narrower caveat (disclosed since Phase
+  4): the trigger tokens are embedded as visible text in the poison record, so that
+  retrieval success is largely by construction, not by the paper's passage-side
+  optimization, which is not ported. The AgentPoison authors' own released material,
+  measured identically, reaches 36.2% on its own trigger. **Defense coverage here is weak
+  and that is now a defense finding rather than an attack artifact:** B12 excludes 2/6 of
+  the published AgentPoison records and 0/1 of the reconstruction; B13 reaches 4/6.
 - AgentPoison's query-side embedding-trigger surface has no dedicated defense mechanism,
   AND (measured directly, `docs/phase17/PHASE17_ROUND5_FIXES.md` §1) this project's own
   reconstruction of the attack does not exhibit the broad-retrievability property real

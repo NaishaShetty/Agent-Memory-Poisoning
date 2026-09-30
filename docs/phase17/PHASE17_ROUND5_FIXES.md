@@ -34,16 +34,19 @@ item lands in the top-3.
 | **agentpoison** | **9.7%** (lowest of all 7) |
 | benign (avg of 50) | 2.0% |
 
-> **CORRECTION (external review round 4, 2026-09-30) — this section measures only PLAIN
-> queries, and that is the wrong condition to draw this conclusion from.** A backdoor
-> trigger is *designed* to be inert until a query carries it, so "low top-3 rate on ordinary
-> queries" is the attack working as intended, not evidence against it. Re-run in three
-> conditions against the AgentPoison authors' OWN published material
-> (`phase17/agentpoison_published_check.py`): that material sits at the benign floor on
-> plain queries (0.6% vs 0.5%) and jumps to **36.2%**, the highest of anything in the pool,
-> once a query carries the authors' trigger string. This project's reconstruction is
-> **0.0% in every condition, including with the trigger** — inert, not merely weak. See
-> `PHASE17_REVIEW4_RESULTS.md` §8b. The sentences below remain as originally written.
+> **CORRECTION (external review round 4, 2026-09-30) — this section's conclusion is
+> WRONG, and the reason is that it measures only PLAIN queries.** A backdoor trigger is
+> designed to be inert until a query carries it, so a low top-3 rate on ordinary queries is
+> the attack working as intended, not evidence against it. Re-run with each attack's OWN
+> trigger (`phase17/agentpoison_published_check.py`), the reconstruction goes from **0.0%**
+> on plain queries to **100.0%** on queries carrying the trigger it was optimized to
+> produce — the highest of anything in the pool, against a ~0.5% benign floor — and stays
+> at 0.0% under a different attack's trigger. It is a near-perfect retrieval backdoor with
+> clean trigger specificity, not a weak or inert attack. The real caveat is narrower and is
+> already disclosed in `trigger_run.py`: the trigger tokens sit as visible text inside the
+> poison record, so that retrieval win is largely by construction rather than by the paper's
+> passage-side optimization, which is not ported. See `PHASE17_REVIEW4_RESULTS.md` §8b. The
+> text below remains as originally written.
 
 **AgentPoison's trigger, as reconstructed in this project, is LESS broadly retrievable
 than every other attack family's poison, not more.** This directly refutes the
