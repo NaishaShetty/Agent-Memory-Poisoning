@@ -62,6 +62,21 @@ def len_z(text: str) -> float:
     return (math.log1p(len(text)) - 5.0) / 1.5
 
 
+_CACHE = None
+
+
+def _shared_cache():
+    """One cache object per process. `build()` is called once per pool, and re-reading a
+    14k-entry JSON file every time was both slow and the source of a mid-write read that
+    crashed a long evaluation."""
+    global _CACHE
+    if _CACHE is None:
+        from phase17.external_baselines import ScoreCache
+
+        _CACHE = ScoreCache()
+    return _CACHE
+
+
 def build(texts: Sequence[str], workers: int = 8, warm: bool = True) -> np.ndarray:
     """Feature matrix for `texts`. Every LLM-backed column is cached and warmed concurrently."""
     from phase17.external_baselines import SCORERS, ScoreCache
@@ -70,7 +85,7 @@ def build(texts: Sequence[str], workers: int = 8, warm: bool = True) -> np.ndarr
     from phase17 import b11_live
 
     texts = list(texts)
-    cache = ScoreCache()
+    cache = _shared_cache()
     cols: Dict[str, List[float]] = {}
     for name, key in (("llama_guard3", "llama_guard3"), ("deberta_pi_v2", "deberta_pi"),
                       ("llm_prompt_qwen", "prompt_qwen"), ("llm_prompt_llama31", "prompt_llama31"),

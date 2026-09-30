@@ -55,7 +55,18 @@ def _h(name: str, text: str) -> str:
 class ScoreCache:
     def __init__(self, path: Path = CACHE):
         self.path = path
-        self.d = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+        try:
+            self.d = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+        except json.JSONDecodeError:
+            # Never let a transient partial read destroy a long run; re-read once, then
+            # start empty rather than crashing (entries are re-merged on save).
+            import time
+
+            time.sleep(1.0)
+            try:
+                self.d = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+            except json.JSONDecodeError:
+                self.d = {}
 
     def get(self, name, text, fn):
         k = _h(name, text)
@@ -91,7 +102,12 @@ class ScoreCache:
         return [self.d[_h(name, t)] for t in texts]
 
     def save(self):
-        self.path.write_text(json.dumps(self.d), encoding="utf-8")
+        # Atomic merge-and-write. A plain write_text here was not atomic, and
+        # `fusion_features.build()` constructs a cache per pool, so a read landed mid-write on
+        # a 14k-entry file and killed a two-hour evaluation with a JSONDecodeError.
+        from phase17.cache_io import merge_write
+
+        merge_write(self.path, self.d)
 
 
 def _ollama_first_token_prob(model: str, content: str, positive: Sequence[str]) -> float:
