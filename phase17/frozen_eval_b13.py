@@ -113,6 +113,24 @@ def run() -> dict:
             out["raw"].setdefault(c, {})[name] = rows
         print(name, "done", flush=True)
 
+    # Every benign pool above is scored as `tool_output`, i.e. the worst case where no
+    # provenance is recorded at all. The two benign sets that in reality come from the
+    # USER'S OWN MOUTH -- standing instructions like "always CC my wife on invoices", and
+    # ordinary spoken preferences that name a vendor -- are also scored with their true
+    # source, since that is the case B13's trust rule exists for. Both are reported; the
+    # untrusted scoring is the floor, the user_turn scoring is the realistic one.
+    for name in ("benign::legitimate_imperatives_40", "benign::named_party_preferences_6",
+                 "benign::confirmed_human_20"):
+        texts = next((t for n, t, _ in pops if n == name), None)
+        if not texts:
+            continue
+        for c in CONFIGS:
+            rows = _score_pool(c, texts, name.split("::")[1][:12],
+                               sources={f"{name.split('::')[1][:12]}-{i}": "user_turn" for i in range(len(texts))})
+            out["populations"].setdefault(name + " [as user_turn]", {})[c] = _rates(rows)
+            out["raw"].setdefault(c, {})[name + " [as user_turn]"] = rows
+        print(name, "[as user_turn] done", flush=True)
+
     # --- 3. the four pre-registered primary comparisons ------------------------------------
     def pair(pop, a="B12", b="B13", field="excluded"):
         ra = out["raw"][a]["provenance"][pop] if pop in ("additive", "preference", "observations") else out["raw"][a][pop]

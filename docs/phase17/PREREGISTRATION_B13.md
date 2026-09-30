@@ -81,6 +81,14 @@ Primary comparisons, decided now:
   n=30 harm study showed B12 never excluded and where harm actually occurred).
 - **P3** B13's false-positive rate on populations 4, 5 and 6 vs B12's, at the same time.
   A recall gain paid for with a benign-exclusion increase is a loss, not a win.
+  *Clarification added before the run, after the eval script was written and before any
+  test number existed:* every benign population is scored with **no recorded provenance**
+  (treated as `tool_output`, B13's worst case). The three benign sets that in reality come
+  from the user's own mouth — `legitimate_imperatives_40`, `named_party_preferences_6`,
+  `confirmed_human_20` — are **additionally** scored with their true `user_turn` source and
+  reported as a separate row. Both are primary; the untrusted scoring is B13's floor, the
+  `user_turn` scoring is the realistic deployment case. Neither may be dropped from the
+  report in favour of the other.
 - **P4** B13 vs B12 on `external_attacks` (whole population and per source).
 
 Secondary, reported but not primary: every other population in §2, the baseline comparison
