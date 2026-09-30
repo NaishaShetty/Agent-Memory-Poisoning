@@ -142,9 +142,74 @@ its numbers appear. The protocol was committed in
 
 *(pending — `phase17/harm_study_v2.py`.)*
 
-## 8. B12/B13 against published defenses
+## 8. B12/B13 against published defenses — the most important result in this round
 
-*(pending — `phase17/external_baselines.py`.)*
+Reviewer: *"If B12 beats these at the same false-positive rate, that's your strongest claim.
+If it doesn't, that's essential to know before anyone else finds it."* It is the second one,
+in a specific and informative way.
+
+Baselines, none trained or tuned on anything in this project: **Llama Guard 3 8B** (Meta's
+published safety classifier), **ProtectAI `deberta-v3-base-prompt-injection-v2`**, a **GPT-2
+perplexity filter**, and a plain **"is this a malicious or injected instruction?" prompt** on
+qwen2.5:7b (B12's own judge backbone) and on llama3.1:8b. Each is calibrated exactly the way
+B12 was — on the negatives of `tune_lomo.dev_pool()` at 0.5% dev FPR — and then, separately,
+given an **oracle threshold chosen on the test data in the baseline's favour**, matched to
+B12's own ordinary-benign exclusion count. Full populations, nothing subsampled.
+
+**Split by who wrote the attacks:**
+
+| Config | Attacks this project authored (296) | Attacks written by others (266) |
+|---|---|---|
+| **B12** | **137/296 (46.3%)** | 90/266 (33.8%) |
+| **B13** | **140/296 (47.3%)** | **100/266 (37.6%)** |
+| Llama Guard 3 | 27/296 (9.1%) | 87/266 (32.7%) |
+| deberta prompt-injection v2 | 49/296 (16.6%) | 37/266 (13.9%) |
+| GPT-2 perplexity | 11/296 (3.7%) | 30/266 (11.3%) |
+| plain prompt, qwen2.5:7b | 8/296 (2.7%) | 71/266 (26.7%) |
+| plain prompt, llama3.1:8b | 38/296 (12.8%) | 48/266 (18.0%) |
+
+**B12's margin over the best baseline is 2.80x on attacks this project generated, and 1.03x
+— i.e. none — on attacks written by other projects.** At the oracle threshold (chosen in the
+baselines' favour) the split is even sharper: 8.06x on own-authored, and **0.93x on
+externally-authored — B12 loses**, to a plain "is this malicious?" prompt sent to
+qwen2.5:7b (97/266 vs 90/266).
+
+**This is the generator/detector confound, measured.** `PHASE17_CURRENT_RESULTS.md` §5 has
+carried it as an open question on the attack side since round 2. It is no longer open: the
+stack's apparent advantage is overwhelmingly an advantage on *text produced by the model
+family the stack is built around*. Llama Guard 3 shows the mirror image — 9.1% on this
+project's attacks, 32.7% on everyone else's — which is what you would expect from a
+classifier trained on real-world injection data meeting (a) unfamiliar synthetic house style
+and (b) familiar public attack corpora.
+
+Where B12 is genuinely beaten on individual external corpora, at the dev threshold:
+
+| Corpus | B12 | B13 | best baseline |
+|---|---|---|---|
+| BIPIA (150) | 12 | 20 | **42** (plain qwen prompt) |
+| AgentDojo (27) | 23 | 23 | **25** (Llama Guard 3) |
+| InjecAgent (62) | 42 | 42 | 42 (Llama Guard 3, tied) |
+| MINJA (21) | **11** | **11** | 9 (plain llama3.1 prompt) |
+| AgentPoison (6) | 2 | **4** | 2 (deberta) |
+
+**What B12/B13 do hold, and it is not nothing:** a much lower false-positive rate at the
+dev-calibrated operating point. On ordinary benign content B12/B13 exclude 0/247, 0/360,
+0/447 and 0/20; Llama Guard 3 excludes 12 of those same 1,074 items, and the perplexity
+filter excludes **11/20 of the confirmed human-authored sentences** — it is measuring
+writing style, not malice, and is unusable here. The oracle comparison above already removes
+this advantage by construction, which is why it is the harder and fairer test.
+
+**B13 improves on B12 exactly where the round-4 work targeted, including out of sample:**
++10 on externally-authored attacks (100 vs 90), +8 on BIPIA, +3 on native Chinese (25 vs 22),
++2 on published AgentPoison (4/6 vs 2/6), at identical benign exclusion counts on every
+benign population. That is a real gain on attacks nobody in this project wrote.
+
+**Honest bottom line for anyone citing this benchmark:** on unseen *mechanisms* expressed in
+this project's own synthetic style, the stack is far ahead of every published baseline
+tested. On attacks authored outside the project, it is level with Llama Guard 3 and behind a
+one-line prompt to its own backbone model at matched FPR. Any claim of the form "this
+defense detects memory poisoning better than published defenses" is supported only for the
+first population, and the gap between the two is the size of the authorship confound.
 
 ## 8b. AgentPoison — measured against the authors' own published material
 
