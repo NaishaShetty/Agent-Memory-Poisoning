@@ -116,10 +116,28 @@ def populations() -> Dict[str, List]:
     from phase17.novel_attacks_extended import novel_records_extra_only
     from phase17.poison_sets import evasion_records, original_records, regenerated_records
 
+    # EVERY population in `attack_register.py` must appear here, or the register will report
+    # it as never having been run against an undefended agent. Round 5's register found
+    # `corpus_extended` (138 instances) and `frozen75_corpus` (34) were in no evaluation table
+    # at all, and that the founding families and the translated-Chinese set had never been
+    # behaviourally measured either.
+    from phase17.arenas import frozen_arena
+    from phase17.corpus_extended import extended_records
+    from phase17.founding_family_regen import founding_regen_records
+    from phase17.translation import zh_records
+
+    class _R:  # frozen75 yields MemoryScenario, not PoisonRecord
+        def __init__(self, m):
+            self.scenario_id, self.text = m.scenario_id, m.content_text
+            self.family = m.attack_family_ground_truth or "frozen75"
+
     out = {"own_novel_60": novel_records(), "own_novel_new120": novel_records_extra_only(),
            "own_gemini_30": gemini_records(), "own_evasion_47": evasion_records(),
            "own_trackb_15": original_records(), "own_trackb_regen_9": regenerated_records(),
-           "own_worm_regen": worm_regen_records(), "own_zh_native_30": native_zh_records()}
+           "own_worm_regen": worm_regen_records(), "own_zh_native_30": native_zh_records(),
+           "own_zh_translated_84": zh_records(), "own_corpus_extended": extended_records(),
+           "own_founding_regen": founding_regen_records(),
+           "own_frozen75": [_R(m) for p in frozen_arena()[0] for m in p.memories if m.is_poison_ground_truth]}
     for r in external_records():
         out.setdefault(f"extdev_{r.family.replace('external_', '')}", []).append(r)
     for r in test_attack_records():

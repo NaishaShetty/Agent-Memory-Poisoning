@@ -1,0 +1,153 @@
+{
+  "populations": [
+    {
+      "population": "trackb_original_15",
+      "n": 15,
+      "author": "qwen2.5:7b (Phase 4 reconstructions)",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 15,
+      "note": "the 7 founding families' original records; signals were tuned on these (in-sample)"
+    },
+    {
+      "population": "trackb_regen_9",
+      "n": 9,
+      "author": "qwen2.5:7b (Phase 11 regeneration)",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 9,
+      "note": "held out from signal design"
+    },
+    {
+      "population": "founding_regen",
+      "n": 0,
+      "author": "mistral:7b, validated by llama3.1:8b",
+      "mechanism_validated_at_generation": true,
+      "validity_audited": false,
+      "harm_measured_instances": 0,
+      "note": "round 5: enlarges the 7 founding families, which had 24 records total"
+    },
+    {
+      "population": "novel_60",
+      "n": 60,
+      "author": "qwen2.5:7b",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 29,
+      "note": "6 unseen mechanisms x 10 scenarios"
+    },
+    {
+      "population": "novel_new120",
+      "n": 120,
+      "author": "qwen2.5:7b",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 61,
+      "note": "scenario-disjoint extension"
+    },
+    {
+      "population": "memory_worm_regen",
+      "n": 29,
+      "author": "qwen2.5:7b, validated at generation",
+      "mechanism_validated_at_generation": true,
+      "validity_audited": false,
+      "harm_measured_instances": 29,
+      "note": "replaces the original 30 memory_worm instances, which implemented 0/30 of their own mechanism"
+    },
+    {
+      "population": "gemini_authored_30",
+      "n": 30,
+      "author": "gemini (different family)",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 0,
+      "note": "cross-model authorship check"
+    },
+    {
+      "population": "evasion_47",
+      "n": 47,
+      "author": "qwen2.5:7b rewrites of 24 parents",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 0,
+      "note": "fixed-prompt defense-aware rewrites"
+    },
+    {
+      "population": "zh_translated_84",
+      "n": 84,
+      "author": "qwen2.5:7b translations of English attacks",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 0,
+      "note": "round-trip translation confound; see zh_native_30"
+    },
+    {
+      "population": "zh_native_30",
+      "n": 30,
+      "author": "gemini, composed directly in Chinese",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 0,
+      "note": "closes the translation confound"
+    },
+    {
+      "population": "corpus_extended",
+      "n": 138,
+      "author": "qwen2.5:7b",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 0,
+      "note": "extended paraphrase/padding classes"
+    },
+    {
+      "population": "frozen75_corpus",
+      "n": 34,
+      "author": "Phase 6/12 corpus (qwen2.5:7b)",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 0,
+      "note": "the only arena with coordinated near-duplicate clusters"
+    },
+    {
+      "population": "external_dev_266",
+      "n": 266,
+      "author": "MINJA / AgentPoison / InjecAgent / BIPIA / AgentDojo authors",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 60,
+      "note": "external-DEV since round 4 published its per-source results"
+    },
+    {
+      "population": "external_test_1258",
+      "n": 1258,
+      "author": "HUMAN (Gandalf players) + deepset authors",
+      "mechanism_validated_at_generation": false,
+      "validity_audited": false,
+      "harm_measured_instances": 0,
+      "note": "FROZEN test set; 998 of these are human-authored"
+    }
+  ],
+  "total_attack_instances": 2120,
+  "gaps": [
+    "trackb_original_15: instances never checked against their own mechanism",
+    "trackb_regen_9: instances never checked against their own mechanism",
+    "founding_regen: NOT BUILT in this checkout (n=0)",
+    "novel_60: instances never checked against their own mechanism",
+    "novel_new120: instances never checked against their own mechanism",
+    "gemini_authored_30: instances never checked against their own mechanism",
+    "gemini_authored_30: no instance has been run end-to-end against an undefended agent",
+    "evasion_47: instances never checked against their own mechanism",
+    "evasion_47: no instance has been run end-to-end against an undefended agent",
+    "zh_translated_84: instances never checked against their own mechanism",
+    "zh_translated_84: no instance has been run end-to-end against an undefended agent",
+    "zh_native_30: instances never checked against their own mechanism",
+    "zh_native_30: no instance has been run end-to-end against an undefended agent",
+    "corpus_extended: instances never checked against their own mechanism",
+    "corpus_extended: no instance has been run end-to-end against an undefended agent",
+    "frozen75_corpus: instances never checked against their own mechanism",
+    "frozen75_corpus: no instance has been run end-to-end against an undefended agent",
+    "external_dev_266: instances never checked against their own mechanism",
+    "external_test_1258: instances never checked against their own mechanism",
+    "external_test_1258: no instance has been run end-to-end against an undefended agent"
+  ]
+}
