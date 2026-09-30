@@ -133,7 +133,7 @@ def _ollama_call(model: str, content: str, positive: Sequence[str]) -> float:
     # keep_alive holds the model resident between calls (a reload per call dominated the
     # cost otherwise); num_ctx is sized to these short prompts so more layers fit on the GPU.
     r = requests.post(OLLAMA, json={"model": model, "messages": [{"role": "user", "content": content}], "stream": False,
-                                    "logprobs": True, "top_logprobs": 10, "keep_alive": "30m",
+                                    "logprobs": True, "top_logprobs": 10, "keep_alive": "10m",
                                     "options": {"temperature": 0, "num_predict": 2, "seed": 17, "num_ctx": 1024}},
                       timeout=900)
     r.raise_for_status()
@@ -144,6 +144,24 @@ def _ollama_call(model: str, content: str, positive: Sequence[str]) -> float:
     pos = sum(math.exp(t["logprob"]) for t in tops if t["token"].strip().lower() in {p.lower() for p in positive})
     tot = sum(math.exp(t["logprob"]) for t in tops)
     return pos / tot if tot else 0.0
+
+
+def unload(model: str) -> None:
+    """Explicitly evict a model from VRAM.
+
+    Measured directly on this machine: after llama-guard3:8b (5.2GB) had been serving a
+    batch, a plain request for qwen2.5:7b did not respond within 100s and `ollama ps` still
+    showed llama-guard3 resident. Two 8B models do not fit in 6GB, and letting the server
+    work the eviction out under load is what produced every read timeout this round --
+    including the ones I initially blamed on my own retry logic. Unloading between scorers
+    makes the swap explicit and bounded instead.
+    """
+    import requests
+
+    try:
+        requests.post(OLLAMA, json={"model": model, "messages": [], "keep_alive": 0}, timeout=120)
+    except Exception:
+        pass
 
 
 def _llama_guard(text):

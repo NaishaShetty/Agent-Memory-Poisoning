@@ -50,15 +50,25 @@ def all_evaluation_texts() -> List[str]:
 
 
 def run(texts: Sequence[str] = None, chunk: int = CHUNK, workers: int = WORKERS) -> dict:
-    from phase17.external_baselines import SCORERS, ScoreCache
+    from phase17.external_baselines import SCORERS, ScoreCache, unload
 
     texts = list(texts) if texts is not None else all_evaluation_texts()
     print(f"precomputing fusion features for {len(texts)} unique texts", flush=True)
     cache = ScoreCache()
     done = {}
     # One scorer at a time: each is a different model, and interleaving them thrashes a 6GB card.
+    OLLAMA_MODEL = {"llama_guard3": "llama-guard3:8b", "llm_prompt_qwen": "qwen2.5:7b",
+                    "llm_prompt_llama31": "llama3.1:8b"}
+    prev_model = None
     for name in ("deberta_pi_v2", "perplexity_gpt2", "llama_guard3", "llm_prompt_qwen", "llm_prompt_llama31"):
         w = workers if name.startswith(("llama_guard", "llm_prompt")) else 0
+        # Evict the previous model before loading the next: two 8B models do not fit in 6GB,
+        # and leaving the server to work that out under load is what wedged it repeatedly.
+        if prev_model and OLLAMA_MODEL.get(name) and OLLAMA_MODEL[name] != prev_model:
+            print(f"  unloading {prev_model} before {OLLAMA_MODEL[name]}", flush=True)
+            unload(prev_model)
+            time.sleep(5)
+        prev_model = OLLAMA_MODEL.get(name, prev_model)
         t0, failed = time.time(), 0
         for i in range(0, len(texts), chunk):
             part = texts[i:i + chunk]
