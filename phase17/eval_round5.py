@@ -117,6 +117,18 @@ def run(reference: str = "B14") -> dict:
     all_texts = [r.text for rs in attacks.values() for r in rs] + [t for v in benign.values() for t in v]
     print(f"warming judge tiers over {len(all_texts)} texts", flush=True)
     warm_all_tiers(all_texts)
+    # B14 builds its fusion features per POOL (4 texts), which caps its parallel dispatch at 4
+    # and re-pays per-call overhead thousands of times -- measured at ~0.13 scores/sec, i.e.
+    # hours. Precompute every feature once, 8-way, so the per-pool builds are cache hits.
+    if "B14" in CONFIGS:
+        from phase17.arenas import N_DISTRACTORS
+        from phase17.fusion_features import build as _fb
+        from phase11.relational_signals.locomo_qa_counterfactuals import flat_counterfactual_pool
+
+        distractors = [d.declarative_text for d in flat_counterfactual_pool()]
+        print(f"precomputing B14 fusion features over {len(all_texts) + len(distractors)} texts", flush=True)
+        _fb(all_texts + distractors, workers=8, warm=False)
+        print("  fusion features ready", flush=True)
 
     # Which (system, population) pairs are IN-SAMPLE, recorded by the harness rather than
     # left to prose: B14 is fitted on external-DEV and on the dev pool, so its numbers there
