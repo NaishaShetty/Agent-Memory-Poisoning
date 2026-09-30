@@ -8,7 +8,7 @@
 # amem-live` and `make mem0-live` run those stages assuming those environments already
 # exist at the paths that file documents.
 
-.PHONY: install regression phase17-structural phase17-live amem-live mem0-live bench-smoke
+.PHONY: install regression phase17-structural phase17-live amem-live mem0-live bench-smoke         review4-baselines review4-frozen-eval review4-harm review4-all
 
 install:
 	pip install -r requirements.txt
@@ -25,7 +25,7 @@ regression:
 	$(MAKE) phase17-structural
 
 phase17-structural:
-	python -m pytest phase17/tests/test_workstreams.py phase17/tests/test_bench_runner.py phase17/tests/test_external_review_fixes.py phase17/tests/test_headline_numbers.py phase17/tests/test_live_foundation_stages.py phase17/tests/test_round3_fixes.py phase17/tests/test_arenas.py phase17/leakage_audit.py -q
+	python -m pytest phase17/tests/test_workstreams.py phase17/tests/test_bench_runner.py phase17/tests/test_external_review_fixes.py phase17/tests/test_headline_numbers.py phase17/tests/test_live_foundation_stages.py phase17/tests/test_round3_fixes.py phase17/tests/test_review4_fixes.py phase17/tests/test_arenas.py phase17/leakage_audit.py -q
 
 phase17-live:
 	python -m pytest phase17/ -m "not slow" -q
@@ -42,3 +42,20 @@ mem0-live:
 
 bench-smoke:
 	python -m phase17.bench_runner --defense B12 --split held_out_novel
+
+# --- external review round 4 (2026-09-30) ------------------------------------------------
+# All of these need a local Ollama server. `review4-baselines` additionally pulls nothing
+# but expects llama-guard3:8b and llama3.1:8b to be present, and downloads two HuggingFace
+# models on first run (protectai/deberta-v3-base-prompt-injection-v2, gpt2).
+# Run them one at a time: two concurrent jobs evict each other's model on a small GPU and
+# each run ends up several times slower.
+review4-baselines:
+	python -m phase17.external_baselines B12 B13
+
+review4-frozen-eval:
+	python -m phase17.frozen_eval_b13
+
+review4-harm:
+	python -m phase17.harm_study_v2
+
+review4-all: review4-baselines review4-frozen-eval review4-harm

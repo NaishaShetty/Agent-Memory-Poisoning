@@ -1,0 +1,165 @@
+# Phase 17 — external review round 4 results (2026-09-30)
+
+What this round changed, and what it measured. Read
+[`PHASE17_CURRENT_RESULTS.md`](PHASE17_CURRENT_RESULTS.md) first for everything before this
+round; this document only covers round 4 and states where it supersedes an earlier number.
+
+**B12 was not modified.** Every B12 number published before this round still describes the
+shipped B12. The new signals live in a new config, `B13` (`phase17/b13_live.py`), so the
+comparison is like-for-like and the reviewed configuration stays reviewable.
+
+---
+
+## 1. Two "official" result scripts had drifted from the live defense — again
+
+Round 3 found `run_gstack2.py`'s B11 formula missing the `lineage` tier that
+`b11_live.b11_actions` actually applies, and fixed the number. It did not fix the cause: the
+formula is hand-duplicated, so it can drift again. It had. `run_b12.py` had the same defect.
+
+Both now compute exclusion/flagging the same way the dispatched functions do, and
+`phase17/tests/test_review4_fixes.py` compares the two symbolically, so a tier added to a
+live config and not mirrored into its result script fails CI.
+
+**Corrected numbers** (`gstack2_results.json`, regenerated):
+
+| Population | B11 excluded, before → after | B11 flagged, before → after |
+|---|---|---|
+| `held_out_regen` (9) | 3 → **4** | 5 → **6** |
+| `held_out_zh` (84) | 23 → **24** | 48 → **49** |
+| `held_out_novel` (60) | 20 → 20 (unchanged) | 47 → 47 (unchanged) |
+
+B12's own published numbers are unchanged by the equivalent fix: on every population, the
+`lineage` tier added no exclusion beyond what the stacked detector already caught.
+
+## 2. `memory_worm` was never the attack it was labelled as
+
+The previous session found, and this one confirms independently
+(`phase17/worm_tier_check.py`), that the 30 original `memory_worm` instances do not
+implement their own documented mechanism ("the note instructs the assistant to copy or
+re-insert this same note into any new memory it creates or summary it writes"). They are
+generic conditional-action reminders, structurally indistinguishable from an ordinary
+standing instruction.
+
+**This means every `memory_worm` number published by this project before this round —
+including "B12 excludes 0/5 memory_worm poisons in the harm study", one of the most damaging
+findings in `PHASE17_CURRENT_RESULTS.md` §13 — describes a population that was not the
+attack it claimed to be.** The corrected instances (`memory_worm_regen.py`, 29 valid, each
+validated at generation time against the mechanism, by a generator that had to satisfy the
+check before the instance was accepted) are used everywhere in this round.
+
+Numbers: §6 (frozen evaluation) and §7 (harm study).
+
+## 3. The Chinese result, with the translation confound removed
+
+Round 4's objection: the 84 Chinese attacks are Qwen's own translations of English attacks,
+B12's live route translates CJK text back to English *with the same Qwen model*, and the
+Chinese benign control (PerLTQA) is native text while the attacks are translated — so
+"30/84 excluded" partly measures whether Qwen can undo its own translation, against a
+mismatched control.
+
+Both halves are now closed (`phase17/chinese_native_attacks.py`,
+`phase17/chinese_native_check.py`): 30 attacks **composed directly in Chinese by Gemini**
+(a different model family, never shown an English attack to translate) and a benign control
+of real English LoCoMo text **machine-translated by Qwen through the same pipeline** the
+attacks went through.
+
+| Population | translate-then-score (shipped B12) | multilingual embedding | union |
+|---|---|---|---|
+| Attacks, Qwen-translated (84, the original set) | 30/84 (35.7%) | 28/84 | 37/84 (44.0%) |
+| **Attacks, natively Chinese by Gemini (30)** | **22/30 (73.3%)** | 21/30 | **24/30 (80.0%)** |
+| Benign, native PerLTQA (447) | 0/447 | 0/447 | 0/447 |
+| **Benign, machine-translated by Qwen (39)** | **0/39** | **0/39** | **0/39** |
+
+**The confound was real but it was working against the result, not for it.** Detection on
+genuinely native Chinese attacks is *higher* (73.3%) than on the round-trip-translated ones
+(35.7%), not lower. The natural reading: Qwen's translations of English attacks are
+degraded, awkward text that is *harder* to detect, not a leak of the English original. And
+the benign side is 0 exclusions under both native and machine-translated text, so the
+apples-to-oranges control was not hiding a false-positive cost either.
+
+Live B12's real decision on the native Chinese attacks: **22/30 excluded, 29/30 flagged**;
+on the machine-translated benign control, **0/39 excluded, 1/39 flagged**. By mechanism,
+`preference_hijack` is again the hole: 0/5, while every other mechanism is 3/5 to 5/5 —
+consistent with every other measurement of that mechanism in this project.
+
+The union route is now shipped, in B13 only (§5).
+
+## 4. The reviewer's memory-worm idea was tested and rejected, and a different guard shipped
+
+Proposed: *"flag a memory whose text reappears verbatim in summaries or new memories."*
+Measured first (`phase17/worm_replication.py`, `data/worm_replication_dev.json`): 29
+corrected worms and 60 benign dev notes, each summarized by a real LLM consolidator, then
+that summary summarized again with fresh distractors.
+
+| Longest verbatim shared run | worms caught (gen 1) | benign flagged (gen 1) |
+|---|---|---|
+| ≥ 6 tokens | 11/29 | 42/60 |
+| ≥ 10 tokens | 5/29 | 19/60 |
+| ≥ 15 tokens | 3/29 | 6/60 |
+
+**The signal is inverted from the premise: the consolidator reproduces benign facts
+verbatim more often than it reproduces worms**, at every threshold. A worm's instruction
+survives into the summary *reworded* ("Michael's travel bookings should always be made with
+JetFly Airlines"), which is exactly what a summarizer does to everything. Verbatim
+reappearance is a property of summarization, not of self-replication.
+
+What shipped instead (`b13_live.guard_write`): at write time, drop sentences of the new
+summary/memory that are **directive** *and* semantically close (≥ 0.6) to an **untrusted**
+source memory. On dev this takes the worm payload carried into the summary from **29/29 to
+15/29**, at **0/60** benign dev notes losing a sentence. It needs provenance, which is why
+it lives in B13.
+
+## 5. B13 — what was added, and on what evidence
+
+All thresholds set on dev only (LoCoMo conversations 1–4 and dev sets), frozen before the
+test set existed, and recorded in [`PREREGISTRATION_B13.md`](PREREGISTRATION_B13.md).
+
+| Addition | What it is | Dev evidence |
+|---|---|---|
+| Source-aware trust | the user's own words are never excluded (hard hits are downgraded to a flag); every other channel gets full checks | design; the cost is measured on test, §6 |
+| NLI corroboration | an untrusted *personal claim* unsupported by the user's own turns is excluded/flagged | additive fabrications 34/48 excluded, 45/48 flagged, at 2%/5% of LoCoMo's own benign observation memories |
+| Unsupported-preference rule | an unsupported claim using preference language is excluded at the looser threshold | fabricated preferences 9/32 → **25/32**, at **3/1026** benign observations. `steer` alone reached 4/32 |
+| `worm` tier | self-replication judge | §2, §6 |
+| Carry-forward guard | §4 | 29/29 → 15/29, 0/60 benign |
+| Chinese route union | §3 | 0 benign exclusions on both Chinese benign sets |
+
+The honest control for source-aware trust is **benign text that arrives through an untrusted
+channel**: AgentDojo's own environment data (real calendar entries, emails, transactions,
+hotel records) dropped into a memory store it does not belong to. On dev: **0/148 excluded,
+5/148 (3.4%) flagged** — most such records are not personal claims about the user at all, so
+the corroboration check never applies to them.
+
+**B13 without provenance metadata degrades to B12 + the `worm` tier + the Chinese union** —
+never to anything weaker than B12. A memory with no recorded source is treated as untrusted.
+
+## 6. The frozen, pre-registered evaluation
+
+*(pending — this section is filled in by `phase17/frozen_eval_b13.py` and is the only place
+its numbers appear. The protocol was committed in
+[`PREREGISTRATION_B13.md`](PREREGISTRATION_B13.md) before the test populations existed.)*
+
+## 7. The harm study, redesigned
+
+*(pending — `phase17/harm_study_v2.py`.)*
+
+## 8. B12/B13 against published defenses
+
+*(pending — `phase17/external_baselines.py`.)*
+
+## 9. What this round did NOT fix
+
+- **AgentPoison's trigger was not re-optimized.** The reviewer offered two options —
+  re-optimize it properly, or drop it from headline claims. This round takes the second.
+  The reconstruction remains the disclosed-weak one described in
+  `PHASE17_ROUND5_FIXES.md` §1 (lowest top-3 retrievability of all 7 families), and no
+  headline claim in this project should rest on an AgentPoison number.
+- **Human-written attacks.** Still none. The 266 externally-authored attacks
+  (`external_attacks.py`) narrow the authorship confound — they were written by the MINJA,
+  AgentPoison, InjecAgent, BIPIA and AgentDojo authors, not by this project or its models —
+  but InjecAgent and BIPIA document LLM assistance in building their own datasets, so
+  "not authored by this project" is the honest claim, not "human-written".
+- **A LICENSE.** Still absent, still a decision for the project owner; the repository
+  remains all-rights-reserved by default, so nobody can legally reuse it.
+- **Track A's weak agent.** The harm study (§7) now uses `qwen2.5:7b` with an independent
+  `llama3.1:8b` judge, but the Track A utility campaign itself still runs on `llama2`
+  (122/300). Its "no utility cost" numbers keep that caveat.
