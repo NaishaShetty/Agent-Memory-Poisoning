@@ -8,7 +8,7 @@
 # amem-live` and `make mem0-live` run those stages assuming those environments already
 # exist at the paths that file documents.
 
-.PHONY: install regression phase17-structural phase17-live amem-live mem0-live bench-smoke         review4-baselines review4-frozen-eval review4-harm review4-all
+.PHONY: install regression phase17-structural phase17-live amem-live mem0-live bench-smoke review5-pipeline         review4-baselines review4-frozen-eval review4-harm review4-all
 
 install:
 	pip install -r requirements.txt
@@ -49,6 +49,20 @@ bench-smoke:
 # models on first run (protectai/deberta-v3-base-prompt-injection-v2, gpt2).
 # Run them one at a time: two concurrent jobs evict each other's model on a small GPU and
 # each run ends up several times slower.
+# See phase17/RUNNING_THE_PIPELINE.md before running these: one job at a time, and kill
+# orphaned python processes between stages (stopping a backgrounded shell does NOT stop its
+# python child, and four of them competing for one 6GB GPU is indistinguishable from a client
+# bug). `make review5-pipeline` does the whole sequence with that cleanup between stages.
+review5-pipeline:
+	powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill_orphan_phase17.ps1
+	python -u -m phase17.precompute_features
+	powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill_orphan_phase17.ps1
+	python -u -m phase17.eval_round5
+	powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill_orphan_phase17.ps1
+	python -u -m phase17.attack_validity_audit
+	powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill_orphan_phase17.ps1
+	python -u -m phase17.attack_register
+
 review4-baselines:
 	python -m phase17.external_baselines B12 B13
 
