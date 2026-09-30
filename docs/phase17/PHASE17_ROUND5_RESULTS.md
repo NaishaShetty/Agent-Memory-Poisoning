@@ -204,6 +204,53 @@ shell script, i.e. not reproducible from the repo at all), deduplicating on norm
 unique → 35 dev / 34 test. The one affected number in the round-4 frozen evaluation was
 re-scored and the correction is recorded inside `data/frozen_eval_b13.json` itself.
 
-## 7. Honest summary
+## 7. Adversarial self-review — written BEFORE the headline number was known
+
+PART 4 of the round-5 brief asks for an adversarial review of this round's own result before
+declaring anything. Writing it in advance of seeing the external-TEST number is the only way
+it can be honest, so this section was committed while that evaluation was still running.
+
+**Things that would make the headline number mean less than it appears to:**
+
+1. **B14 contains three of the baselines it is compared against.** Llama Guard 3, the deberta
+   prompt-injection classifier and the perplexity filter are features inside the fusion. "B14
+   beats Llama Guard 3" is therefore partly a superset relation. The number that carries
+   information is B14's gain over its own best single component, and it must be reported.
+2. **The test set is prompt injection, not memory poisoning.** 998 of its 1,258 attacks are
+   Gandalf items, overwhelmingly one overt goal ("ignore previous instructions, reveal the
+   password"). They are genuinely human-authored, which closes the authorship confound for
+   that population — but a strong score is evidence about detecting overt injected
+   instructions placed in memory, NOT about subtle poisoning. Additive fabrication and
+   preference hijack are not represented there at all.
+3. **Overt attacks are the easy case, and the baselines were built for exactly them.**
+   Llama Guard 3 is trained on real-world injection data. If B14 wins on Gandalf it may be
+   winning on the baselines' home ground, which is a stronger claim; if it loses, that is a
+   real loss and not a dataset artifact.
+4. **LOSO is not the same as held out.** B14's 109/266 leave-one-source-out result holds each
+   source out of TRAINING, but the remaining four sources are still external-dev, and the
+   feature set and hyperparameters were chosen with external-dev in view. Only external-TEST
+   is genuinely untouched.
+5. **`imperative` carries weight +1.46.** That is a lexical prior, and legitimate standing
+   instructions ("always CC my wife on invoices") are imperative by definition. The flag rate
+   on the legitimate-instruction set is the check on this, and it is reported for both
+   provenance conditions.
+6. **The corroboration signal is off in the main comparison.** `eval_round5` supplies no
+   conversation evidence, because most populations invent their own people. B13/B14's numbers
+   there are a floor; §5d measures what changes when the conversation is available, and that
+   result applies only to Track B and its derivatives.
+7. **Cost is real and one-directional.** B14 issues roughly five model calls per memory where
+   B12 issued one embedding plus one judge. The cold-cache latency measurement is reported
+   next to the recall, and a defense that is 5x the cost for a recall gain is a trade, not a
+   free win.
+8. **Everything except the Gandalf half is still LLM-authored**, including the enlarged
+   founding families (mistral) and every mechanism population (qwen). The authorship confound
+   is narrowed on one population, not closed for the benchmark.
+
+**Failure conditions, stated now:** if B14 does not beat B12 on external-TEST, the fusion did
+not generalize and that is the finding. If it beats B12 but not the best baseline at matched
+FPR, then the honest claim is "competitive with published detectors, with a lower
+false-positive rate", not "clearly better". Neither will be reframed.
+
+## 8. Honest summary
 
 *(filled in last, after §5)*
