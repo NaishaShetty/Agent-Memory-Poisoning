@@ -42,6 +42,7 @@ import random
 from pathlib import Path
 from typing import Dict, List, Sequence, Tuple
 
+from phase17.poison_sets import PoisonRecord
 from phase17.stats import rate_with_ci
 
 OUT = Path(__file__).parent / "data" / "attack_validity_audit.json"
@@ -126,10 +127,10 @@ def populations() -> Dict[str, List]:
     from phase17.founding_family_regen import founding_regen_records
     from phase17.translation import zh_records
 
-    class _R:  # frozen75 yields MemoryScenario, not PoisonRecord
-        def __init__(self, m):
-            self.scenario_id, self.text = m.scenario_id, m.content_text
-            self.family = m.attack_family_ground_truth or "frozen75"
+    def _R(m):  # frozen75 yields MemoryScenario; wrap as a real PoisonRecord so every
+        # consumer (isolated_arena, the register, eval_round5) sees the same shape.
+        return PoisonRecord(m.scenario_id, m.content_text, m.attack_family_ground_truth or "frozen75",
+                            "held_out_frozen75")
 
     out = {"own_novel_60": novel_records(), "own_novel_new120": novel_records_extra_only(),
            "own_gemini_30": gemini_records(), "own_evasion_47": evasion_records(),
