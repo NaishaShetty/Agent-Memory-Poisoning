@@ -57,45 +57,59 @@ def _loaders() -> Dict[str, dict]:
 
     return {
         "trackb_original_15": {
+            "audit_keys": ("own_trackb_15",),
             "get": original_records, "author": "qwen2.5:7b (Phase 4 reconstructions)",
             "mechanism_validated": False, "note": "the 7 founding families' original records; signals were tuned on these (in-sample)"},
         "trackb_regen_9": {
+            "audit_keys": ("own_trackb_regen_9",),
             "get": regenerated_records, "author": "qwen2.5:7b (Phase 11 regeneration)",
             "mechanism_validated": False, "note": "held out from signal design"},
         "founding_regen": {
+            "audit_keys": ("own_founding_regen",),
             "get": founding_regen_records, "author": "mistral:7b, validated by llama3.1:8b",
             "mechanism_validated": True, "note": "round 5: enlarges the 7 founding families, which had 24 records total"},
         "novel_60": {
+            "audit_keys": ("own_novel_60",),
             "get": novel_records, "author": "qwen2.5:7b",
             "mechanism_validated": False, "note": "6 unseen mechanisms x 10 scenarios"},
         "novel_new120": {
+            "audit_keys": ("own_novel_new120",),
             "get": novel_records_extra_only, "author": "qwen2.5:7b",
             "mechanism_validated": False, "note": "scenario-disjoint extension"},
         "memory_worm_regen": {
+            "audit_keys": ("own_worm_regen",),
             "get": worm_regen_records, "author": "qwen2.5:7b, validated at generation",
             "mechanism_validated": True, "note": "replaces the original 30 memory_worm instances, which implemented 0/30 of their own mechanism"},
         "gemini_authored_30": {
+            "audit_keys": ("own_gemini_30",),
             "get": gemini_records, "author": "gemini (different family)",
             "mechanism_validated": False, "note": "cross-model authorship check"},
         "evasion_47": {
+            "audit_keys": ("own_evasion_47",),
             "get": evasion_records, "author": "qwen2.5:7b rewrites of 24 parents",
             "mechanism_validated": False, "note": "fixed-prompt defense-aware rewrites"},
         "zh_translated_84": {
+            "audit_keys": ("own_zh_translated_84",),
             "get": zh_records, "author": "qwen2.5:7b translations of English attacks",
             "mechanism_validated": False, "note": "round-trip translation confound; see zh_native_30"},
         "zh_native_30": {
+            "audit_keys": ("own_zh_native_30",),
             "get": native_zh_records, "author": "gemini, composed directly in Chinese",
             "mechanism_validated": False, "note": "closes the translation confound"},
         "corpus_extended": {
+            "audit_keys": ("own_corpus_extended",),
             "get": extended_records, "author": "qwen2.5:7b",
             "mechanism_validated": False, "note": "extended paraphrase/padding classes"},
         "frozen75_corpus": {
+            "audit_keys": ("own_frozen75",),
             "get": frozen75, "author": "Phase 6/12 corpus (qwen2.5:7b)",
             "mechanism_validated": False, "note": "the only arena with coordinated near-duplicate clusters"},
         "external_dev_266": {
+            "audit_keys": ("extdev_minja", "extdev_agentpoison", "extdev_injecagent", "extdev_bipia", "extdev_agentdojo"),
             "get": external_records, "author": "MINJA / AgentPoison / InjecAgent / BIPIA / AgentDojo authors",
             "mechanism_validated": False, "note": "external-DEV since round 4 published its per-source results"},
         "external_test_1258": {
+            "audit_keys": ("exttest_gandalf", "exttest_deepset"),
             "get": test_attack_records, "author": "HUMAN (Gandalf players) + deepset authors",
             "mechanism_validated": False, "note": "FROZEN test set; 998 of these are human-authored"},
     }
@@ -121,7 +135,9 @@ def build() -> dict:
         rows.append({
             "population": name, "n": n, "author": spec["author"],
             "mechanism_validated_at_generation": spec["mechanism_validated"],
-            "validity_audited": name in working or any(k.startswith(name[:6]) for k in working),
+            "audit_keys": list(spec["audit_keys"]),
+            "validity_audited": any(k in working for k in spec["audit_keys"]),
+            "working_attacks": sum(len(working.get(k, ())) for k in spec["audit_keys"]) or None,
             "harm_measured_instances": len(ids & harm_ids),
             "note": spec["note"],
         })
