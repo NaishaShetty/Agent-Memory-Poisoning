@@ -120,16 +120,16 @@ def run(reference: str = "B14") -> dict:
     # B14 builds its fusion features per POOL (4 texts), which caps its parallel dispatch at 4
     # and re-pays per-call overhead thousands of times -- measured at ~0.13 scores/sec, i.e.
     # hours. Precompute every feature once, 8-way, so the per-pool builds are cache hits.
+    # B14's fusion features are precomputed by `phase17/precompute_features.py`, which is a
+    # separate, chunked, resumable step -- doing it inline kept losing multi-hour runs to a
+    # single ollama read timeout. Run that first; this only verifies the cache is warm.
     if "B14" in CONFIGS:
-        from phase17.arenas import N_DISTRACTORS
-        from phase17.fusion_features import build as _fb
-        from phase11.relational_signals.locomo_qa_counterfactuals import flat_counterfactual_pool
+        from phase17.external_baselines import ScoreCache, _h
 
-        distractors = [d.declarative_text for d in flat_counterfactual_pool()]
-        print(f"precomputing B14 fusion features over {len(all_texts) + len(distractors)} texts "
-              f"(4-way: 8 was thrashing a 6GB card and tripping read timeouts)", flush=True)
-        _fb(all_texts + distractors, workers=4, warm=False)
-        print("  fusion features ready", flush=True)
+        cache = ScoreCache()
+        miss = sum(1 for t in all_texts if _h("llama_guard3", t) not in cache.d)
+        print(f"B14 feature cache: {len(all_texts)-miss}/{len(all_texts)} warm, {miss} missing "
+              f"(run `python -m phase17.precompute_features` first if this is large)", flush=True)
 
     # Which (system, population) pairs are IN-SAMPLE, recorded by the harness rather than
     # left to prose: B14 is fitted on external-DEV and on the dev pool, so its numbers there
