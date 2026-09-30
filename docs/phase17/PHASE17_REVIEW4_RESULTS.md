@@ -146,13 +146,61 @@ its numbers appear. The protocol was committed in
 
 *(pending — `phase17/external_baselines.py`.)*
 
+## 8b. AgentPoison — measured against the authors' own published material
+
+The reviewer offered two options: re-optimize the trigger properly, or drop AgentPoison
+from headline claims. This round takes the second for headline claims, and adds a
+measurement so the disclosure rests on evidence
+(`phase17/agentpoison_published_check.py`). **No new trigger was optimized.** What is
+measured is the attack material AgentPoison's own authors released (MIT-licensed
+repository): their poisoned-knowledge templates and the trigger strings their scripts
+actually ship, extracted verbatim by `external_attacks.py`.
+
+The protocol is `PHASE17_ROUND5_FIXES.md` §1's own — one shared candidate pool, 300 diverse
+real LoCoMo questions, top-3 appearances — run in three conditions instead of one:
+
+| Pool item | plain queries | + authors' trigger string | + the "parallel universe" trigger |
+|---|---|---|---|
+| **Published AgentPoison material** | **0.6%** | **36.2%** | 9.8% |
+| This project's AgentPoison reconstruction | **0.0%** | **0.0%** | **0.0%** |
+| reconstruction: minja / mpbench / dsrm | 27.2% / 24.4% / 16.1% | 7.9% / 8.7% / 3.3% | 26.0% / 19.0% / 11.7% |
+| benign floor (50 real memories) | 0.5% | 0.0% | 0.3% |
+
+**This changes the interpretation of `PHASE17_ROUND5_FIXES.md` §1, which should be read
+with this table.** That section concluded, from plain queries alone, that AgentPoison's
+trigger is *less* broadly retrievable than every other family and that this "refutes the
+universal magnet premise." Measured on plain queries only, a backdoor trigger *should* look
+inert — being invisible until the trigger appears is the design, not a failure of it. The
+published material shows exactly that signature: indistinguishable from benign background
+on ordinary queries (0.6% vs 0.5%), and a **60x jump to 36.2% — the highest of anything in
+the pool — the moment a query carries the authors' own trigger string.**
+
+**This project's reconstruction is 0.0% in every condition, including with the trigger
+present.** It is not a weak attack; on this measurement it is an inert one. That is a
+sharper and better-evidenced version of the existing disclosure, and it is why AgentPoison
+stays out of headline claims.
+
+Detection on the published material (27 items):
+
+| Config | Excluded | Flagged |
+|---|---|---|
+| B9 | 0/27 | 2/27 |
+| B11 | 13/27 | 17/27 |
+| B12 | 13/27 | 16/27 |
+| B13 | 15/27 | 17/27 |
+
+So AgentPoison-family detection numbers now exist against published attack material and not
+only against an inert reconstruction — which was the reviewer's actual concern. What is
+still not done: the paper's white-box gradient search is not reproduced, so this is the
+authors' released artifacts measured in this project's embedding space, not the full attack
+run end to end.
+
 ## 9. What this round did NOT fix
 
-- **AgentPoison's trigger was not re-optimized.** The reviewer offered two options —
-  re-optimize it properly, or drop it from headline claims. This round takes the second.
-  The reconstruction remains the disclosed-weak one described in
-  `PHASE17_ROUND5_FIXES.md` §1 (lowest top-3 retrievability of all 7 families), and no
-  headline claim in this project should rest on an AgentPoison number.
+- **AgentPoison's trigger was not re-optimized** (§8b explains what was done instead, and
+  why the resulting evidence is stronger than a re-optimization would have been for the
+  question the reviewer was actually asking). The reconstruction stays excluded from
+  headline claims.
 - **Human-written attacks.** Still none. The 266 externally-authored attacks
   (`external_attacks.py`) narrow the authorship confound — they were written by the MINJA,
   AgentPoison, InjecAgent, BIPIA and AgentDojo authors, not by this project or its models —

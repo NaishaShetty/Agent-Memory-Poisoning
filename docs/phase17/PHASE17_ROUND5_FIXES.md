@@ -34,6 +34,17 @@ item lands in the top-3.
 | **agentpoison** | **9.7%** (lowest of all 7) |
 | benign (avg of 50) | 2.0% |
 
+> **CORRECTION (external review round 4, 2026-09-30) — this section measures only PLAIN
+> queries, and that is the wrong condition to draw this conclusion from.** A backdoor
+> trigger is *designed* to be inert until a query carries it, so "low top-3 rate on ordinary
+> queries" is the attack working as intended, not evidence against it. Re-run in three
+> conditions against the AgentPoison authors' OWN published material
+> (`phase17/agentpoison_published_check.py`): that material sits at the benign floor on
+> plain queries (0.6% vs 0.5%) and jumps to **36.2%**, the highest of anything in the pool,
+> once a query carries the authors' trigger string. This project's reconstruction is
+> **0.0% in every condition, including with the trigger** — inert, not merely weak. See
+> `PHASE17_REVIEW4_RESULTS.md` §8b. The sentences below remain as originally written.
+
 **AgentPoison's trigger, as reconstructed in this project, is LESS broadly retrievable
 than every other attack family's poison, not more.** This directly refutes the
 "universal retrieval magnet" premise for THIS implementation. Separately confirmed: the

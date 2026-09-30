@@ -142,7 +142,14 @@ Section 5 for the evidence-status vocabulary every number carries.
 - **AgentPoison is excluded from headline claims** (external review round 4 decision): the
   reviewer offered either re-optimizing the trigger properly or dropping it from headline
   claims, and this project takes the second. Its numbers remain published, per-family and
-  clearly scoped, but no headline claim rests on them.
+  clearly scoped, but no headline claim rests on them. Measured directly
+  (`phase17/agentpoison_published_check.py`): this project's reconstruction is retrieved
+  into the top 3 for **0.0%** of 300 diverse queries in every condition — including when
+  the query carries the trigger — so it is inert, not merely weak. The AgentPoison authors'
+  own published material, measured identically, sits at the benign floor on plain queries
+  and reaches **36.2%** on trigger-carrying queries, which is the backdoor signature the
+  reconstruction lacks. Detection numbers against that published material now exist
+  (B12 13/27, B13 15/27 excluded).
 - AgentPoison's query-side embedding-trigger surface has no dedicated defense mechanism,
   AND (measured directly, `docs/phase17/PHASE17_ROUND5_FIXES.md` §1) this project's own
   reconstruction of the attack does not exhibit the broad-retrievability property real

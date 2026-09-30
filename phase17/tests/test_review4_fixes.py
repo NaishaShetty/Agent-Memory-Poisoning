@@ -233,3 +233,33 @@ def test_ast_of_b13_has_no_test_population_imports():
     for forbidden in ("phase17.eval_populations", "phase17.novel_attacks", "phase17.external_attacks",
                       "phase17.provenance_sets"):
         assert forbidden not in imported, f"b13_live imports {forbidden}"
+
+
+def test_agentpoison_published_check_uses_published_material_not_a_new_trigger():
+    """The round-4 resolution for AgentPoison is a MEASUREMENT of the authors' released
+    artifacts, not a newly optimized trigger. Guard that intent."""
+    from phase17 import agentpoison_published_check as a
+
+    # Checked against the CODE only: the module docstring legitimately mentions the paper's
+    # gradient search to say it is not reproduced here.
+    tree = ast.parse((Path(__file__).resolve().parents[1] / "agentpoison_published_check.py").read_text(encoding="utf-8"))
+    tree.body = [n for n in tree.body if not (isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant))]
+    code = ast.dump(tree)
+    for forbidden in ("hotflip", "gradient", "backward", "optimize_trigger", "requires_grad"):
+        assert forbidden.lower() not in code.lower(), f"{forbidden!r} suggests trigger optimization, not measurement"
+    assert a.N_QUERIES == 300 and a.TOP_K == 3  # same protocol as PHASE17_ROUND5_FIXES.md §1
+
+
+def test_agentpoison_result_shows_reconstruction_is_inert_in_every_condition():
+    path = DATA / "agentpoison_published_check.json"
+    if not path.exists():
+        pytest.skip("AgentPoison published-material check not run in this checkout")
+    d = json.loads(path.read_text(encoding="utf-8"))
+    assert len(d["conditions"]) >= 2, "a backdoor must be measured with AND without its trigger"
+    for cond, groups in d["conditions"].items():
+        assert groups["reconstruction::agentpoison"]["k"] == 0, (
+            f"the reconstruction is documented as inert; it fired in {cond}. If this ever "
+            "becomes non-zero, PHASE17_REVIEW4_RESULTS.md §8b and BENCHMARK_CARD.md must change.")
+    trig = [g["published::agentpoison"]["rate"] for c, g in d["conditions"].items() if "trigger" in c]
+    assert max(trig) > d["conditions"]["plain_queries"]["published::agentpoison"]["rate"], (
+        "published AgentPoison material should be more retrievable WITH its trigger than without")
