@@ -259,6 +259,37 @@ recall number is.
 **B13 is cheaper than B12** (0.81×) while scoring higher on every population, which makes it
 the better default of the two.
 
+### 5d-bis. What corroboration is worth when the conversation IS available
+
+`eval_round5` supplies provenance but no conversation evidence, so every B13/B14 number in it
+is a floor with the corroboration signal switched off. For Track B and the `evasion_47`
+rewrites of it, the real LoCoMo conversation exists and a deployment would have it
+(`phase17/evidence_available_check.py`):
+
+| Population | B12 | B13 (no evidence → with) | B14 (no evidence → with) |
+|---|---|---|---|
+| trackb_original_15 | 9 → 9 | 9 → **11** | 10 → 10 |
+| trackb_regen_9 | 3 → 3 | 3 → **4** | 4 → **5** |
+| **evasion_47** | 4 → 4 | **4 → 28** (p=1.2×10⁻⁷) | 4 → **11** (p=0.016) |
+
+**`evasion_47` is the headline here.** Defense-aware rewrites have sat at 3–4/47 for every
+configuration since round 3, and this project has repeatedly concluded that content-only
+detection had hit its ceiling on them. That conclusion was right about the ceiling and wrong
+about why: the limit was looking only at the text. **B13 reaches 28/47 (59.6%) once the real
+conversation is available**, because a paraphrase of a fabricated claim is still unsupported
+by what the user actually said — rewording changes the text, not the evidence.
+
+Two qualifications, both load-bearing:
+- **This applies only where the conversation exists.** Track B's poisons were injected into a
+  specific real LoCoMo conversation; the invented-persona populations have nothing to check a
+  claim against, and get no benefit. It is not a general +51-point gain.
+- **B14 gains far less than B13 here (11 vs 28)**, because B14's two-signal rule requires a
+  claim to be unsupported *and* independently behaviour-changing before excluding it. That
+  rule was added to fix B13's 1.1% benign-exclusion cost (§6 of the round-4 results), and on
+  this population it suppresses most of what B13 catches. **That is a real regression
+  introduced by a fix**, it is visible only because both configs were kept, and the right
+  resolution is a dev-side revisit rather than picking whichever number flatters.
+
 ### 5e. Legitimate standing instructions — provenance decides the answer
 
 The reviewer's own example, "always CC my wife on invoices". 40 such instructions:
