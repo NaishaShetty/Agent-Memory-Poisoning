@@ -2,15 +2,46 @@
 
 **Memory and Agent Manipulation Benchmark**
 
-## What this benchmark currently shows — and doesn't (updated 2026-09-29)
+## What this benchmark currently shows — and doesn't (updated 2026-10-01)
 
-A short, balanced summary for readers who won't open the 500-line results doc. Every
-number below is sourced and current in [`docs/phase17/PHASE17_CURRENT_RESULTS.md`](docs/phase17/PHASE17_CURRENT_RESULTS.md);
-read that document, not this summary, before citing a specific figure.
+A short, balanced summary for readers who won't open the long results docs. Every number
+below is sourced in [`docs/phase17/PHASE17_ROUND5_RESULTS.md`](docs/phase17/PHASE17_ROUND5_RESULTS.md)
+(round 5), [`docs/phase17/PHASE17_REVIEW4_RESULTS.md`](docs/phase17/PHASE17_REVIEW4_RESULTS.md)
+(round 4) and [`docs/phase17/PHASE17_CURRENT_RESULTS.md`](docs/phase17/PHASE17_CURRENT_RESULTS.md)
+(everything before); read those, not this summary, before citing a figure.
+
+**The single most important number**, on a frozen test set of 1,258 externally-authored
+attacks — **998 of them typed by real humans** — that no configuration was fitted or
+thresholded on:
+
+| System | Recall | FPR | sec/memory |
+|---|---|---|---|
+| **B14** (this project's best) | **90.8%** | 0.84% | **28.7** |
+| plain "is this malicious?" prompt, qwen2.5 | 86.5% | 0.52% | ~4 |
+| **ProtectAI deberta-v3 prompt-injection (off the shelf)** | **84.6%** | **0.13%** | **~0.02** |
+| B13 | 71.5% | 0.39% | 0.13 |
+| B12 | 66.2% | 0.39% | 0.16 |
+| Llama Guard 3 8B | 32.0% | 2.00% | ~4 |
+
+**Read that table before anything else in this repository.** B14 does beat every published
+baseline, significantly. It also costs 179× B12 per memory, and a single off-the-shelf
+classifier reaches 84.6% at a *sixth* of B14's false-positive rate for one local forward
+pass. deberta is additionally a *component* of B14, so B14's non-circular gain over its own
+best part is **+5.4 points, not +24.6**.
 
 **Shows:**
-- The best config (B12) excludes roughly 42–58% of unseen-mechanism attacks (the range
-  depends on how strictly "unseen" is defined — see §10) at 0 benign exclusions.
+- **The defenses reduce real, measured harm.** In an n=203 agent study with mechanism-specific
+  tasks and 100-memory stores, harm among the cases each config actually excluded went
+  34/89 → 2/89 (B12) and 48/145 → 3/145 (B13).
+- **Source-aware trust reaches what content-only detection cannot.** Additive fabrication —
+  an invented fact nothing contradicts — was documented as unreachable, and B12 scores exactly
+  0/72 on it. B13 reaches 43/72 by checking whether the user ever said anything supporting
+  the claim (pre-registered, p=2.3×10⁻¹³).
+- **Recording provenance fixes the usability cost.** On 40 legitimate standing instructions
+  ("always CC my wife on invoices"), the 35% flag rate drops to 5–10% with zero hard
+  exclusions once the memory's source is recorded.
+- The best pre-round-5 config (B12) excludes roughly 42–58% of unseen-mechanism attacks (the
+  range depends on how strictly "unseen" is defined) at 0 benign exclusions.
 - Detection generalizes somewhat beyond the exact attacks it was designed against — to
   novel mechanisms, a different generator model, and (weakly) Chinese-language poison.
 - Detection is not purely an artifact of who authored the benign text: a genuinely
@@ -33,16 +64,16 @@ read that document, not this summary, before citing a specific figure.
   (8.5%) of simple, fixed-prompt defense-aware rewrites; a genuine adaptive attacker that
   queries the live defense and rewrites in response still evades 6/28 (21.4%) of the
   seeds it was initially caught on.
-- **That it beats published defenses on attacks the project didn't write.** Measured
-  directly against Llama Guard 3, ProtectAI's prompt-injection classifier, a perplexity
-  filter and plain "is this malicious?" prompts, all calibrated the same way: B12's margin
-  over the best baseline is **2.80x on the 296 attacks this project authored and 1.03x —
-  none — on the 266 written by other projects**. At a threshold chosen in the baselines'
-  favour, B12 *loses* on externally-authored attacks to a one-line prompt sent to its own
-  backbone model. The authorship confound is no longer an open question; it is most of the
-  apparent advantage. See `PHASE17_REVIEW4_RESULTS.md` §8. What the stack does keep is a far
-  lower false-positive rate at its operating point (0/1,074 ordinary benign items vs Llama
-  Guard 3's 12).
+- **That the in-house stack was ever worth its complexity on overt injections.** Round 4
+  measured B12's margin over the best published baseline at **2.80x on attacks this project
+  wrote and 1.03x — none — on attacks written by others**; at a threshold chosen in the
+  baselines' favour B12 *lost*. Round 5's B14 fixes the recall gap, but an off-the-shelf
+  classifier still gets within 6 points of it at a sixth of the false-positive rate and
+  ~1/1000th of the cost. Anyone building on this should benchmark that baseline first.
+- **That B14 is practical as specified.** 28.7 seconds per admitted memory (cold, sequential)
+  is tolerable for a write path in some deployments and plainly not in others. B13 is
+  *cheaper* than B12 (0.81×) and scores higher on every population, which makes it the better
+  default of the two.
 - **Full harm coverage across attack mechanisms.** Only 3 of 7 attack families (DSRM,
   FARMA, MPBench) have end-to-end evidence the attack actually changes what the agent
   says; the other 4 have detection numbers but no behavioral-harm confirmation.
