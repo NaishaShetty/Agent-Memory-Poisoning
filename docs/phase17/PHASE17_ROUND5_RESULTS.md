@@ -139,6 +139,22 @@ is validated against a judge before being accepted**, with failures retried. The
 LLM-authored, and they are more instances of this project's *reconstructions*, not of the
 published attacks.
 
+**Result: 208 of 210 accepted**, i.e. 208 instances that each satisfy their own family's
+mechanism check. The founding families go from 24 records between them to 232:
+
+| Family | before | after |
+|---|---|---|
+| dsrm | 4 | **34** |
+| farma | 4 | **34** |
+| mpbench | 4 | **34** |
+| minja | 6 | **35** |
+| memorygraft | 2 | **32** |
+| sleeper_memory_poisoning | 2 | **32** |
+| agentpoison | 2 | **31** |
+
+Per-family harm and detection are measurable for the first time. The two rejected instances
+are recorded as invalid rather than dropped, so the acceptance rate stays visible.
+
 ## 4. Attack validity: are these attacks even working?
 
 *(filled in from `phase17/attack_validity_audit.py`, whose criterion was committed before it
