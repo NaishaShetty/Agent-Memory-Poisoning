@@ -188,7 +188,84 @@ precision B13 already had. They are hard rules again in B14, and remain features
 
 ### 5c. The headline external-TEST comparison
 
-*(pending — `phase17/eval_round5.py`, running once on the frozen corpus)*
+Run once on the frozen corpus (1,258 attacks, **998 of them typed by real humans**), which no
+config or baseline was fitted or thresholded on. Recall is exclusion rate; FPR is over all
+1,552 benign items.
+
+| System | Recall | FPR | paired vs B14 |
+|---|---|---|---|
+| **B14** | **90.8%** [89.1, 92.3] | 0.84% | — |
+| llm_prompt_qwen @oracle | 86.5% | 0.52% | p=3.5×10⁻⁶ |
+| deberta_pi_v2 @dev | 85.4% | 0.64% | p=6.5×10⁻¹⁰ |
+| deberta_pi_v2 @oracle | 84.6% | **0.13%** | p=4.7×10⁻¹² |
+| llm_prompt_qwen @dev | 77.9% | 0.06% | p=2.5×10⁻³⁴ |
+| B13 | 71.5% | 0.39% | p=8.7×10⁻⁷² |
+| B12 | 66.2% | 0.39% | p=1.5×10⁻⁹¹ |
+| llama_guard3 @dev | 32.0% | 2.00% | p=1.1×10⁻²⁰⁶ |
+| B9 (pre-round-4 live rule) | 0.0% | 0.00% | — |
+
+**B14 beats every baseline on recall, including at oracle thresholds chosen on test data in
+the baselines' favour, every comparison significant. It beats B12 by +24.6 points.** The
+fusion generalized to 998 attacks written by people, which is the question round 4 left open.
+
+**It is still not "clearly and substantially better", and three facts say why.**
+
+1. **This is a recall/FPR trade, not dominance.** `deberta_pi_v2 @oracle` reaches 84.6% at
+   **0.13% FPR**; B14 buys +6.2 points of recall at 6× the false-positive rate. Which is
+   preferable is a deployment decision, not a benchmark verdict.
+2. **The honest gain is +5.4 points, not +24.6.** `deberta_pi_v2` is a *component of B14*, so
+   "B14 beats the deberta classifier" is partly a superset relation — exactly as §7's
+   self-review predicted. B14's gain over its own best single component is **+5.4 points**,
+   and that is the number that is not circular.
+3. **A single off-the-shelf classifier gets 85% here for one local forward pass.** That is a
+   strong, cheap baseline this project should have been measuring against years of phases
+   ago, and it reframes what the in-house stack was ever worth on this class of attack.
+
+### 5d. Cost — the finding that most limits B14
+
+Cold cache, sequential, one memory per pool (`phase17/defense_cost.py`):
+
+| Config | seconds per memory | relative to B12 |
+|---|---|---|
+| B13 | 0.13 | **0.81×** |
+| B12 | 0.16 | 1.00× |
+| B9 | 0.27 | 1.69× |
+| **B14** | **28.73** | **179×** |
+
+**B14 costs 179× B12 per admitted memory.** It issues roughly seven model calls (Llama Guard,
+two plain-prompt judges, three judge tiers, a concept score) where B12 issues an embedding and
+one judge, and on a single-GPU host each model switch is a reload. Memory admission is not a
+per-token path — it happens when a memory is written, not on every turn — so ~29s may be
+tolerable in some deployments and is plainly not in others. But a +5.4 point recall gain over
+a single deberta forward pass, at 179× the cost, is a trade that must be stated wherever the
+recall number is.
+
+**B13 is cheaper than B12** (0.81×) while scoring higher on every population, which makes it
+the better default of the two.
+
+### 5e. Legitimate standing instructions — provenance decides the answer
+
+The reviewer's own example, "always CC my wife on invoices". 40 such instructions:
+
+| Config | no provenance recorded | provenance says `user_turn` |
+|---|---|---|
+| B12 | 2 excluded, **14 flagged (35%)** | 2 excluded, 14 flagged (B12 ignores provenance) |
+| B13 | 2 excluded, 14 flagged | **0 excluded, 2 flagged (5%)** |
+| B14 | **4 excluded**, 14 flagged | **0 excluded, 4 flagged (10%)** |
+| deberta / prompt baselines | 0 excluded, 0 flagged | 0 excluded, 0 flagged |
+
+**With provenance recorded, B13 and B14 fix the cost round 4 flagged**: the 35% flag rate
+falls to 5–10% and hard exclusions go to zero. Without it, B14 is *worse* than B12 (4 vs 2
+exclusions) — the `imperative` feature (+1.46) does exactly what §7 warned it would, since a
+standing instruction is imperative by definition.
+
+So the structural claim this project has been making — that recording where a memory came from
+is the highest-value change available — is now supported by a direct measurement on the
+reviewer's own example. It is also conditional: a deployment that cannot record provenance
+gets the worse number, not the better one.
+
+**The baselines flag none of these**, which is worth stating plainly: on this population a
+prompt-injection classifier is simply better behaved than any configuration in this project.
 
 ## 6. A dev/test leak found and fixed during this round
 
