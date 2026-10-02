@@ -60,7 +60,22 @@ from phase6.defense.policy.states import ALLOW, ALLOW_WITH_RESTRICTION, QUARANTI
 from phase6.defense.risk.risk_score import GROUPED_GATED_ADMISSION_AND_RETRIEVAL_CORROBORATED
 
 MODEL_PATH = Path(__file__).parent / "data" / "b15_model.json"
-FEATURES = ("deberta_pi", "perplexity")
+# CORRECTED (round 6, after reading B15's first dev fit): the first version used deberta +
+# perplexity ALONE and scored 10.7% out-of-fold dev recall against B14's 45.7% -- four times
+# worse on exactly the subtle synthetic poisoning this benchmark exists to study. deberta's
+# 84.6% on the frozen test comes from that set being overt prompt injection, which is what it
+# was trained for.
+#
+# The mistake was dropping `judge_concept` along with the expensive features. It is B12/B13's
+# strongest own-population signal AND it is cached per text, so it was never part of the 179x
+# cost -- that was Llama Guard plus the two plain-LLM prompts. B15 keeps the cheap strong
+# signals and drops only the expensive ones:
+#
+#   kept    judge_concept (cached), deberta_pi (local), perplexity (local), steer/lineage/worm
+#   dropped llama_guard3, llm_prompt_qwen, llm_prompt_llama31  (~28s/memory between them)
+#   dropped imperative  (B14's +1.46 on it made it worse than every baseline on legitimate
+#                        standing instructions without provenance)
+FEATURES = ("judge_concept", "deberta_pi", "perplexity", "steer", "lineage", "worm", "len_z")
 _MODEL = None
 
 
@@ -77,14 +92,30 @@ def _model() -> dict:
 
 
 def content_features(texts: Sequence[str]) -> np.ndarray:
-    """Local models only -- no ollama, so no model swapping and no per-call network latency."""
+    """Two local models plus judge signals this project already computes and caches. No Llama
+    Guard, no plain-LLM prompts -- those were the whole of B14's per-memory cost."""
+    from phase17 import b11_live
     from phase17.external_baselines import SCORERS, ScoreCache
+    from phase17.fusion_features import len_z
+    from phase17.judge_scores import ScoreJudge
 
+    texts = list(texts)
     cache = ScoreCache()
-    deb = cache.get_many("deberta_pi_v2", list(texts), SCORERS["deberta_pi_v2"], 0)
-    ppl = cache.get_many("perplexity_gpt2", list(texts), SCORERS["perplexity_gpt2"], 0)
+    deb = cache.get_many("deberta_pi_v2", texts, SCORERS["deberta_pi_v2"], 0)
+    ppl = cache.get_many("perplexity_gpt2", texts, SCORERS["perplexity_gpt2"], 0)
     cache.save()
-    return np.column_stack([np.asarray(deb, float), -(np.asarray(ppl, float) / 10.0)])
+    sj = ScoreJudge("concept")
+    concept = [sj.score(t) / 10.0 for t in texts]
+    sj.save()
+    tiers = {}
+    for tier in ("steer", "lineage", "worm"):
+        j = b11_live._judge(tier)
+        tiers[tier] = [float(j.flag(t)) for t in texts]
+        j.save()
+    return np.column_stack([
+        np.asarray(concept, float), np.asarray(deb, float), -(np.asarray(ppl, float) / 10.0),
+        np.asarray(tiers["steer"], float), np.asarray(tiers["lineage"], float),
+        np.asarray(tiers["worm"], float), np.asarray([len_z(t) for t in texts], float)])
 
 
 def scores(texts: Sequence[str]) -> np.ndarray:
