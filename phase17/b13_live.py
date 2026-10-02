@@ -70,6 +70,12 @@ _PREFERENCE = re.compile(
     r"\b(prefer|prefers|preferred|preference|favou?rite|loyal|always (?:uses?|goes|shops|orders|books|buys)|go-to|"
     r"recommends?|swears by|only (?:uses?|buys|trusts))\b", re.I)
 CARRY_SIM = 0.6  # frozen on dev, worm_replication.py
+# How much of the owner's conversation the corroboration check searches. Round 5's frozen
+# evaluation found B13 excluding 17/1515 (1.1%) of LoCoMo's OWN benign derived memories --
+# memories grounded in the conversation by construction -- because the turn that supports them
+# was not among the 5 most similar. That is a retrieval miss, not a disagreement, and widening
+# the search is the fix at its source. Set from dev by `train_b15.tune_support_retrieval()`.
+SUPPORT_TOP_K = 5
 _DIRECTIVE = re.compile(
     r"\b(should|must|always|never|make sure|remember to|be sure to|don't forget|do not forget|ensure|include|copy|"
     r"re-?insert|carry(?:ing)? forward|from now on|every time|whenever|going forward|preferred|prefers?|instead)\b",
@@ -121,7 +127,7 @@ def support_scores(texts: Sequence[str], evidence: Sequence[str]) -> np.ndarray:
     model, ent = _nli()
     out = []
     for t, v in zip(texts, V):
-        top = np.argsort(-(E @ v))[:5]
+        top = np.argsort(-(E @ v))[:SUPPORT_TOP_K]
         prem = [evidence[i] for i in top] + [" ".join(evidence[i] for i in top[:3])]
         logits = model.predict([(p, t) for p in prem])
         pr = np.exp(logits - logits.max(1, keepdims=True))

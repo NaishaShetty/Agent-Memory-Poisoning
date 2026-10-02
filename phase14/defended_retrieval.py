@@ -105,11 +105,19 @@ CONFIG_B13_PROVENANCE = "B13"
 # with B12's raw text embedding removed, plus everything structural B13 added. Rationale and
 # the diagnosis it answers: `phase17/b14_live.py` and `phase17/fusion_features.py`.
 CONFIG_B14_FUSION = "B14"
+# B15 -- external review round 6 (2026-10-02), also new here: round 5 measured that B14 spends
+# 179x B12's cost to add six points over a single off-the-shelf deberta forward pass, and pays
+# 6x deberta's false-positive rate for them. B15 inverts that balance -- deberta as a cheap
+# local content backbone, plus the signals that are genuinely this project's own (provenance
+# trust, NLI corroboration, the zero-FP worm/lineage tiers, pool-level coordination) and none
+# of the expensive LLM prompts. See `phase17/b15_live.py`.
+CONFIG_B15_LEAN = "B15"
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
     CONFIG_B7_ALL_THREE, CONFIG_B8_ALL_FOUR, CONFIG_B9_RISK_COMPOSED, CONFIG_B10_LEARNED_HYBRID,
     CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED, CONFIG_B13_PROVENANCE, CONFIG_B14_FUSION,
+    CONFIG_B15_LEAN,
 )
 
 # 2026-09-23 (Phase 15 follow-on, explicitly authorized): B2-B7 dispatch
@@ -319,6 +327,14 @@ def apply_defense(
             DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
             for memory_id, _ in items
         )
+    elif config_name == CONFIG_B15_LEAN:
+        from phase17.b15_live import b15_actions
+
+        actions = b15_actions(items, **context)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
+            for memory_id, _ in items
+        )
     elif config_name in _PIPELINE_CONFIGS:
         actions = _pipeline_actions(items, _PIPELINE_CONFIGS[config_name])
         decisions = tuple(
@@ -349,6 +365,7 @@ __all__ = [
     "CONFIG_B12_STACKED",
     "CONFIG_B13_PROVENANCE",
     "CONFIG_B14_FUSION",
+    "CONFIG_B15_LEAN",
     "REAL_CONFIGS",
     "HARD_MITIGATION_ACTIONS",
     "DefenseDecision",

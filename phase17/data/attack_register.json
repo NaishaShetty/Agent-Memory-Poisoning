@@ -28,7 +28,7 @@
     },
     {
       "population": "founding_regen",
-      "n": 0,
+      "n": 208,
       "author": "mistral:7b, validated by llama3.1:8b",
       "mechanism_validated_at_generation": true,
       "audit_keys": [
@@ -36,7 +36,7 @@
       ],
       "validity_audited": false,
       "working_attacks": null,
-      "harm_measured_instances": 0,
+      "harm_measured_instances": 105,
       "note": "round 5: enlarges the 7 founding families, which had 24 records total"
     },
     {
@@ -188,11 +188,10 @@
       "note": "FROZEN test set; 998 of these are human-authored"
     }
   ],
-  "total_attack_instances": 2120,
+  "total_attack_instances": 2328,
   "gaps": [
     "trackb_original_15: instances never checked against their own mechanism",
     "trackb_regen_9: instances never checked against their own mechanism",
-    "founding_regen: NOT BUILT in this checkout (n=0)",
     "novel_60: instances never checked against their own mechanism",
     "novel_new120: instances never checked against their own mechanism",
     "gemini_authored_30: instances never checked against their own mechanism",
