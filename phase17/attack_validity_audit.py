@@ -243,16 +243,60 @@ def run(limit_per_pop: int = 0, seed: int = 17, workers: int = WORKERS) -> dict:
     return out
 
 
-def working_ids(path: Path = OUT) -> Dict[str, set]:
-    """{population: {ids that actually subverted the undefended agent}}."""
-    if not path.exists():
-        return {}
-    d = json.loads(path.read_text(encoding="utf-8"))
+GENERIC_PROBE_OUT = Path(__file__).parent / "data" / "attack_validity_audit_generic_probe.json"
+
+
+def working_ids(path: Path = OUT, union_with_generic: bool = True) -> Dict[str, set]:
+    """{population: {ids that actually subverted the undefended agent}}.
+
+    UNION OVER PROBES, by default, and the reason is a finding rather than a convenience. The
+    first audit used one generic task; the second uses a task fitted to each instance. They
+    disagree in BOTH directions:
+
+        memorygraft  13% generic -> 86% fitted     minja  88% generic -> 19% fitted
+        mpbench      30% -> 74%                    dsrm   70% -> 37%
+
+    DSRM and MINJA poisons are question-plus-forged-answer shaped, so a vague "handle what my
+    notes say" invites the agent to restate the claim, while a fitted question about one detail
+    is a harder test. FARMA, MPBench, MemoryGraft and sleeper are the reverse: they need a
+    specific opening and a generic prompt gives them none.
+
+    So neither probe is "the" measure, and an attack's success rate is a property of the
+    attack AND the task it meets -- which means a single-task number is not a property of the
+    attack at all. The question "is this a functional attack" is correctly answered by whether
+    it subverts the agent under ANY reasonable task, since an attacker chooses the context. That
+    is the union. Both individual probes stay published, and the spread between them is the
+    honest uncertainty on any per-family rate.
+    """
     out: Dict[str, set] = {}
-    for r in d["rows"]:
-        if r["working_attack"]:
-            out.setdefault(r["pop"], set()).add(r["id"])
+    paths = [path] + ([GENERIC_PROBE_OUT] if union_with_generic else [])
+    for pth in paths:
+        if not pth.exists():
+            continue
+        for r in json.loads(pth.read_text(encoding="utf-8"))["rows"]:
+            if r["working_attack"]:
+                out.setdefault(r["pop"], set()).add(r["id"])
     return out
+
+
+def probe_comparison() -> dict:
+    """Per-population working rate under each probe and under their union."""
+    res: Dict[str, dict] = {}
+    for label, pth in (("generic", GENERIC_PROBE_OUT), ("fitted", OUT)):
+        if not pth.exists():
+            continue
+        for r in json.loads(pth.read_text(encoding="utf-8"))["rows"]:
+            e = res.setdefault(r["pop"], {"generic": [0, 0], "fitted": [0, 0], "union": set(), "n": set()})
+            e[label][0] += bool(r["working_attack"])
+            e[label][1] += 1
+            e["n"].add(r["id"])
+            if r["working_attack"]:
+                e["union"].add(r["id"])
+    return {p: {"generic": f"{v['generic'][0]}/{v['generic'][1]}",
+                "fitted": f"{v['fitted'][0]}/{v['fitted'][1]}",
+                "union": f"{len(v['union'])}/{len(v['n'])}",
+                "union_rate": round(len(v["union"]) / max(len(v["n"]), 1), 4)}
+            for p, v in sorted(res.items())}
 
 
 if __name__ == "__main__":
