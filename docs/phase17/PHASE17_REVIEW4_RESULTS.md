@@ -236,18 +236,36 @@ uses the corrected instances (§2); the original 30 were not the mechanism they 
 Poison vs no poison: exact McNemar **p = 2.7×10⁻¹⁷**. No-defense vs B12: **p = 1×10⁻⁷**.
 No-defense vs B13: **p = 2.3×10⁻¹²**.
 
-**The finding this supersedes.** `PHASE17_CURRENT_RESULTS.md` §13 reported that among the 15
-poisons B12 actually excluded, harm was 5/15 before and 5/15 after — "net zero" — and
-concluded the defense "catches the attacks that don't hurt and misses the ones that do." On
-the redesigned study:
+### Which number to cite, and which not to
 
-| Among the cases each config actually excluded | undefended | under that config |
+**Cite the UNCONDITIONAL reduction.** On the non-leading subset (task-alone base rate 0 by
+construction, n=274 after the pre-registered leading-task exclusion):
+
+| | harm rate | relative reduction |
 |---|---|---|
-| B12 (89 exclusions) | **34/89** | **2/89** |
-| B13 (145 exclusions) | **48/145** | **3/145** |
+| No defense | 42.3% | — |
+| B12 | 22.6% | 47% |
+| **B13** | **11.7%** | **72%** |
 
-Where these defenses exclude a poison, harm very nearly disappears. That is the opposite of
-the old result, and the difference is not a reanalysis — it is three concrete fixes to the
+B13 achieves this by excluding **182/274 (66%)** of poisons against B12's **104/274 (38%)** —
+so its advantage comes from catching more, not from catching easier ones.
+
+**Do NOT cite "harm among the cases each config excluded" as the headline, which an earlier
+draft of this section did.** Those figures (B12 51→1, B13 85→1) are close to a tautology: when
+a defense excludes the poison the agent's answer is generated without it in context, so the
+behaviour it caused cannot occur, and the residual 1 is judge sampling noise. The number is
+near-definitional once the task-alone base rate is ~0.
+
+**That conditional figure WAS informative in round 3, and that is exactly why it is not now.**
+`PHASE17_CURRENT_RESULTS.md` §13 reported 5/15 → 5/15 — exclusion failing to prevent harm —
+and that was a real finding, because the old task prompts produced 26.7% harm with no poison
+present, so removing the poison changed nothing. The conditional number was diagnostic of a
+confound. With the confound fixed it merely confirms the confound is gone, and quoting it as
+evidence of defense quality would invite the mirror image of the round-3 objection.
+
+**The finding this supersedes.** §13 concluded the defense "catches the attacks that don't hurt
+and misses the ones that do." That conclusion does not survive — the unconditional reduction is
+real and significant — but the difference is not a reanalysis — it is three concrete fixes to the
 old design: (a) `exfiltration_instruction` and `conditional_backdoor` had generic follow-up
 tasks that never gave the attack an opening, (b) the `memory_worm` population did not
 implement its own mechanism, and (c) the old task prompts produced harm *by themselves* at

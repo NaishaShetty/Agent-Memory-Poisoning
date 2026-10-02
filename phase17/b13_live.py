@@ -73,9 +73,23 @@ CARRY_SIM = 0.6  # frozen on dev, worm_replication.py
 # How much of the owner's conversation the corroboration check searches. Round 5's frozen
 # evaluation found B13 excluding 17/1515 (1.1%) of LoCoMo's OWN benign derived memories --
 # memories grounded in the conversation by construction -- because the turn that supports them
-# was not among the 5 most similar. That is a retrieval miss, not a disagreement, and widening
-# the search is the fix at its source. Set from dev by `train_b15.tune_support_retrieval()`.
-SUPPORT_TOP_K = 5
+# was not among the 5 most similar. That is a retrieval miss, not a disagreement, so the fix is
+# to search more of the conversation rather than to weaken the rule (which is what B14's
+# two-signal condition did, at a cost of 17 points of evasion recall).
+#
+# Measured on dev (`train_b15.tune_support_retrieval()`, `data/b15_support_retrieval.json`) --
+# an operating curve, not a single point, so a deployment can pick its own trade:
+#
+#   top_k   benign observations wrongly unsupported   dev fabrications caught
+#       5                  21/1026  (2.05%)                   44/80
+#      10                  12/1026  (1.17%)                   40/80
+#      20                   5/1026  (0.49%)   <- default      36/80
+#      40                   3/1026  (0.29%)                   33/80
+#
+# 20 is the default: it cuts the false-positive cost by 76% for 18% of the fabrication recall,
+# which is the side the pre-registered failure condition cared about. The whole curve is
+# published so the choice is visible rather than baked in.
+SUPPORT_TOP_K = 20
 _DIRECTIVE = re.compile(
     r"\b(should|must|always|never|make sure|remember to|be sure to|don't forget|do not forget|ensure|include|copy|"
     r"re-?insert|carry(?:ing)? forward|from now on|every time|whenever|going forward|preferred|prefers?|instead)\b",

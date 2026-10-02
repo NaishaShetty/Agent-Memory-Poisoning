@@ -46,8 +46,7 @@ def attack_one(config: str, rec, evidence, names, provider, cfg_gen) -> dict:
     """Same protocol as `adaptive_query_attacker.attack_one`, but the defense is given the
     provenance and the conversation a real deployment would have."""
     from phase14.defended_retrieval import HARD_MITIGATION_ACTIONS, apply_defense
-    from phase17.adaptive_attacker import _claim_preserved
-    from phase17.adaptive_query_attacker import _rewrite
+    from phase17.adaptive_query_attacker import _claim_preserved, _rewrite
 
     current = rec.text
     history = []
