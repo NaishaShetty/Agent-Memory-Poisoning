@@ -314,6 +314,32 @@ gets the worse number, not the better one.
 **The baselines flag none of these**, which is worth stating plainly: on this population a
 prompt-injection classifier is simply better behaved than any configuration in this project.
 
+### 5f. The adaptive, defense-aware attacker — B14 is no better than B12
+
+`phase17/adaptive_query_attacker.py` pointed at B14: 43 seeds (stratified across the six
+unseen mechanisms, the real Track B cases, and externally-authored attacks from external-DEV
+only), 5-query budget, the attacker queries B14's real live decision and rewrites while an
+NLI check confirms the original claim survives.
+
+| | B12 (round 4) | **B14** |
+|---|---|---|
+| Genuine adaptive evasion, of seeds initially excluded | 6/28 = 21.4% | **6/30 = 20.0%** |
+| Fully evaded families | memory_worm 4/4, preference_hijack 4/4 | memory_worm 4/4, preference_hijack 4/4 |
+
+**No improvement.** Everything round 5 added — the fusion over eleven signals, three published
+detectors, the coordination signal, source-aware trust — leaves a defense-aware attacker
+evading at the same rate, and failing on exactly the same two mechanisms. The attacker is
+rewriting content, and every content signal in the stack is rewritable; the two signals that
+are *not* (provenance and corroboration) are inactive in this test because it scores single
+memories with no conversation evidence.
+
+That last point is the one lead worth following: §5d-bis shows corroboration takes fixed-prompt
+rewrites from 4/47 to 28/47 when the conversation is available. Whether it also holds against
+an *adaptive* attacker with that evidence present is **not measured** — the adaptive harness
+scores one memory at a time with no evidence, and extending it is real work, not a
+reinterpretation. Until then, the honest statement is that adaptive evasion is unchanged at
+~20% and this round did not address it.
+
 ## 6. A dev/test leak found and fixed during this round
 
 `phase17/tests/test_review5_fixes.py` was written to hunt for leakage and immediately found
