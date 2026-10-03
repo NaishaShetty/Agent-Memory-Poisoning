@@ -33,6 +33,7 @@ def all_evaluation_texts() -> List[str]:
     from phase17.b13_dev_calibration import agentdojo_benign
     from phase17.eval_populations import benign_populations
     from phase17.external_test_corpus import test_benign_texts
+    from phase17.holdout2_corpus import records as mosscap_records
 
     texts: List[str] = []
     for recs in populations().values():
@@ -40,6 +41,11 @@ def all_evaluation_texts() -> List[str]:
     for v in benign_populations().values():
         texts += list(v)
     texts += agentdojo_benign("test") + agentdojo_benign("dev") + test_benign_texts()
+    # holdout2 (Mosscap) was created AFTER this script and was missing from it, so B14/B15 were
+    # computing its 1,200 texts' features four at a time inside the evaluation -- the exact
+    # per-pool slow path this precompute exists to avoid. Any population added to an evaluation
+    # must be added here too.
+    texts += [r.text for r in mosscap_records()]
     texts += [d.declarative_text for d in flat_counterfactual_pool()]  # isolated_arena distractors
     seen, out = set(), []
     for t in texts:
