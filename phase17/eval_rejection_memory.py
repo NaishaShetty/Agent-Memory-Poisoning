@@ -42,6 +42,7 @@ from typing import List
 from phase17.stats import rate_with_ci
 
 OUT = Path(__file__).parent / "data" / "eval_rejection_memory.json"
+PARTIAL = Path(__file__).parent / "data" / "eval_rejection_partial.json"
 CONFIGS = ("B15", "B16")
 
 
@@ -149,14 +150,31 @@ def run(n_external: int = 12, workers: int = 3) -> dict:
     print(f"  static equivalence B16 vs B15: {out['static_equivalence']['verdict']}", flush=True)
     for cfg in CONFIGS:
         use_ledger = cfg == "B16"
-        rows: List[dict] = []
+        # RESUMABLE: each seed-run is up to 5 defense queries plus rewrites, so losing a
+        # part-finished config to a stopped wrapper costs 20+ minutes. harm_study_v2 lost 550
+        # agent calls that way an hour before this was written; same flaw, same fix.
+        done_map = {}
+        if PARTIAL.exists():
+            try:
+                done_map = json.loads(PARTIAL.read_text(encoding="utf-8"))
+            except Exception:
+                done_map = {}
+        todo = [(sid, text) for sid, text, _f in seeds if f"{cfg}:{sid}" not in done_map]
+        rows: List[dict] = [done_map[f"{cfg}:{sid}"] for sid, _t, _f in seeds
+                            if f"{cfg}:{sid}" in done_map]
+        if rows:
+            print(f"  {cfg}: {len(rows)} cached, {len(todo)} to compute", flush=True)
         with cf.ThreadPoolExecutor(max_workers=workers) as ex:
             futs = {ex.submit(attack_one_stateful, sid, text, cfg, use_ledger): sid
-                    for sid, text, _fam in seeds}
+                    for sid, text in todo}
             for done, f in enumerate(cf.as_completed(futs), 1):
-                rows.append(f.result())
-                if done % 10 == 0:
-                    print(f"  {cfg}: {done}/{len(seeds)}", flush=True)
+                r = f.result()
+                rows.append(r)
+                done_map[f"{cfg}:{r['seed_id']}"] = r
+                if done % 5 == 0 or done == len(todo):
+                    PARTIAL.write_text(json.dumps(done_map, ensure_ascii=False), encoding="utf-8")
+                    print(f"  {cfg}: {done}/{len(todo)}", flush=True)
+        PARTIAL.write_text(json.dumps(done_map, ensure_ascii=False), encoding="utf-8")
         out["per_config"][cfg] = {**_summarise(rows), "rows": rows}
         s = out["per_config"][cfg]
         print(f"  {cfg}: genuine adaptive evasion of initially-excluded "
