@@ -72,6 +72,56 @@ published as the honest uncertainty.
 poisons do function, they just need a task that gives them an opening. **`AgentPoison
 published` is 0/6 under both probes**, so its detection numbers have no behavioural consequence.
 
+## The published baselines: "deberta nearly matches you" is a composition artifact
+
+Pooled over every population, an off-the-shelf `deberta-v3-base-prompt-injection-v2` forward
+pass lands within 6 points of B13, and the fair reading of that was damaging: if one public
+classifier nearly matches a bespoke stacked defense, the complexity is not earning its keep.
+
+It does not survive disaggregation (`baseline_breakdown.py`, re-read from `eval_round5.json`,
+no models re-run):
+
+| | B13 | deberta@dev | delta |
+|---|---|---|---|
+| **pooled (2,120)** | 62.3% | 56.6% | **+5.6** |
+| **own memory-poisoning attacks (596)** | 53.9% | 15.1% | **+38.8** |
+| external injection corpora (1,524) | 65.5% | 72.9% | -7.3 |
+
+The pooled number is 72% external by item count, and those corpora are deberta's training
+distribution. Per population the gap on this project's own attacks is +96.5 (worm_regen),
++61.8 (frozen75), +60.0 (Track B), +44.2 (corpus_extended) -- and on external-dev it is
++54.8 (InjecAgent), +52.4 (MINJA), +44.4 (AgentDojo). Deberta wins exactly one population:
+
+**Gandalf, at 99.5% of 998 items -- 47% of the pooled denominator by itself.** That single
+population is the whole of the aggregate effect.
+
+A 99.5% is worth distrusting rather than celebrating, and it is an outlier among the baselines
+rather than a general capability:
+
+| baseline | Gandalf (998) | own attacks (596) |
+|---|---|---|
+| deberta_pi_v2 | **99.5%** | 15.1% |
+| llm_prompt_qwen | 83.3% | 3.9% |
+| llm_prompt_llama31 | 42.5% | 14.9% |
+| perplexity_gpt2 | 41.0% | 4.9% |
+| llama_guard3 | 34.5% | 9.9% |
+
+Every baseline is 3-15% on memory poisoning that reads as an ordinary personal note, because a
+fabricated preference or an invented standing policy carries none of the injection surface
+these detectors key on. Deberta's Gandalf score is 57 points above the next-best baseline on
+the same items, which is the pattern one expects when a classifier has seen a public dataset
+during training -- Gandalf is the canonical public prompt-injection corpus and deberta is a
+prompt-injection classifier. **That is a hypothesis, not a measured fact**: the training data
+is not public, so it cannot be confirmed here, and it is stated because it bears on how much
+weight the 99.5% should carry, not as a finding.
+
+Either way the conclusion does not depend on it. Pooling a prompt-injection benchmark with a
+memory-poisoning benchmark and reporting one rate hides a 38-point difference in both
+directions, so **the pooled baseline comparison should not be cited at all** -- only the split.
+
+Not yet available for B15/B16: round 5 predates them, so their per-population baseline
+comparison needs `eval_round6` to carry the baseline columns. B13 remains the recommendation.
+
 ## Attack-side corrections (these change how older numbers read)
 
 **Mechanism validation, first time ever run** (`mechanism_validation.py`, judged by a third

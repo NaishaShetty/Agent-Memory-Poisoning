@@ -1,0 +1,11 @@
+{
+  "source": "eval_round5.json",
+  "ours": "B15",
+  "baseline": "deberta_pi_v2",
+  "by_population": [],
+  "aggregate_all": null,
+  "aggregate_own_attacks": null,
+  "aggregate_external": null,
+  "why_not_to_cite_the_aggregate": "The all-populations aggregate is dominated by the external prompt-injection corpora, which are the baseline's training distribution. Memory poisoning that reads as an ordinary personal note carries no injection surface, so the split below is the comparison that answers this benchmark's question.",
+  "note": "re-read from eval_round5.json; no models run here"
+}
