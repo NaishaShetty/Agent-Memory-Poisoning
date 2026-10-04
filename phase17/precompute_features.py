@@ -34,6 +34,7 @@ def all_evaluation_texts() -> List[str]:
     from phase17.eval_populations import benign_populations
     from phase17.external_test_corpus import test_benign_texts
     from phase17.holdout2_corpus import records as mosscap_records
+    from phase17.holdout3_corpus import attack_records as itw_attacks, benign_texts as itw_benign
 
     texts: List[str] = []
     for recs in populations().values():
@@ -46,6 +47,8 @@ def all_evaluation_texts() -> List[str]:
     # per-pool slow path this precompute exists to avoid. Any population added to an evaluation
     # must be added here too.
     texts += [r.text for r in mosscap_records()]
+    # ADDED: hold-out 3, so B14/B17/B18 do not compute features inline and stall.
+    texts += [r.text for r in itw_attacks()] + list(itw_benign())
     texts += [d.declarative_text for d in flat_counterfactual_pool()]  # isolated_arena distractors
     seen, out = set(), []
     for t in texts:

@@ -91,6 +91,10 @@ STAGES: List[Stage] = [
     Stage("harm_study_v2", "phase17.harm_study_v2",
           "unconditional harm reduction, with the no-poison arm measured for every instance",
           needs=("harm_tasks", "precompute_features")),
+    Stage("eval_holdout3", "phase17.eval_holdout3",
+          "the PRE-REGISTERED run on the third frozen hold-out (in-the-wild jailbreaks plus "
+          "matched benign from the same platforms); the first clean test of B17/B18",
+          needs=("precompute_features",)),
     Stage("eval_rejection_memory", "phase17.eval_rejection_memory",
           "the adaptive attacker against B15 (stateless) and B16 (ledger). The only comparison "
           "where statefulness is the single difference",

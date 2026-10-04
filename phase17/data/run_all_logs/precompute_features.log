@@ -1,119 +1,20 @@
-precomputing fusion features for 5245 unique texts
-  deberta_pi_v2: 64/5245  (0s elapsed)
-  deberta_pi_v2: 384/5245  (0s elapsed)
-  deberta_pi_v2: 704/5245  (1s elapsed)
-  deberta_pi_v2: 1024/5245  (1s elapsed)
-  deberta_pi_v2: 1344/5245  (2s elapsed)
-  deberta_pi_v2: 1664/5245  (2s elapsed)
-  deberta_pi_v2: 1984/5245  (3s elapsed)
-  deberta_pi_v2: 2304/5245  (3s elapsed)
-  deberta_pi_v2: 2624/5245  (3s elapsed)
-  deberta_pi_v2: 2944/5245  (4s elapsed)
-  deberta_pi_v2: 3264/5245  (4s elapsed)
-  deberta_pi_v2: 3584/5245  (4s elapsed)
-  deberta_pi_v2: 3904/5245  (5s elapsed)
-  deberta_pi_v2: 4224/5245  (5s elapsed)
-  deberta_pi_v2: 4544/5245  (6s elapsed)
-  deberta_pi_v2: 4864/5245  (6s elapsed)
-  deberta_pi_v2: 5184/5245  (7s elapsed)
-  deberta_pi_v2 done in 6.6s (failed 0)
-  perplexity_gpt2: 64/5245  (0s elapsed)
-  perplexity_gpt2: 384/5245  (1s elapsed)
-  perplexity_gpt2: 704/5245  (1s elapsed)
-  perplexity_gpt2: 1024/5245  (1s elapsed)
-  perplexity_gpt2: 1344/5245  (2s elapsed)
-  perplexity_gpt2: 1664/5245  (2s elapsed)
-  perplexity_gpt2: 1984/5245  (3s elapsed)
-  perplexity_gpt2: 2304/5245  (3s elapsed)
-  perplexity_gpt2: 2624/5245  (3s elapsed)
-  perplexity_gpt2: 2944/5245  (4s elapsed)
-  perplexity_gpt2: 3264/5245  (4s elapsed)
-  perplexity_gpt2: 3584/5245  (5s elapsed)
-  perplexity_gpt2: 3904/5245  (5s elapsed)
-  perplexity_gpt2: 4224/5245  (6s elapsed)
-  perplexity_gpt2: 4544/5245  (6s elapsed)
-  perplexity_gpt2: 4864/5245  (6s elapsed)
-  perplexity_gpt2: 5184/5245  (7s elapsed)
-  perplexity_gpt2 done in 6.9s (failed 0)
-  llama_guard3: 64/5245  (0s elapsed)
-  llama_guard3: 384/5245  (1s elapsed)
-  llama_guard3: 704/5245  (1s elapsed)
-  llama_guard3: 1024/5245  (1s elapsed)
-  llama_guard3: 1344/5245  (2s elapsed)
-  llama_guard3: 1664/5245  (2s elapsed)
-  llama_guard3: 1984/5245  (3s elapsed)
-  llama_guard3: 2304/5245  (3s elapsed)
-  llama_guard3: 2624/5245  (3s elapsed)
-  llama_guard3: 2944/5245  (4s elapsed)
-  llama_guard3: 3264/5245  (4s elapsed)
-  llama_guard3: 3584/5245  (5s elapsed)
-  llama_guard3: 3904/5245  (5s elapsed)
-  llama_guard3: 4224/5245  (5s elapsed)
-  llama_guard3: 4544/5245  (6s elapsed)
-  llama_guard3: 4864/5245  (6s elapsed)
-  llama_guard3: 5184/5245  (7s elapsed)
-  llama_guard3 done in 6.7s (failed 0)
-  unloading llama-guard3:8b before qwen2.5:7b
-  llm_prompt_qwen: 64/5245  (0s elapsed)
-  llm_prompt_qwen: 384/5245  (0s elapsed)
-  llm_prompt_qwen: 704/5245  (1s elapsed)
-  llm_prompt_qwen: 1024/5245  (1s elapsed)
-  llm_prompt_qwen: 1344/5245  (2s elapsed)
-  llm_prompt_qwen: 1664/5245  (2s elapsed)
-  llm_prompt_qwen: 1984/5245  (3s elapsed)
-  llm_prompt_qwen: 2304/5245  (3s elapsed)
-  llm_prompt_qwen: 2624/5245  (3s elapsed)
-  llm_prompt_qwen: 2944/5245  (4s elapsed)
-  llm_prompt_qwen: 3264/5245  (4s elapsed)
-  llm_prompt_qwen: 3584/5245  (5s elapsed)
-  llm_prompt_qwen: 3904/5245  (5s elapsed)
-  llm_prompt_qwen: 4224/5245  (5s elapsed)
-  llm_prompt_qwen: 4544/5245  (6s elapsed)
-  llm_prompt_qwen: 4864/5245  (6s elapsed)
-  llm_prompt_qwen: 5184/5245  (7s elapsed)
-  llm_prompt_qwen done in 6.7s (failed 0)
-  unloading qwen2.5:7b before llama3.1:8b
-  llm_prompt_llama31: 64/5245  (0s elapsed)
-  llm_prompt_llama31: 384/5245  (1s elapsed)
-  llm_prompt_llama31: 704/5245  (1s elapsed)
-  llm_prompt_llama31: 1024/5245  (1s elapsed)
-  llm_prompt_llama31: 1344/5245  (2s elapsed)
-  llm_prompt_llama31: 1664/5245  (2s elapsed)
-  llm_prompt_llama31: 1984/5245  (3s elapsed)
-  llm_prompt_llama31: 2304/5245  (3s elapsed)
-  llm_prompt_llama31: 2624/5245  (3s elapsed)
-  llm_prompt_llama31: 2944/5245  (4s elapsed)
-  llm_prompt_llama31: 3264/5245  (4s elapsed)
-  llm_prompt_llama31: 3584/5245  (4s elapsed)
-  llm_prompt_llama31: 3904/5245  (5s elapsed)
-  llm_prompt_llama31: 4224/5245  (5s elapsed)
-  llm_prompt_llama31: 4544/5245  (6s elapsed)
-  llm_prompt_llama31: 4864/5245  (6s elapsed)
-  llm_prompt_llama31: 5184/5245  (7s elapsed)
-  llm_prompt_llama31 done in 6.6s (failed 0)
-{
- "n_texts": 5245,
- "scorers": {
-  "deberta_pi_v2": {
-   "seconds": 6.6,
-   "failed_texts": 0
-  },
-  "perplexity_gpt2": {
-   "seconds": 6.9,
-   "failed_texts": 0
-  },
-  "llama_guard3": {
-   "seconds": 6.7,
-   "failed_texts": 0
-  },
-  "llm_prompt_qwen": {
-   "seconds": 6.7,
-   "failed_texts": 0
-  },
-  "llm_prompt_llama31": {
-   "seconds": 6.6,
-   "failed_texts": 0
-  }
- }
-}
-DONE
+precomputing fusion features for 7240 unique texts
+  deberta_pi_v2: 64/7240  (0s elapsed)
+  deberta_pi_v2: 384/7240  (0s elapsed)
+  deberta_pi_v2: 704/7240  (1s elapsed)
+  deberta_pi_v2: 1024/7240  (1s elapsed)
+  deberta_pi_v2: 1344/7240  (2s elapsed)
+  deberta_pi_v2: 1664/7240  (2s elapsed)
+  deberta_pi_v2: 1984/7240  (3s elapsed)
+  deberta_pi_v2: 2304/7240  (3s elapsed)
+  deberta_pi_v2: 2624/7240  (3s elapsed)
+  deberta_pi_v2: 2944/7240  (4s elapsed)
+  deberta_pi_v2: 3264/7240  (4s elapsed)
+  deberta_pi_v2: 3584/7240  (5s elapsed)
+  deberta_pi_v2: 3904/7240  (5s elapsed)
+  deberta_pi_v2: 4224/7240  (5s elapsed)
+  deberta_pi_v2: 4544/7240  (6s elapsed)
+  deberta_pi_v2: 4864/7240  (6s elapsed)
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5449.81it/s]
+  deberta_pi_v2: 5184/7240  (33s elapsed)
+  deberta_pi_v2: 5504/7240  (123s elapsed)

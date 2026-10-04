@@ -31,13 +31,33 @@ NOT comparable to previously published own-attack rates. The hold-out columns ar
 | B15 | 36.5% | 37.8% | 77.2% | 50.0% |
 | **B13 OR B14** | **51.5%** | **51.7%** | **83.4%** | **62.5%** |
 
-**2. B14's hold-out instability is about HALF composition, and half real.** The published gap is
-90.8% on external-test against 54.2% on Mosscap -- 36.6 points. Restricted to working attacks it
-is 83.1% against 62.5% -- **20.6 points, still p=0.0001**. So composition (Mosscap is 21%
-working, external-test 31%) accounts for roughly 16 of the 36.6 points, and the remaining 20.6
-is genuine cross-corpus instability. **The 91% must still not be cited alone**, but that
-conclusion is now quantified rather than asserted. This comparison was impossible before today:
-Mosscap was a headline column in no audit and no register.
+**2. B14's hold-out instability is half composition and half INHERITED FROM DEBERTA.** The
+published gap is 90.8% on external-test against 54.2% on Mosscap -- 36.6 points. Restricted to
+working attacks it is 83.1% against 62.5% -- **20.6 points, still p=0.0001**. So attack-validity
+composition (Mosscap is 21% working, external-test 31%) accounts for roughly 16 points.
+
+The residual is not randomness, and calling it "instability" was imprecise. **On the external
+injection corpora B14 is very nearly deberta.** Agreement between B14's decisions and
+`deberta_pi_v2@dev` is 90.1% on external-test, where their rates are 90.8% and 85.4% -- while on
+this project's own attacks agreement is far lower and B14 is doing something else entirely
+(`worm_regen`: B14 100%, deberta 3.4%, agreement 3.4%). Per-item, B14 catches exactly what
+deberta scores ~1.0 and misses what it scores ~0, in both hold-outs:
+
+| | B14 caught (median deberta score) | B14 missed (median deberta score) |
+|---|---|---|
+| external-test working attacks | 1.000 | 0.002 |
+| Mosscap working attacks | 1.000 | 0.223 |
+
+And B14 degrades across corpora *worse than the component it is tracking*: deberta falls 18
+points from external-test to Mosscap (85.4% -> 67.2%) where B14 falls 37. **So B14's fused
+weights, fitted where its eleven features agreed, lose deberta's independent signal out of
+distribution** -- which is the same diagnosis that motivated B18, arrived at from the opposite
+direction. It also means the gap cannot be closed by adding more deberta: B18 recovers 18 of
+those points on Mosscap and the rest remain.
+
+**The 91% must still not be cited alone**, and the reason is now mechanical rather than
+statistical: it is substantially deberta's 85.4% on deberta's likely training distribution,
+re-reported through a fusion that adds little there and loses signal elsewhere.
 
 **3. B13 and B14 are complementary, not ranked, and my earlier unqualified "B13 is the
 recommendation" was wrong.** On working attacks, B13 wins on own attacks (46.7% vs 39.4%,
