@@ -35,6 +35,7 @@ def _attack_pops() -> Dict[str, List]:
     from phase17.memory_worm_regen import worm_regen_records
     from phase17.novel_attacks import novel_records
     from phase17.novel_attacks_extended import novel_records_extra_only
+    from phase17.translation import zh_records
     from phase17.arenas import frozen_arena
     from phase17.corpus_extended import extended_records
     from phase17.founding_family_regen import founding_regen_records
@@ -45,6 +46,11 @@ def _attack_pops() -> Dict[str, List]:
                 for p in frozen_arena()[0] for m in p.memories if m.is_poison_ground_truth]
     return {
         "own_novel_60": novel_records(), "own_novel_new120": novel_records_extra_only(),
+        # zh_translated was in round 5 and fell out of round 6. It is half of the Chinese
+        # confound finding (native 22/30 vs translated 30/84): dropping it leaves the native
+        # number with nothing to compare against, which is how the confound hid in the first
+        # place.
+        "own_zh_translated_84": zh_records(),
         "own_gemini_30": gemini_records(), "own_evasion_47": evasion_records(),
         "own_worm_regen": worm_regen_records(), "own_zh_native_30": native_zh_records(),
         "own_trackb_15": original_records(), "own_trackb_regen_9": regenerated_records(),
