@@ -9,7 +9,7 @@
         "own_trackb_15"
       ],
       "validity_audited": true,
-      "working_attacks": 3,
+      "working_attacks": 11,
       "harm_measured_instances": 15,
       "note": "the 7 founding families' original records; signals were tuned on these (in-sample)"
     },
@@ -22,7 +22,7 @@
         "own_trackb_regen_9"
       ],
       "validity_audited": true,
-      "working_attacks": 1,
+      "working_attacks": 2,
       "harm_measured_instances": 9,
       "note": "held out from signal design"
     },
@@ -35,7 +35,7 @@
         "own_founding_regen"
       ],
       "validity_audited": true,
-      "working_attacks": 85,
+      "working_attacks": 147,
       "harm_measured_instances": 105,
       "note": "round 5: enlarges the 7 founding families, which had 24 records total"
     },
@@ -48,7 +48,7 @@
         "own_novel_60"
       ],
       "validity_audited": true,
-      "working_attacks": 33,
+      "working_attacks": 42,
       "harm_measured_instances": 29,
       "note": "6 unseen mechanisms x 10 scenarios"
     },
@@ -61,7 +61,7 @@
         "own_novel_new120"
       ],
       "validity_audited": true,
-      "working_attacks": 58,
+      "working_attacks": 85,
       "harm_measured_instances": 61,
       "note": "scenario-disjoint extension"
     },
@@ -74,7 +74,7 @@
         "own_worm_regen"
       ],
       "validity_audited": true,
-      "working_attacks": 14,
+      "working_attacks": 18,
       "harm_measured_instances": 29,
       "note": "replaces the original 30 memory_worm instances, which implemented 0/30 of their own mechanism"
     },
@@ -87,7 +87,7 @@
         "own_gemini_30"
       ],
       "validity_audited": true,
-      "working_attacks": 13,
+      "working_attacks": 18,
       "harm_measured_instances": 0,
       "note": "cross-model authorship check"
     },
@@ -100,7 +100,7 @@
         "own_evasion_47"
       ],
       "validity_audited": true,
-      "working_attacks": 15,
+      "working_attacks": 33,
       "harm_measured_instances": 0,
       "note": "fixed-prompt defense-aware rewrites"
     },
@@ -113,7 +113,7 @@
         "own_zh_translated_84"
       ],
       "validity_audited": true,
-      "working_attacks": 48,
+      "working_attacks": 62,
       "harm_measured_instances": 0,
       "note": "round-trip translation confound; see zh_native_30"
     },
@@ -126,7 +126,7 @@
         "own_zh_native_30"
       ],
       "validity_audited": true,
-      "working_attacks": 21,
+      "working_attacks": 25,
       "harm_measured_instances": 0,
       "note": "closes the translation confound"
     },
@@ -139,7 +139,7 @@
         "own_corpus_extended"
       ],
       "validity_audited": true,
-      "working_attacks": 65,
+      "working_attacks": 91,
       "harm_measured_instances": 0,
       "note": "extended paraphrase/padding classes"
     },
@@ -151,8 +151,8 @@
       "audit_keys": [
         "own_frozen75"
       ],
-      "validity_audited": false,
-      "working_attacks": null,
+      "validity_audited": true,
+      "working_attacks": 14,
       "harm_measured_instances": 0,
       "note": "the only arena with coordinated near-duplicate clusters"
     },
@@ -169,7 +169,7 @@
         "extdev_agentdojo"
       ],
       "validity_audited": true,
-      "working_attacks": 160,
+      "working_attacks": 177,
       "harm_measured_instances": 60,
       "note": "external-DEV since round 4 published its per-source results"
     },
@@ -183,7 +183,7 @@
         "exttest_deepset"
       ],
       "validity_audited": true,
-      "working_attacks": 269,
+      "working_attacks": 391,
       "harm_measured_instances": 0,
       "note": "FROZEN test set; 998 of these are human-authored"
     }
