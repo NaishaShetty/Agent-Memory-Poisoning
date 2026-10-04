@@ -74,3 +74,31 @@ def explain(items: Sequence[Tuple[str, str]], *, ledger=None, scope: str = "defa
                      "ledger_size": led.size(scope)})
         led.observe(text, final, scope)
     return rows
+
+
+# ---------------------------------------------------------------------------------------------
+# COMPOSITION (round 6 follow-up). B16 was written as "B15 plus a ledger", which hard-wired the
+# ledger to one base config and left the obvious combination -- the best-detecting stateless
+# config plus the only mechanism that touches adaptive evasion -- impossible to express. The
+# ledger does not care what decided; it only needs the action. So it wraps any config.
+
+
+def with_rejection_memory(base_config: str, items, *, ledger=None, scope: str = "default", **kw):
+    """Run `base_config`, then apply the ledger to whatever it allowed.
+
+    `ledger=None` means a fresh empty ledger, so the wrapped config's first-admission decision
+    is the base config's, by construction, exactly as for B16.
+    """
+    from phase14.defended_retrieval import HARD_MITIGATION_ACTIONS, apply_defense
+    from phase17.rejection_memory import RejectionLedger, configured_reject_sim
+
+    _, dec = apply_defense(base_config, tuple(items), **kw)
+    actions = {d.memory_id: d.action for d in dec}
+    led = RejectionLedger(reject_sim=configured_reject_sim()) if ledger is None else ledger
+    for mid, text in items:
+        if actions.get(mid) not in HARD_MITIGATION_ACTIONS:
+            near, _s, _m = led.check(text, scope)
+            if near:
+                actions[mid] = "QUARANTINE"
+        led.observe(text, actions.get(mid, "ALLOW"), scope)
+    return actions

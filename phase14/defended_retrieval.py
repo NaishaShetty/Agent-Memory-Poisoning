@@ -143,12 +143,20 @@ CONFIG_B16_REJECTION_MEMORY = "B16"
 # groups, ties on the fourth, and adds NO false positive. Introduces no new parameter. See
 # `phase17/b17_live.py`, including why its numbers are descriptive rather than held out.
 CONFIG_B17_UNION = "B17"
+# B18 -- external review round 6: B17 plus ProtectAI deberta at its FPR-matched oracle
+# threshold, as a hard rule. B14 already contains deberta as one of eleven fused features, yet
+# that feature alone at a matched threshold beats the whole fusion by 10 points on the clean
+# Mosscap hold-out -- B14's weights discard signal its own input provides. B18 restores it:
+# +18 points on that hold-out over B17 for one extra false positive in 1,088. Frozen threshold,
+# no new parameter. See `phase17/b18_live.py`.
+CONFIG_B18_UNION_DEBERTA = "B18"
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
     CONFIG_B7_ALL_THREE, CONFIG_B8_ALL_FOUR, CONFIG_B9_RISK_COMPOSED, CONFIG_B10_LEARNED_HYBRID,
     CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED, CONFIG_B13_PROVENANCE, CONFIG_B14_FUSION,
     CONFIG_B15_LEAN, CONFIG_B16_REJECTION_MEMORY, CONFIG_B17_UNION,
+    CONFIG_B18_UNION_DEBERTA,
 )
 
 # 2026-09-23 (Phase 15 follow-on, explicitly authorized): B2-B7 dispatch
@@ -382,6 +390,14 @@ def apply_defense(
             DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
             for memory_id, _ in items
         )
+    elif config_name == CONFIG_B18_UNION_DEBERTA:
+        from phase17.b18_live import b18_actions
+
+        actions = b18_actions(items, **context)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
+            for memory_id, _ in items
+        )
     elif config_name in _PIPELINE_CONFIGS:
         actions = _pipeline_actions(items, _PIPELINE_CONFIGS[config_name])
         decisions = tuple(
@@ -415,6 +431,7 @@ __all__ = [
     "CONFIG_B15_LEAN",
     "CONFIG_B16_REJECTION_MEMORY",
     "CONFIG_B17_UNION",
+    "CONFIG_B18_UNION_DEBERTA",
     "REAL_CONFIGS",
     "HARD_MITIGATION_ACTIONS",
     "DefenseDecision",
