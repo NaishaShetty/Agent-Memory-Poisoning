@@ -152,6 +152,7 @@ def populations() -> Dict[str, List]:
     from phase17.arenas import frozen_arena
     from phase17.corpus_extended import extended_records
     from phase17.founding_family_regen import founding_regen_records
+    from phase17.holdout2_corpus import records as mosscap_records
     from phase17.translation import zh_records
 
     def _R(m):  # frozen75 yields MemoryScenario; wrap as a real PoisonRecord so every
@@ -170,6 +171,11 @@ def populations() -> Dict[str, List]:
         out.setdefault(f"extdev_{r.family.replace('external_', '')}", []).append(r)
     for r in test_attack_records():
         out.setdefault(f"exttest_{r.family.replace('exttest_', '')}", []).append(r)
+    # Mosscap was absent from this audit, which is why the 91%-vs-54% gap between the two
+    # human-authored hold-outs could not be tested for composition: external_test is only
+    # 31.1% working, and if Mosscap is similar then that gap is population composition rather
+    # than detector instability. Any population an evaluation scores must be audited.
+    out["holdout2_mosscap"] = mosscap_records()
     return out
 
 

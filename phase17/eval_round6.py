@@ -35,13 +35,22 @@ def _attack_pops() -> Dict[str, List]:
     from phase17.memory_worm_regen import worm_regen_records
     from phase17.novel_attacks import novel_records
     from phase17.novel_attacks_extended import novel_records_extra_only
-    from phase17.poison_sets import evasion_records, original_records, regenerated_records
+    from phase17.arenas import frozen_arena
+    from phase17.corpus_extended import extended_records
+    from phase17.founding_family_regen import founding_regen_records
+    from phase17.poison_sets import PoisonRecord, evasion_records, original_records, regenerated_records
 
+    frozen75 = [PoisonRecord(m.scenario_id, m.content_text, m.attack_family_ground_truth or "frozen75",
+                             "held_out_frozen75")
+                for p in frozen_arena()[0] for m in p.memories if m.is_poison_ground_truth]
     return {
         "own_novel_60": novel_records(), "own_novel_new120": novel_records_extra_only(),
         "own_gemini_30": gemini_records(), "own_evasion_47": evasion_records(),
         "own_worm_regen": worm_regen_records(), "own_zh_native_30": native_zh_records(),
         "own_trackb_15": original_records(), "own_trackb_regen_9": regenerated_records(),
+        # ADDED round 6: the attack register found these two in NO evaluation table at all.
+        "own_corpus_extended": extended_records(), "own_frozen75": frozen75,
+        "own_founding_regen": founding_regen_records(),
         "external_dev_266": external_records(),
         "external_test_1258": test_attack_records(),
         "holdout2_mosscap_1200": mosscap_records(),
@@ -141,6 +150,10 @@ def run(configs=CONFIGS) -> dict:
         out["aggregates"][g]["paired_vs_B13"] = {
             c: paired_delta([e for k in keys for e, _ in raw[c][f"attack::{k}"]], ref)
             for c in configs if c != "B13"}
+    # Raw per-item decisions, so recall can be recomputed on the WORKING-attack subset without
+    # re-running the whole evaluation. Round 6 could not do that and had to re-run.
+    out["raw"] = {c: {k: [[bool(e), bool(f)] for e, f in v] for k, v in raw[c].items()} for c in configs}
+    out["raw_ids"] = {f"attack::{n}": [r.scenario_id for r in rs] for n, rs in attacks.items()}
     OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     return out
 
