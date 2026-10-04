@@ -43,6 +43,7 @@ def _loaders() -> Dict[str, dict]:
     from phase17.external_test_corpus import test_attack_records
     from phase17.founding_family_regen import founding_regen_records
     from phase17.gemini_authored_attacks import gemini_records
+    from phase17.holdout2_corpus import records as mosscap_records
     from phase17.memory_worm_regen import worm_regen_records
     from phase17.novel_attacks import novel_records
     from phase17.novel_attacks_extended import novel_records_extra_only
@@ -112,6 +113,16 @@ def _loaders() -> Dict[str, dict]:
             "audit_keys": ("exttest_gandalf", "exttest_deepset"),
             "get": test_attack_records, "author": "HUMAN (Gandalf players) + deepset authors",
             "mechanism_validated": False, "note": "FROZEN test set; 998 of these are human-authored"},
+        # ADDED round 6: Mosscap was used as a hold-out and reported in the headline table while
+        # appearing in neither this register nor the validity audit, so it had no working-attack
+        # denominator at all. That absence is precisely why B14's 91%-vs-54% gap between the two
+        # hold-outs could not be tested for composition.
+        "holdout2_mosscap_1200": {
+            "audit_keys": ("holdout2_mosscap",),
+            "get": mosscap_records, "author": "HUMAN (Mosscap players, MIT)",
+            "mechanism_validated": False,
+            "note": "FROZEN second hold-out, frozen before B15 existed; audited on a seeded "
+                    "random 300 of 1,200, so its working rate is an estimate with an interval"},
     }
 
 
