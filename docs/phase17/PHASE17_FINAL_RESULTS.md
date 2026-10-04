@@ -72,14 +72,50 @@ twice (the second after a dev-side fix to evidence-retrieval width; both reporte
 Additive fabrication was documented as unreachable by content-only detection and B12 scores
 exactly 0. On working attacks B13 also strictly dominates B12 on own attacks (+8/-0, p=0.008).
 
-**5. Adaptive evasion is a statefulness problem, not an accuracy one.** ~20% of initially
-excluded seeds are recovered within five rewrites, equally for B12, B13 and B14 -- B14's 170x
-cost buys nothing here. Every config except B16 is stateless, so five rewrites are five
-independent attempts. B16 adds a per-scope ledger of what was already rejected and refuses
-semantic neighbours of it. Its dev-fitted radius (0.97, chosen by bounding ledger-poisoning
-blast radius to 1%, benign FPR being 0.0% at every threshold in all 7 benign populations)
-catches 17.0% of paraphrases pairwise. Whether that compounds across the attacker's five rounds
-is measured by `eval_rejection_memory.py`, not assumed.
+**5. Adaptive evasion is a statefulness problem -- and rejection memory DID NOT FIX IT.**
+
+The diagnosis holds: ~20% of initially excluded seeds are recovered within five rewrites,
+equally for B12, B13 and B14, so B14's 170x cost buys nothing here. Every config except B16 is
+stateless, so five rewrites are five independent attempts at a probabilistic detector.
+
+B16 adds a per-scope ledger of what was already hard-mitigated and refuses semantic neighbours
+of it. The hypothesis was that the dev-measured 17.0% pairwise paraphrase catch would compound
+across the attacker's five rounds, because the ledger holds every previous attempt. Measured
+against the real attacker on the same 43 seeds, same budget, same rewrite model, with
+statefulness as the only difference:
+
+| | genuine adaptive evasion of initially-excluded | mean rounds |
+|---|---|---|
+| B15 (stateless) | 5/30 = 16.7% | 3.47 |
+| B16 (ledger, radius 0.97) | 4/30 = 13.3% | 3.51 |
+
+**Paired: +0 / -1, p=1.0. The hypothesis is not supported.** B16 prevented one of five adaptive
+evasions and caused none, which is the right direction and nowhere near significance; with five
+events the study cannot detect an effect this size either way.
+
+It is not that the mechanism failed to engage: **the ledger was non-empty in 138 of 151 attack
+rounds.** It fired, and the rewrites cleared the radius. And `static_equivalence` confirms on 60
+real records that B16 is byte-identical to B15 with no ledger (0 differing), so this compares
+one detector with and without memory rather than two detectors.
+
+The radius is the only lever, and the dev curve shows why it is not a free one:
+
+| radius | paraphrases caught | benign FPR | ledger-poisoning blast radius |
+|---|---|---|---|
+| 0.86 | 83.0% | 0.0% | 42.5% |
+| 0.90 | 55.3% | 0.0% | 29.7% |
+| **0.97 (frozen)** | **17.0%** | **0.0%** | **0.7%** |
+
+The radius that would catch most paraphrases is the radius at which one successfully
+ledger-poisoned innocuous text sits within range of a third to a half of benign traffic. **So
+the honest conclusion is that rejection memory trades adaptive-evasion resistance for a
+denial-of-service surface, and at a radius whose DoS surface is defensible it does not measurably
+help.** B16 should not be recommended on this evidence. Adaptive evasion remains OPEN.
+
+A sensitivity probe at radius 0.90 is recorded in
+`eval_rejection_memory_sim090_EXPLORATORY.json`. It is labelled exploratory because the radius
+was chosen after seeing the frozen-radius result; the 0.97 figure above is the measured one and
+nothing in this project's recommendations is changed by the probe.
 
 ## How many of these attacks actually work: 42.5%
 
@@ -170,6 +206,50 @@ directions, so **the pooled baseline comparison should not be cited at all** -- 
 
 Not yet available for B15/B16: round 5 predates them, so their per-population baseline
 comparison needs `eval_round6` to carry the baseline columns. B13 remains the recommendation.
+
+## Harm, re-measured with validated instances (unconditional)
+
+`harm_study_v2.py`, 309 instances, per-instance fitted tasks, the two drifted families drawn
+from `validated_regen`'s accepted set. Judge is a third model family. **Task-alone base rate
+1/309 = 0.3%**, so the tasks are not doing the work (round 4's task set was 26.7%).
+
+| | undefended | B12 | B13 |
+|---|---|---|---|
+| **overall (309)** | **28.2%** | 18.8% | **10.4%** |
+| memory_worm (30) | **83.3%** | 43.3% | **3.3%** |
+| conditional_backdoor (15) | 66.7% | 33.3% | 26.7% |
+| memorygraft (17) | 64.7% | 47.1% | 41.2% |
+| dsrm (19) | 52.6% | 36.8% | 15.8% |
+| sleeper (17) | 29.4% | 29.4% | 17.6% |
+| policy_revocation (15) | 26.7% | 33.3% | 13.3% |
+| external (60) | 26.7% | 15.0% | 13.3% |
+| agentpoison (17) | 11.8% | 11.8% | 11.8% |
+| preference_hijack (30) | 6.7% | 6.7% | 3.3% |
+| farma / mpbench (19 each) | 5.3% | 5.3% | 5.3% / 0% |
+| **authority_impersonation (15)** | **0%** | 0% | 0% |
+| **exfiltration_instruction (15)** | **0%** | 0% | 0% |
+| **minja (21)** | **0%** | 0% | 0% |
+
+**Not comparable to the previously published 42.3% -> 12.5%**: the undefended rate fell to 28.2%
+because the population changed (validated worm and exfiltration instances replaced the
+originals). The reduction is what to read, not the levels.
+
+**The worm regeneration paid off completely**: 83.3% undefended harm at 60% natural retrieval,
+reduced to 3.3% by B13. The old worm population measured near-zero harm because its instances
+did not propagate.
+
+**Exfiltration is still 0% harm, and that now means something different.** The instances are
+exfiltration attacks (68.8% by an out-of-loop judge, up from 38%) and they ARE retrieved (53%
+naturally), and the agent still never complies. So this is no longer a labelling artifact --
+it is a property of qwen2.5:7b in this setup, which belongs with the agent-capability limits in
+Scope of claims rather than being reported as a defense result. I previously offered
+safety-trained refusal as the explanation and then withdrew it; with correctly-labelled,
+confirmed-retrieved instances it is the surviving explanation, but it is an inference about the
+agent, not a measurement of the attack class. Same for `authority_impersonation` (0% at 60%
+retrieval) and `minja`.
+
+**B12 made policy_revocation worse than undefended** (33.3% vs 26.7%, n=15). Small n and within
+noise, but it is in the table rather than smoothed out.
 
 ## Attack-side corrections (these change how older numbers read)
 

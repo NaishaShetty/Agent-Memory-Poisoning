@@ -37,7 +37,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from phase17.stats import rate_with_ci
 
@@ -53,7 +53,8 @@ def _seeds(n_external: int = 12):
     return _seed_records(n_external)[0]
 
 
-def attack_one_stateful(seed_id: str, seed_text: str, config_name: str, use_ledger: bool) -> dict:
+def attack_one_stateful(seed_id: str, seed_text: str, config_name: str, use_ledger: bool,
+                        reject_sim: Optional[float] = None) -> dict:
     """`adaptive_query_attacker.attack_one`, with one change: an optional ledger that survives
     the attacker's rounds. Everything else -- budget, rewrite prompt, retries, the NLI
     claim-preservation gate, the excluded/flagged distinction -- is reused unchanged."""
@@ -64,7 +65,7 @@ def attack_one_stateful(seed_id: str, seed_text: str, config_name: str, use_ledg
     from phase3.evaluation.llm.provider import GenerationConfig
 
     provider = OllamaProvider(model="qwen2.5:7b")
-    ledger = RejectionLedger(reject_sim=configured_reject_sim()) if use_ledger else None
+    ledger = RejectionLedger(reject_sim=reject_sim or configured_reject_sim()) if use_ledger else None
     history: List[dict] = []
     current = seed_text
     for round_i in range(QUERY_BUDGET):
@@ -138,7 +139,8 @@ def _summarise(rows: List[dict]) -> dict:
     }
 
 
-def run(n_external: int = 12, workers: int = 3) -> dict:
+def run(n_external: int = 12, workers: int = 3, reject_sim: Optional[float] = None,
+        out_path=None, tag: str = "") -> dict:
     import concurrent.futures as cf
 
     seeds = _seeds(n_external)
@@ -146,7 +148,8 @@ def run(n_external: int = 12, workers: int = 3) -> dict:
     out = {"n_seeds": len(seeds), "configs": list(CONFIGS),
            "frozen_reject_sim": __import__("phase17.rejection_memory", fromlist=["x"]).configured_reject_sim(),
            "per_config": {}}
-    out["static_equivalence"] = static_equivalence()
+    out["reject_sim_used"] = reject_sim or None
+    out["static_equivalence"] = static_equivalence() if not reject_sim else {"verdict": "skipped (exploratory radius run)"}
     print(f"  static equivalence B16 vs B15: {out['static_equivalence']['verdict']}", flush=True)
     for cfg in CONFIGS:
         use_ledger = cfg == "B16"
@@ -159,18 +162,19 @@ def run(n_external: int = 12, workers: int = 3) -> dict:
                 done_map = json.loads(PARTIAL.read_text(encoding="utf-8"))
             except Exception:
                 done_map = {}
-        todo = [(sid, text) for sid, text, _f in seeds if f"{cfg}:{sid}" not in done_map]
-        rows: List[dict] = [done_map[f"{cfg}:{sid}"] for sid, _t, _f in seeds
-                            if f"{cfg}:{sid}" in done_map]
+        ck = f"{cfg}{tag}"
+        todo = [(sid, text) for sid, text, _f in seeds if f"{ck}:{sid}" not in done_map]
+        rows: List[dict] = [done_map[f"{ck}:{sid}"] for sid, _t, _f in seeds
+                            if f"{ck}:{sid}" in done_map]
         if rows:
             print(f"  {cfg}: {len(rows)} cached, {len(todo)} to compute", flush=True)
         with cf.ThreadPoolExecutor(max_workers=workers) as ex:
-            futs = {ex.submit(attack_one_stateful, sid, text, cfg, use_ledger): sid
+            futs = {ex.submit(attack_one_stateful, sid, text, cfg, use_ledger, reject_sim): sid
                     for sid, text in todo}
             for done, f in enumerate(cf.as_completed(futs), 1):
                 r = f.result()
                 rows.append(r)
-                done_map[f"{cfg}:{r['seed_id']}"] = r
+                done_map[f"{ck}:{r['seed_id']}"] = r
                 if done % 5 == 0 or done == len(todo):
                     PARTIAL.write_text(json.dumps(done_map, ensure_ascii=False), encoding="utf-8")
                     print(f"  {cfg}: {done}/{len(todo)}", flush=True)
@@ -195,7 +199,7 @@ def run(n_external: int = 12, workers: int = 3) -> dict:
     for cfg in CONFIGS:
         for r in out["per_config"][cfg]["rows"]:
             r["history"] = r["history"][:6]
-    OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
+    (out_path or OUT).write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     return out
 
 

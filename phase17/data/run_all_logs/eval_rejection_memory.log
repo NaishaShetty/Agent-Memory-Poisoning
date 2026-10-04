@@ -1,0 +1,37 @@
+adaptive attacker vs ('B15', 'B16') on 43 seeds
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 6571.64it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 5321.70it/s]
+  static equivalence B16 vs B15: OK: identical
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6902.74it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 8748.60it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 8930.35it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5429.66it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 3585.95it/s]
+[transformers] `loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
+  B15: 5/43
+  B15: 10/43
+  B15: 15/43
+  B15: 20/43
+  B15: 25/43
+  B15: 30/43
+  B15: 35/43
+  B15: 40/43
+  B15: 43/43
+  B15: genuine adaptive evasion of initially-excluded 5/30
+  B16: 5/43
+  B16: 10/43
+  B16: 15/43
+  B16: 20/43
+  B16: 25/43
+  B16: 30/43
+  B16: 35/43
+  B16: 40/43
+  B16: 43/43
+  B16: genuine adaptive evasion of initially-excluded 4/30
+
+B15: initially excluded 30/43; genuine adaptive evasion 5/30 = 16.7%; mean rounds 3.47
+
+B16: initially excluded 30/43; genuine adaptive evasion 4/30 = 13.3%; mean rounds 3.51
+
+paired B16 vs B15: {'n': 43, 'detected_a': 4, 'detected_b': 5, 'only_a': 0, 'only_b': 1, 'p_exact': 1.0}
+DONE
