@@ -112,12 +112,18 @@ CONFIG_B14_FUSION = "B14"
 # trust, NLI corroboration, the zero-FP worm/lineage tiers, pool-level coordination) and none
 # of the expensive LLM prompts. See `phase17/b15_live.py`.
 CONFIG_B15_LEAN = "B15"
+# B16 -- external review round 6: B15 plus REJECTION MEMORY. Every config above is stateless,
+# which is the whole of the adaptive attacker's advantage: five rewrites are five independent
+# attempts at a probabilistic detector. B16 remembers what it already rejected within a scope
+# and refuses semantic neighbours of it. On a first admission the ledger is empty, so B16's
+# decision is identical to B15's by construction. See `phase17/b16_live.py`.
+CONFIG_B16_REJECTION_MEMORY = "B16"
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
     CONFIG_B7_ALL_THREE, CONFIG_B8_ALL_FOUR, CONFIG_B9_RISK_COMPOSED, CONFIG_B10_LEARNED_HYBRID,
     CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED, CONFIG_B13_PROVENANCE, CONFIG_B14_FUSION,
-    CONFIG_B15_LEAN,
+    CONFIG_B15_LEAN, CONFIG_B16_REJECTION_MEMORY,
 )
 
 # 2026-09-23 (Phase 15 follow-on, explicitly authorized): B2-B7 dispatch
@@ -335,6 +341,14 @@ def apply_defense(
             DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
             for memory_id, _ in items
         )
+    elif config_name == CONFIG_B16_REJECTION_MEMORY:
+        from phase17.b16_live import b16_actions
+
+        actions = b16_actions(items, **context)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
+            for memory_id, _ in items
+        )
     elif config_name in _PIPELINE_CONFIGS:
         actions = _pipeline_actions(items, _PIPELINE_CONFIGS[config_name])
         decisions = tuple(
@@ -366,6 +380,7 @@ __all__ = [
     "CONFIG_B13_PROVENANCE",
     "CONFIG_B14_FUSION",
     "CONFIG_B15_LEAN",
+    "CONFIG_B16_REJECTION_MEMORY",
     "REAL_CONFIGS",
     "HARD_MITIGATION_ACTIONS",
     "DefenseDecision",

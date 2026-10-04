@@ -96,12 +96,10 @@ def attack_one(seed_id: str, seed_text: str, config_name: str = "B12") -> dict:
     return {"seed_id": seed_id, "success": False, "reason": "query budget exhausted", "rounds_used": QUERY_BUDGET, "history": history}
 
 
-def run(config_name: str = "B12", out_path=None, n_external: int = 12) -> dict:
-    """ADDED (external review round 5, 2026-09-30): `config_name` so the same adaptive
-    attacker can be pointed at B13/B14, and `n_external` so the seed set also includes
-    externally-authored attacks (external-DEV only -- adapting against the frozen external
-    TEST corpus would be tuning on the test set). Called with no arguments this reproduces
-    the published B12 seed set and number exactly."""
+def _seed_records(n_external: int = 12):
+    """The seed set, extracted (round 6) so `eval_rejection_memory.py` can attack the IDENTICAL
+    seeds rather than keeping a second copy of this construction that could silently drift.
+    Returns ([(id, text, family)], families)."""
     from phase17.external_attacks import external_records
     from phase17.novel_attacks import novel_records
     from phase17.poison_sets import original_records
@@ -120,6 +118,16 @@ def run(config_name: str = "B12", out_path=None, n_external: int = 12) -> dict:
         per = max(1, n_external // max(len(by_src), 1))
         for src, rs in sorted(by_src.items()):
             seeds += [(r.scenario_id, r.text, src) for r in rs[:per]]
+    return seeds, families
+
+
+def run(config_name: str = "B12", out_path=None, n_external: int = 12) -> dict:
+    """ADDED (external review round 5, 2026-09-30): `config_name` so the same adaptive
+    attacker can be pointed at B13/B14, and `n_external` so the seed set also includes
+    externally-authored attacks (external-DEV only -- adapting against the frozen external
+    TEST corpus would be tuning on the test set). Called with no arguments this reproduces
+    the published B12 seed set and number exactly."""
+    seeds, families = _seed_records(n_external)
     results = []
     for sid, text, fam in seeds:
         row = attack_one(sid, text, config_name)
