@@ -182,3 +182,63 @@ def test_pipeline_declares_dependencies_for_every_stage_that_consumes_another():
                 f"{s.name} depends on {d}, which is declared AFTER it")
     assert BY_NAME["working_set"].needs, "working_set must declare its audit dependencies"
     assert "attack_validity_audit" in BY_NAME["working_set"].needs
+
+
+def test_b17_is_a_parameterless_union_of_two_frozen_configs():
+    """B17 was chosen after reading hold-out results. The one thing that keeps that defensible
+    is that it fits NOTHING -- no threshold, no weight, no new score. If a parameter ever
+    appears here, the selection becomes tuning on the hold-out that motivated it."""
+    import ast
+    import inspect
+
+    from phase17 import b17_live
+
+    # CODE only. A substring scan over the whole source matched the docstring sentence that
+    # says B17 is NOT a threshold -- prose about the absence of a parameter is not a parameter.
+    # (The same mistake as scanning working_set.py's docstring for defense names.)
+    tree = ast.parse(inspect.getsource(b17_live.b17_actions))
+    names = {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
+    names |= {n.attr for n in ast.walk(tree) if isinstance(n, ast.Attribute)}
+    names |= {n.arg for n in ast.walk(tree) if isinstance(n, ast.arg)}
+    strings = {n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)}
+    banned = {"thr", "threshold", "thresholds", "weight", "weights", "coef", "coefs", "fit",
+              "model", "scores", "score"}
+    hits = (names | strings) & banned
+    assert not hits, (
+        f"b17_actions references {sorted(hits)}. B17 must introduce no fitted parameter, or "
+        "choosing it after reading hold-out results becomes tuning on that hold-out.")
+    assert b17_live.COMPONENTS == ("B13", "B14")
+
+
+def test_b17_never_allows_what_either_component_excludes():
+    """The union property, asserted on the action lattice rather than trusted."""
+    from phase14.defended_retrieval import HARD_MITIGATION_ACTIONS
+    from phase17 import b17_live
+
+    items = [("M1", "x"), ("M2", "y"), ("M3", "z")]
+    cases = [({"M1": "BLOCK", "M2": "ALLOW", "M3": "FLAG"}, {"M1": "ALLOW", "M2": "QUARANTINE", "M3": "ALLOW"})]
+    for a, b in cases:
+        import phase17.b13_live as b13
+        import phase17.b14_live as b14
+        orig13, orig14 = b13.b13_actions, b14.b14_actions
+        b13.b13_actions = lambda it, **k: a
+        b14.b14_actions = lambda it, **k: b
+        try:
+            out = b17_live.b17_actions(items)
+        finally:
+            b13.b13_actions, b14.b14_actions = orig13, orig14
+        for mid, _ in items:
+            if a[mid] in HARD_MITIGATION_ACTIONS or b[mid] in HARD_MITIGATION_ACTIONS:
+                assert out[mid] in HARD_MITIGATION_ACTIONS, (
+                    f"{mid}: B13={a[mid]} B14={b[mid]} but union={out[mid]} -- the union let "
+                    "through something a component excluded")
+
+
+def test_b17_numbers_are_labelled_as_hold_out_informed():
+    """B17's advantage was found by reading hold-out results, which is the same status B15
+    carries. If that label goes missing the numbers read as a clean generalisation claim."""
+    s = (P17 / "b17_live.py").read_text(encoding="utf-8")
+    low = s.lower()
+    assert "descriptive" in low and "fresh hold-out" in low, (
+        "b17_live.py no longer states that its numbers are hold-out-informed and descriptive")
+    assert "cost" in low, "b17_live.py does not state its cost, which is its main objection"

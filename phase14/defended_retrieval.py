@@ -136,12 +136,19 @@ CONFIG_B15_LEAN = "B15"
 # and refuses semantic neighbours of it. On a first admission the ledger is empty, so B16's
 # decision is identical to B15's by construction. See `phase17/b16_live.py`.
 CONFIG_B16_REJECTION_MEMORY = "B16"
+# B17 -- external review round 6: the UNION of B13 and B14. Restricted to attacks that actually
+# work, the two are complementary rather than ranked -- B13 wins on memory poisoning shaped like
+# an ordinary personal note, B14 strictly dominates on injection-shaped text (Mosscap working
+# attacks: +32/-0, p=5e-10) -- so they miss disjoint sets. The union beats both on three of four
+# groups, ties on the fourth, and adds NO false positive. Introduces no new parameter. See
+# `phase17/b17_live.py`, including why its numbers are descriptive rather than held out.
+CONFIG_B17_UNION = "B17"
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
     CONFIG_B7_ALL_THREE, CONFIG_B8_ALL_FOUR, CONFIG_B9_RISK_COMPOSED, CONFIG_B10_LEARNED_HYBRID,
     CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED, CONFIG_B13_PROVENANCE, CONFIG_B14_FUSION,
-    CONFIG_B15_LEAN, CONFIG_B16_REJECTION_MEMORY,
+    CONFIG_B15_LEAN, CONFIG_B16_REJECTION_MEMORY, CONFIG_B17_UNION,
 )
 
 # 2026-09-23 (Phase 15 follow-on, explicitly authorized): B2-B7 dispatch
@@ -367,6 +374,14 @@ def apply_defense(
             DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
             for memory_id, _ in items
         )
+    elif config_name == CONFIG_B17_UNION:
+        from phase17.b17_live import b17_actions
+
+        actions = b17_actions(items, **context)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
+            for memory_id, _ in items
+        )
     elif config_name in _PIPELINE_CONFIGS:
         actions = _pipeline_actions(items, _PIPELINE_CONFIGS[config_name])
         decisions = tuple(
@@ -399,6 +414,7 @@ __all__ = [
     "CONFIG_B14_FUSION",
     "CONFIG_B15_LEAN",
     "CONFIG_B16_REJECTION_MEMORY",
+    "CONFIG_B17_UNION",
     "REAL_CONFIGS",
     "HARD_MITIGATION_ACTIONS",
     "DefenseDecision",

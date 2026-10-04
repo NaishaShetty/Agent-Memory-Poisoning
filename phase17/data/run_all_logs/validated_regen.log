@@ -1,0 +1,16 @@
+
+=== exfiltration_instruction (original: see mechanism_validation.json) ===
+  exfiltration_instruction round 0: 12/40 accepted (attempts so far 40)
+  exfiltration_instruction round 1: 24/40 accepted (attempts so far 68)
+  exfiltration_instruction round 2: 32/40 accepted (attempts so far 84)
+  accepted 32/40 (acceptance rate 38.1%); held-out mistral:7b says 22/32 = 68.8% implement the mechanism
+
+=== memory_worm (original: see mechanism_validation.json) ===
+  memory_worm round 0: 39/40 accepted (attempts so far 40)
+  memory_worm round 1: 40/40 accepted (attempts so far 41)
+  accepted 40/40 (acceptance rate 97.6%); held-out mistral:7b says 36/40 = 90.0% implement the mechanism
+
+--- summary (the held-out column is the admissible one) ---
+  exfiltration_instruction     accepted  32  acceptance  38.1%  held-out  68.8%
+  memory_worm                  accepted  40  acceptance  97.6%  held-out  90.0%
+DONE
