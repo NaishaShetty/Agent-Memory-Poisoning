@@ -106,16 +106,37 @@ The radius is the only lever, and the dev curve shows why it is not a free one:
 | 0.90 | 55.3% | 0.0% | 29.7% |
 | **0.97 (frozen)** | **17.0%** | **0.0%** | **0.7%** |
 
-The radius that would catch most paraphrases is the radius at which one successfully
-ledger-poisoned innocuous text sits within range of a third to a half of benign traffic. **So
-the honest conclusion is that rejection memory trades adaptive-evasion resistance for a
-denial-of-service surface, and at a radius whose DoS surface is defensible it does not measurably
-help.** B16 should not be recommended on this evidence. Adaptive evasion remains OPEN.
+So a sensitivity probe at radius 0.90 was run against the same attacker and the same seeds
+(`eval_rejection_memory_sim090_EXPLORATORY.json`):
 
-A sensitivity probe at radius 0.90 is recorded in
-`eval_rejection_memory_sim090_EXPLORATORY.json`. It is labelled exploratory because the radius
-was chosen after seeing the frozen-radius result; the 0.97 figure above is the measured one and
-nothing in this project's recommendations is changed by the probe.
+| | genuine adaptive evasion | paired vs B15 |
+|---|---|---|
+| B15 (stateless) | 5/30 = 16.7% | -- |
+| B16 @ 0.97 (frozen) | 4/30 = 13.3% | +0 / -1, p=1.0 |
+| **B16 @ 0.90 (exploratory)** | **0/30 = 0.0%** | **+0 / -5, p=0.0625** |
+
+**At 0.90 the mechanism eliminates adaptive evasion on these seeds entirely** -- it prevented
+all five of B15's evasions and introduced none. So the idea works; the frozen radius was simply
+too tight, and the earlier "17% pairwise is probably useless" reading of the dev curve was the
+correct instinct about the radius and the wrong conclusion about the mechanism.
+
+**This is exploratory and must not be cited as a result.** The radius was chosen after seeing
+the 0.97 outcome, which is selection on the thing being measured; n is 5 events; and p=0.0625
+is marginal. It needs fresh seeds and a pre-registered radius before it means anything. The
+frozen 0.97 figure remains the measured one.
+
+What it costs, stated so the trade is visible rather than implied. Ordinary benign cost at 0.90
+is still **0.0%** -- benign memories are not similar to rejected poisons at any threshold tested.
+The cost is entirely conditional: IF an attacker succeeds in getting innocuous-looking text
+hard-mitigated, 29.7% of benign traffic sits inside that entry's radius, against 0.7% at the
+frozen radius. How hard that is to achieve is not measured here, but it requires finding a
+false positive of the underlying detector, whose benign FPR is ~0.09% (1/1088) and which the
+attacker cannot steer -- so the DoS path is narrow by construction rather than by assumption.
+That is reasoning, not a measurement, and it is the thing a deployment would have to judge.
+
+**Status: adaptive evasion is no longer "unfixable by any config", but it is not fixed on
+admissible evidence either.** B16 is a demonstrated mechanism with an unvalidated parameter.
+Recommending it needs the pre-registered re-run.
 
 ## How many of these attacks actually work: 42.5%
 

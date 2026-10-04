@@ -29,7 +29,7 @@ later **breaks CI instead of quietly diluting the benchmark** -- that is the par
 | 2 | Only 47.9% of attacks actually work | **Fixed structurally** | Working set 1,117/2,628 = 42.5%, per population, with CI floors. Recall-on-working now reported for every config and recomputable without a re-run. |
 | 3 | Off-the-shelf deberta nearly matches the bespoke defense | **Refuted** | Composition artifact. B13 **+38.8 pts** on 596 own attacks (53.9% vs 15.1%). Deberta's only win is Gandalf at 99.5% = 47% of the pooled denominator. Pooled comparison marked do-not-cite. |
 | 4 | B14 costs 170x B12 for an unstable gain | **Resolved** | Retired as a recommendation in `defended_retrieval.py` where configs are chosen. Superseded: B17 dominates B14 at the same FPR and cost. |
-| 5 | Adaptive evasion ~19-21%, unchanged by any config | **New defense built** | Diagnosed as statefulness, not accuracy -- B14's 170x buys nothing here. B16 = per-scope rejection ledger. Radius 0.97 fitted on dev. See the pending row below. |
+| 5 | Adaptive evasion ~19-21%, unchanged by any config | **Mechanism demonstrated, parameter unvalidated** | Diagnosed as statefulness, not accuracy. B16 = per-scope rejection ledger. At the frozen dev radius 0.97: 4/30 vs B15's 5/30, p=1.0 -- **not supported**, though the ledger fired in 138/151 rounds. At radius 0.90 (EXPLORATORY, chosen after seeing that): **0/30, all five of B15's evasions prevented, none caused, p=0.0625**. The mechanism works; the parameter needs a pre-registered re-run. Ordinary benign cost 0.0% either way; the cost is a conditional DoS surface (29.7% vs 0.7%). |
 | 6 | AgentPoison published 0/6 working | **Fixed** | **0/6 -> 3/6**, task-alone base rate 0. Measurement error all five times, not a weak attack. |
 | 7 | Multi-hop only 36/60 even in the oracle condition | **Scoped out** | A 7B agent's reasoning limit. Declared outside what the benchmark measures; the 27/60 defended figure is not a defense result and no claim rests on it. |
 | 8 | memory_worm 0/30 implementing its mechanism | **Fixed** | Regenerated with a validation loop: 33% -> **90.0%** by an out-of-loop judge. |
@@ -79,8 +79,13 @@ for "threshold" and matched the sentence saying B17 is *not* a threshold. It par
 
 ## Still open, honestly
 
-- **Adaptive evasion beyond retry-against-one-scope.** B16 does nothing against a single-shot
-  attacker, one who distributes attempts across isolated scopes, or one who waits out the TTL.
+- **B16's radius is unvalidated.** 0.90 eliminated adaptive evasion on these seeds but was
+  chosen after seeing the 0.97 result. A pre-registered radius on fresh seeds is required before
+  B16 can be recommended. And it does nothing against a single-shot attacker, one who
+  distributes attempts across isolated scopes, or one who waits out the TTL.
+- **Exfiltration harm is 0% for an agent reason, not an attack reason.** The instances are
+  exfiltration attacks and are retrieved; qwen2.5:7b does not comply. That is an agent-capability
+  limit, now grouped with multi-hop.
 - **B17 and B16 are not composed.** Everything except B16 is stateless; adding the ledger to
   B17 is the obvious next step and is not done.
 - **B15/B16/B17 have no per-population baseline breakdown.** Round 5 predates them.
