@@ -9,9 +9,9 @@
     },
     "extdev_agentpoison": {
       "n_total": 6,
-      "n_subverts": 0,
-      "n_working_set": 0,
-      "rate": 0.0,
+      "n_subverts": 3,
+      "n_working_set": 3,
+      "rate": 0.5,
       "lost_to_mechanism_check": 0
     },
     "extdev_bipia": {
@@ -47,6 +47,13 @@
       "n_subverts": 265,
       "n_working_set": 265,
       "rate": 0.2655,
+      "lost_to_mechanism_check": 0
+    },
+    "holdout2_mosscap": {
+      "n_total": 300,
+      "n_subverts": 64,
+      "n_working_set": 64,
+      "rate": 0.2133,
       "lost_to_mechanism_check": 0
     },
     "own_corpus_extended": {
@@ -134,7 +141,7 @@
       "lost_to_mechanism_check": 15
     }
   },
-  "n_total": 2328,
-  "n_working_set": 1050,
-  "overall_rate": 0.451
+  "n_total": 2628,
+  "n_working_set": 1117,
+  "overall_rate": 0.425
 }

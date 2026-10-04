@@ -113,6 +113,21 @@ def _kill_orphans() -> None:
                     str(KILL_ORPHANS)], capture_output=True, text=True, timeout=120)
 
 
+def _leftover_phase17() -> List[int]:
+    """PIDs of python processes still running a phase17 module."""
+    try:
+        r = subprocess.run(["powershell", "-NoProfile", "-Command",
+                            "Get-CimInstance Win32_Process -Filter \"Name like '%python%'\" | "
+                            "Where-Object { $_.CommandLine -like '*phase17*' } | "
+                            "Select-Object -ExpandProperty ProcessId"],
+                           capture_output=True, text=True, timeout=60)
+        import os
+        me = os.getpid()
+        return [int(x) for x in r.stdout.split() if x.strip().isdigit() and int(x) != me]
+    except Exception:
+        return []
+
+
 def _gpu_free_mb() -> Optional[int]:
     try:
         r = subprocess.run(["nvidia-smi", "--query-gpu=memory.used,memory.total",
@@ -148,17 +163,22 @@ def run(stages: Sequence[Stage], dry_run: bool = False, skip_deps: bool = False,
             continue
         if not s.cpu:
             _kill_orphans()
-            free = _gpu_free_mb()
-            if free is not None and free < min_free_mb:
-                # Refuse rather than start a job that will wedge the server. Starting anyway and
-                # then misreading the timeouts as a client bug is the exact failure this guards.
-                print(f"  REFUSING to start: only {free}MB GPU free, need {min_free_mb}MB. "
-                      f"Something still holds the card -- check `nvidia-smi` and "
-                      f"`scripts/kill_orphan_phase17.ps1` before retrying.", flush=True)
+            # The signal that matters is a LEFTOVER PHASE17 PROCESS, not free VRAM. Ollama holds
+            # its model resident between stages on purpose -- that is the warm cache, and a
+            # free-VRAM threshold would refuse every stage for the very thing that makes them
+            # fast. What wedged the server in round 5 was four phase17 jobs competing, so that
+            # is what this refuses on.
+            left = _leftover_phase17()
+            if left:
+                print(f"  REFUSING to start: phase17 processes still running {left}. Starting "
+                      f"anyway is what turned one stuck job into four competing ones. Run "
+                      f"scripts/kill_orphan_phase17.ps1 and retry.", flush=True)
                 report["stages"].append({"name": s.name, "status": "refused",
-                                         "reason": f"only {free}MB GPU free"})
+                                         "reason": f"leftover processes {left}"})
                 break
-            print(f"  GPU free: {free}MB" if free is not None else "  GPU: unknown", flush=True)
+            free = _gpu_free_mb()
+            print(f"  GPU free: {free}MB (ollama holding a model here is expected)"
+                  if free is not None else "  GPU: unknown", flush=True)
         log = LOG_DIR / f"{s.name}.log"
         t0 = time.time()
         with log.open("w", encoding="utf-8") as fh:
