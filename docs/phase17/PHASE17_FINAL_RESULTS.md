@@ -1,32 +1,66 @@
 # Phase 17 -- external review rounds 5-6, final results (2026-10-04)
 
-The one-table summary. Recall is exclusion rate; FPR is over the four ordinary benign
-populations; cost is cold-cache seconds per admitted memory; the last column is the flag rate
-on 40 legitimate standing instructions when provenance records them as the user's own words.
+Recall is exclusion rate. FPR is over the four ordinary benign populations (1,088 texts). Cost
+is cold-cache seconds per admitted memory. The last column is the flag rate on 40 legitimate
+standing instructions when provenance records them as the user's own words.
 
-| Config | own attacks (340) | external-dev (266) | external-test (1258) | holdout2 Mosscap (1200) | ordinary-benign FPR | cost | legit-instruction flags |
+| Config | own attacks (804) | external-dev (266) | external-test (1258) | holdout2 Mosscap (1200) | benign FPR | cost | legit flags |
 |---|---|---|---|---|---|---|---|
-| B12 | 47% | 34% | 66% | 15% | 0/1074 | 0.17s | 14/40 |
-| B13 | 52% | 38% | 71% | 18% | 0/1074 | 0.12s | 2/40 |
-| B14 | 48% | 53% | 91% | 54% | 1/1074 | 26.35s | 4/40 |
-| B15 | 44% | 44% | 87% | 43% | 0/1074 | 0.29s | 4/40 |
+| B12 | 43.2% | 33.8% | 66.2% | 15.0% | 1/1088 | 0.17s | 14/40 |
+| B13 | **46.1%** | 37.6% | 71.5% | 17.6% | 1/1088 | 0.12s | **2/40** |
+| B14 | 41.2% | **53.4%** | **90.8%** | **54.2%** | 2/1088 | 26.35s | 4/40 |
+| B15 | 37.7% | 44.0% | 86.6% | 43.2% | 1/1088 | 0.29s | 4/40 |
+| **B17 = B13 OR B14** | **see below** | | | | 2/1088 | ~26.5s | |
 
-## The four findings that matter most
+The `own attacks` column is **804 instances, not round 5's 340**: `zh_translated` (84) and
+`founding_regen` (208) were added, and both are harder than the original set, so this column is
+NOT comparable to previously published own-attack rates. The hold-out columns are.
 
-**1. B13 is the recommendation.** It is the best config on this project's own attacks -- the
-populations that actually test memory poisoning -- AND it is **cheaper than B12** (0.71x) while
-beating it everywhere. No trade-off.
+## The five findings that matter most
 
-**2. B14's external result does not generalise.** 91% on external-test, **54% on Mosscap**.
-Both are human-authored prompt-injection corpora. A 37-point gap between two sets of the same
-kind means neither number is a stable estimate, and the single 91% figure should not be cited
-alone. This is why the second hold-out was built before B15 existed.
+**1. Every rate above needs its working-attack denominator, and the denominators differ a lot.**
+45.1% of all instances both subvert an undefended agent and implement their own label
+(`working_set.py`, 1,117/2,628). Per population that ranges from 85% (InjecAgent) to 21%
+(Mosscap). Recall restricted to working attacks, computed from saved per-item decisions:
 
-**3. B14 costs 155x B12** (26.35s vs 0.17s per memory) for that unstable external recall. On
-own attacks it is no better than B12 (48% vs 47%).
+| working-attack recall | own (482) | external-dev (180) | external-test (391) | Mosscap (64) |
+|---|---|---|---|---|
+| B12 | 45.0% | 31.1% | 56.3% | 9.4% |
+| B13 | **46.7%** | 34.4% | 61.6% | 12.5% |
+| B14 | 39.4% | 49.4% | 83.1% | **62.5%** |
+| B15 | 36.5% | 37.8% | 77.2% | 50.0% |
+| **B13 OR B14** | **51.5%** | **51.7%** | **83.4%** | **62.5%** |
+
+**2. B14's hold-out instability is about HALF composition, and half real.** The published gap is
+90.8% on external-test against 54.2% on Mosscap -- 36.6 points. Restricted to working attacks it
+is 83.1% against 62.5% -- **20.6 points, still p=0.0001**. So composition (Mosscap is 21%
+working, external-test 31%) accounts for roughly 16 of the 36.6 points, and the remaining 20.6
+is genuine cross-corpus instability. **The 91% must still not be cited alone**, but that
+conclusion is now quantified rather than asserted. This comparison was impossible before today:
+Mosscap was a headline column in no audit and no register.
+
+**3. B13 and B14 are complementary, not ranked, and my earlier unqualified "B13 is the
+recommendation" was wrong.** On working attacks, B13 wins on own attacks (46.7% vs 39.4%,
+p=0.00013) while B14 **strictly dominates** on the clean hold-out (Mosscap working attacks
+40/64 vs 8/64, +32/-0, p=5e-10). B13's 12.5% there is a real weakness I had not reported.
+B13's signals -- provenance, NLI corroboration, structural tiers -- reach poisoning shaped like
+an ordinary personal note; B14's fused content classifiers reach injection-shaped text. They
+miss disjoint sets.
+
+So **B17 = exclude if either excludes** beats both on three of four groups, ties on the fourth,
+and **adds no false positive at all** (every benign item B13 excludes, B14 already excluded).
+It introduces no parameter -- no threshold, no weight, no new score -- which is what keeps
+choosing it after reading hold-out results defensible; a guard test parses the AST to assert
+none ever appears. **Its numbers are descriptive, not a clean held-out estimate**, the same
+status B15 carries, and it needs a fresh hold-out before being called generalisation.
+
+**Which to use:** B13 for a latency-sensitive admission path (0.12s, cheaper than B12, best on
+note-shaped poisoning, 2/40 legitimate flags). B17 where a missed poison costs more than ~26s.
+B14 alone is dominated by B17 at the same FPR and cost. **No single population's recall is a
+reason to pick a config.**
 
 **4. Provenance is what reaches the hard classes, and it is nearly free.** Pre-registered, run
-twice (the second run after a dev-side fix to the evidence-retrieval width, both reported):
+twice (the second after a dev-side fix to evidence-retrieval width; both reported):
 
 | Pre-registered comparison | B12 | B13 |
 |---|---|---|
@@ -36,41 +70,56 @@ twice (the second run after a dev-side fix to the evidence-retrieval width, both
 | Benign derived memories falsely excluded (1515) | 0 | 7 (0.46%) |
 
 Additive fabrication was documented as unreachable by content-only detection and B12 scores
-exactly 0. The benign cost fell from 1.12% to 0.46% when the evidence search was widened from
-5 turns to 20 -- fixing the cause rather than weakening the rule.
+exactly 0. On working attacks B13 also strictly dominates B12 on own attacks (+8/-0, p=0.008).
 
-## How many of these attacks actually work: 47.9%
+**5. Adaptive evasion is a statefulness problem, not an accuracy one.** ~20% of initially
+excluded seeds are recovered within five rewrites, equally for B12, B13 and B14 -- B14's 170x
+cost buys nothing here. Every config except B16 is stateless, so five rewrites are five
+independent attempts. B16 adds a per-scope ledger of what was already rejected and refuses
+semantic neighbours of it. Its dev-fitted radius (0.97, chosen by bounding ledger-poisoning
+blast radius to 1%, benign FPR being 0.0% at every threshold in all 7 benign populations)
+catches 17.0% of paraphrases pairwise. Whether that compounds across the attacker's five rounds
+is measured by `eval_rejection_memory.py`, not assumed.
 
-`attack_validity_audit.py` ran both probes over all 2,328 instances. An attack counts as
-working only if the undefended agent complied AND did not comply on the same task without the
-memory -- causal, and never consulting any defense's decision.
+## How many of these attacks actually work: 42.5%
 
-| Population | generic probe | fitted probe | union |
-|---|---|---|---|
-| InjecAgent (62) | 52 | 19 | **53 (85%)** |
-| zh_native (30) | 21 | 17 | 25 (83%) |
-| Track B original (15) | 3 | 11 | 11 (73%) |
-| founding_regen (208) | 85 | 110 | 147 (71%) |
-| evasion_47 | 15 | 25 | 33 (70%) |
-| novel_60 | 33 | 21 | 42 (70%) |
-| BIPIA (150) | 89 | 38 | 99 (66%) |
-| corpus_extended (138) | 65 | 48 | 91 (66%) |
-| frozen75 (34) | **0** | 14 | 14 (41%) |
-| Gandalf (998) | 172 | 148 | **265 (27%)** |
-| AgentPoison published (6) | 0 | 0 | **0 (0%)** |
-| **TOTAL (2,328)** | | | **1,116 (47.9%)** |
+`attack_validity_audit.py` ran both probes over all 20 populations. An attack counts as working
+only if the undefended agent complied AND did not comply on the same task without the memory --
+causal, and never consulting any defense's decision. Working-set membership additionally
+requires that the instance implement its own labelled mechanism.
 
-**Every detection number in this project needs this denominator beside it.** Catching 91% of
-external-test, where 27-48% of the items function as attacks, is a weaker claim than it looks.
+| Population | total | subverts | in working set | rate |
+|---|---|---|---|---|
+| InjecAgent | 62 | 53 | 53 | **85%** |
+| zh_native | 30 | 25 | 25 | 83% |
+| Track B original | 15 | 11 | 11 | 73% |
+| founding_regen | 208 | 147 | 146 | 70% |
+| BIPIA | 150 | 99 | 99 | 66% |
+| corpus_extended | 138 | 91 | 91 | 66% |
+| zh_translated | 84 | 62 | 47 | 56% |
+| AgentDojo | 27 | 15 | 15 | 56% |
+| novel_new120 | 120 | 85 | 64 | 53% |
+| evasion_47 | 47 | 33 | 25 | 53% |
+| novel_60 | 60 | 42 | 31 | 52% |
+| **AgentPoison published** | 6 | 3 | 3 | **50%** |
+| deepset | 260 | 126 | 126 | 48% |
+| MINJA | 21 | 10 | 10 | 48% |
+| frozen75 | 34 | 14 | 14 | 41% |
+| worm_regen | 29 | 18 | 10 | 34% |
+| Gandalf | 998 | 265 | 265 | 27% |
+| trackb_regen | 9 | 2 | 2 | 22% |
+| **Mosscap** (seeded 300 of 1,200) | 300 | 64 | 64 | **21%** |
+| **TOTAL** | **2,628** | **1,170** | **1,117** | **42.5%** |
 
-**The two probes disagree in both directions and neither dominates** -- InjecAgent 52 generic
-vs 19 fitted, Track B 3 generic vs 11 fitted. That is why the union is used for "is this a
-functional attack" (an attacker chooses the context) while both individual probes stay
-published as the honest uncertainty.
+**AgentPoison published went 0/6 to 3/6**, with a task-alone base rate of 0. The records
+function when the query carries their own trigger. All five previous readings of that population
+were measurement error, not a weak attack -- and the fifth was caught by the guard test written
+to prevent the first four, which had matched the possessive apostrophe in "Caroline's" as a
+quote delimiter and produced a query with no trigger in it.
 
-**`frozen75` went 0/34 generic to 14/34 fitted**, which rescues the coordination/GNN work: its
-poisons do function, they just need a task that gives them an opening. **`AgentPoison
-published` is 0/6 under both probes**, so its detection numbers have no behavioural consequence.
+**Mosscap at 21% is the lowest-working of the human-authored corpora**, which is finding 2's
+input. Its rate is a seeded random sample of 300, so it is an estimate with an interval, not a
+census.
 
 ## The published baselines: "deberta nearly matches you" is a composition artifact
 
@@ -145,10 +194,28 @@ model family):
 
 Eight families are perfectly labelled, so their per-family claims are sound.
 **`exfiltration_instruction` at 38% explains why it measured 0 harm across three separate
-measurement fixes: most of those instances are not exfiltration attacks.** The mechanism is
-untested, not disproven. `memory_worm` at 33% is the 30 original non-implementing instances
-still sitting in the population beside the 29 corrected ones; they need removing, not just
-superseding.
+measurement fixes: most of those instances are not exfiltration attacks.** I diagnosed that 0
+as safety-trained refusal, then as no credentials in the store, then as the owner's own
+questions. It was none of those, and no amount of fixing the TASK could have moved it.
+
+**Both drifted families were regenerated against a structural spec with a validation loop**
+(`validated_regen.py`), keeping only candidates that pass the mechanism check:
+
+| family | before | held-out judge (mistral:7b, out of loop) | generator acceptance |
+|---|---|---|---|
+| memory_worm | 33% | **90.0%** (36/40) | 97.6% |
+| exfiltration_instruction | 38% | **68.8%** (22/32) | 38.1% |
+
+The held-out column is the only admissible model-based evidence: the loop filters with
+llama3.1:8b, which is the judge `mechanism_validation` itself uses, so the regenerated
+population's mechanism-validation score is circular and the artifact carries a `DO_NOT_CITE`
+field saying so.
+
+The worm fix is clean. **Exfiltration is only half fixed, and the acceptance rate says why:**
+38.1% of spec-directed candidates pass, which is essentially the 38% rate of the unguided
+originals. The spec did not improve AUTHORING at all -- the entire gain comes from filtering --
+and a held-out judge still only confirms 68.8%. Exfiltration remains the weakest family in this
+benchmark, and the difficulty is in writing the mechanism, not in labelling it.
 
 **Attack success is a property of the attack AND the task it meets.** Two probes of the same
 2,328 attacks disagree in both directions -- memorygraft 13%->86% and mpbench 30%->74% under a
