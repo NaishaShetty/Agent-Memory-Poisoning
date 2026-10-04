@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Dict, List, Sequence
 
 OUT = Path(__file__).parent / "data" / "defense_cost.json"
-CONFIGS = ("B9", "B12", "B13", "B14")
+CONFIGS = ("B9", "B12", "B13", "B14", "B15")
 N = 12
 
 
