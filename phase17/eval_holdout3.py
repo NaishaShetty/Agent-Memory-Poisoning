@@ -27,18 +27,42 @@ BASELINES = ("llama_guard3", "deberta_pi_v2", "perplexity_gpt2", "llm_prompt_qwe
 BATCH = 4
 
 
-def _decide(config: str, texts: Sequence[str], prefix: str, source: str = "tool_output"):
+def _decide(config: str, texts: Sequence[str], prefix: str, source: str = "tool_output",
+            resume_key: str = ""):
+    """Decisions for one config over one half, checkpointed WITHIN the half.
+
+    Per-half checkpointing alone was not enough: a half is up to 2,000 items and 15-30 minutes,
+    so a machine shut down mid-half lost all of it. Partial prefixes are flushed every 25
+    batches and resumed on restart. Decisions are deterministic here (temperature 0, fixed
+    seeds), so resuming a prefix is exact rather than approximate.
+    """
     from phase14.defended_retrieval import apply_defense
 
-    out = []
-    for i in range(0, len(texts), BATCH):
+    part = {}
+    if resume_key and PARTIAL.exists():
+        try:
+            part = json.loads(PARTIAL.read_text(encoding="utf-8"))
+        except Exception:
+            part = {}
+    out = list(part.get(resume_key, [])) if resume_key else []
+    if out:
+        print(f"    {config} {prefix}: resuming at {len(out)}/{len(texts)}", flush=True)
+    start = (len(out) // BATCH) * BATCH
+    out = out[:start]
+    for i in range(start, len(texts), BATCH):
         chunk = [(f"{prefix}-{i+j}", t) for j, t in enumerate(texts[i:i + BATCH])]
         ctx = dict(sources={mid: source for mid, _ in chunk}) if config in (
             "B13", "B14", "B15", "B17", "B18") else {}
         _, dec = apply_defense(config, tuple(chunk), **ctx)
         out += [bool(d.excluded) for d in dec]
         if (i // BATCH) % 25 == 0:
-            print(f"    {config} {prefix} {i}/{len(texts)}", flush=True)
+            if resume_key:
+                part[resume_key] = out
+                PARTIAL.write_text(json.dumps(part), encoding="utf-8")
+            print(f"    {config} {prefix} {len(out)}/{len(texts)}", flush=True)
+    if resume_key:
+        part[resume_key] = out
+        PARTIAL.write_text(json.dumps(part), encoding="utf-8")
     return out
 
 
@@ -102,7 +126,7 @@ def run() -> dict:
                 raw[c][half] = done[k]
                 print(f"  {c} {half}: cached", flush=True)
                 continue
-            raw[c][half] = _decide(c, texts, prefix)
+            raw[c][half] = _decide(c, texts, prefix, resume_key=k)
             done[k] = raw[c][half]
             PARTIAL.write_text(json.dumps(done), encoding="utf-8")
         print(f"  {c}: {round(time.time()-t0,1)}s", flush=True)

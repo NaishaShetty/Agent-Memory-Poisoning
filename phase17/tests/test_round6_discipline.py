@@ -242,3 +242,63 @@ def test_b17_numbers_are_labelled_as_hold_out_informed():
     assert "descriptive" in low and "fresh hold-out" in low, (
         "b17_live.py no longer states that its numbers are hold-out-informed and descriptive")
     assert "cost" in low, "b17_live.py does not state its cost, which is its main objection"
+
+
+def test_every_long_running_stage_checkpoints():
+    """Three long runs were lost tonight to missing or too-coarse checkpoints: harm_study_v2 had
+    none (550 agent calls), eval_rejection_memory had none, and eval_holdout3 checkpointed only
+    whole config-halves. A new long stage that forgets this costs hours, so assert it."""
+    import re
+
+    required = {
+        "harm_study_v2.py": "harm_study_partial.json",
+        "attack_validity_audit.py": "attack_validity_partial.json",
+        "eval_rejection_memory.py": "eval_rejection_partial.json",
+        "eval_rejection_fresh.py": "eval_rejection_fresh_partial.json",
+        "eval_holdout3.py": "eval_holdout3_partial.json",
+    }
+    for mod, partial in required.items():
+        src = (P17 / mod).read_text(encoding="utf-8")
+        assert partial in src, f"{mod} does not reference its checkpoint file {partial}"
+        assert re.search(r"write_text\(json\.dumps", src), f"{mod} never flushes a checkpoint"
+
+
+def test_resume_runbook_lists_every_checkpointed_stage():
+    doc = (P17 / "RESUME_AFTER_SHUTDOWN.md").read_text(encoding="utf-8")
+    for partial in ("harm_study_partial.json", "attack_validity_partial.json",
+                    "eval_rejection_partial.json", "eval_rejection_fresh_partial.json",
+                    "eval_holdout3_partial.json"):
+        assert partial in doc, f"{partial} is not documented in the resume runbook"
+    assert "kill_orphan_phase17.ps1" in doc
+
+
+def test_holdout3_is_frozen_and_preregistered():
+    """The whole point of hold-out 3 is that it was frozen before B17/B18 were scored on it."""
+    from phase17 import holdout3_corpus as h
+
+    if not h.FREEZE.exists():
+        pytest.skip("hold-out 3 not built in this checkout")
+    assert h.verify_frozen(), (
+        "hold-out 3 no longer matches the SHA-256 recorded when it was frozen, which "
+        "invalidates every number measured on it as a held-out estimate.")
+    pre = (P17.parents[0] / "docs" / "phase17" / "PREREGISTRATION_HOLDOUT3.md")
+    assert pre.exists(), "hold-out 3 has no pre-registration"
+    txt = pre.read_text(encoding="utf-8")
+    d = json.loads(h.FREEZE.read_text(encoding="utf-8"))
+    assert d["sha256"] in txt, (
+        "the pre-registration does not record the frozen digest, so it cannot be shown to "
+        "predate the corpus it governs")
+    assert "0.90" in txt, "the pre-registration does not fix B16's radius"
+
+
+def test_b16_fresh_seeds_are_disjoint_from_the_original_43():
+    """If the 'fresh' seeds overlap the ones the radius was chosen on, the re-run is not a
+    validation of anything."""
+    from phase17.adaptive_query_attacker import _seed_records
+    from phase17.eval_rejection_fresh import REJECT_SIM, fresh_seeds
+
+    old = {s for s, _t, _f in _seed_records(12)[0]}
+    new = {s for s, _t, _f in fresh_seeds()}
+    assert new, "no fresh seeds selected"
+    assert not (new & old), f"fresh seeds overlap the original 43: {sorted(new & old)[:5]}"
+    assert REJECT_SIM == 0.90, "the pre-registered radius changed"
