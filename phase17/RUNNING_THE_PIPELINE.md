@@ -5,7 +5,21 @@ on a 6GB RTX 4050). That combination has failure modes that look like bugs in th
 are not. This file records them because a reviewer or a future session reproducing these
 numbers will hit the same ones.
 
-## Run one job at a time, and kill orphans between them
+## Prefer the runner over chaining stages by hand
+
+```bash
+python -m phase17.run_all
+```
+
+`phase17/run_all.py` declares the stages once, in dependency order, kills orphans before every
+GPU stage, refuses to start one when the card is already occupied, resumes from each stage's
+checkpointed cache, and finishes by running the guard tests. Nearly every methodological error
+in rounds 4-6 was a sequencing mistake rather than a bug in a stage -- an evaluation run before
+the features it needs, a harm study run before its per-instance tasks existed, a working-set
+report built from an audit that predated the AgentPoison trigger fix. `--list` shows the graph,
+`--from <stage>` resumes, `--only a,b` runs a subset with dependencies added.
+
+Run a single stage by hand only when you are iterating on that stage, and then still:
 
 ```bash
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill_orphan_phase17.ps1
