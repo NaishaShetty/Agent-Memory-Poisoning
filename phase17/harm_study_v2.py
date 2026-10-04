@@ -268,18 +268,45 @@ def _records(n_per_mechanism: int, oversample: int, include_external: int, seed:
     return out
 
 
-def _parallel(fn, jobs, workers, tag):
-    """Map `fn` over `jobs` with a thread pool, printing progress. Temperature is 0 with a
-    fixed seed everywhere here, so this changes throughput only, never a result."""
+PARTIAL = Path(__file__).parent / "data" / "harm_study_partial.json"
+
+
+def _parallel(fn, jobs, workers, tag, keys=None):
+    """Map `fn` over `jobs` with a thread pool, printing progress. Temperature is 0 with a fixed
+    seed everywhere here, so this changes throughput only, never a result.
+
+    RESUMABLE (round 6). This had no checkpoint, which the runbook's own "long jobs must
+    checkpoint" rule should have caught: a run reached 550/1236 agent calls over 40 minutes and
+    was then stopped, losing every one of them. Results are keyed and flushed every 25, so a
+    restart resumes. Keys are instance-id plus arm, both stable across runs.
+    """
     import concurrent.futures as cf
 
-    out = [None] * len(jobs)
+    done_map = {}
+    if PARTIAL.exists():
+        try:
+            done_map = json.loads(PARTIAL.read_text(encoding="utf-8"))
+        except Exception:
+            done_map = {}
+    keys = keys or [f"{tag}:{i}" for i in range(len(jobs))]
+    out = [done_map.get(k) for k in keys]
+    todo = [(i, j) for i, (j, v) in enumerate(zip(jobs, out)) if v is None]
+    if len(todo) != len(jobs):
+        print(f"  {tag}: {len(jobs)-len(todo)} cached, {len(todo)} to compute", flush=True)
+
+    def _flush():
+        PARTIAL.write_text(json.dumps(done_map, ensure_ascii=False), encoding="utf-8")
+
     with cf.ThreadPoolExecutor(max_workers=workers) as ex:
-        futs = {ex.submit(fn, j): i for i, j in enumerate(jobs)}
+        futs = {ex.submit(fn, j): i for i, j in todo}
         for done, f in enumerate(cf.as_completed(futs), 1):
-            out[futs[f]] = f.result()
-            if done % 25 == 0 or done == len(jobs):
-                print(f"  {tag}: {done}/{len(jobs)}", flush=True)
+            i = futs[f]
+            out[i] = f.result()
+            done_map[keys[i]] = out[i]
+            if done % 25 == 0 or done == len(todo):
+                _flush()
+                print(f"  {tag}: {done}/{len(todo)}", flush=True)
+    _flush()
     return out
 
 
@@ -380,10 +407,12 @@ def run(n_per_mechanism: int = 15, oversample: int = 30, include_external: int =
         for key, items in row["_items"].items():
             jobs.append((row, key, items))
     worm_rows = [r for r in rows if r["family"] == "memory_worm"]
-    answers = _parallel(lambda j: _answer(agent, acfg, j[2], j[0]["task"]), jobs, workers, "agent")
+    answers = _parallel(lambda j: _answer(agent, acfg, j[2], j[0]["task"]), jobs, workers, "agent",
+                        keys=[f'ans:{j[0]["id"]}:{j[1]}' for j in jobs])
     for (row, key, _), ans in zip(jobs, answers):
         row[key] = ans
-    summaries = _parallel(lambda row: _summarize_store(agent, acfg, row["_cand"]), worm_rows, workers, "worm-summary")
+    summaries = _parallel(lambda row: _summarize_store(agent, acfg, row["_cand"]), worm_rows, workers,
+                          "worm-summary", keys=[f'wsum:{r["id"]}' for r in worm_rows])
     for row, summary in zip(worm_rows, summaries):
         row.update(_worm_write_arm(summary, row["_cand"], row["_sources"]))
 
@@ -402,7 +431,8 @@ def run(n_per_mechanism: int = 15, oversample: int = 30, include_external: int =
             jjobs.append((row, "worm_summary_harm_unguarded", row["worm_summary"]))
             jjobs.append((row, "worm_summary_harm_guarded", row["worm_summary_guarded"]))
     verdicts = _parallel(lambda j: _judge(judge, jcfg, j[0]["poison_text"], j[0]["judge_question"], j[2]),
-                         jjobs, workers, "judge")
+                         jjobs, workers, "judge",
+                         keys=[f'jdg:{j[0]["id"]}:{j[1]}' for j in jjobs])
     for (row, key, _), v in zip(jjobs, verdicts):
         row[key] = v
     for row in rows:
