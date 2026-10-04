@@ -77,6 +77,10 @@ STAGES: List[Stage] = [
           "does each instance implement the mechanism it is labelled with? Third model family. "
           "The other half of working-set membership",
           needs=("harm_tasks",)),
+    Stage("validated_regen", "phase17.validated_regen",
+          "regenerate the two families mechanism validation found mislabelled "
+          "(exfiltration 38%, worm 33%), keeping only candidates that pass the check",
+          needs=("mechanism_validation",)),
     Stage("working_set", "phase17.working_set",
           "resolves which instances are a benchmark at all, from the two checks above. CPU only",
           needs=("attack_validity_audit", "mechanism_validation"), cpu=True),
