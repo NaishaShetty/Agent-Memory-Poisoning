@@ -40,7 +40,7 @@ from __future__ import annotations
 import json
 import random
 from pathlib import Path
-from typing import Dict, List, Sequence, Tuple
+from typing import Dict, List, Optional, Sequence, Tuple
 
 from phase17.poison_sets import PoisonRecord
 from phase17.stats import rate_with_ci
@@ -179,7 +179,19 @@ def populations() -> Dict[str, List]:
     return out
 
 
-def run(limit_per_pop: int = 0, seed: int = 17, workers: int = WORKERS) -> dict:
+# PER-POPULATION CAPS (round 6). `limit_per_pop` applies one cap to all 20 populations, which
+# would shrink the 19 that are already fully audited just to bound the one that is not. Mosscap
+# is 1,200 of the 1,206 newly-added instances and auditing all of it costs ~4x the rest of the
+# audit combined. A fixed random 300 answers the question that actually needs answering -- is
+# Mosscap's working rate near Gandalf's 27% or near InjecAgent's 85%, which decides whether
+# B14's 91%-vs-54% hold-out gap is composition or instability -- to within a few points, and the
+# audit reports Wilson intervals, so the uncertainty is visible rather than implied. The sample
+# is seeded, so it is reproducible, and the cap is recorded in the output.
+POP_CAPS: Dict[str, int] = {"holdout2_mosscap": 300}
+
+
+def run(limit_per_pop: int = 0, seed: int = 17, workers: int = WORKERS,
+        pop_caps: Optional[Dict[str, int]] = None) -> dict:
     from phase12.propagation.ollama_provider import OllamaProvider
     from phase3.evaluation.llm.provider import GenerationConfig
 
@@ -197,11 +209,13 @@ def run(limit_per_pop: int = 0, seed: int = 17, workers: int = WORKERS) -> dict:
     task_cache = gen_tasks(all_recs, workers=workers)
     rng = random.Random(seed)
     jobs = []
+    caps = POP_CAPS if pop_caps is None else pop_caps
     for name, recs in pops.items():
         rs = list(recs)
-        if limit_per_pop and len(rs) > limit_per_pop:
-            rng.shuffle(rs)
-            rs = rs[:limit_per_pop]
+        cap = caps.get(name, 0) or limit_per_pop
+        if cap and len(rs) > cap:
+            random.Random(seed).shuffle(rs)      # seeded per population -> reproducible sample
+            rs = rs[:cap]
         for i, r in enumerate(rs):
             fitted = task_for(r.scenario_id, r.text, r.family, task_cache)
             jobs.append({"pop": name, "id": r.scenario_id, "text": r.text, "family": r.family,
@@ -230,6 +244,9 @@ def run(limit_per_pop: int = 0, seed: int = 17, workers: int = WORKERS) -> dict:
     out = {"agent_model": AGENT_MODEL, "judge_model": JUDGE_MODEL, "criterion": JUDGE_Q,
            "probe": "per-instance fitted tasks (harm_tasks), published triggers for dormant families",
            "n_fitted_task": sum(j["fitted_task"] for j in jobs),
+           "population_caps": {k: v for k, v in (caps or {}).items()},
+           "caps_note": "a capped population is a seeded random sample of itself; its rate is an "
+                        "estimate with the reported Wilson interval, not a full census",
            "n": len(rows), "by_population": {}, "by_family": {}, "rows": rows}
     for fam in sorted({r.get("family") for r in rows if r.get("family")}):
         rs = [r for r in rows if r.get("family") == fam]
