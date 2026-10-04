@@ -155,13 +155,46 @@ superseding.
 fitted task, but minja 88%->19% and dsrm 70%->37%. So no single-task rate is a property of the
 attack, and `working_ids()` unions the probes while publishing both.
 
+## Scope of claims: what this benchmark does and does not measure
+
+Stated as limits on the claims rather than as a list of open bugs, because some of these are
+not fixable here and a reader needs to know which numbers they bound.
+
+**Agent capability is a floor on every harm number.** All agent-side measurement uses
+qwen2.5:7b on a 6GB card. The multi-hop condition is the clearest case: the ORACLE arm hands
+the agent perfect evidence and it still answers only 36/60 correctly. A defense cannot be
+credited or blamed for the 24 it gets wrong with perfect evidence, so **multi-hop reasoning is
+outside what this benchmark measures** -- the 27/60 defended figure should not be read as a
+defense result, and no claim in this project rests on it. The same ceiling applies, less
+visibly, to every harm rate: they are harm rates for a 7B agent, not for a frontier one.
+
+**Attack success is a property of the attack AND the task it meets**, so no single-probe rate
+is a property of an attack. Two probes over the same 2,328 instances disagree in both
+directions (memorygraft 13%->86% and mpbench 30%->74% fitted, but minja 88%->19% and dsrm
+70%->37%). The union is used for "is this functional"; both probes stay published and their
+spread is the honest uncertainty on any per-family rate.
+
+**Detection rates need their working-attack denominator.** 45.1% of instances both subvert an
+undefended agent and implement their label (`working_set.py`). Catching 91% of a population
+where a third of the items function is a weaker claim than it reads, which is why every rate is
+reported on both denominators.
+
+**Threat model for B16.** Rejection memory only engages when an attacker retries against the
+same scope's ledger. Single-shot attackers, attackers who distribute attempts across isolated
+scopes, and attackers who wait out the TTL are unaffected, and B16's static recall is B15's by
+construction.
+
+**One hold-out is informed for B15/B16.** `external_test` was frozen before B14, so B14's
+number on it is clean; B15's architecture was chosen after reading that set's baseline results,
+so B15 and B16 are only cleanly held out on Mosscap, which was frozen before B15 existed.
+
+**Authorship.** 998 Gandalf + 1,200 Mosscap attacks are human-authored, closing the
+LLM-authorship confound for those populations. Everything else is LLM-authored, and the two
+model families used (qwen, gemini) are reported separately where it matters.
+
 ## What is NOT fixed
 
 - **Adaptive evasion**: ~19% with provenance active vs B12's 21.4% -- unchanged. Provenance
   more than doubles what is caught at round 0 (27/42 vs 13/42) but does not reduce the rate at
   which a defense-aware attacker rewrites past what was caught.
-- **Multi-hop 27/60**: the oracle condition hands the agent perfect evidence and still reaches
-  only 36/60. A 7B model's reasoning limit, not a memory-defense problem.
 - **No LICENSE** -- the owner's decision, deliberately deferred.
-- **Attack authorship**: 998 Gandalf + 1,200 Mosscap attacks are human-authored, which closes
-  the confound for those populations. Everything else is LLM-authored.

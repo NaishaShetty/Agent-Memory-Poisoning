@@ -79,6 +79,24 @@ from phase6.defense.orchestration.pipeline import (
 from phase6.defense.sleeper.signals import imperative_write_directive_signal
 from phase8.detection.activation_shape_signal import activation_shape_signal
 
+# WHICH CONFIG TO USE (round 6 guidance; measurements in docs/phase17/PHASE17_FINAL_RESULTS.md)
+# ------------------------------------------------------------------------------------------
+#   B13  THE RECOMMENDATION. Best on this project's own memory-poisoning attacks, CHEAPER than
+#        B12 (0.71x), better than B12 on every population, and 2/40 false flags on legitimate
+#        standing instructions versus B12's 14/40. There is no trade-off to weigh here.
+#   B16  B13/B15's content signals plus rejection memory. Use it INSTEAD of B15 only where the
+#        same scope sees repeated admission attempts, which is where its ledger does anything;
+#        on a first admission it is identical to B15 by construction.
+#   B15  the lean fusion. Reasonable, but B13 beats it on own attacks (52% vs 44%) for less.
+#   B14  NOT RECOMMENDED, despite having the highest external-test number in this project.
+#        That 91% does not generalise -- 54% on the second human-authored hold-out, a 37-point
+#        gap between two corpora of the same kind -- and it costs 155x B12 per memory (26.35s
+#        vs 0.17s) to be no better than B12 on own attacks (48% vs 47%). It is kept for the
+#        ablation record, not as a deployment candidate.
+#   B0   the undefended control.
+# A single population's recall is not a reason to pick a config. Read the per-population table
+# and the working-attack denominators beside it.
+
 CONFIG_B0_NO_DEFENSE = "B0"
 CONFIG_B1_ADMISSION_ONLY = "B1"
 CONFIG_B2_RETRIEVAL_ONLY = "B2"
