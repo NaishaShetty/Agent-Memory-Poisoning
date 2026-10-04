@@ -226,7 +226,22 @@ def _records(n_per_mechanism: int, oversample: int, include_external: int, seed:
                  "exfiltration_instruction", "policy_revocation", "memory_worm"):
         # memory_worm uses the CORRECTED instances: `memory_worm_regen.py` found the original
         # 30 never implemented their own documented mechanism.
-        cands = worm_regen_records() if mech == "memory_worm" else [r for r in novel if r.family == mech]
+        # ROUND 6: for the two families mechanism validation found mislabelled, prefer the
+        # instances that PASS the mechanism check. exfiltration_instruction measured 0/15 harm
+        # across three separate measurement fixes before anyone checked whether the instances
+        # exfiltrate anything -- only 38% of them do, and a harm rate over the other 62% is a
+        # harm rate for notes that are not exfiltration attacks. `validated_regen` supplies
+        # instances that implement the mechanism; where it has none yet, this falls back to the
+        # original behaviour unchanged.
+        from phase17.validated_regen import regen_records as _vregen
+
+        vr = _vregen(mech)
+        if vr:
+            cands = list(vr)
+        elif mech == "memory_worm":
+            cands = worm_regen_records()
+        else:
+            cands = [r for r in novel if r.family == mech]
         rng.shuffle(cands)
         k = oversample if mech in ("preference_hijack", "memory_worm") else n_per_mechanism
         out += [(r, mech) for r in cands[:k]]
