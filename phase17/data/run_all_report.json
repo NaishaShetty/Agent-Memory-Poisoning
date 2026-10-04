@@ -1,0 +1,17 @@
+{
+  "started": "2026-10-04 17:43:42",
+  "stages": [
+    {
+      "name": "baseline_breakdown",
+      "status": "ok",
+      "seconds": 0.1,
+      "returncode": 0,
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\baseline_breakdown.log"
+    }
+  ],
+  "guard_tests": {
+    "returncode": 0,
+    "tail": "\nphase17/tests/test_b11_and_extended.py::test_b11_registered_and_two_tier\n  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n130 passed, 3 skipped, 2 warnings in 71.80s (0:01:11)"
+  },
+  "finished": "2026-10-04 17:44:55"
+}

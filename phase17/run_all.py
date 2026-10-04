@@ -109,8 +109,13 @@ def _kill_orphans() -> None:
     """The one rule that would have prevented the worst failure in this project's history."""
     if not KILL_ORPHANS.exists():
         return
+    import os
+
+    # Pass our own PID: without it the script matches `python -m phase17.run_all` and kills the
+    # runner before it starts its first stage.
     subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
-                    str(KILL_ORPHANS)], capture_output=True, text=True, timeout=120)
+                    str(KILL_ORPHANS), "-ExcludePid", str(os.getpid())],
+                   capture_output=True, text=True, timeout=120)
 
 
 def _leftover_phase17() -> List[int]:

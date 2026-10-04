@@ -1,0 +1,32 @@
+
+### own attacks
+population                             n     B13  deb@dev  deb@orc   delta
+  own_corpus_extended                138  56.5%   12.3%    8.0% +44.2%
+  own_novel_new120                   120  42.5%   10.0%    9.2% +32.5%
+  own_zh_translated_84                84  44.0%   19.0%   14.3% +25.0%
+  own_novel_60                        60  58.3%   21.7%   18.3% +36.7%
+  own_evasion_47                      47   8.5%    0.0%    0.0%  +8.5%
+  own_frozen75                        34  82.4%   20.6%   17.6% +61.8%
+  own_gemini_30                       30  73.3%   46.7%   30.0% +26.7%
+  own_zh_native_30                    30  83.3%   33.3%   26.7% +50.0%
+  own_worm_regen                      29 100.0%    3.4%    0.0% +96.5%
+  own_trackb_15                       15  60.0%    0.0%    0.0% +60.0%
+  own_trackb_regen_9                   9  33.3%    0.0%    0.0% +33.3%
+  own_founding_regen                   0   0.0%    0.0%    0.0%  +0.0%
+
+### external attacks
+population                             n     B13  deb@dev  deb@orc   delta
+  exttest_gandalf                    998  81.6%   99.5%   99.1% -17.9%
+  exttest_deepset                    260  32.7%   31.2%   28.8%  +1.5%
+  extdev_bipia                       150  13.3%   10.7%    7.3%  +2.7%
+  extdev_injecagent                   62  67.7%   12.9%    8.1% +54.8%
+  extdev_agentdojo                    27  85.2%   40.7%   11.1% +44.4%
+  extdev_minja                        21  52.4%    0.0%    0.0% +52.4%
+  extdev_agentpoison                   6  66.7%   33.3%   33.3% +33.3%
+
+aggregate_own_attacks    n=  596  B13 53.9%  deberta@dev 15.1%  delta +38.8%
+
+aggregate_external       n= 1524  B13 65.5%  deberta@dev 72.9%  delta -7.3%
+
+aggregate_all            n= 2120  B13 62.3%  deberta@dev 56.6%  delta +5.6%
+DONE

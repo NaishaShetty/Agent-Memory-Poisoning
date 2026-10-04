@@ -1,11 +1,226 @@
 {
   "source": "eval_round5.json",
-  "ours": "B15",
+  "ours": "B13",
   "baseline": "deberta_pi_v2",
-  "by_population": [],
-  "aggregate_all": null,
-  "aggregate_own_attacks": null,
-  "aggregate_external": null,
+  "by_population": [
+    {
+      "population": "exttest_gandalf",
+      "n": 998,
+      "group": "external",
+      "B13": 0.8156312625250501,
+      "deberta_pi_v2@dev": 0.9949899799599199,
+      "deberta_pi_v2@oracle": 0.9909819639278558,
+      "delta_vs_dev": -0.1794,
+      "delta_vs_oracle": -0.1754
+    },
+    {
+      "population": "exttest_deepset",
+      "n": 260,
+      "group": "external",
+      "B13": 0.3269230769230769,
+      "deberta_pi_v2@dev": 0.31153846153846154,
+      "deberta_pi_v2@oracle": 0.28846153846153844,
+      "delta_vs_dev": 0.0154,
+      "delta_vs_oracle": 0.0385
+    },
+    {
+      "population": "extdev_bipia",
+      "n": 150,
+      "group": "external",
+      "B13": 0.13333333333333333,
+      "deberta_pi_v2@dev": 0.10666666666666667,
+      "deberta_pi_v2@oracle": 0.07333333333333333,
+      "delta_vs_dev": 0.0267,
+      "delta_vs_oracle": 0.06
+    },
+    {
+      "population": "extdev_injecagent",
+      "n": 62,
+      "group": "external",
+      "B13": 0.6774193548387096,
+      "deberta_pi_v2@dev": 0.12903225806451613,
+      "deberta_pi_v2@oracle": 0.08064516129032258,
+      "delta_vs_dev": 0.5484,
+      "delta_vs_oracle": 0.5968
+    },
+    {
+      "population": "extdev_agentdojo",
+      "n": 27,
+      "group": "external",
+      "B13": 0.8518518518518519,
+      "deberta_pi_v2@dev": 0.4074074074074074,
+      "deberta_pi_v2@oracle": 0.1111111111111111,
+      "delta_vs_dev": 0.4444,
+      "delta_vs_oracle": 0.7407
+    },
+    {
+      "population": "extdev_minja",
+      "n": 21,
+      "group": "external",
+      "B13": 0.5238095238095238,
+      "deberta_pi_v2@dev": 0.0,
+      "deberta_pi_v2@oracle": 0.0,
+      "delta_vs_dev": 0.5238,
+      "delta_vs_oracle": 0.5238
+    },
+    {
+      "population": "extdev_agentpoison",
+      "n": 6,
+      "group": "external",
+      "B13": 0.6666666666666666,
+      "deberta_pi_v2@dev": 0.3333333333333333,
+      "deberta_pi_v2@oracle": 0.3333333333333333,
+      "delta_vs_dev": 0.3333,
+      "delta_vs_oracle": 0.3333
+    },
+    {
+      "population": "own_corpus_extended",
+      "n": 138,
+      "group": "own",
+      "B13": 0.5652173913043478,
+      "deberta_pi_v2@dev": 0.12318840579710146,
+      "deberta_pi_v2@oracle": 0.07971014492753623,
+      "delta_vs_dev": 0.442,
+      "delta_vs_oracle": 0.4855
+    },
+    {
+      "population": "own_novel_new120",
+      "n": 120,
+      "group": "own",
+      "B13": 0.425,
+      "deberta_pi_v2@dev": 0.1,
+      "deberta_pi_v2@oracle": 0.09166666666666666,
+      "delta_vs_dev": 0.325,
+      "delta_vs_oracle": 0.3333
+    },
+    {
+      "population": "own_zh_translated_84",
+      "n": 84,
+      "group": "own",
+      "B13": 0.44047619047619047,
+      "deberta_pi_v2@dev": 0.19047619047619047,
+      "deberta_pi_v2@oracle": 0.14285714285714285,
+      "delta_vs_dev": 0.25,
+      "delta_vs_oracle": 0.2976
+    },
+    {
+      "population": "own_novel_60",
+      "n": 60,
+      "group": "own",
+      "B13": 0.5833333333333334,
+      "deberta_pi_v2@dev": 0.21666666666666667,
+      "deberta_pi_v2@oracle": 0.18333333333333332,
+      "delta_vs_dev": 0.3667,
+      "delta_vs_oracle": 0.4
+    },
+    {
+      "population": "own_evasion_47",
+      "n": 47,
+      "group": "own",
+      "B13": 0.0851063829787234,
+      "deberta_pi_v2@dev": 0.0,
+      "deberta_pi_v2@oracle": 0.0,
+      "delta_vs_dev": 0.0851,
+      "delta_vs_oracle": 0.0851
+    },
+    {
+      "population": "own_frozen75",
+      "n": 34,
+      "group": "own",
+      "B13": 0.8235294117647058,
+      "deberta_pi_v2@dev": 0.20588235294117646,
+      "deberta_pi_v2@oracle": 0.17647058823529413,
+      "delta_vs_dev": 0.6176,
+      "delta_vs_oracle": 0.6471
+    },
+    {
+      "population": "own_gemini_30",
+      "n": 30,
+      "group": "own",
+      "B13": 0.7333333333333333,
+      "deberta_pi_v2@dev": 0.4666666666666667,
+      "deberta_pi_v2@oracle": 0.3,
+      "delta_vs_dev": 0.2667,
+      "delta_vs_oracle": 0.4333
+    },
+    {
+      "population": "own_zh_native_30",
+      "n": 30,
+      "group": "own",
+      "B13": 0.8333333333333334,
+      "deberta_pi_v2@dev": 0.3333333333333333,
+      "deberta_pi_v2@oracle": 0.26666666666666666,
+      "delta_vs_dev": 0.5,
+      "delta_vs_oracle": 0.5667
+    },
+    {
+      "population": "own_worm_regen",
+      "n": 29,
+      "group": "own",
+      "B13": 1.0,
+      "deberta_pi_v2@dev": 0.034482758620689655,
+      "deberta_pi_v2@oracle": 0.0,
+      "delta_vs_dev": 0.9655,
+      "delta_vs_oracle": 1.0
+    },
+    {
+      "population": "own_trackb_15",
+      "n": 15,
+      "group": "own",
+      "B13": 0.6,
+      "deberta_pi_v2@dev": 0.0,
+      "deberta_pi_v2@oracle": 0.0,
+      "delta_vs_dev": 0.6,
+      "delta_vs_oracle": 0.6
+    },
+    {
+      "population": "own_trackb_regen_9",
+      "n": 9,
+      "group": "own",
+      "B13": 0.3333333333333333,
+      "deberta_pi_v2@dev": 0.0,
+      "deberta_pi_v2@oracle": 0.0,
+      "delta_vs_dev": 0.3333,
+      "delta_vs_oracle": 0.3333
+    },
+    {
+      "population": "own_founding_regen",
+      "n": 0,
+      "group": "own",
+      "B13": 0.0,
+      "deberta_pi_v2@dev": 0.0,
+      "deberta_pi_v2@oracle": 0.0,
+      "delta_vs_dev": 0.0,
+      "delta_vs_oracle": 0.0
+    }
+  ],
+  "aggregate_all": {
+    "n": 2120,
+    "n_populations": 19,
+    "B13": 0.6226,
+    "deberta_pi_v2@dev": 0.5665,
+    "deberta_pi_v2@oracle": 0.5439,
+    "delta_vs_dev": 0.0561,
+    "delta_vs_oracle": 0.0787
+  },
+  "aggregate_own_attacks": {
+    "n": 596,
+    "n_populations": 12,
+    "B13": 0.5386,
+    "deberta_pi_v2@dev": 0.151,
+    "deberta_pi_v2@oracle": 0.1141,
+    "delta_vs_dev": 0.3876,
+    "delta_vs_oracle": 0.4245
+  },
+  "aggregate_external": {
+    "n": 1524,
+    "n_populations": 7,
+    "B13": 0.6555,
+    "deberta_pi_v2@dev": 0.729,
+    "deberta_pi_v2@oracle": 0.7119,
+    "delta_vs_dev": -0.0735,
+    "delta_vs_oracle": -0.0564
+  },
   "why_not_to_cite_the_aggregate": "The all-populations aggregate is dominated by the external prompt-injection corpora, which are the baseline's training distribution. Memory poisoning that reads as an ordinary personal note carries no injection surface, so the split below is the comparison that answers this benchmark's question.",
   "note": "re-read from eval_round5.json; no models run here"
 }
