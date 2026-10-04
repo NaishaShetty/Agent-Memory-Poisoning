@@ -95,6 +95,31 @@ def attack_one_stateful(seed_id: str, seed_text: str, config_name: str, use_ledg
             "rounds_used": QUERY_BUDGET, "history": history}
 
 
+def static_equivalence(n: int = 60) -> dict:
+    """Confirm on REAL records that B16 == B15 with no ledger threaded.
+
+    `test_rejection_memory.py` asserts this under a monkeypatched B15, which proves the control
+    flow. This proves it on the actual detector over real attack text, because the claim the
+    whole comparison rests on -- that only statefulness differs -- is worth checking against the
+    thing itself and not only against a stub.
+    """
+    from phase14.defended_retrieval import apply_defense
+    from phase17.novel_attacks import novel_records
+
+    recs = novel_records()[:n]
+    diffs = []
+    for r in recs:
+        items = [(r.scenario_id, r.text)]
+        _, d15 = apply_defense("B15", items)
+        _, d16 = apply_defense("B16", items)
+        if d15[0].action != d16[0].action or d15[0].excluded != d16[0].excluded:
+            diffs.append({"id": r.scenario_id, "B15": d15[0].action, "B16": d16[0].action})
+    return {"n_checked": len(recs), "n_differing": len(diffs), "differing": diffs[:10],
+            "verdict": "OK: identical" if not diffs else
+                       "BUG: B16 differs from B15 with no ledger, so state is leaking and the "
+                       "adaptive comparison below is invalid"}
+
+
 def _summarise(rows: List[dict]) -> dict:
     init_excl = [r for r in rows if r["history"] and not r["history"][0]["not_excluded"]]
     genuine = [r for r in init_excl if r.get("success") and r.get("genuine_adaptive_evasion")]
@@ -120,6 +145,8 @@ def run(n_external: int = 12, workers: int = 3) -> dict:
     out = {"n_seeds": len(seeds), "configs": list(CONFIGS),
            "frozen_reject_sim": __import__("phase17.rejection_memory", fromlist=["x"]).configured_reject_sim(),
            "per_config": {}}
+    out["static_equivalence"] = static_equivalence()
+    print(f"  static equivalence B16 vs B15: {out['static_equivalence']['verdict']}", flush=True)
     for cfg in CONFIGS:
         use_ledger = cfg == "B16"
         rows: List[dict] = []
