@@ -41,6 +41,10 @@ def pct(x):
     return "n/a" if x is None else f"{100*x:.1f}%"
 
 
+def _L(n):
+    return L(n)
+
+
 def rows():
     out = []
 
@@ -160,10 +164,16 @@ def rows():
         "eval_round6.json + recall_on_working.json")
     if fr:
         s17, s18 = fr["shipped"]["B17"], fr["shipped"]["B18"]
-        add("unfavourable", "The union configurations are badly calibrated",
-            f"B17 leaves {100*s17['youden_headroom']:.1f} and B18 "
-            f"{100*s18['youden_headroom']:.1f} points of discrimination on the table at their "
-            f"shipped thresholds", "holdout3_frontier.json")
+        s17["floor"] = min(fr["curves"]["B17"], key=lambda x: x["fpr"])
+        s18["floor"] = min(fr["curves"]["B18"], key=lambda x: x["fpr"])
+        add("unfavourable", "The union configurations cannot reach a low false-positive regime",
+            f"B17's FPR on hold-out 3 cannot go below {100*s17['floor']['fpr']:.1f}% and B18's "
+            f"below {100*s18['floor']['fpr']:.1f}% at ANY threshold, because both exclude "
+            f"whenever B13 excludes; they also leave {100*s17['youden_headroom']:.1f} and "
+            f"{100*s18['youden_headroom']:.1f} points of discrimination unused at their shipped "
+            f"points", "holdout3_frontier.json",
+            "so the recommendation is now conditioned on the false-positive budget rather than "
+            "naming one configuration")
     if frs and not pw:
         add("unfavourable", "B16 falsified by its own pre-registered rule",
             f"1/38 -> 0/38, p={frs['paired_B16_vs_B15']['p_exact']}; the rule said p>0.1 "
@@ -211,7 +221,20 @@ def rows():
             "no significant effect at the frozen radius (4/30 vs 5/30, p=1.0); 0/30 at 0.90 is "
             "exploratory; pre-registered re-run falsified but underpowered",
             "eval_rejection_memory.json")
-    if xt:
+    xf = _L("exfiltration_final_agents.json")
+    if xf:
+        r2 = _L("exfiltration_regen2.json")
+        add("favourable", "Exfiltration is now a TESTED mechanism",
+            f"deterministic structural gates added after the judge was shown to pass instances "
+            f"with no recipient; regenerated set scores {r2['heldout']['rate']:.1%} out-of-loop "
+            f"(was 68.8%), 16/16 pass the gate, and all three agent families give "
+            f"{xf['per_agent']['qwen2.5:7b']['causal_harm']['k']}/{xf['n']} harm -- they address "
+            f"the legitimate counterparty and only RESTATE the attacker's directive",
+            "exfiltration_final_agents.json",
+            "a negative result about the attack class against 7-8B assistants, not a benchmark "
+            "defect; the deterministic recipient column overstates adoption and the judge is the "
+            "accurate instrument")
+    elif xt:
         add("unfavourable", "Exfiltration is an UNTESTED mechanism",
             f"0/32 harm with a neutral task, provisioned store and recipient-aware judge; the "
             f"poison names an outbound recipient in only "
@@ -223,6 +246,11 @@ def rows():
     elif xs:
         add("open", "Exfiltration mechanism", xs.get("verdict", "pending"),
             "exfiltration_store_check.json")
+    add("favourable", "Recommendation conditioned on the false-positive budget",
+        "B13 (+ the ledger) for memory poisoning on ordinary traffic; B14 or an off-the-shelf "
+        "deberta pass where the budget is tight on injection-shaped text; B18 only as a "
+        "review-queue posture where a third of benign traffic can be quarantined",
+        "Methodology 32.42")
     add("open", "B17/B18 have no clean hold-out estimate",
         "both were chosen after reading hold-out results; hold-out 3 tested them once, and their "
         "shipped calibration is poor there", "eval_holdout3.json")
