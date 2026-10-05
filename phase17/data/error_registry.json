@@ -1,6 +1,6 @@
 {
   "n": 8,
-  "n_proven": 4,
+  "n_proven": 6,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -18,20 +18,20 @@
       "error": "merge_write's temp path carried the PID but not the thread id, so two worker threads raced on one temp file and a half-written cache was os.replace'd into place, killing a multi-hour run.",
       "test": "phase17/tests/test_round6_discipline.py::test_merge_write_is_thread_safe",
       "guard_passes_clean": true,
-      "guard_fails_when_error_reintroduced": false,
+      "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,
-      "status": "UNPROVEN",
-      "detail": "guard did not fail on the mutation -- it does not actually detect this error"
+      "status": "PROVEN",
+      "detail": ""
     },
     {
       "id": "gpu_contention",
       "error": "The cross-phase audit was launched beside a GPU stage; VRAM hit 5,716 of 6,141MB and the adaptive run made no progress for 13 minutes.",
-      "test": "phase17/tests/test_round6_discipline.py::test_phase_audit_script_refuses_to_run_beside_a_gpu_stage",
+      "test": "phase17/tests/test_round6_discipline.py::test_phase_audit_script_refuses_when_a_gpu_stage_is_running",
       "guard_passes_clean": true,
-      "guard_fails_when_error_reintroduced": false,
-      "guard_passes_after_restore": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": false,
       "status": "UNPROVEN",
-      "detail": "guard did not fail on the mutation -- it does not actually detect this error"
+      "detail": "guard does not pass on clean code"
     },
     {
       "id": "corroboration_inert",
@@ -68,10 +68,10 @@
       "error": "harm_study_v2 had no checkpoint and a stopped wrapper lost 550 agent calls, about 40 minutes of GPU work.",
       "test": "phase17/tests/test_round6_discipline.py::test_every_long_running_stage_checkpoints",
       "guard_passes_clean": true,
-      "guard_fails_when_error_reintroduced": false,
+      "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,
-      "status": "UNPROVEN",
-      "detail": "guard did not fail on the mutation -- it does not actually detect this error"
+      "status": "PROVEN",
+      "detail": ""
     },
     {
       "id": "frozen_corpus_edited",

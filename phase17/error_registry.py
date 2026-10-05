@@ -47,8 +47,8 @@ ERRORS: List[Dict] = [
                  "threads raced on one temp file and a half-written cache was os.replace'd into "
                  "place, killing a multi-hour run.",
         "file": "phase17/cache_io.py",
-        "find": 'tmp = path.with_suffix(f".tmp{os.getpid()}.{threading.get_ident()}")',
-        "replace": 'tmp = path.with_suffix(f".tmp{os.getpid()}")',
+        "find": "    with _LOCK:",
+        "replace": "    if True:",
         "test": "phase17/tests/test_round6_discipline.py::test_merge_write_is_thread_safe",
     },
     {
@@ -56,9 +56,9 @@ ERRORS: List[Dict] = [
         "error": "The cross-phase audit was launched beside a GPU stage; VRAM hit 5,716 of "
                  "6,141MB and the adaptive run made no progress for 13 minutes.",
         "file": "phase17/_audit_all_phases.sh",
-        "find": 'if [ "${BUSY:-0}" != "0" ]; then',
-        "replace": 'if false; then',
-        "test": "phase17/tests/test_round6_discipline.py::test_phase_audit_script_refuses_to_run_beside_a_gpu_stage",
+        "find": '  [ "$1" != "--force" ] && exit 2',
+        "replace": '  :',
+        "test": "phase17/tests/test_round6_discipline.py::test_phase_audit_script_refuses_when_a_gpu_stage_is_running",
     },
     {
         "id": "corroboration_inert",
@@ -96,7 +96,7 @@ ERRORS: List[Dict] = [
                  "about 40 minutes of GPU work.",
         "file": "phase17/harm_study_v2.py",
         "find": "PARTIAL = Path(__file__).parent / \"data\" / \"harm_study_partial.json\"",
-        "replace": "PARTIAL_DISABLED = Path(__file__).parent / \"data\" / \"harm_study_partial.json\"",
+        "replace": "PARTIAL = Path(__file__).parent / \"data\" / \"wrong_name.json\"",
         "test": "phase17/tests/test_round6_discipline.py::test_every_long_running_stage_checkpoints",
     },
     {
@@ -130,7 +130,11 @@ def verify(ids=None) -> dict:
             rows.append({**{k: e[k] for k in ("id", "error", "test")},
                          "status": "SKIPPED", "detail": f"{e['file']} missing"})
             continue
-        original = f.read_text(encoding="utf-8")
+        # BYTES, not text: a text round-trip rewrites LF as CRLF on Windows, which broke the
+        # audit script and made its guard fail for a reason unrelated to the mutation. A harness
+        # that corrupts the thing it is testing proves nothing.
+        original_bytes = f.read_bytes()
+        original = original_bytes.decode("utf-8")
         if e["find"] not in original:
             rows.append({**{k: e[k] for k in ("id", "error", "test")},
                          "status": "UNPROVEN",
@@ -138,10 +142,11 @@ def verify(ids=None) -> dict:
             continue
         clean = _run(e["test"], ROOT)
         try:
-            f.write_text(original.replace(e["find"], e["replace"], 1), encoding="utf-8")
+            mutated = original.replace(e["find"], e["replace"], 1).encode("utf-8")
+            f.write_bytes(mutated)
             mutated_passes = _run(e["test"], ROOT)
         finally:
-            f.write_text(original, encoding="utf-8")
+            f.write_bytes(original_bytes)
         restored = _run(e["test"], ROOT)
         ok = clean and not mutated_passes and restored
         rows.append({**{k: e[k] for k in ("id", "error", "test")},
