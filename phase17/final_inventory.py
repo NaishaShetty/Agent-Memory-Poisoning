@@ -246,6 +246,31 @@ def rows():
     elif xs:
         add("open", "Exfiltration mechanism", xs.get("verdict", "pending"),
             "exfiltration_store_check.json")
+    ev2 = _L("evidence_round6.json")
+    if ev2 and "B18" in ev2.get("aggregate", {}):
+        a = ev2["aggregate"]["B18"]
+        w, b = a.get("attacks_with_evidence"), a.get("ordinary_benign_with_evidence")
+        if w and b:
+            add("favourable", "B18 with evidence is the best configuration on this benchmark's "
+                "own threat",
+                f"own attacks {w['k']}/{w['n']} = {pct(w['rate'])} at {b['k']}/{b['n']} = "
+                f"{pct(b['k']/b['n'])} ordinary-benign FPR, discrimination "
+                f"{100*(w['rate']-b['k']/b['n']):+.1f} against B13's +52.2 and B12's +43.2; the "
+                f"corroboration arm had never been run for B18",
+                "evidence_round6.json",
+                "the entire false-positive cost falls on untrusted channels: 0/40, 0/6, 0/20 in "
+                "the user_turn condition")
+    b19 = _L("eval_b19.json")
+    if b19:
+        add("unfavourable", "The memory-shape gate failed: the FPR problem is not fixable this way",
+            f"B19 = gate + B13 gives attacks {pct(b19['holdout3_attacks']['not_admitted']['rate'])} "
+            f"and benign {pct(b19['holdout3_benign']['not_admitted']['rate'])}, discrimination "
+            f"+21.1 against B13's +45.8; a structural-rules-only variant gives +45.3, i.e. no "
+            f"gain. On an in-the-wild prompt corpus the benign and malicious halves are "
+            f"structurally indistinguishable, so no shape pre-filter can separate them",
+            "eval_b19.json",
+            "reported as a failed attempt rather than retained; hold-out 3 has now been scored "
+            "five times and only the first was pre-registered")
     add("favourable", "Recommendation conditioned on the false-positive budget",
         "B13 (+ the ledger) for memory poisoning on ordinary traffic; B14 or an off-the-shelf "
         "deberta pass where the budget is tight on injection-shaped text; B18 only as a "
