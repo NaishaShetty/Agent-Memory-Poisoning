@@ -99,6 +99,11 @@ STAGES: List[Stage] = [
           "the adaptive attacker against B15 (stateless) and B16 (ledger). The only comparison "
           "where statefulness is the single difference",
           needs=("eval_round6",)),
+    Stage("evidence_round6", "phase17.evidence_round6",
+          "score the own-attack families WITH corroboration evidence supplied, and the benign "
+          "populations with the SAME evidence, because eval_round6 leaves B13's strongest signal "
+          "inert and its tables therefore read as a detection failure on the founding families",
+          needs=("eval_round6",)),
     Stage("eval_rejection_fresh", "phase17.eval_rejection_fresh",
           "B16 at the PRE-REGISTERED radius 0.90 on 120 fresh seeds, disjoint from the 43 the "
           "radius was chosen on; the only admissible test of that parameter"),
