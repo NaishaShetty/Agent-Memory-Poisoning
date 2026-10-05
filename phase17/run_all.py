@@ -133,6 +133,10 @@ STAGES: List[Stage] = [
     Stage("eval_rejection_powered", "phase17.eval_rejection_powered",
           "the adaptive test with seeds PRE-FILTERED to the metric's own denominator, sized for enough discordant pairs to resolve an effect",
           needs=()),
+    Stage("exfiltration_task_fix", "phase17.exfiltration_task_fix",
+          "neutral task + provisioned store + recipient-aware judge, the fix implied by the "
+          "store check's finding that the fixed task named a legitimate counterparty",
+          needs=("exfiltration_store_check",)),
     Stage("family_breakdown", "phase17.family_breakdown",
           "per-attack-family join over existing artifacts, so the seven founding families are "
           "reported by name; no model is run", cpu=True),
