@@ -1,3 +1,23 @@
 calibrating on 400 DEV benign; evaluating on 1000 attacks / 995 frozen benign
   B12: SKIPPED (RuntimeError: B12 detector exposes no batch score method)
 Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5959.33it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 8311.89it/s]
+[transformers] `loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
+  B14                    @dev-FPR 8%: recall  38.6% realised FPR   4.5%
+  B15                    @dev-FPR 8%: recall  33.0% realised FPR   3.8%
+  llama_guard3           @dev-FPR 8%: recall  22.2% realised FPR   6.9%
+  deberta_pi_v2          @dev-FPR 8%: recall  41.3% realised FPR   4.4%
+  perplexity_gpt2        @dev-FPR 8%: recall   4.0% realised FPR   7.5%
+  llm_prompt_qwen        @dev-FPR 8%: recall  17.5% realised FPR   5.9%
+  llm_prompt_llama31     @dev-FPR 8%: recall  21.4% realised FPR   4.1%
+
+### Ranking at a dev-calibrated 8% FPR operating point
+  scorer                     recall  realised FPR  recall-FPR
+  deberta_pi_v2               41.3%          4.4%      +36.9%
+  B14                         38.6%          4.5%      +34.1%
+  B15                         33.0%          3.8%      +29.2%
+  llm_prompt_llama31          21.4%          4.1%      +17.3%
+  llama_guard3                22.2%          6.9%      +15.3%
+  llm_prompt_qwen             17.5%          5.9%      +11.6%
+  perplexity_gpt2              4.0%          7.5%       -3.5%
+DONE
