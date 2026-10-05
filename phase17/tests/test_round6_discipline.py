@@ -245,22 +245,31 @@ def test_b17_numbers_are_labelled_as_hold_out_informed():
 
 
 def test_every_long_running_stage_checkpoints():
-    """Three long runs were lost tonight to missing or too-coarse checkpoints: harm_study_v2 had
-    none (550 agent calls), eval_rejection_memory had none, and eval_holdout3 checkpointed only
-    whole config-halves. A new long stage that forgets this costs hours, so assert it."""
-    import re
+    """Three long runs were lost to missing or too-coarse checkpoints.
+
+    This IMPORTS each module and requires a real module-level checkpoint path, rather than
+    grepping for the filename: mutation testing showed the earlier version passed when
+    `PARTIAL` was renamed to `PARTIAL_DISABLED`, because the filename string was still present
+    elsewhere in the file.
+    """
+    import importlib
 
     required = {
-        "harm_study_v2.py": "harm_study_partial.json",
-        "attack_validity_audit.py": "attack_validity_partial.json",
-        "eval_rejection_memory.py": "eval_rejection_partial.json",
-        "eval_rejection_fresh.py": "eval_rejection_fresh_partial.json",
-        "eval_holdout3.py": "eval_holdout3_partial.json",
+        "phase17.harm_study_v2": "harm_study_partial.json",
+        "phase17.attack_validity_audit": "attack_validity_partial.json",
+        "phase17.eval_rejection_memory": "eval_rejection_partial.json",
+        "phase17.eval_rejection_fresh": "eval_rejection_fresh_partial.json",
+        "phase17.eval_holdout3": "eval_holdout3_partial.json",
     }
-    for mod, partial in required.items():
-        src = (P17 / mod).read_text(encoding="utf-8")
-        assert partial in src, f"{mod} does not reference its checkpoint file {partial}"
-        assert re.search(r"write_text\(json\.dumps", src), f"{mod} never flushes a checkpoint"
+    for mod, fname in required.items():
+        m = importlib.import_module(mod)
+        attr = next((a for a in ("PARTIAL", "PARTIAL_PATH") if hasattr(m, a)), None)
+        assert attr, f"{mod} defines no module-level checkpoint path (looked for PARTIAL)"
+        assert fname in str(getattr(m, attr)), (
+            f"{mod}.{attr} does not point at {fname}; it is {getattr(m, attr)}")
+        src = (P17 / (mod.split(".")[1] + ".py")).read_text(encoding="utf-8")
+        assert f"{attr}.write_text" in src, f"{mod} never flushes {attr}"
+
 
 
 def test_resume_runbook_lists_every_checkpointed_stage():
@@ -323,6 +332,18 @@ def test_merge_write_is_thread_safe():
             list(ex.map(lambda i: merge_write(p, {f"k{i}": "x" * 500}), range(120)))
         got = _json.loads(p.read_text(encoding="utf-8"))
         assert len(got) == 120, f"lost writes under concurrency: {len(got)}/120"
+        # The lock alone made this pass even with a shared temp path, so assert the second
+        # layer of protection directly: the temp name must be thread-distinct. Mutation
+        # testing found this gap.
+        import inspect
+
+        from phase17 import cache_io
+
+        src = inspect.getsource(cache_io)
+        assert "get_ident" in src, (
+            "merge_write's temp path is not thread-distinct. The module lock currently hides "
+            "this, but any caller that bypasses merge_write would race again.")
+
 
 
 def test_merge_write_recovers_from_a_malformed_cache():
@@ -341,13 +362,55 @@ def test_merge_write_recovers_from_a_malformed_cache():
         assert got == {"a": 1, "b": 2}, got
 
 
-def test_phase_audit_script_refuses_to_run_beside_a_gpu_stage():
-    """Running the cross-phase audit alongside a phase17 GPU stage put two processes on a 6GB
-    card and stalled the adaptive run for 13 minutes. Several phase suites load models, so the
-    audit is a GPU job too and must serialise like the rest."""
-    s = (P17 / "_audit_all_phases.sh").read_text(encoding="utf-8")
-    assert "REFUSING" in s, "the audit script does not refuse to run beside a GPU stage"
-    assert "phase17." in s and "Measure-Object" in s, "it does not actually check for one"
+def test_leftover_phase17_detection_sees_a_live_process():
+    """Half of the GPU-contention guard: the detector must actually see a phase17 process.
+
+    Tested on its own because the end-to-end version depended on process-table matching from
+    inside a test runner and passed for the wrong reason -- a non-zero exit caused by a path
+    bug, not by a refusal.
+    """
+    import subprocess
+    import sys
+    import time
+
+    from phase17.run_all import _leftover_phase17
+
+    code = "import time; time.sleep(25)  # phase17.decoy"
+    decoy = subprocess.Popen([sys.executable, "-c", code],
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        time.sleep(2.0)
+        seen = _leftover_phase17()
+        assert decoy.pid in seen or seen, (
+            f"the detector saw no phase17 process while PID {decoy.pid} was alive with "
+            f"'phase17.' on its command line; the orphan and contention guards both rest on it")
+    finally:
+        decoy.kill()
+        decoy.wait(timeout=10)
+
+
+def test_phase_audit_script_refuses_when_a_gpu_stage_is_running():
+    """The other half: given a busy signal, the script must refuse and say so.
+
+    Exercised through --fake-busy so the branch itself is tested. Mutation testing
+    showed the earlier string-presence version passed with the refusal replaced by `if false`.
+    """
+    import subprocess
+
+    script = P17 / "_audit_all_phases.sh"
+    if not script.exists():
+        pytest.skip("audit script not in this checkout")
+    assert bytes([13, 10]) not in script.read_bytes(), (
+        "the audit script has CRLF line endings and bash cannot run it. .gitattributes pins "
+        "*.sh to LF; this broke once after a checkout.")
+    r = subprocess.run(["bash", "phase17/_audit_all_phases.sh", "--check", "--fake-busy", "3"],
+                       cwd=str(P17.parent), capture_output=True, text=True, timeout=180)
+    assert r.returncode != 127, f"script not found by bash: {r.stderr[-200:]!r}"
+    assert r.returncode != 0, (
+        f"the script did not refuse while told three phase17 processes were running. "
+        f"stdout: {r.stdout[-300:]!r}")
+    assert "REFUS" in (r.stdout + r.stderr).upper(), "it refused without saying why"
+
 
 
 def test_an_evaluation_reporting_provenance_configs_supplies_evidence_or_says_floor():

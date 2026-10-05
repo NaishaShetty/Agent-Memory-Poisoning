@@ -27,3 +27,8 @@ phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.csv text eol=lf
 phase3/datasets/candidates/memoryagentbench/raw/github_repo/**/*.gbnf text eol=lf
 phase3/datasets/candidates/memoryagentbench/raw/github_repo/LICENSE text eol=lf
 phase3/datasets/candidates/memoryagentbench/raw/github_repo/.gitignore text eol=lf
+# Shell scripts must keep LF endings: git's CRLF conversion on Windows checkout breaks them
+# with $'\r': command not found. Found when the cross-phase audit script became unrunnable
+# after a checkout, which also made its guard test fail for a reason unrelated to the guard.
+*.sh text eol=lf
+*.ps1 text eol=crlf
