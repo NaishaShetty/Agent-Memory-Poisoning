@@ -120,6 +120,10 @@ STAGES: List[Stage] = [
     Stage("holdout3_matched_fpr", "phase17.holdout3_matched_fpr",
           'every config and baseline calibrated on the SAME disjoint dev snapshot, then evaluated once -- removing the asymmetry that let baselines pick an operating point and ours not',
           needs=('eval_holdout3',)),
+    Stage("multihop_multiagent", "phase17.multihop_multiagent",
+          "the multi-hop ORACLE ceiling across five local agent families plus Gemini when a key "
+          "is set, to test whether the scoped-out multi-hop limit is a model ceiling or a "
+          "qwen-specific one"),
     Stage("family_breakdown", "phase17.family_breakdown",
           "per-attack-family join over existing artifacts, so the seven founding families are "
           "reported by name; no model is run", cpu=True),
