@@ -1,20 +1,24 @@
 {
-  "started": "2026-10-05 16:39:30",
+  "started": "2026-10-05 19:17:47",
   "stages": [
     {
-      "name": "exfiltration_store_check",
+      "name": "eval_rejection_powered",
       "status": "ok",
-      "seconds": 760.4,
+      "seconds": 1698.1,
       "returncode": 0,
-      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\exfiltration_store_check.log"
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\eval_rejection_powered.log"
     },
     {
-      "name": "eval_rejection_powered",
-      "status": "failed",
-      "seconds": 1085.3,
-      "returncode": 1,
-      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\eval_rejection_powered.log"
+      "name": "exfiltration_task_fix",
+      "status": "ok",
+      "seconds": 434.5,
+      "returncode": 0,
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\exfiltration_task_fix.log"
     }
   ],
-  "finished": "2026-10-05 17:10:29"
+  "guard_tests": {
+    "returncode": 0,
+    "tail": "\nphase17/tests/test_b11_and_extended.py::test_b11_registered_and_two_tier\n  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n143 passed, 2 warnings in 65.68s (0:01:05)"
+  },
+  "finished": "2026-10-05 19:54:40"
 }
