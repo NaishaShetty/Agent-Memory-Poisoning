@@ -1,0 +1,228 @@
+{
+  "n": 31,
+  "counts": {
+    "favourable": 14,
+    "unfavourable": 12,
+    "open": 5
+  },
+  "classification_rule": "Written because a summary assembled from memory is where selective reporting creeps in. Each\nrow names the artifact it came from, so any line can be checked, and the classification rule is\napplied mechanically rather than by recollection:",
+  "rows": [
+    {
+      "category": "favourable",
+      "item": "Unconditional harm reduction (B13)",
+      "result": "28.2% undefended -> 10.4%; task-alone base rate 1/309",
+      "artifact": "harm_study_v2.json",
+      "caveat": "population changed from the 42.3%->12.5% figure, so levels are not comparable"
+    },
+    {
+      "category": "favourable",
+      "item": "Provenance reaches classes content-only cannot (pre-registered)",
+      "result": "additive fabrication 0/72 -> 37/72 (p=1e-11); fabricated preferences 0/48 -> 27/48 (p=1e-08); legitimate-instruction false flags 14/40 -> 2/40",
+      "artifact": "PREREGISTRATION_B13.md",
+      "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "Provenance is cheaper than the stack it replaces",
+      "result": "B13 0.1s vs B12 0.15s per admitted memory",
+      "artifact": "defense_cost.json",
+      "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "Bespoke signals beat every published detector on memory poisoning",
+      "result": "own attacks: B13 46.1% vs deberta 14.1%; baselines 3-15% on note-shaped poisoning",
+      "artifact": "baseline_breakdown_round6.json",
+      "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "Our false-positive rates far below the baselines' on ordinary memory",
+      "result": "B13 1/1088, B15 1/1088 vs deberta 8/1088, Llama Guard 23/1088",
+      "artifact": "baseline_breakdown_round6.json",
+      "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "Working-set discipline (the round's main methodological contribution)",
+      "result": "1117/2628 = 42.5% of instances both subvert an undefended agent and implement their label; per-population floors break CI on drift",
+      "artifact": "working_set.json",
+      "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "AgentPoison published records function once probed correctly",
+      "result": "0/6 -> 3/6 working, task-alone base rate 0; four prior readings were measurement error",
+      "artifact": "attack_validity_audit.json",
+      "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "memory_worm regeneration",
+      "result": "33% mechanism-correct -> 90.0% by an out-of-loop judge; undefended harm 83.3% at 60% retrieval -> 3.3% with B13",
+      "artifact": "validated_regen.json",
+      "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "Corroboration fix lifts every founding family",
+      "result": "sleeper 0% -> 37%, MPBench 11% -> 46%, MINJA 13% -> 33%, DSRM 17% -> 30%, FARMA 74% -> 87%; aggregate own-attack recall 46.1% -> 59.7%, discrimination +46.1 -> +52.2",
+      "artifact": "evidence_round6.json",
+      "caveat": "costs 7.5% ordinary-benign FPR, all of it on untrusted channels"
+    },
+    {
+      "category": "favourable",
+      "item": "Corroboration costs nothing on user-authored content",
+      "result": "legitimate standing instructions 0/40, named-party preferences 0/6, confirmed-human 0/20 in the user_turn channel with evidence live",
+      "artifact": "evidence_round6.json",
+      "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "Union configurations beat both components at no extra FPR (descriptive)",
+      "result": "B17 own 51.2% vs B13 46.1% / B14 41.2%; adds no ordinary-benign false positive",
+      "artifact": "baseline_breakdown_round6.json",
+      "caveat": "hold-out-informed; not a clean estimate"
+    },
+    {
+      "category": "favourable",
+      "item": "Matched operating points close most of the baseline gap",
+      "result": "deberta +36.9 vs B14 +34.1; was a 17-point gap at shipped thresholds, now 2.8",
+      "artifact": "holdout3_matched_fpr.json",
+      "caveat": "the baseline still leads on that corpus"
+    },
+    {
+      "category": "favourable",
+      "item": "Multi-hop is not a reasoning ceiling",
+      "result": "every agent 80-87% correct under the LLM judge; Gemini 60.0% strict, below phi3:mini's 65.0%; the oracle ceiling is NLI strictness",
+      "artifact": "multihop_multiagent.json",
+      "caveat": "this corrects a claim this project had published"
+    },
+    {
+      "category": "favourable",
+      "item": "Three frozen hold-outs with pre-registration and digest verification",
+      "result": "1,258 + 1,200 + 1,000 human-authored attacks; hold-out 3 adds 995 MATCHED benign from the same platforms",
+      "artifact": "holdout3_freeze.json",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "Matched-benign false-positive rates are very high",
+      "result": "B18 54.9%, B14 54.5%, B13 33.5% against 0.09% on ordinary memory",
+      "artifact": "eval_holdout3.json",
+      "caveat": "every FPR previously published used benign text unlike the attack distribution"
+    },
+    {
+      "category": "unfavourable",
+      "item": "Three of five pre-registered predictions failed",
+      "result": "P2 (B18 beats B14 by 5pts) failed at +0.4; P4 (baselines degrade most) failed backwards; P5 (nothing above 85%) failed for four configs",
+      "artifact": "eval_holdout3.json",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "The recall ranking inverts once FPR is counted",
+      "result": "B14/B17/B18 reach 92.7-93.1% recall by flagging >half of benign; their discrimination is the worst of the configurations tested",
+      "artifact": "eval_holdout3.json",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "My labelling-artifact hypothesis was mostly wrong",
+      "result": "82.7% of the corpus is benign-as-a-memory; filtering moves B18 only 54.9% -> 49.0%, about 6 of 55 points",
+      "artifact": "benign_validity_audit.json",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "The content detector is the false-positive source, not provenance",
+      "result": "content-only 43.0% on DEV in-the-wild benign; corroboration adds 2 of 200",
+      "artifact": "diagnose_benign_fpr.json",
+      "caveat": "my earlier reading blamed corroboration and was wrong"
+    },
+    {
+      "category": "unfavourable",
+      "item": "'B13 is the recommendation' was wrong unqualified",
+      "result": "on working attacks B14 STRICTLY dominates B13 on the clean hold-out, 40/64 vs 8/64, +32/-0, p=5e-10; B13's 12.5% there was unreported",
+      "artifact": "recall_on_working.json",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "B14's hold-out gap is half composition, half inherited from deberta",
+      "result": "36.6-point gap narrows to 20.6 on working attacks (p=0.0001); B14 agrees with deberta 90.1% on external corpora and degrades worse than it across corpora",
+      "artifact": "eval_round6.json + recall_on_working.json",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "The union configurations are badly calibrated",
+      "result": "B17 leaves 6.2 and B18 9.2 points of discrimination on the table at their shipped thresholds",
+      "artifact": "holdout3_frontier.json",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "B16 falsified by its own pre-registered rule",
+      "result": "1/38 -> 0/38, p=1.0; the rule said p>0.1 falsifies",
+      "artifact": "eval_rejection_fresh.json",
+      "caveat": "one control event caps the p-value at 1.0, so the test was underpowered: a flaw in my seed-selection rule"
+    },
+    {
+      "category": "unfavourable",
+      "item": "Exfiltration regeneration only half worked",
+      "result": "38% -> 68.8% out-of-loop, but generator acceptance 38.1% equals the unguided rate, so the spec did not improve authoring",
+      "artifact": "validated_regen.json",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "My own errors this round",
+      "result": "AgentPoison trigger error a 5th time (caught by my own new guard test); rejection-memory dev fit measured the wrong distribution; orphan script killed the pipeline runner; a guard test matched its own docstring; corroboration left inert in every published table; the user_turn arm computed but never reported; B12 omitted from the table testing it",
+      "artifact": "git history",
+      "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "Five of seven founding families are weakly detected content-only",
+      "result": "DSRM, MPBench, MINJA, MemoryGraft 11-32%; sleeper 0% before the corroboration fix",
+      "artifact": "family_breakdown.json",
+      "caveat": "these are floors; see evidence_round6.json"
+    },
+    {
+      "category": "open",
+      "item": "Adaptive evasion",
+      "result": "no significant effect at the frozen radius (4/30 vs 5/30, p=1.0); 0/30 at 0.90 is exploratory; pre-registered re-run falsified but underpowered",
+      "artifact": "eval_rejection_memory.json",
+      "caveat": ""
+    },
+    {
+      "category": "open",
+      "item": "Exfiltration mechanism",
+      "result": "ENVIRONMENT is NOT the defect: harm stays at 0/32 even with the requested data present in the store, so the attack text does not direct a third-party disclosure the agent will carry out. The defect is in the generator, and exfiltration remains an untested mechanism in this benchmark rather than a measured-weak one.",
+      "artifact": "exfiltration_store_check.json",
+      "caveat": ""
+    },
+    {
+      "category": "open",
+      "item": "B17/B18 have no clean hold-out estimate",
+      "result": "both were chosen after reading hold-out results; hold-out 3 tested them once, and their shipped calibration is poor there",
+      "artifact": "eval_holdout3.json",
+      "caveat": ""
+    },
+    {
+      "category": "open",
+      "item": "All three hold-outs are injection/jailbreak corpora",
+      "result": "a good score there is evidence about overt injected instructions, not about additive fabrication or preference hijack; this project's own populations remain the only test of those",
+      "artifact": "holdout3_corpus.py",
+      "caveat": ""
+    },
+    {
+      "category": "open",
+      "item": "LICENSE not attached",
+      "result": "deliberately deferred by the owner",
+      "artifact": "-",
+      "caveat": ""
+    }
+  ]
+}

@@ -302,3 +302,40 @@ def test_b16_fresh_seeds_are_disjoint_from_the_original_43():
     assert new, "no fresh seeds selected"
     assert not (new & old), f"fresh seeds overlap the original 43: {sorted(new & old)[:5]}"
     assert REJECT_SIM == 0.90, "the pre-registered radius changed"
+
+
+def test_merge_write_is_thread_safe():
+    """judge_cache.json was corrupted mid-run because merge_write's temp path carried the PID
+    but not the thread id, so two workers in one process raced on the same temp file and one
+    os.replace'd a half-written one. The retry loop could not help: a persistently malformed
+    file is not contention."""
+    import concurrent.futures as cf
+    import json as _json
+    import tempfile
+    from pathlib import Path as _P
+
+    from phase17.cache_io import merge_write
+
+    with tempfile.TemporaryDirectory() as d:
+        p = _P(d) / "c.json"
+        p.write_text("{}", encoding="utf-8")
+        with cf.ThreadPoolExecutor(max_workers=8) as ex:
+            list(ex.map(lambda i: merge_write(p, {f"k{i}": "x" * 500}), range(120)))
+        got = _json.loads(p.read_text(encoding="utf-8"))
+        assert len(got) == 120, f"lost writes under concurrency: {len(got)}/120"
+
+
+def test_merge_write_recovers_from_a_malformed_cache():
+    """A trailing-byte corruption must not kill a multi-hour run; the valid prefix is recovered."""
+    import json as _json
+    import tempfile
+    from pathlib import Path as _P
+
+    from phase17.cache_io import merge_write
+
+    with tempfile.TemporaryDirectory() as d:
+        p = _P(d) / "c.json"
+        p.write_text(_json.dumps({"a": 1}) + "{garbage", encoding="utf-8")
+        merge_write(p, {"b": 2})
+        got = _json.loads(p.read_text(encoding="utf-8"))
+        assert got == {"a": 1, "b": 2}, got
