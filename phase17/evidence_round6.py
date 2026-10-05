@@ -40,6 +40,12 @@ PARTIAL = Path(__file__).parent / "data" / "evidence_round6_partial.json"
 CONFIGS = ("B12", "B13", "B14", "B15", "B17")
 BATCH = 4
 LOCOMO_SAMPLE = 0
+# Populations whose texts are the USER'S OWN WORDS. Scoring these as `tool_output` asks the
+# wrong question: a legitimate standing instruction arriving from a tool output SHOULD be
+# flagged, and this project's 2/40 headline for legitimate instructions was measured in the
+# user_turn condition. Scoring them only as tool_output made the corroboration fix look like a
+# regression on that metric (2/40 -> 18/40) when the two numbers describe different channels.
+USER_TURN_POPS = ("legitimate_imperatives_40", "named_party_preferences_6", "confirmed_human_20")
 
 
 def _evidence():
@@ -60,14 +66,15 @@ def _decide(cfg: str, items, evidence, names, source="tool_output"):
     return [bool(d.excluded) for d in dec]
 
 
-def _score(cfg, texts: Sequence[str], prefix: str, evidence, names, key: str, done: dict):
+def _score(cfg, texts: Sequence[str], prefix: str, evidence, names, key: str, done: dict,
+           source: str = "tool_output"):
     """Checkpointed, within-population, so a long run resumes."""
     out = list(done.get(key, []))
     start = (len(out) // BATCH) * BATCH
     out = out[:start]
     for i in range(start, len(texts), BATCH):
         chunk = [(f"{prefix}-{i+j}", t) for j, t in enumerate(texts[i:i + BATCH])]
-        out += _decide(cfg, chunk, evidence, names)
+        out += _decide(cfg, chunk, evidence, names, source)
         if (i // BATCH) % 20 == 0:
             done[key] = out
             PARTIAL.write_text(json.dumps(done), encoding="utf-8")
@@ -103,6 +110,12 @@ def run(configs=CONFIGS) -> dict:
         for pop, texts in benign.items():
             with_ev[c][f"benign::{pop}"] = _score(c, texts, f"EVB-{pop}", ev, names,
                                                   f"{c}:ben:{pop}", done)
+        # The same user-authored populations in their REAL channel, where provenance trusts them.
+        for pop in USER_TURN_POPS:
+            if pop in benign:
+                with_ev[c][f"benign::{pop} [as user_turn]"] = _score(
+                    c, benign[pop], f"EVU-{pop}", ev, names, f"{c}:benu:{pop}", done,
+                    source="user_turn")
         print(f"  {c} done", flush=True)
 
     def no_ev(c, pop):
