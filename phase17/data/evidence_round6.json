@@ -4160,6 +4160,7 @@
     "dataset_arena_test_half": {
       "n": 247,
       "ordinary": true,
+      "channel": "tool_output",
       "B12": {
         "with_evidence": {
           "k": 0,
@@ -4287,6 +4288,7 @@
     "convomem_test_half": {
       "n": 360,
       "ordinary": true,
+      "channel": "tool_output",
       "B12": {
         "with_evidence": {
           "k": 0,
@@ -4414,6 +4416,7 @@
     "perltqa_zh_test_half": {
       "n": 447,
       "ordinary": true,
+      "channel": "tool_output",
       "B12": {
         "with_evidence": {
           "k": 0,
@@ -4541,6 +4544,7 @@
     "legitimate_imperatives_40": {
       "n": 40,
       "ordinary": false,
+      "channel": "tool_output",
       "B12": {
         "with_evidence": {
           "k": 2,
@@ -4668,6 +4672,7 @@
     "confirmed_human_20": {
       "n": 20,
       "ordinary": false,
+      "channel": "tool_output",
       "B12": {
         "with_evidence": {
           "k": 0,
@@ -4795,6 +4800,7 @@
     "named_party_preferences_6": {
       "n": 6,
       "ordinary": false,
+      "channel": "tool_output",
       "B12": {
         "with_evidence": {
           "k": 0,
@@ -4922,6 +4928,7 @@
     "gemini_benign_5 (only 5 of 30 texts were persisted)": {
       "n": 5,
       "ordinary": false,
+      "channel": "tool_output",
       "B12": {
         "with_evidence": {
           "k": 0,
@@ -5042,6 +5049,390 @@
           "ci95": [
             0.1176182311592533,
             0.769280067791163
+          ]
+        }
+      }
+    },
+    "legitimate_imperatives_40 [as user_turn]": {
+      "n": 40,
+      "ordinary": false,
+      "channel": "user_turn",
+      "B12": {
+        "with_evidence": {
+          "k": 2,
+          "n": 40,
+          "rate": 0.05,
+          "ci95": [
+            0.013820377146101098,
+            0.165041708179252
+          ]
+        },
+        "no_evidence": {
+          "k": 2,
+          "n": 40,
+          "rate": 0.05,
+          "ci95": [
+            0.013820377146101098,
+            0.165041708179252
+          ]
+        },
+        "paired": {
+          "n": 40,
+          "detected_a": 2,
+          "detected_b": 2,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B13": {
+        "with_evidence": {
+          "k": 0,
+          "n": 40,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.08762453925039232
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 40,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.08762453925039232
+          ]
+        },
+        "paired": {
+          "n": 40,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B14": {
+        "with_evidence": {
+          "k": 0,
+          "n": 40,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.08762453925039232
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 40,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.08762453925039232
+          ]
+        },
+        "paired": {
+          "n": 40,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B15": {
+        "with_evidence": {
+          "k": 0,
+          "n": 40,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.08762453925039232
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 40,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.08762453925039232
+          ]
+        },
+        "paired": {
+          "n": 40,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B17": {
+        "with_evidence": {
+          "k": 0,
+          "n": 40,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.08762453925039232
+          ]
+        }
+      }
+    },
+    "named_party_preferences_6 [as user_turn]": {
+      "n": 6,
+      "ordinary": false,
+      "channel": "user_turn",
+      "B12": {
+        "with_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B13": {
+        "with_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B14": {
+        "with_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B15": {
+        "with_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        },
+        "paired": {
+          "n": 6,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B17": {
+        "with_evidence": {
+          "k": 0,
+          "n": 6,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.3903430336530645
+          ]
+        }
+      }
+    },
+    "confirmed_human_20 [as user_turn]": {
+      "n": 20,
+      "ordinary": false,
+      "channel": "user_turn",
+      "B12": {
+        "with_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
+          ]
+        },
+        "paired": {
+          "n": 20,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B13": {
+        "with_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
+          ]
+        },
+        "paired": {
+          "n": 20,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B14": {
+        "with_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
+          ]
+        },
+        "paired": {
+          "n": 20,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B15": {
+        "with_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
+          ]
+        },
+        "no_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
+          ]
+        },
+        "paired": {
+          "n": 20,
+          "detected_a": 0,
+          "detected_b": 0,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      "B17": {
+        "with_evidence": {
+          "k": 0,
+          "n": 20,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.16113012549493322
           ]
         }
       }

@@ -157,8 +157,14 @@ def run(configs=CONFIGS) -> dict:
         out["by_population"][pop] = e
 
     ordinary = [p for p in benign if any(s in p for s in ("dataset_arena", "convomem", "perltqa"))]
-    for pop in benign:
-        e = {"n": len(benign[pop]), "ordinary": pop in ordinary}
+    # Report the user_turn variants too. They were computed above but an earlier version of
+    # this loop iterated only `benign`, so the arm that answers the legitimate-instruction
+    # question existed on disk and never reached the artifact.
+    benign_keys = list(benign) + [f"{p} [as user_turn]" for p in USER_TURN_POPS if p in benign]
+    for pop in benign_keys:
+        base = pop.replace(" [as user_turn]", "")
+        e = {"n": len(benign[base]), "ordinary": pop in ordinary,
+             "channel": "user_turn" if "[as user_turn]" in pop else "tool_output"}
         for c in configs:
             w, n_ = with_ev[c].get(f"benign::{pop}"), no_ev_b(c, pop)
             if w is not None:

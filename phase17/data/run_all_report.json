@@ -1,31 +1,66 @@
 {
-  "started": "2026-10-04 19:51:10",
+  "started": "2026-10-05 14:30:14",
   "stages": [
     {
-      "name": "harm_study_v2",
+      "name": "benign_validity_audit",
       "status": "ok",
-      "seconds": 5014.5,
+      "seconds": 32.0,
       "returncode": 0,
-      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\harm_study_v2.log"
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\benign_validity_audit.log"
     },
     {
-      "name": "eval_rejection_memory",
+      "name": "diagnose_benign_fpr",
       "status": "ok",
-      "seconds": 1407.7,
+      "seconds": 640.1,
       "returncode": 0,
-      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\eval_rejection_memory.log"
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\diagnose_benign_fpr.log"
     },
     {
-      "name": "working_set",
+      "name": "holdout3_matched_fpr",
       "status": "ok",
-      "seconds": 11.5,
+      "seconds": 1161.9,
       "returncode": 0,
-      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\working_set.log"
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\holdout3_matched_fpr.log"
+    },
+    {
+      "name": "multihop_multiagent",
+      "status": "ok",
+      "seconds": 850.0,
+      "returncode": 0,
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\multihop_multiagent.log"
+    },
+    {
+      "name": "eval_rejection_fresh",
+      "status": "ok",
+      "seconds": 2556.2,
+      "returncode": 0,
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\eval_rejection_fresh.log"
+    },
+    {
+      "name": "exfiltration_agent_check",
+      "status": "ok",
+      "seconds": 1090.3,
+      "returncode": 0,
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\exfiltration_agent_check.log"
+    },
+    {
+      "name": "evidence_round6",
+      "status": "ok",
+      "seconds": 103.2,
+      "returncode": 0,
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\evidence_round6.log"
+    },
+    {
+      "name": "family_breakdown",
+      "status": "ok",
+      "seconds": 8.0,
+      "returncode": 0,
+      "log": "C:\\Agent Memory Poisoning\\phase17\\data\\run_all_logs\\family_breakdown.log"
     }
   ],
   "guard_tests": {
     "returncode": 0,
-    "tail": "\nphase17/tests/test_b11_and_extended.py::test_b11_registered_and_two_tier\n  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n135 passed, 1 skipped, 2 warnings in 66.01s (0:01:06)"
+    "tail": "\nphase17/tests/test_b11_and_extended.py::test_b11_registered_and_two_tier\n  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n140 passed, 2 warnings in 54.27s"
   },
-  "finished": "2026-10-04 21:39:45"
+  "finished": "2026-10-05 16:19:12"
 }
