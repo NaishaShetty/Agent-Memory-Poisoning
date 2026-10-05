@@ -134,7 +134,9 @@ def verify(ids=None) -> dict:
         # audit script and made its guard fail for a reason unrelated to the mutation. A harness
         # that corrupts the thing it is testing proves nothing.
         original_bytes = f.read_bytes()
-        original = original_bytes.decode("utf-8")
+        _CRLF = bytes([13, 10]).decode()
+        had_crlf = _CRLF in original_bytes.decode("utf-8")
+        original = original_bytes.decode("utf-8").replace(_CRLF, chr(10))
         if e["find"] not in original:
             rows.append({**{k: e[k] for k in ("id", "error", "test")},
                          "status": "UNPROVEN",
@@ -142,7 +144,10 @@ def verify(ids=None) -> dict:
             continue
         clean = _run(e["test"], ROOT)
         try:
-            mutated = original.replace(e["find"], e["replace"], 1).encode("utf-8")
+            mutated = original.replace(e["find"], e["replace"], 1)
+            if had_crlf:
+                mutated = mutated.replace(chr(10), _CRLF)
+            mutated = mutated.encode("utf-8")
             f.write_bytes(mutated)
             mutated_passes = _run(e["test"], ROOT)
         finally:

@@ -1,6 +1,6 @@
 {
   "n": 8,
-  "n_proven": 6,
+  "n_proven": 7,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -29,9 +29,9 @@
       "test": "phase17/tests/test_round6_discipline.py::test_phase_audit_script_refuses_when_a_gpu_stage_is_running",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
-      "guard_passes_after_restore": false,
-      "status": "UNPROVEN",
-      "detail": "guard does not pass on clean code"
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
     },
     {
       "id": "corroboration_inert",
