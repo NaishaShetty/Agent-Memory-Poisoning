@@ -1,0 +1,79 @@
+### phase3
+........................................................................ [  4%]
+........................................................................ [  8%]
+........................................................................ [ 12%]
+........................................................................ [ 16%]
+........................................................................ [ 20%]
+........................................................................ [ 24%]
+........................................................................ [ 28%]
+........................................................................ [ 32%]
+........................................................................ [ 36%]
+.................................sssssss................................ [ 40%]
+........................................................................ [ 44%]
+........................................................................ [ 48%]
+........................................................................ [ 52%]
+........................................................................ [ 56%]
+........................................................................ [ 60%]
+........................................................sss............. [ 64%]
+........................................................................ [ 68%]
+........................................................................ [ 72%]
+........................................................................ [ 76%]
+......................ssss.............................................. [ 80%]
+...........sss.......................................................... [ 84%]
+........................................................................ [ 88%]
+........................................................................ [ 92%]
+........................................................................ [ 96%]
+.................................................................        [100%]
+============================== warnings summary ===============================
+phase3/evaluation/tests/test_hybrid_selection.py::test_select_by_hybrid_score_respects_top_k
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+phase3/evaluation/tests/test_hybrid_selection.py::test_select_by_hybrid_score_respects_top_k
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1776 passed, 17 skipped, 2 warnings in 527.36s (0:08:47)
+
+### phase4
+........................................................................ [ 45%]
+........................................................................ [ 90%]
+................                                                         [100%]
+============================== warnings summary ===============================
+phase4/tests/test_attack_adapters.py::SharedExecuteCollectTests::test_collect_runs_counterfactual_mask_when_artifact_selected
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+phase4/tests/test_attack_adapters.py::SharedExecuteCollectTests::test_collect_runs_counterfactual_mask_when_artifact_selected
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+160 passed, 2 warnings in 32.40s
+
+### phase5
+........................................................................ [ 33%]
+........................................................................ [ 66%]
+............ss.......................................................... [100%]
+============================== warnings summary ===============================
+phase5/tests/test_attribution_readiness.py::test_chain_c_propagation_through_exposure_available
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+phase5/tests/test_attribution_readiness.py::test_chain_c_propagation_through_exposure_available
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+214 passed, 2 skipped, 2 warnings in 29.26s
+
+### phase6
+........................................................................ [ 16%]
+..............
+### phase7
+.......sss.............................................................. [ 77%]
+...............sss...                                                    [100%]
+============================== warnings summary ===============================
+phase7/tests/test_adaptive_evasion_check.py::test_structural_signals_are_bit_identical_under_paraphrase
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+phase7/tests/test_adaptive_evasion_check.py::test_structural_signals_are_bit_identical_under_paraphrase
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+87 passed, 6 skipped, 2 warnings in 64.43s (0:01:04)

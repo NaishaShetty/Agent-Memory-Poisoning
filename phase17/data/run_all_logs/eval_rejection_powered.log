@@ -1,62 +1,22 @@
 685 candidate seeds; screening for round-0 exclusion
-Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 5984.31it/s]
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 6133.56it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 5863.37it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 5426.93it/s]
   screening 0/685 -> 2 at risk
   screening 100/685 -> 39 at risk
   screening 200/685 -> 77 at risk
   screening 300/685 -> 114 at risk
 130 AT-RISK seeds across 20 families, radius 0.9
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6399.31it/s]
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 40402.93it/s]
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 10247.21it/s]
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 3929.18it/s]
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6595.13it/s]
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 10480.44it/s]
-Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 5345.64it/s]
-Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 8439.82it/s]
+  B15: 20 cached, 110 to compute
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5088.92it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 12901.23it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 10641.43it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 4510.10it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 3256.52it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 7449.02it/s]
 [transformers] `loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
-Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 7800.51it/s]
-  B15: 10/130
-  B15: 20/130
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "C:\Agent Memory Poisoning\phase17\eval_rejection_powered.py", line 162, in <module>
-    r = run()
-        ^^^^^
-  File "C:\Agent Memory Poisoning\phase17\eval_rejection_powered.py", line 108, in run
-    r = f.result()
-        ^^^^^^^^^^
-  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\_base.py", line 449, in result
-    return self.__get_result()
-           ^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\_base.py", line 401, in __get_result
-    raise self._exception
-  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 58, in run
-    result = self.fn(*self.args, **self.kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Agent Memory Poisoning\phase17\eval_rejection_memory.py", line 73, in attack_one_stateful
-    _, dec = apply_defense(config_name, [(seed_id, current)], **ctx)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Agent Memory Poisoning\phase14\defended_retrieval.py", line 372, in apply_defense
-    actions = b15_actions(items, **context)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Agent Memory Poisoning\phase17\b15_live.py", line 139, in b15_actions
-    s = scores(texts)
-        ^^^^^^^^^^^^^
-  File "C:\Agent Memory Poisoning\phase17\b15_live.py", line 123, in scores
-    X = content_features(texts)
-        ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Agent Memory Poisoning\phase17\b15_live.py", line 114, in content_features
-    j.save()
-  File "C:\Agent Memory Poisoning\phase17\semantic_detector.py", line 201, in save
-    merge_write(self.cache_path, self._cache)
-  File "C:\Agent Memory Poisoning\phase17\cache_io.py", line 18, in merge_write
-    disk = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\json\__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\json\decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 1 column 2198418 (char 2198417)
+  B15: 10/110
+  B15: 20/110
+  B15: 30/110
+  B15: 40/110
+  B15: 50/110
+  B15: 60/110

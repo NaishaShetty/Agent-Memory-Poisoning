@@ -339,3 +339,12 @@ def test_merge_write_recovers_from_a_malformed_cache():
         merge_write(p, {"b": 2})
         got = _json.loads(p.read_text(encoding="utf-8"))
         assert got == {"a": 1, "b": 2}, got
+
+
+def test_phase_audit_script_refuses_to_run_beside_a_gpu_stage():
+    """Running the cross-phase audit alongside a phase17 GPU stage put two processes on a 6GB
+    card and stalled the adaptive run for 13 minutes. Several phase suites load models, so the
+    audit is a GPU job too and must serialise like the rest."""
+    s = (P17 / "_audit_all_phases.sh").read_text(encoding="utf-8")
+    assert "REFUSING" in s, "the audit script does not refuse to run beside a GPU stage"
+    assert "phase17." in s and "Measure-Object" in s, "it does not actually check for one"
