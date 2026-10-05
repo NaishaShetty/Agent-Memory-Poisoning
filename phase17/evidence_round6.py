@@ -37,7 +37,7 @@ from typing import Dict, List, Sequence
 
 OUT = Path(__file__).parent / "data" / "evidence_round6.json"
 PARTIAL = Path(__file__).parent / "data" / "evidence_round6_partial.json"
-CONFIGS = ("B12", "B13", "B14", "B15", "B17")
+CONFIGS = ("B12", "B13", "B14", "B15", "B17", "B18")
 BATCH = 4
 LOCOMO_SAMPLE = 0
 # Populations whose texts are the USER'S OWN WORDS. Scoring these as `tool_output` asks the

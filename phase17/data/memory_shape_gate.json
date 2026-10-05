@@ -1,0 +1,97 @@
+{
+  "n_dev": 400,
+  "rules": [
+    "control_tokens",
+    "persona_definition",
+    "named_gpt_persona",
+    "filler_or_nonlanguage"
+  ],
+  "note": "the gate inspects SHAPE only -- never a score, label or defense decision",
+  "dev_in_the_wild": {
+    "refused_as_malformed": {
+      "k": 173,
+      "n": 400,
+      "rate": 0.4325,
+      "ci95": [
+        0.38481788076603707,
+        0.48146632571491976
+      ]
+    },
+    "by_rule": {
+      "persona_definition": 139,
+      "named_gpt_persona": 14,
+      "control_tokens": 36,
+      "filler_or_nonlanguage": 5
+    }
+  },
+  "ordinary_benign": {
+    "dataset_arena_test_half": {
+      "k": 0,
+      "n": 247,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.01531484410879216
+      ]
+    },
+    "convomem_test_half": {
+      "k": 0,
+      "n": 360,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.010558440816003448
+      ]
+    },
+    "perltqa_zh_test_half": {
+      "k": 0,
+      "n": 447,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.008520952813582418
+      ]
+    },
+    "legitimate_imperatives_40": {
+      "k": 0,
+      "n": 40,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.08762453925039232
+      ]
+    },
+    "confirmed_human_20": {
+      "k": 0,
+      "n": 20,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.16113012549493322
+      ]
+    },
+    "named_party_preferences_6": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.3903430336530645
+      ]
+    },
+    "gemini_benign_5 (only 5 of 30 texts were persisted)": {
+      "k": 0,
+      "n": 5,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.43449149475208104
+      ]
+    }
+  },
+  "content_detector_false_positives": {
+    "n_flagged_in_sample": 41,
+    "n_the_gate_would_refuse_first": 23,
+    "share": 0.561
+  }
+}

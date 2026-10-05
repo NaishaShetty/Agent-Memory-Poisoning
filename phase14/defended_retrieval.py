@@ -150,13 +150,22 @@ CONFIG_B17_UNION = "B17"
 # +18 points on that hold-out over B17 for one extra false positive in 1,088. Frozen threshold,
 # no new parameter. See `phase17/b18_live.py`.
 CONFIG_B18_UNION_DEBERTA = "B18"
+# B19 -- external review round 6 final: a deterministic MEMORY-SHAPE gate in front of B13.
+# Hold-out 3 showed the configurations flagging 33-55% of benign text from the attacks' own
+# platforms, and the diagnosis put the cause in the content detector rather than provenance.
+# That corpus is prompts written FOR a model -- persona definitions, control tokens, filler --
+# so the admission path was asking "is this poison?" of things that are not memories. B19 asks
+# the prior question first and refuses non-memories as MALFORMED, a distinct action that is
+# never counted as a detection. Costs 0/1088 on ordinary conversational memory including
+# Chinese. See `phase17/b19_live.py`.
+CONFIG_B19_SHAPE_GATED = "B19"
 REAL_CONFIGS: Tuple[str, ...] = (
     CONFIG_B0_NO_DEFENSE, CONFIG_B1_ADMISSION_ONLY, CONFIG_B2_RETRIEVAL_ONLY, CONFIG_B3_PROPAGATION_ONLY,
     CONFIG_B4_ADMISSION_RETRIEVAL, CONFIG_B5_RETRIEVAL_PROPAGATION, CONFIG_B6_ADMISSION_PROPAGATION,
     CONFIG_B7_ALL_THREE, CONFIG_B8_ALL_FOUR, CONFIG_B9_RISK_COMPOSED, CONFIG_B10_LEARNED_HYBRID,
     CONFIG_B11_GENERALIZED, CONFIG_B12_STACKED, CONFIG_B13_PROVENANCE, CONFIG_B14_FUSION,
     CONFIG_B15_LEAN, CONFIG_B16_REJECTION_MEMORY, CONFIG_B17_UNION,
-    CONFIG_B18_UNION_DEBERTA,
+    CONFIG_B18_UNION_DEBERTA, CONFIG_B19_SHAPE_GATED,
 )
 
 # 2026-09-23 (Phase 15 follow-on, explicitly authorized): B2-B7 dispatch
@@ -398,6 +407,16 @@ def apply_defense(
             DefenseDecision(memory_id, actions[memory_id], actions[memory_id] in HARD_MITIGATION_ACTIONS)
             for memory_id, _ in items
         )
+    elif config_name == CONFIG_B19_SHAPE_GATED:
+        from phase17.b19_live import b19_actions
+
+        actions = b19_actions(items, **context)
+        decisions = tuple(
+            DefenseDecision(memory_id, actions[memory_id],
+                            actions[memory_id] in HARD_MITIGATION_ACTIONS
+                            or actions[memory_id] == "MALFORMED")
+            for memory_id, _ in items
+        )
     elif config_name in _PIPELINE_CONFIGS:
         actions = _pipeline_actions(items, _PIPELINE_CONFIGS[config_name])
         decisions = tuple(
@@ -432,6 +451,7 @@ __all__ = [
     "CONFIG_B16_REJECTION_MEMORY",
     "CONFIG_B17_UNION",
     "CONFIG_B18_UNION_DEBERTA",
+    "CONFIG_B19_SHAPE_GATED",
     "REAL_CONFIGS",
     "HARD_MITIGATION_ACTIONS",
     "DefenseDecision",
