@@ -348,3 +348,64 @@ def test_phase_audit_script_refuses_to_run_beside_a_gpu_stage():
     s = (P17 / "_audit_all_phases.sh").read_text(encoding="utf-8")
     assert "REFUSING" in s, "the audit script does not refuse to run beside a GPU stage"
     assert "phase17." in s and "Measure-Object" in s, "it does not actually check for one"
+
+
+def test_an_evaluation_reporting_provenance_configs_supplies_evidence_or_says_floor():
+    """ERROR WITH NO GUARD UNTIL NOW. eval_round6 scored B13-B18 without supplying corroboration
+    evidence, so the signal that reaches additive fabrication was inert in every table built from
+    it, and the per-family numbers read as a flat detection failure. Either an evaluation supplies
+    evidence, or it must say in the module that its provenance numbers are a floor."""
+    import re
+
+    for mod in ("eval_round6.py", "eval_holdout3.py", "eval_b19.py", "evidence_round6.py"):
+        p = P17 / mod
+        if not p.exists():
+            continue
+        src = p.read_text(encoding="utf-8")
+        if not re.search(r'"B1[345678]"', src):
+            continue
+        supplies = "evidence=" in src or "evidence\"" in src or "'evidence'" in src
+        disclaims = "floor" in src.lower()
+        assert supplies or disclaims, (
+            f"{mod} scores a provenance-aware config, supplies no corroboration evidence, and "
+            "does not state that those numbers are a floor. That combination is how a round of "
+            "tables was published with B13's strongest signal switched off.")
+
+
+def test_every_checkpoint_key_reaches_the_published_artifact():
+    """ERROR WITH NO GUARD UNTIL NOW. The user_turn arm of the evidence run was computed, written
+    to the checkpoint, and never reported, because the output loop iterated only the base
+    populations. Work that was paid for and then dropped is invisible, so any key present in a
+    checkpoint must be representable in its artifact."""
+    import json as _json
+
+    pairs = [("evidence_round6_partial.json", "evidence_round6.json")]
+    for part, final in pairs:
+        pp, fp = DATA / part, DATA / final
+        if not (pp.exists() and fp.exists()):
+            continue
+        keys = _json.loads(pp.read_text(encoding="utf-8")).keys()
+        blob = fp.read_text(encoding="utf-8")
+        # every distinct population token in the checkpoint must appear in the artifact
+        pops = {k.split(":")[-1] for k in keys}
+        missing = sorted(p for p in pops if p and p not in blob)
+        assert not missing, (
+            f"{part} holds computed results for {missing} that never reach {final}. Either report "
+            "them or stop computing them.")
+
+
+def test_every_scorable_config_appears_in_the_matched_fpr_table():
+    """ERROR WITH NO GUARD UNTIL NOW. B12 was skipped in the matched-operating-point comparison
+    because its detector exposes no batch scorer -- while the diagnosis had just named B12's
+    content detector as the dominant false-positive source. The subject of the finding was
+    missing from the table that tested it."""
+    import json as _json
+
+    p = DATA / "holdout3_matched_fpr.json"
+    if not p.exists():
+        pytest.skip("matched-FPR comparison not run in this checkout")
+    d = _json.loads(p.read_text(encoding="utf-8"))
+    for cfg in ("B12", "B14", "B15"):
+        assert cfg in d["scorers"], f"{cfg} exposes a continuous score but is absent from the table"
+        assert "error" not in d["scorers"][cfg], (
+            f"{cfg} is present but errored: {d['scorers'][cfg]['error']}")

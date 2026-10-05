@@ -7,6 +7,13 @@ Reports attack recall and matched-benign false positives together, always, becau
 half is the point -- it is benign text from the same platforms as the attacks, so it is the
 first FPR test in this project a detector cannot pass by telling Reddit apart from our own
 benign corpora.
+
+THESE PROVENANCE NUMBERS ARE A FLOOR, for a reason specific to this corpus. Hold-out 3 has no
+owner conversation -- its attacks are jailbreak prompts, not claims about a person -- so there
+is nothing for corroboration to check and no `evidence` is supplied. B13/B17/B18 are therefore
+measured with their strongest signal inapplicable rather than merely switched off, which is
+part of why they do comparatively badly here. It is a genuine limit of the configurations on
+this threat, not an artifact, but it must not be read as their performance on memory poisoning.
 """
 from __future__ import annotations
 

@@ -11,6 +11,10 @@ Own attacks are scored WITH the owner's conversation supplied, because scoring t
 leaves B13's corroboration inert and this project already published a round of tables that way.
 Hold-out 3 has no owner conversation, so its attacks are scored without one -- the same
 condition every other configuration faced on it.
+
+On hold-out 3 the provenance numbers here are a FLOOR: that corpus has no owner conversation,
+so corroboration is inapplicable and no evidence is supplied. Own attacks ARE scored with the
+conversation supplied, so those are not floors.
 """
 from __future__ import annotations
 

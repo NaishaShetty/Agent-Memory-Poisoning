@@ -11,6 +11,15 @@ Two hold-outs, used for different purposes and reported separately:
 Also reports this project's own held-out populations, which no config was fitted on, and the
 benign populations under both provenance conditions — because the whole point of round 6 is
 cost-adjusted comparison, not recall alone.
+
+IMPORTANT -- THESE PROVENANCE NUMBERS ARE A FLOOR. This evaluation supplies `sources` but no
+`evidence`, so B13's NLI corroboration of personal claims against the owner's own conversation
+cannot fire. That signal is what reaches additive fabrication (0/72 -> 37/72, pre-registered),
+so every B13/B14/B15 figure produced here understates those configurations, and the B12 and
+B13 columns come out identical on families where corroboration is the only differentiator.
+`evidence_round6.py` scores the same populations with the real conversation supplied; read the
+two together. This is recorded here because a whole round of tables was published from this
+module before the omission was noticed.
 """
 from __future__ import annotations
 
