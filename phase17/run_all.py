@@ -107,6 +107,13 @@ STAGES: List[Stage] = [
     Stage("eval_rejection_fresh", "phase17.eval_rejection_fresh",
           "B16 at the PRE-REGISTERED radius 0.90 on 120 fresh seeds, disjoint from the 43 the "
           "radius was chosen on; the only admissible test of that parameter"),
+    Stage("exfiltration_agent_check", "phase17.exfiltration_agent_check",
+          "three agent families on the validated exfiltration instances, to settle whether its "
+          "0% harm is a property of the attacks or of the agent",
+          needs=("validated_regen",)),
+    Stage("family_breakdown", "phase17.family_breakdown",
+          "per-attack-family join over existing artifacts, so the seven founding families are "
+          "reported by name; no model is run", cpu=True),
     Stage("baseline_breakdown", "phase17.baseline_breakdown",
           "per-population comparison against the published baselines; re-reads saved results "
           "and runs no models", cpu=True),
