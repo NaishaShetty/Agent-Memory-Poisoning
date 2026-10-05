@@ -111,6 +111,15 @@ STAGES: List[Stage] = [
           "three agent families on the validated exfiltration instances, to settle whether its "
           "0% harm is a property of the attacks or of the agent",
           needs=("validated_regen",)),
+    Stage("benign_validity_audit", "phase17.benign_validity_audit",
+          'is each benign item benign AS A MEMORY? the same validity discipline the attack side already gets, so FPR is reported on both denominators',
+          needs=('eval_holdout3',)),
+    Stage("diagnose_benign_fpr", "phase17.diagnose_benign_fpr",
+          'attribute the matched-benign false positives per rule, on DEV data, so a labelling artifact is distinguished from a genuinely over-firing rule',
+          needs=()),
+    Stage("holdout3_matched_fpr", "phase17.holdout3_matched_fpr",
+          'every config and baseline calibrated on the SAME disjoint dev snapshot, then evaluated once -- removing the asymmetry that let baselines pick an operating point and ours not',
+          needs=('eval_holdout3',)),
     Stage("family_breakdown", "phase17.family_breakdown",
           "per-attack-family join over existing artifacts, so the seven founding families are "
           "reported by name; no model is run", cpu=True),
