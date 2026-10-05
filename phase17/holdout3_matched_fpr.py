@@ -89,15 +89,15 @@ def _config_scores(cfg: str, texts: Sequence[str]) -> List[float]:
 
         return [float(x) for x in scores(list(texts))]
     if cfg == "B12":
+        # The stacked detector has no public batch scorer, only `decide(texts, fpr)`, which
+        # bakes in a threshold. Its own `_features` + `_proba` give the underlying continuous
+        # score, which is what a matched-operating-point comparison needs -- and B12's content
+        # detector is what `diagnose_benign_fpr` identified as the dominant false-positive
+        # source, so leaving it out of this table would omit the main finding's subject.
         from phase17.b12_live import _detector
 
         det = _detector()
-        for attr in ("scores", "score_many", "predict_proba"):
-            fn = getattr(det, attr, None)
-            if fn:
-                v = fn(list(texts))
-                return [float(x) for x in (v[:, 1] if getattr(v, "ndim", 1) == 2 else v)]
-        raise RuntimeError("B12 detector exposes no batch score method")
+        return [float(x) for x in det._proba(det._features(list(texts)))]
     raise ValueError(cfg)
 
 

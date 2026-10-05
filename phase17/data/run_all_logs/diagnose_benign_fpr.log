@@ -3,3 +3,24 @@ diagnosing 200 DEV benign items (disjoint from frozen hold-out 3)
 Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 5440.72it/s]
 Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6154.21it/s]
   4/200
+  44/200
+  84/200
+  124/200
+  164/200
+
+DEV benign FPR (n=200):
+  B12                      86/200  =  43.0%
+  B13_no_evidence         110/200  =  55.0%
+  B13_with_evidence       112/200  =  56.0%
+
+corroboration gate: 91.0% of benign prose is treated as a personal claim
+  FPR among those        58.8%
+  FPR among the rest     27.8%
+
+attribution: {
+ "b12_content_only": 86,
+ "added_by_B13_without_evidence": 24,
+ "added_by_corroboration_with_evidence": 2,
+ "added_on_items_the_gate_called_personal_claims": 2
+}
+DONE

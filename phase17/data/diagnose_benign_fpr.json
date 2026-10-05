@@ -1,0 +1,730 @@
+{
+  "n": 200,
+  "source": "holdout3_dev_benign (regular_2023_05_07), disjoint from the frozen set",
+  "fpr": {
+    "B12": {
+      "k": 86,
+      "n": 200,
+      "rate": 0.43,
+      "ci95": [
+        0.36334204488394795,
+        0.49929639594461706
+      ]
+    },
+    "B13_no_evidence": {
+      "k": 110,
+      "n": 200,
+      "rate": 0.55,
+      "ci95": [
+        0.48075488574571107,
+        0.6173605136624569
+      ]
+    },
+    "B13_with_evidence": {
+      "k": 112,
+      "n": 200,
+      "rate": 0.56,
+      "ci95": [
+        0.4907154834956251,
+        0.6270229957941764
+      ]
+    }
+  },
+  "corroboration_gate": {
+    "share_treated_as_personal_claim": {
+      "k": 182,
+      "n": 200,
+      "rate": 0.91,
+      "ci95": [
+        0.8622332538615105,
+        0.9423130212854665
+      ]
+    },
+    "fpr_among_personal_claims": {
+      "k": 107,
+      "n": 182,
+      "rate": 0.5879120879120879,
+      "ci95": [
+        0.5153036889885277,
+        0.6568859606916301
+      ]
+    },
+    "fpr_among_non_claims": {
+      "k": 5,
+      "n": 18,
+      "rate": 0.2777777777777778,
+      "ci95": [
+        0.12499569146355474,
+        0.5087307754619452
+      ]
+    }
+  },
+  "attribution": {
+    "b12_content_only": 86,
+    "added_by_B13_without_evidence": 24,
+    "added_by_corroboration_with_evidence": 2,
+    "added_on_items_the_gate_called_personal_claims": 2
+  },
+  "rows": [
+    {
+      "id": "DEVB-0",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-1",
+      "len": 567,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-2",
+      "len": 1230,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-3",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-4",
+      "len": 666,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-5",
+      "len": 1158,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW_WITH_RESTRICTION",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-6",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-7",
+      "len": 1238,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-8",
+      "len": 1230,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-9",
+      "len": 1085,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-10",
+      "len": 709,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-11",
+      "len": 1230,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-12",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-13",
+      "len": 263,
+      "is_personal_claim": true,
+      "B12": "ALLOW_WITH_RESTRICTION",
+      "B13_no_evidence": "ALLOW_WITH_RESTRICTION",
+      "B13_with_evidence": "ALLOW_WITH_RESTRICTION",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-14",
+      "len": 1230,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-15",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-16",
+      "len": 1238,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-17",
+      "len": 1230,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-18",
+      "len": 973,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-19",
+      "len": 872,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-20",
+      "len": 597,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-21",
+      "len": 157,
+      "is_personal_claim": false,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-22",
+      "len": 808,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-23",
+      "len": 818,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-24",
+      "len": 1140,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-25",
+      "len": 366,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-26",
+      "len": 787,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-27",
+      "len": 1226,
+      "is_personal_claim": false,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-28",
+      "len": 894,
+      "is_personal_claim": true,
+      "B12": "REQUIRE_VALIDATION",
+      "B13_no_evidence": "REQUIRE_VALIDATION",
+      "B13_with_evidence": "REQUIRE_VALIDATION",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-29",
+      "len": 106,
+      "is_personal_claim": false,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-30",
+      "len": 897,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-31",
+      "len": 835,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-32",
+      "len": 187,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-33",
+      "len": 918,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-34",
+      "len": 1009,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-35",
+      "len": 1178,
+      "is_personal_claim": false,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-36",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-37",
+      "len": 1238,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-38",
+      "len": 866,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-39",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-40",
+      "len": 1122,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-41",
+      "len": 222,
+      "is_personal_claim": false,
+      "B12": "REQUIRE_VALIDATION",
+      "B13_no_evidence": "REQUIRE_VALIDATION",
+      "B13_with_evidence": "REQUIRE_VALIDATION",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-42",
+      "len": 354,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-43",
+      "len": 1238,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-44",
+      "len": 578,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-45",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-46",
+      "len": 496,
+      "is_personal_claim": true,
+      "B12": "ALLOW",
+      "B13_no_evidence": "ALLOW",
+      "B13_with_evidence": "ALLOW",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-47",
+      "len": 403,
+      "is_personal_claim": false,
+      "B12": "ALLOW",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": false,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-48",
+      "len": 1226,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-49",
+      "len": 1238,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-50",
+      "len": 1027,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-51",
+      "len": 601,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-52",
+      "len": 492,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-53",
+      "len": 164,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-54",
+      "len": 223,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-55",
+      "len": 606,
+      "is_personal_claim": true,
+      "B12": "ALLOW_WITH_RESTRICTION",
+      "B13_no_evidence": "ALLOW_WITH_RESTRICTION",
+      "B13_with_evidence": "ALLOW_WITH_RESTRICTION",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-56",
+      "len": 946,
+      "is_personal_claim": true,
+      "B12": "ALLOW_WITH_RESTRICTION",
+      "B13_no_evidence": "ALLOW_WITH_RESTRICTION",
+      "B13_with_evidence": "ALLOW_WITH_RESTRICTION",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-57",
+      "len": 958,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    },
+    {
+      "id": "DEVB-58",
+      "len": 1238,
+      "is_personal_claim": true,
+      "B12": "REQUIRE_VALIDATION",
+      "B13_no_evidence": "REQUIRE_VALIDATION",
+      "B13_with_evidence": "REQUIRE_VALIDATION",
+      "B12_excluded": false,
+      "B13_excluded": false,
+      "B13ev_excluded": false
+    },
+    {
+      "id": "DEVB-59",
+      "len": 1230,
+      "is_personal_claim": true,
+      "B12": "QUARANTINE",
+      "B13_no_evidence": "QUARANTINE",
+      "B13_with_evidence": "QUARANTINE",
+      "B12_excluded": true,
+      "B13_excluded": true,
+      "B13ev_excluded": true
+    }
+  ]
+}
