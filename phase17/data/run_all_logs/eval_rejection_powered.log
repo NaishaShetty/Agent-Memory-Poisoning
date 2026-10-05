@@ -1,22 +1,48 @@
 685 candidate seeds; screening for round-0 exclusion
-Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 5863.37it/s]
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 5426.93it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 14991.61it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 4476.05it/s]
   screening 0/685 -> 2 at risk
   screening 100/685 -> 39 at risk
   screening 200/685 -> 77 at risk
   screening 300/685 -> 114 at risk
 130 AT-RISK seeds across 20 families, radius 0.9
-  B15: 20 cached, 110 to compute
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5088.92it/s]
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 12901.23it/s]
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 10641.43it/s]
-Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 4510.10it/s]
-Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 3256.52it/s]
-Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 7449.02it/s]
+  B15: 130 cached, 0 to compute
+  B15: genuine adaptive evasion 32/130
+  B16@0.90: 80 cached, 50 to compute
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6340.45it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6223.92it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5815.31it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5201.36it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5367.09it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 3905.61it/s]
+[transformers] [1mGPT2LMHeadModel LOAD REPORT[0m from: gpt2
+Key            | Status  | 
+---------------+---------+-
+lm_head.weight | MISSING | 
+
+Notes:
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
 [transformers] `loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
-  B15: 10/110
-  B15: 20/110
-  B15: 30/110
-  B15: 40/110
-  B15: 50/110
-  B15: 60/110
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 10015.93it/s]
+[transformers] [1mGPT2LMHeadModel LOAD REPORT[0m from: gpt2
+Key            | Status  | 
+---------------+---------+-
+lm_head.weight | MISSING | 
+
+Notes:
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+  B16@0.90: 10/50
+  B16@0.90: 20/50
+  B16@0.90: 30/50
+  B16@0.90: 40/50
+  B16@0.90: 50/50
+  B16@0.90: genuine adaptive evasion 1/130
+
+B15: at-risk 130/130; genuine adaptive evasion 32/130 = 24.6%
+
+B16@0.90: at-risk 130/130; genuine adaptive evasion 1/130 = 0.8%
+
+paired: {'n': 130, 'detected_a': 1, 'detected_b': 32, 'only_a': 0, 'only_b': 31, 'p_exact': 9.313225746154785e-10}
+discordant pairs: 31
+VERDICT: B16 REDUCES adaptive evasion: 31 seeds evaded the stateless control and not the ledger, 0 the reverse, exact p=9.313e-10 over 31 discordant pairs.
+DONE
