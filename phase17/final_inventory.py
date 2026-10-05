@@ -164,12 +164,18 @@ def rows():
             f"B17 leaves {100*s17['youden_headroom']:.1f} and B18 "
             f"{100*s18['youden_headroom']:.1f} points of discrimination on the table at their "
             f"shipped thresholds", "holdout3_frontier.json")
-    if frs:
+    if frs and not pw:
         add("unfavourable", "B16 falsified by its own pre-registered rule",
             f"1/38 -> 0/38, p={frs['paired_B16_vs_B15']['p_exact']}; the rule said p>0.1 "
             f"falsifies", "eval_rejection_fresh.json",
             "one control event caps the p-value at 1.0, so the test was underpowered: a flaw in "
             "my seed-selection rule")
+    if frs and pw:
+        add("unfavourable", "The first pre-registered adaptive test was underpowered and I had "
+            "to revise its design",
+            f"1/38 vs 0/38 at p=1.0: one control event caps the p-value regardless of the true "
+            f"effect. Superseded by the powered re-run, but the original rule did fail",
+            "eval_rejection_fresh.json")
     if vr:
         x = vr["families"]["exfiltration_instruction"]
         add("unfavourable", "Exfiltration regeneration only half worked",
@@ -189,16 +195,31 @@ def rows():
 
     # ---------------- OPEN
     if pw:
-        add("open", "Adaptive evasion", pw.get("verdict", "pending"),
-            "eval_rejection_powered.json")
+        g0 = pw["per_arm"]["B15"]["genuine_adaptive_evasion_of_initially_excluded"]
+        g1 = pw["per_arm"]["B16@0.90"]["genuine_adaptive_evasion_of_initially_excluded"]
+        pd = pw["paired_B16_vs_B15"]
+        add("favourable", "Adaptive evasion resolved (the open item of every prior round)",
+            f"{g0['k']}/{g0['n']} = {pct(g0['rate'])} stateless control -> {g1['k']}/{g1['n']} = "
+            f"{pct(g1['rate'])} with the ledger; paired +{pd['only_a']}/-{pd['only_b']}, "
+            f"p={pd['p_exact']:.3g} over {pw['n_discordant_pairs']} discordant pairs, 20 families",
+            "eval_rejection_powered.json",
+            "radius was pre-registered but the SEED RULE was revised after the first test "
+            "failed; and the 0.90 radius carries a 29.7% ledger-poisoning blast radius against "
+            "0.7% at 0.97, so the finding is the trade, not a solved problem")
     elif ad:
         add("open", "Adaptive evasion",
             "no significant effect at the frozen radius (4/30 vs 5/30, p=1.0); 0/30 at 0.90 is "
             "exploratory; pre-registered re-run falsified but underpowered",
             "eval_rejection_memory.json")
     if xt:
-        add("open", "Exfiltration mechanism", xt.get("verdict", "pending"),
-            "exfiltration_task_fix.json")
+        add("unfavourable", "Exfiltration is an UNTESTED mechanism",
+            f"0/32 harm with a neutral task, provisioned store and recipient-aware judge; the "
+            f"poison names an outbound recipient in only "
+            f"{xt['poison_named_a_recipient']['k']}/{xt['n']} instances, so the generator failed "
+            f"its own specification and the mechanism judge passed them anyway",
+            "exfiltration_task_fix.json",
+            "four rival explanations eliminated by measurement; no detection or harm figure for "
+            "this family is evidence about the attack class")
     elif xs:
         add("open", "Exfiltration mechanism", xs.get("verdict", "pending"),
             "exfiltration_store_check.json")
@@ -209,6 +230,10 @@ def rows():
         "a good score there is evidence about overt injected instructions, not about additive "
         "fabrication or preference hijack; this project's own populations remain the only test "
         "of those", "holdout3_corpus.py")
+    add("favourable", "Every phase verified end to end",
+        "3,466 tests passed, 32 skipped, 0 failed across phases 3-17, attribution and the "
+        "cross-cutting suite; phase 3 and phase 5 datasets intact and needing no regeneration",
+        "phase17/data/_phase_audit.txt + _phase_audit2.txt")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 
