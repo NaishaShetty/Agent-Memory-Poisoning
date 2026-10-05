@@ -124,6 +124,15 @@ STAGES: List[Stage] = [
           "the multi-hop ORACLE ceiling across five local agent families plus Gemini when a key "
           "is set, to test whether the scoped-out multi-hop limit is a model ceiling or a "
           "qwen-specific one"),
+    Stage("holdout3_frontier", "phase17.holdout3_frontier",
+          "sweep the union configs' B14 component to test whether their shipped operating points are dominated; B13 has no knob and appears as a single point",
+          needs=('eval_holdout3',)),
+    Stage("exfiltration_store_check", "phase17.exfiltration_store_check",
+          'is the exfiltration zero an under-specified ENVIRONMENT? same instances with and without the data the poisons ask for',
+          needs=('validated_regen',)),
+    Stage("eval_rejection_powered", "phase17.eval_rejection_powered",
+          "the adaptive test with seeds PRE-FILTERED to the metric's own denominator, sized for enough discordant pairs to resolve an effect",
+          needs=()),
     Stage("family_breakdown", "phase17.family_breakdown",
           "per-attack-family join over existing artifacts, so the seven founding families are "
           "reported by name; no model is run", cpu=True),

@@ -1,0 +1,470 @@
+{
+  "n_attacks": 1000,
+  "n_benign": 995,
+  "n_dev": 400,
+  "calibration": "B14's threshold swept over dev-snapshot FPR targets; B13's decisions and deberta's frozen oracle threshold held fixed",
+  "note": "B13 alone is rule-based with no knob and appears only as a shipped point; the unions DO have a knob through their B14 component, so the earlier blanket statement that none of the three could be compared at matched operating points was wrong for B17 and B18.",
+  "shipped": {
+    "B13": {
+      "recall": 0.739,
+      "fpr": 0.33467336683417087
+    },
+    "B17": {
+      "recall": 0.928,
+      "fpr": 0.5477386934673367,
+      "is_dominated": false,
+      "dominating_points": [],
+      "best_youden_on_family": {
+        "dev_target": 0.262,
+        "threshold": 0.998705192939721,
+        "recall": 0.794,
+        "fpr": 0.3518,
+        "youden": 0.4422
+      },
+      "shipped_youden": 0.3803,
+      "youden_headroom": 0.0619
+    },
+    "B18": {
+      "recall": 0.931,
+      "fpr": 0.5487437185929648,
+      "is_dominated": false,
+      "dominating_points": [],
+      "best_youden_on_family": {
+        "dev_target": 0.212,
+        "threshold": 0.9992676659367691,
+        "recall": 0.831,
+        "fpr": 0.3568,
+        "youden": 0.4742
+      },
+      "shipped_youden": 0.3823,
+      "youden_headroom": 0.0919
+    }
+  },
+  "curves": {
+    "B17": [
+      {
+        "dev_target": 0.002,
+        "threshold": 0.999999238840961,
+        "recall": 0.739,
+        "fpr": 0.3347,
+        "youden": 0.4043
+      },
+      {
+        "dev_target": 0.012,
+        "threshold": 0.9999958236635669,
+        "recall": 0.739,
+        "fpr": 0.3347,
+        "youden": 0.4043
+      },
+      {
+        "dev_target": 0.022,
+        "threshold": 0.9999930530999547,
+        "recall": 0.739,
+        "fpr": 0.3347,
+        "youden": 0.4043
+      },
+      {
+        "dev_target": 0.032,
+        "threshold": 0.9999798389955253,
+        "recall": 0.739,
+        "fpr": 0.3357,
+        "youden": 0.4033
+      },
+      {
+        "dev_target": 0.042,
+        "threshold": 0.9999760445230189,
+        "recall": 0.74,
+        "fpr": 0.3357,
+        "youden": 0.4043
+      },
+      {
+        "dev_target": 0.052,
+        "threshold": 0.9999622111740355,
+        "recall": 0.743,
+        "fpr": 0.3367,
+        "youden": 0.4063
+      },
+      {
+        "dev_target": 0.062,
+        "threshold": 0.9999411137077121,
+        "recall": 0.745,
+        "fpr": 0.3377,
+        "youden": 0.4073
+      },
+      {
+        "dev_target": 0.072,
+        "threshold": 0.9999381971671735,
+        "recall": 0.746,
+        "fpr": 0.3377,
+        "youden": 0.4083
+      },
+      {
+        "dev_target": 0.082,
+        "threshold": 0.9999106437880242,
+        "recall": 0.751,
+        "fpr": 0.3377,
+        "youden": 0.4133
+      },
+      {
+        "dev_target": 0.092,
+        "threshold": 0.9998994487504169,
+        "recall": 0.753,
+        "fpr": 0.3377,
+        "youden": 0.4153
+      },
+      {
+        "dev_target": 0.102,
+        "threshold": 0.9998863754214756,
+        "recall": 0.758,
+        "fpr": 0.3377,
+        "youden": 0.4203
+      },
+      {
+        "dev_target": 0.112,
+        "threshold": 0.9998250200976,
+        "recall": 0.763,
+        "fpr": 0.3387,
+        "youden": 0.4243
+      },
+      {
+        "dev_target": 0.122,
+        "threshold": 0.9998056811371377,
+        "recall": 0.764,
+        "fpr": 0.3397,
+        "youden": 0.4243
+      },
+      {
+        "dev_target": 0.132,
+        "threshold": 0.9997552329321209,
+        "recall": 0.765,
+        "fpr": 0.3397,
+        "youden": 0.4253
+      },
+      {
+        "dev_target": 0.142,
+        "threshold": 0.999723030908865,
+        "recall": 0.767,
+        "fpr": 0.3407,
+        "youden": 0.4263
+      },
+      {
+        "dev_target": 0.152,
+        "threshold": 0.9996905912573936,
+        "recall": 0.769,
+        "fpr": 0.3417,
+        "youden": 0.4273
+      },
+      {
+        "dev_target": 0.162,
+        "threshold": 0.9996693546394666,
+        "recall": 0.769,
+        "fpr": 0.3427,
+        "youden": 0.4263
+      },
+      {
+        "dev_target": 0.172,
+        "threshold": 0.9995747568744774,
+        "recall": 0.771,
+        "fpr": 0.3427,
+        "youden": 0.4283
+      },
+      {
+        "dev_target": 0.182,
+        "threshold": 0.9995246223811993,
+        "recall": 0.772,
+        "fpr": 0.3447,
+        "youden": 0.4273
+      },
+      {
+        "dev_target": 0.192,
+        "threshold": 0.999489631746672,
+        "recall": 0.772,
+        "fpr": 0.3447,
+        "youden": 0.4273
+      },
+      {
+        "dev_target": 0.202,
+        "threshold": 0.9993830100528298,
+        "recall": 0.778,
+        "fpr": 0.3457,
+        "youden": 0.4323
+      },
+      {
+        "dev_target": 0.212,
+        "threshold": 0.9992676659367691,
+        "recall": 0.783,
+        "fpr": 0.3467,
+        "youden": 0.4363
+      },
+      {
+        "dev_target": 0.222,
+        "threshold": 0.9991507907323334,
+        "recall": 0.785,
+        "fpr": 0.3477,
+        "youden": 0.4373
+      },
+      {
+        "dev_target": 0.232,
+        "threshold": 0.9990645592210883,
+        "recall": 0.787,
+        "fpr": 0.3477,
+        "youden": 0.4393
+      },
+      {
+        "dev_target": 0.242,
+        "threshold": 0.9989261282419922,
+        "recall": 0.789,
+        "fpr": 0.3487,
+        "youden": 0.4403
+      },
+      {
+        "dev_target": 0.252,
+        "threshold": 0.998893437579156,
+        "recall": 0.789,
+        "fpr": 0.3497,
+        "youden": 0.4393
+      },
+      {
+        "dev_target": 0.262,
+        "threshold": 0.998705192939721,
+        "recall": 0.794,
+        "fpr": 0.3518,
+        "youden": 0.4422
+      },
+      {
+        "dev_target": 0.272,
+        "threshold": 0.9985475106157405,
+        "recall": 0.797,
+        "fpr": 0.3548,
+        "youden": 0.4422
+      },
+      {
+        "dev_target": 0.282,
+        "threshold": 0.9984553703082192,
+        "recall": 0.8,
+        "fpr": 0.3578,
+        "youden": 0.4422
+      },
+      {
+        "dev_target": 0.292,
+        "threshold": 0.998187118612733,
+        "recall": 0.802,
+        "fpr": 0.3598,
+        "youden": 0.4422
+      }
+    ],
+    "B18": [
+      {
+        "dev_target": 0.002,
+        "threshold": 0.999999238840961,
+        "recall": 0.812,
+        "fpr": 0.3497,
+        "youden": 0.4623
+      },
+      {
+        "dev_target": 0.012,
+        "threshold": 0.9999958236635669,
+        "recall": 0.812,
+        "fpr": 0.3497,
+        "youden": 0.4623
+      },
+      {
+        "dev_target": 0.022,
+        "threshold": 0.9999930530999547,
+        "recall": 0.812,
+        "fpr": 0.3497,
+        "youden": 0.4623
+      },
+      {
+        "dev_target": 0.032,
+        "threshold": 0.9999798389955253,
+        "recall": 0.812,
+        "fpr": 0.3497,
+        "youden": 0.4623
+      },
+      {
+        "dev_target": 0.042,
+        "threshold": 0.9999760445230189,
+        "recall": 0.812,
+        "fpr": 0.3497,
+        "youden": 0.4623
+      },
+      {
+        "dev_target": 0.052,
+        "threshold": 0.9999622111740355,
+        "recall": 0.813,
+        "fpr": 0.3497,
+        "youden": 0.4633
+      },
+      {
+        "dev_target": 0.062,
+        "threshold": 0.9999411137077121,
+        "recall": 0.813,
+        "fpr": 0.3508,
+        "youden": 0.4622
+      },
+      {
+        "dev_target": 0.072,
+        "threshold": 0.9999381971671735,
+        "recall": 0.813,
+        "fpr": 0.3508,
+        "youden": 0.4622
+      },
+      {
+        "dev_target": 0.082,
+        "threshold": 0.9999106437880242,
+        "recall": 0.815,
+        "fpr": 0.3508,
+        "youden": 0.4642
+      },
+      {
+        "dev_target": 0.092,
+        "threshold": 0.9998994487504169,
+        "recall": 0.816,
+        "fpr": 0.3508,
+        "youden": 0.4652
+      },
+      {
+        "dev_target": 0.102,
+        "threshold": 0.9998863754214756,
+        "recall": 0.818,
+        "fpr": 0.3508,
+        "youden": 0.4672
+      },
+      {
+        "dev_target": 0.112,
+        "threshold": 0.9998250200976,
+        "recall": 0.821,
+        "fpr": 0.3518,
+        "youden": 0.4692
+      },
+      {
+        "dev_target": 0.122,
+        "threshold": 0.9998056811371377,
+        "recall": 0.822,
+        "fpr": 0.3528,
+        "youden": 0.4692
+      },
+      {
+        "dev_target": 0.132,
+        "threshold": 0.9997552329321209,
+        "recall": 0.822,
+        "fpr": 0.3528,
+        "youden": 0.4692
+      },
+      {
+        "dev_target": 0.142,
+        "threshold": 0.999723030908865,
+        "recall": 0.822,
+        "fpr": 0.3538,
+        "youden": 0.4682
+      },
+      {
+        "dev_target": 0.152,
+        "threshold": 0.9996905912573936,
+        "recall": 0.822,
+        "fpr": 0.3548,
+        "youden": 0.4672
+      },
+      {
+        "dev_target": 0.162,
+        "threshold": 0.9996693546394666,
+        "recall": 0.822,
+        "fpr": 0.3558,
+        "youden": 0.4662
+      },
+      {
+        "dev_target": 0.172,
+        "threshold": 0.9995747568744774,
+        "recall": 0.823,
+        "fpr": 0.3558,
+        "youden": 0.4672
+      },
+      {
+        "dev_target": 0.182,
+        "threshold": 0.9995246223811993,
+        "recall": 0.823,
+        "fpr": 0.3558,
+        "youden": 0.4672
+      },
+      {
+        "dev_target": 0.192,
+        "threshold": 0.999489631746672,
+        "recall": 0.823,
+        "fpr": 0.3558,
+        "youden": 0.4672
+      },
+      {
+        "dev_target": 0.202,
+        "threshold": 0.9993830100528298,
+        "recall": 0.827,
+        "fpr": 0.3558,
+        "youden": 0.4712
+      },
+      {
+        "dev_target": 0.212,
+        "threshold": 0.9992676659367691,
+        "recall": 0.831,
+        "fpr": 0.3568,
+        "youden": 0.4742
+      },
+      {
+        "dev_target": 0.222,
+        "threshold": 0.9991507907323334,
+        "recall": 0.831,
+        "fpr": 0.3578,
+        "youden": 0.4732
+      },
+      {
+        "dev_target": 0.232,
+        "threshold": 0.9990645592210883,
+        "recall": 0.831,
+        "fpr": 0.3578,
+        "youden": 0.4732
+      },
+      {
+        "dev_target": 0.242,
+        "threshold": 0.9989261282419922,
+        "recall": 0.832,
+        "fpr": 0.3578,
+        "youden": 0.4742
+      },
+      {
+        "dev_target": 0.252,
+        "threshold": 0.998893437579156,
+        "recall": 0.832,
+        "fpr": 0.3588,
+        "youden": 0.4732
+      },
+      {
+        "dev_target": 0.262,
+        "threshold": 0.998705192939721,
+        "recall": 0.835,
+        "fpr": 0.3608,
+        "youden": 0.4742
+      },
+      {
+        "dev_target": 0.272,
+        "threshold": 0.9985475106157405,
+        "recall": 0.836,
+        "fpr": 0.3628,
+        "youden": 0.4732
+      },
+      {
+        "dev_target": 0.282,
+        "threshold": 0.9984553703082192,
+        "recall": 0.837,
+        "fpr": 0.3648,
+        "youden": 0.4722
+      },
+      {
+        "dev_target": 0.292,
+        "threshold": 0.998187118612733,
+        "recall": 0.838,
+        "fpr": 0.3668,
+        "youden": 0.4712
+      }
+    ]
+  },
+  "no_model_calls": true
+}
