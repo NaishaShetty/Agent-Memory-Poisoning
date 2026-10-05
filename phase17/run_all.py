@@ -99,6 +99,9 @@ STAGES: List[Stage] = [
           "the adaptive attacker against B15 (stateless) and B16 (ledger). The only comparison "
           "where statefulness is the single difference",
           needs=("eval_round6",)),
+    Stage("eval_rejection_fresh", "phase17.eval_rejection_fresh",
+          "B16 at the PRE-REGISTERED radius 0.90 on 120 fresh seeds, disjoint from the 43 the "
+          "radius was chosen on; the only admissible test of that parameter"),
     Stage("baseline_breakdown", "phase17.baseline_breakdown",
           "per-population comparison against the published baselines; re-reads saved results "
           "and runs no models", cpu=True),
