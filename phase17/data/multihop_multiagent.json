@@ -1,0 +1,210 @@
+{
+  "n_cases": 60,
+  "condition": "oracle (gold evidence turns supplied)",
+  "prompt": "identical to phase17/multihop.py",
+  "judge_model": "qwen2.5:7b",
+  "gemini_arm": true,
+  "per_agent": {
+    "qwen2.5:7b": {
+      "n_scored": 60,
+      "n_errors": 0,
+      "judge": {
+        "k": 48,
+        "n": 60,
+        "rate": 0.8,
+        "ci95": [
+          0.6821795390818299,
+          0.8817161026314104
+        ]
+      },
+      "nli": {
+        "k": 35,
+        "n": 60,
+        "rate": 0.5833333333333334,
+        "ci95": [
+          0.45727854313239624,
+          0.6993591351212818
+        ]
+      },
+      "strict_judge_and_nli": {
+        "k": 34,
+        "n": 60,
+        "rate": 0.5666666666666667,
+        "ci95": [
+          0.44103214654694856,
+          0.6842779960559936
+        ]
+      }
+    },
+    "llama2": {
+      "n_scored": 60,
+      "n_errors": 0,
+      "judge": {
+        "k": 50,
+        "n": 60,
+        "rate": 0.8333333333333334,
+        "ci95": [
+          0.7196814850279217,
+          0.9068692279867897
+        ]
+      },
+      "nli": {
+        "k": 36,
+        "n": 60,
+        "rate": 0.6,
+        "ci95": [
+          0.47365824394206846,
+          0.714306969962345
+        ]
+      },
+      "strict_judge_and_nli": {
+        "k": 36,
+        "n": 60,
+        "rate": 0.6,
+        "ci95": [
+          0.47365824394206846,
+          0.714306969962345
+        ]
+      }
+    },
+    "llama3.1:8b": {
+      "n_scored": 60,
+      "n_errors": 0,
+      "judge": {
+        "k": 52,
+        "n": 60,
+        "rate": 0.8666666666666667,
+        "ci95": [
+          0.7583460540992789,
+          0.9308597302169036
+        ]
+      },
+      "nli": {
+        "k": 40,
+        "n": 60,
+        "rate": 0.6666666666666666,
+        "ci95": [
+          0.540566298666634,
+          0.7727090578407216
+        ]
+      },
+      "strict_judge_and_nli": {
+        "k": 40,
+        "n": 60,
+        "rate": 0.6666666666666666,
+        "ci95": [
+          0.540566298666634,
+          0.7727090578407216
+        ]
+      }
+    },
+    "mistral:7b": {
+      "n_scored": 60,
+      "n_errors": 0,
+      "judge": {
+        "k": 51,
+        "n": 60,
+        "rate": 0.85,
+        "ci95": [
+          0.7388517410884038,
+          0.9190265075770431
+        ]
+      },
+      "nli": {
+        "k": 37,
+        "n": 60,
+        "rate": 0.6166666666666667,
+        "ci95": [
+          0.4901736454040315,
+          0.7291191041511176
+        ]
+      },
+      "strict_judge_and_nli": {
+        "k": 37,
+        "n": 60,
+        "rate": 0.6166666666666667,
+        "ci95": [
+          0.4901736454040315,
+          0.7291191041511176
+        ]
+      }
+    },
+    "phi3:mini": {
+      "n_scored": 60,
+      "n_errors": 0,
+      "judge": {
+        "k": 52,
+        "n": 60,
+        "rate": 0.8666666666666667,
+        "ci95": [
+          0.7583460540992789,
+          0.9308597302169036
+        ]
+      },
+      "nli": {
+        "k": 40,
+        "n": 60,
+        "rate": 0.6666666666666666,
+        "ci95": [
+          0.540566298666634,
+          0.7727090578407216
+        ]
+      },
+      "strict_judge_and_nli": {
+        "k": 39,
+        "n": 60,
+        "rate": 0.65,
+        "ci95": [
+          0.5236238380947751,
+          0.7583239827618451
+        ]
+      }
+    },
+    "gemini (gemini-3.5-flash-lite)": {
+      "n_scored": 60,
+      "n_errors": 0,
+      "judge": {
+        "k": 48,
+        "n": 60,
+        "rate": 0.8,
+        "ci95": [
+          0.6821795390818299,
+          0.8817161026314104
+        ]
+      },
+      "nli": {
+        "k": 36,
+        "n": 60,
+        "rate": 0.6,
+        "ci95": [
+          0.47365824394206846,
+          0.714306969962345
+        ]
+      },
+      "strict_judge_and_nli": {
+        "k": 36,
+        "n": 60,
+        "rate": 0.6,
+        "ci95": [
+          0.47365824394206846,
+          0.714306969962345
+        ]
+      }
+    }
+  },
+  "analysis": {
+    "local_rates": {
+      "qwen2.5:7b": 0.5666666666666667,
+      "llama2": 0.6,
+      "llama3.1:8b": 0.6666666666666666,
+      "mistral:7b": 0.6166666666666667,
+      "phi3:mini": 0.65
+    },
+    "gemini_rate": {
+      "gemini (gemini-3.5-flash-lite)": 0.6
+    },
+    "local_spread_points": 10.0,
+    "verdict": "NOT agent capability: every family tested, including the hosted model, sits in the same band, so the cases or their gold answers are the limiting factor and the current scoping explanation is wrong",
+    "local_agreement_note": "local families cluster within 10.0 points, consistent with a shared capability limit rather than a qwen-specific one"
+  }
+}

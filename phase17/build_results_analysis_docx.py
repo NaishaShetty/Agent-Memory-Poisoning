@@ -46,6 +46,9 @@ FRESH = L("eval_rejection_fresh.json")
 EXFIL = L("exfiltration_agent_check.json")
 SIM090 = L("eval_rejection_memory_sim090_EXPLORATORY.json")
 FAM = L("family_breakdown.json")
+MHA = L("multihop_multiagent.json")
+MULTIHOP_CORRECTION = ["CORRECTION (round 6). The claim that multi-hop reasoning lies outside what this benchmark measures rested on the oracle condition reaching only 36/60 with perfect evidence supplied, attributed to a 7B agent's reasoning limit. `multihop_multiagent.py` re-ran that condition across six agent families on the identical cases, prompt and scoring, and the attribution is wrong on both counts.", 'It is not model capability. Gemini 3.5 Flash Lite, a far more capable hosted model, scores 60.0% -- inside the local band and BELOW both llama3.1:8b (66.7%) and phi3:mini (65.0%), a 3.8B model. The six families span 10.0 points with no relationship to size, which is not the signature of a capability ceiling.', "And it is mostly an EVALUATOR artifact. Separating the two components of the strict scoring ensemble shows every agent answering 80-87% of multi-hop questions correctly under the LLM judge, while the NLI entailment-equivalence check rejects roughly one correct answer in three -- a correct free-form answer is frequently not bidirectionally entailed with a differently-phrased gold string. The oracle 'ceiling' is therefore largely the strictness of the ensemble, not a failure of reasoning.", "This is the phenomenon this project's own Section 12.13 and research question RQ3 identify: deterministic and strict semantic metrics systematically under-estimate genuine correctness. Multi-hop was scoped out on the strength of a number this methodology already predicted would be depressed. The correct statement is narrower and more useful: the multi-hop oracle figure is a strict-ensemble lower bound, agents reach roughly 83% under the judge metric, and any defended multi-hop figure must be read under both metrics rather than the strict one alone."]
+MULTIHOP_CAPTION = 'Multi-hop ORACLE condition by agent family, identical cases and prompt. The judge column is the same LLM-judge metric this project uses as metric 8; the strict column is the judge-AND-NLI ensemble the earlier figure was computed with. Source: phase17/data/multihop_multiagent.json.'
 EVID = L("evidence_round6.json")
 EVID5 = L("evidence_available_check.json")
 
@@ -756,12 +759,18 @@ P("Benign memories are not similar to rejected attacks at any threshold tested, 
 
 # ============================================================================ 10
 H("10. Threats to Validity", 1)
-P("Agent capability is a floor on every harm number. All agent-side measurement uses a 7B model. "
-  "The multi-hop condition is the clearest case: the oracle arm hands the agent perfect evidence "
-  "and it still answers only 36/60 correctly, so a defense can be neither credited nor blamed for "
-  "the 24 it fails with perfect evidence. Multi-hop reasoning is therefore declared outside what "
-  "this benchmark measures and no claim here rests on it. The same ceiling bounds every harm rate "
-  "less visibly.")
+P("Agent capability bounds every harm number, since all agent-side measurement uses a 7B model. "
+  "But the multi-hop case, which this project previously used as the clearest illustration of that bound, turned out not to illustrate it at all -- see Section 10A.")
+H("10A. A Correction: the Multi-Hop Ceiling Was an Evaluator Artifact", 1)
+for _t in MULTIHOP_CORRECTION:
+    P(_t)
+if MHA:
+    _rows = [["Agent", "LLM judge", "NLI entailment", "Strict (judge AND NLI)"]]
+    for _a, _v in MHA["per_agent"].items():
+        _rows.append([_a, pct(_v["judge"]["rate"]), pct(_v["nli"]["rate"]),
+                      pct(_v["strict_judge_and_nli"]["rate"])])
+    TBL(_rows)
+    CAP("Table 10A. " + MULTIHOP_CAPTION)
 P("Authorship confound, partly closed. The first and second hold-outs (998 and 1,200 attacks) and "
   "the third (1,000) are human-authored, which closes the LLM-authorship confound for those "
   "populations; the remainder are LLM-authored, and the two author families used are reported "

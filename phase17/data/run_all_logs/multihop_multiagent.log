@@ -9,3 +9,50 @@ multi-hop ORACLE condition on 60 published cases
 Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5803.91it/s]
   qwen2.5:7b               oracle strict 34/60 = 56.7%
   llama2: 10/60
+  llama2: 20/60
+  llama2: 30/60
+  llama2: 40/60
+  llama2: 50/60
+  llama2: 60/60
+  llama2                   oracle strict 36/60 = 60.0%
+  llama3.1:8b: 10/60
+  llama3.1:8b: 20/60
+  llama3.1:8b: 30/60
+  llama3.1:8b: 40/60
+  llama3.1:8b: 50/60
+  llama3.1:8b: 60/60
+  llama3.1:8b              oracle strict 40/60 = 66.7%
+  mistral:7b: 10/60
+  mistral:7b: 20/60
+  mistral:7b: 30/60
+  mistral:7b: 40/60
+  mistral:7b: 50/60
+  mistral:7b: 60/60
+  mistral:7b               oracle strict 37/60 = 61.7%
+  phi3:mini: 10/60
+  phi3:mini: 20/60
+  phi3:mini: 30/60
+  phi3:mini: 40/60
+  phi3:mini: 50/60
+  phi3:mini: 60/60
+  phi3:mini                oracle strict 39/60 = 65.0%
+  gemini (gemini-3.5-flash-lite): 10/60
+  gemini (gemini-3.5-flash-lite): 20/60
+  gemini (gemini-3.5-flash-lite): 30/60
+  gemini (gemini-3.5-flash-lite): 40/60
+  gemini (gemini-3.5-flash-lite): 50/60
+  gemini (gemini-3.5-flash-lite): 60/60
+  gemini (gemini-3.5-flash-lite) oracle strict 36/60 = 60.0%
+
+### Multi-hop ORACLE condition by agent (strict judge AND NLI)
+  qwen2.5:7b                  34/60  =  56.7%
+  llama2                      36/60  =  60.0%
+  llama3.1:8b                 40/60  =  66.7%
+  mistral:7b                  37/60  =  61.7%
+  phi3:mini                   39/60  =  65.0%
+  gemini (gemini-3.5-flash-lite)  36/60  =  60.0%
+
+local spread: 10.0 points
+VERDICT: NOT agent capability: every family tested, including the hosted model, sits in the same band, so the cases or their gold answers are the limiting factor and the current scoping explanation is wrong
+NOTE: local families cluster within 10.0 points, consistent with a shared capability limit rather than a qwen-specific one
+DONE
