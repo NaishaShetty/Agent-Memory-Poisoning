@@ -69,3 +69,81 @@ precomputing fusion features for 7240 unique texts
   llama_guard3: 6144/7240  (7s elapsed)
   llama_guard3: 6464/7240  (7s elapsed)
   llama_guard3: 6784/7240  (8s elapsed)
+  llama_guard3: 7104/7240  (171s elapsed)
+  llama_guard3 done in 173.6s (failed 0)
+  unloading llama-guard3:8b before qwen2.5:7b
+  llm_prompt_qwen: 64/7240  (0s elapsed)
+  llm_prompt_qwen: 384/7240  (0s elapsed)
+  llm_prompt_qwen: 704/7240  (1s elapsed)
+  llm_prompt_qwen: 1024/7240  (2s elapsed)
+  llm_prompt_qwen: 1344/7240  (2s elapsed)
+  llm_prompt_qwen: 1664/7240  (2s elapsed)
+  llm_prompt_qwen: 1984/7240  (3s elapsed)
+  llm_prompt_qwen: 2304/7240  (3s elapsed)
+  llm_prompt_qwen: 2624/7240  (4s elapsed)
+  llm_prompt_qwen: 2944/7240  (4s elapsed)
+  llm_prompt_qwen: 3264/7240  (5s elapsed)
+  llm_prompt_qwen: 3584/7240  (5s elapsed)
+  llm_prompt_qwen: 3904/7240  (6s elapsed)
+  llm_prompt_qwen: 4224/7240  (6s elapsed)
+  llm_prompt_qwen: 4544/7240  (7s elapsed)
+  llm_prompt_qwen: 4864/7240  (7s elapsed)
+  llm_prompt_qwen: 5184/7240  (74s elapsed)
+  llm_prompt_qwen: 5504/7240  (326s elapsed)
+  llm_prompt_qwen: 5824/7240  (578s elapsed)
+  llm_prompt_qwen: 6144/7240  (832s elapsed)
+  llm_prompt_qwen: 6464/7240  (1084s elapsed)
+  llm_prompt_qwen: 6784/7240  (1333s elapsed)
+  llm_prompt_qwen: 7104/7240  (1582s elapsed)
+  llm_prompt_qwen done in 1584.5s (failed 0)
+  unloading qwen2.5:7b before llama3.1:8b
+  llm_prompt_llama31: 64/7240  (0s elapsed)
+  llm_prompt_llama31: 384/7240  (1s elapsed)
+  llm_prompt_llama31: 704/7240  (1s elapsed)
+  llm_prompt_llama31: 1024/7240  (2s elapsed)
+  llm_prompt_llama31: 1344/7240  (2s elapsed)
+  llm_prompt_llama31: 1664/7240  (3s elapsed)
+  llm_prompt_llama31: 1984/7240  (3s elapsed)
+  llm_prompt_llama31: 2304/7240  (4s elapsed)
+  llm_prompt_llama31: 2624/7240  (4s elapsed)
+  llm_prompt_llama31: 2944/7240  (4s elapsed)
+  llm_prompt_llama31: 3264/7240  (5s elapsed)
+  llm_prompt_llama31: 3584/7240  (5s elapsed)
+  llm_prompt_llama31: 3904/7240  (6s elapsed)
+  llm_prompt_llama31: 4224/7240  (6s elapsed)
+  llm_prompt_llama31: 4544/7240  (7s elapsed)
+  llm_prompt_llama31: 4864/7240  (7s elapsed)
+  llm_prompt_llama31: 5184/7240  (75s elapsed)
+  llm_prompt_llama31: 5504/7240  (332s elapsed)
+  llm_prompt_llama31: 5824/7240  (588s elapsed)
+  llm_prompt_llama31: 6144/7240  (846s elapsed)
+  llm_prompt_llama31: 6464/7240  (1102s elapsed)
+  llm_prompt_llama31: 6784/7240  (1356s elapsed)
+  llm_prompt_llama31: 7104/7240  (1606s elapsed)
+  llm_prompt_llama31 done in 1608.8s (failed 0)
+{
+ "n_texts": 7240,
+ "scorers": {
+  "deberta_pi_v2": {
+   "seconds": 11.0,
+   "failed_texts": 0
+  },
+  "perplexity_gpt2": {
+   "seconds": 8.5,
+   "failed_texts": 0
+  },
+  "llama_guard3": {
+   "seconds": 173.6,
+   "failed_texts": 0
+  },
+  "llm_prompt_qwen": {
+   "seconds": 1584.5,
+   "failed_texts": 0
+  },
+  "llm_prompt_llama31": {
+   "seconds": 1608.8,
+   "failed_texts": 0
+  }
+ }
+}
+DONE
