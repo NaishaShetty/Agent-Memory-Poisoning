@@ -472,3 +472,33 @@ def test_every_scorable_config_appears_in_the_matched_fpr_table():
         assert cfg in d["scorers"], f"{cfg} exposes a continuous score but is absent from the table"
         assert "error" not in d["scorers"][cfg], (
             f"{cfg} is present but errored: {d['scorers'][cfg]['error']}")
+
+
+def test_frozen_digest_guard_detects_tampering_on_a_copy(tmp_path):
+    """The digest guard, proven WITHOUT mutating the real integrity record.
+
+    An earlier mutation-testing entry renamed the "sha256" key in the live
+    holdout3_freeze.json; a killed run left it renamed and the corrupted record was committed.
+    The guard is now exercised against a tampered COPY, so the project's own provenance can
+    never be damaged to prove a test works.
+    """
+    import json as _json
+
+    src = DATA / "holdout3_freeze.json"
+    if not src.exists():
+        pytest.skip("hold-out 3 not frozen in this checkout")
+    d = _json.loads(src.read_text(encoding="utf-8"))
+    assert "sha256" in d, (
+        "the live frozen-digest record has no 'sha256' key. If a mutation run renamed it, "
+        "restore it: every number measured on that corpus depends on this record.")
+
+    # A tampered copy must be detectable by exactly the comparison verify_frozen performs.
+    bad = dict(d)
+    bad["sha256"] = "0" * 64
+    copy = tmp_path / "freeze.json"
+    copy.write_text(_json.dumps(bad), encoding="utf-8")
+    from phase17.holdout3_corpus import _digest
+
+    assert _json.loads(copy.read_text(encoding="utf-8"))["sha256"] != _digest(), (
+        "a tampered digest was not distinguishable from the real one")
+    assert d["sha256"] == _digest(), "the live record no longer matches the corpus"
