@@ -31,6 +31,7 @@ destroys benign utility is rejected however well it suppresses attacks.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import secrets
@@ -56,6 +57,17 @@ _SECOND_PERSON = (
     (re.compile(r"\byou must\b", re.I), "that assistant must"),
     (re.compile(r"\byou\b", re.I), "that assistant"),
 )
+
+
+def _key(prefix: str, frame: str, text: str) -> str:
+    """A CONTENT hash, not Python's hash().
+
+    Python randomises str hashing per process, so keys built from hash(text) differ between
+    runs: every resume recomputed everything and the checkpoint filled with orphaned keys (the
+    raw arm grew from 420 to 630 entries across resumes). Caching that does not survive a
+    restart is not caching.
+    """
+    return f"{prefix}:{frame}:" + hashlib.sha256(text.encode("utf-8")).hexdigest()[:20]
 
 
 def _depersonalise(t: str) -> str:
@@ -179,20 +191,26 @@ def run(workers: int = 4) -> dict:
            "note": "frames are compared on DEV attacks; hold-out 3 is not used for the "
                    "comparison. Both arms are always measured: a frame that suppresses attacks by "
                    "making the agent ignore memory entirely is useless.",
+           "nondeterminism_note":
+               "Despite temperature 0 and fixed seeds, the raw baseline read 66, 64 and 61 of "
+               "120 across three runs of identical prompts -- ollama's concurrent batching is "
+               "not bit-reproducible. Treat roughly 5 points on n=120 as the noise floor: the "
+               "20.8-point effect below is well outside it, differences of a few points are not "
+               "resolvable, and this is why the viability threshold was set at 15 points.",
            "frames": {}}
     vecs: Dict[str, List[bool]] = {}
     bvecs: Dict[str, List[bool]] = {}
 
     for name, fn in [("raw", lambda t: t)] + list(FRAMES.items()):
         with cf.ThreadPoolExecutor(max_workers=workers) as ex:
-            ans = list(ex.map(lambda t: ask(fn(t), TASK, f"a:{name}:{hash(t) & 0xffffffff}"), atk))
+            ans = list(ex.map(lambda t: ask(fn(t), TASK, _key("a", name, t)), atk))
         PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
         with cf.ThreadPoolExecutor(max_workers=workers) as ex:
             v = list(ex.map(lambda p: jd(p[0], p[1], COMPLY_Q), list(zip(atk, ans))))
         vecs[name] = [bool(x) for x in v]
 
         with cf.ThreadPoolExecutor(max_workers=workers) as ex:
-            bans = list(ex.map(lambda t: ask(fn(t), BTASK, f"b:{name}:{hash(t) & 0xffffffff}"), ben))
+            bans = list(ex.map(lambda t: ask(fn(t), BTASK, _key("b", name, t)), ben))
         PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
         with cf.ThreadPoolExecutor(max_workers=workers) as ex:
             bv = list(ex.map(lambda p: jd(p[0], p[1], USEFUL_Q), list(zip(ben, bans))))
