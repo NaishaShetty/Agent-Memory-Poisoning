@@ -1,0 +1,120 @@
+{
+  "ablated_feature": "deberta_pi",
+  "n_train": 1384,
+  "note": "train_b14's own data and procedure; the feature list is the only change. Scores are read on the already frozen corpora from cached features, so no new model calls and no new hold-out exposure.",
+  "variants": {
+    "full_11_features": {
+      "n_features": 11,
+      "coefficients": {
+        "judge_concept": 1.3764,
+        "llama_guard3": 2.185,
+        "deberta_pi": 1.9303,
+        "prompt_qwen": 1.4923,
+        "prompt_llama31": 2.0634,
+        "perplexity": -4.7037,
+        "steer": 1.1543,
+        "lineage": 0.8572,
+        "worm": -0.1531,
+        "imperative": 1.4634,
+        "len_z": 0.1629
+      },
+      "threshold_at_0.5pct_dev_fpr": 0.8688706572058689,
+      "own_attacks": {
+        "k": 341,
+        "n": 804,
+        "rate": 0.42412935323383083,
+        "ci95": [
+          0.390407844319121,
+          0.45857245082784825
+        ]
+      },
+      "holdout1_external_test": {
+        "k": 1165,
+        "n": 1258,
+        "rate": 0.9260731319554849,
+        "ci95": [
+          0.9102808049775131,
+          0.9392711514645633
+        ]
+      },
+      "holdout2_mosscap": {
+        "k": 717,
+        "n": 1200,
+        "rate": 0.5975,
+        "ci95": [
+          0.5694843426004612,
+          0.6248933894865509
+        ]
+      },
+      "ordinary_benign_fpr": {
+        "k": 5,
+        "n": 1054,
+        "rate": 0.004743833017077799,
+        "ci95": [
+          0.002027903078400649,
+          0.011056853656445098
+        ]
+      },
+      "holdout_gap_points": 32.9
+    },
+    "without_deberta_pi": {
+      "n_features": 10,
+      "coefficients": {
+        "judge_concept": 1.4879,
+        "llama_guard3": 2.2399,
+        "prompt_qwen": 1.795,
+        "prompt_llama31": 2.2446,
+        "perplexity": -5.0849,
+        "steer": 1.1451,
+        "lineage": 0.8697,
+        "worm": -0.1858,
+        "imperative": 1.4658,
+        "len_z": 0.2023
+      },
+      "threshold_at_0.5pct_dev_fpr": 0.8798299957594683,
+      "own_attacks": {
+        "k": 307,
+        "n": 804,
+        "rate": 0.3818407960199005,
+        "ci95": [
+          0.3488949309780528,
+          0.41591044670985033
+        ]
+      },
+      "holdout1_external_test": {
+        "k": 1098,
+        "n": 1258,
+        "rate": 0.8728139904610492,
+        "ci95": [
+          0.853260223848136,
+          0.8900977380386809
+        ]
+      },
+      "holdout2_mosscap": {
+        "k": 488,
+        "n": 1200,
+        "rate": 0.4066666666666667,
+        "ci95": [
+          0.37921437089967913,
+          0.4347146377007878
+        ]
+      },
+      "ordinary_benign_fpr": {
+        "k": 5,
+        "n": 1054,
+        "rate": 0.004743833017077799,
+        "ci95": [
+          0.002027903078400649,
+          0.011056853656445098
+        ]
+      },
+      "holdout_gap_points": 46.6
+    }
+  },
+  "comparison": {
+    "gap_change_points": 13.7,
+    "own_attack_change_points": -4.2,
+    "holdout1_change_points": -5.3
+  },
+  "verdict": "NOT THE FEATURE: the gap moves only +13.7 points, so the instability is a property of the fused weights rather than of deberta_pi alone, and the 'inherited' framing was imprecise."
+}
