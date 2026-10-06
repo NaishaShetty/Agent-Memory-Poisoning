@@ -360,13 +360,109 @@ def rows():
             "family_union_evidence.json",
             "mixed: MemoryGraft and DSRM stay near 30% even at the best configuration measured, and "
             "B18 adds nothing over B17 on any founding family")
-    add("open", "B17/B18 have no clean hold-out estimate",
-        "both were chosen after reading hold-out results; hold-out 3 tested them once, and their "
-        "shipped calibration is poor there", "eval_holdout3.json")
-    add("open", "All three hold-outs are injection/jailbreak corpora",
-        "a good score there is evidence about overt injected instructions, not about additive "
-        "fabrication or preference hijack; this project's own populations remain the only test "
-        "of those", "holdout3_corpus.py")
+    r7 = _L("eval_round7_holdouts.json")
+    r7p = _L("round7_predictions.json")
+    if r7:
+        h5, h4 = r7["holdouts"]["holdout5"], r7["holdouts"]["holdout4"]
+        c5, c4 = h5["configs"], h4["configs"]
+        add("favourable", "B17/B18 have clean hold-out estimates (was OPEN)",
+            f"hold-out 5 (pre-registered, scored once): B17 {pct(c5['B17']['attack_recall']['rate'])} "
+            f"recall at {pct(c5['B17']['matched_benign_fpr']['rate'])} matched-benign FPR, B18 "
+            f"{pct(c5['B18']['attack_recall']['rate'])} at {pct(c5['B18']['matched_benign_fpr']['rate'])}; "
+            f"hold-out 4: both {pct(c4['B18']['attack_recall']['rate'])} at "
+            f"{pct(c4['B18']['benign_fpr_untrusted_channel']['rate'])} untrusted / "
+            f"{pct(c4['B18']['benign_fpr_user_turn']['rate'])} user_turn",
+            "eval_round7_holdouts.json + PREREGISTRATION_ROUND7.md",
+            "B18 adds nothing over B17 on either hold-out; hold-out 5 has only 131 attacks (+/-8 points)")
+        add("favourable", "The 33-55% matched-benign FPR regime does not generalise (pre-registered)",
+            f"on hold-out 5's matched benign B17 {pct(c5['B17']['matched_benign_fpr']['rate'])}, B18 "
+            f"{pct(c5['B18']['matched_benign_fpr']['rate'])}, B13 {pct(c5['B13']['matched_benign_fpr']['rate'])} "
+            f"against 54.8% / 54.9% / 33.5% on hold-out 3",
+            "eval_round7_holdouts.json",
+            "the earlier 'unfixable by detection' reading was largely a property of hold-out 3's "
+            "jailbreak-community benign prompts; it stands as a fact about that corpus")
+        add("favourable", "Provenance reaches memory poisoning on the first memory-poisoning hold-out (was OPEN)",
+            f"hold-out 4 (new author family, new owner, scored once): B13 "
+            f"{pct(c4['B13']['attack_recall']['rate'])} vs B14 {pct(c4['B14']['attack_recall']['rate'])} "
+            f"(p=1e-14), content-only B12 {pct(c4['B12']['attack_recall']['rate'])}, deberta@dev "
+            f"{pct(h4['baselines']['deberta_pi_v2@dev']['attack_recall']['rate'])}, llama_guard@dev "
+            f"{pct(h4['baselines']['llama_guard3@dev']['attack_recall']['rate'])}",
+            "eval_round7_holdouts.json + holdout4_validity.json",
+            f"costs {pct(c4['B13']['benign_fpr_untrusted_channel']['rate'])} benign FPR on the untrusted "
+            f"channel (0% on user_turn); note-shaped families only -- the author inverted both "
+            f"instruction-shaped families, which were withdrawn before freezing")
+        n5 = h5["neutralisation"]
+        d12 = n5["by_detector"]["B12"]
+        add("favourable", "Neutralisation halves compliance on a clean injection hold-out at zero exclusions",
+            f"hold-out 5: {pct(n5['compliance_raw']['rate'])} -> {pct(n5['compliance_framed']['rate'])}, "
+            f"p={n5['paired_framed_vs_raw']['p_exact']:.2g}",
+            "eval_round7_holdouts.json",
+            "framing costs 2.2 points of benign information use on dev (n.s.); on hold-out 4's "
+            "note-shaped attacks it does almost nothing")
+        add("unfavourable", "The pre-registered PRIMARY composition test failed on the clean hold-out",
+            f"B12 exclude + neutralise vs B12 exclude: {d12['policies']['P2_exclude']['harm_k']} -> "
+            f"{d12['policies']['P4_exclude_plus_neutralise_rest']['harm_k']} of 131, "
+            f"p={d12['paired_P4_vs_P2_harm']['p_exact']:.2g}; and B18 exclusion alone "
+            f"({pct(n5['by_detector']['B18']['policies']['P2_exclude']['harm_rate'])} harm at "
+            f"{pct(n5['by_detector']['B18']['policies']['P2_exclude']['benign_exclusion_rate'])}) beat "
+            f"B12+neutralise ({pct(d12['policies']['P4_exclude_plus_neutralise_rest']['harm_rate'])} at "
+            f"{pct(d12['policies']['P4_exclude_plus_neutralise_rest']['benign_exclusion_rate'])})",
+            "eval_round7_holdouts.json",
+            "the dev result (23.3% at 1.2% vs 32.0% at 7.0%) did not generalise: where detectors reach "
+            "90% recall, neutralisation is a trade along the FPR axis, not a dominating configuration")
+    else:
+        add("open", "B17/B18 have no clean hold-out estimate",
+            "both were chosen after reading hold-out results; hold-out 3 tested them once",
+            "eval_holdout3.json")
+        add("open", "All three hold-outs are injection/jailbreak corpora",
+            "no memory-poisoning hold-out exists", "holdout3_corpus.py")
+    if r7p:
+        failed = [q["id"] for q in r7p["predictions"] if q["status"] == "FAILED"]
+        add("favourable" if r7p["verdict"] == "CALIBRATED" else "unfavourable",
+            "Round-7 pre-registration scored mechanically",
+            f"{r7p['n_held']}/{r7p['n_scored']} held ({r7p['verdict']}); failed: {', '.join(failed)}",
+            "round7_predictions.json",
+            "failures stay in the table; one interval failed by 0.1 point and counts as failed")
+    d7 = _L("dev_round7.json")
+    if d7:
+        mp = d7["beds"]["memory_poisoning_with_evidence"]["per_config"]
+        add("unfavourable", "The #8 lead (unions without B13's content detector) failed on dev",
+            f"B20 {pct(mp['B20']['recall']['rate'])} vs B17 {pct(mp['B17']['recall']['rate'])} on own "
+            f"attacks at the same FPR; dominated in both beds", "dev_round7.json",
+            "B13's content detector excludes no ordinary benign but catches attacks B14 misses")
+    xa = _L("exfil_authoring.json")
+    if xa:
+        g = xa["generators"]
+        add("favourable", "Exfiltration authoring fixed: the instruction, not the author (#10)",
+            f"accepted (gates AND judge): qwen spec {g['qwen_spec']['accepted_gate_and_judge']['k']}/40, "
+            f"qwen few-shot {g['qwen_fewshot']['accepted_gate_and_judge']['k']}/40, gemini spec "
+            f"{g['gemini_spec']['accepted_gate_and_judge']['k']}/40, gemini few-shot "
+            f"{g['gemini_fewshot']['accepted_gate_and_judge']['k']}/40",
+            "exfil_authoring.json", "n=40 per generator; only the spec-only vs few-shot gap is claimed")
+    add("unfavourable", "Round-7 measurement and description errors found and corrected",
+        "R7-3 an artifact naming the wrong neutralisation frame; R7-8 leading probes (task-alone "
+        "66/157 -> 7/157 after the fix); R7-10 the published harm study used FIXED tasks while a summary "
+        "said per-instance", "docs/phase17/ROUND7_LOG.md",
+        "each corrected in place; R7-8 and R7-10 are guarded")
+    own = _L("neutralise_own.json")
+    if own:
+        add("favourable" if own["harm_framed"]["rate"] < own["harm_raw_rerun"]["rate"] else "unfavourable",
+            "Neutralisation on this project's own attacks (Phase B)",
+            f"harm {pct(own['harm_raw_rerun']['rate'])} raw -> {pct(own['harm_framed']['rate'])} framed; "
+            f"B13 {pct(own['harm_b13']['rate'])} -> B13+frame {pct(own['harm_b13_plus_frame']['rate'])}",
+            "neutralise_own.json", "both arms re-run in one session (noise floor ~5 points)")
+    st = _L("neutralise_strong_agent.json")
+    if st:
+        add("favourable" if st["effect_points"]["gemini"] > 0 else "unfavourable",
+            "Neutralisation on a stronger agent (Phase B)",
+            f"gemini {pct(st['arms']['raw']['rate'])} -> {pct(st['arms'][st['frame']]['rate'])} "
+            f"({st['effect_points']['gemini']:+.1f} pts) vs qwen {st['effect_points']['qwen']:+.1f} on the "
+            f"same 60 items", "neutralise_strong_agent.json", "n=60; differences of a few points are noise")
+    sw = _L("eval_ledger_radius_sweep.json")
+    if sw:
+        add("favourable" if sw["recommended_radius"] > 0.90 else "unfavourable",
+            "Ledger radius swept against its denial-of-service surface (Phase B)", sw["verdict"],
+            "eval_ledger_radius_sweep.json", "selection rule fixed before the sweep")
     add("favourable", "Every phase verified end to end",
         "3,466 tests passed, 32 skipped, 0 failed across phases 3-17, attribution and the "
         "cross-cutting suite; phase 3 and phase 5 datasets intact and needing no regeneration",

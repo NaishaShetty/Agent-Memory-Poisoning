@@ -34,6 +34,7 @@ QUEUES = {
                                        "causal"])],
     # The ONE scoring of hold-outs 4 and 5; refuses unless the pre-registration is committed.
     "holdouts": [("eval_round7_holdouts", [sys.executable, "-u", "-m", "phase17.eval_round7_holdouts"])],
+    "ho5causal": [("holdout5_causal", [sys.executable, "-u", "-m", "phase17.holdout5_causal"])],
     "phaseb": [
         ("neutralise_own", [sys.executable, "-u", "-m", "phase17.neutralise_own"]),
         ("strong_agent_judge", [sys.executable, "-u", "-m", "phase17.neutralise_strong_agent", "judge"]),

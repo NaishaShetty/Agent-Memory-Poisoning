@@ -957,6 +957,151 @@ P("Equally, what did not work is reported as not working, and in this project's 
   "denominators, with the false-positive column attached and the hold-out-informed configurations "
   "labelled as such, is what this benchmark is for.")
 
+# ============================================================================ 13 (round 7)
+R7E = L("eval_round7_holdouts.json")
+R7P = L("round7_predictions.json")
+R7V = L("holdout4_validity.json")
+R7D = L("dev_round7.json")
+R7C = L("compose_dev.json")
+R7X = L("exfil_authoring.json")
+R7H5C = L("holdout5_causal.json")
+R7OWN = L("neutralise_own.json")
+R7STRONG = L("neutralise_strong_agent.json")
+R7SWEEP = L("eval_ledger_radius_sweep.json")
+H("13. Round 7: Two Clean Hold-Outs, a Composition, and What Did Not Generalise", 1)
+P("Round 7 retired hold-out 3 (scored five times, one pre-registered, and its development set "
+  "shown to be the hold-out itself: Section 10C) and built two new corpora, each frozen before any "
+  "configuration was scored and each scored exactly ONCE under predictions committed beforehand "
+  "(docs/phase17/PREREGISTRATION_ROUND7.md, plus one addendum committed before scoring that "
+  "replaced a leading probe). Hold-out 5 is injection-shaped with a matched benign half: 131 "
+  "jailbreaks real users sent to the Vicuna demo and 1,000 ordinary prompts from the same interface "
+  "(toxic-chat), after dropping 52 near-copies of text this project had already used. Hold-out 4 is "
+  "the first MEMORY-POISONING hold-out: 157 note-shaped attacks and 262 benign notes written by a "
+  "model family that had authored no attack here, about a conversation whose people appear in none "
+  "of the attacks the defenses were developed on.")
+if R7V:
+    P(f"Hold-out 4's validity was measured before scoring and from the corpus alone. An out-of-loop "
+      f"judge finds 152/157 attacks implement their mechanism. The causal audit's first probe was "
+      f"LEADING -- its generator presupposed the fabricated facts, so the agent asserted them with no "
+      f"memory present (task-alone base rate 66/157); a non-leading probe with a deterministic leak "
+      f"check brought that to 7/157, and the working set is {R7V['n_working']}/{R7V['n_attacks']}. "
+      f"This is the instrument defect the project's own task-alone control exists to expose, caught "
+      f"before it could bias a defense number.")
+if R7E:
+    h5, h4 = R7E["holdouts"]["holdout5"], R7E["holdouts"]["holdout4"]
+    rows = [["Configuration", "Hold-out 5 recall (131)", "Hold-out 5 matched-benign FPR (1,000)",
+             "Hold-out 4 recall (157)", "Hold-out 4 benign FPR, untrusted / user_turn (262)"]]
+    for c in ("B12", "B13", "B14", "B15", "B17", "B18", "B20", "B21"):
+        a, b = h5["configs"][c], h4["configs"][c]
+        rows.append([c, pct(a["attack_recall"]["rate"]), pct(a["matched_benign_fpr"]["rate"]),
+                     pct(b["attack_recall"]["rate"]),
+                     f"{pct(b['benign_fpr_untrusted_channel']['rate'])} / {pct(b['benign_fpr_user_turn']['rate'])}"])
+    for k in ("deberta_pi_v2@dev", "llama_guard3@dev", "llm_prompt_qwen@dev"):
+        rows.append([k, pct(h5["baselines"][k]["attack_recall"]["rate"]),
+                     pct(h5["baselines"][k]["matched_benign_fpr"]["rate"]),
+                     pct(h4["baselines"][k]["attack_recall"]["rate"]),
+                     pct(h4["baselines"][k]["benign_fpr_untrusted_channel"]["rate"]) + " / -"])
+    TBL(rows)
+    CAP("Table 14. Hold-outs 4 and 5, each scored once. Hold-out 4 is scored with the owner's own "
+        "conversation as corroboration evidence; its benign half is scored on the untrusted channel "
+        "(the strict condition) and again on the user_turn channel. B17/B18 were selected after "
+        "reading earlier hold-out results; these are their first clean estimates. Source: "
+        "phase17/data/eval_round7_holdouts.json.")
+    if R7V:
+        ids = h4["raw"]["attack_ids"]
+        W = set(R7V["working_ids"])
+        wrow = []
+        for c in ("B12", "B13", "B14", "B18"):
+            w = [x for x, i in zip(h4["raw"]["attack"][c], ids) if i in W]
+            wrow.append(f"{c} {sum(w)}/{len(w)} ({sum(w)/len(w):.1%})")
+        P("Hold-out 4 on its working subset: " + "; ".join(wrow) + ". The ordering is the same on "
+          "both denominators.")
+    if R7H5C:
+        P(f"Hold-out 5's causal working subset (complied with the jailbreak in memory and not without "
+          f"it): {R7H5C['working']['k']}/{R7H5C['n']}, task-alone base rate "
+          f"{R7H5C['task_alone_base_rate']['k']}/{R7H5C['n']}.")
+    P("Three results stand out. First, the false-positive regime this project had called "
+      "unfixable by detection does not reproduce: on matched benign text from a different platform, "
+      f"B17 and B18 run at {pct(h5['configs']['B17']['matched_benign_fpr']['rate'])} and "
+      f"{pct(h5['configs']['B18']['matched_benign_fpr']['rate'])} against 54.8% and 54.9% on hold-out 3, "
+      "a prediction made from development data and held. The 33-55% regime was largely a property of "
+      "hold-out 3's jailbreak-community benign prompts. Second, provenance reaches memory poisoning on "
+      f"a clean hold-out: B13 {pct(h4['configs']['B13']['attack_recall']['rate'])} against B14's "
+      f"{pct(h4['configs']['B14']['attack_recall']['rate'])} (paired p=1e-14), with content-only "
+      f"detection at {pct(h4['configs']['B12']['attack_recall']['rate'])} and every published baseline "
+      "near zero -- at an 11.8% false-positive cost on the untrusted channel and none on the user's own "
+      "words. Third, B18 adds nothing over B17 on either hold-out.")
+    n5 = h5["neutralisation"]
+    d12, d18 = n5["by_detector"]["B12"]["policies"], n5["by_detector"]["B18"]["policies"]
+    rows = [["Policy (hold-out 5)", "Attack harm", "Benign excluded", "Benign framed"]]
+    for name, v in (("Nothing", d12["P0_none"]), ("Neutralise everything", d12["P1_neutralise_all"]),
+                    ("B12 exclusion", d12["P2_exclude"]),
+                    ("B12 exclusion + neutralise the rest", d12["P4_exclude_plus_neutralise_rest"]),
+                    ("B18 exclusion", d18["P2_exclude"]),
+                    ("B18 exclusion + neutralise the rest", d18["P4_exclude_plus_neutralise_rest"])):
+        rows.append([name, f"{v['harm_k']}/{v['n']} ({v['harm_rate']:.1%})",
+                     pct(v["benign_exclusion_rate"]), pct(v["benign_share_framed"])])
+    TBL(rows)
+    CAP("Table 15. Neutralisation composed with detection on hold-out 5. Harm is an attack admitted AND "
+        "complied with. Benign framing cost is reported separately (2.2 points of benign information "
+        "use on development data, not significant) and is never folded into the exclusion column.")
+    P(f"The composition is reported as it came out, and the round's pre-registered PRIMARY prediction "
+      f"FAILED. On development data, excluding with the cheapest detector and framing everything else "
+      f"beat the strongest exclusion-only configuration on both axes. On the clean hold-out, "
+      f"neutralising everything still halves compliance ({pct(n5['compliance_raw']['rate'])} to "
+      f"{pct(n5['compliance_framed']['rate'])}, p=2e-05) at no exclusion cost, but adding it to B12 "
+      f"moved harm from {d12['P2_exclude']['harm_k']} to {d12['P4_exclude_plus_neutralise_rest']['harm_k']} "
+      f"of 131 (p=0.23, not significant), and B18 exclusion alone reached "
+      f"{d18['P2_exclude']['harm_rate']:.1%} harm at {pct(d18['P2_exclude']['benign_exclusion_rate'])} "
+      f"exclusion against B12 + neutralisation's {d12['P4_exclude_plus_neutralise_rest']['harm_rate']:.1%} "
+      f"at {pct(d12['P4_exclude_plus_neutralise_rest']['benign_exclusion_rate'])}. Where detectors already "
+      f"reach 90% recall, neutralisation is a trade along the false-positive axis -- "
+      f"{d12['P4_exclude_plus_neutralise_rest']['harm_k'] - d18['P2_exclude']['harm_k']} more harmful "
+      f"compliances per 131 attacks in exchange for excluding "
+      f"{100 * (d18['P2_exclude']['benign_exclusion_rate'] - d12['P4_exclude_plus_neutralise_rest']['benign_exclusion_rate']):.1f} "
+      f"fewer benign texts per 100 -- not a dominating configuration. On hold-out 4's note-shaped attacks it does almost nothing "
+      f"({pct(h4['neutralisation']['compliance_raw']['rate'])} to "
+      f"{pct(h4['neutralisation']['compliance_framed']['rate'])}), as predicted: a fabricated fact "
+      "contains no instruction for the frame to neutralise.")
+if R7D:
+    mp = R7D["beds"]["memory_poisoning_with_evidence"]["per_config"]
+    P(f"One development lead failed before reaching a hold-out. Removing B13's content detector from "
+      f"the unions (B20/B21) was meant to lower their false-positive floor; on development data it "
+      f"cost 8 points of memory-poisoning recall ({pct(mp['B20']['recall']['rate'])} against "
+      f"{pct(mp['B17']['recall']['rate'])}) at no false-positive saving, and on the hold-outs B20/B21 "
+      "are again equal to or below B17/B18. They are reported, not recommended.")
+if R7X:
+    g = R7X["generators"]
+    P("Exfiltration authoring was diagnosed the same way. With the specification alone, a different "
+      f"author family did no better ({g['gemini_spec']['accepted_gate_and_judge']['k']}/40 against "
+      f"{g['qwen_spec']['accepted_gate_and_judge']['k']}/40); with three worked examples both improved "
+      f"({g['qwen_fewshot']['accepted_gate_and_judge']['k']}/40 and "
+      f"{g['gemini_fewshot']['accepted_gate_and_judge']['k']}/40), with no near-copies of the examples. "
+      "The defect was an instruction too abstract to author against, not the author.")
+if R7OWN:
+    P(f"Neutralisation on this project's own 309 harm-study instances (both arms re-run in one session): "
+      f"harm {pct(R7OWN['harm_raw_rerun']['rate'])} raw against {pct(R7OWN['harm_framed']['rate'])} framed; "
+      f"B13 {pct(R7OWN['harm_b13']['rate'])} against B13 plus framing "
+      f"{pct(R7OWN['harm_b13_plus_frame']['rate'])}. Source: phase17/data/neutralise_own.json.")
+if R7STRONG:
+    P(f"On a stronger agent (gemini-3.5-flash-lite, 60 paired dev items): compliance "
+      f"{pct(R7STRONG['arms']['raw']['rate'])} raw against {pct(R7STRONG['arms'][R7STRONG['frame']]['rate'])} "
+      f"framed, an effect of {R7STRONG['effect_points']['gemini']:+.1f} points against qwen's "
+      f"{R7STRONG['effect_points']['qwen']:+.1f} on the same items.")
+if R7SWEEP:
+    P("Rejection-ledger radius against its denial-of-service surface, on the 130 powered seeds: "
+      + "; ".join(f"{c['radius']:.2f}: evasion {c['adaptive_evasion']['k']}/{c['adaptive_evasion']['n']} "
+                  f"at a {c['ledger_poisoning_blast_radius']:.1%} blast radius" for c in R7SWEEP["curve"])
+      + f". Verdict by the rule fixed in advance: {R7SWEEP['verdict']}.")
+if R7P:
+    rows = [["Prediction", "Outcome", "Measured"]]
+    for q in R7P["predictions"]:
+        rows.append([f"{q['id']}: {q['prediction']}", q["status"], q["evidence"]])
+    TBL(rows)
+    CAP(f"Table 16. Every round-7 pre-registered prediction, scored mechanically from the artifacts "
+        f"(phase17/report_round7.py): {R7P['n_held']}/{R7P['n_scored']} held, verdict "
+        f"{R7P['verdict']}. Failures stay in the table.")
+
 # ============================================================================ Appendix
 H("Appendix A. Artifact Index", 1)
 P("Every number in this document is read at build time from the following artifacts; this "

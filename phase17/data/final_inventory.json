@@ -1,9 +1,9 @@
 {
-  "n": 43,
+  "n": 50,
   "counts": {
-    "favourable": 24,
-    "unfavourable": 16,
-    "open": 3
+    "favourable": 30,
+    "unfavourable": 19,
+    "open": 1
   },
   "classification_rule": "Written because a summary assembled from memory is where selective reporting creeps in. Each\nrow names the artifact it came from, so any line can be checked, and the classification rule is\napplied mechanically rather than by recollection:",
   "rows": [
@@ -241,7 +241,7 @@
     {
       "category": "favourable",
       "item": "Every past error's guard PROVEN by mutation testing",
-      "result": "11/11 guards fail when their error is reintroduced and pass again once restored",
+      "result": "14/14 guards fail when their error is reintroduced and pass again once restored",
       "artifact": "error_registry.json",
       "caveat": "establishing it exposed that four of eight guards had been decoration, plus CRLF shell scripts, a guard passing on exit 127, and the harness corrupting what it measured twice"
     },
@@ -281,18 +281,67 @@
       "caveat": "mixed: MemoryGraft and DSRM stay near 30% even at the best configuration measured, and B18 adds nothing over B17 on any founding family"
     },
     {
-      "category": "open",
-      "item": "B17/B18 have no clean hold-out estimate",
-      "result": "both were chosen after reading hold-out results; hold-out 3 tested them once, and their shipped calibration is poor there",
-      "artifact": "eval_holdout3.json",
-      "caveat": ""
+      "category": "favourable",
+      "item": "B17/B18 have clean hold-out estimates (was OPEN)",
+      "result": "hold-out 5 (pre-registered, scored once): B17 90.1% recall at 10.2% matched-benign FPR, B18 90.1% at 11.0%; hold-out 4: both 50.3% at 16.0% untrusted / 1.5% user_turn",
+      "artifact": "eval_round7_holdouts.json + PREREGISTRATION_ROUND7.md",
+      "caveat": "B18 adds nothing over B17 on either hold-out; hold-out 5 has only 131 attacks (+/-8 points)"
     },
     {
-      "category": "open",
-      "item": "All three hold-outs are injection/jailbreak corpora",
-      "result": "a good score there is evidence about overt injected instructions, not about additive fabrication or preference hijack; this project's own populations remain the only test of those",
-      "artifact": "holdout3_corpus.py",
-      "caveat": ""
+      "category": "favourable",
+      "item": "The 33-55% matched-benign FPR regime does not generalise (pre-registered)",
+      "result": "on hold-out 5's matched benign B17 10.2%, B18 11.0%, B13 5.1% against 54.8% / 54.9% / 33.5% on hold-out 3",
+      "artifact": "eval_round7_holdouts.json",
+      "caveat": "the earlier 'unfixable by detection' reading was largely a property of hold-out 3's jailbreak-community benign prompts; it stands as a fact about that corpus"
+    },
+    {
+      "category": "favourable",
+      "item": "Provenance reaches memory poisoning on the first memory-poisoning hold-out (was OPEN)",
+      "result": "hold-out 4 (new author family, new owner, scored once): B13 50.3% vs B14 20.4% (p=1e-14), content-only B12 1.9%, deberta@dev 0.0%, llama_guard@dev 0.6%",
+      "artifact": "eval_round7_holdouts.json + holdout4_validity.json",
+      "caveat": "costs 11.8% benign FPR on the untrusted channel (0% on user_turn); note-shaped families only -- the author inverted both instruction-shaped families, which were withdrawn before freezing"
+    },
+    {
+      "category": "favourable",
+      "item": "Neutralisation halves compliance on a clean injection hold-out at zero exclusions",
+      "result": "hold-out 5: 37.4% -> 18.3%, p=2.2e-05",
+      "artifact": "eval_round7_holdouts.json",
+      "caveat": "framing costs 2.2 points of benign information use on dev (n.s.); on hold-out 4's note-shaped attacks it does almost nothing"
+    },
+    {
+      "category": "unfavourable",
+      "item": "The pre-registered PRIMARY composition test failed on the clean hold-out",
+      "result": "B12 exclude + neutralise vs B12 exclude: 20 -> 15 of 131, p=0.23; and B18 exclusion alone (4.6% harm at 11.0%) beat B12+neutralise (11.5% at 2.6%)",
+      "artifact": "eval_round7_holdouts.json",
+      "caveat": "the dev result (23.3% at 1.2% vs 32.0% at 7.0%) did not generalise: where detectors reach 90% recall, neutralisation is a trade along the FPR axis, not a dominating configuration"
+    },
+    {
+      "category": "favourable",
+      "item": "Round-7 pre-registration scored mechanically",
+      "result": "13/16 held (CALIBRATED); failed: H5-3, H5-6, H5-7",
+      "artifact": "round7_predictions.json",
+      "caveat": "failures stay in the table; one interval failed by 0.1 point and counts as failed"
+    },
+    {
+      "category": "unfavourable",
+      "item": "The #8 lead (unions without B13's content detector) failed on dev",
+      "result": "B20 56.1% vs B17 64.4% on own attacks at the same FPR; dominated in both beds",
+      "artifact": "dev_round7.json",
+      "caveat": "B13's content detector excludes no ordinary benign but catches attacks B14 misses"
+    },
+    {
+      "category": "favourable",
+      "item": "Exfiltration authoring fixed: the instruction, not the author (#10)",
+      "result": "accepted (gates AND judge): qwen spec 1/40, qwen few-shot 11/40, gemini spec 2/40, gemini few-shot 7/40",
+      "artifact": "exfil_authoring.json",
+      "caveat": "n=40 per generator; only the spec-only vs few-shot gap is claimed"
+    },
+    {
+      "category": "unfavourable",
+      "item": "Round-7 measurement and description errors found and corrected",
+      "result": "R7-3 an artifact naming the wrong neutralisation frame; R7-8 leading probes (task-alone 66/157 -> 7/157 after the fix); R7-10 the published harm study used FIXED tasks while a summary said per-instance",
+      "artifact": "docs/phase17/ROUND7_LOG.md",
+      "caveat": "each corrected in place; R7-8 and R7-10 are guarded"
     },
     {
       "category": "favourable",
