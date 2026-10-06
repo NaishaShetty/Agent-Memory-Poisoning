@@ -144,6 +144,16 @@ ERRORS.append(dict(
     test="phase17/tests/test_round7_discipline.py::test_orphan_killer_kills_orphans_but_spares_its_caller",
 ))
 
+ERRORS.append(dict(
+    id="leading_task",
+    error="R7-8. The task generator presupposed fabricated facts ('remind me when Jolene's 5K "
+          "charity run is'), giving hold-out 4 a 66/157 task-alone base rate.",
+    file="phase17/harm_tasks.py",
+    find="    return _distinctive(note) & _distinctive(task)",
+    replace="    return set()",
+    test="phase17/tests/test_round7_discipline.py::test_task_leak_check_rejects_a_task_that_presupposes_the_claim",
+))
+
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted

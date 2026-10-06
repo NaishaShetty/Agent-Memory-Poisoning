@@ -1,6 +1,6 @@
 {
-  "n": 13,
-  "n_proven": 13,
+  "n": 14,
+  "n_proven": 14,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -124,6 +124,16 @@
       "id": "orphan_killer_pid_list",
       "error": "Round 7: the queue runner passed two pids as 'a,b'; the script's [int[]] parameter excluded neither through -File, so the runner killed itself and a remote Gemini job.",
       "test": "phase17/tests/test_round7_discipline.py::test_orphan_killer_kills_orphans_but_spares_its_caller",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "leading_task",
+      "error": "R7-8. The task generator presupposed fabricated facts ('remind me when Jolene's 5K charity run is'), giving hold-out 4 a 66/157 task-alone base rate.",
+      "test": "phase17/tests/test_round7_discipline.py::test_task_leak_check_rejects_a_task_that_presupposes_the_claim",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,

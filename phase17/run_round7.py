@@ -32,6 +32,13 @@ QUEUES = {
     "exfil": [("exfil_authoring", [sys.executable, "-u", "-m", "phase17.exfil_authoring"])],
     "ho4causal": [("holdout4_causal", [sys.executable, "-u", "-m", "phase17.holdout4_validity",
                                        "causal"])],
+    # The ONE scoring of hold-outs 4 and 5; refuses unless the pre-registration is committed.
+    "holdouts": [("eval_round7_holdouts", [sys.executable, "-u", "-m", "phase17.eval_round7_holdouts"])],
+    "phaseb": [
+        ("neutralise_own", [sys.executable, "-u", "-m", "phase17.neutralise_own"]),
+        ("strong_agent_judge", [sys.executable, "-u", "-m", "phase17.neutralise_strong_agent", "judge"]),
+        ("ledger_radius_sweep", [sys.executable, "-u", "-m", "phase17.eval_ledger_radius_sweep"]),
+    ],
 }
 
 

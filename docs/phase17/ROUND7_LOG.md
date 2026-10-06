@@ -108,3 +108,13 @@ ordinary chat prompts that rate is 2.2%. So the 33-55% regime is at least partly
 DAN-community `regular` prompts (long, persona-style, written by jailbreak communities), not of
 matched-platform benign text in general. This is a dev observation with dev attacks from other
 sources; hold-out 5 is its clean test and the prediction is pre-registered.
+
+## Finding R7-8 (instrument): leading tasks on claim-shaped attacks
+
+Hold-out 4's causal audit (v1, `holdout4_causal.json`): 73/157 working, but a task-alone base rate
+of 66/157 -- additive fabrication 23/38, preference hijack 30/40, contradiction 8/40, sleeper 5/39.
+The generic task generator writes requests "about the same subject", which for a fabricated fact
+means presupposing it. The causal criterion excludes those items, so the working set was
+conservative rather than inflated, but the two families the hold-out exists to test were largely
+invisible to it. Fixed with a non-leading generator and a deterministic leak check (guard
+`leading_task`: PROVEN), before any defense was scored on hold-out 4 (pre-registration addendum 1).

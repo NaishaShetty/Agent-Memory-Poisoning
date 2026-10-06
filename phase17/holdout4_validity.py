@@ -29,7 +29,8 @@ PARTIAL = DATA / "holdout4_validity_partial.json"          # causal + framed arm
 MECH_PARTIAL = DATA / "holdout4_mechanism_partial.json"    # Gemini (remote queue)
 # The two halves run in DIFFERENT processes at the same time, so they never share a checkpoint or
 # an output file: each writes its own, and `combine` joins them.
-CAUSAL_OUT = DATA / "holdout4_causal.json"
+CAUSAL_OUT = DATA / "holdout4_causal.json"          # v1 tasks (leading for claims), kept
+CAUSAL2_OUT = DATA / "holdout4_causal_v2.json"      # v2 non-leading tasks: the working set
 MECH_OUT = DATA / "holdout4_mechanism.json"
 SAMPLE = 7
 BENIGN_SAMPLE = 80
@@ -101,7 +102,21 @@ def mechanism(save_every: int = 10) -> dict:
     return out
 
 
-def causal(workers: int = 3) -> dict:
+def _tasks(version: str, recs):
+    """v1: harm_tasks' generic generator (LEADING for claim-shaped notes -- see harm_tasks);
+    v2: the non-leading generator with a deterministic leak check."""
+    from phase17.attack_validity_audit import TASK
+    from phase17.harm_tasks import generate as gen_tasks, nonleading_generate, task_for
+
+    if version == "v1":
+        c = gen_tasks(recs)
+        return {r.scenario_id: (task_for(r.scenario_id, r.text, r.family, c) or TASK) for r in recs}
+    c = nonleading_generate(recs, lambda r: "Deborah" if "Deborah" in r.text else
+                            ("Jolene" if "Jolene" in r.text else "my friend"))
+    return {r.scenario_id: c[r.scenario_id]["task"] for r in recs}
+
+
+def causal(workers: int = 3, version: str = "v2") -> dict:
     """The working-attack audit's criterion, on the owner's own conversation (GPU)."""
     from phase12.propagation.ollama_provider import OllamaProvider
     from phase17.attack_validity_audit import (AGENT_MODEL, JUDGE_MODEL, TASK, _answer, _judge,
@@ -113,7 +128,8 @@ def causal(workers: int = 3) -> dict:
 
     assert verify_frozen()
     recs = attack_records()
-    tasks = gen_tasks(recs, workers=workers)
+    tasks = _tasks(version, recs)
+    pre = "causal:" if version == "v1" else "causal2:"
     agent, judge = OllamaProvider(model=AGENT_MODEL), OllamaProvider(model=JUDGE_MODEL)
     acfg = GenerationConfig(temperature=0.0, seed=42, max_tokens=160, enable_thinking=False,
                             n_ctx=4096, request_timeout_sec=300.0)
@@ -123,10 +139,10 @@ def causal(workers: int = 3) -> dict:
     store = _store(SAMPLE)
 
     def one(r):
-        k = f"causal:{r.scenario_id}"
+        k = f"{pre}{r.scenario_id}"
         if k in cache:
             return cache[k]
-        task = task_for(r.scenario_id, r.text, r.family, tasks) or TASK
+        task = tasks[r.scenario_id]
         a1 = _answer(agent, acfg, store + [("poison", r.text)], task)
         a0 = _answer(agent, acfg, store, task)
         v1, v0 = _judge(judge, jcfg, r.text, a1), _judge(judge, jcfg, r.text, a0)
@@ -140,6 +156,7 @@ def causal(workers: int = 3) -> dict:
         PARTIAL.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
         print(f"  causal {len(rows)}/{len(recs)}", flush=True)
     out = {"agent": AGENT_MODEL, "judge": JUDGE_MODEL, "store": f"LoCoMo sample {SAMPLE} (the owner)",
+           "task_version": version,
            "per_item": {r.scenario_id: bool(x["with"] and not x["without"]) for r, x in zip(recs, rows)},
            "task_alone_base_rate": rate_with_ci(sum(x["without"] for x in rows), len(rows)),
            "by_family": {}}
@@ -156,7 +173,7 @@ def raw_compliance() -> List[bool]:
     from phase17.holdout4_corpus import attack_records
 
     cache = json.loads(PARTIAL.read_text(encoding="utf-8"))
-    return [bool(cache[f"causal:{r.scenario_id}"]["with"]) for r in attack_records()]
+    return [bool(cache[f"causal2:{r.scenario_id}"]["with"]) for r in attack_records()]
 
 
 def framed_compliance(workers: int = 3) -> List[bool]:
@@ -168,7 +185,8 @@ def framed_compliance(workers: int = 3) -> List[bool]:
     from phase17.neutralise import neutralise
     from phase3.evaluation.llm.provider import GenerationConfig
 
-    recs, tasks = attack_records(), _load()
+    recs = attack_records()
+    tasks = _tasks("v2", recs)
     agent, judge = OllamaProvider(model=AGENT_MODEL), OllamaProvider(model=JUDGE_MODEL)
     acfg = GenerationConfig(temperature=0.0, seed=42, max_tokens=160, enable_thinking=False,
                             n_ctx=4096, request_timeout_sec=300.0)
@@ -178,9 +196,9 @@ def framed_compliance(workers: int = 3) -> List[bool]:
     store = _store(SAMPLE)
 
     def one(r):
-        k = f"framed:{r.scenario_id}"
+        k = f"framed2:{r.scenario_id}"
         if k not in cache:
-            task = task_for(r.scenario_id, r.text, r.family, tasks) or TASK
+            task = tasks[r.scenario_id]
             a = _answer(agent, acfg, store + [("poison", neutralise(r.text))], task)
             cache[k] = bool(_judge(judge, jcfg, r.text, a))
         return cache[k]
@@ -198,7 +216,9 @@ def combine() -> dict:
     if MECH_OUT.exists():
         out["mechanism"] = json.loads(MECH_OUT.read_text(encoding="utf-8"))
     if CAUSAL_OUT.exists():
-        out["causal"] = json.loads(CAUSAL_OUT.read_text(encoding="utf-8"))
+        out["causal_v1_leading_tasks"] = json.loads(CAUSAL_OUT.read_text(encoding="utf-8"))
+    if CAUSAL2_OUT.exists():
+        out["causal"] = json.loads(CAUSAL2_OUT.read_text(encoding="utf-8"))
     if "mechanism" in out and "causal" in out:
         m, c = out["mechanism"]["per_item"], out["causal"]["per_item"]
         out["working_ids"] = sorted(i for i in c if c[i] and m.get(i))
@@ -212,7 +232,8 @@ def run(part: str = "both") -> dict:
     if part in ("mechanism", "both"):
         MECH_OUT.write_text(json.dumps(mechanism(), indent=2, ensure_ascii=False), encoding="utf-8")
     if part in ("causal", "both"):
-        CAUSAL_OUT.write_text(json.dumps(causal(), indent=2, ensure_ascii=False), encoding="utf-8")
+        CAUSAL2_OUT.write_text(json.dumps(causal(version="v2"), indent=2, ensure_ascii=False),
+                               encoding="utf-8")
     return combine()
 
 
