@@ -133,7 +133,10 @@ def run(workers: int = 4) -> dict:
             return False
 
     out = {"n_attacks": len(atk), "n_benign": len(ben), "agent": AGENT, "judge": JUDGE,
-            "frame": FRAME, "sample_seed": 29,
+            # The frame APPLIED is FRAMES[WINNER] (via `neutralise`). Round 7 found this field
+            # recording FRAME -- the v1 prefix text -- in the published artifact, although the run
+            # (commit 033ffe2d) applied v3_depersonalise. The field now names what is applied.
+            "frame": WINNER, "sample_seed": 29,
             "note": "nothing is excluded in either arm, so the false-positive rate of "
                     "neutralisation is zero by construction; the questions are whether the agent "
                     "still complies, and whether benign information is still used"}

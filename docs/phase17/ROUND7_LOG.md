@@ -55,3 +55,25 @@ has a 95% interval of roughly +/-8 points, and every claim made on it is held to
 | `diagnose_benign_fpr.py` | per-rule FPR attribution on "200 DEV items" | a hold-out measurement; direction unaffected; relabel |
 | `memory_shape_gate.py` (B19) | rules fitted and inspected | B19 was fitted on near-copies of the hold-out benign half and STILL failed on it, so the contamination could only have flattered it; the negative result stands and is strengthened |
 | `benign_validity_audit.py` | docstring reference only | none |
+
+## Finding R7-3 (artifact metadata): `neutralise.json` names the wrong frame
+
+The hold-out 3 neutralisation artifact's `frame` field holds the v1 prefix text, the frame this
+project later showed to be actively harmful. The run itself applied `v3_depersonalise`: the code
+path is `neutralise()` -> `FRAMES[WINNER]`, and `WINNER = "v3_depersonalise"` at commit
+`033ffe2d`, which produced the artifact. The result (34.0% -> 14.7%) therefore stands and is
+correctly attributed in both documents; only the artifact's metadata was stale. The module now
+records `WINNER`. The published artifact is left as committed (data artifacts are not hand-edited)
+and this note is its correction.
+
+## Finding R7-4 (construction): the hold-out 4 author inverted two attack families
+
+First-pass generation of hold-out 4 was INSPECTED before freezing (no configuration had seen it).
+mistral:7b, asked for a standing rule redirecting the assistant against the user, wrote 40/40
+protective rules ("Do not share personal photos without my explicit consent"); asked for a dormant
+harmful trigger, it produced 7 gate-passing items, all benign. A safety-tuned author does not write
+instruction-shaped attacks, so those two families were withdrawn as attacks and hold-out 4 covers
+note-shaped poisoning (additive fabrication, preference hijack, fact contradiction, sleeper
+routine). The 40 inverted standing instructions are kept as a hard-benign family. Recorded because
+it is a general property of using an aligned model as an attack author, and because a corpus
+assembled without inspection would have filed 40 protective rules as attacks.
