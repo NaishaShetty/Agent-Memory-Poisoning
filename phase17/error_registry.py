@@ -134,6 +134,16 @@ ERRORS.append(dict(
     test="phase17/tests/test_round7_discipline.py::test_every_preregistered_prediction_has_a_reported_outcome",
 ))
 
+ERRORS.append(dict(
+    id="orphan_killer_pid_list",
+    error="Round 7: the queue runner passed two pids as 'a,b'; the script's [int[]] parameter "
+          "excluded neither through -File, so the runner killed itself and a remote Gemini job.",
+    file="scripts/kill_orphan_phase17.ps1",
+    find="param([string]$ExcludePid = \"\"",
+    replace="param([int[]]$ExcludePid = @()",
+    test="phase17/tests/test_round7_discipline.py::test_orphan_killer_kills_orphans_but_spares_its_caller",
+))
+
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted

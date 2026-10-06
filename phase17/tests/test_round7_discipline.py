@@ -136,20 +136,23 @@ def test_orphan_killer_kills_orphans_but_spares_its_caller():
     if os.name != "nt":
         pytest.skip("the orphan killer is a Windows PowerShell script")
     tag = f"mambench_orphan_guard_{os.getpid()}_{int(time.time())}"
-    caller, orphan = _spawn(tag), _spawn(tag)
+    # TWO excluded pids, passed the way run_round7 passes them. With one pid the [int[]]
+    # parameter happened to work; a comma list silently excluded nothing and the runner killed
+    # itself plus a remote job.
+    caller, keep, orphan = _spawn(tag), _spawn(tag), _spawn(tag)
     try:
         time.sleep(1.5)
         subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
                         str(ROOT / "scripts" / "kill_orphan_phase17.ps1"), "-ExcludePid",
-                        str(caller.pid), "-Pattern", f"*{tag}*", "-SettleSeconds", "1"],
+                        f"{caller.pid},{keep.pid}", "-Pattern", f"*{tag}*", "-SettleSeconds", "1"],
                        capture_output=True, text=True, timeout=120)
         time.sleep(1.0)
         assert orphan.poll() is not None, "the orphan matching the pattern was not killed"
-        assert caller.poll() is None, (
-            "the orphan killer killed the process it was told to exclude -- the cleanup script "
+        assert caller.poll() is None and keep.poll() is None, (
+            "the orphan killer killed a process it was told to exclude -- the cleanup script "
             "becoming the thing that stops the pipeline")
     finally:
-        for p in (caller, orphan):
+        for p in (caller, keep, orphan):
             if p.poll() is None:
                 p.kill()
 
@@ -249,3 +252,26 @@ def test_every_preregistered_prediction_has_a_reported_outcome():
     assert all(o["status"] in ("HELD", "FAILED") for o in out)
     failed = {o["id"] for o in out if o["status"] == "FAILED"}
     assert failed == {"P2", "P4", "P5"}, f"the recorded failures changed: {failed}"
+
+
+# --------------------------------------------------------------------------------------------
+# The composition arithmetic is what every round-7 neutralisation claim rests on.
+
+def test_composition_policies_arithmetic():
+    from phase17.compose_neutralise import policies
+
+    c_raw = [True, True, False, True]
+    c_neu = [False, True, False, False]
+    d_atk = [True, False, False, False]
+    d_ben = [True, False, False, False, False]        # 20% benign exclusion
+    t = policies(c_raw, c_neu, d_atk, d_ben)
+    assert t["P0_none"]["harm_k"] == 3
+    assert t["P1_neutralise_all"]["harm_k"] == 1
+    assert t["P2_exclude"]["harm_k"] == 2                    # attack 0 excluded
+    assert t["P3_flag_to_neutralise"]["harm_k"] == 2         # attack 0 framed, others raw
+    assert t["P4_exclude_plus_neutralise_rest"]["harm_k"] == 1
+    assert t["P1_neutralise_all"]["benign_exclusion_rate"] == 0.0
+    assert t["P3_flag_to_neutralise"]["benign_exclusion_rate"] == 0.0
+    assert abs(t["P2_exclude"]["benign_exclusion_rate"] - 0.2) < 1e-9
+    # an excluded attack can never count as harm
+    assert all(not h for h, d in zip(t["P4_exclude_plus_neutralise_rest"]["_vec"], d_atk) if d)

@@ -14,8 +14,11 @@
 # becoming the thing that stopped the pipeline.
 # -Pattern exists so the guard test can exercise the real exclusion logic on dummy processes
 # without matching (and killing) a live phase17 job.
-param([int[]]$ExcludePid = @(), [string]$Pattern = '*phase17*', [int]$SettleSeconds = 5)
-$skip = @($ExcludePid) + @($PID)
+# -ExcludePid is a STRING of comma-separated pids. Declared as [int[]] it silently matched nothing
+# when a caller passed "a,b" through -File (round 7: the queue runner killed itself and a remote
+# Gemini job that way), so the list is split explicitly.
+param([string]$ExcludePid = "", [string]$Pattern = '*phase17*', [int]$SettleSeconds = 5)
+$skip = @($ExcludePid -split '[,\s]+' | Where-Object { $_ -match '^\d+$' } | ForEach-Object { [int]$_ }) + @($PID)
 Get-CimInstance Win32_Process -Filter "Name like '%python%'" |
   Where-Object { $_.CommandLine -like $Pattern -and $skip -notcontains $_.ProcessId -and
                  $skip -notcontains $_.ParentProcessId } |

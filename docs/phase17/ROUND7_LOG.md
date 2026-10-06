@@ -77,3 +77,34 @@ note-shaped poisoning (additive fabrication, preference hijack, fact contradicti
 routine). The 40 inverted standing instructions are kept as a hard-benign family. Recorded because
 it is a general property of using an aligned model as an attack author, and because a corpus
 assembled without inspection would have filed 40 protective rules as attacks.
+
+## Process error R7-5: the orphan killer excluded nothing when given two pids
+
+The round-7 GPU queue passed `-ExcludePid "<runner>,<gemini>"` so a remote Gemini job (which
+shares the `phase17` command-line pattern but not the GPU) would be spared. Through `-File`,
+PowerShell bound the comma string to the `[int[]]` parameter such that NO pid was excluded: the
+runner killed itself before its first stage and killed the Gemini job at 6/60 candidates. No
+completed work was lost (both checkpoint). My first check of the fix used one excluded dummy and
+proved nothing; a three-process test (two excluded, one not) exposed it. The parameter is now a
+string split explicitly, the guard test excludes two pids, and `orphan_killer_pid_list` reverts
+the parameter type as its mutation: PROVEN.
+
+## Finding R7-6 (dev, unfavourable for B20/B21): removing B13's content detector from the unions loses recall
+
+`dev_round7.json`. The decomposition reproduces B13 exactly on every item. With the owner's
+conversation, on 804 own attacks / 1,054 ordinary benign: B17 64.4% at 7.6%, B20 56.1% at 7.6%
+(B18 64.6% / B21 56.6% at 7.7%). Every ordinary-benign exclusion by B13 comes from corroboration
+(79/79); its content detector excludes 0 ordinary benign items but catches own attacks that B14
+misses. On the injection bed (266 external dev attacks / 400 toxic-chat dev benign) B20 equals B14
+exactly. B20/B21 are dominated by B17/B18 in both beds: the #8 lead fails on dev, and the reason
+is recorded rather than the configuration quietly dropped.
+
+## Finding R7-7 (dev): the hold-out 3 false-positive regime does not reproduce on toxic-chat benign
+
+On 400 toxic-chat dev benign prompts (same platform as hold-out 5, disjoint from it): B12 1.2%,
+B13 2.2%, B14 6.2%, B17 6.2%, B18 7.0% -- against 16.7% / 33.5% / 54.5% / 54.8% / 54.9% on hold-out
+3's matched benign half. The B17/B18 FPR "floor" is B13's own rate on the corpus at hand, and on
+ordinary chat prompts that rate is 2.2%. So the 33-55% regime is at least partly a property of the
+DAN-community `regular` prompts (long, persona-style, written by jailbreak communities), not of
+matched-platform benign text in general. This is a dev observation with dev attacks from other
+sources; hold-out 5 is its clean test and the prediction is pre-registered.

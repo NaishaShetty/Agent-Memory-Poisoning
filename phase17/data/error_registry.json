@@ -1,6 +1,6 @@
 {
-  "n": 11,
-  "n_proven": 11,
+  "n": 13,
+  "n_proven": 13,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -91,6 +91,16 @@
       "detail": ""
     },
     {
+      "id": "orphan_killer_kills_caller",
+      "error": "kill_orphan_phase17.ps1 matched the pipeline runner's own command line and killed it the first time it cleaned up before a stage.",
+      "test": "phase17/tests/test_round7_discipline.py::test_orphan_killer_kills_orphans_but_spares_its_caller",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
       "id": "test_writes_data_artifact",
       "error": "A round-7 guard test called fit_threshold on toy data; the function persisted its result and the test suite overwrote the fitted ledger radius every B16 run reads.",
       "test": "phase17/tests/test_round7_discipline.py::test_rejection_fit_measures_benign_against_rejected_attacks_not_benign",
@@ -104,6 +114,16 @@
       "id": "prediction_omitted",
       "error": "Unfavourable #2. The results paper listed P1, P2, P3 and P5 of hold-out 3's five pre-registered predictions and omitted P4, the one that failed backwards.",
       "test": "phase17/tests/test_round7_discipline.py::test_every_preregistered_prediction_has_a_reported_outcome",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "orphan_killer_pid_list",
+      "error": "Round 7: the queue runner passed two pids as 'a,b'; the script's [int[]] parameter excluded neither through -File, so the runner killed itself and a remote Gemini job.",
+      "test": "phase17/tests/test_round7_discipline.py::test_orphan_killer_kills_orphans_but_spares_its_caller",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,
