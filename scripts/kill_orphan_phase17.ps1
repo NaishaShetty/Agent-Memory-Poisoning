@@ -12,13 +12,15 @@
 # `python -m phase17.run_all` process, so without this the runner matched its own pattern and
 # killed itself the first time it tried to clean up before a stage -- the cleanup script
 # becoming the thing that stopped the pipeline.
-param([int[]]$ExcludePid = @())
+# -Pattern exists so the guard test can exercise the real exclusion logic on dummy processes
+# without matching (and killing) a live phase17 job.
+param([int[]]$ExcludePid = @(), [string]$Pattern = '*phase17*', [int]$SettleSeconds = 5)
 $skip = @($ExcludePid) + @($PID)
 Get-CimInstance Win32_Process -Filter "Name like '%python%'" |
-  Where-Object { $_.CommandLine -like '*phase17*' -and $skip -notcontains $_.ProcessId -and
+  Where-Object { $_.CommandLine -like $Pattern -and $skip -notcontains $_.ProcessId -and
                  $skip -notcontains $_.ParentProcessId } |
   ForEach-Object {
     Write-Output ("killing orphan {0}: {1}" -f $_.ProcessId, ($_.CommandLine -split 'phase17\.')[-1])
     Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
   }
-Start-Sleep -Seconds 5
+Start-Sleep -Seconds $SettleSeconds

@@ -1,5 +1,7 @@
 # Phase 17 -- external review rounds 5-6, final results (2026-10-04)
 
+> **Read this first (round 7, 2026-10-06).** This file is the round-5/6 snapshot and is kept as written so the history is auditable, but several statements in it were later withdrawn. Each is now corrected **in place**, where you meet it, marked `[CORRECTED]`. The current summary is `docs/phase17/ROUND7_RESULTS.md`; the corrections log is `docs/phase17/ROUND7_LOG.md`.
+
 Recall is exclusion rate. FPR is over the four ordinary benign populations (1,088 texts). Cost
 is cold-cache seconds per admitted memory. The last column is the flag rate on 40 legitimate
 standing instructions when provenance records them as the user's own words.
@@ -19,7 +21,7 @@ NOT comparable to previously published own-attack rates. The hold-out columns ar
 ## The five findings that matter most
 
 **1. Every rate above needs its working-attack denominator, and the denominators differ a lot.**
-45.1% of all instances both subvert an undefended agent and implement their own label
+42.5% of all instances both subvert an undefended agent and implement their own label [CORRECTED: an earlier draft printed 45.1% here, contradicting the table below]
 (`working_set.py`, 1,117/2,628). Per population that ranges from 85% (InjecAgent) to 21%
 (Mosscap). Recall restricted to working attacks, computed from saved per-item decisions:
 
@@ -31,7 +33,7 @@ NOT comparable to previously published own-attack rates. The hold-out columns ar
 | B15 | 36.5% | 37.8% | 77.2% | 50.0% |
 | **B13 OR B14** | **51.5%** | **51.7%** | **83.4%** | **62.5%** |
 
-**2. B14's hold-out instability is half composition and half INHERITED FROM DEBERTA.** The
+**2. B14's hold-out instability is half composition and half INHERITED FROM DEBERTA.** [CORRECTED in round 6, Methodology 32.47: this attribution was imprecise. Refitting B14 without the deberta feature WIDENS the cross-corpus gap (+32.9 to +46.6) and collapses hold-out 2 recall (59.8% to 40.7%), so deberta is load-bearing and the gap is a property of the fused weights. The agreement evidence below stands; the causal reading does not.] The
 published gap is 90.8% on external-test against 54.2% on Mosscap -- 36.6 points. Restricted to
 working attacks it is 83.1% against 62.5% -- **20.6 points, still p=0.0001**. So attack-validity
 composition (Mosscap is 21% working, external-test 31%) accounts for roughly 16 points.
@@ -246,7 +248,7 @@ memory-poisoning benchmark and reporting one rate hides a 38-point difference in
 directions, so **the pooled baseline comparison should not be cited at all** -- only the split.
 
 Not yet available for B15/B16: round 5 predates them, so their per-population baseline
-comparison needs `eval_round6` to carry the baseline columns. B13 remains the recommendation.
+comparison needs `eval_round6` to carry the baseline columns. B13 remains the recommendation [CORRECTED: unqualified, this was wrong -- B14 strictly dominates B13 on the clean hold-out's working attacks (40/64 vs 8/64). The recommendation is now conditioned on threat and false-positive budget: B13 for memory poisoning on ordinary traffic, Methodology 32.42/32.45].
 
 ## Harm, re-measured with validated instances (unconditional)
 
@@ -335,7 +337,7 @@ field saying so.
 The worm fix is clean. **Exfiltration is only half fixed, and the acceptance rate says why:**
 38.1% of spec-directed candidates pass, which is essentially the 38% rate of the unguided
 originals. The spec did not improve AUTHORING at all -- the entire gain comes from filtering --
-and a held-out judge still only confirms 68.8%. Exfiltration remains the weakest family in this
+and a held-out judge still only confirms 68.8%. [CORRECTED: superseded by Methodology 32.43 -- structural gates fixed the generator, the family is now a TESTED mechanism, and its zero harm is a negative result about the attack class.] Exfiltration remains the weakest family in this
 benchmark, and the difficulty is in writing the mechanism, not in labelling it.
 
 **Attack success is a property of the attack AND the task it meets.** Two probes of the same
@@ -352,7 +354,7 @@ not fixable here and a reader needs to know which numbers they bound.
 qwen2.5:7b on a 6GB card. The multi-hop condition is the clearest case: the ORACLE arm hands
 the agent perfect evidence and it still answers only 36/60 correctly. A defense cannot be
 credited or blamed for the 24 it gets wrong with perfect evidence, so **multi-hop reasoning is
-outside what this benchmark measures** -- the 27/60 defended figure should not be read as a
+outside what this benchmark measures** [CORRECTED in round 6, Methodology 32.34: wrong. Every agent family scores 80-87% under the LLM judge on these cases; the 36/60 is the strictness of the judge-AND-NLI ensemble, an evaluator artifact, not a reasoning ceiling] -- the 27/60 defended figure should not be read as a
 defense result, and no claim in this project rests on it. The same ceiling applies, less
 visibly, to every harm rate: they are harm rates for a 7B agent, not for a frontier one.
 
@@ -362,7 +364,7 @@ directions (memorygraft 13%->86% and mpbench 30%->74% fitted, but minja 88%->19%
 70%->37%). The union is used for "is this functional"; both probes stay published and their
 spread is the honest uncertainty on any per-family rate.
 
-**Detection rates need their working-attack denominator.** 45.1% of instances both subvert an
+**Detection rates need their working-attack denominator.** 42.5% [CORRECTED from 45.1%] of instances both subvert an
 undefended agent and implement their label (`working_set.py`). Catching 91% of a population
 where a third of the items function is a weaker claim than it reads, which is why every rate is
 reported on both denominators.

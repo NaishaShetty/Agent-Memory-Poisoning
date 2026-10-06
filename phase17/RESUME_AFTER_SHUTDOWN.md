@@ -16,9 +16,7 @@ python -u -m phase17.eval_rejection_fresh
 ```
 
 Re-running either after an interruption is safe and cheap: completed work is read from the
-checkpoint, and only the unfinished remainder is computed. Nothing is recomputed differently —
-every stage here runs at temperature 0 with fixed seeds, so a resumed result is identical to an
-uninterrupted one, not an approximation of it.
+checkpoint, and only the unfinished remainder is computed. Completed work is never recomputed, so a resume does not change what was already measured. The remainder is NOT guaranteed bit-identical to an uninterrupted run, however: despite temperature 0 and fixed seeds, identical prompts scored 66, 64 and 61 of 120 across three runs because Ollama's concurrent batching is not bit-reproducible [CORRECTED, round 6 -- this paragraph previously claimed bit-identity]. Differences under ~5 points on n=120 are noise.
 
 ## Checkpoint granularity, stage by stage
 

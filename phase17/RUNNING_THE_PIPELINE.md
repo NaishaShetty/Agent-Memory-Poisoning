@@ -55,8 +55,8 @@ Never interleave two models in one loop.
 Ollama batches concurrent requests, and it is worth a great deal: a `llama-guard3` call costs
 ~5.6s issued one at a time and ~0.35s effective at 8-way. But 8-way against a partly
 CPU-offloaded model on this card trips read timeouts. **4-way is the measured sweet spot
-here**; `precompute_features` uses 3. Results are unaffected either way — temperature 0 and
-fixed seeds throughout, only dispatch changes.
+here**; `precompute_features` uses 3. [CORRECTED, round 6] Results are NOT bit-identical across dispatch settings: despite temperature 0 and fixed seeds, identical prompts scored 66, 64 and 61 of 120 across three runs, because Ollama's concurrent batching is not bit-reproducible. Treat ~5 points on n=120 as the noise floor and claim no difference smaller than that. The original sentence read: "Results are unaffected either way — temperature 0 and
+fixed seeds throughout, only dispatch changes."
 
 ## Long jobs must checkpoint
 

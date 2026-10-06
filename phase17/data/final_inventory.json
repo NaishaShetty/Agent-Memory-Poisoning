@@ -1,8 +1,8 @@
 {
-  "n": 41,
+  "n": 43,
   "counts": {
-    "favourable": 23,
-    "unfavourable": 15,
+    "favourable": 24,
+    "unfavourable": 16,
     "open": 3
   },
   "classification_rule": "Written because a summary assembled from memory is where selective reporting creeps in. Each\nrow names the artifact it came from, so any line can be checked, and the classification rule is\napplied mechanically rather than by recollection:",
@@ -89,7 +89,7 @@
       "item": "Matched operating points close most of the baseline gap",
       "result": "deberta +36.9 vs B14 +34.1; was a 17-point gap at shipped thresholds, now 2.8",
       "artifact": "holdout3_matched_fpr.json",
-      "caveat": "the baseline still leads on that corpus"
+      "caveat": "the baseline still leads on that corpus; and every scorer was calibrated on a 'dev' set that proved to be near-copies of hold-out 3's own benign half (round 7, R7-1), so this is a symmetric but HOLD-OUT-CALIBRATED comparison"
     },
     {
       "category": "favourable",
@@ -138,7 +138,7 @@
       "item": "The content detector is the false-positive source, not provenance",
       "result": "content-only 43.0% on DEV in-the-wild benign; corroboration adds 2 of 200",
       "artifact": "diagnose_benign_fpr.json",
-      "caveat": "my earlier reading blamed corroboration and was wrong"
+      "caveat": "my earlier reading blamed corroboration and was wrong; and the 'DEV' items were hold-out 3 prompts under a different wrapper (R7-1), so this is a hold-out measurement"
     },
     {
       "category": "unfavourable",
@@ -178,7 +178,7 @@
     {
       "category": "unfavourable",
       "item": "My own errors this round",
-      "result": "AgentPoison trigger error a 5th time (caught by my own new guard test); rejection-memory dev fit measured the wrong distribution; orphan script killed the pipeline runner; a guard test matched its own docstring; corroboration left inert in every published table; the user_turn arm computed but never reported; B12 omitted from the table testing it",
+      "result": "AgentPoison trigger error a 5th time (caught by my own new guard test); rejection-memory dev fit measured the wrong distribution; orphan script killed the pipeline runner; a guard test matched its own docstring; corroboration left inert in every published table; the user_turn arm computed but never reported; B12 omitted from the table testing it. Round 7 added two more: a disjointness check that compared wrapped strings (R7-1), and a new guard test whose callee persisted its fit and overwrote the ledger radius on disk (caught by git status, restored, and now prevented by a session-wide read-only check)",
       "artifact": "git history",
       "caveat": ""
     },
@@ -241,7 +241,7 @@
     {
       "category": "favourable",
       "item": "Every past error's guard PROVEN by mutation testing",
-      "result": "8/8 guards fail when their error is reintroduced and pass again once restored",
+      "result": "11/11 guards fail when their error is reintroduced and pass again once restored",
       "artifact": "error_registry.json",
       "caveat": "establishing it exposed that four of eight guards had been decoration, plus CRLF shell scripts, a guard passing on exit 127, and the harness corrupting what it measured twice"
     },
@@ -265,6 +265,20 @@
       "result": "B13 (+ the ledger) for memory poisoning on ordinary traffic; B14 or an off-the-shelf deberta pass where the budget is tight on injection-shaped text; B18 only as a review-queue posture where a third of benign traffic can be quarantined",
       "artifact": "Methodology 32.42",
       "caveat": ""
+    },
+    {
+      "category": "unfavourable",
+      "item": "The hold-out 3 development set was the hold-out (R7-1)",
+      "result": "382/400 'dev' benign items are hold-out 3 prompts verbatim under a different memory wrapper (393 near-copies); 647/648 of the earlier jailbreak snapshot are near-copies of hold-out 3 attacks. The disjointness check compared wrapped strings",
+      "artifact": "docs/phase17/ROUND7_LOG.md + phase17/near_dup.py",
+      "caveat": "the matched-FPR comparison and frontier are hold-out-calibrated; the per-rule FPR attribution was a hold-out measurement; B19 was fitted on near-copies and still failed, so that negative stands. Guard proven by mutation (dev_holdout_overlap)"
+    },
+    {
+      "category": "favourable",
+      "item": "Founding families re-measured under B18 + evidence (never done before)",
+      "result": "B18 with the owner's conversation: agentpoison 64.9%, minja 40.4%, farma 87.0%, memorygraft 34.2%, dsrm 30.4%, mpbench 47.8%, sleeper_memory_poisoning 36.8% at 81/1054 ordinary-benign FPR; no model re-run, union identity verified item by item",
+      "artifact": "family_union_evidence.json",
+      "caveat": "mixed: MemoryGraft and DSRM stay near 30% even at the best configuration measured, and B18 adds nothing over B17 on any founding family"
     },
     {
       "category": "open",

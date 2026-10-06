@@ -14,11 +14,16 @@ omitting the result, so the document cannot assert a measurement that was not ma
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import docx
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
+
+# Run as a plain script (`python phase17/build_results_analysis_docx.py`), so the repo root must be
+# importable for the shared claim-scoring helpers.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 OUT = "MAMBench Results Analysis.docx"
 DATA = Path("phase17/data")
@@ -47,11 +52,15 @@ EXFIL = L("exfiltration_agent_check.json")
 SIM090 = L("eval_rejection_memory_sim090_EXPLORATORY.json")
 FAM = L("family_breakdown.json")
 MHA = L("multihop_multiagent.json")
-RECOMMENDATION_TEXT = ['RECOMMENDATION (round 6, final). No single configuration is right for every deployment here, and an earlier version of this document recommending one was wrong twice over -- first naming B13 unqualified, then the union configurations on numbers that were descriptive rather than held out. The recommendation is therefore conditioned on two things a deployment knows and this benchmark does not: which threat it faces, and what false-positive rate it can absorb.', 'The deciding constraint is structural, not a matter of tuning. B17 and B18 exclude whenever B13 excludes, and B13 alone sits at 33.5% false positives on the in-the-wild corpus, so sweeping their B14 component moves B17 only within 33.5-36.0% and B18 within 35.0-36.7%. No threshold reaches the ~4% region where B14 and the strongest baseline operate. The unions are pinned above a third of benign traffic on injection-style text and cannot be calibrated out of it.', "For MEMORY POISONING on ordinary memory traffic -- the threat this benchmark exists for -- B13 remains the choice: best on this project's own attacks (46.1% against B14's 41.2% and deberta's 14.1%), 1/1088 ordinary-benign false positives, 2/40 false flags on legitimate standing instructions, and cheaper per admitted memory than the content-only stack it supersedes. Supply it with the owner's conversation: corroboration lifts every founding family and costs nothing at all on user-authored content.", 'Compose it with the rejection ledger where an attacker can retry against the same scope. That is the one configuration change with a large, powered effect: adaptive evasion 24.6% to 0.8%, p=9.31e-10. Its radius carries a 29.7% ledger-poisoning blast radius, which is the trade a deployment must accept deliberately.', "For INJECTION-SHAPED text arriving in memory, the choice depends on the budget. Under a tight false-positive budget, B14 at a dev-calibrated threshold (38.6% recall at 4.5%) or an off-the-shelf deberta pass (41.3% at 4.4%) are the only candidates; the unions cannot operate there at all. Where a third of benign traffic can be quarantined for review, B18 is the strongest detector measured here (81.5% recall at 35.1%, discrimination +46.4 against deberta's +36.9). That is a review-queue posture, not an admission-control one, and it should be described as such rather than as a default.", 'B17 and B18 remain hold-out-informed: they were selected after reading hold-out results, and hold-out 3 tested them once. Their numbers are reported, their selection history is stated at every point of use, and they are NOT presented as a validated generalisation claim.']
+RECOMMENDATION_TEXT = ['RECOMMENDATION (round 6, final). No single configuration is right for every deployment here, and an earlier version of this document recommending one was wrong twice over -- first naming B13 unqualified, then the union configurations on numbers that were descriptive rather than held out. The recommendation is therefore conditioned on two things a deployment knows and this benchmark does not: which threat it faces, and what false-positive rate it can absorb.', 'The deciding constraint is structural, not a matter of tuning. B17 and B18 exclude whenever B13 excludes, and B13 alone sits at 33.5% false positives on the in-the-wild corpus, so sweeping their B14 component moves B17 only within 33.5-36.0% and B18 within 35.0-36.7%. No threshold reaches the ~4% region where B14 and the strongest baseline operate. The unions are pinned above a third of benign traffic on injection-style text and cannot be calibrated out of it.', "For MEMORY POISONING on ordinary memory traffic -- the threat this benchmark exists for -- B13 remains the choice: best on this project's own attacks (46.1% against B14's 41.2% and deberta's 14.1%), 1/1088 ordinary-benign false positives, 2/40 false flags on legitimate standing instructions, and cheaper per admitted memory than the content-only stack it supersedes. Supply it with the owner's conversation: corroboration lifts every founding family and costs nothing at all on user-authored content.", 'Compose it with the rejection ledger where an attacker can retry against the same scope. That is the one configuration change with a large, powered effect: adaptive evasion 24.6% to 0.8%, p=9.31e-10. Its radius carries a 29.7% ledger-poisoning blast radius, which is the trade a deployment must accept deliberately.', "For INJECTION-SHAPED text arriving in memory, the choice depends on the budget. Under a tight false-positive budget, B14 at a dev-calibrated threshold (38.6% recall at 4.5%) or an off-the-shelf deberta pass (41.3% at 4.4%) are the only candidates; the unions cannot operate there at all. [Round 7: those two operating points were calibrated on a set that proved to be near-copies of hold-out 3's benign half, so they are hold-out-calibrated -- Section 10C.] Where a third of benign traffic can be quarantined for review, B18 is the strongest detector measured here (81.5% recall at 35.1%, discrimination +46.4 against deberta's +36.9). That is a review-queue posture, not an admission-control one, and it should be described as such rather than as a default.", 'B17 and B18 remain hold-out-informed: they were selected after reading hold-out results, and hold-out 3 tested them once. Their numbers are reported, their selection history is stated at every point of use, and they are NOT presented as a validated generalisation claim.']
 MULTIHOP_CORRECTION = ["CORRECTION (round 6). The claim that multi-hop reasoning lies outside what this benchmark measures rested on the oracle condition reaching only 36/60 with perfect evidence supplied, attributed to a 7B agent's reasoning limit. `multihop_multiagent.py` re-ran that condition across six agent families on the identical cases, prompt and scoring, and the attribution is wrong on both counts.", 'It is not model capability. Gemini 3.5 Flash Lite, a far more capable hosted model, scores 60.0% -- inside the local band and BELOW both llama3.1:8b (66.7%) and phi3:mini (65.0%), a 3.8B model. The six families span 10.0 points with no relationship to size, which is not the signature of a capability ceiling.', "And it is mostly an EVALUATOR artifact. Separating the two components of the strict scoring ensemble shows every agent answering 80-87% of multi-hop questions correctly under the LLM judge, while the NLI entailment-equivalence check rejects roughly one correct answer in three -- a correct free-form answer is frequently not bidirectionally entailed with a differently-phrased gold string. The oracle 'ceiling' is therefore largely the strictness of the ensemble, not a failure of reasoning.", "This is the phenomenon this project's own Section 12.13 and research question RQ3 identify: deterministic and strict semantic metrics systematically under-estimate genuine correctness. Multi-hop was scoped out on the strength of a number this methodology already predicted would be depressed. The correct statement is narrower and more useful: the multi-hop oracle figure is a strict-ensemble lower bound, agents reach roughly 83% under the judge metric, and any defended multi-hop figure must be read under both metrics rather than the strict one alone."]
 MULTIHOP_CAPTION = 'Multi-hop ORACLE condition by agent family, identical cases and prompt. The judge column is the same LLM-judge metric this project uses as metric 8; the strict column is the judge-AND-NLI ensemble the earlier figure was computed with. Source: phase17/data/multihop_multiagent.json.'
 EVID = L("evidence_round6.json")
 EVID5 = L("evidence_available_check.json")
+FUE = L("family_union_evidence.json")
+POWERED = L("eval_rejection_powered.json")
+XFINAL = L("exfiltration_final_agents.json")
+XREGEN2 = L("exfiltration_regen2.json")
 
 doc = docx.Document()
 st = doc.styles["Normal"]
@@ -114,12 +123,12 @@ ti.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for r in ti.runs:
     r.bold = True
     r.font.size = Pt(16)
-sub = doc.add_paragraph("A Results Analysis of MAMBench Phase 17, External Review Rounds 3-6")
+sub = doc.add_paragraph("A Results Analysis of MAMBench Phase 17, External Review Rounds 3-7")
 sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for r in sub.runs:
     r.font.size = Pt(11)
     r.italic = True
-dt = doc.add_paragraph("2026-10-05")
+dt = doc.add_paragraph("2026-10-06 (round 7; corrections made in place)")
 dt.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for r in dt.runs:
     r.font.size = Pt(9)
@@ -146,11 +155,14 @@ P(f"On the defenses: provenance-aware admission (B13) reaches attack classes tha
   f"than that classifier out of distribution. The two are complementary rather than ranked, which "
   f"corrects an earlier single-configuration recommendation and motivates parameter-free union "
   f"configurations that beat both components at no additional false-positive cost.")
-P("We also report a negative result in full. A stateful defense built specifically to address "
-  "adaptive evasion -- a per-scope ledger of previously rejected content -- showed no significant "
-  "effect at its frozen development radius despite engaging in 138 of 151 attack rounds, and the "
-  "radius at which it does work carries a denial-of-service surface that must be justified "
-  "separately. Adaptive evasion remains open. We conclude that for this threat model the "
+P("We also report the route to one positive result in full, including the failures on the way. A "
+  "stateful defense built for adaptive evasion -- a per-scope ledger of previously rejected "
+  "content -- showed no significant effect at its frozen development radius; a pre-registered "
+  "re-run at a looser radius was then underpowered by design, with a single control event capping "
+  "its p-value at 1.0; and a re-run with seeds pre-filtered to the metric's own denominator -- a "
+  "design revision after a failure, and labelled as one -- reduced evasion from 24.6% to 0.8% "
+  "(paired +0/-31, p=9.3e-10). That radius carries a 29.7% ledger-poisoning blast radius which a "
+  "deployment must accept deliberately. We conclude that for this threat model the "
   "pooled comparison against published prompt-injection detectors should not be cited in either "
   "direction: disaggregated, bespoke provenance signals lead by nearly 39 points on memory "
   "poisoning while trailing an off-the-shelf classifier on one corpus that constitutes almost half "
@@ -215,8 +227,12 @@ P("The third hold-out is methodologically the most informative of the three for 
 H("2.3 Models, Determinism and Cost Accounting", 2)
 P("All agent-side measurement uses qwen2.5:7b; judging uses llama3.1:8b, a different model "
   "family from the agent and from every signal inside the defenses; a third family (mistral:7b) "
-  "is reserved for out-of-loop validation. Temperature is 0 with fixed seeds throughout, so "
-  "request batching changes throughput only and never a result. Cost is reported as cold-cache "
+  "is reserved for out-of-loop validation. Temperature is 0 with fixed seeds throughout, but "
+  "runs are NOT bit-reproducible: an identical prompt set scored 66, 64 and 61 of 120 across "
+  "three runs, because Ollama's concurrent batching is not deterministic. Roughly 5 points on "
+  "n=120 is therefore the noise floor, and no difference smaller than that is claimed anywhere in "
+  "this document. (An earlier version of this paragraph stated that batching changes throughput "
+  "only and never a result; that was wrong.) Cost is reported as cold-cache "
   "seconds per admitted memory, measured sequentially, because a warm cache measures the cache "
   f"and bulk batching is not available to a live single-memory admission path: "
   + ", ".join(f"{k} {v['seconds_per_memory']}s" for k, v in (COST.get("per_config") or {}).items())
@@ -446,16 +462,52 @@ if EVID:
     for f, v in EVID.get("by_family", {}).items():
         cells = []
         for c in EVID["configs"]:
+            fu = (FUE.get("families", {}).get(f, {}).get(c) or {}).get("full") if FUE else None
             if c in v:
                 cells.append("%d -> %d (p=%.3g)" % (v[c]["no_evidence"]["k"],
                                                     v[c]["with_evidence"]["k"],
                                                     v[c]["paired"]["p_exact"]))
+            elif fu:
+                # B17/B18's no-evidence arm was never in eval_round6; family_union_evidence.py
+                # derives it from saved per-item decisions (no model re-run) after checking the
+                # union identity item by item.
+                cells.append("%d -> %d (p=%.3g)" % (fu["no_evidence"]["k"], fu["with_evidence"]["k"],
+                                                    fu["paired"]["p_exact"]))
             else:
                 cells.append("-")
         rows.append([f, v["n"]] + cells)
     TBL(rows)
     CAP("Table 5C. Every own-attack family re-scored with the real conversation supplied. Source: "
-        "phase17/data/evidence_round6.json.")
+        "phase17/data/evidence_round6.json; B17/B18 columns from family_union_evidence.json (an "
+        "earlier version of this table printed dashes for them because their no-evidence arm was "
+        "never computed).")
+    if FUE:
+        _F = ("agentpoison", "minja", "farma", "memorygraft", "dsrm", "mpbench",
+              "sleeper_memory_poisoning")
+        rows = [["Founding family", "n (working)", "B13 + evidence", "B18 + evidence",
+                 "B18 + evidence, working only"]]
+        for f in _F:
+            e = FUE["families"].get(f)
+            if not e:
+                continue
+            b13, b18, w = e["B13"]["full"], e["B18"]["full"], e["B18"]["working"]
+            rows.append([f, f"{e['n']} ({e['n_working']})",
+                         f"{kn(b13['with_evidence'])} ({b13['with_evidence']['rate']:.1%})",
+                         f"{kn(b18['with_evidence'])} ({b18['with_evidence']['rate']:.1%})",
+                         f"{kn(w['with_evidence'])} ({w['with_evidence']['rate']:.1%})" if w else "-"])
+        _fp = FUE["ordinary_benign_fpr_with_evidence"]["B18"]
+        TBL(rows)
+        CAP(f"Table 5E. The seven founding families under the configuration this project recommends "
+            f"for memory poisoning, B18 with the owner's conversation, on the full family and on its "
+            f"working-attack subset. Ordinary-benign false-positive cost on the same footing: "
+            f"{kn(_fp)} ({_fp['rate']:.1%}), all of it on untrusted channels. Source: "
+            f"phase17/data/family_union_evidence.json.")
+        P("Read honestly, this is mixed. B18 with evidence reaches FARMA (87%) and AgentPoison "
+          "(65%; 93% of its working instances), and moves MPBench, MINJA and sleeper poisoning from "
+          "near zero to 37-48%. MemoryGraft (34%) and DSRM (30%) remain weakly detected even at the "
+          "best configuration measured, and on DSRM's working instances B18 is no better than "
+          "B13. B18 adds nothing over B17 on any founding family: the deberta hard rule earns its "
+          "place on injection-shaped text, not here.")
     rows = [["Configuration", "Own attacks, no evidence", "Own attacks, with evidence",
              "Ordinary-benign FPR, no evidence", "Ordinary-benign FPR, with evidence"]]
     for c, v in EVID.get("aggregate", {}).items():
@@ -629,19 +681,22 @@ if H3:
         "Source: phase17/data/eval_holdout3.json. The benign column is matched ordinary prompts "
         "from the same platforms as the attacks and is the strictest false-positive test in this "
         "project.")
-    pc = H3.get("prediction_checks", {})
-    P("Pre-registered prediction outcomes. "
-      + ("P1 (B18 >= B17): " + ("HELD" if pc.get("P1_B18_ge_B17", {}).get("holds") else "FAILED")
-         + f" -- B18 {pct(pc.get('P1_B18_ge_B17', {}).get('B18'))} against B17 "
-           f"{pct(pc.get('P1_B18_ge_B17', {}).get('B17'))}. " if pc else "")
-      + ("P2 (B18 beats B14 by >=5 points): "
-         + ("HELD" if pc.get("P2_B18_beats_B14_by_5pts", {}).get("holds") else "FAILED")
-         + f" -- delta {pc.get('P2_B18_beats_B14_by_5pts', {}).get('delta_points')} points. " if pc else "")
-      + ("P3 (B13 poor on a jailbreak corpus): B13 "
-         + pct(pc.get("P3_B13_poor_here", {}).get("B13")) + " against B14 "
-         + pct(pc.get("P3_B13_poor_here", {}).get("B14")) + ". " if pc else "")
-      + ("P5 (no configuration above ~85%): max "
-         + pct(pc.get("P5_no_config_above_85pct", {}).get("max_config_recall")) + "." if pc else ""))
+    from phase17.report_claims import holdout3_prediction_outcomes
+
+    _po = holdout3_prediction_outcomes(H3)
+    _nf = sum(o["status"] == "FAILED" for o in _po)
+    P(f"Pre-registered prediction outcomes: {len(_po) - _nf} of {len(_po)} held and {_nf} "
+      f"FAILED. All five are listed, because an earlier version of this section listed four and "
+      f"omitted P4 -- the one that failed backwards.")
+    TBL([["Prediction (recorded in advance)", "Outcome", "Evidence"]]
+        + [[f"{o['id']}: {o['prediction']}", o["status"], o["evidence"]] for o in _po])
+    CAP("Table 9A. Every prediction in docs/phase17/PREREGISTRATION_HOLDOUT3.md, scored from "
+        "phase17/data/eval_holdout3.json by phase17/report_claims.py. A guard test fails if any "
+        "numbered prediction in the pre-registration has no outcome here.")
+    P("Hold-out 3 has since been scored five times in total -- the pre-registered run, the "
+      "matched-FPR comparison, the frontier sweep, B19, and a structural-only variant -- and only "
+      "the first was pre-registered. It is retired from further measurement (round 7), and the "
+      "matched-FPR comparison it supports must be read with the correction in Section 10C.")
 else:
     MISSING.append("eval_holdout3.json")
     P("This analysis was pre-registered and the corpus frozen, but the evaluation had not "
@@ -660,6 +715,19 @@ if EXFIL:
     CAP("Table 10. The same validated exfiltration instances, same task and judge, across three "
         "agent families. Source: phase17/data/exfiltration_agent_check.json.")
     P("Conclusion as recorded by the artifact: " + EXFIL.get("conclusion", "n/a"))
+    if XFINAL:
+        P("SUPERSEDED. That conclusion located the zero in the attack construction, and it was "
+          "right about where but not about why: the generator named an outbound recipient in only "
+          "6 of 32 instances and the mechanism judge passed them anyway. Deterministic structural "
+          "gates (a named third-party recipient AND a category of the user's own data) were added "
+          f"to the regeneration loop; the gate-valid set scores "
+          f"{pct(XREGEN2.get('heldout', {}).get('rate')) if XREGEN2 else 'n/a'} under an "
+          f"out-of-loop judge, and all three agent families still give "
+          f"{kn(XFINAL['per_agent']['qwen2.5:7b']['causal_harm'])} causal harm -- they address "
+          "the legitimate counterparty and merely restate the attacker's directive. Exfiltration "
+          "is therefore a TESTED mechanism here, and its zero is a negative result about what 7-8B "
+          "assistants do with a standing exfiltration instruction, not a benchmark defect. "
+          "Source: phase17/data/exfiltration_final_agents.json.")
 else:
     MISSING.append("exfiltration_agent_check.json")
     P("After regeneration the exfiltration instances are exfiltration attacks (68.8% by an "
@@ -670,7 +738,7 @@ else:
       "had not completed when this document was generated.")
 
 # ============================================================================ 9
-H("9. RQ5 - Adaptive Evasion and a Negative Result", 1)
+H("9. RQ5 - Adaptive Evasion: a Negative Result, an Underpowered Test, and a Powered Re-Run", 1)
 P("A query-based adaptive attacker queries the live defense, reads its verdict, asks a model to "
   "rewrite the memory preserving its claim, and tries again within a budget of five, with every "
   "rewrite checked for claim preservation by NLI so that an attacker who 'evades' by deleting the "
@@ -735,6 +803,39 @@ else:
       "pointed at and asserted disjoint from the original 43. The falsification rule is recorded "
       "in advance: no reduction, or p > 0.1 with at least 20 initially-excluded seeds, falsifies "
       "the mechanism. This run had not completed when this document was generated.")
+if FRESH:
+    P("By the falsification rule written in advance this run FALSIFIED the ledger, and that "
+      "stands as a fact about the pre-registered test. It could not have passed: the control arm "
+      "produced one evasion event, and one discordant pair caps an exact McNemar p-value at 1.0 "
+      "whatever the true effect. The defect was in the seed-selection rule, which drew from "
+      "populations where the defense excludes only a third of instances at round 0. Every "
+      "pre-registered paired design in this project now calls phase17.stats.require_power before "
+      "running, which refuses this design.")
+H("9.3 The Powered Re-Run", 2)
+if POWERED:
+    rows = [["Arm", "At-risk seeds", "Genuine adaptive evasion", "Mean rounds used"]]
+    for a, v in POWERED["per_arm"].items():
+        g = v["genuine_adaptive_evasion_of_initially_excluded"]
+        rows.append([a, v["n_seeds"], f"{kn(g)} ({g['rate']:.1%})", v["mean_rounds_used"]])
+    TBL(rows)
+    _pd = POWERED["paired_B16_vs_B15"]
+    CAP(f"Table 12A. The same radius (0.90) and attacker, on {POWERED['n_at_risk_seeds']} seeds "
+        f"across {len(POWERED['families'])} families, PRE-FILTERED to seeds the stateless control "
+        f"excludes at round 0. Paired: {_pd['only_b']} seeds evaded only the control, "
+        f"{_pd['only_a']} only the ledger, exact p={_pd['p_exact']:.2g}. Source: "
+        "phase17/data/eval_rejection_powered.json.")
+    P("The earlier null is now demonstrated to have been a power artifact rather than argued to be "
+      "one: the same radius against the same attacker gave p=1.0 with one control event and "
+      "p=9.3e-10 with 32. Three qualifications travel with this result. The radius was "
+      "pre-registered, but the SEED RULE was revised after the first test failed -- a design "
+      "revision following a failure; what defends it is that pre-filtering selects on the metric's "
+      "own denominator, gives both arms the identical set, and cannot advantage either since the "
+      "ledger reproduces the stateless configuration exactly at round 0. The cost is the "
+      "denial-of-service surface of Section 9.2. And the mechanism does nothing against a "
+      "single-shot attacker, one who spreads attempts across isolated scopes, or one who waits out "
+      "the ledger's time-to-live.")
+else:
+    MISSING.append("eval_rejection_powered.json")
 H("9.2 The Cost That Must Accompany Any Positive Result", 2)
 if RMCFG:
     rows = [["Radius", "Claim-preserving paraphrases caught", "Ordinary benign FPR",
@@ -791,23 +892,41 @@ P("Sampling. Mosscap's working rate is estimated from a seeded random 300 of 1,2
   "estimate with an interval; every other working rate is a census. Statistical comparisons are "
   "exact McNemar on paired per-item decisions, with Wilson intervals on rates.")
 
+H("10C. A Correction: the Hold-Out 3 Development Set Was the Hold-Out", 1)
+P("CORRECTION (round 7). Every 'dev-calibrated' operating point on hold-out 3 -- the matched-FPR "
+  "comparison in which the strongest baseline's lead over this project's best configuration fell "
+  "from 17 points to 2.8, and the frontier sweep -- was fitted on a set described as an earlier, "
+  "disjoint snapshot of the same source. It is not disjoint. Once the memory wrapper each item is "
+  "placed into is stripped, 382 of its 400 items are hold-out 3 benign prompts verbatim, and 393 "
+  "are near-copies. The disjointness check compared WRAPPED strings, and wrappers are assigned by "
+  "position, so the same prompt under a different wrapper compared unequal. The earlier jailbreak "
+  "snapshot is worse: 647 of 648 of its prompts are near-copies of hold-out 3 attacks.")
+P("What survives. The matched-FPR comparison calibrated EVERY scorer on the same set, so it remains "
+  "a symmetric matched-operating-point comparison and its ranking -- the baseline still leads on "
+  "this corpus, by less than the shipped thresholds suggested -- is unaffected in direction. But "
+  "its thresholds were fitted on roughly 38% of the hold-out's own benign half, so it is "
+  "HOLD-OUT-CALIBRATED, not dev-calibrated, and is labelled so wherever it appears. The per-rule "
+  "diagnosis that the content detector rather than corroboration produces the false positives was "
+  "likewise measured on hold-out items. The memory-shape gate (B19) was fitted on the same "
+  "near-copies and still failed on the hold-out, so the contamination could only have flattered "
+  "it; that negative result stands. The check now strips wrappers and tests near-duplicates "
+  "(phase17/near_dup.py), and a guard test proven by mutation fails if it regresses.")
+
 # ============================================================================ 11
 H("10B. Recommendation, Conditioned on the False-Positive Budget", 1)
 for _t in RECOMMENDATION_TEXT:
     P(_t)
 
 H("11. Limitations", 1)
-P("These are limits on the claims, not a work plan. (i) Adaptive evasion is unresolved: the "
-  "stateful mechanism is demonstrated but its parameter is validated only by a post-hoc "
-  "sensitivity probe pending the pre-registered re-run, and it does nothing against a single-shot "
-  "attacker, one who distributes attempts across isolated scopes, or one who waits out the ledger "
-  "time-to-live. (ii) The stateful and union configurations are not composed, although the ledger "
-  "is now implemented as a wrapper over any configuration. (iii) Exfiltration remains the weakest "
-  "family, and its regeneration showed the difficulty lies in authoring the mechanism rather than "
-  "labelling it. (iv) All three hold-outs are prompt-injection or jailbreak corpora; a good score "
+P("These are limits on the claims, not a work plan. (i) The ledger's adaptive-evasion result rests "
+  "on a seed rule revised after the pre-registered test failed, carries a 29.7% ledger-poisoning "
+  "blast radius, and does nothing against a single-shot attacker, one who distributes attempts "
+  "across isolated scopes, or one who waits out the ledger time-to-live. (ii) Exfiltration is a "
+  "tested mechanism whose harm is zero for every agent family tried; that is a finding about 7-8B "
+  "assistants and says nothing about stronger agents. (iii) The first three hold-outs are prompt-injection or jailbreak corpora; a good score "
   "on them is evidence about detecting overt injected instructions that arrive in memory and says "
   "nothing about additive fabrication or preference hijack, for which this project's own mechanism "
-  "populations remain the only test. (v) No licence has been attached to the benchmark, which is "
+  "populations remain the only test -- hold-out 4 (round 7) is the first memory-poisoning hold-out. (iv) No licence has been attached to the benchmark, which is "
   "a deliberate deferral by the owner.")
 
 # ============================================================================ 12
@@ -829,7 +948,9 @@ P("On the defenses, three results hold. Provenance-aware admission reaches attac
   "components at no additional false-positive cost.")
 P("Equally, what did not work is reported as not working, and in this project's experience that is "
   "the harder half. A defense built specifically for adaptive evasion showed no effect at its "
-  "frozen radius; a development fit that measured the wrong distribution nearly discarded a "
+  "frozen radius, and its first pre-registered test was underpowered by design before a powered "
+  "re-run resolved it; a development set turned out to be the hold-out under a different "
+  "wrapper; a development fit that measured the wrong distribution nearly discarded a "
   "mechanism that works; an attack family was measured outside its trigger condition four times "
   "before a test caught it a fifth; and a pooled comparison against published detectors flattered "
   "neither side once disaggregated. Reporting the split rather than the pool, on both "

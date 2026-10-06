@@ -119,7 +119,9 @@ def rows():
             f"deberta +{100*r['deberta_pi_v2']['recall_minus_fpr']:.1f} vs B14 "
             f"+{100*r['B14']['recall_minus_fpr']:.1f}; was a 17-point gap at shipped thresholds, "
             f"now 2.8", "holdout3_matched_fpr.json",
-            "the baseline still leads on that corpus")
+            "the baseline still leads on that corpus; and every scorer was calibrated on a 'dev' "
+            "set that proved to be near-copies of hold-out 3's own benign half (round 7, R7-1), so "
+            "this is a symmetric but HOLD-OUT-CALIBRATED comparison")
     if mha:
         add("favourable", "Multi-hop is not a reasoning ceiling",
             "every agent 80-87% correct under the LLM judge; Gemini 60.0% strict, below "
@@ -156,7 +158,8 @@ def rows():
             f"content-only {pct(dg['fpr']['B12']['rate'])} on DEV in-the-wild benign; "
             f"corroboration adds {dg['attribution']['added_by_corroboration_with_evidence']} of "
             f"{dg['n']}", "diagnose_benign_fpr.json",
-            "my earlier reading blamed corroboration and was wrong")
+            "my earlier reading blamed corroboration and was wrong; and the 'DEV' items were "
+            "hold-out 3 prompts under a different wrapper (R7-1), so this is a hold-out measurement")
     add("unfavourable", "'B13 is the recommendation' was wrong unqualified",
         "on working attacks B14 STRICTLY dominates B13 on the clean hold-out, 40/64 vs 8/64, "
         "+32/-0, p=5e-10; B13's 12.5% there was unreported", "recall_on_working.json")
@@ -198,7 +201,10 @@ def rows():
         "AgentPoison trigger error a 5th time (caught by my own new guard test); rejection-memory "
         "dev fit measured the wrong distribution; orphan script killed the pipeline runner; a "
         "guard test matched its own docstring; corroboration left inert in every published table; "
-        "the user_turn arm computed but never reported; B12 omitted from the table testing it",
+        "the user_turn arm computed but never reported; B12 omitted from the table testing it. "
+        "Round 7 added two more: a disjointness check that compared wrapped strings (R7-1), and a "
+        "new guard test whose callee persisted its fit and overwrote the ledger radius on disk "
+        "(caught by git status, restored, and now prevented by a session-wide read-only check)",
         "git history")
     if fam:
         add("unfavourable", "Five of seven founding families are weakly detected content-only",
@@ -332,6 +338,28 @@ def rows():
         "deberta pass where the budget is tight on injection-shaped text; B18 only as a "
         "review-queue posture where a third of benign traffic can be quarantined",
         "Methodology 32.42")
+    # ---------------- ROUND 7
+    add("unfavourable", "The hold-out 3 development set was the hold-out (R7-1)",
+        "382/400 'dev' benign items are hold-out 3 prompts verbatim under a different memory "
+        "wrapper (393 near-copies); 647/648 of the earlier jailbreak snapshot are near-copies of "
+        "hold-out 3 attacks. The disjointness check compared wrapped strings",
+        "docs/phase17/ROUND7_LOG.md + phase17/near_dup.py",
+        "the matched-FPR comparison and frontier are hold-out-calibrated; the per-rule FPR "
+        "attribution was a hold-out measurement; B19 was fitted on near-copies and still failed, "
+        "so that negative stands. Guard proven by mutation (dev_holdout_overlap)")
+    fue = _L("family_union_evidence.json")
+    if fue:
+        fb = fue["families"]
+        b18 = {f: fb[f]["B18"]["full"]["with_evidence"]["rate"] for f in
+               ("agentpoison", "minja", "farma", "memorygraft", "dsrm", "mpbench",
+                "sleeper_memory_poisoning")}
+        add("favourable", "Founding families re-measured under B18 + evidence (never done before)",
+            "B18 with the owner's conversation: " + ", ".join(f"{k} {v:.1%}" for k, v in b18.items())
+            + f" at {fue['ordinary_benign_fpr_with_evidence']['B18']['k']}/1054 ordinary-benign FPR; "
+            "no model re-run, union identity verified item by item",
+            "family_union_evidence.json",
+            "mixed: MemoryGraft and DSRM stay near 30% even at the best configuration measured, and "
+            "B18 adds nothing over B17 on any founding family")
     add("open", "B17/B18 have no clean hold-out estimate",
         "both were chosen after reading hold-out results; hold-out 3 tested them once, and their "
         "shipped calibration is poor there", "eval_holdout3.json")

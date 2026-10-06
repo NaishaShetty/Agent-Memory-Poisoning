@@ -48,6 +48,15 @@ LOCOMO_SAMPLE = 0
 USER_TURN_POPS = ("legitimate_imperatives_40", "named_party_preferences_6", "confirmed_human_20")
 
 
+def _benign_report_keys(benign) -> List[str]:
+    """Every benign arm that was computed, INCLUDING the user_turn variants.
+
+    An earlier version reported only `list(benign)`, so the user_turn arm -- the one that answers
+    the legitimate-instruction question -- was computed, checkpointed and never published.
+    Extracted as a function so that omission is mutation-tested (`error_registry.py`)."""
+    return list(benign) + [f"{p} [as user_turn]" for p in USER_TURN_POPS if p in benign]
+
+
 def _evidence():
     """The real conversation's own turns, plus the speaker names the rule needs."""
     from phase17.provenance_sets import owner_turns
@@ -160,7 +169,7 @@ def run(configs=CONFIGS) -> dict:
     # Report the user_turn variants too. They were computed above but an earlier version of
     # this loop iterated only `benign`, so the arm that answers the legitimate-instruction
     # question existed on disk and never reached the artifact.
-    benign_keys = list(benign) + [f"{p} [as user_turn]" for p in USER_TURN_POPS if p in benign]
+    benign_keys = _benign_report_keys(benign)
     for pop in benign_keys:
         base = pop.replace(" [as user_turn]", "")
         e = {"n": len(benign[base]), "ordinary": pop in ordinary,

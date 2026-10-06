@@ -188,22 +188,13 @@ def test_b17_is_a_parameterless_union_of_two_frozen_configs():
     """B17 was chosen after reading hold-out results. The one thing that keeps that defensible
     is that it fits NOTHING -- no threshold, no weight, no new score. If a parameter ever
     appears here, the selection becomes tuning on the hold-out that motivated it."""
-    import ast
-    import inspect
-
     from phase17 import b17_live
+    from phase17.param_guard import fitted_parameter_references
 
     # CODE only. A substring scan over the whole source matched the docstring sentence that
     # says B17 is NOT a threshold -- prose about the absence of a parameter is not a parameter.
-    # (The same mistake as scanning working_set.py's docstring for defense names.)
-    tree = ast.parse(inspect.getsource(b17_live.b17_actions))
-    names = {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
-    names |= {n.attr for n in ast.walk(tree) if isinstance(n, ast.Attribute)}
-    names |= {n.arg for n in ast.walk(tree) if isinstance(n, ast.arg)}
-    strings = {n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)}
-    banned = {"thr", "threshold", "thresholds", "weight", "weights", "coef", "coefs", "fit",
-              "model", "scores", "score"}
-    hits = (names | strings) & banned
+    # The check lives in param_guard so that failure is itself mutation-tested.
+    hits = fitted_parameter_references(b17_live.b17_actions)
     assert not hits, (
         f"b17_actions references {sorted(hits)}. B17 must introduce no fitted parameter, or "
         "choosing it after reading hold-out results becomes tuning on that hold-out.")

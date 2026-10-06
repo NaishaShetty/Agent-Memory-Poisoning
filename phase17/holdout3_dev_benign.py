@@ -103,10 +103,25 @@ def dev_benign_texts() -> List[str]:
     return [i["text"] for i in json.loads(CACHE.read_text(encoding="utf-8"))["items"]]
 
 
+def _disjoint(dev, frozen) -> bool:
+    """True iff no dev text is a near-copy of a frozen text, WRAPPERS STRIPPED.
+
+    ROUND 7 CORRECTION (R7-1). This used to be `not (set(dev) & set(frozen))` over WRAPPED
+    strings. Wrappers are assigned by position, so the same prompt under a different wrapper
+    compared unequal, and the check reported this set disjoint while 382 of its 400 items were
+    hold-out 3 prompts verbatim (393 at the near-duplicate threshold). Everything calibrated on
+    this set was therefore calibrated on the hold-out's own benign half.
+    """
+    from phase17.near_dup import split_near_duplicates
+
+    _, dropped = split_near_duplicates(list(dev), list(frozen))
+    return not dropped
+
+
 def verify_disjoint() -> bool:
     from phase17.holdout3_corpus import benign_texts
 
-    return not (set(dev_benign_texts()) & set(benign_texts()))
+    return _disjoint(dev_benign_texts(), benign_texts())
 
 
 if __name__ == "__main__":

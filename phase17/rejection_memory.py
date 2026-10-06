@@ -127,7 +127,8 @@ class RejectionLedger:
 
 
 def fit_threshold(dev_benign, dev_paraphrase_pairs: Sequence[Tuple[str, str]],
-                  max_benign_fpr: float = 0.005, max_poisoning_risk: float = 0.01) -> dict:
+                  max_benign_fpr: float = 0.005, max_poisoning_risk: float = 0.01,
+                  persist: bool = False) -> dict:
     """Choose REJECT_SIM on DEV data only.
 
     The trade-off is one-dimensional: how close may a NEW memory be to a REJECTED one before it
@@ -216,7 +217,10 @@ def fit_threshold(dev_benign, dev_paraphrase_pairs: Sequence[Tuple[str, str]],
                                         "per-scope cap, not by this threshold.",
            "note": "frozen before either hold-out was touched; the hold-out numbers do not "
                    "re-tune this value"}
-    CONFIG.write_text(json.dumps(out, indent=2), encoding="utf-8")
+    # Only the module's own entry point persists the fit. A round-7 guard test called this on
+    # toy data and silently overwrote the fitted radius every B16 run reads.
+    if persist:
+        CONFIG.write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out
 
 
@@ -237,7 +241,7 @@ if __name__ == "__main__":
     benign = {k: list(v)[:200] for k, v in benign_populations().items()}
     parents = {r.scenario_id: r for r in original_records() + regenerated_records()}
     pairs = [(parents[r.parent_id].text, r.text) for r in evasion_records() if r.parent_id in parents]
-    r = fit_threshold(benign, pairs)
+    r = fit_threshold(benign, pairs, persist=True)
     print(json.dumps({k: v for k, v in r.items() if k != "curve"}, indent=1))
     for row in r["curve"]:
         if 0.78 <= row["thr"] <= 0.96:

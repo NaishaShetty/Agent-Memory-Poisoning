@@ -70,3 +70,38 @@ def rate_with_ci(k: int, n: int) -> dict:
 
 
 __all__ = ["wilson_interval", "exact_mcnemar_p", "paired_delta", "rate_with_ci", "cluster_bootstrap"]
+
+
+class Underpowered(ValueError):
+    pass
+
+
+def min_achievable_p(m_discordant: int) -> float:
+    """The smallest two-sided exact McNemar p obtainable from m discordant pairs (all one way)."""
+    return exact_mcnemar_p(m_discordant, 0)
+
+
+def require_power(n_at_risk: int, expected_event_rate: float, alpha: float = 0.05,
+                  margin: float = 2.0) -> dict:
+    """Refuse to run a paired test that cannot reach `alpha` even if the treatment works perfectly.
+
+    WHY (round 7, unfavourable #9). The first pre-registered adaptive test drew seeds where the
+    control arm produced ONE evasion event; with one discordant pair the smallest achievable
+    p-value is 1.0, so the test was decided by its design before it ran and its falsification
+    said nothing about the mechanism. Every pre-registered paired design now states its expected
+    number of control events up front and calls this first. `margin` asks for that many times the
+    bare minimum, because the realised count falls below its expectation about half the time.
+    """
+    need = 1
+    while min_achievable_p(need) > alpha:
+        need += 1
+    expected = n_at_risk * expected_event_rate
+    out = {"n_at_risk": n_at_risk, "expected_control_events": round(expected, 2),
+           "min_events_for_alpha": need, "required_with_margin": need * margin, "alpha": alpha}
+    if expected < need * margin:
+        raise Underpowered(
+            f"UNDERPOWERED DESIGN: {expected:.1f} expected control events; reaching p<{alpha} needs "
+            f"at least {need} discordant pairs even with a perfect treatment, and this design asks "
+            f"for {need * margin:.0f}. Pre-filter the seeds to the at-risk set or add seeds. "
+            f"Detail: {out}")
+    return out
