@@ -1,0 +1,87 @@
+{
+  "n_attacks": 1200,
+  "n_ordinary_benign": 1054,
+  "preregistration": "docs/phase17/PREREGISTRATION_2_CALIBRATION.md",
+  "b14_reference": 0.5425,
+  "measured": {
+    "B17": {
+      "recall": {
+        "k": 662,
+        "n": 1200,
+        "rate": 0.5516666666666666,
+        "ci95": [
+          0.5234075215242635,
+          0.579596063000478
+        ]
+      },
+      "ordinary_benign_fpr": {
+        "k": 1,
+        "n": 1054,
+        "rate": 0.0009487666034155598,
+        "ci95": [
+          0.00016749593087857662,
+          0.005354691890057942
+        ]
+      }
+    },
+    "B18": {
+      "recall": {
+        "k": 872,
+        "n": 1200,
+        "rate": 0.7266666666666667,
+        "ci95": [
+          0.7007570400727324,
+          0.7511296533261332
+        ]
+      },
+      "ordinary_benign_fpr": {
+        "k": 2,
+        "n": 1054,
+        "rate": 0.0018975332068311196,
+        "ci95": [
+          0.0005205154775459755,
+          0.00689231457186785
+        ]
+      }
+    }
+  },
+  "prediction_checks": {
+    "C1_b17_recall": {
+      "held": true,
+      "measured": 0.5516666666666666,
+      "point": 0.56,
+      "lo": 0.52,
+      "hi": 0.6,
+      "claim": "B17 recall on Mosscap"
+    },
+    "C2_b18_recall": {
+      "held": true,
+      "measured": 0.7266666666666667,
+      "point": 0.74,
+      "lo": 0.69,
+      "hi": 0.79,
+      "claim": "B18 recall on Mosscap"
+    },
+    "C3_b18_beats_b14_by_15": {
+      "held": true,
+      "measured": 0.1842,
+      "min_delta": 0.15,
+      "claim": "B18 exceeds B14 by at least 15 points"
+    },
+    "C4_union_benign_fpr": {
+      "held": true,
+      "measured": 2,
+      "max_k": 3,
+      "n": 1054,
+      "claim": "B17/B18 ordinary-benign false positives at most 3/1054"
+    },
+    "C5_b17_adds_at_most_5": {
+      "held": true,
+      "measured": 0.0092,
+      "max_delta": 0.05,
+      "claim": "B17 adds at most 5 points over B14"
+    }
+  },
+  "n_held": 5,
+  "calibration_verdict": "CALIBRATED: 5/5 predictions held. The first pre-registration's failures reflected a system not yet understood rather than a habit of overclaiming."
+}

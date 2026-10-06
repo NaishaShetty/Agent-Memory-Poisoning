@@ -1,8 +1,8 @@
 {
-  "n": 35,
+  "n": 41,
   "counts": {
-    "favourable": 19,
-    "unfavourable": 13,
+    "favourable": 23,
+    "unfavourable": 15,
     "open": 3
   },
   "classification_rule": "Written because a summary assembled from memory is where selective reporting creeps in. Each\nrow names the artifact it came from, so any line can be checked, and the classification rule is\napplied mechanically rather than by recollection:",
@@ -110,7 +110,7 @@
       "item": "Matched-benign false-positive rates are very high",
       "result": "B18 54.9%, B14 54.5%, B13 33.5% against 0.09% on ordinary memory",
       "artifact": "eval_holdout3.json",
-      "caveat": "every FPR previously published used benign text unlike the attack distribution"
+      "caveat": "every FPR previously published used benign text unlike the attack distribution; detection cannot fix this (B19 failed, 32.44) but neutralisation addresses the regime on a different axis at zero false-positive cost (32.46)"
     },
     {
       "category": "unfavourable",
@@ -216,6 +216,48 @@
       "result": "B19 = gate + B13 gives attacks 83.2% and benign 64.2%, discrimination +21.1 against B13's +45.8; a structural-rules-only variant gives +45.3, i.e. no gain. On an in-the-wild prompt corpus the benign and malicious halves are structurally indistinguishable, so no shape pre-filter can separate them",
       "artifact": "eval_b19.json",
       "caveat": "reported as a failed attempt rather than retained; hold-out 3 has now been scored five times and only the first was pre-registered"
+    },
+    {
+      "category": "favourable",
+      "item": "NEUTRALISATION resolves the one regime detection could not",
+      "result": "hold-out 3 attack compliance 34.0% -> 14.7%, paired +5/-34, p=2.4e-06, with no significant change in benign information use; nothing is excluded so the false-positive rate is zero by construction",
+      "artifact": "neutralise.json + neutralise_v2.json",
+      "caveat": "the active ingredient is recency alone; v2/v3/v5 are indistinguishable at n=120 given a ~5-point noise floor, and the frame this project first built is actively harmful"
+    },
+    {
+      "category": "favourable",
+      "item": "Prediction calibration demonstrated, not asserted",
+      "result": "5/5 pre-registered predictions held on an unmeasured target (B17/B18 on hold-out 2), with intervals committed before the run",
+      "artifact": "eval_calibration2.json + PREREGISTRATION_2_CALIBRATION.md",
+      "caveat": "it does not un-fail the three that failed in the first pre-registration"
+    },
+    {
+      "category": "favourable",
+      "item": "New best on hold-out 2",
+      "result": "B18 reaches 72.7% against B14's 54.2%, at 2/1054 ordinary-benign false positives",
+      "artifact": "eval_calibration2.json",
+      "caveat": "B17/B18 postdate the hold-out results that informed their design, so this is not a clean generalisation estimate"
+    },
+    {
+      "category": "favourable",
+      "item": "Every past error's guard PROVEN by mutation testing",
+      "result": "8/8 guards fail when their error is reintroduced and pass again once restored",
+      "artifact": "error_registry.json",
+      "caveat": "establishing it exposed that four of eight guards had been decoration, plus CRLF shell scripts, a guard passing on exit 127, and the harness corrupting what it measured twice"
+    },
+    {
+      "category": "unfavourable",
+      "item": "My 'instability inherited from deberta' attribution was imprecise",
+      "result": "removing the feature WIDENS the cross-corpus gap (+32.9 to +46.6) and costs recall everywhere, hold-out 2 collapsing 59.8% to 40.7%; the gap is a property of the fused weights and the feature is load-bearing",
+      "artifact": "b14_ablate_deberta.json",
+      "caveat": "still consistent with B18: a fusion can under-use a feature it contains, which is a different claim from that feature causing the instability"
+    },
+    {
+      "category": "unfavourable",
+      "item": "The neutralisation frame I originally built is actively harmful",
+      "result": "v1_prefix raises attack compliance 6.7 points and costs 10 points of benign utility; the earlier 'partial, 49/150 -> 38/150' reading came from a hold-out sample that flattered it",
+      "artifact": "neutralise_v2.json",
+      "caveat": ""
     },
     {
       "category": "favourable",

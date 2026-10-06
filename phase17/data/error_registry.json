@@ -1,6 +1,6 @@
 {
   "n": 8,
-  "n_proven": 7,
+  "n_proven": 8,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -58,10 +58,10 @@
       "error": "B16's entire claim is that only statefulness differs from B15. If state leaked between stateless calls, the adaptive comparison would measure two different detectors instead of one with and without memory.",
       "test": "phase17/tests/test_rejection_memory.py::test_b16_is_identical_to_b15_when_no_ledger_is_threaded",
       "guard_passes_clean": true,
-      "guard_fails_when_error_reintroduced": false,
+      "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,
-      "status": "UNPROVEN",
-      "detail": "guard did not fail on the mutation -- it does not actually detect this error"
+      "status": "PROVEN",
+      "detail": ""
     },
     {
       "id": "missing_checkpoint",
@@ -77,11 +77,8 @@
       "id": "frozen_corpus_edited",
       "error": "A hold-out edited after freezing invalidates every number measured on it. The digest check is the only thing standing between that and a silent corruption.",
       "test": "phase17/tests/test_round6_discipline.py::test_holdout3_is_frozen_and_preregistered",
-      "guard_passes_clean": true,
-      "guard_fails_when_error_reintroduced": true,
-      "guard_passes_after_restore": true,
-      "status": "PROVEN",
-      "detail": ""
+      "status": "PROVEN_ELSEWHERE",
+      "detail": "data artifacts are never mutated in place; this case is proven on a temporary copy by its own test"
     }
   ]
 }
