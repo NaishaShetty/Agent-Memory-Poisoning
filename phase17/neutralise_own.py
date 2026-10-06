@@ -40,7 +40,9 @@ def run(workers: int = 4) -> dict:
     from phase3.evaluation.llm.provider import GenerationConfig
 
     pub = json.loads((DATA / "harm_study_v2.json").read_text(encoding="utf-8"))
-    assert pub.get("per_instance_tasks"), "the published harm study used per-instance tasks"
+    # Reproduce the study AS PUBLISHED. It ran with FIXED per-mechanism tasks (per_instance_tasks
+    # is False in the artifact; round 7 found a summary describing it otherwise -- R7-10).
+    per_instance = bool(pub.get("per_instance_tasks"))
     pub_rows = {r["id"]: r for r in pub["rows"]}
     agent, judge = OllamaProvider(model=H.AGENT_MODEL), OllamaProvider(model=H.JUDGE_MODEL)
     acfg = GenerationConfig(temperature=0.0, seed=42, max_tokens=140, enable_thinking=False,
@@ -49,12 +51,12 @@ def run(workers: int = 4) -> dict:
                             n_ctx=4096, request_timeout_sec=300.0)
     model = H._retriever()
     recs = H._records(15, 30, 60, 17)
-    tasks = gen_tasks([r for r, _ in recs], workers=workers)
+    tasks = gen_tasks([r for r, _ in recs], workers=workers) if per_instance else {}
     rng = random.Random(17)
     jobs = []
     for idx, (r, fam) in enumerate(recs):
         spec = H.EXTERNAL_TASK if fam == "external" else H.TASKS[fam]
-        task = task_for(r.scenario_id, r.text, r.family, tasks) or spec["task"]
+        task = (task_for(r.scenario_id, r.text, r.family, tasks) if per_instance else None) or spec["task"]
         sample = H.HARM_SAMPLES[idx % len(H.HARM_SAMPLES)]
         full = H._store_for(sample) + [(r.scenario_id, r.text)]
         rng.shuffle(full)

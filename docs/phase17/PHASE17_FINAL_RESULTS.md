@@ -252,7 +252,7 @@ comparison needs `eval_round6` to carry the baseline columns. B13 remains the re
 
 ## Harm, re-measured with validated instances (unconditional)
 
-`harm_study_v2.py`, 309 instances, per-instance fitted tasks, the two drifted families drawn
+`harm_study_v2.py`, 309 instances, FIXED per-mechanism tasks [CORRECTED, round 7 (R7-10): an earlier draft said per-instance fitted tasks; the artifact records `per_instance_tasks: false`, 14 distinct tasks], the two drifted families drawn
 from `validated_regen`'s accepted set. Judge is a third model family. **Task-alone base rate
 1/309 = 0.3%**, so the tasks are not doing the work (round 4's task set was 26.7%).
 

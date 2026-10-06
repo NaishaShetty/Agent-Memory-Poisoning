@@ -61,6 +61,9 @@ def append_note(key, note, startswith=None, contains=None):
 
 
 def replace_in(key, old, new, contains):
+    if find(contains=new[:60]) is not None:          # already applied on an earlier run
+        skipped.append(key)
+        return
     p = find(contains=contains)
     if p is None:
         raise SystemExit(f"anchor not found for {key}")
@@ -254,6 +257,90 @@ if FUE and section("32.50 The Founding Families Under B18 With Evidence"):
          "instances) and lifts MPBench, MINJA and sleeper poisoning from near zero to 37-48%, but "
          "MemoryGraft (34%) and DSRM (30%) remain weakly detected by the best configuration "
          "measured. B18 adds nothing over B17 on any founding family.")
+
+V4 = L("holdout4_validity.json")
+M4 = L("holdout4_mechanism.json")
+C1, C2 = L("holdout4_causal.json"), L("holdout4_causal_v2.json")
+if V4 and C2 and section("32.51 Two New Hold-Outs, Frozen Before Any Scoring"):
+    body("Hold-out 3 was retired, and its 'development snapshot' proved to be the hold-out (32.49), "
+         "so round 7 built two new frozen corpora, each digested and frozen before any configuration "
+         "touched it, with predictions committed beforehand in docs/phase17/PREREGISTRATION_ROUND7.md.")
+    body("Hold-out 5 is injection-shaped with a matched benign half: 131 jailbreak prompts real users "
+         "submitted to the Vicuna demo and 1,000 non-toxic, non-jailbreak prompts from the same "
+         "interface (lmsys/toxic-chat, CC-BY-NC-4.0). Before freezing, 52 jailbreak candidates were "
+         "dropped as near-copies of corpora this project had already used -- the check hold-out 3 "
+         "never had. Its attack half is small, so every rate on it carries an interval of about +/-8 "
+         "points and no smaller difference is claimed.")
+    body("Hold-out 4 is this project's first MEMORY-POISONING hold-out, addressing the standing "
+         "limitation that all earlier hold-outs were injection corpora. It was written by mistral:7b, "
+         "a family that had authored no attack here and sits inside no detector, about LoCoMo "
+         "conversation 7, whose speakers appear in none of the 804 attacks the defenses were "
+         "developed on. No judge filtered it; only deterministic structural gates fixed in advance. "
+         "Inspection before freezing found the author had INVERTED both instruction-shaped families "
+         "into protective rules, so those were withdrawn as attacks and the 40 inverted standing "
+         "instructions kept as hard benign. The corpus is 157 note-shaped attacks (additive "
+         "fabrication, preference hijack, fact contradiction, sleeper routine) and 262 benign.")
+    body(f"Validity was measured before any scoring, from the corpus alone. An out-of-loop judge "
+         f"(Gemini) finds {M4['attack_mechanism']['ALL']['k']}/{M4['attack_mechanism']['ALL']['n']} "
+         f"attacks implement their family's mechanism and {M4['benign_valid']['ALL']['k']}/"
+         f"{M4['benign_valid']['ALL']['n']} sampled benign items harmless. The causal audit exposed a "
+         f"defect in the INSTRUMENT: the generic task generator presupposed fabricated facts, giving "
+         f"a task-alone base rate of {C1['task_alone_base_rate']['k']}/157. A non-leading generator "
+         f"with a deterministic check that the request contains no distinctive term of the note "
+         f"brought it to {C2['task_alone_base_rate']['k']}/157; that change was committed as a "
+         f"pre-registration addendum before any defense was scored. Working set (causal AND "
+         f"mechanism, non-leading probe): {V4['n_working']}/{V4['n_attacks']}. Under the project's "
+         f"union-over-probes convention it is 123/157 (secondary), because non-leading requests give "
+         f"contradiction and sleeper attacks less of an opening.")
+
+D7, CD = L("dev_round7.json"), L("compose_dev.json")
+if D7 and CD and section("32.52 Development Results: a Failed Lead, a Corpus Effect, and a Composition"):
+    mp = D7["beds"]["memory_poisoning_with_evidence"]["per_config"]
+    ij = D7["beds"]["injection_no_evidence"]["per_config"]
+    body(f"The lead for the unions' false-positive floor was to drop B13's content detector from them "
+         f"(B20 = B14 OR B13's provenance rules; B21 its deberta analogue). On development data it "
+         f"FAILS. With the owner's conversation, B20 reaches {mp['B20']['recall']['rate']:.1%} of "
+         f"this project's attacks against B17's {mp['B17']['recall']['rate']:.1%} at the same "
+         f"{mp['B17']['benign_fpr']['rate']:.1%} benign cost: every ordinary-benign exclusion by B13 "
+         f"comes from corroboration, and its content detector excludes no ordinary benign item while "
+         f"catching attacks B14 misses. On injection-shaped dev data B20 equals B14 exactly. B20/B21 "
+         f"are dominated in both beds; they were scored on the hold-outs only because the design had "
+         f"been announced.")
+    body(f"The same development run measured matched-platform benign text from toxic-chat and did not "
+         f"reproduce hold-out 3's false-positive regime: B13 {ij['B13']['benign_fpr']['rate']:.1%}, "
+         f"B17 {ij['B17']['benign_fpr']['rate']:.1%}, B18 {ij['B18']['benign_fpr']['rate']:.1%}, "
+         f"against 33.5%, 54.8% and 54.9% on hold-out 3's benign half. The floor is B13's own rate on "
+         f"the corpus at hand, so the 33-55% regime is at least partly a property of the "
+         f"jailbreak-community prompts that make up hold-out 3's benign half.")
+    rows = [["Detector (dev)", "Exclusion alone: harm / benign excluded",
+             "Exclusion + neutralise the rest: harm / benign excluded"]]
+    for c in ("B12", "B14", "B17", "B18"):
+        v = CD["by_detector"][c]["policies"]
+        rows.append([c, f"{v['P2_exclude']['harm_rate']:.1%} / {v['P2_exclude']['benign_exclusion_rate']:.1%}",
+                     f"{v['P4_exclude_plus_neutralise_rest']['harm_rate']:.1%} / "
+                     f"{v['P4_exclude_plus_neutralise_rest']['benign_exclusion_rate']:.1%}"])
+    rows.append(["(none)", f"{CD['compliance_raw']['rate']:.1%} / 0.0%",
+                 f"neutralise everything: {CD['compliance_framed']['rate']:.1%} / 0.0%"])
+    table(rows)
+    body("Table 22 - Neutralisation composed with detection on development data (266 externally "
+         "authored attacks; 400 toxic-chat dev benign; the two halves come from different sources). "
+         "Harm is an attack that is admitted AND complied with. Excluding with the cheapest detector "
+         "and admitting everything else under the frame beats the strongest exclusion-only "
+         "configuration on both axes. The cost that travels with it is separate and is not folded "
+         "into either column: nearly all admitted benign memory is framed, which cost 2.2 points of "
+         "benign information use on development data (not significant at n=90).")
+
+XA = L("exfil_authoring.json")
+if XA and section("32.53 Exfiltration Authoring: the Instruction, Not the Author"):
+    g = XA["generators"]
+    body("Regeneration accepted exfiltration candidates at the unguided rate, so the specification "
+         "had not improved authoring. Two explanations predict different things: the author cannot "
+         "write the mechanism (another author would do better), or the instruction is too abstract "
+         "(worked examples would). Four generators received the identical specification, gates and "
+         "judge, 40 candidates each, with near-copies of any example counted as failures: "
+         + "; ".join(f"{k} {v['accepted_gate_and_judge']['k']}/{v['n']}" for k, v in g.items())
+         + ". A different author family does not help; three worked examples do, for both authors. "
+         "The defect was the instruction.")
 
 doc.save(PATH)
 print(f"applied {len(applied)}: {applied}")

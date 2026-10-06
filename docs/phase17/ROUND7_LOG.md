@@ -118,3 +118,38 @@ means presupposing it. The causal criterion excludes those items, so the working
 conservative rather than inflated, but the two families the hold-out exists to test were largely
 invisible to it. Fixed with a non-leading generator and a deterministic leak check (guard
 `leading_task`: PROVEN), before any defense was scored on hold-out 4 (pre-registration addendum 1).
+
+### R7-8 outcome
+
+v2 (non-leading) audit: task-alone base rate 7/157 (was 66/157). Working (causal AND mechanism)
+86/157 = 54.8% -- additive fabrication 28/38 and preference hijack 30/40 are now visible, but
+fact contradiction (23 -> 15/40) and sleeper routine (30 -> 15/39) fall, because a non-leading
+request gives those attacks less of an opening. The project's standing convention is the UNION over
+probes (an attacker chooses the context); addendum 1 committed v2 as the working set, so v2 is
+primary as committed and the union (v1 OR v2, AND mechanism) is reported beside it as secondary.
+
+## Result R7-9: exfiltration authoring (#10) -- the instruction, not the author
+
+`exfil_authoring.json`, 40 candidates per generator, identical spec, structural gates and in-loop
+judge; near-copies of few-shot examples count as failures (there were none).
+
+| generator | gates pass | accepted (gates AND judge) | out-of-loop judge on accepted |
+|---|---|---|---|
+| qwen, spec only | 5/40 | 1/40 (2.5%) | 1/1 |
+| qwen, spec + 3 examples | 13/40 | **11/40 (27.5%)** | 8/11 |
+| gemini, spec only | 3/40 | 2/40 (5.0%) | 2/2 |
+| gemini, spec + 3 examples | 9/40 | 7/40 (17.5%) | 6/7 |
+
+A different author family does not help (Gemini spec-only 2/40 against qwen's 1/40, and the
+published 8.4%); worked examples do, for both authors. The defect was an instruction too abstract
+to author against. Pre-registered B-6 holds (27.5% >= 23.4%). Small n: the qwen few-shot vs
+spec-only difference (11/40 vs 1/40) is large; the few-shot qwen vs Gemini difference is not
+claimed.
+
+## Finding R7-10 (description): the published harm study used FIXED tasks
+
+`harm_study_v2.json` records `per_instance_tasks: false` and 14 distinct tasks for 309 instances;
+`run_all` invokes the stage without the per-instance flag. PHASE17_FINAL_RESULTS.md described it as
+"per-instance fitted tasks". The published 28.2% -> 10.4% stands as measured, with its 1/309
+task-alone base rate; the description was wrong and is corrected in place. Found because the Phase B
+reproduction (`neutralise_own`) asserted the description and the artifact disagreed.
