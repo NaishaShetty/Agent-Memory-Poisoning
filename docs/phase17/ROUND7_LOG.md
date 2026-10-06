@@ -153,3 +153,26 @@ claimed.
 "per-instance fitted tasks". The published 28.2% -> 10.4% stands as measured, with its 1/309
 task-alone base rate; the description was wrong and is corrected in place. Found because the Phase B
 reproduction (`neutralise_own`) asserted the description and the artifact disagreed.
+
+## RESUME HERE (paused 2026-10-06 ~23:45 at the owner's request; laptop shut down)
+
+Done and committed: Phase A (corrections, guards, dev work), hold-outs 4 and 5 built, frozen and
+scored ONCE under the committed pre-registration (13/16 predictions held), exfiltration
+authoring, Phase B neutralisation on own attacks and on a stronger agent.
+
+Still to run, in this order -- all stages checkpoint, so nothing completed is lost:
+
+1. Kill orphans first: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill_orphan_phase17.ps1`
+2. Ledger radius sweep (4-6 h, the long one) and hold-out 5's without-memory causal arm (~5 min).
+   Launch DETACHED so a session time limit cannot kill it (the wrapper was killed once at 2 h):
+   `powershell -NoProfile "Start-Process -FilePath python -ArgumentList '-u','-m','phase17.run_round7','ho5causal','sweep' -WorkingDirectory 'C:\Agent Memory Poisoning' -RedirectStandardOutput 'C:\Agent Memory Poisoning\phase17\data\run_all_logs\r7_queue5.log' -WindowStyle Hidden"`
+   (`sweep` = the ledger_radius_sweep stage on its own; the neutralise_own and strong-agent
+   stages of `phaseb` are already complete and cached.)
+3. `python -m phase17.report_round7` (scores B-1..B-6), `python -m phase17.final_inventory`,
+   `python phase17/build_results_analysis_docx.py`, `python phase17/update_methodology_round7.py`
+   (add the remaining 32.54+ sections and update the abstract/Section 33 first).
+4. With the GPU idle: the FULL `python -m phase17.error_registry` (no ids -- a partial run merges,
+   but the published record should come from one complete run), then the full test suite.
+5. Phase C: the publishability verdict against the two-sided standard in the handoff.
+
+Do NOT score hold-out 3, 4 or 5 again; every later use would need a use number at every point of use.
