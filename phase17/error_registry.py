@@ -112,7 +112,100 @@ ERRORS: List[Dict] = [
 
 # Round 7 entries: the process errors that had no proven guard, R7-1, and the superseded-claim
 # guards (proven on tampered COPIES of the documents).
-ERRORS += [{'id': 'dev_holdout_overlap', 'error': 'R7-1. The dev set used to calibrate every scorer on hold-out 3 was 382/400 hold-out prompts under a different memory wrapper; the disjointness check compared wrapped strings and reported it disjoint.', 'file': 'phase17/holdout3_dev_benign.py', 'find': '    _, dropped = split_near_duplicates(list(dev), list(frozen))\n    return not dropped', 'replace': '    return not (set(dev) & set(frozen))', 'test': 'phase17/tests/test_round7_discipline.py::test_dev_disjointness_sees_through_wrappers'}, {'id': 'holdout3_reuse', 'error': 'Hold-out 3 was scored five times with only the first pre-registered; the owner retired it. A new module loading it would be a seventh use.', 'file': 'phase17/family_union_evidence.py', 'find': 'from __future__ import annotations\n', 'replace': 'from __future__ import annotations\nfrom phase17.holdout3_corpus import attack_records as _ho3\n', 'test': 'phase17/tests/test_round7_discipline.py::test_holdout3_is_retired_from_new_measurement'}, {'id': 'ledger_fit_wrong_distribution', 'error': 'The rejection-ledger dev fit measured benign-to-BENIGN similarity, read off a 20.8% false-positive rate, and would have discarded a mechanism that works.', 'file': 'phase17/rejection_memory.py', 'find': '    benign_vs_ledger = (B @ A.T).max(axis=1)', 'replace': '    benign_vs_ledger = np.where(np.eye(len(B)) > 0, -1.0, B @ B.T).max(axis=1)', 'test': 'phase17/tests/test_round7_discipline.py::test_rejection_fit_measures_benign_against_rejected_attacks_not_benign'}, {'id': 'orphan_killer_kills_caller', 'error': "kill_orphan_phase17.ps1 matched the pipeline runner's own command line and killed it the first time it cleaned up before a stage.", 'file': 'scripts/kill_orphan_phase17.ps1', 'find': '-like $Pattern -and $skip -notcontains $_.ProcessId -and', 'replace': '-like $Pattern -and', 'test': 'phase17/tests/test_round7_discipline.py::test_orphan_killer_kills_orphans_but_spares_its_caller'}, {'id': 'ast_guard_docstring', 'error': 'The B17 no-parameter guard scanned source text and matched the docstring sentence saying B17 is NOT a threshold.', 'file': 'phase17/param_guard.py', 'find': '    return (names | strings) & BANNED', 'replace': '    import re as _re\n    return set(_re.findall(r"[A-Za-z_]+", inspect.getsource(func))) & BANNED', 'test': 'phase17/tests/test_round7_discipline.py::test_parameter_guard_reads_code_not_prose'}, {'id': 'computed_arm_unreported', 'error': 'The user_turn arm of the evidence run was computed and checkpointed but never reported, because the output loop iterated only the base populations.', 'file': 'phase17/evidence_round6.py', 'find': '    return list(benign) + [f"{p} [as user_turn]" for p in USER_TURN_POPS if p in benign]', 'replace': '    return list(benign)', 'test': 'phase17/tests/test_round7_discipline.py::test_every_computed_benign_arm_is_reported'}, {'id': 'underpowered_preregistration', 'error': 'Unfavourable #9. The first pre-registered adaptive test drew seeds with one control event, so its smallest achievable p was 1.0 whatever the effect.', 'file': 'phase17/stats.py', 'find': '    if expected < need * margin:', 'replace': '    if False:', 'test': 'phase17/tests/test_round7_discipline.py::test_power_check_refuses_the_historical_underpowered_design'}, {'id': 'harmful_neutralisation_frame', 'error': "Unfavourable #15. The frame first built (v1_prefix) raises compliance 6.7 points and costs 10 points of utility; it was read as 'partial' from a flattering hold-out sample.", 'file': 'phase17/neutralise.py', 'find': 'WINNER = "v3_depersonalise"', 'replace': 'WINNER = "v1_prefix"', 'test': 'phase17/tests/test_round7_discipline.py::test_neutralisation_never_uses_the_harmful_frame'}, {'id': 'superseded_claim_results_paper', 'mode': 'copy_insert', 'error': "Round 6 corrected claims in new sections and left the corrected sentences standing unqualified elsewhere (the abstract said adaptive evasion 'remains open').", 'file': 'MAMBench Results Analysis.docx', 'env': 'MAMBENCH_CLAIMS_RESULTS_DOCX', 'insert': 'Adaptive evasion remains open.', 'test': 'phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]'}, {'id': 'superseded_claim_methodology', 'mode': 'copy_insert', 'error': "The methodology's overall conclusion still declared multi-hop outside the benchmark after 32.34 showed it is an evaluator artifact.", 'file': 'Methodology Draft.docx', 'env': 'MAMBENCH_CLAIMS_METHODOLOGY_DOCX', 'insert': 'Multi-hop reasoning is declared outside what this benchmark measures.', 'test': 'phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[methodology_docx]'}, {'id': 'superseded_claim_summary', 'mode': 'copy_insert', 'error': "The summary file printed a working-set rate (45.1%) its own table contradicts and attributed B14's gap to deberta after the ablation refuted it.", 'file': 'docs/phase17/PHASE17_FINAL_RESULTS.md', 'env': 'MAMBENCH_CLAIMS_FINAL_RESULTS_MD', 'insert': "B14's hold-out instability is inherited from deberta.", 'test': 'phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[final_results_md]'}, {'id': 'nondeterminism_denied', 'mode': 'copy_insert', 'error': 'Two runbooks asserted temperature-0 runs are bit-reproducible after identical prompts scored 66, 64 and 61 of 120.', 'file': 'phase17/RESUME_AFTER_SHUTDOWN.md', 'env': 'MAMBENCH_CLAIMS_RESUME_MD', 'insert': 'Every stage is deterministic, so a resumed result is identical to an uninterrupted one.', 'test': 'phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[resume_md]'}]
+ERRORS += [{'id': 'dev_holdout_overlap',
+  'error': 'R7-1. The dev set used to calibrate every scorer on hold-out 3 was 382/400 hold-out '
+           'prompts under a different memory wrapper; the disjointness check compared wrapped '
+           'strings and reported it disjoint.',
+  'file': 'phase17/holdout3_dev_benign.py',
+  'find': '    _, dropped = split_near_duplicates(list(dev), list(frozen))\n    return not dropped',
+  'replace': '    return not (set(dev) & set(frozen))',
+  'test': 'phase17/tests/test_round7_discipline.py::test_dev_disjointness_sees_through_wrappers'},
+ {'id': 'holdout3_reuse',
+  'error': 'Hold-out 3 was scored five times with only the first pre-registered; the owner retired '
+           'it. A new module loading it would be a seventh use.',
+  'file': 'phase17/family_union_evidence.py',
+  'find': 'from __future__ import annotations\n',
+  'replace': 'from __future__ import annotations\n'
+             'from phase17.holdout3_corpus import attack_records as _ho3\n',
+  'test': 'phase17/tests/test_round7_discipline.py::test_holdout3_is_retired_from_new_measurement'},
+ {'id': 'ledger_fit_wrong_distribution',
+  'error': 'The rejection-ledger dev fit measured benign-to-BENIGN similarity, read off a 20.8% '
+           'false-positive rate, and would have discarded a mechanism that works.',
+  'file': 'phase17/rejection_memory.py',
+  'find': '    benign_vs_ledger = (B @ A.T).max(axis=1)',
+  'replace': '    benign_vs_ledger = np.where(np.eye(len(B)) > 0, -1.0, B @ B.T).max(axis=1)',
+  'test': 'phase17/tests/test_round7_discipline.py::test_rejection_fit_measures_benign_against_rejected_attacks_not_benign'},
+ {'id': 'orphan_killer_kills_caller',
+  'error': "kill_orphan_phase17.ps1 matched the pipeline runner's own command line and killed it "
+           'the first time it cleaned up before a stage.',
+  'file': 'scripts/kill_orphan_phase17.ps1',
+  'find': '-like $Pattern -and $skip -notcontains $_.ProcessId -and',
+  'replace': '-like $Pattern -and',
+  'test': 'phase17/tests/test_round7_discipline.py::test_orphan_killer_kills_orphans_but_spares_its_caller'},
+ {'id': 'ast_guard_docstring',
+  'error': 'The B17 no-parameter guard scanned source text and matched the docstring sentence '
+           'saying B17 is NOT a threshold.',
+  'file': 'phase17/param_guard.py',
+  'find': '    return (names | strings) & BANNED',
+  'replace': '    import re as _re\n'
+             '    return set(_re.findall(r"[A-Za-z_]+", inspect.getsource(func))) & BANNED',
+  'test': 'phase17/tests/test_round7_discipline.py::test_parameter_guard_reads_code_not_prose'},
+ {'id': 'computed_arm_unreported',
+  'error': 'The user_turn arm of the evidence run was computed and checkpointed but never '
+           'reported, because the output loop iterated only the base populations.',
+  'file': 'phase17/evidence_round6.py',
+  'find': '    return list(benign) + [f"{p} [as user_turn]" for p in USER_TURN_POPS if p in '
+          'benign]',
+  'replace': '    return list(benign)',
+  'test': 'phase17/tests/test_round7_discipline.py::test_every_computed_benign_arm_is_reported'},
+ {'id': 'underpowered_preregistration',
+  'error': 'Unfavourable #9. The first pre-registered adaptive test drew seeds with one control '
+           'event, so its smallest achievable p was 1.0 whatever the effect.',
+  'file': 'phase17/stats.py',
+  'find': '    if expected < need * margin:',
+  'replace': '    if False:',
+  'test': 'phase17/tests/test_round7_discipline.py::test_power_check_refuses_the_historical_underpowered_design'},
+ {'id': 'harmful_neutralisation_frame',
+  'error': 'Unfavourable #15. The frame first built (v1_prefix) raises compliance 6.7 points and '
+           "costs 10 points of utility; it was read as 'partial' from a flattering hold-out "
+           'sample.',
+  'file': 'phase17/neutralise.py',
+  'find': 'WINNER = "v3_depersonalise"',
+  'replace': 'WINNER = "v1_prefix"',
+  'test': 'phase17/tests/test_round7_discipline.py::test_neutralisation_never_uses_the_harmful_frame'},
+ {'id': 'superseded_claim_results_paper',
+  'mode': 'copy_insert',
+  'error': 'Round 6 corrected claims in new sections and left the corrected sentences standing '
+           "unqualified elsewhere (the abstract said adaptive evasion 'remains open').",
+  'file': 'MAMBench Results Analysis.docx',
+  'env': 'MAMBENCH_CLAIMS_RESULTS_DOCX',
+  'insert': 'Adaptive evasion remains open.',
+  'test': 'phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]'},
+ {'id': 'superseded_claim_methodology',
+  'mode': 'copy_insert',
+  'error': "The methodology's overall conclusion still declared multi-hop outside the benchmark "
+           'after 32.34 showed it is an evaluator artifact.',
+  'file': 'Methodology Draft.docx',
+  'env': 'MAMBENCH_CLAIMS_METHODOLOGY_DOCX',
+  'insert': 'Multi-hop reasoning is declared outside what this benchmark measures.',
+  'test': 'phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[methodology_docx]'},
+ {'id': 'superseded_claim_summary',
+  'mode': 'copy_insert',
+  'error': 'The summary file printed a working-set rate (45.1%) its own table contradicts and '
+           "attributed B14's gap to deberta after the ablation refuted it.",
+  'file': 'docs/phase17/PHASE17_FINAL_RESULTS.md',
+  'env': 'MAMBENCH_CLAIMS_FINAL_RESULTS_MD',
+  'insert': "B14's hold-out instability is inherited from deberta.",
+  'test': 'phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[final_results_md]'},
+ {'id': 'nondeterminism_denied',
+  'mode': 'copy_insert',
+  'error': 'Two runbooks asserted temperature-0 runs are bit-reproducible after identical prompts '
+           'scored 66, 64 and 61 of 120.',
+  'file': 'phase17/RESUME_AFTER_SHUTDOWN.md',
+  'env': 'MAMBENCH_CLAIMS_RESUME_MD',
+  'insert': 'Every stage is deterministic, so a resumed result is identical to an uninterrupted '
+            'one.',
+  'test': 'phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[resume_md]'}]
 
 ERRORS.append(dict(
     id="test_writes_data_artifact",
