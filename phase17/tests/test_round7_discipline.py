@@ -328,3 +328,16 @@ def test_holdout4_working_set_follows_the_settled_rule():
          "v2": {"per_item": v2["per_item"], "base_rate": v2["task_alone_base_rate"]["rate"]}},
         m["per_item"])
     assert r["excluded_probes"] == ["v1"] and r["n_working"] == 86
+
+
+# --------------------------------------------------------------------------------------------
+# Item 11: a default pipeline run must never be able to re-score a frozen hold-out.
+
+def test_default_pipeline_never_scores_a_holdout():
+    from phase17 import run_all
+
+    default = {s.name for s in run_all.default_stages()}
+    resolved = {s.name for s in run_all._resolve(["holdout5_causal"])}
+    for name in ("eval_round7_holdouts",):
+        assert name not in default, f"a bare run_all would run {name}, scoring a frozen hold-out"
+        assert name not in resolved, f"{name} is pulled in as a dependency"

@@ -68,3 +68,18 @@ python -m phase17.run_all --list
 
 Stage logs are in `phase17/data/run_all_logs/<stage>.log`; the last run's summary is
 `phase17/data/run_all_report.json`.
+
+## Round 7 checkpoints
+
+| stage | checkpoint file | granularity |
+|---|---|---|
+| `eval_round7_holdouts` | `eval_round7_holdouts_partial.json` | every 10 batches, per config-half |
+| `holdout4_validity` (causal) | `holdout4_validity_partial.json` | every 12 items |
+| `holdout4_validity` (mechanism, remote) | `holdout4_mechanism_partial.json` | every 10 calls |
+| `neutralise_own` | `neutralise_own_partial.json` | every 24 instances, per arm |
+| `compose_dev` / compliance | `compose_neutralise_partial.json`, `compose_neutralise_judge.json` | every 24 calls |
+| `eval_ledger_radius_sweep` | `eval_ledger_radius_sweep_partial.json` | every 10 seeds, per radius |
+| `harm_strong_agent` (remote) | `harm_strong_agent_partial.json` | every call |
+
+A resumed stage re-uses completed work; it does not re-score a hold-out. Launch resumes DETACHED
+(see RUNNING_THE_PIPELINE.md, round 7 additions).

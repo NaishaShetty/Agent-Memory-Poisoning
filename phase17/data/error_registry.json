@@ -1,6 +1,6 @@
 {
-  "n": 16,
-  "n_proven": 16,
+  "n": 17,
+  "n_proven": 17,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -154,6 +154,16 @@
       "id": "leading_probe_in_union",
       "error": "Item 13. The union-over-probes convention admitted a leading probe (task-alone base rate 66/157), giving hold-out 4 a 123/157 working set against 86/157 without it.",
       "test": "phase17/tests/test_round7_discipline.py::test_leading_probe_is_excluded_from_the_working_union",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "pipeline_rescores_holdout",
+      "error": "Item 11. Adding round-7 stages to run_all put the hold-out scoring in the default run, so a full pipeline re-run could touch frozen corpora.",
+      "test": "phase17/tests/test_round7_discipline.py::test_default_pipeline_never_scores_a_holdout",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,

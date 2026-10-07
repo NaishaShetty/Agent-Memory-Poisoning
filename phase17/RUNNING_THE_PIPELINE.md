@@ -83,3 +83,29 @@ With an empty GPU, the precompute's cheap scorers finish in seconds (`deberta_pi
 `perplexity_gpt2` 7.6s against 134.5s under contention — an 18x difference from nothing but
 removing competing processes). If a scorer that should take seconds is taking minutes,
 something else is on the card.
+
+## Round 7 additions (2026-10-07): what cost time this round, and how to avoid it
+
+**Launch long stages DETACHED.** A shell launched from an agent session or a terminal with a time
+limit kills its child when the limit expires; the hold-out scoring died this way at the 2-hour mark.
+Use `Start-Process` so the job belongs to no shell:
+
+```bash
+powershell -NoProfile "Start-Process -FilePath python -ArgumentList '-u','-m','phase17.run_round7','<queue>' -WorkingDirectory 'C:\Agent Memory Poisoning' -RedirectStandardOutput 'C:\Agent Memory Poisoning\phase17\data\run_all_logs\r7_queue.log' -WindowStyle Hidden"
+```
+
+**Remote (Gemini) jobs run through `scripts/gemini_queue.py`, not `python -m phase17.x`.** The orphan
+killer matches any command line containing `phase17`, so a remote job launched as a phase17 module was
+killed at every GPU stage boundary. The wrapper's command line does not match; it never loads a local
+model, so it may run beside a GPU stage. Set `CUDA_VISIBLE_DEVICES=` for it so an embedding model it
+imports cannot touch the card.
+
+**`-ExcludePid` takes a comma-separated STRING** (`-ExcludePid "123,456"`). It used to be `[int[]]`,
+which through `-File` silently excluded nothing when given two pids.
+
+**CPU-only helpers beside a GPU stage**: prefix with `CUDA_VISIBLE_DEVICES=` -- the NLI and embedding
+models otherwise take the GPU and violate the one-GPU-job rule without anyone noticing.
+
+**Hold-out builds are not pipeline stages.** `holdout4_corpus`, `holdout5_corpus`,
+`holdout6_corpus` build and freeze once and refuse to rebuild. Every scoring of a hold-out is
+recorded in the usage ledger of `docs/phase17/PREREGISTRATION_ROUND7.md`; hold-out 3 is retired.

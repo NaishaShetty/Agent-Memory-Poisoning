@@ -266,6 +266,16 @@ ERRORS.append(dict(
     test="phase17/tests/test_round7_discipline.py::test_leading_probe_is_excluded_from_the_working_union",
 ))
 
+ERRORS.append(dict(
+    id="pipeline_rescores_holdout",
+    error="Item 11. Adding round-7 stages to run_all put the hold-out scoring in the default run, so "
+          "a full pipeline re-run could touch frozen corpora.",
+    file="phase17/run_all.py",
+    find="    return [s for s in STAGES if not s.explicit]",
+    replace="    return list(STAGES)",
+    test="phase17/tests/test_round7_discipline.py::test_default_pipeline_never_scores_a_holdout",
+))
+
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted

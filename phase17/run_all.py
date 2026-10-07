@@ -58,6 +58,9 @@ class Stage:
     cpu: bool = False
     args: Sequence[str] = ()
     optional: bool = False
+    # EXPLICIT stages never run in a default or --from run, only when named with --only. Scoring a
+    # hold-out is one: a full pipeline re-run must never be able to touch a frozen corpus.
+    explicit: bool = False
 
 
 # Dependency order is the point of this file. Do not reorder without reading `needs`.
@@ -146,8 +149,44 @@ STAGES: List[Stage] = [
     Stage("defense_cost", "phase17.defense_cost",
           "cold-cache seconds per admitted memory. Must run alone: a shared GPU inflates it",
           needs=("eval_round6",)),
+    # ---------------- ROUND 7. Hold-out BUILDS (holdout4/5/6_corpus) are deliberately absent: each
+    # is built and frozen once and refuses to rebuild. Everything below reads frozen corpora.
+    Stage("family_union_evidence", "phase17.family_union_evidence",
+          "founding families under B17/B18 with evidence, from saved decisions (no model run)",
+          needs=("evidence_round6",), cpu=True),
+    Stage("dev_round7", "phase17.dev_round7",
+          "B20/B21 decomposition on both dev beds; asserts the components reproduce B13 exactly",
+          needs=("precompute_features", "evidence_round6")),
+    Stage("compose_dev", "phase17.compose_dev",
+          "neutralisation composed with detection on dev (policies P0-P4)", needs=("dev_round7",)),
+    Stage("holdout4_validity", "phase17.holdout4_validity",
+          "hold-out 4 causal validity with the NON-LEADING probe (mechanism half runs remotely "
+          "via scripts/gemini_queue.py ho4mech)", args=("causal",), needs=("harm_tasks",)),
+    Stage("eval_round7_holdouts", "phase17.eval_round7_holdouts",
+          "the ONE scoring of hold-outs 4 and 5; refuses unless the pre-registration is committed. "
+          "Re-running it reads its checkpoint and is NOT a new use only if nothing is recomputed",
+          needs=("holdout4_validity", "precompute_features"), explicit=True),
+    Stage("holdout5_causal", "phase17.holdout5_causal",
+          "hold-out 5's without-memory arm, for its causal working subset",
+          needs=("eval_round7_holdouts",), explicit=True),
+    Stage("neutralise_own", "phase17.neutralise_own",
+          "neutralisation on the 309 harm-study instances, both arms in one session",
+          needs=("harm_study_v2",)),
+    Stage("exfil_authoring", "phase17.exfil_authoring",
+          "four exfiltration authors on one spec (Gemini halves collected remotely first)"),
+    Stage("eval_ledger_radius_sweep", "phase17.eval_ledger_radius_sweep",
+          "ledger radius against its denial-of-service surface on the powered seeds; 4-6 h",
+          needs=("eval_rejection_powered",)),
+    Stage("report_round7", "phase17.report_round7",
+          "scores every round-7 pre-registered prediction mechanically, with interval widths",
+          cpu=True, optional=True),
 ]
 BY_NAME = {s.name: s for s in STAGES}
+
+
+def default_stages() -> List[Stage]:
+    """What a bare `python -m phase17.run_all` runs: everything except explicit stages."""
+    return [s for s in STAGES if not s.explicit]
 
 
 def _kill_orphans() -> None:
@@ -196,7 +235,9 @@ def _resolve(names: Sequence[str]) -> List[Stage]:
         changed = False
         for n in list(want):
             for d in BY_NAME[n].needs:
-                if d not in want:
+                # An explicit stage (a hold-out scoring) is never pulled in as a dependency: its
+                # output is read from the checkpoint it already wrote, never recomputed implicitly.
+                if d not in want and not BY_NAME[d].explicit:
                     want.add(d)
                     changed = True
     return [s for s in STAGES if s.name in want]
@@ -286,9 +327,9 @@ def main(argv=None) -> int:
             print(f"unknown stage {a.start!r}; see --list")
             return 2
         i = [s.name for s in STAGES].index(a.start)
-        stages = STAGES[i:]
+        stages = [s for s in STAGES[i:] if not s.explicit]
     else:
-        stages = STAGES
+        stages = default_stages()
     r = run(stages, dry_run=a.dry_run, min_free_mb=a.min_free_mb)
     bad = [x for x in r["stages"] if x["status"] not in ("ok", "dry-run")]
     return 1 if bad else 0
