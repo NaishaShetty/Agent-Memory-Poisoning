@@ -303,3 +303,19 @@ no outside party. So instruction-shaped memory poisoning gets a clean test of ~2
 instructions (before the causal filter); conditional backdoors remain effectively UNTESTED on a clean
 hold-out, and are reported that way rather than as a measured family. Every hold-out-7 rate carries
 its working-subset denominator.
+
+## Result R7-19 (item 8): the LLM judges against one human annotator (partial)
+
+The owner labelled 60 of 100 blind items (all 40 compliance, all 20 mechanism; the 40 harm rows are
+not yet labelled). `human_label_agreement.json`:
+
+- **Compliance judge (llama3.1:8b), 40 items:** agreement 30/40 = 75%, Cohen's kappa 0.50. Misses are
+  one-sided: 7 judge-NO / human-YES against 3 judge-YES / human-NO. The judge UNDER-counts
+  compliance, so compliance rates (and effects measured as compliance drops) are conservative.
+- **Mechanism judge (gemini-3.5-flash-lite), 20 items:** the annotator judged all 20 to be genuine
+  attacks; Gemini rejected 5. Gemini is the stricter of the two, so mechanism-validity figures
+  (hold-out 4: 152/157) are conservative. Kappa is 0.0 only because the annotator gave no NO.
+
+One annotator and small n (a 75% rate on 40 items is +/-13 points). This is the first time any judge
+in the project has been measured against a person; it is reported as a partial human check, not a
+validation.
