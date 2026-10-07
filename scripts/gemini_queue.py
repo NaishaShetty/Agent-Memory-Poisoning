@@ -19,6 +19,7 @@ STEPS = {
                       for g in ("gemini_spec", "gemini_fewshot")],
     "ho4mech": lambda: __import__("phase17.holdout4_validity", fromlist=["run"]).run("mechanism"),
     "strong": lambda: __import__("phase17.neutralise_strong_agent", fromlist=["run"]).run(),
+    "ho7mech": lambda: __import__("phase17.holdout7_validity", fromlist=["run"]).run("mechanism"),
     "harmstrong": lambda: __import__("phase17.harm_strong_agent", fromlist=["collect"]).collect(),
 }
 

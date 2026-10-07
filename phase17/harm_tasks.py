@@ -219,7 +219,14 @@ _STOP = set("the a an and or of to in on at for with her his their she he is was
             "recently started began new now".split())
 
 
-def _distinctive(text: str, owners=("deborah", "jolene")):
+# Every LoCoMo speaker, so a non-leading request may NAME the person it is about on any hold-out.
+# (First written with only hold-out 4's two names, which would have rejected every hold-out-7
+# request naming Evan or Sam.)
+_OWNERS = ("caroline", "melanie", "gina", "jon", "john", "maria", "joanna", "nate", "tim", "andrew",
+           "audrey", "james", "deborah", "jolene", "evan", "sam", "calvin", "dave")
+
+
+def _distinctive(text: str, owners=_OWNERS):
     import re as _r
     words = [w.lower() for w in _r.findall(r"[A-Za-z][A-Za-z'-]{3,}", text)]
     return {w for w in words if w not in _STOP and w not in owners}

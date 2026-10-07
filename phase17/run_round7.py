@@ -34,6 +34,8 @@ QUEUES = {
                                        "causal"])],
     # The ONE scoring of hold-outs 4 and 5; refuses unless the pre-registration is committed.
     "holdouts": [("eval_round7_holdouts", [sys.executable, "-u", "-m", "phase17.eval_round7_holdouts"])],
+    "ho7causal": [("holdout7_causal", [sys.executable, "-u", "-m", "phase17.holdout7_validity", "causal"])],
+    "holdouts67": [("eval_round7b_holdouts", [sys.executable, "-u", "-m", "phase17.eval_round7b_holdouts"])],
     "ho5causal": [("holdout5_causal", [sys.executable, "-u", "-m", "phase17.holdout5_causal"])],
     "sweep": [("ledger_radius_sweep", [sys.executable, "-u", "-m", "phase17.eval_ledger_radius_sweep"])],
     # The items 1-14 follow-up (round 7, 2026-10-07), in GPU order.

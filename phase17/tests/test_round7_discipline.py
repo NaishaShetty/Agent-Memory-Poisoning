@@ -338,6 +338,6 @@ def test_default_pipeline_never_scores_a_holdout():
 
     default = {s.name for s in run_all.default_stages()}
     resolved = {s.name for s in run_all._resolve(["holdout5_causal"])}
-    for name in ("eval_round7_holdouts",):
+    for name in ("eval_round7_holdouts", "eval_round7b_holdouts"):
         assert name not in default, f"a bare run_all would run {name}, scoring a frozen hold-out"
         assert name not in resolved, f"{name} is pulled in as a dependency"

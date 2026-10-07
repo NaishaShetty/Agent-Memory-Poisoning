@@ -177,6 +177,9 @@ STAGES: List[Stage] = [
     Stage("eval_ledger_radius_sweep", "phase17.eval_ledger_radius_sweep",
           "ledger radius against its denial-of-service surface on the powered seeds; 4-6 h",
           needs=("eval_rejection_powered",)),
+    Stage("eval_round7b_holdouts", "phase17.eval_round7b_holdouts",
+          "the ONE scoring of hold-outs 6 and 7; refuses unless its pre-registration addendum is "
+          "committed", explicit=True),
     Stage("report_round7", "phase17.report_round7",
           "scores every round-7 pre-registered prediction mechanically, with interval widths",
           cpu=True, optional=True),
