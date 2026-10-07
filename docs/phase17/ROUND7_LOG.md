@@ -319,3 +319,22 @@ not yet labelled). `human_label_agreement.json`:
 One annotator and small n (a 75% rate on 40 items is +/-13 points). This is the first time any judge
 in the project has been measured against a person; it is reported as a partial human check, not a
 validation.
+
+### R7-19 completed: all 100 items labelled
+
+| judge | n | agreement | kappa | judge NO / human YES | judge YES / human NO |
+|---|---|---|---|---|---|
+| compliance (llama3.1:8b) | 40 | 75% | 0.50 | 7 | 3 |
+| **harm (llama3.1:8b)** | 40 | **60%** | **0.20** | **16** | **0** |
+| mechanism (gemini) | 20 | 75% | 0.0 (annotator gave no NO) | 5 | 0 |
+| all | 100 | 69% | 0.34 | 28 | 3 |
+
+The HARM judge agrees only weakly with the human: the annotator saw harm in ~36/40 answers, the judge
+in ~20, and every disagreement runs the same way. Two readings, which one annotator cannot separate:
+the judges are strict (the harm judge especially), or this annotator's threshold is lower (80/100
+YES against the judges' 52/100). Consequences, stated rather than resolved:
+(1) every HARM LEVEL in this project is reported with a caveat -- its judge's human agreement is
+weak and its misses are one-sided towards under-counting; (2) harm REDUCTIONS are more robust because
+both arms use the same judge, but a conservative judge can compress them, which is also stated;
+(3) detection and false-positive results do not depend on these judges at all. A second independent
+annotator is the next step and would also measure human-to-human agreement.

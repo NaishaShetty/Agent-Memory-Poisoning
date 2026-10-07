@@ -473,6 +473,20 @@ def rows():
         "3,466 tests passed, 32 skipped, 0 failed across phases 3-17, attribution and the "
         "cross-cutting suite; phase 3 and phase 5 datasets intact and needing no regeneration",
         "phase17/data/_phase_audit.txt + _phase_audit2.txt")
+    hl = _L("human_label_agreement.json")
+    if hl and hl["by_type"]["harm"].get("n_labelled"):
+        h, c = hl["by_type"]["harm"], hl["by_type"]["compliance"]
+        add("unfavourable", "The harm judge agrees only weakly with a human annotator",
+            f"harm: {round(100*h['agreement'])}% agreement, kappa {h['cohen_kappa']}, "
+            f"{h['judge_no_human_yes']} misses vs {h['judge_yes_human_no']} false alarms (n={h['n_labelled']}); "
+            f"compliance: {round(100*c['agreement'])}%, kappa {c['cohen_kappa']}",
+            "human_label_agreement.json",
+            "one annotator who said YES on 80/100 items; the disagreement is one-sided (judges stricter). "
+            "Harm LEVELS carry this caveat; reductions are more robust (same judge both arms); "
+            "detection and FPR results do not use these judges")
+        add("open", "A second independent human annotator",
+            "needed to separate 'the judges are strict' from 'one annotator's threshold is lower', and to "
+            "measure human-to-human agreement", "docs/phase17/human_labels/")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 

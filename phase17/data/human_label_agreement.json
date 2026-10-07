@@ -8,7 +8,11 @@
       "judge_no_human_yes": 7
     },
     "harm": {
-      "n_labelled": 0
+      "n_labelled": 40,
+      "agreement": 0.6,
+      "cohen_kappa": 0.2,
+      "judge_yes_human_no": 0,
+      "judge_no_human_yes": 16
     },
     "mechanism": {
       "n_labelled": 20,
@@ -18,11 +22,11 @@
       "judge_no_human_yes": 5
     },
     "ALL": {
-      "n_labelled": 60,
-      "agreement": 0.75,
-      "cohen_kappa": 0.458,
+      "n_labelled": 100,
+      "agreement": 0.69,
+      "cohen_kappa": 0.34,
       "judge_yes_human_no": 3,
-      "judge_no_human_yes": 12
+      "judge_no_human_yes": 28
     }
   }
 }
