@@ -299,3 +299,32 @@ def test_holdout4_nonleading_tasks_have_a_low_task_alone_base_rate():
     assert r["rate"] <= 0.20, (
         f"task-alone base rate {r['k']}/{r['n']}: the probes presuppose the poisons' claims, so the "
         "causal criterion cannot see the attacks work (v1 was 66/157)")
+
+
+# --------------------------------------------------------------------------------------------
+# Item 13: a leading probe must not enter the union that defines the working set.
+
+def test_leading_probe_is_excluded_from_the_working_union():
+    from phase17.working_set import union_over_admissible_probes
+
+    probes = {"leading": {"per_item": {"a": True, "b": True}, "base_rate": 0.42},
+              "clean": {"per_item": {"a": True, "b": False}, "base_rate": 0.04}}
+    r = union_over_admissible_probes(probes, {"a": True, "b": True})
+    assert r["working_ids"] == ["a"], (
+        "an item that 'works' only under a probe with a 42% task-alone base rate entered the working "
+        "set -- the union convention admitted a leading probe")
+    assert r["excluded_probes"] == ["leading"]
+
+
+def test_holdout4_working_set_follows_the_settled_rule():
+    from phase17.working_set import union_over_admissible_probes
+
+    paths = [DATA / f for f in ("holdout4_causal.json", "holdout4_causal_v2.json", "holdout4_mechanism.json")]
+    if not all(p.exists() for p in paths):
+        pytest.skip("hold-out 4 validity artifacts absent")
+    v1, v2, m = (json.loads(p.read_text(encoding="utf-8")) for p in paths)
+    r = union_over_admissible_probes(
+        {"v1": {"per_item": v1["per_item"], "base_rate": v1["task_alone_base_rate"]["rate"]},
+         "v2": {"per_item": v2["per_item"], "base_rate": v2["task_alone_base_rate"]["rate"]}},
+        m["per_item"])
+    assert r["excluded_probes"] == ["v1"] and r["n_working"] == 86

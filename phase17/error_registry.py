@@ -163,6 +163,16 @@ ERRORS.append(dict(
     test="phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
 ))
 
+ERRORS.append(dict(
+    id="leading_probe_in_union",
+    error="Item 13. The union-over-probes convention admitted a leading probe (task-alone base rate "
+          "66/157), giving hold-out 4 a 123/157 working set against 86/157 without it.",
+    file="phase17/working_set.py",
+    find="    admitted = [n for n, p in probes.items() if p[\"base_rate\"] <= MAX_PROBE_BASE_RATE]",
+    replace="    admitted = list(probes)",
+    test="phase17/tests/test_round7_discipline.py::test_leading_probe_is_excluded_from_the_working_union",
+))
+
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted

@@ -156,6 +156,12 @@ append_note("p_32_45_superseded",
             "and add false positives, so B13 with evidence is the memory-poisoning recommendation.]",
             contains="(1) MEMORY POISONING with the owner's conversation available")
 
+append_note("p_32_51_union",
+            "[Settled afterwards (round 7, item 13): a probe enters the union only if its task-alone base "
+            "rate is <= 20%. The leading v1 probe (66/157) is excluded, so 123/157 is NOT a valid "
+            "alternative; hold-out 4's working set is 86/157 under the rule, as committed.]",
+            contains="Under the project's union-over-probes convention it is 123/157")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",

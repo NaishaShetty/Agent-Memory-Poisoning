@@ -205,3 +205,11 @@ reading. On hold-out 4 (clean, scored once) B17/B18 have exactly B13's recall (5
 and add false positives (16.0% vs 11.8% on the untrusted channel). B13 with evidence dominates them on
 this threat. The recommendation is rewritten (methodology 32.56, results 10B) with the round-6 text
 kept and marked superseded; guarded by `b18_memory_poisoning_recommendation`.
+
+## Item 13: the working-set rule across probes, settled
+
+`working_set.union_over_admissible_probes`: union over every probe whose task-alone base rate is at
+most 20%. A leading probe contributes nothing. On hold-out 4 this reproduces the committed 86/157 and
+RETRACTS the "123/157 union, secondary" figure reported in R7-8's outcome, which unioned in the
+leading v1 probe. Fixed in code before the next hold-out (7) is built; guard `leading_probe_in_union`
+PROVEN.
