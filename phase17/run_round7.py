@@ -39,10 +39,12 @@ QUEUES = {
     # The items 1-14 follow-up (round 7, 2026-10-07), in GPU order.
     "items": [
         ("holdout7_build", [sys.executable, "-u", "-m", "phase17.holdout7_corpus"]),
-        ("harm_strong_judge", [sys.executable, "-u", "-m", "phase17.harm_strong_agent", "judge"]),
         ("neutralise_utility", [sys.executable, "-u", "-m", "phase17.neutralise_utility"]),
         ("noise_repeats", [sys.executable, "-u", "-m", "phase17.noise_repeats"]),
         ("adaptive_round7", [sys.executable, "-u", "-m", "phase17.adaptive_round7"]),
+        # LAST: it needs the remote Gemini collection to have finished, and if it has not it
+        # stops -- which must not block the GPU stages before it.
+        ("harm_strong_judge", [sys.executable, "-u", "-m", "phase17.harm_strong_agent", "judge"]),
     ],
     "phaseb1": [
         ("neutralise_own", [sys.executable, "-u", "-m", "phase17.neutralise_own"]),
