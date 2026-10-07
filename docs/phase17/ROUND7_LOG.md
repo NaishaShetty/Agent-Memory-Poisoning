@@ -292,3 +292,14 @@ deployment. Rule fixed BEFORE scoring (pre-registration addendum 3): every hold-
 on the OWNER-MATCHED subset as primary and on the full corpus beside it; the split is a deterministic
 name match. Out-of-loop mechanism validity (Gemini) and the causal audit define the working subset as
 for every corpus.
+
+## R7-18 (item 6, mostly unfavourable): hold-out 7 mechanism validity
+
+Gemini, out of loop, before scoring: additive fabrication 20/20, contradiction 21/29, standing
+instruction 23/40, **conditional backdoor 3/40**; benign sample 78/80 harmless. A base-model author
+does write instruction-shaped attacks that a safety-tuned one inverted -- but only standing
+instructions in usable numbers. Its "dormant triggers" are overwhelmingly mild reminders that benefit
+no outside party. So instruction-shaped memory poisoning gets a clean test of ~23 valid standing
+instructions (before the causal filter); conditional backdoors remain effectively UNTESTED on a clean
+hold-out, and are reported that way rather than as a measured family. Every hold-out-7 rate carries
+its working-subset denominator.
