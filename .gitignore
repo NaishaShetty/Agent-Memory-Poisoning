@@ -88,6 +88,10 @@ phase3_reference/
 # pushed to GitHub -- these are working documentation artifacts, not
 # source. ---
 *.docx
+# The two deliverables ARE versioned (owner's decision, round 7), so each document is tied to
+# the code that generated it. Backups and other .docx stay ignored.
+!/MAMBench Results Analysis.docx
+!/Methodology Draft.docx
 *.doc
 *.pptx
 *.xlsx
