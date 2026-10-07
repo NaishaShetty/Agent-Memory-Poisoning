@@ -188,3 +188,11 @@ therefore hold-out 3's SEVENTH use and is not an independent estimate, although 
 every point of use, and hold-out 5 -- frozen and pre-registered -- replicates the effect cleanly
 (37.4% -> 18.3%, p=2e-05). Found while checking the publishability condition "no headline claim on a
 repeatedly-scored hold-out without a label". Guarded by `claims_guard` (holdout3_use_count).
+
+## Finding R7-12 (scope): the union's "no additional false-positive cost" holds on ordinary memory only
+
+Round 6 reported that B17 beats both components "at no additional false-positive cost": every
+ordinary-benign item B13 excluded, B14 already excluded (2/1088). On hold-out 4's matched benign
+notes that is false -- B17 excludes 42/262 against B13's 31 and B14's 24, because the two components
+flag DIFFERENT benign notes there. On hold-out 5, B17 adds 51/1000 over B13 and 2 over B14. The
+claim is now scoped to ordinary memory wherever it appears, and guarded (`union_free_fpr`).

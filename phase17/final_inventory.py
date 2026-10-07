@@ -112,7 +112,9 @@ def rows():
             "0/20 in the user_turn channel with evidence live", "evidence_round6.json")
     add("favourable", "Union configurations beat both components at no extra FPR (descriptive)",
         "B17 own 51.2% vs B13 46.1% / B14 41.2%; adds no ordinary-benign false positive",
-        "baseline_breakdown_round6.json", "hold-out-informed; not a clean estimate")
+        "baseline_breakdown_round6.json", "hold-out-informed; not a clean estimate; and 'no extra FPR' "
+        "holds on ordinary memory only -- on hold-out 4's matched benign the union excludes 42/262 vs "
+        "B13's 31 and B14's 24 (R7-12)")
     if mf:
         r = {e["scorer"]: e for e in mf["ranking_at_matched_dev_fpr"]}
         add("favourable", "Matched operating points close most of the baseline gap",

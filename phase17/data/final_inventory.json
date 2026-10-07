@@ -82,7 +82,7 @@
       "item": "Union configurations beat both components at no extra FPR (descriptive)",
       "result": "B17 own 51.2% vs B13 46.1% / B14 41.2%; adds no ordinary-benign false positive",
       "artifact": "baseline_breakdown_round6.json",
-      "caveat": "hold-out-informed; not a clean estimate"
+      "caveat": "hold-out-informed; not a clean estimate; and 'no extra FPR' holds on ordinary memory only -- on hold-out 4's matched benign the union excludes 42/262 vs B13's 31 and B14's 24 (R7-12)"
     },
     {
       "category": "favourable",
@@ -241,7 +241,7 @@
     {
       "category": "favourable",
       "item": "Every past error's guard PROVEN by mutation testing",
-      "result": "14/14 guards fail when their error is reintroduced and pass again once restored",
+      "result": "15/15 guards fail when their error is reintroduced and pass again once restored",
       "artifact": "error_registry.json",
       "caveat": "establishing it exposed that four of eight guards had been decoration, plus CRLF shell scripts, a guard passing on exit 127, and the harness corrupting what it measured twice"
     },

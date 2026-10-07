@@ -154,7 +154,9 @@ P(f"On the defenses: provenance-aware admission (B13) reaches attack classes tha
   f"off-the-shelf classifier on those corpora (90.1% decision agreement) and to degrade worse "
   f"than that classifier out of distribution. The two are complementary rather than ranked, which "
   f"corrects an earlier single-configuration recommendation and motivates parameter-free union "
-  f"configurations that beat both components at no additional false-positive cost.")
+  f"configurations that beat both components at no additional false-positive cost on ordinary "
+  f"memory -- though on matched memory-shaped benign text (hold-out 4) the union pays both "
+  f"components' false positives (Section 13).")
 P("We also report the route to one positive result in full, including the failures on the way. A "
   "stateful defense built for adaptive evasion -- a per-scope ledger of previously rejected "
   "content -- showed no significant effect at its frozen development radius; a pre-registered "
@@ -968,7 +970,9 @@ P("On the defenses, three results hold. Provenance-aware admission reaches attac
   "roughly two thirds at a task-alone base rate near zero. And the configurations that win on "
   "memory poisoning and on injection-shaped text are complementary rather than ranked, which "
   "corrected an earlier single recommendation and produced parameter-free unions that beat both "
-  "components at no additional false-positive cost.")
+  "components at no additional false-positive cost on ordinary memory; on hold-out 4's matched benign "
+  "notes the union excludes 42/262 against 31 for B13 and 24 for B14, so that cost is not free "
+  "everywhere (R7-12).")
 P("Equally, what did not work is reported as not working, and in this project's experience that is "
   "the harder half. A defense built specifically for adaptive evasion showed no effect at its "
   "frozen radius, and its first pre-registered test was underpowered by design before a powered "

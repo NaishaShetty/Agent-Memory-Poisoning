@@ -145,6 +145,12 @@ append_note("p_32_46_use",
             "and pre-registered, replicates the effect cleanly: 37.4% -> 18.3%, p=2e-05 (Section 32.54).]",
             contains="The dev-selected frame, run ONCE on the frozen corpus")
 
+append_note("s33_union_fpr",
+            "[Round 7 (R7-12): 'no additional false-positive cost' holds on ordinary memory only. On "
+            "hold-out 4's matched benign notes the union excludes 42/262, against 31 for B13 and 24 for "
+            "B14 -- it pays both components' false positives.]",
+            contains="produced union configurations that beat both components")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
