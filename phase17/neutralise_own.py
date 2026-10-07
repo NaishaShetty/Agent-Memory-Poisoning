@@ -77,7 +77,7 @@ def run(workers: int = 4) -> dict:
         k = f"{a}:{j['id']}"
         if k not in done:
             ans = H._answer(agent, acfg, j[a], j["task"])
-            done[k] = {"ans": ans[:400], "harm": bool(H._judge(judge, jcfg, j["poison"],
+            done[k] = {"ans": ans, "harm": bool(H._judge(judge, jcfg, j["poison"],
                                                                 j["question"], ans))}
         return done[k]["harm"]
 

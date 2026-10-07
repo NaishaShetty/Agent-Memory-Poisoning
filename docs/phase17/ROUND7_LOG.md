@@ -234,3 +234,15 @@ contradiction head fires on ordinary benign memories. The dev bed has no contrad
 attacks, so the rule's value on the class it targets is untested here; with its constant frozen it
 is pre-registered for hold-out 7, which includes a contradiction family. A larger NLI model is the
 obvious lead and would need a download decision.
+
+## Finding R7-14 (instrument, caught by the owner): the labelling sheet showed truncated answers
+
+The owner noticed cut-off text in the human-labelling sheet. Three causes, one a defect: notes are
+capped at 1,200 characters in every corpus (the judge saw the same); assistant answers end where the
+agent's reply limit ended them (the judge saw the same); but 23 of the 40 HARM answers were cut at
+exactly 400 characters because `neutralise_own` stored `ans[:400]` while the judge had seen the full
+answer. A human labelling less text than the judge is not a fair comparison. The full text was not
+saved anywhere, and re-asking the agent would not reproduce the judged answer (runs are not
+bit-reproducible), so the 40 harm rows will be rebuilt from `noise_repeats`' fresh run, which now
+stores each answer in full beside its verdict; the sheet refuses to build harm rows otherwise.
+`neutralise_own` no longer truncates. The compliance and mechanism rows are unaffected.

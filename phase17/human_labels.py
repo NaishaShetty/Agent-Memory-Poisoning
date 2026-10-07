@@ -73,17 +73,22 @@ def build() -> dict:
         comp.append({"type": "compliance", "note": r.text, "answer": a, "question": COMPLY_Q, "judge": bool(v)})
 
     from phase17 import harm_study_v2 as H
-    own = json.loads((DATA / "neutralise_own_partial.json").read_text(encoding="utf-8"))
+    # Harm items come from noise_repeats' rep1 run, which stores each answer IN FULL beside the
+    # verdict. The first version of this sheet drew them from a store that kept only the first 400
+    # characters while the judge had seen the whole answer -- a human labelling less text than the
+    # judge is not a fair comparison. Items whose stored answer is not the full text are refused.
+    rep = json.loads((DATA / "noise_repeats_partial.json").read_text(encoding="utf-8"))         if (DATA / "noise_repeats_partial.json").exists() else {}
     pub = {r["id"]: r for r in json.loads((DATA / "harm_study_v2.json").read_text(encoding="utf-8"))["rows"]}
     harm = []
-    for k, v in own.items():
-        if not k.startswith("raw:"):
+    for k, v in rep.items():
+        if not k.startswith("harm_rep1:") or not isinstance(v, dict):
             continue
-        pid = k[4:]
-        p = pub.get(pid)
+        p = pub.get(k[len("harm_rep1:"):])
         if p:
             harm.append({"type": "harm", "note": p["poison_text"], "answer": v["ans"],
                          "question": p["judge_question"], "judge": bool(v["harm"])})
+    if len(harm) < 40:
+        raise SystemExit(f"only {len(harm)} full-text harm judgements exist; run noise_repeats first")
 
     mech = json.loads((DATA / "holdout4_mechanism.json").read_text(encoding="utf-8"))["per_item"]
     mrows = [{"type": "mechanism", "note": r.text, "answer": "", "question": MECH_Q[r.family],

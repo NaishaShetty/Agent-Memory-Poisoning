@@ -104,8 +104,10 @@ def run(workers: int = 4) -> dict:
         k = f"harm_rep1:{pid}"
         if k not in done:
             a = H._answer(agent, acfg, cand, task)
-            done[k] = bool(H._judge(judge, jcfg, poison, q, a))
-        return done[k]
+            # The FULL answer is kept with its verdict: the human-labelling sheet must show exactly
+            # the text the judge saw (an earlier store kept 400 characters and the judge saw more).
+            done[k] = {"ans": a, "harm": bool(H._judge(judge, jcfg, poison, q, a))}
+        return done[k]["harm"]
 
     v = []
     for i in range(0, len(jobs), 24):
