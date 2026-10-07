@@ -48,6 +48,11 @@ QUEUES = {
         # stops -- which must not block the GPU stages before it.
         ("harm_strong_judge", [sys.executable, "-u", "-m", "phase17.harm_strong_agent", "judge"]),
     ],
+    # single-stage queues, so the follow-up work can be reordered without editing "items"
+    "noise": [("noise_repeats", [sys.executable, "-u", "-m", "phase17.noise_repeats"])],
+    "utility": [("neutralise_utility", [sys.executable, "-u", "-m", "phase17.neutralise_utility"])],
+    "adaptive": [("adaptive_round7", [sys.executable, "-u", "-m", "phase17.adaptive_round7"])],
+    "harmjudge": [("harm_strong_judge", [sys.executable, "-u", "-m", "phase17.harm_strong_agent", "judge"])],
     "phaseb1": [
         ("neutralise_own", [sys.executable, "-u", "-m", "phase17.neutralise_own"]),
         ("strong_agent_judge", [sys.executable, "-u", "-m", "phase17.neutralise_strong_agent", "judge"]),
