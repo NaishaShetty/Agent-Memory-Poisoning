@@ -1,0 +1,59 @@
+{
+  "n_items": 40,
+  "split_seed": 404,
+  "n_select": 20,
+  "rule": "highest kappa on SELECT wins; adopted only if its TEST kappa beats J0's TEST kappa",
+  "candidates": {
+    "J0_current": {
+      "select": {
+        "n": 20,
+        "agreement": 0.55,
+        "kappa": 0.167,
+        "judge_no_human_yes": 9,
+        "judge_yes_human_no": 0
+      },
+      "test": {
+        "n": 20,
+        "agreement": 0.65,
+        "kappa": 0.239,
+        "judge_no_human_yes": 7,
+        "judge_yes_human_no": 0
+      }
+    },
+    "J2_gemini_original": {
+      "select": {
+        "n": 20,
+        "agreement": 0.9,
+        "kappa": 0.615,
+        "judge_no_human_yes": 2,
+        "judge_yes_human_no": 0
+      },
+      "test": {
+        "n": 20,
+        "agreement": 0.95,
+        "kappa": 0.773,
+        "judge_no_human_yes": 1,
+        "judge_yes_human_no": 0
+      }
+    },
+    "J3_gemini_rubric": {
+      "select": {
+        "n": 20,
+        "agreement": 0.85,
+        "kappa": 0.5,
+        "judge_no_human_yes": 3,
+        "judge_yes_human_no": 0
+      },
+      "test": {
+        "n": 20,
+        "agreement": 1.0,
+        "kappa": 1.0,
+        "judge_no_human_yes": 0,
+        "judge_yes_human_no": 0
+      }
+    }
+  },
+  "chosen_on_select": "J2_gemini_original",
+  "adopted": "J2_gemini_original",
+  "complete": false
+}

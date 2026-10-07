@@ -338,3 +338,30 @@ weak and its misses are one-sided towards under-counting; (2) harm REDUCTIONS ar
 both arms use the same judge, but a conservative judge can compress them, which is also stated;
 (3) detection and false-positive results do not depend on these judges at all. A second independent
 annotator is the next step and would also measure human-to-human agreement.
+
+## R7-20: harm-judge fix, partial (Gemini candidates scored; selection not yet complete)
+
+`harm_judge_fix.json`, rule fixed in code before scoring (split seed 404: 20 SELECT / 20 TEST):
+
+| judge | SELECT kappa | TEST kappa | TEST agreement | TEST misses / false alarms |
+|---|---|---|---|---|
+| J0 current (llama3.1, one word) | 0.17 | 0.24 | 65% | 7 / 0 |
+| **J2 gemini, original prompt** | **0.62** | **0.77** | **95%** | 1 / 0 |
+| J3 gemini, rubric prompt | 0.50 | 1.00 | 100% | 0 / 0 |
+
+J2 is chosen on SELECT and beats J0 on TEST, so it is provisionally adopted. J3's perfect TEST score
+does not change the choice -- the rule selects on SELECT only, and choosing J3 after seeing TEST
+would be the selection the rule exists to prevent. Selection is NOT complete: J1 (llama3.1 with the
+rubric) still needs the GPU. Caveat: agreement is with ONE annotator who said YES on 80/100; Gemini
+matching that annotator supports "the old judge was too strict" but cannot by itself exclude a
+shared lower threshold.
+
+## RESUME HERE (paused 2026-10-07 ~23:45 at the owner's request)
+
+1. Kill orphans: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill_orphan_phase17.ps1`
+2. Relaunch DETACHED (all stages resume from checkpoints; hold-out 6/7 scoring had reached hold-out 6
+   benign, B12 ~800/1000):
+   `powershell -NoProfile "Start-Process -FilePath python -ArgumentList '-u','-m','phase17.run_round7','holdouts67','harmfix','utility','adaptive','harmjudge' -WorkingDirectory 'C:\Agent Memory Poisoning' -RedirectStandardOutput 'C:\Agent Memory Poisoning\phase17\data\run_all_logs\r7_queue15.log' -WindowStyle Hidden"`
+   (`harmfix` = J1 scoring + selection, then the harm re-measurement with the adopted judge beside J0.)
+3. Then: score hold-out 6/7 predictions (report_round7 needs H6/H7 entries), regenerate both
+   documents and the inventory, full error registry, cross-phase test audit, Phase C verdict.
