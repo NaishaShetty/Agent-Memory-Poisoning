@@ -445,6 +445,52 @@ if L("eval_round7_holdouts.json") and section("32.56 Recommendation, Round 7"):
     for _t in ['RECOMMENDATION (round 7; supersedes the round-6 guidance of Section 32.45 / 10B, which named B18 for memory poisoning). It is still conditioned on the threat and the false-positive budget, and it now rests on two clean hold-outs rather than on populations the configurations were selected on.', "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 -- a new author family, a new owner, scored once -- it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4.", "(2) INJECTION-SHAPED text arriving in memory: B17 (or B18) where about a 10% false-positive budget is acceptable -- 90.1% recall at 10.2-11.0% on hold-out 5's matched benign. The 33-55% figures of hold-out 3 were a property of that corpus. B18 adds nothing over B17 on either new hold-out, so the deberta dependency is not justified by clean evidence.", '(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%) and its effect roughly doubled on a stronger agent (60 dev items). It does almost nothing against fabricated facts, and composed with a cheap detector it does NOT dominate strong exclusion (the pre-registered test failed): it is a trade that buys lower exclusion at higher residual compliance.', '(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger, accepting its denial-of-service surface deliberately (Section 9 and the radius sweep).']:
         body(_t)
 
+CV2, R7PS = L("corroboration_v2_dev.json"), L("round7_predictions.json")
+if CV2 and R7PS and section("32.57 Follow-Up Work: Two Corroboration Fixes That Failed, and Measurement Hygiene"):
+    v1, v2 = CV2["B13_v1"], CV2["B13_v2"]
+    body("The owner asked for every remaining weakness to be worked through. Two of the detector "
+         "changes it produced failed on development data, and both failures are informative.")
+    body(f"Corroboration that abstains. Hold-out 4's false positives concentrated in ordinary notes "
+         f"the conversation never mentions, so corroboration was made to abstain when a claim is "
+         f"unrelated to the conversation (threshold fitted on LoCoMo development conversations 1-4). "
+         f"On the development bed it cut recall from {v1['recall']['rate']:.1%} to "
+         f"{v2['recall']['rate']:.1%} (p={CV2['paired_attacks_v2_vs_v1']['p_exact']:.1g}) and did not "
+         f"lower the benign rate ({v1['benign_fpr']['rate']:.1%} to {v2['benign_fpr']['rate']:.1%}): "
+         f"preference hijack fell from {CV2['by_family']['preference_hijack']['v1']} to "
+         f"{CV2['by_family']['preference_hijack']['v2']} of 50. Fabrications are, by construction, about "
+         f"things the conversation never mentions, so 'not mentioned' is the signal against them. A "
+         f"benign new fact and a fabricated one are indistinguishable to corroboration, and the "
+         f"false-positive cost on ungrounded benign notes is the price of the signal, not a removable "
+         f"defect.")
+    body(f"Corroboration that reads contradiction. Excluding claims the conversation contradicts, at a "
+         f"threshold set purely by a 0.5% benign budget on development data "
+         f"(TAU_CONTR={CV2['constants']['TAU_CONTR']}), added 7 caught attacks for 16 additional benign "
+         f"false positives on the development bed; the small NLI model's contradiction head fires on "
+         f"ordinary memories. The development bed has no contradiction-family attacks, so the rule's "
+         f"value on the class it targets is untested there; it is frozen and pre-registered for "
+         f"hold-out 7, which has one.")
+    sh = R7PS["sharpness"]
+    body(f"Calibration, scored for sharpness as well as hits. A hit count rewards wide intervals, so "
+         f"interval widths are now reported beside it: {sh['n_interval_held']}/{sh['n_interval']} "
+         f"interval predictions held at a mean width of {sh['mean_interval_width_points']} points; every "
+         f"interval of 12 points or narrower held; the two of 35 points split, and are weak predictions "
+         f"whichever way they fell.")
+    body("Measurement hygiene. The working-set rule across probes is fixed in code before the next "
+         "hold-out: a probe enters the union only if its task-alone base rate is at most 20%, which "
+         "reproduces hold-out 4's committed 86/157 and retracts a 123/157 figure that had unioned in the "
+         "leading probe. Hold-out scoring is an explicit-only pipeline stage, so a full re-run cannot "
+         "re-score a frozen corpus. The two documents are now versioned with the code that builds them. "
+         "And a blind 100-item human-annotation sheet for the LLM judges exists; the owner caught that "
+         "23 of its 40 harm answers had been stored truncated to 400 characters while the judge saw the "
+         "full text, so those rows are being rebuilt from a run that keeps the full answers. Until a "
+         "person has labelled it, the judges remain unvalidated against humans, and that is stated as a "
+         "limitation.")
+    body("Hold-out 6 (SPML, MIT): 500 LLM-authored chatbot prompt injections and 1,000 benign prompts "
+         "to the same personas, frozen before scoring after dropping 3,728 near-copies of corpora "
+         "already used. It replicates or bounds hold-out 5's finding on a second independent corpus. "
+         "Hold-out 7 is written by a BASE (non-instruct) model, so instruction-shaped memory poisoning, "
+         "which hold-out 4's safety-tuned author refused to write, gets a clean test.")
+
 R7P2 = L("round7_predictions.json")
 if R7E and R7P2:
     c33 = find(startswith="Equally, what did not work")
