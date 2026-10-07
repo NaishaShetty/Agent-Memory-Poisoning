@@ -223,7 +223,7 @@ def test_neutralisation_never_uses_the_harmful_frame():
 # --------------------------------------------------------------------------------------------
 # New hold-outs: frozen before scoring, digest-checked.
 
-@pytest.mark.parametrize("mod", ["holdout4_corpus", "holdout5_corpus"])
+@pytest.mark.parametrize("mod", ["holdout4_corpus", "holdout5_corpus", "holdout6_corpus"])
 def test_new_holdouts_are_frozen(mod):
     import importlib
 
