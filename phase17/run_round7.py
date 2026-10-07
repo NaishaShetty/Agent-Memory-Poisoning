@@ -36,6 +36,14 @@ QUEUES = {
     "holdouts": [("eval_round7_holdouts", [sys.executable, "-u", "-m", "phase17.eval_round7_holdouts"])],
     "ho5causal": [("holdout5_causal", [sys.executable, "-u", "-m", "phase17.holdout5_causal"])],
     "sweep": [("ledger_radius_sweep", [sys.executable, "-u", "-m", "phase17.eval_ledger_radius_sweep"])],
+    # The items 1-14 follow-up (round 7, 2026-10-07), in GPU order.
+    "items": [
+        ("holdout7_build", [sys.executable, "-u", "-m", "phase17.holdout7_corpus"]),
+        ("harm_strong_judge", [sys.executable, "-u", "-m", "phase17.harm_strong_agent", "judge"]),
+        ("neutralise_utility", [sys.executable, "-u", "-m", "phase17.neutralise_utility"]),
+        ("noise_repeats", [sys.executable, "-u", "-m", "phase17.noise_repeats"]),
+        ("adaptive_round7", [sys.executable, "-u", "-m", "phase17.adaptive_round7"]),
+    ],
     "phaseb1": [
         ("neutralise_own", [sys.executable, "-u", "-m", "phase17.neutralise_own"]),
         ("strong_agent_judge", [sys.executable, "-u", "-m", "phase17.neutralise_strong_agent", "judge"]),
