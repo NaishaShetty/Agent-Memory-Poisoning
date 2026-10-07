@@ -1,0 +1,43 @@
+{
+  "note": "fresh agent and judge calls per run; DEV only",
+  "compliance": {
+    "raw": {
+      "n": 120,
+      "runs_k": [
+        61,
+        62,
+        63
+      ],
+      "mean_rate": 0.5167,
+      "sd_points": 0.83,
+      "range_points": 1.7
+    },
+    "v3_depersonalise": {
+      "n": 120,
+      "runs_k": [
+        36,
+        40,
+        39
+      ],
+      "mean_rate": 0.3194,
+      "sd_points": 1.73,
+      "range_points": 3.3
+    }
+  },
+  "harm": {
+    "n": 309,
+    "runs_k": [
+      87,
+      89,
+      94
+    ],
+    "runs": [
+      "published",
+      "neutralise_own re-run",
+      "rep1"
+    ],
+    "mean_rate": 0.2913,
+    "sd_points": 1.17,
+    "range_points": 2.3
+  }
+}

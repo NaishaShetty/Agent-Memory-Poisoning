@@ -219,18 +219,6 @@ def score() -> dict:
     return out
 
 
-if __name__ == "__main__":
-    import sys
-
-    if "score" in sys.argv:
-        r = score()
-    elif "rebuild-harm" in sys.argv:
-        r = rebuild_harm_rows()
-    else:
-        r = build()
-    print(json.dumps(r, indent=1))
-    print("DONE")
-
 
 def rebuild_harm_rows() -> dict:
     """Replace ONLY the harm rows, in place, with full-text items (R7-14).
@@ -280,3 +268,15 @@ def rebuild_harm_rows() -> dict:
     longest = max(len(it["answer"]) for it in new)
     return {"harm_rows_replaced": len(harm_items), "labels_cleared_on_old_harm_rows": cleared,
             "longest_new_answer_chars": longest, "untouched_rows": len(key) - len(harm_items)}
+
+if __name__ == "__main__":
+    import sys
+
+    if "score" in sys.argv:
+        r = score()
+    elif "rebuild-harm" in sys.argv:
+        r = rebuild_harm_rows()
+    else:
+        r = build()
+    print(json.dumps(r, indent=1))
+    print("DONE")
