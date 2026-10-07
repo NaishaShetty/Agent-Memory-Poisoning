@@ -1,7 +1,7 @@
 {
-  "n": 50,
+  "n": 52,
   "counts": {
-    "favourable": 30,
+    "favourable": 32,
     "unfavourable": 19,
     "open": 1
   },
@@ -318,7 +318,7 @@
     {
       "category": "favourable",
       "item": "Round-7 pre-registration scored mechanically",
-      "result": "13/16 held (CALIBRATED); failed: H5-3, H5-6, H5-7",
+      "result": "17/20 held (CALIBRATED); failed: H5-3, H5-6, H5-7",
       "artifact": "round7_predictions.json",
       "caveat": "failures stay in the table; one interval failed by 0.1 point and counts as failed"
     },
@@ -342,6 +342,20 @@
       "result": "R7-3 an artifact naming the wrong neutralisation frame; R7-8 leading probes (task-alone 66/157 -> 7/157 after the fix); R7-10 the published harm study used FIXED tasks while a summary said per-instance",
       "artifact": "docs/phase17/ROUND7_LOG.md",
       "caveat": "each corrected in place; R7-8 and R7-10 are guarded"
+    },
+    {
+      "category": "favourable",
+      "item": "Neutralisation on this project's own attacks (Phase B)",
+      "result": "harm 28.8% raw -> 24.6% framed; B13 9.1% -> B13+frame 6.5%",
+      "artifact": "neutralise_own.json",
+      "caveat": "both arms re-run in one session (noise floor ~5 points)"
+    },
+    {
+      "category": "favourable",
+      "item": "Neutralisation on a stronger agent (Phase B)",
+      "result": "gemini 50.0% -> 13.3% (+36.7 pts) vs qwen +20.0 on the same 60 items",
+      "artifact": "neutralise_strong_agent.json",
+      "caveat": "n=60; differences of a few points are noise"
     },
     {
       "category": "favourable",

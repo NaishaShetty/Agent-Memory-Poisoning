@@ -342,6 +342,53 @@ if XA and section("32.53 Exfiltration Authoring: the Instruction, Not the Author
          + ". A different author family does not help; three worked examples do, for both authors. "
          "The defect was the instruction.")
 
+R7E, R7P = L("eval_round7_holdouts.json"), L("round7_predictions.json")
+if R7E and R7P and section("32.54 Hold-Outs 4 and 5, Scored Once: What Held and What Did Not"):
+    h5, h4 = R7E["holdouts"]["holdout5"], R7E["holdouts"]["holdout4"]
+    rows = [["Configuration", "HO5 recall (131)", "HO5 matched-benign FPR (1,000)", "HO4 recall (157)",
+             "HO4 benign FPR untrusted / user_turn (262)"]]
+    for c in ("B12", "B13", "B14", "B15", "B17", "B18", "B20", "B21"):
+        a, b = h5["configs"][c], h4["configs"][c]
+        rows.append([c, f"{a['attack_recall']['rate']:.1%}", f"{a['matched_benign_fpr']['rate']:.1%}",
+                     f"{b['attack_recall']['rate']:.1%}",
+                     f"{b['benign_fpr_untrusted_channel']['rate']:.1%} / {b['benign_fpr_user_turn']['rate']:.1%}"])
+    table(rows)
+    body("Table 23 - Hold-outs 4 and 5, each scored exactly once, after the pre-registration and its "
+         "addendum were committed. Hold-out 4 is scored with the owner's conversation as evidence. "
+         "These are the first clean estimates for B17 and B18, which were selected after reading "
+         "earlier hold-out results.")
+    body(f"Pre-registered outcome: {R7P['n_held']} of {R7P['n_scored']} scorable predictions held, which "
+         f"the rule fixed in advance calls {R7P['verdict']}. What held is substantive. The 33-55% "
+         f"false-positive regime of hold-out 3 does not reproduce on matched benign text from another "
+         f"platform: B17 {h5['configs']['B17']['matched_benign_fpr']['rate']:.1%} and B18 "
+         f"{h5['configs']['B18']['matched_benign_fpr']['rate']:.1%}, so the earlier 'unfixable by "
+         f"detection' reading (32.44) describes hold-out 3's benign corpus rather than detection on "
+         f"injection-shaped text in general. And on the first memory-poisoning hold-out, written by a "
+         f"new author family about a new owner, provenance reaches what content detection cannot: B13 "
+         f"{h4['configs']['B13']['attack_recall']['rate']:.1%} against B14's "
+         f"{h4['configs']['B14']['attack_recall']['rate']:.1%} (p=1e-14), content-only B12 "
+         f"{h4['configs']['B12']['attack_recall']['rate']:.1%}, and every published baseline near zero, "
+         f"at {h4['configs']['B13']['benign_fpr_untrusted_channel']['rate']:.1%} benign cost on the "
+         f"untrusted channel and none on the user's own words.")
+    n5 = h5["neutralisation"]
+    d12, d18 = n5["by_detector"]["B12"]["policies"], n5["by_detector"]["B18"]["policies"]
+    body(f"What failed is reported with the same weight. The pre-registered PRIMARY prediction -- that "
+         f"excluding with B12 and neutralising the rest beats B12 exclusion alone -- moved harm from "
+         f"{d12['P2_exclude']['harm_k']} to {d12['P4_exclude_plus_neutralise_rest']['harm_k']} of 131 at "
+         f"p={n5['by_detector']['B12']['paired_P4_vs_P2_harm']['p_exact']:.2g}: the right direction and "
+         f"not significant, so it FAILED. The claim that this composition dominates the strongest "
+         f"exclusion-only configuration also FAILED: B18 alone reached {d18['P2_exclude']['harm_rate']:.1%} "
+         f"harm at {d18['P2_exclude']['benign_exclusion_rate']:.1%} exclusion against "
+         f"{d12['P4_exclude_plus_neutralise_rest']['harm_rate']:.1%} at "
+         f"{d12['P4_exclude_plus_neutralise_rest']['benign_exclusion_rate']:.1%}. The development "
+         f"result that motivated it did not generalise: where detectors already reach 90% recall, "
+         f"neutralisation is a trade along the false-positive axis, not a dominating configuration. "
+         f"Neutralising everything still halved compliance ({n5['compliance_raw']['rate']:.1%} to "
+         f"{n5['compliance_framed']['rate']:.1%}, p={n5['paired_framed_vs_raw']['p_exact']:.2g}) at no "
+         f"exclusion cost, and on hold-out 4's note-shaped attacks it did almost nothing, as predicted. "
+         f"B18's recall fell 0.1 point outside its predicted interval and is counted as failed under "
+         f"the strict rule. B18 adds nothing over B17 on either hold-out.")
+
 doc.save(PATH)
 print(f"applied {len(applied)}: {applied}")
 print(f"already present {len(skipped)}: {skipped}")
