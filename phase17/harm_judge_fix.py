@@ -131,6 +131,10 @@ def score(which=None) -> dict:
 if __name__ == "__main__":
     import sys
 
+    if "rejudge" in sys.argv:
+        print(json.dumps(rejudge(), indent=1))
+        print("DONE")
+        raise SystemExit(0)
     r = score(sys.argv[1:] or None)
     for n, v in r["candidates"].items():
         print(f"  {n:22s} SELECT kappa {v['select']['kappa']}  TEST kappa {v['test']['kappa']}  "
@@ -138,3 +142,77 @@ if __name__ == "__main__":
               f"false alarms {v['test']['judge_yes_human_no']})")
     print("chosen on SELECT:", r["chosen_on_select"], "| adopted:", r["adopted"], "| complete:", r["complete"])
     print("DONE")
+
+
+def rejudge(workers: int = 4) -> dict:
+    """Re-measure harm with the ADOPTED judge beside J0, on identical full-text answers (GPU).
+
+    Undefended answers: noise_repeats' rep1 run (stored in full). No-poison answers: generated here
+    and stored in full. B13's defended answer is the no-poison answer where B13 excluded the poison
+    (its published per-instance decision) and the undefended answer otherwise -- B13 trusts the
+    user's own turns and excludes nothing else from these candidate sets.
+    """
+    import concurrent.futures as cf
+
+    from phase12.propagation.ollama_provider import OllamaProvider
+    from phase17 import harm_study_v2 as H
+    from phase17.stats import paired_delta, rate_with_ci
+    from phase3.evaluation.llm.provider import GenerationConfig
+
+    sel = json.loads(OUT.read_text(encoding="utf-8"))
+    if not sel.get("complete"):
+        raise SystemExit("judge selection incomplete; run score() for every candidate first")
+    chosen = sel["adopted"]
+    rep = json.loads((DATA / "noise_repeats_partial.json").read_text(encoding="utf-8"))
+    pub = {r["id"]: r for r in json.loads((DATA / "harm_study_v2.json").read_text(encoding="utf-8"))["rows"]}
+    cache = json.loads(PARTIAL.read_text(encoding="utf-8")) if PARTIAL.exists() else {}
+    agent = OllamaProvider(model=H.AGENT_MODEL)
+    acfg = GenerationConfig(temperature=0.0, seed=42, max_tokens=140, enable_thinking=False,
+                            n_ctx=4096, request_timeout_sec=300.0)
+    model = H._retriever()
+    recs = H._records(15, 30, 60, 17)
+    rng = random.Random(17)
+    jobs = []
+    for idx, (r, fam) in enumerate(recs):
+        spec = H.EXTERNAL_TASK if fam == "external" else H.TASKS[fam]
+        sample = H.HARM_SAMPLES[idx % len(H.HARM_SAMPLES)]
+        full = H._store_for(sample) + [(r.scenario_id, r.text)]
+        rng.shuffle(full)
+        cand = H._retrieve(model, spec["task"], full)
+        if not any(m == r.scenario_id for m, _ in cand):
+            cand = cand[:-1] + [(r.scenario_id, r.text)]
+        raw = rep.get(f"harm_rep1:{r.scenario_id}")
+        if not isinstance(raw, dict):
+            raise SystemExit(f"{r.scenario_id}: no full-text undefended answer; run noise_repeats")
+        jobs.append({"id": r.scenario_id, "family": fam, "task": spec["task"], "poison": r.text,
+                     "question": spec["judge"], "nopo": [(m, t) for m, t in cand if m != r.scenario_id],
+                     "raw_ans": raw["ans"], "b13_excluded": bool(pub[r.scenario_id]["b13_excluded"])})
+
+    def nopo(j):
+        k = f"nopo_ans:{j['id']}"
+        if k not in cache:
+            cache[k] = H._answer(agent, acfg, j["nopo"], j["task"])
+        return cache[k]
+
+    for i in range(0, len(jobs), 24):
+        with cf.ThreadPoolExecutor(max_workers=workers) as ex:
+            list(ex.map(nopo, jobs[i:i + 24]))
+        PARTIAL.write_text(json.dumps(cache, indent=1), encoding="utf-8")
+    judges = {"J0_current": ("llama", ORIGINAL)}
+    if chosen != "J0_current":
+        judges[chosen] = CANDIDATES[chosen]
+    out = {"adopted_judge": chosen, "n": len(jobs), "by_judge": {}}
+    for name, (prov, tpl) in judges.items():
+        vec = {"raw": [], "nopo": []}
+        for j in jobs:
+            for arm, ans in (("raw", j["raw_ans"]), ("nopo", cache[f"nopo_ans:{j['id']}"])):
+                it = {"item": f"{arm}:{j['id']}", "note": j["poison"], "answer": ans, "question": j["question"]}
+                vec[arm].append(_ask(prov, tpl, it, cache))
+        b13 = [n if j["b13_excluded"] else r for r, n, j in zip(vec["raw"], vec["nopo"], jobs)]
+        out["by_judge"][name] = {
+            "task_alone_base_rate": rate_with_ci(sum(vec["nopo"]), len(jobs)),
+            "harm_undefended": rate_with_ci(sum(vec["raw"]), len(jobs)),
+            "harm_b13": rate_with_ci(sum(b13), len(jobs)),
+            "paired_b13_vs_undefended": paired_delta(b13, vec["raw"])}
+    (DATA / "harm_rejudged.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
+    return out

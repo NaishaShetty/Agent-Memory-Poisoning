@@ -53,6 +53,9 @@ QUEUES = {
     "utility": [("neutralise_utility", [sys.executable, "-u", "-m", "phase17.neutralise_utility"])],
     "adaptive": [("adaptive_round7", [sys.executable, "-u", "-m", "phase17.adaptive_round7"])],
     "harmjudge": [("harm_strong_judge", [sys.executable, "-u", "-m", "phase17.harm_strong_agent", "judge"])],
+    # Harm-judge fix: the local candidate (J1) needs the GPU, then the re-measurement.
+    "harmfix": [("harm_judge_select", [sys.executable, "-u", "-m", "phase17.harm_judge_fix"]),
+                ("harm_rejudge", [sys.executable, "-u", "-m", "phase17.harm_judge_fix", "rejudge"])],
     "phaseb1": [
         ("neutralise_own", [sys.executable, "-u", "-m", "phase17.neutralise_own"]),
         ("strong_agent_judge", [sys.executable, "-u", "-m", "phase17.neutralise_strong_agent", "judge"]),
