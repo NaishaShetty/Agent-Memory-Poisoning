@@ -246,3 +246,23 @@ saved anywhere, and re-asking the agent would not reproduce the judged answer (r
 bit-reproducible), so the 40 harm rows will be rebuilt from `noise_repeats`' fresh run, which now
 stores each answer in full beside its verdict; the sheet refuses to build harm rows otherwise.
 `neutralise_own` no longer truncates. The compliance and mechanism rows are unaffected.
+
+## Result R7-15 (Phase B): the ledger radius curve -- a better trade, and a reversed round-6 negative
+
+`eval_ledger_radius_sweep.json`, the 130 powered seeds, control 32/130, selection rule fixed in
+advance (largest radius significantly below control and not significantly above 0.90):
+
+| radius | adaptive evasion | vs control | vs 0.90 | ledger-poisoning blast radius |
+|---|---|---|---|---|
+| 0.86 | 0/130 | p=5e-10 | p=1 | 42.5% |
+| 0.90 | 1/130 | p=9e-10 | -- | 29.7% |
+| 0.93 | 5/130 | p=1.5e-08 | p=0.12 | 18.5% |
+| **0.95** | **5/130** | **p=1.5e-08** | **p=0.12** | **6.4%** |
+| 0.97 | 8/130 | p=1.2e-07 | p=0.016 | 0.7% |
+
+Pre-registered B-5 HOLDS: 0.95 keeps the effect at a denial-of-service surface of 6.4% instead of
+29.7%. And a correction: 0.97 -- the frozen radius round 6 reported as "no significant effect"
+(4/30 vs 5/30, p=1.0 on 43 seeds) -- reduces evasion 32 -> 8 of 130 (p=1e-07) at a 0.7% blast
+radius. That round-6 negative was underpowered as well. It stays reported as measured, with this
+beside it. Recommendation: 0.95 by the pre-committed rule; 0.97 where the denial-of-service budget
+is near zero, at a measured cost of 3 more evasions per 130 (p=0.016 against 0.90).

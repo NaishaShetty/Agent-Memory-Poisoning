@@ -1,7 +1,7 @@
 {
   "n_predictions": 22,
-  "n_scored": 20,
-  "n_held": 17,
+  "n_scored": 21,
+  "n_held": 18,
   "verdict": "CALIBRATED",
   "rule": "PREREGISTRATION_ROUND7.md",
   "sharpness": {
@@ -9,8 +9,8 @@
     "n_interval_held": 6,
     "mean_interval_width_points": 19.2,
     "widest": "H5-3",
-    "n_directional": 13,
-    "n_directional_held": 11,
+    "n_directional": 14,
+    "n_directional_held": 12,
     "misses": {
       "H5-3": 0.1
     },
@@ -208,9 +208,9 @@
     },
     {
       "id": "B-5",
-      "prediction": "radius sweep",
-      "status": "NOT YET MEASURED",
-      "evidence": "artifact absent",
+      "prediction": "a radius above 0.90 satisfies the selection rule",
+      "status": "HELD",
+      "evidence": "radius 0.95 keeps the adaptive-evasion effect with a ledger-poisoning blast radius of 6.4% (0.90: 29.7%)",
       "kind": "directional"
     },
     {

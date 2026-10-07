@@ -1,7 +1,7 @@
 {
-  "n": 52,
+  "n": 53,
   "counts": {
-    "favourable": 32,
+    "favourable": 33,
     "unfavourable": 19,
     "open": 1
   },
@@ -241,7 +241,7 @@
     {
       "category": "favourable",
       "item": "Every past error's guard PROVEN by mutation testing",
-      "result": "15/15 guards fail when their error is reintroduced and pass again once restored",
+      "result": "17/17 guards fail when their error is reintroduced and pass again once restored",
       "artifact": "error_registry.json",
       "caveat": "establishing it exposed that four of eight guards had been decoration, plus CRLF shell scripts, a guard passing on exit 127, and the harness corrupting what it measured twice"
     },
@@ -318,7 +318,7 @@
     {
       "category": "favourable",
       "item": "Round-7 pre-registration scored mechanically",
-      "result": "17/20 held (CALIBRATED); failed: H5-3, H5-6, H5-7",
+      "result": "18/21 held (CALIBRATED); failed: H5-3, H5-6, H5-7",
       "artifact": "round7_predictions.json",
       "caveat": "failures stay in the table; one interval failed by 0.1 point and counts as failed"
     },
@@ -356,6 +356,13 @@
       "result": "gemini 50.0% -> 13.3% (+36.7 pts) vs qwen +20.0 on the same 60 items",
       "artifact": "neutralise_strong_agent.json",
       "caveat": "n=60; differences of a few points are noise"
+    },
+    {
+      "category": "favourable",
+      "item": "Ledger radius swept against its denial-of-service surface (Phase B)",
+      "result": "radius 0.95 keeps the adaptive-evasion effect with a ledger-poisoning blast radius of 6.4% (0.90: 29.7%)",
+      "artifact": "eval_ledger_radius_sweep.json",
+      "caveat": "selection rule fixed before the sweep"
     },
     {
       "category": "favourable",
