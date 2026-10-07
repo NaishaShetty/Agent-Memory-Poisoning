@@ -269,7 +269,9 @@ def rows():
                 f"corroboration arm had never been run for B18",
                 "evidence_round6.json",
                 "the entire false-positive cost falls on untrusted channels: 0/40, 0/6, 0/20 in "
-                "the user_turn condition")
+                "the user_turn condition. SUPERSEDED as a recommendation (R7-13): on clean hold-out 4 "
+                "B18 matches B13's recall exactly and adds false positives (16.0% vs 11.8%); the lead "
+                "here was measured on populations B18 was selected after reading")
     b19 = _L("eval_b19.json")
     if b19:
         add("unfavourable", "The memory-shape gate failed: the FPR problem is not fixable this way",
@@ -336,11 +338,12 @@ def rows():
             "utility; the earlier 'partial, 49/150 -> 38/150' reading came from a hold-out "
             "sample that flattered it",
             "neutralise_v2.json")
-    add("favourable", "Recommendation conditioned on the false-positive budget",
-        "B13 (+ the ledger) for memory poisoning on ordinary traffic; B14 or an off-the-shelf "
-        "deberta pass where the budget is tight on injection-shaped text; B18 only as a "
-        "review-queue posture where a third of benign traffic can be quarantined",
-        "Methodology 32.42")
+    add("favourable", "Recommendation conditioned on threat and false-positive budget, on clean hold-outs",
+        "memory poisoning: B13 + evidence (hold-out 4: 50.3% at 11.8% untrusted / 0% user_turn; B17/B18 "
+        "dominated there); injection: B17 at ~10% FPR (hold-out 5: 90.1% at 10.2%); neutralisation as a "
+        "zero-exclusion layer (halves compliance on hold-out 5); the ledger for retry-capable attackers",
+        "Methodology 32.56 + eval_round7_holdouts.json",
+        "supersedes 32.42/32.45, which named B18 for memory poisoning on hold-out-informed numbers")
     # ---------------- ROUND 7
     add("unfavourable", "The hold-out 3 development set was the hold-out (R7-1)",
         "382/400 'dev' benign items are hold-out 3 prompts verbatim under a different memory "

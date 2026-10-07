@@ -151,6 +151,11 @@ append_note("s33_union_fpr",
             "B14 -- it pays both components' false positives.]",
             contains="produced union configurations that beat both components")
 
+append_note("p_32_45_superseded",
+            "[SUPERSEDED in round 7 (Section 32.56): on hold-out 4 B17/B18 match B13's recall exactly "
+            "and add false positives, so B13 with evidence is the memory-poisoning recommendation.]",
+            contains="(1) MEMORY POISONING with the owner's conversation available")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
@@ -429,6 +434,10 @@ if OWN and STR and section("32.55 Neutralisation Beyond Injection Text: Own Atta
          f"At n=60 that difference is suggestive rather than established, and it is reported as such. "
          f"Because every harm figure in this benchmark comes from 7-8B agents, it is also the one result "
          f"here whose direction suggests the 7B measurements understate a defense rather than overstate it.")
+
+if L("eval_round7_holdouts.json") and section("32.56 Recommendation, Round 7"):
+    for _t in ['RECOMMENDATION (round 7; supersedes the round-6 guidance of Section 32.45 / 10B, which named B18 for memory poisoning). It is still conditioned on the threat and the false-positive budget, and it now rests on two clean hold-outs rather than on populations the configurations were selected on.', "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 -- a new author family, a new owner, scored once -- it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4.", "(2) INJECTION-SHAPED text arriving in memory: B17 (or B18) where about a 10% false-positive budget is acceptable -- 90.1% recall at 10.2-11.0% on hold-out 5's matched benign. The 33-55% figures of hold-out 3 were a property of that corpus. B18 adds nothing over B17 on either new hold-out, so the deberta dependency is not justified by clean evidence.", '(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%) and its effect roughly doubled on a stronger agent (60 dev items). It does almost nothing against fabricated facts, and composed with a cheap detector it does NOT dominate strong exclusion (the pre-registered test failed): it is a trade that buys lower exclusion at higher residual compliance.', '(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger, accepting its denial-of-service surface deliberately (Section 9 and the radius sweep).']:
+        body(_t)
 
 R7P2 = L("round7_predictions.json")
 if R7E and R7P2:

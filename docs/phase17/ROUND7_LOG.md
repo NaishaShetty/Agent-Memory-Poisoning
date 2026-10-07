@@ -196,3 +196,12 @@ ordinary-benign item B13 excluded, B14 already excluded (2/1088). On hold-out 4'
 notes that is false -- B17 excludes 42/262 against B13's 31 and B14's 24, because the two components
 flag DIFFERENT benign notes there. On hold-out 5, B17 adds 51/1000 over B13 and 2 over B14. The
 claim is now scoped to ordinary memory wherever it appears, and guarded (`union_free_fpr`).
+
+## Finding R7-13 (recommendation): B18 is not the memory-poisoning recommendation on clean data
+
+Round 6's final guidance (32.45) named B18 (or B17) with evidence for memory poisoning, on a +4.9
+point lead over B13 measured on this project's own attacks -- populations B18 was selected after
+reading. On hold-out 4 (clean, scored once) B17/B18 have exactly B13's recall (50.3%; 52/86 working)
+and add false positives (16.0% vs 11.8% on the untrusted channel). B13 with evidence dominates them on
+this threat. The recommendation is rewritten (methodology 32.56, results 10B) with the round-6 text
+kept and marked superseded; guarded by `b18_memory_poisoning_recommendation`.
