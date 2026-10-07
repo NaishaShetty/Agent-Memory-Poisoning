@@ -55,18 +55,19 @@ def _h(name: str, text: str) -> str:
 class ScoreCache:
     def __init__(self, path: Path = CACHE):
         self.path = path
-        try:
-            self.d = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
-        except json.JSONDecodeError:
-            # Never let a transient partial read destroy a long run; re-read once, then
-            # start empty rather than crashing (entries are re-merged on save).
-            import time
+        # Never let a transient read destroy a long run. Two transient failures exist: a partial
+        # write (JSONDecodeError), and -- on Windows -- a PermissionError while another thread is
+        # os.replace-ing the file, which killed the round-7 radius sweep after 2.7 hours. Retry
+        # both with backoff, then start empty rather than crash (entries are re-merged on save).
+        import time
 
-            time.sleep(1.0)
+        self.d = {}
+        for attempt in range(8):
             try:
                 self.d = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
-            except json.JSONDecodeError:
-                self.d = {}
+                break
+            except (json.JSONDecodeError, PermissionError):
+                time.sleep(0.5 * (attempt + 1))
 
     def get(self, name, text, fn):
         k = _h(name, text)
