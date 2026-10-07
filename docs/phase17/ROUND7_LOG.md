@@ -213,3 +213,24 @@ most 20%. A leading probe contributes nothing. On hold-out 4 this reproduces the
 RETRACTS the "123/157 union, secondary" figure reported in R7-8's outcome, which unioned in the
 leading v1 probe. Fixed in code before the next hold-out (7) is built; guard `leading_probe_in_union`
 PROVEN.
+
+## Items 2 and 3 (dev): corroboration that abstains, and corroboration that reads contradiction
+
+`corroboration_v2.py`; constants fitted on LoCoMo DEV conversations 1-4 only (TAU_CONTR 0.9968 at a
+0.5% benign budget; TAU_REL 0.611 keeping 95% of dev fabrications eligible); evaluated on the separate
+dev bed (804 own attacks, 1,054 ordinary benign, sample-0 evidence).
+
+**Item 2 FAILS, and the reason is structural.** Abstaining when a claim is unrelated to the
+conversation cut recall 59.7% -> 52.2% (p=2e-13) and did not lower benign FPR (7.5% -> 7.9%):
+preference hijack 26 -> 5, sleeper 14 -> 3. Those fabrications are, by construction, about things the
+conversation never mentions -- "not mentioned" IS the signal against additive fabrication. A benign
+new fact and a fabricated new fact are indistinguishable to corroboration, so hold-out 4's 19/66
+ordinary-note false positives are the price of the signal, not a removable defect of it.
+
+**Item 3 is a weak positive with a poor trade on dev.** Adding "exclude if contradicted" to B13's
+rule at the frozen threshold: +7 attacks (480 -> 487, p=0.016) for +16 benign false positives
+(79 -> 95). Looser thresholds trade worse (0.95: +46 attacks, +91 benign). The xsmall NLI model's
+contradiction head fires on ordinary benign memories. The dev bed has no contradiction-family
+attacks, so the rule's value on the class it targets is untested here; with its constant frozen it
+is pre-registered for hold-out 7, which includes a contradiction family. A larger NLI model is the
+obvious lead and would need a download decision.
