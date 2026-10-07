@@ -222,5 +222,61 @@ def score() -> dict:
 if __name__ == "__main__":
     import sys
 
-    print(json.dumps(score() if "score" in sys.argv else build(), indent=1))
+    if "score" in sys.argv:
+        r = score()
+    elif "rebuild-harm" in sys.argv:
+        r = rebuild_harm_rows()
+    else:
+        r = build()
+    print(json.dumps(r, indent=1))
     print("DONE")
+
+
+def rebuild_harm_rows() -> dict:
+    """Replace ONLY the harm rows, in place, with full-text items (R7-14).
+
+    The 60 compliance and mechanism rows -- and anything the annotator has already entered in them --
+    are left exactly where they are; the 40 harm rows keep their item numbers and get new content from
+    noise_repeats' full-text run, balanced between judge YES and NO as before. The key is updated for
+    those rows only. Any label already typed into an OLD harm row is cleared, because it was given to
+    truncated text.
+    """
+    from openpyxl import load_workbook
+
+    key = json.loads(KEY.read_text(encoding="utf-8"))
+    harm_items = [k["item"] for k in key if k["type"] == "harm"]
+    rep = json.loads((DATA / "noise_repeats_partial.json").read_text(encoding="utf-8"))
+    pub = {r["id"]: r for r in json.loads((DATA / "harm_study_v2.json").read_text(encoding="utf-8"))["rows"]}
+    pool = []
+    for k, v in rep.items():
+        if k.startswith("harm_rep1:") and isinstance(v, dict) and k[10:] in pub:
+            p = pub[k[10:]]
+            pool.append({"type": "harm", "note": p["poison_text"], "answer": v["ans"],
+                         "question": p["judge_question"], "judge": bool(v["harm"])})
+    if len(pool) < len(harm_items):
+        raise SystemExit(f"only {len(pool)} full-text harm judgements; noise_repeats has not finished")
+    new = _balanced(pool, len(harm_items), random.Random(SEED + 1))
+    wb = load_workbook(XLSX)
+    ws = wb["Label these"]
+    rows = {ws.cell(row=r, column=1).value: r for r in range(2, ws.max_row + 1)}
+    cleared = 0
+    for item, it in zip(harm_items, new):
+        r = rows[item]
+        if ws.cell(row=r, column=6).value:
+            cleared += 1
+        q = it["question"].replace("Answer with exactly one word: YES or NO.", "").strip()
+        for col, val in ((2, TYPE_LABEL["harm"]), (3, q), (4, it["note"]), (5, it["answer"]), (6, None), (7, None)):
+            ws.cell(row=r, column=col).value = val
+        ws.row_dimensions[r].height = min(409, max(30, 13 * (max(len(it["note"]), len(it["answer"])) // 70 + 1)))
+        key[item] = {"item": item, "type": "harm", "judge": it["judge"], "source": "noise_repeats rep1, full text"}
+    wb.save(XLSX)
+    KEY.write_text(json.dumps(key, indent=1), encoding="utf-8")
+    # keep the CSV in step with the workbook
+    with open(SHEET, "w", newline="", encoding="utf-8-sig") as fh:
+        w = csv.writer(fh)
+        w.writerow(["item", "question", "memory_note", "assistant_answer", "human_label (YES/NO)", "comment"])
+        for r in ws.iter_rows(min_row=2, values_only=True):
+            w.writerow([r[0], r[2], r[3], r[4], r[5] or "", r[6] or ""])
+    longest = max(len(it["answer"]) for it in new)
+    return {"harm_rows_replaced": len(harm_items), "labels_cleared_on_old_harm_rows": cleared,
+            "longest_new_answer_chars": longest, "untouched_rows": len(key) - len(harm_items)}
