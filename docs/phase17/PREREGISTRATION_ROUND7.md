@@ -112,3 +112,9 @@ and reported (`holdout4_causal.json`); the working set and H4-8's raw/framed com
 No prediction, interval, configuration or threshold is changed. A guard test requires v2's
 task-alone base rate <= 20%; if v2 fails that, hold-out 4's working-subset rates are reported as
 unmeasurable rather than with a biased probe.
+
+## Addendum 2 (2026-10-07, AFTER scoring -- a correction, not a change to any prediction)
+
+The usage ledger above says hold-out 3 was scored 5 times. The correct count is 7: the two
+neutralisation runs on hold-out 3 (v1, then v3) were omitted (ROUND7_LOG R7-11). No prediction,
+configuration or result in this document depends on that count.

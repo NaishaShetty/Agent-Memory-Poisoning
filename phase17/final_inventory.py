@@ -289,7 +289,8 @@ def rows():
             f"information use; nothing is excluded so the false-positive rate is zero by "
             f"construction",
             "neutralise.json + neutralise_v2.json",
-            "the active ingredient is recency alone; v2/v3/v5 are indistinguishable at n=120 "
+            "HOLD-OUT 3 USE 7 OF 7 (not an independent estimate; replicated cleanly on hold-out 5, "
+            "37.4% -> 18.3%); the active ingredient is recency alone; v2/v3/v5 are indistinguishable at n=120 "
             "given a ~5-point noise floor, and the frame this project first built is actively "
             "harmful")
     ca = _L("eval_calibration2.json")

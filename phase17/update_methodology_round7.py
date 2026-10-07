@@ -134,6 +134,17 @@ append_note("p_32_0_guide",
             "in round 7 are also marked in place, in brackets, where the corrected sentence stands.",
             contains="Section 32 grew across six review rounds")
 
+append_note("p_32_44_count",
+            "[CORRECTED, round 7: hold-out 3 was eventually scored SEVEN times -- these five, then two "
+            "neutralisation runs (v1, and the dev-selected v3 of Section 32.46). Only the first was "
+            "pre-registered.]",
+            contains="hold-out 3 has now been scored five times")
+append_note("p_32_46_use",
+            "[Round 7 label: this run was hold-out 3's SEVENTH use (the v1 frame's run was the sixth), so "
+            "it is not an independent estimate even though this frame was scored once. Hold-out 5, frozen "
+            "and pre-registered, replicates the effect cleanly: 37.4% -> 18.3%, p=2e-05 (Section 32.54).]",
+            contains="The dev-selected frame, run ONCE on the frozen corpus")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",

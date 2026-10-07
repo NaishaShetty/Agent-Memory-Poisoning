@@ -176,3 +176,15 @@ Still to run, in this order -- all stages checkpoint, so nothing completed is lo
 5. Phase C: the publishability verdict against the two-sided standard in the handoff.
 
 Do NOT score hold-out 3, 4 or 5 again; every later use would need a use number at every point of use.
+
+## Finding R7-11 (labelling): hold-out 3 was scored SEVEN times, not five
+
+The count "five times" (methodology 32.44, the results paper, this round's pre-registration ledger)
+lists the pre-registered run, matched-FPR, frontier, B19 and the structural-only variant, and omits
+the two neutralisation runs on hold-out 3 that followed (v1, which produced the "partial 49/150 ->
+38/150" reading, and the dev-selected v3, which produced 34.0% -> 14.7%). The v3 result is
+therefore hold-out 3's SEVENTH use and is not an independent estimate, although it was presented as
+"the hold-out was scored once" (true of the frame, not of the corpus). It now carries that label at
+every point of use, and hold-out 5 -- frozen and pre-registered -- replicates the effect cleanly
+(37.4% -> 18.3%, p=2e-05). Found while checking the publishability condition "no headline claim on a
+repeatedly-scored hold-out without a label". Guarded by `claims_guard` (holdout3_use_count).

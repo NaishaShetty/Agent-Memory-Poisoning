@@ -173,7 +173,7 @@ _P7 = L("round7_predictions.json")
 if _A7 and _P7:
     _h5, _h4 = _A7["holdouts"]["holdout5"], _A7["holdouts"]["holdout4"]
     _n5 = _h5["neutralisation"]
-    P(f"A seventh round retired a hold-out that had been scored five times, discovered that its "
+    P(f"A seventh round retired a hold-out that had been scored seven times, discovered that its "
       f"'development set' was the hold-out itself under a different wrapper, and built two new corpora "
       f"scored once each under predictions committed in advance ({_P7['n_held']}/{_P7['n_scored']} "
       f"held). On the first memory-poisoning hold-out -- a new author family writing about a new owner "
@@ -713,9 +713,9 @@ if H3:
     CAP("Table 9A. Every prediction in docs/phase17/PREREGISTRATION_HOLDOUT3.md, scored from "
         "phase17/data/eval_holdout3.json by phase17/report_claims.py. A guard test fails if any "
         "numbered prediction in the pre-registration has no outcome here.")
-    P("Hold-out 3 has since been scored five times in total -- the pre-registered run, the "
-      "matched-FPR comparison, the frontier sweep, B19, and a structural-only variant -- and only "
-      "the first was pre-registered. It is retired from further measurement (round 7), and the "
+    P("Hold-out 3 has since been scored seven times -- the pre-registered run, the matched-FPR comparison, the frontier sweep, B19, a structural-only variant (from saved decisions), and two neutralisation runs (v1, then the dev-selected v3) -- and only "
+      "the first was pre-registered. [CORRECTED, round 7: earlier versions said five, omitting "
+      "the two neutralisation runs.] It is retired from further measurement (round 7), and the "
       "matched-FPR comparison it supports must be read with the correction in Section 10C.")
 else:
     MISSING.append("eval_holdout3.json")
@@ -992,7 +992,7 @@ R7OWN = L("neutralise_own.json")
 R7STRONG = L("neutralise_strong_agent.json")
 R7SWEEP = L("eval_ledger_radius_sweep.json")
 H("13. Round 7: Two Clean Hold-Outs, a Composition, and What Did Not Generalise", 1)
-P("Round 7 retired hold-out 3 (scored five times, one pre-registered, and its development set "
+P("Round 7 retired hold-out 3 (scored seven times, one pre-registered, and its development set "
   "shown to be the hold-out itself: Section 10C) and built two new corpora, each frozen before any "
   "configuration was scored and each scored exactly ONCE under predictions committed beforehand "
   "(docs/phase17/PREREGISTRATION_ROUND7.md, plus one addendum committed before scoring that "

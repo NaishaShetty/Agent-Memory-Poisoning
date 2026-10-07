@@ -154,6 +154,15 @@ ERRORS.append(dict(
     test="phase17/tests/test_round7_discipline.py::test_task_leak_check_rejects_a_task_that_presupposes_the_claim",
 ))
 
+ERRORS.append(dict(
+    id="holdout3_use_undercount", mode="copy_insert",
+    error="R7-11. Hold-out 3 was described as scored five times after seven uses; the omitted two "
+          "were the neutralisation runs, one of which is a headline result.",
+    file="MAMBench Results Analysis.docx", env="MAMBENCH_CLAIMS_RESULTS_DOCX",
+    insert="Hold-out 3 has now been scored five times.",
+    test="phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
+))
+
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted
