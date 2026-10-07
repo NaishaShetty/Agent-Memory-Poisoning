@@ -389,6 +389,47 @@ if R7E and R7P and section("32.54 Hold-Outs 4 and 5, Scored Once: What Held and 
          f"B18's recall fell 0.1 point outside its predicted interval and is counted as failed under "
          f"the strict rule. B18 adds nothing over B17 on either hold-out.")
 
+OWN, STR = L("neutralise_own.json"), L("neutralise_strong_agent.json")
+if OWN and STR and section("32.55 Neutralisation Beyond Injection Text: Own Attacks and a Stronger Agent"):
+    body(f"Two questions about the neutralisation frame were pre-registered before measurement. First, "
+         f"does it help against this project's own memory-poisoning attacks? The prediction was that it "
+         f"would help little, because a fabricated fact contains no instruction for the frame to "
+         f"neutralise. On the 309 harm-study instances, with both arms re-run in one session (the raw arm "
+         f"reproduced the published 28.2% at {OWN['harm_raw_rerun']['rate']:.1%}), harm fell to "
+         f"{OWN['harm_framed']['rate']:.1%} framed (p={OWN['paired_framed_vs_raw']['p_exact']:.2g}), and "
+         f"B13 plus the frame reached {OWN['harm_b13_plus_frame']['rate']:.1%} against B13's "
+         f"{OWN['harm_b13']['rate']:.1%} (p={OWN['paired_b13frame_vs_b13']['p_exact']:.2g}). Neither is "
+         f"significant, and neither is claimed as an improvement.")
+    q = STR["qwen_same_items"]
+    body(f"Second, is the effect larger on a more capable agent? On 60 paired development items, "
+         f"gemini-3.5-flash-lite complied with {STR['arms']['raw']['rate']:.1%} of injected instructions "
+         f"raw and {STR['arms'][STR['frame']]['rate']:.1%} framed "
+         f"(p={STR['paired_framed_vs_raw_gemini']['p_exact']:.2g}), against qwen2.5:7b's "
+         f"{q['raw']['rate']:.1%} and {q['framed']['rate']:.1%} on the same items. The stronger agent is "
+         f"no less susceptible to the raw injection -- the raw rates are within noise of each other -- but "
+         f"honours the 'this is data' constraint far better, so the frame's benefit roughly doubled "
+         f"({STR['effect_points']['gemini']:+.1f} against {STR['effect_points']['qwen']:+.1f} points). "
+         f"At n=60 that difference is suggestive rather than established, and it is reported as such. "
+         f"Because every harm figure in this benchmark comes from 7-8B agents, it is also the one result "
+         f"here whose direction suggests the 7B measurements understate a defense rather than overstate it.")
+
+R7P2 = L("round7_predictions.json")
+if R7E and R7P2:
+    c33 = find(startswith="Equally, what did not work")
+    marker = "Round 7 (2026-10-06/07)"
+    if c33 is not None and find(contains=marker) is None:
+        h5c, h4c = R7E["holdouts"]["holdout5"]["configs"], R7E["holdouts"]["holdout4"]["configs"]
+        np_ = c33.insert_paragraph_before(
+            f"{marker} tested these conclusions on two hold-outs built for it and scored once under "
+            f"committed predictions ({R7P2['n_held']}/{R7P2['n_scored']} held). Provenance reached "
+            f"{h4c['B13']['attack_recall']['rate']:.1%} of memory poisoning written by an unseen author "
+            f"about an unseen owner, against {h4c['B14']['attack_recall']['rate']:.1%} for the fused "
+            f"content classifier; the unions ran at {h5c['B17']['matched_benign_fpr']['rate']:.1%}-"
+            f"{h5c['B18']['matched_benign_fpr']['rate']:.1%} matched-benign false positives, so the "
+            f"55% regime was one corpus; and the composition of neutralisation with detection that "
+            f"dominated on development data failed its pre-registered test and is a trade, not a win.")
+        np_.style = BODY
+        applied.append("s33_round7")
 doc.save(PATH)
 print(f"applied {len(applied)}: {applied}")
 print(f"already present {len(skipped)}: {skipped}")

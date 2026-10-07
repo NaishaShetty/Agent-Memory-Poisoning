@@ -168,6 +168,26 @@ P("We also report the route to one positive result in full, including the failur
   "poisoning while trailing an off-the-shelf classifier on one corpus that constitutes almost half "
   "the pooled denominator and is plausibly within that classifier's training data.")
 
+_A7 = L("eval_round7_holdouts.json")
+_P7 = L("round7_predictions.json")
+if _A7 and _P7:
+    _h5, _h4 = _A7["holdouts"]["holdout5"], _A7["holdouts"]["holdout4"]
+    _n5 = _h5["neutralisation"]
+    P(f"A seventh round retired a hold-out that had been scored five times, discovered that its "
+      f"'development set' was the hold-out itself under a different wrapper, and built two new corpora "
+      f"scored once each under predictions committed in advance ({_P7['n_held']}/{_P7['n_scored']} "
+      f"held). On the first memory-poisoning hold-out -- a new author family writing about a new owner "
+      f"-- provenance-aware admission reaches {pct(_h4['configs']['B13']['attack_recall']['rate'])} "
+      f"against {pct(_h4['configs']['B14']['attack_recall']['rate'])} for the fused content classifier "
+      f"and near zero for every published detector. On a new matched-benign injection corpus the "
+      f"union configurations run at {pct(_h5['configs']['B17']['matched_benign_fpr']['rate'])}-"
+      f"{pct(_h5['configs']['B18']['matched_benign_fpr']['rate'])} false positives rather than the "
+      f"55% previously reported, which turns out to have been a property of one corpus. Neutralising "
+      f"untrusted memory as data halves compliance at no exclusion cost "
+      f"({pct(_n5['compliance_raw']['rate'])} to {pct(_n5['compliance_framed']['rate'])}), but the "
+      f"pre-registered claim that it composes with a cheap detector to dominate the strongest "
+      f"exclusion-only configuration failed: it is a trade along the false-positive axis.")
+
 # ============================================================================ 1
 H("1. Introduction and Scope of This Analysis", 1)
 P("This document reports and interprets results. The architecture of the agent, the attack "
@@ -923,10 +943,13 @@ P("These are limits on the claims, not a work plan. (i) The ledger's adaptive-ev
   "blast radius, and does nothing against a single-shot attacker, one who distributes attempts "
   "across isolated scopes, or one who waits out the ledger time-to-live. (ii) Exfiltration is a "
   "tested mechanism whose harm is zero for every agent family tried; that is a finding about 7-8B "
-  "assistants and says nothing about stronger agents. (iii) The first three hold-outs are prompt-injection or jailbreak corpora; a good score "
+  "assistants and says nothing about stronger agents. (iii) Hold-out 4 covers note-shaped poisoning "
+  "only: its safety-tuned author inverted both instruction-shaped families, which were withdrawn. "
+  "Hold-out 5 has 131 attacks, so its rates carry about +/-8 points. Neutralisation's benefit roughly "
+  "doubled on a stronger agent, but that comparison rests on 60 items. (iv) The first three hold-outs are prompt-injection or jailbreak corpora; a good score "
   "on them is evidence about detecting overt injected instructions that arrive in memory and says "
   "nothing about additive fabrication or preference hijack, for which this project's own mechanism "
-  "populations remain the only test -- hold-out 4 (round 7) is the first memory-poisoning hold-out. (iv) No licence has been attached to the benchmark, which is "
+  "populations remain the only test -- hold-out 4 (round 7) is the first memory-poisoning hold-out. (v) No licence has been attached to the benchmark, which is "
   "a deliberate deferral by the owner.")
 
 # ============================================================================ 12
@@ -1101,6 +1124,19 @@ if R7P:
     CAP(f"Table 16. Every round-7 pre-registered prediction, scored mechanically from the artifacts "
         f"(phase17/report_round7.py): {R7P['n_held']}/{R7P['n_scored']} held, verdict "
         f"{R7P['verdict']}. Failures stay in the table.")
+
+if _A7 and _P7:
+    H("12A. Round 7 in One Paragraph", 2)
+    P(f"Round 7 tested this project's own claims against data built to break them. Of {_P7['n_scored']} "
+      f"pre-registered predictions {_P7['n_held']} held, and the failures are the informative part: the "
+      f"composition of neutralisation with detection that dominated on development data did not "
+      f"dominate on a clean hold-out, and a development lead for lowering the unions' false-positive "
+      f"floor failed before reaching one. What survived is narrower and better supported than before: "
+      f"provenance reaches memory poisoning that no content detector reaches, on a hold-out written by "
+      f"a model and about a person the defenses never saw; the false-positive crisis of round 6 was "
+      f"largely one corpus; and framing untrusted memory as data is a cheap, false-positive-free "
+      f"control whose value grows with the agent's capability. Every one of those statements carries "
+      f"its false-positive cost and both denominators in Section 13.")
 
 # ============================================================================ Appendix
 H("Appendix A. Artifact Index", 1)
