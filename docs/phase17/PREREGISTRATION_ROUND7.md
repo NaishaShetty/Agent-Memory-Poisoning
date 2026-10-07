@@ -118,3 +118,50 @@ unmeasurable rather than with a biased probe.
 The usage ledger above says hold-out 3 was scored 5 times. The correct count is 7: the two
 neutralisation runs on hold-out 3 (v1, then v3) were omitted (ROUND7_LOG R7-11). No prediction,
 configuration or result in this document depends on that count.
+
+## Addendum 3 (2026-10-07): hold-outs 6 and 7 -- written and committed BEFORE either is scored
+
+Scored once, together, by `phase17/eval_round7b_holdouts.py`, which refuses to run unless this
+addendum is committed and records both digests. Same scoring rule as above. Power checks
+(`stats.require_power`) were run before writing the paired predictions; the one design it refused is
+marked descriptive.
+
+**Frozen corpora.**
+- Hold-out 6 (SPML, MIT): `holdout6_freeze.json`, sha256 `71e3a5dc1e48f57d9e60eba8a3f0855fb1e225cd9178cf31a1a7df8f6cf28944`,
+  500 injections / 1,000 matched benign, 3,728 near-copies dropped before freezing.
+- Hold-out 7 (base mistral:7b-text author, owner LoCoMo 8): `holdout7_freeze.json`, sha256
+  `4152576d10e1bf78221d13781fd7eb05a7d0cfe5e74e2659c8ae7b518a0fc1d7`, 129 attacks / 189 benign.
+
+**Hold-out 7 subset rule, fixed now.** 45/189 benign and 4/129 attacks name a LoCoMo speaker outside
+conversation 8 (copied from style examples). Every hold-out-7 rate is reported on the OWNER-MATCHED
+subset (no such name) as primary, and on the full corpus beside it. Working subset: as for every corpus,
+causal AND mechanism-correct, with the probe rule of `working_set.union_over_admissible_probes`.
+
+**Configurations:** B12-B15, B17, B18, the published baselines, neutralisation policies P0-P4, and on
+hold-out 7 B13c = B13 OR contradiction at the frozen `corroboration_v2` TAU_CONTR (0.996776).
+
+### Hold-out 6 (injection, matched benign, no evidence)
+
+| # | Prediction | Interval / test |
+|---|---|---|
+| H6-1 | B17 matched-benign FPR | **2-15%** (replicates H5-1's finding on a second corpus) |
+| H6-2 | B17 attack recall | **60-95%** |
+| H6-3 | B14 recall > B13 recall | directional, paired exact p < 0.05 |
+| H6-4 | **PRIMARY (replication of the failed H5-6, now powered):** P4(B12) harm < P2(B12) harm | directional, paired exact p < 0.05 (~85 expected discordant pairs) |
+| H6-5 | P1 (neutralise all) cuts compliance vs P0 | directional, paired exact p < 0.05 |
+| H6-6 | P4(B18) harm < P2(B18) harm | directional, paired exact p < 0.05 (~15 expected discordant; power check passes, narrowly) |
+| H6-7 | B14 recall on degree-3 injections >= on degree-1 | directional |
+
+### Hold-out 7 (instruction-shaped memory poisoning, owner's conversation supplied; owner-matched primary)
+
+| # | Prediction | Interval / test |
+|---|---|---|
+| H7-1 | B14 recall on instruction families (standing + conditional) > on note families (contradiction + fabrication) | directional |
+| H7-2 | B13 recall on instruction families | **>= 50%** |
+| H7-3 | B13c - B13 recall on fact_contradiction | **0 to +15 points** (descriptive: `require_power` refuses a paired test on 29 items) |
+| H7-4 | B13c - B13 benign FPR, untrusted channel | **<= +5 points** |
+| H7-5 | B18 recall >= B13 recall overall | directional |
+| H7-6 | B13/B17/B18 benign FPR in the user_turn channel | **each <= 3%** |
+| H7-7 | Framing cuts compliance more on instruction families than on note families | directional (compliance drop, points) |
+
+Calibration scored with the sharpness report (interval widths) as for the round-7 predictions.
