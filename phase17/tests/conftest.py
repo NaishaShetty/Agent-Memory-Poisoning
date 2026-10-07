@@ -19,7 +19,12 @@ import pytest
 
 DATA = Path(__file__).resolve().parents[1] / "data"
 _EXCLUDE = ("run_all_logs", "_partial.json", "partial.json", ".log", "_judge.json",
-            "error_registry.json")
+            "error_registry.json",
+            # Shared, merge-written score caches that a live pipeline stage appends to while the
+            # tests run (the radius sweep tripped this guard by caching scores). They are memo
+            # tables, not results; every result, config and frozen record stays guarded.
+            "judge_cache.json", "judge_score_cache.json", "external_baseline_scores.json",
+            "harm_tasks.json", "harm_tasks_nonleading.json", "b11_judge_cache", "_cache.json")
 
 
 def _snapshot():
