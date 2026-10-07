@@ -798,7 +798,10 @@ if ADAPT:
     P("At the frozen development radius the result is negative and is reported as such: the "
       "hypothesis that the pairwise paraphrase-catch rate would compound across rounds is not "
       "supported (paired +0/-1, p=1.0). The mechanism did engage -- the ledger was non-empty in "
-      "138 of 151 attack rounds -- and the rewrites cleared the radius.")
+      "138 of 151 attack rounds -- and the rewrites cleared the radius. [Round 7 correction (R7-15): "
+      "this negative was underpowered as well. On the 130 powered seeds the same 0.97 radius cuts "
+      "adaptive evasion from 32/130 to 8/130 (p=1e-07) at a 0.7% ledger-poisoning blast radius; the "
+      "radius sweep in Section 13 recommends 0.95.]")
     if SIM090:
         P("A sensitivity probe at a looser radius eliminated adaptive evasion entirely on these "
           "seeds, preventing all five of the control's evasions and introducing none (p=0.0625). "

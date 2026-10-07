@@ -162,6 +162,12 @@ append_note("p_32_51_union",
             "alternative; hold-out 4's working set is 86/157 under the rule, as committed.]",
             contains="Under the project's union-over-probes convention it is 123/157")
 
+append_note("p_32_30_097",
+            "[Round 7 correction (R7-15): this negative was underpowered too. On the 130 powered seeds the "
+            "same 0.97 radius cuts adaptive evasion from 32/130 to 8/130 (p=1e-07) at a 0.7% "
+            "ledger-poisoning blast radius; the radius sweep recommends 0.95 (5/130 at 6.4%).]",
+            contains="At the frozen development radius the result is negative")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
