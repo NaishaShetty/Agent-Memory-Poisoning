@@ -266,3 +266,14 @@ Pre-registered B-5 HOLDS: 0.95 keeps the effect at a denial-of-service surface o
 radius. That round-6 negative was underpowered as well. It stays reported as measured, with this
 beside it. Recommendation: 0.95 by the pre-committed rule; 0.97 where the denial-of-service budget
 is near zero, at a measured cost of 3 more evasions per 130 (p=0.016 against 0.90).
+
+## Construction note R7-16: hold-out 7's first build was broken by the endpoint, not the model
+
+The first build sent base-model prompts through Ollama's CHAT endpoint; a model with no chat template
+returned empty text on most calls, and the parser took the (empty) first line of continuations that
+began with a newline. Result: 0/80 standing instructions passed the gates. Caught by inspecting the
+checkpoint mid-build, before anything was frozen or scored. Fixed: raw completion via /api/generate,
+first non-empty line, leading date stamps stripped mechanically. The broken checkpoint is kept in
+`phase17/data/_discarded/`. A smoke test then passed ~50% of instruction-family candidates; the base
+model's output is noisier than the instruct model's, and mechanism validity (Gemini, out of loop)
+will be measured and reported before freezing rather than assumed.
