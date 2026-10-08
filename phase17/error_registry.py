@@ -287,9 +287,10 @@ REFUSE_TO_MUTATE = ("phase17/data/",)
 
 def _data_bytes() -> Dict[Path, bytes]:
     d = ROOT / "phase17" / "data"
-    # Checkpoints and logs are excluded: a stage running in another process writes them
-    # legitimately, and restoring them would roll its progress back.
-    skip = ("run_all_logs", "partial.json", "_judge.json", ".log")
+    # Checkpoints, logs and shared score caches are excluded: a stage running in another process
+    # writes them legitimately, and restoring them would roll its progress back. One list, shared
+    # with the suite's read-only guard, so the two cannot drift apart.
+    from phase17.tests.conftest import _EXCLUDE as skip
     return {p: p.read_bytes() for p in d.rglob("*") if p.is_file() and p != OUT
             and not any(x in str(p) for x in skip)}
 
