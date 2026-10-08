@@ -1246,7 +1246,9 @@ if _AD:
           f"rewrites, it evaded on {ev['k']} of {a['n_seeds']} seeds that the defense had stopped "
           f"({pct(ev['rate'])}; 95% CI {pct(ev['ci95'][0])}-{pct(ev['ci95'][1])}). Reference: "
           f"{_AD['reference']}. Seeds were attacks the defense stopped, so this is an evasion rate "
-          f"conditional on an initial catch.")
+          f"conditional on an initial catch."
+          + (" DESCRIPTIVE ONLY: too few eligible seeds for the power check, so no test is reported."
+             if a.get("power_check", {}).get("descriptive_only") else ""))
 if _HR:
     bj = _HR["by_judge"]
     rows = [["Judge", "Task-alone base rate", "Harm undefended", "Harm with B13", "p (B13 vs undefended)"]]
