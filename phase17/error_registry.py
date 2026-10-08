@@ -294,6 +294,15 @@ ERRORS.append(dict(
     replace="    if False:",
     test="phase17/tests/test_round7_discipline.py::test_publishability_rejects_a_stale_cross_phase_audit",
 ))
+ERRORS.append(dict(
+    id="function_after_main_block",
+    error="R7-25. harm_judge_fix.rejudge was defined below the __main__ block that called it; the "
+          "harm re-measurement died with a NameError on launch, after every test had passed.",
+    file="scripts/finalize_round7.py",
+    find="            sys.exit(r.returncode)",
+    replace="            sys.exit(r.returncode)\n\n\ndef _defined_too_late():\n    pass",
+    test="phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block",
+))
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted

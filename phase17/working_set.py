@@ -131,19 +131,6 @@ def recall_on_working(eval_path: Path) -> dict:
     return out
 
 
-if __name__ == "__main__":
-    import sys
-
-    if "--record-floors" in sys.argv:
-        print(json.dumps(record_floors(), indent=1))
-    else:
-        r = report()
-        print(f"{'population':28s} {'total':>6s} {'subverts':>9s} {'working':>8s} {'rate':>6s}")
-        for p, v in sorted(r["populations"].items(), key=lambda kv: -kv[1]["rate"]):
-            print(f"  {p:26s} {v['n_total']:6d} {v['n_subverts']:9d} {v['n_working_set']:8d} "
-                  f"{v['rate']:5.0%}")
-        print(f"\nWORKING SET: {r['n_working_set']}/{r['n_total']} = {r['overall_rate']:.1%}")
-    print("DONE")
 
 
 # ------------------------------------------------------------------------------------------------
@@ -169,3 +156,18 @@ def union_over_admissible_probes(probes: Dict[str, Dict], mechanism_ok: Dict[str
             "excluded_probes": sorted(set(probes) - set(admitted)),
             "rule": f"union over probes with task-alone base rate <= {MAX_PROBE_BASE_RATE:.0%}",
             "working_ids": working, "n_working": len(working)}
+
+
+if __name__ == "__main__":
+    import sys
+
+    if "--record-floors" in sys.argv:
+        print(json.dumps(record_floors(), indent=1))
+    else:
+        r = report()
+        print(f"{'population':28s} {'total':>6s} {'subverts':>9s} {'working':>8s} {'rate':>6s}")
+        for p, v in sorted(r["populations"].items(), key=lambda kv: -kv[1]["rate"]):
+            print(f"  {p:26s} {v['n_total']:6d} {v['n_subverts']:9d} {v['n_working_set']:8d} "
+                  f"{v['rate']:5.0%}")
+        print(f"\nWORKING SET: {r['n_working_set']}/{r['n_total']} = {r['overall_rate']:.1%}")
+    print("DONE")

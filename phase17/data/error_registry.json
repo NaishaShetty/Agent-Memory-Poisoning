@@ -1,6 +1,6 @@
 {
-  "n": 29,
-  "n_proven": 29,
+  "n": 30,
+  "n_proven": 30,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -284,6 +284,16 @@
       "id": "publishability_stale_audit",
       "error": "Phase C. The last cross-phase audit on disk was from 5 October, three days of source changes earlier; a verdict reading it would have certified code it never ran.",
       "test": "phase17/tests/test_round7_discipline.py::test_publishability_rejects_a_stale_cross_phase_audit",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "function_after_main_block",
+      "error": "R7-25. harm_judge_fix.rejudge was defined below the __main__ block that called it; the harm re-measurement died with a NameError on launch, after every test had passed.",
+      "test": "phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,

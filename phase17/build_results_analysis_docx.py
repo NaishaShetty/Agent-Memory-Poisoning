@@ -1227,6 +1227,14 @@ if _UT:
         f"each used by the agent ({_UT['agent']}) for an ordinary task with and without the "
         f"{_UT['frame']} frame, judged by {_UT['judge']}. A frame with no false positives can still cost "
         f"usefulness; this is that cost. Source: phase17/data/neutralise_utility.json.")
+    _sig = [n for n, t in _UT["tasks"].items()
+            if t["loss_points"] > 0 and t["paired_framed_vs_raw"]["p_exact"] < 0.05]
+    _wn, _wt = max(_UT["tasks"].items(), key=lambda kv: kv[1]["loss_points"])
+    P(("The frame costs usefulness significantly on " + ", ".join(_sig) + ".") if _sig else
+      (f"No task loses usefulness significantly under the frame. The largest point loss is "
+       f"{_wn}, {_wt['loss_points']:+.1f} points (p={_wt['paired_framed_vs_raw']['p_exact']:.2g}): at "
+       f"the edge of this document's noise floor and not significant, so it is reported as a possible "
+       f"small cost rather than none. The harmful v1 frame, by contrast, cost 10 points."))
 if _AD:
     for key, label in (("vs_neutralisation", "the neutralisation frame"),
                        ("vs_corroboration", "corroboration (B13)")):

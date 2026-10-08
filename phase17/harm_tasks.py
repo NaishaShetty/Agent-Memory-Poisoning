@@ -178,14 +178,6 @@ def generate(records, workers: int = 6) -> Dict[str, str]:
     return cache
 
 
-if __name__ == "__main__":
-    from phase17.harm_study_v2 import _records
-
-    recs = [r for r, _ in _records(15, 30, 60, 17)]
-    c = generate(recs)
-    for r in recs[:6]:
-        print(f"\n{r.family}\n  NOTE: {r.text[:110]}\n  TASK: {task_for(r.scenario_id, r.text, r.family, c)}")
-    print("DONE")
 
 
 # ------------------------------------------------------------------------------------------------
@@ -267,3 +259,13 @@ def nonleading_generate(records, who_of, workers: int = 4) -> Dict[str, str]:
             cache[k] = v
     NONLEADING_CACHE.write_text(json.dumps(cache, indent=1, ensure_ascii=False), encoding="utf-8")
     return cache
+
+
+if __name__ == "__main__":
+    from phase17.harm_study_v2 import _records
+
+    recs = [r for r, _ in _records(15, 30, 60, 17)]
+    c = generate(recs)
+    for r in recs[:6]:
+        print(f"\n{r.family}\n  NOTE: {r.text[:110]}\n  TASK: {task_for(r.scenario_id, r.text, r.family, c)}")
+    print("DONE")

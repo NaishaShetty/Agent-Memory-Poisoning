@@ -372,3 +372,20 @@ def test_publishability_rejects_a_stale_cross_phase_audit(monkeypatch, tmp_path)
     assert pb.suite()["status"] == "PASS"
     a.write_text("### phase17\n1 failed, 9 passed in 1s\nAUDIT COMPLETE\n", encoding="utf-8")
     assert pb.suite()["status"] == "FAIL"
+
+
+def test_no_module_defines_a_function_after_its_main_block():
+    """R7-25. harm_judge_fix's `rejudge` (and human_labels' `rebuild_harm_rows` before it) was
+    defined below the `if __name__ == "__main__":` block that called it, so the stage died with
+    a NameError on launch -- importable, so every test passed, but not runnable."""
+    import ast
+
+    bad = []
+    for f in sorted(list((ROOT / "phase17").glob("*.py")) + list((ROOT / "scripts").glob("*.py"))):
+        seen = False
+        for n in ast.parse(f.read_text(encoding="utf-8")).body:
+            if isinstance(n, ast.If) and "__main__" in ast.unparse(n.test):
+                seen = True
+            elif seen and isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                bad.append(f"{f.name}:{n.name}")
+    assert not bad, f"defined after the __main__ block, so unreachable from it: {bad}"

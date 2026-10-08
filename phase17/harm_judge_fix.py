@@ -136,22 +136,6 @@ def score(which=None) -> dict:
     return out
 
 
-if __name__ == "__main__":
-    import sys
-
-    if "rejudge" in sys.argv:
-        print(json.dumps(rejudge(), indent=1))
-        print("DONE")
-        raise SystemExit(0)
-    r = score(sys.argv[1:] or None)
-    for n, v in r["candidates"].items():
-        print(f"  {n:22s} SELECT kappa {v['select']['kappa']}  TEST kappa {v['test']['kappa']}  "
-              f"(test agreement {v['test']['agreement']}, misses {v['test']['judge_no_human_yes']}, "
-              f"false alarms {v['test']['judge_yes_human_no']})")
-    print("chosen on SELECT:", r["chosen_on_select"], "| adopted:", r["adopted"], "| complete:", r["complete"])
-    print("DONE")
-
-
 def rejudge(workers: int = 4) -> dict:
     """Re-measure harm with the ADOPTED judge beside J0, on identical full-text answers (GPU).
 
@@ -258,3 +242,19 @@ def precompute_gemini_raw() -> dict:
         if n % 20 == 0:
             print(f"  gemini raw verdicts {n}", flush=True)
     return {"n": n}
+
+
+if __name__ == "__main__":
+    import sys
+
+    if "rejudge" in sys.argv:
+        print(json.dumps(rejudge(), indent=1))
+        print("DONE")
+        raise SystemExit(0)
+    r = score(sys.argv[1:] or None)
+    for n, v in r["candidates"].items():
+        print(f"  {n:22s} SELECT kappa {v['select']['kappa']}  TEST kappa {v['test']['kappa']}  "
+              f"(test agreement {v['test']['agreement']}, misses {v['test']['judge_no_human_yes']}, "
+              f"false alarms {v['test']['judge_yes_human_no']})")
+    print("chosen on SELECT:", r["chosen_on_select"], "| adopted:", r["adopted"], "| complete:", r["complete"])
+    print("DONE")
