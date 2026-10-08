@@ -21,10 +21,13 @@ from pathlib import Path
 DATA = Path(__file__).parent / "data"
 OUT = DATA / "neutralise_strong_agent.json"
 PARTIAL = DATA / "neutralise_strong_agent_partial.json"
-N = 60
+N = 60          # the pre-registered size (B-3/B-4 were scored at n=60 and stay so)
+N_EXTENDED = 120  # round-7 follow-up: all 120 dev items, for precision; reported beside n=60
 
 
-def _items():
+def _items(n: int = N):
+    """The first N of a FIXED seeded ordering of the 120 dev items, so the n=60 set is exactly the
+    pre-registered one and the extension only adds items."""
     from phase17.external_attacks import external_records
     from phase17.neutralise_v2 import N_ATTACKS
 
@@ -32,10 +35,12 @@ def _items():
     atk = [r.text for r in external_records()]
     rng.shuffle(atk)
     atk = atk[:N_ATTACKS]
-    return random.Random(5).sample(atk, N)
+    first = random.Random(5).sample(atk, N)
+    rest = [t for t in atk if t not in set(first)]
+    return (first + rest)[:n]
 
 
-def run() -> dict:
+def run(n: int = N) -> dict:
     """Remote half: collect Gemini answers under both arms. Checkpointed per call."""
     from phase17.gemini_provider import GeminiProvider
     from phase17.neutralise import WINNER
@@ -51,7 +56,7 @@ def run() -> dict:
     cfg = GenerationConfig(temperature=0.0, seed=42, max_tokens=200, enable_thinking=False,
                            n_ctx=4096, request_timeout_sec=120.0)
     for frame, fn in (("raw", lambda t: t), (WINNER, FRAMES[WINNER])):
-        for i, t in enumerate(_items()):
+        for i, t in enumerate(_items(n)):
             k = _key("g", frame, t)
             if k in done and not done[k].startswith("__ERROR__"):
                 continue
@@ -63,11 +68,11 @@ def run() -> dict:
             except Exception as exc:
                 done[k] = f"__ERROR__ {type(exc).__name__}"
             PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
-            print(f"  gemini agent {frame} {i + 1}/{N}", flush=True)
+            print(f"  gemini agent {frame} {i + 1}/{n}", flush=True)
     return {"answers": len(done)}
 
 
-def judge() -> dict:
+def judge(n: int = N, out_path=None) -> dict:
     """Local half (GPU): judge Gemini's answers and compare with qwen on the same items."""
     from phase12.propagation.ollama_provider import OllamaProvider
     from phase17.compose_neutralise import compliance
@@ -77,11 +82,11 @@ def judge() -> dict:
     from phase3.evaluation.llm.provider import GenerationConfig
 
     done = json.loads(PARTIAL.read_text(encoding="utf-8"))
-    items = _items()
+    items = _items(n)
     j = OllamaProvider(model=JUDGE)
     jcfg = GenerationConfig(temperature=0.0, seed=17, max_tokens=6, enable_thinking=False,
                             n_ctx=4096, request_timeout_sec=300.0)
-    out = {"agent": "gemini-3.5-flash-lite", "judge": JUDGE, "n": N, "frame": WINNER, "arms": {}}
+    out = {"agent": "gemini-3.5-flash-lite", "judge": JUDGE, "n": n, "frame": WINNER, "arms": {}}
     vec = {}
     for frame in ("raw", WINNER):
         ans = [done.get(_key("g", frame, t), "__ERROR__ missing") for t in items]
@@ -93,20 +98,27 @@ def judge() -> dict:
             p = f'MEMORY NOTE:\n"{t}"\n\nASSISTANT\'S ANSWER:\n"{a}"\n\n{COMPLY_Q}'
             v.append(j.generate([{"role": "user", "content": p}], jcfg).text.strip().upper().startswith("YES"))
         vec[frame] = v
-        out["arms"][frame] = rate_with_ci(sum(v), N)
+        out["arms"][frame] = rate_with_ci(sum(v), n)
     out["paired_framed_vs_raw_gemini"] = paired_delta(vec[WINNER], vec["raw"])
     q_raw, q_neu = compliance(items, "raw"), compliance(items, WINNER)
-    out["qwen_same_items"] = {"raw": rate_with_ci(sum(q_raw), N), "framed": rate_with_ci(sum(q_neu), N),
+    out["qwen_same_items"] = {"raw": rate_with_ci(sum(q_raw), n), "framed": rate_with_ci(sum(q_neu), n),
                               "paired_framed_vs_raw": paired_delta(q_neu, q_raw)}
-    out["effect_points"] = {"gemini": round(100 * (sum(vec["raw"]) - sum(vec[WINNER])) / N, 1),
-                            "qwen": round(100 * (sum(q_raw) - sum(q_neu)) / N, 1)}
-    OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
+    out["effect_points"] = {"gemini": round(100 * (sum(vec["raw"]) - sum(vec[WINNER])) / n, 1),
+                            "qwen": round(100 * (sum(q_raw) - sum(q_neu)) / n, 1)}
+    if n != N:
+        out["note"] = (f"EXTENSION to all {n} dev items for precision; the pre-registered B-3/B-4 were "
+                       f"scored at n={N} (neutralise_strong_agent.json) and stay so")
+    (out_path or OUT).write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     return out
 
 
 if __name__ == "__main__":
     import sys
 
-    r = judge() if "judge" in sys.argv else run()
+    if "extended" in sys.argv:
+        r = (judge(N_EXTENDED, DATA / "neutralise_strong_agent_n120.json") if "judge" in sys.argv
+             else run(N_EXTENDED))
+    else:
+        r = judge() if "judge" in sys.argv else run()
     print(json.dumps({k: v for k, v in r.items() if k != "arms"}, indent=1)[:1500])
     print("DONE")

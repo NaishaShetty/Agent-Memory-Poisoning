@@ -168,6 +168,18 @@ append_note("p_32_30_097",
             "ledger-poisoning blast radius; the radius sweep recommends 0.95 (5/130 at 6.4%).]",
             contains="At the frozen development radius the result is negative")
 
+append_note("p_32_56_radius",
+            "[Updated by the radius sweep (R7-15): use radius 0.95 -- adaptive evasion 32/130 -> 5/130 "
+            "(p=1.5e-08) at a 6.4% ledger-poisoning blast radius, against 29.7% at 0.90; 0.97 gives "
+            "8/130 at 0.7% where that surface must be near zero.]",
+            contains="(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger")
+
+append_note("p_32_46_noise",
+            "[Measured in round 7 (noise_repeats.json): three independent runs give a run-to-run SD of "
+            "0.8-1.7 points (compliance 61/62/63 and 36/40/39 of 120; undefended harm 87/89/94 of 309), "
+            "so the ~5-point floor used throughout is conservative.]",
+            contains="A noise floor belongs with these numbers")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
