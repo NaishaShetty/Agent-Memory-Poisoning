@@ -250,6 +250,32 @@ if HRC and HRC.get("complete") and find(startswith="32.60") is not None:
                 + ". This supersedes the partial stratum figures in this section.]",
                 contains="Harm re-judged (PARTIAL")
 
+_FUE = L("family_union_evidence.json")
+if _FUE and _FUE.get("aggregate_no_evidence"):
+    _a = _FUE["aggregate_no_evidence"]
+    for _t in doc.tables:
+        for _r in _t.rows:
+            _cells = _r.cells
+            if _cells[0].text.strip() in _a and any("None/1054" in c.text or c.text.strip() == "n/a" for c in _cells):
+                _v = _a[_cells[0].text.strip()]
+                _cells[1].text = f"{_v['attacks']['rate']:.1%} (derived, round 7)"
+                _cells[3].text = f"{_v['ordinary_benign']['k']}/{_v['ordinary_benign']['n']} (derived, round 7)"
+                applied.append(f"table_fill_{_cells[0].text.strip()}")
+if find(contains="phase17/baseline_breakdown_round6.json") is not None:
+    replace_in("p_baseline_path", "phase17/baseline_breakdown_round6.json",
+               "phase17/data/baseline_breakdown_round6.json", contains="phase17/baseline_breakdown_round6.json")
+UT0 = L("neutralise_utility.json")
+if UT0 and find(contains="Utility: on") is not None:
+    UT = UT0
+    replace_in("p_32_60_utility_wording",
+               "the frame cost " + ", ".join(f"{n} {t['loss_points']:+.1f} points" for n, t in list(UT["tasks"].items())[:1]),
+               "the frame changed usefulness by " + ", ".join(f"{n} {-t['loss_points']:+.1f} points" for n, t in list(UT["tasks"].items())[:1]),
+               contains="Utility: on")
+    replace_in("p_32_60_utility_wording2",
+               ", ".join(f"{n} {t['loss_points']:+.1f} points" for n, t in list(UT["tasks"].items())[1:2]),
+               ", ".join(f"{n} {-t['loss_points']:+.1f} points" for n, t in list(UT["tasks"].items())[1:2]),
+               contains="Utility: on")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",

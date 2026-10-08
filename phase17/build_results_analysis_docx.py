@@ -561,7 +561,12 @@ if EVID:
           "rule is not recommended anywhere.")
     rows = [["Configuration", "Own attacks, no evidence", "Own attacks, with evidence",
              "Ordinary-benign FPR, no evidence", "Ordinary-benign FPR, with evidence"]]
+    _ANE = (L("family_union_evidence.json") or {}).get("aggregate_no_evidence", {})
     for c, v in EVID.get("aggregate", {}).items():
+        if not v.get("attacks_no_evidence") and c in _ANE:
+            # evidence_round6 predates B17/B18; their no-evidence arm is derived item by item from the
+            # same decisions in family_union_evidence.json, whose derivation reproduces B13/B14 exactly.
+            v = dict(v, attacks_no_evidence=_ANE[c]["attacks"], ordinary_benign_no_evidence=_ANE[c]["ordinary_benign"])
         rows.append([c,
                      pct(v["attacks_no_evidence"]["rate"]) if v.get("attacks_no_evidence") else "-",
                      pct(v["attacks_with_evidence"]["rate"]) if v.get("attacks_with_evidence") else "-",
@@ -572,7 +577,9 @@ if EVID:
         "Supplying an owner conversation makes every claim about a person who does not appear in "
         "it uncorroborated, which is real signal against an invented-persona attack and equally a "
         "real risk to a benign note about someone the conversation never mentions; a recall gain "
-        "reported without this column would be meaningless.")
+        "reported without this column would be meaningless. B17/B18's no-evidence cells are derived "
+        "from the same per-item decisions (phase17/data/family_union_evidence.json); an earlier version "
+        "printed dashes for them.")
 else:
     MISSING.append("evidence_round6.json")
     P("A full per-family re-scoring with evidence supplied is specified in "

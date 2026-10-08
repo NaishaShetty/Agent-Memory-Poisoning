@@ -109,6 +109,45 @@ def run() -> dict:
     ev = json.loads((DATA / "evidence_round6.json").read_text(encoding="utf-8"))
     out["ordinary_benign_fpr_with_evidence"] = {
         c: ev["aggregate"][c]["ordinary_benign_with_evidence"] for c in ("B13", "B17", "B18")}
+
+    # The NO-evidence aggregates for B17/B18, which evidence_round6 left as None (it predates them),
+    # derived from the same per-item decisions. The derivation must first reproduce the B13 and B14
+    # no-evidence aggregates evidence_round6 published, or it refuses.
+    ordinary = [k for k, e in ev["benign"].items() if e.get("ordinary") and e.get("channel") == "tool_output"]
+
+    def agg(c_or_fn, kind):
+        keys = [f"attack::{p}" for p in pops] if kind == "attack" else [f"benign::{p}" for p in ordinary]
+        xs = []
+        for k in keys:
+            xs += c_or_fn(k)
+        return rate_with_ci(sum(xs), len(xs))
+
+    def dec(c):
+        return lambda k: [bool(e) for e, _ in r6["raw"][c][k]]
+
+    def union17(k):
+        return [a or b for a, b in zip(dec("B13")(k), dec("B14")(k))]
+
+    def texts_of(k):
+        kind, pop = k.split("::", 1)
+        if kind == "attack":
+            return [r.text for r in pops[pop]]
+        from phase17.eval_round6 import _benign_pops
+        return list(_benign_pops()[pop])
+
+    def union18(k):
+        return [a or b for a, b in zip(union17(k), _deb(texts_of(k)))]
+
+    for c, kind, field in (("B13", "attack", "attacks_no_evidence"), ("B14", "attack", "attacks_no_evidence"),
+                           ("B13", "benign", "ordinary_benign_no_evidence"),
+                           ("B14", "benign", "ordinary_benign_no_evidence")):
+        got, pub = agg(dec(c), kind), ev["aggregate"][c][field]
+        if (got["k"], got["n"]) != (pub["k"], pub["n"]):
+            raise SystemExit(f"{c} {field}: derived {got['k']}/{got['n']} != published {pub['k']}/{pub['n']}")
+    out["aggregate_no_evidence"] = {
+        "B17": {"attacks": agg(union17, "attack"), "ordinary_benign": agg(union17, "benign")},
+        "B18": {"attacks": agg(union18, "attack"), "ordinary_benign": agg(union18, "benign")},
+        "check": "derivation reproduces evidence_round6's B13/B14 no-evidence aggregates exactly"}
     OUT.write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out
 
