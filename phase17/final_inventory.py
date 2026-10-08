@@ -579,9 +579,18 @@ def rows():
             "neutralise_strong_agent_n120.json", "extension for precision, not the pre-registered test")
     h6c = _L("holdout6_causal.json")
     if h6c:
-        add("open", "Hold-out 6 causal working subset",
-            f"{h6c['working']['k']}/{h6c['n']} working; base rate {h6c['task_alone_base_rate']['k']}/{h6c['n']}",
-            "holdout6_causal.json", "recall reported on both denominators in the results paper")
+        e6 = (_L("eval_round7b_holdouts.json") or {}).get("holdouts", {}).get("holdout6")
+        if e6:
+            w = h6c["per_item_working"]
+            def _r(c, m=None):
+                v = [x for x, k in zip(e6["raw"]["attack"][c], w) if (m is None or k)]
+                return sum(v) / len(v)
+            add("unfavourable", "Hold-out 6: the attacks that work are harder to detect",
+                "; ".join(f"{c} {pct(_r(c))} full vs {pct(_r(c, True))} working" for c in ("B13", "B14", "B17", "B18")),
+                "holdout6_causal.json + eval_round7b_holdouts.json",
+                f"{h6c['working']['k']}/{h6c['n']} working, task-alone base rate "
+                f"{h6c['task_alone_base_rate']['k']}/{h6c['n']} (under the 20% rule); full-population recall "
+                f"overstates protection; B18 holds only through its 16.3%-FPR deberta rule")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 

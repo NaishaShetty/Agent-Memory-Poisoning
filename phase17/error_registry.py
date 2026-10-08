@@ -303,6 +303,16 @@ ERRORS.append(dict(
     replace="            sys.exit(r.returncode)\n\n\ndef _defined_too_late():\n    pass",
     test="phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block",
 ))
+ERRORS.append(dict(
+    id="superseded_b18_injection_recommendation",
+    mode="copy_insert",
+    error="Hold-outs 6/7 overturned 'B17 (or B18)' for injection-shaped text, yet a Table 5E caption "
+          "still called B18 the recommended configuration with no qualifier.",
+    file="MAMBench Results Analysis.docx",
+    env="MAMBENCH_CLAIMS_RESULTS_DOCX",
+    insert="INJECTION-SHAPED text arriving in memory: B17 (or B18) where a 10% budget is acceptable.",
+    test="phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
+))
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted

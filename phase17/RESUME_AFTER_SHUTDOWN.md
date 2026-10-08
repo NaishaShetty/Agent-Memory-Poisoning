@@ -83,3 +83,11 @@ Stage logs are in `phase17/data/run_all_logs/<stage>.log`; the last run's summar
 
 A resumed stage re-uses completed work; it does not re-score a hold-out. Launch resumes DETACHED
 (see RUNNING_THE_PIPELINE.md, round 7 additions).
+
+## Round 7, final day (2026-10-08)
+
+If the machine stops before the round is finished: GPU stages resume from their `*_partial.json`
+checkpoints. Relaunch whatever of `harmre strong120 ho6causal harmjudge adaptive` has no output JSON
+yet with `python -m phase17.run_round7 <queues>` (after `scripts/kill_orphan_phase17.ps1`), then
+follow "Finishing a round" in RUNNING_THE_PIPELINE.md. Do not regenerate documents by hand: use
+`scripts/finalize_round7.py`.

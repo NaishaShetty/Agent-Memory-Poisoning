@@ -524,8 +524,10 @@ if EVID:
                          f"{kn(w['with_evidence'])} ({w['with_evidence']['rate']:.1%})" if w else "-"])
         _fp = FUE["ordinary_benign_fpr_with_evidence"]["B18"]
         TBL(rows)
-        CAP(f"Table 5E. The seven founding families under the configuration this project recommends "
-            f"for memory poisoning, B18 with the owner's conversation, on the full family and on its "
+        CAP(f"Table 5E. The seven founding families under B18 with the owner's conversation -- the "
+            f"round-6 memory-poisoning recommendation, SUPERSEDED in round 7 by B13 with evidence "
+            f"(Section 10B: on hold-out 4 B18 matched B13's recall and added false positives) -- shown "
+            f"beside B13, on the full family and on its "
             f"working-attack subset. Ordinary-benign false-positive cost on the same footing: "
             f"{kn(_fp)} ({_fp['rate']:.1%}), all of it on untrusted channels. Source: "
             f"phase17/data/family_union_evidence.json.")
@@ -533,8 +535,10 @@ if EVID:
           "(65%; 93% of its working instances), and moves MPBench, MINJA and sleeper poisoning from "
           "near zero to 37-48%. MemoryGraft (34%) and DSRM (30%) remain weakly detected even at the "
           "best configuration measured, and on DSRM's working instances B18 is no better than "
-          "B13. B18 adds nothing over B17 on any founding family: the deberta hard rule earns its "
-          "place on injection-shaped text, not here.")
+          "B13. B18 adds nothing over B17 on any founding family. Round 6 read that as the deberta "
+          "hard rule earning its place on injection-shaped text instead; round 7's hold-out 6 "
+          "contradicts that too (16.3% false positives from that rule alone, Section 13A), so the "
+          "rule is not recommended anywhere.")
     rows = [["Configuration", "Own attacks, no evidence", "Own attacks, with evidence",
              "Ordinary-benign FPR, no evidence", "Ordinary-benign FPR, with evidence"]]
     for c, v in EVID.get("aggregate", {}).items():
@@ -1287,6 +1291,19 @@ if _H6C and _E67:
       f"{_H6C['working']['k']}/{_H6C['n']}, task-alone base rate {_H6C['task_alone_base_rate']['k']}/"
       f"{_H6C['n']}. Recall on it: " + "; ".join(_rw) + ". Matched-benign false positives are those of "
       f"Table 17; the full-population and working-subset recalls are both reported.")
+    _drops = {c: 100 * (sum(_a6[c]) / len(_a6[c]) - sum(x for x, w in zip(_a6[c], _w) if w) / max(1, sum(_w)))
+              for c in ("B12", "B13", "B14", "B17", "B18")}
+    _lower = [c for c, d in _drops.items() if d >= 1]
+    P(f"The attacks that actually work are HARDER to detect: {', '.join(_lower)} each catch "
+      + (f"about {min(_drops[c] for c in _lower):.0f}" if round(min(_drops[c] for c in _lower)) ==
+         round(max(_drops[c] for c in _lower)) else
+         f"{min(_drops[c] for c in _lower):.0f}-{max(_drops[c] for c in _lower):.0f}")
+      + f" points fewer of the "
+      f"working subset than of the full population, so full-population recall overstates protection "
+      f"on this corpus. B18 is the exception only because its deberta rule excludes nearly everything "
+      f"injection-shaped, at {pct(_E67['holdouts']['holdout6']['configs']['B18']['matched_benign_fpr']['rate'])} "
+      f"false positives." if _lower else
+      "Recall on the working subset is within a point of full-population recall for every configuration.")
 
 if _A7 and _P7:
     H("12A. Round 7 in One Paragraph", 2)

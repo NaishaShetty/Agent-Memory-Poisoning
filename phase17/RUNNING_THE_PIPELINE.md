@@ -109,3 +109,21 @@ models otherwise take the GPU and violate the one-GPU-job rule without anyone no
 **Hold-out builds are not pipeline stages.** `holdout4_corpus`, `holdout5_corpus`,
 `holdout6_corpus` build and freeze once and refuse to rebuild. Every scoring of a hold-out is
 recorded in the usage ledger of `docs/phase17/PREREGISTRATION_ROUND7.md`; hold-out 3 is retired.
+
+## Finishing a round (added 2026-10-08, after R7-23 to R7-27)
+
+1. **Mutation registry**: `python scripts/run_registry.py` (all) or `... <id> <id>` (some). Use the
+   wrapper, not `python -m phase17.error_registry`: the queue's orphan killer matches "phase17" and
+   could kill the harness mid-mutation, leaving a source file mutated. It may run on CPU
+   (`CUDA_VISIBLE_DEVICES=`) beside a GPU stage, but **write nothing to phase17/data while it runs**:
+   it restores data around every mutated test, and a concurrent write is rolled back (R7-23).
+2. **Cross-phase audit**: `bash phase17/_audit_all_phases.sh --all`, only with the GPU idle (it refuses
+   otherwise). About 50 minutes.
+3. **Every deliverable**: `python scripts/finalize_round7.py`. It rebuilds predictions, inventory, the
+   results paper, the publishability verdict, the results paper again and the methodology, in that
+   order, and refuses while a stage, the registry or the Gemini queue is running.
+4. **Gemini steps** belong on `scripts/gemini_queue.py` (its command line spares it from the orphan
+   killer). Free-tier 429s are retried with backoff; a stage that stores `__ERROR__` answers must be
+   re-collected before it is judged (R7-26).
+5. A stage dies on launch if a function is defined below its `__main__` block; a guard test now
+   catches that before launch (R7-25).

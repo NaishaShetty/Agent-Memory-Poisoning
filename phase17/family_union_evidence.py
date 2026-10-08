@@ -3,7 +3,7 @@
 Table 5C of the results paper carried B17/B18 columns of dashes. `evidence_round6` scored both
 configurations with evidence, but its per-family loop needs the no-evidence arm from
 `eval_round6.json`, which predates B17/B18, so the comparison silently dropped them. That left
-the configuration this project recommends for memory poisoning (B18 + evidence) with no
+the configuration round 6 recommended for memory poisoning (B18 + evidence; superseded in round 7 by B13 + evidence) with no
 per-family figure for the seven families the benchmark reconstructs from the literature.
 
 NO MODEL IS RE-RUN. Every decision needed already exists:

@@ -89,6 +89,12 @@ SUPERSEDED: List[Tuple[str, str, str, str]] = [
      r"use B18, or B17 if the deberta dependency is unwanted, WITH evidence|B18 with evidence is the best configuration",
      r"SUPERSEDED|round 7|hold-out 4",
      "on hold-out 4 B17/B18 match B13's recall and add false positives; B13+evidence is recommended"),
+    ("b18_injection_recommendation",
+     r"B17 \(or B18\)|configuration this project recommends for memory poisoning, B18|"
+     r"deberta hard rule earns its place on injection-shaped text",
+     r"SUPERSEDED|Updated by hold-outs 6 and 7|NOT B18|contradicts",
+     "hold-out 6: B18's deberta hard rule alone costs 16.3% FPR; hold-out 7: it excludes 4.9% of "
+     "user_turn benign notes. Injection-shaped text: B17, not B18"),
     ("ledger_no_effect_conclusion",
      r"showed no significant effect at its frozen radius",
      r"powered|resolved|9\.3e-10|32\.39|section 9\.3",
