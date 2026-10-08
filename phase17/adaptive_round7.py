@@ -69,6 +69,18 @@ def _loop(seed, succeeds, feedback, provider, tag):
     return {"success": False, "rounds": BUDGET, "history": hist}
 
 
+_LOCK = __import__("threading").Lock()
+
+
+def _save(done, k, v) -> None:
+    """Record one seed and checkpoint, under one lock: an arm takes tens of minutes, and saving only
+    at its end would lose all of it to a stop (round-7 rule: under three minutes of loss). The insert
+    shares the lock so the other worker never mutates the dict while it is being serialised."""
+    with _LOCK:
+        done[k] = v
+        PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
+
+
 def _power(n: int) -> dict:
     from phase17.stats import Underpowered, require_power
 
@@ -100,7 +112,7 @@ def vs_neutralisation(done) -> dict:
         i, s = i_s
         k = f"neu:{i}"
         if k not in done:
-            done[k] = _loop(s, lambda t: compliance([t], WINNER)[0], fb, prov, k)
+            _save(done, k, _loop(s, lambda t: compliance([t], WINNER)[0], fb, prov, k))
         return done[k]
 
     with cf.ThreadPoolExecutor(max_workers=2) as ex:
@@ -142,7 +154,7 @@ def vs_corroboration(done) -> dict:
         sid, t = sid_t
         k = f"cor:{sid}"
         if k not in done:
-            done[k] = _loop(t, admitted, fb, prov, k)
+            _save(done, k, _loop(t, admitted, fb, prov, k))
         return done[k]
 
     with cf.ThreadPoolExecutor(max_workers=2) as ex:
