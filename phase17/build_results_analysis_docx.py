@@ -1129,6 +1129,47 @@ if R7SWEEP:
       + "; ".join(f"{c['radius']:.2f}: evasion {c['adaptive_evasion']['k']}/{c['adaptive_evasion']['n']} "
                   f"at a {c['ledger_poisoning_blast_radius']:.1%} blast radius" for c in R7SWEEP["curve"])
       + f". Verdict by the rule fixed in advance: {R7SWEEP['verdict']}.")
+H("13A. Follow-Up: What Was Fixed, What Failed, and What Was Measured for the First Time", 2)
+_CV2, _NR, _HL, _HJ, _M7 = (L("corroboration_v2_dev.json"), L("noise_repeats.json"),
+                            L("human_label_agreement.json"), L("harm_judge_fix.json"),
+                            L("holdout7_mechanism.json"))
+if _CV2:
+    P(f"Two attempts to reduce corroboration's false-positive cost failed on development data, and both "
+      f"failures are informative. Abstaining when a claim is unrelated to the owner's conversation cut "
+      f"recall from {pct(_CV2['B13_v1']['recall']['rate'])} to {pct(_CV2['B13_v2']['recall']['rate'])} "
+      f"without lowering the benign rate: fabrications are, by construction, about things the conversation "
+      f"never mentions, so 'not mentioned' is the signal itself. Excluding claims the conversation "
+      f"contradicts added a few caught attacks for more benign false positives with a small NLI model.")
+if _NR:
+    c = _NR["compliance"]
+    P(f"The noise floor was measured rather than argued: three independent runs gave raw compliance "
+      f"{c['raw']['runs_k']} of 120, framed compliance {c['v3_depersonalise']['runs_k']}, and undefended "
+      f"harm {_NR['harm']['runs_k']} of 309 -- standard deviations of 0.8-1.7 points, so the 5-point floor "
+      f"this document applies is conservative.")
+if _HL:
+    h, cp = _HL["by_type"]["harm"], _HL["by_type"]["compliance"]
+    P(f"The LLM judges were checked against a person for the first time: one annotator labelled 100 blind "
+      f"items. The compliance judge agreed {round(100 * cp['agreement'])}% of the time (kappa "
+      f"{cp['cohen_kappa']}); the harm judge only {round(100 * h['agreement'])}% (kappa {h['cohen_kappa']}), "
+      f"and every one of its {h['judge_no_human_yes']} disagreements was a missed harm. Reading them, about "
+      f"half are plain misses and half a generous annotator, so harm LEVELS in this document are likely "
+      f"under-estimates; harm REDUCTIONS are more robust because both arms share a judge; detection and "
+      f"false-positive results use no judge at all.")
+if _HJ:
+    c = _HJ["candidates"]
+    P(f"A replacement harm judge was chosen by a rule fixed in advance -- selected on half the human labels, "
+      f"tested on the other half: {_HJ['adopted']} reached a held-back kappa of "
+      f"{c[_HJ['adopted']]['test']['kappa']} against the current judge's {c['J0_current']['test']['kappa']}"
+      + ("." if _HJ.get("complete") else " (one local candidate is still to be scored).")
+      + " Harm is re-measured with it beside, never instead of, the original judge.")
+if _M7:
+    a = _M7["attack_mechanism"]
+    P(f"Instruction-shaped memory poisoning remains only partly testable on clean data. A safety-tuned "
+      f"author inverted those families into protective rules (hold-out 4); a base-model author (hold-out 7) "
+      f"wrote valid standing instructions ({a['standing_instruction']['k']}/40) but almost no valid dormant "
+      f"triggers ({a['conditional_backdoor']['k']}/40), so conditional backdoors are reported as untested on "
+      f"a clean hold-out rather than as measured.")
+
 if R7P:
     rows = [["Prediction", "Outcome", "Measured"]]
     for q in R7P["predictions"]:
