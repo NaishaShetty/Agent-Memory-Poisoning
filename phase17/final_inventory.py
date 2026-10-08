@@ -562,10 +562,15 @@ def rows():
                     "adaptive_round7.json", "conditional on an initial catch")
     hr = _L("harm_rejudged.json")
     if hr:
-        add("open", "Harm study re-judged with the human-validated judge",
-            "; ".join(f"{n}: undefended {pct(r['harm_undefended']['rate'])}, B13 {pct(r['harm_b13']['rate'])}"
-                      for n, r in hr["by_judge"].items()),
-            "harm_rejudged.json", "identical full-text answers; original figures stand beside it")
+        part = not hr.get("complete", True)
+        add("open", "Harm study re-judged with the human-validated judge" + (" (PARTIAL)" if part else ""),
+            ("undefended, all items: " + "; ".join(f"{n} {pct(v['rate'])}" for n, v in hr["undefended_all_items"].items())
+             + f" | stratum n={hr['stratum']['n']}: " if part else "")
+            + "; ".join(f"{n}: undefended {pct(r['harm_undefended']['rate'])}, B13 {pct(r['harm_b13']['rate'])}"
+                        for n, r in hr["by_judge"].items()),
+            "harm_rejudged.json", "identical full-text answers; original figures stand beside it"
+            + (f"; {hr['missing_verdicts']} Gemini verdicts outstanding (daily quota), stratum = "
+               f"{', '.join(hr['stratum']['families'])}" if part else ""))
     hs = _L("harm_strong_agent.json")
     if hs:
         _pb = hs["gemini"]["paired_b13_vs_undefended"]

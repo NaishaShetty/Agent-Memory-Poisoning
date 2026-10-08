@@ -586,10 +586,15 @@ if UT and AD and HS and HR and S120 and H6C and section(
             ev = AD[key]["adaptive_evasion"]
             parts.append(f"An adaptive attacker with {AD['budget']} feedback-guided rewrites evaded "
                          f"{label} on {ev['k']}/{AD[key]['n_seeds']} initially-caught seeds.")
+    if not HR.get("complete", True):
+        parts.append("Harm re-judged (PARTIAL, Gemini daily quota exhausted): undefended on all "
+                     f"{HR['n']} items " + ", ".join(f"{k} {v['rate']:.1%}" for k, v in HR["undefended_all_items"].items())
+                     + f"; the B13 and base-rate arms on the {HR['stratum']['n']}-item stratum of "
+                     f"families with complete coverage only.")
     for name, r in HR["by_judge"].items():
         parts.append(f"Harm under {name}: undefended {r['harm_undefended']['rate']:.1%}, with B13 "
                      f"{r['harm_b13']['rate']:.1%}, task-alone {r['task_alone_base_rate']['rate']:.1%} "
-                     f"(n={HR['n']}).")
+                     f"(n={r['harm_undefended']['n']}).")
     g = HS["gemini"]
     parts.append(f"Stronger-agent harm (seeded {HS['n']}): undefended {g['harm_undefended']['rate']:.1%} vs "
                  f"qwen {HS['qwen_same_items']['harm_undefended']['rate']:.1%}.")

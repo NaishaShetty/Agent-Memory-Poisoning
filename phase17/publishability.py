@@ -191,7 +191,13 @@ def run() -> dict:
         verdict = "PENDING"
     else:
         verdict = "PUBLISHABLE"
+    # Results reported as PARTIAL are disclosed in the verdict, not hidden by it: each must say so in
+    # its own artifact (complete: false) and is listed here so a reader sees what is outstanding.
+    partial = sorted(p.name for p in DATA.glob("*.json")
+                     if not p.name.endswith("partial.json") and p.stat().st_size < 5_000_000
+                     and '"complete": false' in p.read_text(encoding="utf-8", errors="replace"))
     out = {"verdict": verdict, "criteria": crit, "disqualifiers_clear": dq, "noise_floor_claims": nf_rows,
+           "disclosed_partial_results": partial,
            "standard": __doc__.strip().split("\n\n")[1]}
     OUT.write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out

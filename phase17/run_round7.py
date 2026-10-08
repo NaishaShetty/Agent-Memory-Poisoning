@@ -60,6 +60,7 @@ QUEUES = {
     # Split, so the quick GPU selection runs early and the slow (possibly Gemini) re-judging last.
     "harmsel": [("harm_judge_select", [sys.executable, "-u", "-m", "phase17.harm_judge_fix"])],
     "harmre": [("harm_rejudge", [sys.executable, "-u", "-m", "phase17.harm_judge_fix", "rejudge"])],
+    "harmrepart": [("harm_rejudge_partial", [sys.executable, "-u", "-m", "phase17.harm_judge_fix", "rejudge", "cached_only"])],
     "strong120": [("strong_agent_judge_n120", [sys.executable, "-u", "-m", "phase17.neutralise_strong_agent", "judge", "extended"])],
     "phaseb1": [
         ("neutralise_own", [sys.executable, "-u", "-m", "phase17.neutralise_own"]),

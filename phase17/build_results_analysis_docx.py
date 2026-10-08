@@ -1260,11 +1260,22 @@ if _HR:
         rows.append([name, pct(r["task_alone_base_rate"]["rate"]), pct(r["harm_undefended"]["rate"]),
                      pct(r["harm_b13"]["rate"]), f"{r['paired_b13_vs_undefended']['p_exact']:.2g}"])
     TBL(rows)
-    CAP(f"Table 19. The harm study ({_HR['n']} instances) re-judged on identical full-text answers by the "
-        f"original judge and by the judge adopted against held-back human labels "
-        f"({_HR['adopted_judge']}). The original judge's figures elsewhere in this document stand as "
-        f"measured; this table shows how far they move under a judge that agrees better with a person. "
-        f"Source: phase17/data/harm_rejudged.json.")
+    _part = not _HR.get("complete", True)
+    CAP(f"Table 19. The harm study re-judged on identical full-text answers by the original judge and by "
+        f"the judge adopted against held-back human labels ({_HR['adopted_judge']})"
+        + (f", on the stratum of families where both judges' coverage is complete ({_HR['stratum']['n']} "
+           f"items: {', '.join(_HR['stratum']['families'])}). PARTIAL: {_HR['note']}" if _part else
+           f" ({_HR['n']} instances).")
+        + " The original judge's figures elsewhere in this document stand as measured. "
+          "Source: phase17/data/harm_rejudged.json.")
+    if _part:
+        _u = _HR["undefended_all_items"]
+        _pj = _HR.get("paired_judges_undefended", {})
+        P(f"On all {_HR['n']} instances (complete under both judges), undefended harm is "
+          + " against ".join(f"{pct(v['rate'])} under {k}" for k, v in _u.items())
+          + (f" (paired p={_pj['p_exact']:.2g})" if _pj else "")
+          + ". This is the question the re-measurement exists for: whether harm LEVELS in this document "
+            "are under-estimates.")
 if _HS:
     g, q = _HS["gemini"], _HS["qwen_same_items"]
     P(f"Harm with a stronger agent ({_HS['agent']}, {_HS['subset']}): undefended "
@@ -1334,6 +1345,9 @@ if PUB:
                      dq["registry"] if k == "every_guard_mutation_proven" else ""])
     TBL(rows)
     CAP(f"Table 20. Verdict: {PUB['verdict']}. Source: phase17/data/publishability.json.")
+    if PUB.get("disclosed_partial_results"):
+        P("Disclosed as PARTIAL, each labelled where it is reported: "
+          + ", ".join(PUB["disclosed_partial_results"]) + ".")
     P(f"VERDICT: {PUB['verdict']}. What publishable does not mean: the harm LEVELS rest on an LLM judge "
       f"that a single annotator found to miss harm (Section 13A), the human check has one annotator, "
       f"and conditional backdoors remain untested on a clean hold-out. Those limits are stated where "

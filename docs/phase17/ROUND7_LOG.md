@@ -443,3 +443,15 @@ retries a Gemini rate limit with backoff (8 attempts) instead of raising; and th
 the no-poison answers are precomputed on the remote queue (`gemini_queue.py j2nopo`, same cache keys,
 note and question verified identical to rejudge()'s for all 309 items), so the stage's final run on
 the GPU makes only the local J0 calls. The GPU queue was relaunched with the next stages at once.
+
+## R7-28: the Gemini daily quota ran out; the harm re-measurement is reported PARTIAL
+
+The free tier allows 500 requests a day for gemini-3.5-flash-lite; the day's earlier Gemini work
+used them, and the precompute stopped at 143 of 309 no-poison verdicts (quota resets ~12h44m after
+16:55). Retrying is pointless, so it was stopped. `rejudge(cached_only=True)` never calls Gemini and
+never imputes a missing verdict: undefended harm is reported on ALL 309 items under both judges (the
+question the stage exists for), and the base-rate and B13 arms only on the stratum of whole families
+where both judges' coverage is complete (the six novel families, 120 items; founding and external
+families excluded and named). The artifact carries `complete: false`, and the publishability verdict
+lists every partial result. Completing it needs only `python -m phase17.harm_judge_fix rejudge` once
+the quota resets.
