@@ -365,3 +365,31 @@ shared lower threshold.
    (`harmfix` = J1 scoring + selection, then the harm re-measurement with the adopted judge beside J0.)
 3. Then: score hold-out 6/7 predictions (report_round7 needs H6/H7 entries), regenerate both
    documents and the inventory, full error registry, cross-phase test audit, Phase C verdict.
+
+## R7-21: hold-outs 6 and 7 scored once (addendum 3) -- 29/35 round-7 predictions now held
+
+**Hold-out 6 (SPML, 500 / 1,000):** B12 33.8% at 0.1%; B13 37.2% at 0.1%; B14 77.4% at 2.1%; B15 67.4%
+at 0.2%; **B17 77.6% at 2.2%**; B18 98.6% at **16.3%**. The hold-out-3 false-positive regime does not
+recur on a second independent corpus (H6-1 held). PRIMARY replication H6-4 **HELD**: B12 exclusion +
+neutralise-the-rest beats B12 alone, 246 -> 227 harmful of 500, p=0.023 (it failed at p=0.23 on
+hold-out 5's 131 attacks). H6-6 FAILED: on top of B18 the frame adds nothing (5 -> 4). Neutralise-all
+64.8% -> 57.4% (p=0.0003), a smaller effect than on hold-out 5. NEW DEFECT: B18's deberta hard rule
+excludes 16.3% of SPML's ordinary prompts, so its recall gain over B17 costs 14 points of FPR here.
+
+**Hold-out 7 (base-model author, 129 / 189, owner-matched primary):** B13 54.3% at 15.3% (full corpus),
+B14 29.5%, B17/B18 ~57% at 22.8%. B13c (contradiction rule) adds **0** catches on contradictions: item 3
+closes as a negative. H7-6 FAILED: **B18 excludes 4.9% of the user's OWN words** -- its deberta hard rule
+ignores the channel trust B13 applies; a design defect of B18, found on a hold-out, so any fix is
+hold-out-informed. H7-7 FAILED: framing RAISED compliance on instruction-shaped attacks (+5) and cut it
+on note-shaped ones (-17.8), the reverse of the prediction. **Working subset: NOT reportable.** The
+probe's task-alone base rate is 36/129 = 28%, above the 20% admissibility rule fixed before hold-out 7
+was built; hold-out 7 is reported on its full population only.
+
+Hold-out 6's without-memory arm was promised by the scoring module and not implemented; it runs as
+`holdout6_causal` after the current queue.
+
+## R7-22: harm judge selection complete
+
+J0 (current) TEST kappa 0.24; J1 llama3.1 + rubric 0.41; **J2 gemini (original prompt) 0.77 -- adopted**;
+J3 gemini + rubric 1.00 on TEST but lower on SELECT, so not chosen. Harm is re-measured with J2 beside
+J0 in the final queue stage.

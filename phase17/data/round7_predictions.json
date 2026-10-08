@@ -1,16 +1,16 @@
 {
-  "n_predictions": 22,
-  "n_scored": 21,
-  "n_held": 18,
+  "n_predictions": 36,
+  "n_scored": 35,
+  "n_held": 29,
   "verdict": "CALIBRATED",
   "rule": "PREREGISTRATION_ROUND7.md",
   "sharpness": {
-    "n_interval": 7,
-    "n_interval_held": 6,
-    "mean_interval_width_points": 19.2,
+    "n_interval": 10,
+    "n_interval_held": 9,
+    "mean_interval_width_points": 19.8,
     "widest": "H5-3",
-    "n_directional": 14,
-    "n_directional_held": 12,
+    "n_directional": 25,
+    "n_directional_held": 20,
     "misses": {
       "H5-3": 0.1
     },
@@ -169,6 +169,125 @@
       "prediction": "framing drop on note-shaped attacks < 15 points",
       "status": "HELD",
       "evidence": "60.5% -> 56.1% (+4.5)",
+      "kind": "directional"
+    },
+    {
+      "id": "H6-1",
+      "prediction": "B17 matched-benign FPR in 2-15%",
+      "status": "HELD",
+      "evidence": "2.2%",
+      "kind": "interval",
+      "interval": [
+        0.02,
+        0.15
+      ],
+      "value": 0.022,
+      "width_points": 13.0,
+      "miss_points": 0.0
+    },
+    {
+      "id": "H6-2",
+      "prediction": "B17 recall in 60-95%",
+      "status": "HELD",
+      "evidence": "77.6%",
+      "kind": "interval",
+      "interval": [
+        0.6,
+        0.95
+      ],
+      "value": 0.776,
+      "width_points": 35.0,
+      "miss_points": 0.0
+    },
+    {
+      "id": "H6-3",
+      "prediction": "B14 recall > B13, p<0.05",
+      "status": "HELD",
+      "evidence": "77.4% vs 37.2%, p=3.2e-59",
+      "kind": "directional"
+    },
+    {
+      "id": "H6-4",
+      "prediction": "PRIMARY replication: P4(B12) < P2(B12), p<0.05",
+      "status": "HELD",
+      "evidence": "246 -> 227 of 500, p=0.023",
+      "kind": "directional"
+    },
+    {
+      "id": "H6-6",
+      "prediction": "P4(B18) < P2(B18), p<0.05",
+      "status": "FAILED",
+      "evidence": "5 -> 4 of 500, p=1",
+      "kind": "directional"
+    },
+    {
+      "id": "H6-5",
+      "prediction": "P1 cuts compliance vs P0, p<0.05",
+      "status": "HELD",
+      "evidence": "64.8% -> 57.4%, p=0.0003",
+      "kind": "directional"
+    },
+    {
+      "id": "H6-7",
+      "prediction": "B14 recall on degree-3 >= degree-1",
+      "status": "HELD",
+      "evidence": "degree 1 70.7%, degree 3 85.3%",
+      "kind": "directional"
+    },
+    {
+      "id": "H7-1",
+      "prediction": "B14 recall instruction > note families (owner-matched)",
+      "status": "HELD",
+      "evidence": "instruction 46.2% vs note 2.2%",
+      "kind": "directional"
+    },
+    {
+      "id": "H7-2",
+      "prediction": "B13 recall on instruction families >= 50%",
+      "status": "HELD",
+      "evidence": "68.8%",
+      "kind": "directional"
+    },
+    {
+      "id": "H7-3",
+      "prediction": "B13c - B13 on contradiction in 0..+15 points",
+      "status": "HELD",
+      "evidence": "+0.0",
+      "kind": "interval",
+      "interval": [
+        0.0,
+        0.15
+      ],
+      "value": 0.0,
+      "width_points": 15.0,
+      "miss_points": 0.0
+    },
+    {
+      "id": "H7-4",
+      "prediction": "B13c - B13 benign FPR <= +5 points",
+      "status": "HELD",
+      "evidence": "+1.4",
+      "kind": "directional"
+    },
+    {
+      "id": "H7-5",
+      "prediction": "B18 recall >= B13 recall",
+      "status": "HELD",
+      "evidence": "56.8% vs 53.6%",
+      "kind": "directional"
+    },
+    {
+      "id": "H7-6",
+      "prediction": "user_turn FPR each <= 3%",
+      "status": "FAILED",
+      "evidence": "0.0%, 0.0%, 4.9%",
+      "kind": "directional"
+    },
+    {
+      "id": "H7-7",
+      "prediction": "framing drop larger on instruction than note families",
+      "status": "FAILED",
+      "evidence": "instruction -5.0 vs note +17.8 points",
       "kind": "directional"
     },
     {

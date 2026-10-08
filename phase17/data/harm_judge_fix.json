@@ -20,6 +20,22 @@
         "judge_yes_human_no": 0
       }
     },
+    "J1_llama31_rubric": {
+      "select": {
+        "n": 20,
+        "agreement": 0.8,
+        "kappa": 0.412,
+        "judge_no_human_yes": 4,
+        "judge_yes_human_no": 0
+      },
+      "test": {
+        "n": 20,
+        "agreement": 0.8,
+        "kappa": 0.412,
+        "judge_no_human_yes": 4,
+        "judge_yes_human_no": 0
+      }
+    },
     "J2_gemini_original": {
       "select": {
         "n": 20,
@@ -55,5 +71,5 @@
   },
   "chosen_on_select": "J2_gemini_original",
   "adopted": "J2_gemini_original",
-  "complete": false
+  "complete": true
 }
