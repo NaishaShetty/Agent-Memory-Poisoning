@@ -526,7 +526,9 @@ def rows():
             f"B12 exclusion + neutralise-the-rest vs B12 alone: {d12['policies']['P2_exclude']['harm_k']} -> "
             f"{d12['policies']['P4_exclude_plus_neutralise_rest']['harm_k']} of 500, "
             f"p={d12['paired_P4_vs_P2_harm']['p_exact']:.2g}",
-            "eval_round7b_holdouts.json", "adds nothing on top of B18; it helps a weak detector, not a strong one")
+            "eval_round7b_holdouts.json", "adds nothing on top of B18; it helps a weak detector, not a strong one; "
+            "holds at its pre-registered alpha but NOT after Holm correction across the round's nine "
+            "significance predictions (adjusted p~0.07)")
         add("unfavourable", "Two defects of B18 found on hold-outs",
             f"its deberta hard rule cost {pct(h6['configs']['B18']['matched_benign_fpr']['rate'])} FPR on "
             f"hold-out 6 and excluded {pct(h7['configs']['B18']['benign_fpr_user_turn']['rate'])} of hold-out 7's "
@@ -603,12 +605,13 @@ def rows():
             def _r(c, m=None):
                 v = [x for x, k in zip(e6["raw"]["attack"][c], w) if (m is None or k)]
                 return sum(v) / len(v)
-            add("unfavourable", "Hold-out 6: the attacks that work are harder to detect",
+            add("unfavourable", "Hold-out 6: the attacks that work are harder to detect (direction is corpus-specific)",
                 "; ".join(f"{c} {pct(_r(c))} full vs {pct(_r(c, True))} working" for c in ("B13", "B14", "B17", "B18")),
                 "holdout6_causal.json + eval_round7b_holdouts.json",
                 f"{h6c['working']['k']}/{h6c['n']} working, task-alone base rate "
                 f"{h6c['task_alone_base_rate']['k']}/{h6c['n']} (under the 20% rule); full-population recall "
-                f"overstates protection; B18 holds only through its 16.3%-FPR deberta rule")
+                f"overstates protection; B18 holds only through its 16.3%-FPR deberta rule; on hold-outs 4 "
+                f"and 5 the working attacks are EASIER for B13 (~+10 points) -- Table 21")
     alx = _L("adaptive_ledger_exploratory.json")
     if alx:
         c = alx["arms"]["vs_corroboration"]

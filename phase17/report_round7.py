@@ -258,7 +258,26 @@ def run() -> Dict:
         "reading": ("A hit count rewards wide intervals. These widths are reported so the count can be "
                     "discounted: an interval of 30+ points is a weak prediction even when it holds."),
     }
-    out = {"n_predictions": len(ps), "n_scored": len(scored), "n_held": held,
+    # Multiplicity: every scored prediction whose criterion is a significance test, Holm-corrected as
+    # one family. Primary hypotheses keep their pre-registered alpha; the correction is reported
+    # beside them so a reader sees both readings.
+    import re as _re
+
+    fam = [(q["id"], float(m.group(1))) for q in scored if "p<0.05" in q["prediction"]
+           and (m := _re.search(r"p=([0-9.]+(?:e-?\d+)?)", q["evidence"]))]
+    order = sorted(fam, key=lambda x: x[1])
+    holm, running = {}, 0.0
+    for i, (pid, pv) in enumerate(order):
+        running = max(running, min(1.0, (len(order) - i) * pv))
+        holm[pid] = running
+    for q in ps:
+        if q["id"] in holm:
+            q["holm_p"] = holm[q["id"]]
+    multiplicity = {"method": "Holm, one family: every scored prediction with a p<0.05 criterion",
+                    "m": len(order), "adjusted": holm,
+                    "held_but_not_surviving": [q["id"] for q in ps if q["status"] == "HELD"
+                                               and q["id"] in holm and holm[q["id"]] >= 0.05]}
+    out = {"n_predictions": len(ps), "n_scored": len(scored), "n_held": held, "multiplicity": multiplicity,
            "verdict": verdict, "rule": "PREREGISTRATION_ROUND7.md", "sharpness": sharp,
            "predictions": ps}
     OUT_JSON.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")

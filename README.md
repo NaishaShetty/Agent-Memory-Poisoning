@@ -2,7 +2,31 @@
 
 **Memory and Agent Manipulation Benchmark**
 
-## What this benchmark currently shows — and doesn't (updated 2026-10-01)
+## Current results — round 7 (2026-10-08) — read this first
+
+The sections below this one are dated snapshots (rounds 4-5) kept for the record; several of their
+statements were later corrected. The current state is:
+
+- **[`docs/phase17/ROUND7_RESULTS.md`](docs/phase17/ROUND7_RESULTS.md)** — one-page summary,
+  generated from the artifacts (every number, every hold-out, both denominators, what is open).
+- **`MAMBench Results Analysis.docx`** — the results paper; **`Methodology Draft.docx`** — methods
+  (Sections 32.49-32.61 cover round 7); **[`docs/phase17/ROUND7_LOG.md`](docs/phase17/ROUND7_LOG.md)**
+  — every correction, as it was found.
+
+In brief, from four hold-outs each frozen and scored once under committed predictions:
+
+- **Memory poisoning: B13 with the owner's conversation as evidence, behind the rejection ledger.**
+  Provenance reaches what content classification misses on two independent memory-poisoning
+  hold-outs (B13 vs B14: 79/157 vs 32/157 and 70/129 vs 38/129), at 0% false positives on the user's
+  own words but 11.8-15.3% on untrusted channels. Alone it is brittle to an adaptive attacker (22/48
+  evade); behind the ledger, 5/48.
+- **Injection-shaped text: B17, not B18** (B18's deberta rule cost 16.3% false positives on a
+  matched-benign hold-out). The B14 table below is a round-5 snapshot and no longer the recommendation.
+- **Harm levels scored by the original LLM judge are about half** what a judge validated against
+  human labels finds (58.3% vs 32.0% undefended); the reductions hold under both.
+- **Publishability:** computed by `phase17/publishability.py`; see the summary for its current status.
+
+## SNAPSHOT (round 5, 2026-10-01; superseded — see above): what the benchmark showed then
 
 A short, balanced summary for readers who won't open the long results docs. Every number
 below is sourced in [`docs/phase17/PHASE17_ROUND5_RESULTS.md`](docs/phase17/PHASE17_ROUND5_RESULTS.md)
@@ -16,7 +40,7 @@ thresholded on:
 
 | System | Recall | FPR | sec/memory |
 |---|---|---|---|
-| **B14** (this project's best) | **90.8%** | 0.84% | **28.7** |
+| **B14** (this project's best *at round 5*; superseded) | **90.8%** | 0.84% | **28.7** |
 | plain "is this malicious?" prompt, qwen2.5 | 86.5% | 0.52% | ~4 |
 | **ProtectAI deberta-v3 prompt-injection (off the shelf)** | **84.6%** | **0.13%** | **~0.02** |
 | B13 | 71.5% | 0.39% | 0.13 |
@@ -84,7 +108,7 @@ best part is **+5.4 points, not +24.6**.
   the full population or for other configs, and it is one large retrieval snapshot, not a
   store that grows and consolidates over time.
 
-## Current status (2026-09-29): Phase 17 — Ablation & Generalization
+## SNAPSHOT (2026-09-29): Phase 17 — Ablation & Generalization
 
 Phases 1–16 (dataset foundation, clean agent, attack benchmark, instrumentation,
 governance defense, propagation monitoring, sleeper detection, attribution/forensics,

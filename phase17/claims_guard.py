@@ -147,7 +147,9 @@ def targets() -> List[Tuple[str, Path]]:
             ("methodology_docx", ROOT / "Methodology Draft.docx"),
             ("final_results_md", ROOT / "docs" / "phase17" / "PHASE17_FINAL_RESULTS.md"),
             ("running_md", ROOT / "phase17" / "RUNNING_THE_PIPELINE.md"),
-            ("resume_md", ROOT / "phase17" / "RESUME_AFTER_SHUTDOWN.md")]
+            ("resume_md", ROOT / "phase17" / "RESUME_AFTER_SHUTDOWN.md"),
+            ("readme_md", ROOT / "README.md"),
+            ("round7_summary_md", ROOT / "docs" / "phase17" / "ROUND7_RESULTS.md")]
     out = []
     for name, p in base:
         ov = os.environ.get(f"MAMBENCH_CLAIMS_{name.upper()}")

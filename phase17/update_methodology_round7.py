@@ -225,6 +225,31 @@ if LB:
                 f"{'HELD' if LB['L1_held'] else 'FAILED'}, L-2 {'HELD' if LB['L2_held'] else 'FAILED'}).]",
                 contains="(1) MEMORY POISONING with the owner's conversation available: B13 with evidence")
 
+_E7B, _PF, _LBF = L("eval_round7b_holdouts.json"), L("round7_predictions.json"), L("adaptive_ledger_b13.json")
+if _E7B and _PF and _LBF and find(contains="Round 7 (2026-10-06/07)") is not None:
+    _h7c = _E7B["holdouts"]["holdout7"]["configs"]
+    _h6c = _E7B["holdouts"]["holdout6"]["configs"]
+    append_note("s33_round7_final",
+                f"[Round 7, final: four hold-outs were scored once each and {_PF['n_held']}/{_PF['n_scored']} "
+                f"pre-registered predictions held (one more does not survive a Holm correction). Provenance's lead "
+                f"on memory poisoning replicated on hold-out 7 (B13 {_h7c['B13']['attack_recall']['rate']:.1%} vs "
+                f"B14 {_h7c['B14']['attack_recall']['rate']:.1%}); B17 ran at {_h6c['B17']['matched_benign_fpr']['rate']:.1%} "
+                f"matched-benign false positives on hold-out 6; B18 is not recommended; corroboration is brittle "
+                f"to an adaptive attacker alone ({_LBF['control_evasion']['k']}/{_LBF['n_seeds']}) and not behind "
+                f"the ledger ({_LBF['ledger_evasion']['k']}/{_LBF['n_seeds']}); and harm levels scored by the "
+                f"original judge are about half what a human-validated judge finds (Sections 32.59-32.60).]",
+                contains="Round 7 (2026-10-06/07)")
+HRC = L("harm_rejudged.json")
+if HRC and HRC.get("complete") and find(startswith="32.60") is not None:
+    _bj = HRC["by_judge"]
+    append_note("p_32_60_harm_complete",
+                "[COMPLETED after the Gemini quota reset: harm re-judged on all " + str(HRC["n"]) + " items -- "
+                + "; ".join(f"{k}: undefended {v['harm_undefended']['rate']:.1%}, with B13 {v['harm_b13']['rate']:.1%}, "
+                            f"task-alone {v['task_alone_base_rate']['rate']:.1%} (B13 vs undefended p="
+                            f"{v['paired_b13_vs_undefended']['p_exact']:.1g})" for k, v in _bj.items())
+                + ". This supersedes the partial stratum figures in this section.]",
+                contains="Harm re-judged (PARTIAL")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",

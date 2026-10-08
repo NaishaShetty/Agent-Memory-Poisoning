@@ -32,6 +32,7 @@ STEPS = [
     [sys.executable, "-m", "phase17.publishability"],
     [sys.executable, "phase17/build_results_analysis_docx.py"],
     [sys.executable, "phase17/update_methodology_round7.py"],
+    [sys.executable, "-m", "phase17.build_round7_summary"],
 ]
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@ DATA = P17 / "data"
 # Superseded claims must not stand unqualified where a reader meets them (round 6 left 19).
 
 @pytest.mark.parametrize("name", ["results_docx", "methodology_docx", "final_results_md",
-                                  "running_md", "resume_md"])
+                                  "running_md", "resume_md", "readme_md", "round7_summary_md"])
 def test_no_superseded_claim_stands_unqualified(name):
     from phase17.claims_guard import paragraphs_of, targets, violations
 

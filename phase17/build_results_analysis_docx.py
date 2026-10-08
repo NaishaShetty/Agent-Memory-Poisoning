@@ -185,12 +185,17 @@ if _A7 and _P7:
     _h5, _h4 = _A7["holdouts"]["holdout5"], _A7["holdouts"]["holdout4"]
     _n5 = _h5["neutralisation"]
     P(f"A seventh round retired a hold-out that had been scored seven times, discovered that its "
-      f"'development set' was the hold-out itself under a different wrapper, and built two new corpora "
-      f"scored once each under predictions committed in advance ({_P7['n_held']}/{_P7['n_scored']} "
-      f"held). On the first memory-poisoning hold-out -- a new author family writing about a new owner "
-      f"-- provenance-aware admission reaches {pct(_h4['configs']['B13']['attack_recall']['rate'])} "
-      f"against {pct(_h4['configs']['B14']['attack_recall']['rate'])} for the fused content classifier "
-      f"and near zero for every published detector. On a new matched-benign injection corpus the "
+      f"'development set' was the hold-out itself under a different wrapper, and built four new corpora "
+      f"-- two memory-poisoning, two injection -- each scored once under predictions committed in "
+      f"advance ({_P7['n_held']}/{_P7['n_scored']} held). On the first memory-poisoning hold-out -- a new "
+      f"author family writing about a new owner -- provenance-aware admission reaches "
+      f"{pct(_h4['configs']['B13']['attack_recall']['rate'])} against "
+      f"{pct(_h4['configs']['B14']['attack_recall']['rate'])} for the fused content classifier and near "
+      f"zero for every published detector"
+      + ((lambda h7: f", and the lead replicates on the second (a base-model author, a third owner: "
+                     f"{pct(h7['B13']['attack_recall']['rate'])} against {pct(h7['B14']['attack_recall']['rate'])})")(
+          L("eval_round7b_holdouts.json")["holdouts"]["holdout7"]["configs"]) if L("eval_round7b_holdouts.json") else "")
+      + f". On a new matched-benign injection corpus the "
       f"union configurations run at {pct(_h5['configs']['B17']['matched_benign_fpr']['rate'])}-"
       f"{pct(_h5['configs']['B18']['matched_benign_fpr']['rate'])} false positives rather than the "
       f"55% previously reported, which turns out to have been a property of one corpus. Neutralising "
@@ -198,6 +203,15 @@ if _A7 and _P7:
       f"({pct(_n5['compliance_raw']['rate'])} to {pct(_n5['compliance_framed']['rate'])}), but the "
       f"pre-registered claim that it composes with a cheap detector to dominate the strongest "
       f"exclusion-only configuration failed: it is a trade along the false-positive axis.")
+    _LBa = L("adaptive_ledger_b13.json")
+    if _LBa:
+        P(f"Provenance's corroboration proved brittle to an attacker told why it was rejected "
+          f"({_LBa['control_evasion']['k']}/{_LBa['n_seeds']} seeds evaded by paraphrase), and composing it "
+          f"with the rejection ledger closed that gap ({_LBa['ledger_evasion']['k']}/{_LBa['n_seeds']}, "
+          f"pre-registered, p={_LBa['paired_ledger_vs_control']['p_exact']:.2g}). The recommended "
+          f"configuration for memory poisoning is therefore B13 with the owner's conversation as "
+          f"evidence, behind the ledger; for injection-shaped text B17, not B18, whose deberta rule cost "
+          f"16.3% false positives on a second injection hold-out.")
 
 # ============================================================================ 1
 H("1. Introduction and Scope of This Analysis", 1)
@@ -1227,6 +1241,15 @@ if _E67:
         "primary and its working subset is not reportable (the probe's task-alone base rate, 28%, exceeds "
         "the 20% rule fixed before it was built). Source: phase17/data/eval_round7b_holdouts.json.")
     _d12 = _h6["neutralisation"]["by_detector"]["B12"]
+    from phase17.stats import paired_delta as _pdx
+    _d7 = _pdx(_h7["raw"]["attack"]["B13"], _h7["raw"]["attack"]["B14"])
+    P(f"Hold-out 7 replicates hold-out 4's central result with a different author family (a base model, "
+      f"not a safety-tuned one) and a third owner: provenance-aware admission reaches "
+      f"{_d7['detected_a']}/{_d7['n']} memory-poisoning attacks against {_d7['detected_b']}/{_d7['n']} for "
+      f"the fused content classifier (+{_d7['only_a']}/-{_d7['only_b']}, p={_d7['p_exact']:.2g}), with "
+      f"{pct(_h7['configs']['B13']['benign_fpr_user_turn']['rate'])} false positives on the user's own "
+      f"words but {pct(_h7['configs']['B13']['benign_fpr_untrusted_channel']['rate'])} on untrusted "
+      f"channels -- higher than hold-out 4's, and the cost to state beside the recall.")
     P(f"Hold-out 6 replicates the main corpus finding: the union configuration runs at "
       f"{pct(_h6['configs']['B17']['matched_benign_fpr']['rate'])} matched-benign false positives. And the "
       f"composition test that failed on hold-out 5 for lack of power holds here with 500 attacks: "
@@ -1242,10 +1265,21 @@ if _E67:
       f"a failed prediction.")
 
 if R7P:
-    rows = [["Prediction", "Outcome", "Measured"]]
+    rows = [["Prediction", "Outcome", "Measured", "Holm-adjusted p"]]
     for q in R7P["predictions"]:
-        rows.append([f"{q['id']}: {q['prediction']}", q["status"], q["evidence"]])
+        rows.append([f"{q['id']}: {q['prediction']}", q["status"], q["evidence"],
+                     f"{q['holm_p']:.2g}" if "holm_p" in q else "-"])
     TBL(rows)
+    _mu = R7P.get("multiplicity")
+    if _mu:
+        _nh = _mu["held_but_not_surviving"]
+        P(f"Multiplicity. The {_mu['m']} predictions whose criterion is a significance test are "
+          f"Holm-corrected as one family. "
+          + (f"{', '.join(_nh)} held at its pre-registered alpha but does NOT survive the family-wide "
+             f"correction (adjusted p=" + ", ".join(f"{_mu['adjusted'][i]:.2g}" for i in _nh) + "); "
+             f"it is reported as holding under its pre-registration and as not robust to multiplicity. "
+             if _nh else "Every one that held survives the correction. ")
+          + "Every other held significance prediction survives.")
     CAP(f"Table 16. Every round-7 pre-registered prediction, scored mechanically from the artifacts "
         f"(phase17/report_round7.py): {R7P['n_held']}/{R7P['n_scored']} held, verdict "
         f"{R7P['verdict']}. Failures stay in the table.")
@@ -1362,10 +1396,39 @@ if _H6C and _E67:
       f"{_H6C['working']['k']}/{_H6C['n']}, task-alone base rate {_H6C['task_alone_base_rate']['k']}/"
       f"{_H6C['n']}. Recall on it: " + "; ".join(_rw) + ". Matched-benign false positives are those of "
       f"Table 17; the full-population and working-subset recalls are both reported.")
+    _wm = {"Hold-out 4 (memory poisoning)": None, "Hold-out 5 (injection)": L("holdout5_causal.json"),
+           "Hold-out 6 (injection)": _H6C}
+    _ev4 = L("eval_round7_holdouts.json")
+    _v4 = L("holdout4_validity.json")
+    rows = [["Hold-out (working / all)", "B12", "B13", "B14", "B17", "B18"]]
+    for name, src in _wm.items():
+        if name.startswith("Hold-out 4"):
+            if not (_ev4 and _v4):
+                continue
+            _W = set(_v4["working_ids"])
+            mask = [i in _W for i in _ev4["holdouts"]["holdout4"]["raw"]["attack_ids"]]
+            att = _ev4["holdouts"]["holdout4"]["raw"]["attack"]
+        elif name.startswith("Hold-out 5"):
+            if not (src and _ev4):
+                continue
+            mask, att = src["per_item_working"], _ev4["holdouts"]["holdout5"]["raw"]["attack"]
+        else:
+            mask, att = _w, _a6
+        cells = []
+        for c in ("B12", "B13", "B14", "B17", "B18"):
+            full = sum(att[c]) / len(att[c])
+            xs = [x for x, k in zip(att[c], mask) if k]
+            cells.append(f"{100 * full:.0f}% -> {100 * sum(xs) / len(xs):.0f}%")
+        rows.append([f"{name} ({sum(mask)}/{len(mask)})"] + cells)
+    TBL(rows)
+    CAP("Table 21. Recall on the full attack population -> recall on the working subset (attacks that "
+        "causally subvert the undefended agent), on every hold-out where the working subset is "
+        "reportable. Sources: eval_round7_holdouts.json, eval_round7b_holdouts.json, "
+        "holdout4_validity.json, holdout5_causal.json, holdout6_causal.json.")
     _drops = {c: 100 * (sum(_a6[c]) / len(_a6[c]) - sum(x for x, w in zip(_a6[c], _w) if w) / max(1, sum(_w)))
               for c in ("B12", "B13", "B14", "B17", "B18")}
     _lower = [c for c, d in _drops.items() if d >= 1]
-    P(f"The attacks that actually work are HARDER to detect: {', '.join(_lower)} each catch "
+    P(f"On hold-out 6 the attacks that actually work are HARDER to detect: {', '.join(_lower)} each catch "
       + (f"about {min(_drops[c] for c in _lower):.0f}" if round(min(_drops[c] for c in _lower)) ==
          round(max(_drops[c] for c in _lower)) else
          f"{min(_drops[c] for c in _lower):.0f}-{max(_drops[c] for c in _lower):.0f}")
@@ -1373,7 +1436,10 @@ if _H6C and _E67:
       f"working subset than of the full population, so full-population recall overstates protection "
       f"on this corpus. B18 is the exception only because its deberta rule excludes nearly everything "
       f"injection-shaped, at {pct(_E67['holdouts']['holdout6']['configs']['B18']['matched_benign_fpr']['rate'])} "
-      f"false positives." if _lower else
+      f"false positives. The direction is NOT general: on hold-outs 4 and 5 the working attacks are "
+      f"EASIER for B13 (about 10 points higher), so full-population recall can mislead in either "
+      f"direction -- which is the case for reporting both denominators, not a property of any one "
+      f"defense." if _lower else
       "Recall on the working subset is within a point of full-population recall for every configuration.")
 
 if _A7 and _P7:
@@ -1388,6 +1454,18 @@ if _A7 and _P7:
       f"largely one corpus; and framing untrusted memory as data is a cheap, false-positive-free "
       f"control whose value grows with the agent's capability. Every one of those statements carries "
       f"its false-positive cost and both denominators in Section 13.")
+    _P12 = []
+    if L("eval_round7b_holdouts.json"):
+        _P12.append("both memory-poisoning hold-outs, written by different author families about "
+                    "different owners, show provenance reaching what content classification misses")
+    if L("adaptive_ledger_b13.json"):
+        _P12.append("provenance's corroboration is brittle to an adaptive attacker on its own but not "
+                    "behind the rejection ledger")
+    if (L("harm_rejudged.json") or {}).get("undefended_all_items"):
+        _P12.append("harm levels measured with the original LLM judge were about half what a "
+                    "human-validated judge finds, while the reductions hold under both")
+    if _P12:
+        P("Measured after that paragraph was first written: " + "; ".join(_P12) + ".")
 
 # ============================================================================ 14 verdict
 PUB = L("publishability.json")
@@ -1408,7 +1486,10 @@ if PUB:
     if PUB.get("disclosed_partial_results"):
         P("Disclosed as PARTIAL, each labelled where it is reported: "
           + ", ".join(PUB["disclosed_partial_results"]) + ".")
-    P(f"VERDICT: {PUB['verdict']}. What publishable does not mean: the harm LEVELS rest on an LLM judge "
+    if PUB["verdict"] == "PENDING":
+        P("VERDICT: PENDING. No verdict is stated until every scheduled measurement is complete; the "
+          "criteria above show what is outstanding.")
+    P(f"{'Whatever the verdict, w' if PUB['verdict'] == 'PENDING' else 'VERDICT: ' + PUB['verdict'] + '. W'}hat publishable does not mean: the harm LEVELS rest on an LLM judge "
       f"that a single annotator found to miss harm (Section 13A), the human check has one annotator, "
       f"and conditional backdoors remain untested on a clean hold-out. Those limits are stated where "
       f"the numbers appear; the standard requires them to be visible, not absent.")
