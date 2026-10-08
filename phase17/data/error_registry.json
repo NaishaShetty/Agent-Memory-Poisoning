@@ -1,6 +1,6 @@
 {
-  "n": 17,
-  "n_proven": 17,
+  "n": 29,
+  "n_proven": 29,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -81,6 +81,16 @@
       "detail": "data artifacts are never mutated in place; this case is proven on a temporary copy by its own test"
     },
     {
+      "id": "dev_holdout_overlap",
+      "error": "R7-1. The dev set used to calibrate every scorer on hold-out 3 was 382/400 hold-out prompts under a different memory wrapper; the disjointness check compared wrapped strings and reported it disjoint.",
+      "test": "phase17/tests/test_round7_discipline.py::test_dev_disjointness_sees_through_wrappers",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
       "id": "holdout3_reuse",
       "error": "Hold-out 3 was scored five times with only the first pre-registered; the owner retired it. A new module loading it would be a seventh use.",
       "test": "phase17/tests/test_round7_discipline.py::test_holdout3_is_retired_from_new_measurement",
@@ -91,9 +101,99 @@
       "detail": ""
     },
     {
+      "id": "ledger_fit_wrong_distribution",
+      "error": "The rejection-ledger dev fit measured benign-to-BENIGN similarity, read off a 20.8% false-positive rate, and would have discarded a mechanism that works.",
+      "test": "phase17/tests/test_round7_discipline.py::test_rejection_fit_measures_benign_against_rejected_attacks_not_benign",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
       "id": "orphan_killer_kills_caller",
       "error": "kill_orphan_phase17.ps1 matched the pipeline runner's own command line and killed it the first time it cleaned up before a stage.",
       "test": "phase17/tests/test_round7_discipline.py::test_orphan_killer_kills_orphans_but_spares_its_caller",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "ast_guard_docstring",
+      "error": "The B17 no-parameter guard scanned source text and matched the docstring sentence saying B17 is NOT a threshold.",
+      "test": "phase17/tests/test_round7_discipline.py::test_parameter_guard_reads_code_not_prose",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "computed_arm_unreported",
+      "error": "The user_turn arm of the evidence run was computed and checkpointed but never reported, because the output loop iterated only the base populations.",
+      "test": "phase17/tests/test_round7_discipline.py::test_every_computed_benign_arm_is_reported",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "underpowered_preregistration",
+      "error": "Unfavourable #9. The first pre-registered adaptive test drew seeds with one control event, so its smallest achievable p was 1.0 whatever the effect.",
+      "test": "phase17/tests/test_round7_discipline.py::test_power_check_refuses_the_historical_underpowered_design",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "harmful_neutralisation_frame",
+      "error": "Unfavourable #15. The frame first built (v1_prefix) raises compliance 6.7 points and costs 10 points of utility; it was read as 'partial' from a flattering hold-out sample.",
+      "test": "phase17/tests/test_round7_discipline.py::test_neutralisation_never_uses_the_harmful_frame",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "superseded_claim_results_paper",
+      "error": "Round 6 corrected claims in new sections and left the corrected sentences standing unqualified elsewhere (the abstract said adaptive evasion 'remains open').",
+      "test": "phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "superseded_claim_methodology",
+      "error": "The methodology's overall conclusion still declared multi-hop outside the benchmark after 32.34 showed it is an evaluator artifact.",
+      "test": "phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[methodology_docx]",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "superseded_claim_summary",
+      "error": "The summary file printed a working-set rate (45.1%) its own table contradicts and attributed B14's gap to deberta after the ablation refuted it.",
+      "test": "phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[final_results_md]",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "nondeterminism_denied",
+      "error": "Two runbooks asserted temperature-0 runs are bit-reproducible after identical prompts scored 66, 64 and 61 of 120.",
+      "test": "phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[resume_md]",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,
@@ -164,6 +264,26 @@
       "id": "pipeline_rescores_holdout",
       "error": "Item 11. Adding round-7 stages to run_all put the hold-out scoring in the default run, so a full pipeline re-run could touch frozen corpora.",
       "test": "phase17/tests/test_round7_discipline.py::test_default_pipeline_never_scores_a_holdout",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "publishability_passes_missing_evidence",
+      "error": "Phase C. The verdict is only worth something if missing evidence holds it at PENDING; a missing hold-out working subset passing silently would certify an unmeasured claim.",
+      "test": "phase17/tests/test_round7_discipline.py::test_publishability_never_passes_on_missing_evidence",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "publishability_stale_audit",
+      "error": "Phase C. The last cross-phase audit on disk was from 5 October, three days of source changes earlier; a verdict reading it would have certified code it never ran.",
+      "test": "phase17/tests/test_round7_discipline.py::test_publishability_rejects_a_stale_cross_phase_audit",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,
