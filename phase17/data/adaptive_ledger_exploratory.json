@@ -1,0 +1,77 @@
+{
+  "status": "EXPLORATORY (post-hoc, dev, upper bound)",
+  "frozen_radius": 0.97,
+  "recommended_radius": 0.95,
+  "arms": {
+    "vs_corroboration": {
+      "n_seeds": 48,
+      "evasions": 22,
+      "truncated_histories": 0,
+      "max_sim_to_rejected": [
+        0.9902,
+        0.8997,
+        0.9678,
+        0.973,
+        0.8952,
+        0.9675,
+        0.946,
+        0.9967,
+        0.9901,
+        0.9941,
+        0.9842,
+        0.997,
+        0.9708,
+        0.9103,
+        0.9802,
+        0.9798,
+        0.953,
+        0.9765,
+        0.9446,
+        0.9763,
+        0.9835,
+        0.9045
+      ],
+      "by_radius": {
+        "0.97": {
+          "would_block": 13,
+          "residual_evasion_upper_bound": "9/48"
+        },
+        "0.95": {
+          "would_block": 16,
+          "residual_evasion_upper_bound": "6/48"
+        },
+        "0.9": {
+          "would_block": 20,
+          "residual_evasion_upper_bound": "2/48"
+        }
+      }
+    },
+    "vs_neutralisation": {
+      "n_seeds": 31,
+      "evasions": 6,
+      "truncated_histories": 2,
+      "max_sim_to_rejected": [
+        0.9837,
+        0.9932,
+        0.8383,
+        0.9571,
+        0.9619,
+        0.9836
+      ],
+      "by_radius": {
+        "0.97": {
+          "would_block": 3,
+          "residual_evasion_upper_bound": "3/31"
+        },
+        "0.95": {
+          "would_block": 5,
+          "residual_evasion_upper_bound": "1/31"
+        },
+        "0.9": {
+          "would_block": 5,
+          "residual_evasion_upper_bound": "1/31"
+        }
+      }
+    }
+  }
+}

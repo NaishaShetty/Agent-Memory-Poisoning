@@ -151,7 +151,13 @@ P(f"On the defenses: provenance-aware admission (B13) reaches attack classes tha
   f"to {pct(HARM['overall']['harm_b13']['rate']) if HARM else 'n/a'} at a task-alone base rate of "
   f"{kn(HARM['overall']['harm_no_poison']) if HARM else 'n/a'} (as scored by an LLM judge whose "
   f"agreement with a human annotator proved weak and one-sided towards missing harm, so these levels "
-  f"are likely under-estimates; Section 13A). An eleven-feature fusion (B14) "
+  f"are likely under-estimates; Section 13A"
+  + ((lambda r: f"; re-judged on identical answers by the judge selected against held-back human "
+                f"labels, undefended harm is {pct(r['undefended_all_items']['J2_gemini_original']['rate'])} "
+                f"rather than {pct(r['undefended_all_items']['J0_current']['rate'])}, and B13's reduction "
+                f"holds under both judges, Section 13B")(L("harm_rejudged.json"))
+     if (L("harm_rejudged.json") or {}).get("undefended_all_items") else "")
+  + f"). An eleven-feature fusion (B14) "
   f"scores far higher on external prompt-injection corpora but is shown to be tracking a single "
   f"off-the-shelf classifier on those corpora (90.1% decision agreement) and to degrade worse "
   f"than that classifier out of distribution. The two are complementary rather than ranked, which "
@@ -948,7 +954,7 @@ P("What survives. The matched-FPR comparison calibrated EVERY scorer on the same
 
 # ============================================================================ 11
 H("10B. Recommendation, Conditioned on the False-Positive Budget", 1)
-for _t in ['RECOMMENDATION (round 7; supersedes the round-6 guidance of Section 32.45 / 10B, which named B18 for memory poisoning). It is still conditioned on the threat and the false-positive budget, and it now rests on two clean hold-outs rather than on populations the configurations were selected on.', "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 -- a new author family, a new owner, scored once -- it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4.", "(2) INJECTION-SHAPED text arriving in memory: B17 -- 90.1% recall at 10.2% on hold-out 5 and 77.6% at 2.2% on hold-out 6, both matched-benign. The 33-55% figures of hold-out 3 were a property of that corpus. NOT B18: its deberta hard rule cost 16.3% false positives on hold-out 6 and excluded 4.9% of the user's own words on hold-out 7, because it ignores the channel trust B13 applies.", '(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%) and its effect roughly doubled on a stronger agent (60 dev items). It does almost nothing against fabricated facts, and composed with a cheap detector it does NOT dominate strong exclusion (the pre-registered test failed): it is a trade that buys lower exclusion at higher residual compliance.', '(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger at radius 0.95, chosen by a rule fixed before the radius sweep: adaptive evasion 32/130 -> 5/130 (p=1.5e-08) at a 6.4% ledger-poisoning blast radius, against 29.7% at the previously published 0.90. Where that surface must be near zero, 0.97 still cuts evasion to 8/130 (p=1e-07) at 0.7%.']:
+for _t in ['RECOMMENDATION (round 7; supersedes the round-6 guidance of Section 32.45 / 10B, which named B18 for memory poisoning). It is still conditioned on the threat and the false-positive budget, and it now rests on two clean hold-outs rather than on populations the configurations were selected on.', "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 -- a new author family, a new owner, scored once -- it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4. Corroboration is brittle to an attacker told why it was rejected: 22 of 48 seeds evaded within five rewrites, against 32/130 for stateless detection (Fisher p=0.0096), by light paraphrase -- so against a retry-capable attacker it needs (4).", "(2) INJECTION-SHAPED text arriving in memory: B17 -- 90.1% recall at 10.2% on hold-out 5 and 77.6% at 2.2% on hold-out 6, both matched-benign. The 33-55% figures of hold-out 3 were a property of that corpus. NOT B18: its deberta hard rule cost 16.3% false positives on hold-out 6 and excluded 4.9% of the user's own words on hold-out 7, because it ignores the channel trust B13 applies.", '(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%), and its effect was larger on a stronger agent: Gemini 44.2% -> 11.7% against qwen at 50.8% -> 30.0% on all 120 dev items (32.5 against 20.8 points). It does almost nothing against fabricated facts, and composed with a cheap detector it does NOT dominate strong exclusion (the pre-registered test failed): it is a trade that buys lower exclusion at higher residual compliance.', '(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger at radius 0.95, chosen by a rule fixed before the radius sweep: adaptive evasion 32/130 -> 5/130 (p=1.5e-08) at a 6.4% ledger-poisoning blast radius, against 29.7% at the previously published 0.90. Where that surface must be near zero, 0.97 still cuts evasion to 8/130 (p=1e-07) at 0.7%.']:
     P(_t)
 P("The round-6 recommendation this supersedes is kept below, unchanged, so the change is auditable.")
 for _t in RECOMMENDATION_TEXT:
@@ -1252,7 +1258,22 @@ if _AD:
           f"{_AD['reference']}. Seeds were attacks the defense stopped, so this is an evasion rate "
           f"conditional on an initial catch."
           + (" DESCRIPTIVE ONLY: too few eligible seeds for the power check, so no test is reported."
-             if a.get("power_check", {}).get("descriptive_only") else ""))
+             if a.get("power_check", {}).get("descriptive_only") else
+             (lambda f: f" Against the stateless reference sample (32/130), Fisher p={f:.2g}.")(
+                 __import__("scipy.stats", fromlist=["fisher_exact"]).fisher_exact(
+                     [[ev["k"], a["n_seeds"] - ev["k"]], [32, 98]]).pvalue)))
+    _ALX = L("adaptive_ledger_exploratory.json")
+    if _ALX:
+        _c = _ALX["arms"]["vs_corroboration"]
+        P(f"EXPLORATORY (post-hoc, development data, an upper bound): the successful rewrites against "
+          f"corroboration are light paraphrases -- the median winning rewrite sits at cosine "
+          f"{sorted(_c['max_sim_to_rejected'])[len(_c['max_sim_to_rejected']) // 2]:.3f} to an attempt "
+          f"already rejected. The rejection ledger would have blocked {_c['by_radius']['0.97']['would_block']} "
+          f"of the {_c['evasions']} evasions at its frozen radius (0.97) and "
+          f"{_c['by_radius']['0.95']['would_block']} at the recommended 0.95, leaving at most "
+          f"{_c['by_radius']['0.95']['residual_evasion_upper_bound']}. A blocked attacker would have kept "
+          f"rewriting, so this bounds the composition rather than measuring it; the composed run is "
+          f"listed as open. Source: phase17/data/adaptive_ledger_exploratory.json.")
 if _HR:
     bj = _HR["by_judge"]
     rows = [["Judge", "Task-alone base rate", "Harm undefended", "Harm with B13", "p (B13 vs undefended)"]]
@@ -1384,6 +1405,7 @@ for name, what, present in [
     ("neutralise_strong_agent_n120.json", "Stronger-agent framing, all 120 dev items", bool(_S120)),
     ("holdout6_causal.json", "Hold-out 6 causal working subset", bool(_H6C)),
     ("publishability.json", "The computed publishability verdict", bool(PUB)),
+    ("adaptive_ledger_exploratory.json", "EXPLORATORY: would the ledger block the adaptive evasions", bool(L("adaptive_ledger_exploratory.json"))),
 ]:
     idx.append([name, what, "yes" if present else "NOT YET RUN"])
 TBL(idx)

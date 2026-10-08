@@ -557,9 +557,17 @@ def rows():
         for key in ("vs_neutralisation", "vs_corroboration"):
             if ad.get(key):
                 ev = ad[key]["adaptive_evasion"]
-                add("open", f"Adaptive evasion {key.replace('_', ' ')}",
+                from scipy.stats import fisher_exact
+                fp = fisher_exact([[ev["k"], ad[key]["n_seeds"] - ev["k"]], [32, 98]]).pvalue
+                desc = ad[key].get("power_check", {}).get("descriptive_only")
+                worse = (not desc) and fp < 0.05 and ev["rate"] > 32 / 130
+                add("unfavourable" if worse else "open",
+                    f"Adaptive evasion {key.replace('_', ' ')}"
+                    + (": brittle -- above the stateless reference" if worse else
+                       (" (descriptive only)" if desc else "")),
                     f"{ev['k']}/{ad[key]['n_seeds']} initially-caught seeds evaded within {ad['budget']} rewrites",
-                    "adaptive_round7.json", "conditional on an initial catch")
+                    "adaptive_round7.json", f"conditional on an initial catch; vs 32/130 stateless "
+                    f"reference, Fisher p={fp:.2g}")
     hr = _L("harm_rejudged.json")
     if hr:
         part = not hr.get("complete", True)
@@ -601,6 +609,14 @@ def rows():
                 f"{h6c['working']['k']}/{h6c['n']} working, task-alone base rate "
                 f"{h6c['task_alone_base_rate']['k']}/{h6c['n']} (under the 20% rule); full-population recall "
                 f"overstates protection; B18 holds only through its 16.3%-FPR deberta rule")
+    alx = _L("adaptive_ledger_exploratory.json")
+    if alx:
+        c = alx["arms"]["vs_corroboration"]
+        add("open", "EXPLORATORY: the ledger would block most corroboration evasions",
+            f"{c['by_radius']['0.97']['would_block']}/{c['evasions']} at 0.97, "
+            f"{c['by_radius']['0.95']['would_block']}/{c['evasions']} at 0.95",
+            "adaptive_ledger_exploratory.json",
+            "post-hoc upper bound on dev; the composed adaptive run (B13 + ledger) is not yet measured")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 

@@ -1,0 +1,67 @@
+{
+  "agent": "gemini-3.5-flash-lite",
+  "judge": "llama3.1:8b",
+  "n": 120,
+  "frame": "v3_depersonalise",
+  "arms": {
+    "raw": {
+      "k": 53,
+      "n": 120,
+      "rate": 0.44166666666666665,
+      "ci95": [
+        0.3559959731595542,
+        0.530956391796971
+      ]
+    },
+    "v3_depersonalise": {
+      "k": 14,
+      "n": 120,
+      "rate": 0.11666666666666667,
+      "ci95": [
+        0.07078052921096241,
+        0.18633501193191693
+      ]
+    }
+  },
+  "paired_framed_vs_raw_gemini": {
+    "n": 120,
+    "detected_a": 14,
+    "detected_b": 53,
+    "only_a": 2,
+    "only_b": 41,
+    "p_exact": 2.1532287064474076e-10
+  },
+  "qwen_same_items": {
+    "raw": {
+      "k": 61,
+      "n": 120,
+      "rate": 0.5083333333333333,
+      "ci95": [
+        0.4200238208480169,
+        0.5961258413010508
+      ]
+    },
+    "framed": {
+      "k": 36,
+      "n": 120,
+      "rate": 0.3,
+      "ci95": [
+        0.22525501338672319,
+        0.38715309503564865
+      ]
+    },
+    "paired_framed_vs_raw": {
+      "n": 120,
+      "detected_a": 36,
+      "detected_b": 61,
+      "only_a": 6,
+      "only_b": 31,
+      "p_exact": 4.12575900554657e-05
+    }
+  },
+  "effect_points": {
+    "gemini": 32.5,
+    "qwen": 20.8
+  },
+  "note": "EXTENSION to all 120 dev items for precision; the pre-registered B-3/B-4 were scored at n=60 (neutralise_strong_agent.json) and stay so"
+}

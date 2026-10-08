@@ -186,6 +186,28 @@ append_note("p_32_56_b17",
             "hold-out 7, because it ignores channel trust.]",
             contains="(2) INJECTION-SHAPED text arriving in memory: B17 (or B18)")
 
+HRJ = L("harm_rejudged.json")
+if HRJ and HRJ.get("undefended_all_items"):
+    _u = HRJ["undefended_all_items"]
+    append_note("p_harm_levels_measured",
+                f"[Measured: re-judged on identical answers by the judge adopted against held-back human "
+                f"labels, undefended harm is {_u['J2_gemini_original']['rate']:.1%} rather than "
+                f"{_u['J0_current']['rate']:.1%} on all {HRJ['n']} items (paired p="
+                f"{HRJ['paired_judges_undefended']['p_exact']:.1g}); B13's reduction holds under both judges "
+                f"on the {HRJ['stratum']['n']}-item stratum scored so far (Section 32.60).]",
+                contains="Consequences, stated rather than resolved: harm LEVELS")
+if L("adaptive_round7.json"):
+    append_note("p_32_56_corroboration_brittle",
+                "[Round 7, adaptive test: corroboration is brittle to an attacker told why it was rejected -- "
+                "22/48 evaded within five rewrites against 32/130 for stateless detection (Fisher p=0.0096), "
+                "by light paraphrase. Against a retry-capable attacker it needs the ledger of item (4); "
+                "post-hoc, the ledger would have blocked 16 of the 22 at radius 0.95 (an upper bound).]",
+                contains="(1) MEMORY POISONING with the owner's conversation available: B13 with evidence")
+if L("neutralise_strong_agent_n120.json"):
+    append_note("p_32_56_strong120",
+                "[All 120 dev items: Gemini 44.2% -> 11.7% against qwen 50.8% -> 30.0% under the frame.]",
+                contains="its effect roughly doubled on a stronger agent (60 dev items)")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
