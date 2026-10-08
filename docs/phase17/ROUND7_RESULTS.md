@@ -2,7 +2,7 @@
 
 Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` (methods, Sections 32.49-32.61); every correction is logged in `docs/phase17/ROUND7_LOG.md`.
 
-**Publishability verdict: PENDING.** Held by the owner's rule until every scheduled measurement is complete; outstanding: harm_rejudged.json. Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PENDING; 6_above_noise_floor PASS; 7_all_measurements_complete PENDING.
+**Publishability verdict: PENDING.** Held by the owner's rule until every scheduled measurement is complete; outstanding: harm_rejudged.json. Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PASS; 6_above_noise_floor PASS; 7_all_measurements_complete PENDING.
 
 ## Recommendation, conditioned on the threat and the false-positive budget
 
