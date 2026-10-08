@@ -21,6 +21,7 @@ STEPS = {
     "strong": lambda: __import__("phase17.neutralise_strong_agent", fromlist=["run"]).run(),
     "ho7mech": lambda: __import__("phase17.holdout7_validity", fromlist=["run"]).run("mechanism"),
     "strong120": lambda: __import__("phase17.neutralise_strong_agent", fromlist=["run"]).run(120),
+    "j2raw": lambda: __import__("phase17.harm_judge_fix", fromlist=["precompute_gemini_raw"]).precompute_gemini_raw(),
     "harmstrong": lambda: __import__("phase17.harm_strong_agent", fromlist=["collect"]).collect(),
 }
 

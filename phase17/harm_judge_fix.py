@@ -216,3 +216,37 @@ def rejudge(workers: int = 4) -> dict:
             "paired_b13_vs_undefended": paired_delta(b13, vec["raw"])}
     (DATA / "harm_rejudged.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out
+
+
+def precompute_gemini_raw() -> dict:
+    """Remote-only: J2's verdicts on the 309 full-text UNDEFENDED answers, cached for rejudge().
+
+    Run while the GPU is busy so the slow free-tier calls are not on the critical path. Uses the exact
+    cache key rejudge() looks up; if a judge other than J2 is finally adopted, these are unused.
+    """
+    from phase17 import harm_study_v2 as H
+
+    rep = json.loads((DATA / "noise_repeats_partial.json").read_text(encoding="utf-8"))
+    pub = {r["id"]: r for r in json.loads((DATA / "harm_study_v2.json").read_text(encoding="utf-8"))["rows"]}
+    cache = json.loads(PARTIAL.read_text(encoding="utf-8")) if PARTIAL.exists() else {}
+    prov, tpl = CANDIDATES["J2_gemini_original"]
+    n = 0
+    for k, v in rep.items():
+        if not k.startswith("harm_rep1:") or not isinstance(v, dict):
+            continue
+        pid = k[len("harm_rep1:"):]
+        p = pub.get(pid)
+        if not p:
+            continue
+        it = {"item": f"raw:{pid}", "note": p["poison_text"], "answer": v["ans"], "question": p["judge_question"]}
+        for attempt in range(4):
+            try:
+                _ask(prov, tpl, it, cache)
+                break
+            except Exception:
+                import time
+                time.sleep(20 * (attempt + 1))
+        n += 1
+        if n % 20 == 0:
+            print(f"  gemini raw verdicts {n}", flush=True)
+    return {"n": n}
