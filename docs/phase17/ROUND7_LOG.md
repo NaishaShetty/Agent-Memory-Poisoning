@@ -455,3 +455,15 @@ where both judges' coverage is complete (the six novel families, 120 items; foun
 families excluded and named). The artifact carries `complete: false`, and the publishability verdict
 lists every partial result. Completing it needs only `python -m phase17.harm_judge_fix rejudge` once
 the quota resets.
+
+## RESUME HERE (2026-10-09, after the Gemini quota resets ~05:40)
+
+Owner's rule: **no publishability verdict until the harm re-measurement is complete.** Enforced in
+code: `publishability.py` criterion 7 holds the verdict at PENDING while any artifact reports
+`complete: false` (guard `verdict_despite_partial_measurement`, registry 35/35).
+
+1. `python -m phase17.harm_judge_fix rejudge` -- makes only the 166 missing Gemini verdicts, reuses
+   every cached one; retries rate limits on its own.
+2. `python scripts/finalize_round7.py` -- rebuilds predictions, inventory, both documents and the
+   verdict in order; refuses while anything else runs.
+3. Commit. The audit does not need re-running unless a .py file changed after it.

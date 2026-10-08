@@ -342,6 +342,15 @@ ERRORS.append(dict(
     replace='    for c in ("B13", "B14", "B15", "B17", "B18"):\n        a, b = _h6["configs"][c], _h7["configs"][c]',
     test="phase17/tests/test_round7_discipline.py::test_every_configuration_table_in_the_results_paper_includes_b12",
 ))
+ERRORS.append(dict(
+    id="verdict_despite_partial_measurement",
+    error="Owner's rule (2026-10-08): the verdict waits for the harm re-measurement the Gemini quota "
+          "cut short. A verdict computed over a partial artifact would pre-empt that.",
+    file="phase17/publishability.py",
+    find="""                  and '"complete": false' in p.read_text(encoding="utf-8", errors="replace"))""",
+    replace="""                  and False)""",
+    test="phase17/tests/test_round7_discipline.py::test_publishability_holds_while_any_measurement_is_partial",
+))
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted

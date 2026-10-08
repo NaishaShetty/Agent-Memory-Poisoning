@@ -155,6 +155,12 @@ def noise_floor():
                             for r in rows)), rows
 
 
+def _partial_results():
+    return sorted(p.name for p in DATA.glob("*.json")
+                  if not p.name.endswith("partial.json") and p.stat().st_size < 5_000_000
+                  and '"complete": false' in p.read_text(encoding="utf-8", errors="replace"))
+
+
 def disqualifiers():
     out = {}
     # (a) hold-out 3 is retired; any use is labelled by the claims guard (criterion 3) and the
@@ -182,6 +188,12 @@ def run() -> dict:
     crit = {"1_traceable": traceability(), "2_fpr_and_both_denominators": denominators(),
             "3_holdout_informed_labelled": labelled(), "4_negatives_in_place": negatives(),
             "5_full_suite_passes": suite(), "6_above_noise_floor": nf}
+    # Owner's rule (2026-10-08): no verdict while any scheduled measurement is PARTIAL. The
+    # harm re-measurement was cut short by the Gemini daily quota; the verdict waits for it.
+    partial_now = _partial_results()
+    crit["7_all_measurements_complete"] = _check(
+        "PENDING" if partial_now else "PASS",
+        f"partial: {partial_now}" if partial_now else "no artifact reports complete: false")
     dq = disqualifiers()
     statuses = [c["status"] for c in crit.values()]
     dq_ok = all(v for k, v in dq.items() if k != "registry")
@@ -193,9 +205,7 @@ def run() -> dict:
         verdict = "PUBLISHABLE"
     # Results reported as PARTIAL are disclosed in the verdict, not hidden by it: each must say so in
     # its own artifact (complete: false) and is listed here so a reader sees what is outstanding.
-    partial = sorted(p.name for p in DATA.glob("*.json")
-                     if not p.name.endswith("partial.json") and p.stat().st_size < 5_000_000
-                     and '"complete": false' in p.read_text(encoding="utf-8", errors="replace"))
+    partial = _partial_results()
     out = {"verdict": verdict, "criteria": crit, "disqualifiers_clear": dq, "noise_floor_claims": nf_rows,
            "disclosed_partial_results": partial,
            "standard": __doc__.strip().split("\n\n")[1]}

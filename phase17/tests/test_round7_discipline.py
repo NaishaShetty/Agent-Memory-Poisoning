@@ -408,3 +408,16 @@ def test_every_configuration_table_in_the_results_paper_includes_b12():
             if "B13" in v and "B14" in v and "B12" not in v:
                 bad.append((n.lineno, v))
     assert not bad, f"configuration tables without B12: {bad}"
+
+
+
+def test_publishability_holds_while_any_measurement_is_partial(monkeypatch, tmp_path):
+    """Owner's rule: no verdict while a scheduled measurement is PARTIAL (the harm re-measurement
+    was cut short by the Gemini daily quota). A partial artifact must hold the verdict at PENDING."""
+    from phase17 import publishability as pb
+
+    (tmp_path / "harm_rejudged.json").write_text('{"complete": false}', encoding="utf-8")
+    monkeypatch.setattr(pb, "DATA", tmp_path)
+    assert pb._partial_results() == ["harm_rejudged.json"]
+    (tmp_path / "harm_rejudged.json").write_text('{"complete": true}', encoding="utf-8")
+    assert pb._partial_results() == []

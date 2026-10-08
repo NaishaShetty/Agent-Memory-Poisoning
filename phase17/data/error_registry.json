@@ -1,6 +1,6 @@
 {
-  "n": 34,
-  "n_proven": 34,
+  "n": 35,
+  "n_proven": 35,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -334,6 +334,16 @@
       "id": "b12_omitted_from_table",
       "error": "Unfavourable #11 (process error). A table testing whether the content detector drives false positives was published without B12, the content-only configuration it tested.",
       "test": "phase17/tests/test_round7_discipline.py::test_every_configuration_table_in_the_results_paper_includes_b12",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "verdict_despite_partial_measurement",
+      "error": "Owner's rule (2026-10-08): the verdict waits for the harm re-measurement the Gemini quota cut short. A verdict computed over a partial artifact would pre-empt that.",
+      "test": "phase17/tests/test_round7_discipline.py::test_publishability_holds_while_any_measurement_is_partial",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,
