@@ -208,6 +208,13 @@ if L("neutralise_strong_agent_n120.json"):
                 "[All 120 dev items: Gemini 44.2% -> 11.7% against qwen 50.8% -> 30.0% under the frame.]",
                 contains="its effect roughly doubled on a stronger agent (60 dev items)")
 
+append_note("p_which_rule_holdout_informed",
+            "[HOLD-OUT-INFORMED (round 7, R7-1): these 200 'development' items were later shown to be "
+            "hold-out 3 prompts under another wrapper, so this attribution was measured on the "
+            "hold-out's own distribution. The conclusion -- the content detector, not corroboration, is "
+            "the source -- is unchanged, but it is not a development-set result.]",
+            contains="Per-rule attribution on 200 DEV items from the same source")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",

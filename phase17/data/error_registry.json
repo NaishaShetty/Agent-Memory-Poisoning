@@ -1,6 +1,6 @@
 {
-  "n": 31,
-  "n_proven": 31,
+  "n": 34,
+  "n_proven": 34,
   "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration.",
   "errors": [
     {
@@ -304,6 +304,36 @@
       "id": "superseded_b18_injection_recommendation",
       "error": "Hold-outs 6/7 overturned 'B17 (or B18)' for injection-shaped text, yet a Table 5E caption still called B18 the recommended configuration with no qualifier.",
       "test": "phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "fpr_labelling_artifact_claim",
+      "error": "Unfavourable #4. The matched-benign false positives were attributed to a labelling artifact; filtering to benign-as-a-memory moved B18 only 54.9% -> 49.0%.",
+      "test": "phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "fpr_blamed_on_corroboration_claim",
+      "error": "Unfavourable #5. An earlier reading blamed corroboration for the false positives; per-rule attribution shows the content detector excludes 86/200 and corroboration adds 2.",
+      "test": "phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
+      "guard_passes_clean": true,
+      "guard_fails_when_error_reintroduced": true,
+      "guard_passes_after_restore": true,
+      "status": "PROVEN",
+      "detail": ""
+    },
+    {
+      "id": "b12_omitted_from_table",
+      "error": "Unfavourable #11 (process error). A table testing whether the content detector drives false positives was published without B12, the content-only configuration it tested.",
+      "test": "phase17/tests/test_round7_discipline.py::test_every_configuration_table_in_the_results_paper_includes_b12",
       "guard_passes_clean": true,
       "guard_fails_when_error_reintroduced": true,
       "guard_passes_after_restore": true,

@@ -389,3 +389,22 @@ def test_no_module_defines_a_function_after_its_main_block():
             elif seen and isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
                 bad.append(f"{f.name}:{n.name}")
     assert not bad, f"defined after the __main__ block, so unreachable from it: {bad}"
+
+
+
+def test_every_configuration_table_in_the_results_paper_includes_b12():
+    """Unfavourable #11 (process error): a table testing whether the content detector drives false
+    positives was published without B12, the content-only configuration it was testing. Every
+    configuration list the results builder iterates (any literal naming both B13 and B14) must name
+    B12 as well."""
+    import ast
+
+    src = (ROOT / "phase17" / "build_results_analysis_docx.py").read_text(encoding="utf-8")
+    bad = []
+    for n in ast.walk(ast.parse(src)):
+        if isinstance(n, (ast.Tuple, ast.List)) and n.elts and all(
+                isinstance(e, ast.Constant) and isinstance(e.value, str) for e in n.elts):
+            v = [e.value for e in n.elts]
+            if "B13" in v and "B14" in v and "B12" not in v:
+                bad.append((n.lineno, v))
+    assert not bad, f"configuration tables without B12: {bad}"

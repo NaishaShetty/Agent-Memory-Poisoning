@@ -650,9 +650,9 @@ P("Five published detectors are evaluated at both a development-calibrated thres
   "re-fitting them, because re-fitting a baseline's threshold on the populations it is then scored "
   "against is how a baseline gets quietly handicapped.")
 if BB:
-    cols = ["B13", "B14", "B15", "B17", "deberta_pi_v2@dev", "llama_guard3@dev",
+    cols = ["B12", "B13", "B14", "B15", "B17", "deberta_pi_v2@dev", "llama_guard3@dev",
             "llm_prompt_llama31@dev", "perplexity_gpt2@dev"]
-    names = ["B13", "B14", "B15", "B17", "deberta", "Llama Guard 3", "LLM prompt (llama3.1)",
+    names = ["B12", "B13", "B14", "B15", "B17", "deberta", "Llama Guard 3", "LLM prompt (llama3.1)",
              "GPT-2 perplexity"]
     rows = [["Group"] + names]
     for label, key in (("Own memory-poisoning attacks (804)", "aggregate_own"),
@@ -665,7 +665,8 @@ if BB:
     CAP("Table 8. Per-group recall against the published baselines, with the false-positive cost. "
         "Produced with no new model calls: the evaluation persists per-item decisions and every "
         "text already had a cached baseline score. Source: "
-        "phase17/data/baseline_breakdown_round6.json.")
+        "phase17/data/baseline_breakdown_round6.json. B12 was missing from an earlier version of "
+        "this table; B18 postdates the artifact and is compared in Sections 8 and 13.")
     P("Pooled over every population the deberta classifier lands within six points of this "
       "project's best configuration, which would be a serious finding about the value of a bespoke "
       "stack. It does not survive disaggregation. The pooled denominator is roughly 72% external "
@@ -734,6 +735,25 @@ if H3:
       "the first was pre-registered. [CORRECTED, round 7: earlier versions said five, omitting "
       "the two neutralisation runs.] It is retired from further measurement (round 7), and the "
       "matched-FPR comparison it supports must be read with the correction in Section 10C.")
+    _BVA, _DBF = L("benign_validity_audit.json"), L("diagnose_benign_fpr.json")
+    if _BVA and _DBF and H3.get("raw", {}).get("B18"):
+        _vf = _BVA["populations"]["holdout3_matched_benign"]["valid_flags"]
+        _b18 = H3["raw"]["B18"]["benign"]
+        _x = [d for d, f in zip(_b18, _vf) if f]
+        _at = _DBF["attribution"]
+        P(f"Two diagnoses of that false-positive rate were tested, and both were partly or wholly WRONG. "
+          f"(i) A labelling artifact -- the corpus's 'regular' label means 'not a jailbreak', not 'fit "
+          f"to store as a memory'. An out-of-loop judge finds {pct(_BVA['populations']['holdout3_matched_benign']['valid_benign']['rate'])} "
+          f"of the benign half is benign-as-a-memory, and restricting to it moves B18 only from "
+          f"{pct(sum(_b18) / len(_b18))} to {pct(sum(_x) / len(_x))}: the artifact explains about "
+          f"{100 * (sum(_b18) / len(_b18) - sum(_x) / len(_x)):.0f} of {100 * sum(_b18) / len(_b18):.0f} points. "
+          f"(ii) Corroboration as the source -- an earlier reading of this project's. Per-rule attribution "
+          f"on {_DBF['n']} items shows the content-only detector excluding {_at['b12_content_only']}, "
+          f"provenance adding {_at['added_by_B13_without_evidence']} and corroboration "
+          f"{_at['added_by_corroboration_with_evidence']}: the CONTENT detector is the source, not "
+          f"corroboration. HOLD-OUT-INFORMED: those {_DBF['n']} items were drawn as 'development' data "
+          f"later shown to be hold-out 3 prompts under another wrapper (Section 10C), so this "
+          f"attribution was measured on the hold-out's own distribution.")
 else:
     MISSING.append("eval_holdout3.json")
     P("This analysis was pre-registered and the corpus frozen, but the evaluation had not "
@@ -901,6 +921,14 @@ P("Benign memories are not similar to rejected attacks at any threshold tested, 
 
 # ============================================================================ 10
 H("10. Threats to Validity", 1)
+P("Process errors, stated where they could mislead a reader. One table testing whether the "
+  "content detector drives false positives was first published without B12 -- the content-only "
+  "configuration it was testing; every configuration table in this document now carries a B12 row, "
+  "and a guard test fails the build if one does not. The others (a trigger-activated attack probed "
+  "outside its trigger five times, a ledger fit that measured the wrong distribution, a cleanup "
+  "script that killed its own caller, a guard that matched its own docstring, corroboration left "
+  "inert in a round of tables, a computed arm never reported, a thread-unsafe cache, GPU contention) "
+  "each have a guard proven by mutation testing (phase17/data/error_registry.json).")
 P("Agent capability bounds every harm number, since all agent-side measurement uses a 7B model. "
   "But the multi-hop case, which this project previously used as the clearest illustration of that bound, turned out not to illustrate it at all -- see Section 10A.")
 H("10A. A Correction: the Multi-Hop Ceiling Was an Evaluator Artifact", 1)

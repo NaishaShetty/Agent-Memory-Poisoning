@@ -67,7 +67,7 @@ def run(n: int = N) -> dict:
     n_ = len(rows)
     pc = [r for r in rows if r["is_personal_claim"]]
     out = {
-        "n": n_, "source": "holdout3_dev_benign (regular_2023_05_07), disjoint from the frozen set",
+        "n": n_, "source": "holdout3_dev_benign (regular_2023_05_07), NOT disjoint: round 7 (R7-1) found these were hold-out 3 prompts under another wrapper",
         "fpr": {
             "B12": rate_with_ci(sum(r["B12_excluded"] for r in rows), n_),
             "B13_no_evidence": rate_with_ci(sum(r["B13_excluded"] for r in rows), n_),

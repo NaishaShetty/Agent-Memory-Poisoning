@@ -313,6 +313,35 @@ ERRORS.append(dict(
     insert="INJECTION-SHAPED text arriving in memory: B17 (or B18) where a 10% budget is acceptable.",
     test="phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
 ))
+ERRORS.append(dict(
+    id="fpr_labelling_artifact_claim",
+    mode="copy_insert",
+    error="Unfavourable #4. The matched-benign false positives were attributed to a labelling "
+          "artifact; filtering to benign-as-a-memory moved B18 only 54.9% -> 49.0%.",
+    file="MAMBench Results Analysis.docx",
+    env="MAMBENCH_CLAIMS_RESULTS_DOCX",
+    insert="The matched-benign false-positive rate is largely a labelling artifact of the corpus.",
+    test="phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
+))
+ERRORS.append(dict(
+    id="fpr_blamed_on_corroboration_claim",
+    mode="copy_insert",
+    error="Unfavourable #5. An earlier reading blamed corroboration for the false positives; "
+          "per-rule attribution shows the content detector excludes 86/200 and corroboration adds 2.",
+    file="MAMBench Results Analysis.docx",
+    env="MAMBENCH_CLAIMS_RESULTS_DOCX",
+    insert="Corroboration is the main source of the false positives on in-the-wild benign prompts.",
+    test="phase17/tests/test_round7_discipline.py::test_no_superseded_claim_stands_unqualified[results_docx]",
+))
+ERRORS.append(dict(
+    id="b12_omitted_from_table",
+    error="Unfavourable #11 (process error). A table testing whether the content detector drives "
+          "false positives was published without B12, the content-only configuration it tested.",
+    file="phase17/build_results_analysis_docx.py",
+    find='    for c in ("B12", "B13", "B14", "B15", "B17", "B18"):\n        a, b = _h6["configs"][c], _h7["configs"][c]',
+    replace='    for c in ("B13", "B14", "B15", "B17", "B18"):\n        a, b = _h6["configs"][c], _h7["configs"][c]',
+    test="phase17/tests/test_round7_discipline.py::test_every_configuration_table_in_the_results_paper_includes_b12",
+))
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted
