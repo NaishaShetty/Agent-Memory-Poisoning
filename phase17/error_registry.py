@@ -276,6 +276,24 @@ ERRORS.append(dict(
     test="phase17/tests/test_round7_discipline.py::test_default_pipeline_never_scores_a_holdout",
 ))
 
+ERRORS.append(dict(
+    id="publishability_passes_missing_evidence",
+    error="Phase C. The verdict is only worth something if missing evidence holds it at PENDING; "
+          "a missing hold-out working subset passing silently would certify an unmeasured claim.",
+    file="phase17/publishability.py",
+    find="        if working[h] is None:",
+    replace="        if False:",
+    test="phase17/tests/test_round7_discipline.py::test_publishability_never_passes_on_missing_evidence",
+))
+ERRORS.append(dict(
+    id="publishability_stale_audit",
+    error="Phase C. The last cross-phase audit on disk was from 5 October, three days of source "
+          "changes earlier; a verdict reading it would have certified code it never ran.",
+    file="phase17/publishability.py",
+    find="    if p.stat().st_mtime < newest:",
+    replace="    if False:",
+    test="phase17/tests/test_round7_discipline.py::test_publishability_rejects_a_stale_cross_phase_audit",
+))
 
 # Mutation NEVER touches files under phase17/data. The frozen-digest entry below mutated
 # holdout3_freeze.json in place, a killed run left it as "sha256_disabled", and the corrupted

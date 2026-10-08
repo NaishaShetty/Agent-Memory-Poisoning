@@ -1291,6 +1291,27 @@ if _A7 and _P7:
       f"control whose value grows with the agent's capability. Every one of those statements carries "
       f"its false-positive cost and both denominators in Section 13.")
 
+# ============================================================================ 14 verdict
+PUB = L("publishability.json")
+if PUB:
+    H("14. Publishability, Against the Two-Sided Standard", 1)
+    P("The verdict below is computed by phase17/publishability.py from the artifacts, not written "
+      "by hand. Each criterion is PASS, FAIL or PENDING; evidence not yet produced is PENDING, never "
+      "PASS. Publishable requires every criterion to pass and every disqualifier to be clear.")
+    rows = [["Criterion", "Status", "Evidence"]]
+    for k, v in PUB["criteria"].items():
+        rows.append([k.split("_", 1)[1].replace("_", " "), v["status"], v["detail"]])
+    dq = PUB["disqualifiers_clear"]
+    for k in ("unlabelled_repeated_holdout", "untested_family_reported_untested", "every_guard_mutation_proven"):
+        rows.append([f"disqualifier clear: {k.replace('_', ' ')}", "CLEAR" if dq[k] else "TRIPPED",
+                     dq["registry"] if k == "every_guard_mutation_proven" else ""])
+    TBL(rows)
+    CAP(f"Table 20. Verdict: {PUB['verdict']}. Source: phase17/data/publishability.json.")
+    P(f"VERDICT: {PUB['verdict']}. What publishable does not mean: the harm LEVELS rest on an LLM judge "
+      f"that a single annotator found to miss harm (Section 13A), the human check has one annotator, "
+      f"and conditional backdoors remain untested on a clean hold-out. Those limits are stated where "
+      f"the numbers appear; the standard requires them to be visible, not absent.")
+
 # ============================================================================ Appendix
 H("Appendix A. Artifact Index", 1)
 P("Every number in this document is read at build time from the following artifacts; this "
@@ -1321,6 +1342,7 @@ for name, what, present in [
     ("harm_strong_agent.json", "Harm with a stronger agent, seeded subset", bool(_HS)),
     ("neutralise_strong_agent_n120.json", "Stronger-agent framing, all 120 dev items", bool(_S120)),
     ("holdout6_causal.json", "Hold-out 6 causal working subset", bool(_H6C)),
+    ("publishability.json", "The computed publishability verdict", bool(PUB)),
 ]:
     idx.append([name, what, "yes" if present else "NOT YET RUN"])
 TBL(idx)

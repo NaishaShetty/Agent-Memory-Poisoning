@@ -341,3 +341,34 @@ def test_default_pipeline_never_scores_a_holdout():
     for name in ("eval_round7_holdouts", "eval_round7b_holdouts"):
         assert name not in default, f"a bare run_all would run {name}, scoring a frozen hold-out"
         assert name not in resolved, f"{name} is pulled in as a dependency"
+
+
+# ---------------------------------------------------------------- publishability verdict
+def test_publishability_never_passes_on_missing_evidence(monkeypatch):
+    """A criterion whose evidence does not exist yet must be PENDING, never PASS: a verdict that
+    defaulted to PASS on a missing artifact would certify a claim nobody measured."""
+    from phase17 import publishability as pb
+
+    real = pb._L
+    monkeypatch.setattr(pb, "_L", lambda n: None if n == "holdout6_causal.json" else real(n))
+    assert pb.denominators()["status"] == "PENDING"
+    monkeypatch.setattr(pb, "_L", lambda n: None)
+    assert pb.negatives()["status"] == "PENDING"
+    assert pb.traceability()["status"] == "PENDING"
+
+
+def test_publishability_rejects_a_stale_cross_phase_audit(monkeypatch, tmp_path):
+    """An audit that predates the latest source change proves nothing about the code as it stands."""
+    import os
+
+    from phase17 import publishability as pb
+
+    a = tmp_path / "_phase_audit.txt"
+    a.write_text("### phase17\n10 passed in 1s\nAUDIT COMPLETE\n", encoding="utf-8")
+    os.utime(a, (0, 0))
+    monkeypatch.setattr(pb, "DATA", tmp_path)
+    assert pb.suite()["status"] == "PENDING"
+    os.utime(a, None)
+    assert pb.suite()["status"] == "PASS"
+    a.write_text("### phase17\n1 failed, 9 passed in 1s\nAUDIT COMPLETE\n", encoding="utf-8")
+    assert pb.suite()["status"] == "FAIL"

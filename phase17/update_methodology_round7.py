@@ -600,6 +600,12 @@ if UT and AD and HS and HR and S120 and H6C and section(
     body(" ".join(parts) + " None of these was pre-registered as a prediction; each is reported as "
          "measured, beside the corresponding earlier figure, and nothing was tuned on it.")
 
+PUBV = L("publishability.json")
+if PUBV and PUBV["verdict"] != "PENDING" and section("32.61 Publishability Verdict"):
+    body(f"Computed by phase17/publishability.py against the two-sided standard: {PUBV['verdict']}. "
+         + " ".join(f"{k}: {v['status']}." for k, v in PUBV["criteria"].items())
+         + f" Guards: {PUBV['disqualifiers_clear']['registry']}.")
+
 R7P2 = L("round7_predictions.json")
 if R7E and R7P2:
     c33 = find(startswith="Equally, what did not work")

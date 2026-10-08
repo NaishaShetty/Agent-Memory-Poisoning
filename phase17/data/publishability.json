@@ -1,0 +1,59 @@
+{
+  "verdict": "NOT PUBLISHABLE",
+  "criteria": {
+    "1_traceable": {
+      "status": "PASS",
+      "detail": "62 inventory rows; missing artifacts: none"
+    },
+    "2_fpr_and_both_denominators": {
+      "status": "PENDING",
+      "detail": "awaiting ['holdout6 working subset']; holdout4: working=86; holdout5: working=47; holdout6: working=None; holdout7: working=NOT_REPORTABLE"
+    },
+    "3_holdout_informed_labelled": {
+      "status": "PASS",
+      "detail": "superseded/unlabelled claims standing: none"
+    },
+    "4_negatives_in_place": {
+      "status": "FAIL",
+      "detail": "29/35 held; failures reported in place: ['H5-3', 'H5-6', 'H5-7', 'H6-6', 'H7-6', 'H7-7']; unscored: ['H5-8']"
+    },
+    "5_full_suite_passes": {
+      "status": "PENDING",
+      "detail": "cross-phase audit incomplete"
+    },
+    "6_above_noise_floor": {
+      "status": "PASS",
+      "detail": "provenance reaches memory poisoning (HO4, B13 vs B14 recall): +29.9 vs floor 4.4 (n=157); powered composition (HO6, P2 -> P4 harm): +3.8 vs floor 2.4 (n=500); framing helps a stronger agent (Gemini): +36.7 vs floor 7.1 (n=60)"
+    }
+  },
+  "disqualifiers_clear": {
+    "unlabelled_repeated_holdout": true,
+    "untested_family_reported_untested": true,
+    "every_guard_mutation_proven": true,
+    "registry": "17/17 proven"
+  },
+  "noise_floor_claims": [
+    {
+      "claim": "provenance reaches memory poisoning (HO4, B13 vs B14 recall)",
+      "delta_points": 29.9,
+      "n": 157,
+      "floor_points": 4.4,
+      "above": true
+    },
+    {
+      "claim": "powered composition (HO6, P2 -> P4 harm)",
+      "delta_points": 3.8,
+      "n": 500,
+      "floor_points": 2.4,
+      "above": true
+    },
+    {
+      "claim": "framing helps a stronger agent (Gemini)",
+      "delta_points": 36.7,
+      "n": 60,
+      "floor_points": 7.1,
+      "above": true
+    }
+  ],
+  "standard": "PUBLISHABLE only if every criterion below passes:\n  1. every claim is traceable to an artifact that exists\n  2. every hold-out attack-detection rate carries its false-positive rate and both denominators\n     (full population AND working subset), or the working subset is declared not reportable\n     by the rule fixed before the corpus was built\n  3. hold-out-informed numbers are labelled (no superseded or unlabelled claim stands in any\n     document a reader meets)\n  4. negatives and corrections are reported in place (every pre-registered prediction has a\n     reported outcome, failures included)\n  5. the full cross-phase suite passes\n  6. no headline claim sits below the measured noise floor for its sample size\nNOT PUBLISHABLE if any of: a headline claim depends on an unlabelled, repeatedly-scored hold-out;\nan untested attack family is reported as measured; a guard is claimed without mutation proof."
+}
