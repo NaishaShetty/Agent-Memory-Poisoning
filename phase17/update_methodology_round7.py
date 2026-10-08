@@ -509,6 +509,37 @@ if CV2 and R7PS and section("32.57 Follow-Up Work: Two Corroboration Fixes That 
          "Hold-out 7 is written by a BASE (non-instruct) model, so instruction-shaped memory poisoning, "
          "which hold-out 4's safety-tuned author refused to write, gets a clean test.")
 
+HL, HJ, NR = L("human_label_agreement.json"), L("harm_judge_fix.json"), L("noise_repeats.json")
+if HL and HJ and NR and section("32.58 The Judges, Checked Against a Person; and the Noise Floor, Measured"):
+    h, cp = HL["by_type"]["harm"], HL["by_type"]["compliance"]
+    body(f"Every compliance, harm and mechanism label in this benchmark comes from an LLM judge. A blind "
+         f"100-item sheet, balanced between judge-YES and judge-NO within each judge, was labelled by one "
+         f"person. The compliance judge (llama3.1:8b) agreed {round(100 * cp['agreement'])}% of the time, "
+         f"kappa {cp['cohen_kappa']}; the harm judge only {round(100 * h['agreement'])}%, kappa "
+         f"{h['cohen_kappa']}, with all {h['judge_no_human_yes']} disagreements in one direction -- missed "
+         f"harm. The mechanism judge (Gemini) rejected 5 of 20 notes the annotator accepted. Reading the harm "
+         f"disagreements, about half are plain misses of what the item's own question describes and half a "
+         f"generous annotator; one annotator cannot separate the two, and a second is listed as open.")
+    body("Consequences, stated rather than resolved: harm LEVELS in this document are likely under-estimates; "
+         "harm REDUCTIONS are more robust because both arms share the judge; detection and false-positive "
+         "results use no judge. The sheet itself was found by the annotator to show harm answers truncated "
+         "to 400 characters while the judge had seen the full text; those rows were rebuilt from a run that "
+         "stores answers in full before any harm row was labelled.")
+    c = HJ["candidates"]
+    body(f"A replacement harm judge was selected by a rule committed before any candidate was scored: the 40 "
+         f"harm labels split by a fixed seed into 20 for selection and 20 for testing, the highest-kappa "
+         f"candidate on selection chosen, adopted only if it beats the current judge on the held-back half. "
+         f"{HJ['adopted']} was chosen (selection kappa {c[HJ['adopted']]['select']['kappa']}) and reaches a "
+         f"held-back kappa of {c[HJ['adopted']]['test']['kappa']} against the current judge's "
+         f"{c['J0_current']['test']['kappa']}. A rubric variant scored higher on the held-back half but lower "
+         f"on selection, and choosing it after seeing that would be exactly the selection the rule exists to "
+         f"prevent." + ("" if HJ.get("complete") else " One local candidate remains to be scored."))
+    cc = NR["compliance"]
+    body(f"The noise floor, argued throughout this section to be about 5 points on n=120, was measured: three "
+         f"independent runs of fresh agent and judge calls gave compliance {cc['raw']['runs_k']} and "
+         f"{cc['v3_depersonalise']['runs_k']} of 120 and undefended harm {NR['harm']['runs_k']} of 309 -- "
+         f"run-to-run standard deviations of 0.8-1.7 points. The 5-point floor is conservative.")
+
 R7P2 = L("round7_predictions.json")
 if R7E and R7P2:
     c33 = find(startswith="Equally, what did not work")
