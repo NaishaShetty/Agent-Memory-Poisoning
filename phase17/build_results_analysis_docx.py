@@ -944,7 +944,7 @@ P("What survives. The matched-FPR comparison calibrated EVERY scorer on the same
 
 # ============================================================================ 11
 H("10B. Recommendation, Conditioned on the False-Positive Budget", 1)
-for _t in ['RECOMMENDATION (round 7; supersedes the round-6 guidance of Section 32.45 / 10B, which named B18 for memory poisoning). It is still conditioned on the threat and the false-positive budget, and it now rests on two clean hold-outs rather than on populations the configurations were selected on.', "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 -- a new author family, a new owner, scored once -- it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4.", "(2) INJECTION-SHAPED text arriving in memory: B17 (or B18) where about a 10% false-positive budget is acceptable -- 90.1% recall at 10.2-11.0% on hold-out 5's matched benign. The 33-55% figures of hold-out 3 were a property of that corpus. B18 adds nothing over B17 on either new hold-out, so the deberta dependency is not justified by clean evidence.", '(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%) and its effect roughly doubled on a stronger agent (60 dev items). It does almost nothing against fabricated facts, and composed with a cheap detector it does NOT dominate strong exclusion (the pre-registered test failed): it is a trade that buys lower exclusion at higher residual compliance.', '(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger at radius 0.95, chosen by a rule fixed before the radius sweep: adaptive evasion 32/130 -> 5/130 (p=1.5e-08) at a 6.4% ledger-poisoning blast radius, against 29.7% at the previously published 0.90. Where that surface must be near zero, 0.97 still cuts evasion to 8/130 (p=1e-07) at 0.7%.']:
+for _t in ['RECOMMENDATION (round 7; supersedes the round-6 guidance of Section 32.45 / 10B, which named B18 for memory poisoning). It is still conditioned on the threat and the false-positive budget, and it now rests on two clean hold-outs rather than on populations the configurations were selected on.', "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 -- a new author family, a new owner, scored once -- it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4.", "(2) INJECTION-SHAPED text arriving in memory: B17 -- 90.1% recall at 10.2% on hold-out 5 and 77.6% at 2.2% on hold-out 6, both matched-benign. The 33-55% figures of hold-out 3 were a property of that corpus. NOT B18: its deberta hard rule cost 16.3% false positives on hold-out 6 and excluded 4.9% of the user's own words on hold-out 7, because it ignores the channel trust B13 applies.", '(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%) and its effect roughly doubled on a stronger agent (60 dev items). It does almost nothing against fabricated facts, and composed with a cheap detector it does NOT dominate strong exclusion (the pre-registered test failed): it is a trade that buys lower exclusion at higher residual compliance.', '(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger at radius 0.95, chosen by a rule fixed before the radius sweep: adaptive evasion 32/130 -> 5/130 (p=1.5e-08) at a 6.4% ledger-poisoning blast radius, against 29.7% at the previously published 0.90. Where that surface must be near zero, 0.97 still cuts evasion to 8/130 (p=1e-07) at 0.7%.']:
     P(_t)
 P("The round-6 recommendation this supersedes is kept below, unchanged, so the change is auditable.")
 for _t in RECOMMENDATION_TEXT:
@@ -1171,6 +1171,37 @@ if _M7:
       f"wrote valid standing instructions ({a['standing_instruction']['k']}/40) but almost no valid dormant "
       f"triggers ({a['conditional_backdoor']['k']}/40), so conditional backdoors are reported as untested on "
       f"a clean hold-out rather than as measured.")
+
+_E67 = L("eval_round7b_holdouts.json")
+if _E67:
+    _h6, _h7 = _E67["holdouts"]["holdout6"], _E67["holdouts"]["holdout7"]
+    rows = [["Configuration", "HO6 recall (500)", "HO6 matched-benign FPR (1,000)", "HO7 recall (129)",
+             "HO7 benign FPR untrusted / user_turn (189)"]]
+    for c in ("B12", "B13", "B14", "B15", "B17", "B18"):
+        a, b = _h6["configs"][c], _h7["configs"][c]
+        rows.append([c, pct(a["attack_recall"]["rate"]), pct(a["matched_benign_fpr"]["rate"]),
+                     pct(b["attack_recall"]["rate"]),
+                     f"{pct(b['benign_fpr_untrusted_channel']['rate'])} / {pct(b['benign_fpr_user_turn']['rate'])}"])
+    TBL(rows)
+    CAP("Table 17. Hold-out 6 (SPML: LLM-authored chatbot injections, matched benign) and hold-out 7 "
+        "(memory poisoning written by a base model, owner LoCoMo 8), each scored once under pre-registration "
+        "addendum 3. Hold-out 7 is shown on its full corpus; its owner-matched subset is the pre-registered "
+        "primary and its working subset is not reportable (the probe's task-alone base rate, 28%, exceeds "
+        "the 20% rule fixed before it was built). Source: phase17/data/eval_round7b_holdouts.json.")
+    _d12 = _h6["neutralisation"]["by_detector"]["B12"]
+    P(f"Hold-out 6 replicates the main corpus finding: the union configuration runs at "
+      f"{pct(_h6['configs']['B17']['matched_benign_fpr']['rate'])} matched-benign false positives. And the "
+      f"composition test that failed on hold-out 5 for lack of power holds here with 500 attacks: "
+      f"excluding with B12 and framing the rest cut harm from {_d12['policies']['P2_exclude']['harm_k']} to "
+      f"{_d12['policies']['P4_exclude_plus_neutralise_rest']['harm_k']} of 500 "
+      f"(p={_d12['paired_P4_vs_P2_harm']['p_exact']:.2g}). On top of B18 the frame adds nothing, so "
+      f"neutralisation helps a weak detector and not a strong one. Two results count against B18: its "
+      f"deberta rule excluded {pct(_h6['configs']['B18']['matched_benign_fpr']['rate'])} of hold-out 6's "
+      f"ordinary prompts, and {pct(_h7['configs']['B18']['benign_fpr_user_turn']['rate'])} of hold-out 7's "
+      f"benign notes even when they arrive as the user's own words, because it ignores channel trust. The "
+      f"contradiction rule added nothing on hold-out 7, and framing raised compliance on instruction-shaped "
+      f"attacks there while cutting it on note-shaped ones -- the reverse of the prediction, and recorded as "
+      f"a failed prediction.")
 
 if R7P:
     rows = [["Prediction", "Outcome", "Measured"]]

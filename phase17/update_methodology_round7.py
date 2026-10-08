@@ -180,6 +180,12 @@ append_note("p_32_46_noise",
             "so the ~5-point floor used throughout is conservative.]",
             contains="A noise floor belongs with these numbers")
 
+append_note("p_32_56_b17",
+            "[Updated by hold-outs 6 and 7: for injection-shaped text use B17, not B18 -- B18's deberta hard "
+            "rule cost 16.3% false positives on hold-out 6 and excluded 4.9% of the user's own words on "
+            "hold-out 7, because it ignores channel trust.]",
+            contains="(2) INJECTION-SHAPED text arriving in memory: B17 (or B18)")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
@@ -539,6 +545,32 @@ if HL and HJ and NR and section("32.58 The Judges, Checked Against a Person; and
          f"independent runs of fresh agent and judge calls gave compliance {cc['raw']['runs_k']} and "
          f"{cc['v3_depersonalise']['runs_k']} of 120 and undefended harm {NR['harm']['runs_k']} of 309 -- "
          f"run-to-run standard deviations of 0.8-1.7 points. The 5-point floor is conservative.")
+
+E67, R7P3 = L("eval_round7b_holdouts.json"), L("round7_predictions.json")
+if E67 and R7P3 and section("32.59 Hold-Outs 6 and 7: a Replication, a Powered Re-Test, and Two Defects of B18"):
+    h6, h7 = E67["holdouts"]["holdout6"], E67["holdouts"]["holdout7"]
+    rows = [["Configuration", "HO6 recall", "HO6 matched-benign FPR", "HO7 recall", "HO7 benign FPR untrusted / user_turn"]]
+    for c in ("B12", "B13", "B14", "B15", "B17", "B18"):
+        a, b = h6["configs"][c], h7["configs"][c]
+        rows.append([c, f"{a['attack_recall']['rate']:.1%}", f"{a['matched_benign_fpr']['rate']:.1%}",
+                     f"{b['attack_recall']['rate']:.1%}",
+                     f"{b['benign_fpr_untrusted_channel']['rate']:.1%} / {b['benign_fpr_user_turn']['rate']:.1%}"])
+    table(rows)
+    d12 = h6["neutralisation"]["by_detector"]["B12"]
+    body(f"Table 24 - Scored once under pre-registration addendum 3; {R7P3['n_held']} of {R7P3['n_scored']} "
+         f"round-7 predictions now hold. Hold-out 6 replicates the false-positive finding on a second "
+         f"independent corpus (B17 at {h6['configs']['B17']['matched_benign_fpr']['rate']:.1%}), and the "
+         f"composition test that failed on hold-out 5 for lack of power holds with 500 attacks "
+         f"({d12['policies']['P2_exclude']['harm_k']} -> {d12['policies']['P4_exclude_plus_neutralise_rest']['harm_k']}, "
+         f"p={d12['paired_P4_vs_P2_harm']['p_exact']:.2g}). Neutralisation helps a weak detector and adds "
+         f"nothing on top of B18. Two defects of B18 surfaced, both on hold-outs, so any fix is "
+         f"hold-out-informed: its deberta hard rule excluded "
+         f"{h6['configs']['B18']['matched_benign_fpr']['rate']:.1%} of hold-out 6's ordinary prompts, and "
+         f"{h7['configs']['B18']['benign_fpr_user_turn']['rate']:.1%} of hold-out 7's benign notes arriving as "
+         f"the user's own words, because it ignores the channel trust B13 applies. The contradiction rule "
+         f"added nothing; framing raised compliance on instruction-shaped attacks on hold-out 7 (a failed "
+         f"prediction); and hold-out 7's working subset is not reportable, because its probe's task-alone base "
+         f"rate (28%) exceeds the 20% rule fixed before the corpus was built.")
 
 R7P2 = L("round7_predictions.json")
 if R7E and R7P2:

@@ -514,6 +514,28 @@ def rows():
             f"effectively untested", "holdout7_mechanism.json",
             "the safety-tuned author inverted these families (hold-out 4); the base model writes standing "
             "instructions but not dormant triggers")
+    e67 = _L("eval_round7b_holdouts.json")
+    if e67:
+        h6, h7 = e67["holdouts"]["holdout6"], e67["holdouts"]["holdout7"]
+        d12 = h6["neutralisation"]["by_detector"]["B12"]
+        add("favourable", "The false-positive finding replicates on a second independent corpus (hold-out 6)",
+            f"B17 {pct(h6['configs']['B17']['attack_recall']['rate'])} recall at "
+            f"{pct(h6['configs']['B17']['matched_benign_fpr']['rate'])} matched-benign FPR (500 / 1,000, SPML)",
+            "eval_round7b_holdouts.json", "LLM-authored corpus; 3,728 near-copies dropped before freezing")
+        add("favourable", "The failed composition test holds when powered (hold-out 6)",
+            f"B12 exclusion + neutralise-the-rest vs B12 alone: {d12['policies']['P2_exclude']['harm_k']} -> "
+            f"{d12['policies']['P4_exclude_plus_neutralise_rest']['harm_k']} of 500, "
+            f"p={d12['paired_P4_vs_P2_harm']['p_exact']:.2g}",
+            "eval_round7b_holdouts.json", "adds nothing on top of B18; it helps a weak detector, not a strong one")
+        add("unfavourable", "Two defects of B18 found on hold-outs",
+            f"its deberta hard rule cost {pct(h6['configs']['B18']['matched_benign_fpr']['rate'])} FPR on "
+            f"hold-out 6 and excluded {pct(h7['configs']['B18']['benign_fpr_user_turn']['rate'])} of hold-out 7's "
+            f"user_turn benign notes (ignores channel trust)", "eval_round7b_holdouts.json",
+            "the recommendation for injection-shaped text is now B17, not B18; any B18 fix is hold-out-informed")
+        add("unfavourable", "Hold-out 7: contradiction rule adds nothing; framing backfired on instruction attacks",
+            "B13c +0 on contradiction attacks; framing raised compliance on instruction-shaped attacks (+5 points)",
+            "eval_round7b_holdouts.json + round7_predictions.json",
+            "hold-out 7's working subset is not reportable (probe base rate 28% > the 20% rule)")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 
