@@ -536,6 +536,41 @@ def rows():
             "B13c +0 on contradiction attacks; framing raised compliance on instruction-shaped attacks (+5 points)",
             "eval_round7b_holdouts.json + round7_predictions.json",
             "hold-out 7's working subset is not reportable (probe base rate 28% > the 20% rule)")
+    ut = _L("neutralise_utility.json")
+    if ut:
+        add("open", "Usefulness cost of the neutralisation frame on benign memories",
+            "; ".join(f"{n}: {pct(t['raw']['rate'])} -> {pct(t['framed']['rate'])}" for n, t in ut["tasks"].items()),
+            "neutralise_utility.json", f"{ut['n_notes']} benign notes; agent {ut['agent']}")
+    ad = _L("adaptive_round7.json")
+    if ad:
+        for key in ("vs_neutralisation", "vs_corroboration"):
+            if ad.get(key):
+                ev = ad[key]["adaptive_evasion"]
+                add("open", f"Adaptive evasion {key.replace('_', ' ')}",
+                    f"{ev['k']}/{ad[key]['n_seeds']} initially-caught seeds evaded within {ad['budget']} rewrites",
+                    "adaptive_round7.json", "conditional on an initial catch")
+    hr = _L("harm_rejudged.json")
+    if hr:
+        add("open", "Harm study re-judged with the human-validated judge",
+            "; ".join(f"{n}: undefended {pct(r['harm_undefended']['rate'])}, B13 {pct(r['harm_b13']['rate'])}"
+                      for n, r in hr["by_judge"].items()),
+            "harm_rejudged.json", "identical full-text answers; original figures stand beside it")
+    hs = _L("harm_strong_agent.json")
+    if hs:
+        add("open", "Harm with a stronger agent (Gemini)",
+            f"undefended {pct(hs['gemini']['harm_undefended']['rate'])} vs qwen "
+            f"{pct(hs['qwen_same_items']['harm_undefended']['rate'])}; B13 {pct(hs['gemini']['harm_b13']['rate'])}",
+            "harm_strong_agent.json", hs["subset"])
+    s120 = _L("neutralise_strong_agent_n120.json")
+    if s120:
+        add("open", "Stronger-agent framing effect, all 120 dev items",
+            f"Gemini {s120['effect_points']['gemini']:+.1f} vs qwen {s120['effect_points']['qwen']:+.1f} points",
+            "neutralise_strong_agent_n120.json", "extension for precision, not the pre-registered test")
+    h6c = _L("holdout6_causal.json")
+    if h6c:
+        add("open", "Hold-out 6 causal working subset",
+            f"{h6c['working']['k']}/{h6c['n']} working; base rate {h6c['task_alone_base_rate']['k']}/{h6c['n']}",
+            "holdout6_causal.json", "recall reported on both denominators in the results paper")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 

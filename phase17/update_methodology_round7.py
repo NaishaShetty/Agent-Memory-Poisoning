@@ -572,6 +572,34 @@ if E67 and R7P3 and section("32.59 Hold-Outs 6 and 7: a Replication, a Powered R
          f"prediction); and hold-out 7's working subset is not reportable, because its probe's task-alone base "
          f"rate (28%) exceeds the 20% rule fixed before the corpus was built.")
 
+UT, AD, HS, HR, S120, H6C = (L("neutralise_utility.json"), L("adaptive_round7.json"),
+                             L("harm_strong_agent.json"), L("harm_rejudged.json"),
+                             L("neutralise_strong_agent_n120.json"), L("holdout6_causal.json"))
+if UT and AD and HS and HR and S120 and H6C and section(
+        "32.60 The Last Measurements: Utility Cost, Adaptive Evasion, Re-Judged Harm, Stronger Agent"):
+    parts = []
+    loss = ", ".join(f"{n} {t['loss_points']:+.1f} points (p={t['paired_framed_vs_raw']['p_exact']:.2g})"
+                     for n, t in UT["tasks"].items())
+    parts.append(f"Utility: on {UT['n_notes']} benign notes the frame cost {loss}.")
+    for key, label in (("vs_neutralisation", "the frame"), ("vs_corroboration", "corroboration")):
+        if AD.get(key):
+            ev = AD[key]["adaptive_evasion"]
+            parts.append(f"An adaptive attacker with {AD['budget']} feedback-guided rewrites evaded "
+                         f"{label} on {ev['k']}/{AD[key]['n_seeds']} initially-caught seeds.")
+    for name, r in HR["by_judge"].items():
+        parts.append(f"Harm under {name}: undefended {r['harm_undefended']['rate']:.1%}, with B13 "
+                     f"{r['harm_b13']['rate']:.1%}, task-alone {r['task_alone_base_rate']['rate']:.1%} "
+                     f"(n={HR['n']}).")
+    g = HS["gemini"]
+    parts.append(f"Stronger-agent harm (seeded {HS['n']}): undefended {g['harm_undefended']['rate']:.1%} vs "
+                 f"qwen {HS['qwen_same_items']['harm_undefended']['rate']:.1%}.")
+    parts.append(f"Stronger-agent framing on all {S120['n']} dev items: {S120['effect_points']['gemini']:+.1f} "
+                 f"points (qwen {S120['effect_points']['qwen']:+.1f}).")
+    parts.append(f"Hold-out 6 working subset: {H6C['working']['k']}/{H6C['n']} (task-alone base rate "
+                 f"{H6C['task_alone_base_rate']['k']}/{H6C['n']}).")
+    body(" ".join(parts) + " None of these was pre-registered as a prediction; each is reported as "
+         "measured, beside the corresponding earlier figure, and nothing was tuned on it.")
+
 R7P2 = L("round7_predictions.json")
 if R7E and R7P2:
     c33 = find(startswith="Equally, what did not work")

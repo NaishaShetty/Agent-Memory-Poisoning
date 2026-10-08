@@ -1212,6 +1212,72 @@ if R7P:
         f"(phase17/report_round7.py): {R7P['n_held']}/{R7P['n_scored']} held, verdict "
         f"{R7P['verdict']}. Failures stay in the table.")
 
+_UT, _AD, _HS, _HR, _S120, _H6C = (L("neutralise_utility.json"), L("adaptive_round7.json"),
+                                   L("harm_strong_agent.json"), L("harm_rejudged.json"),
+                                   L("neutralise_strong_agent_n120.json"), L("holdout6_causal.json"))
+if any((_UT, _AD, _HS, _HR, _S120, _H6C)):
+    H("13B. The Last Measurements: Cost, Adaptation, a Better Judge, and a Stronger Agent", 2)
+if _UT:
+    rows = [["Benign task", "Useful without frame", "Useful with frame", "Loss (points)", "p (paired)"]]
+    for name, t in _UT["tasks"].items():
+        rows.append([name, pct(t["raw"]["rate"]), pct(t["framed"]["rate"]), f"{t['loss_points']:+.1f}",
+                     f"{t['paired_framed_vs_raw']['p_exact']:.2g}"])
+    TBL(rows)
+    CAP(f"Table 18. What the neutralisation frame costs on BENIGN memories: {_UT['n_notes']} benign notes, "
+        f"each used by the agent ({_UT['agent']}) for an ordinary task with and without the "
+        f"{_UT['frame']} frame, judged by {_UT['judge']}. A frame with no false positives can still cost "
+        f"usefulness; this is that cost. Source: phase17/data/neutralise_utility.json.")
+if _AD:
+    for key, label in (("vs_neutralisation", "the neutralisation frame"),
+                       ("vs_corroboration", "corroboration (B13)")):
+        a = _AD.get(key)
+        if not a:
+            continue
+        ev = a["adaptive_evasion"]
+        P(f"Adaptive attacker against {label}: given the defense's own feedback and {_AD['budget']} "
+          f"rewrites, it evaded on {ev['k']} of {a['n_seeds']} seeds that the defense had stopped "
+          f"({pct(ev['rate'])}; 95% CI {pct(ev['ci95'][0])}-{pct(ev['ci95'][1])}). Reference: "
+          f"{_AD['reference']}. Seeds were attacks the defense stopped, so this is an evasion rate "
+          f"conditional on an initial catch.")
+if _HR:
+    bj = _HR["by_judge"]
+    rows = [["Judge", "Task-alone base rate", "Harm undefended", "Harm with B13", "p (B13 vs undefended)"]]
+    for name, r in bj.items():
+        rows.append([name, pct(r["task_alone_base_rate"]["rate"]), pct(r["harm_undefended"]["rate"]),
+                     pct(r["harm_b13"]["rate"]), f"{r['paired_b13_vs_undefended']['p_exact']:.2g}"])
+    TBL(rows)
+    CAP(f"Table 19. The harm study ({_HR['n']} instances) re-judged on identical full-text answers by the "
+        f"original judge and by the judge adopted against held-back human labels "
+        f"({_HR['adopted_judge']}). The original judge's figures elsewhere in this document stand as "
+        f"measured; this table shows how far they move under a judge that agrees better with a person. "
+        f"Source: phase17/data/harm_rejudged.json.")
+if _HS:
+    g, q = _HS["gemini"], _HS["qwen_same_items"]
+    P(f"Harm with a stronger agent ({_HS['agent']}, {_HS['subset']}): undefended "
+      f"{pct(g['harm_undefended']['rate'])} against qwen's {pct(q['harm_undefended']['rate'])} on the same "
+      f"items (paired p={_HS['paired_gemini_vs_qwen_undefended']['p_exact']:.2g}); with B13, "
+      f"{pct(g['harm_b13']['rate'])} against {pct(q['harm_b13']['rate'])}. Task-alone base rate for the "
+      f"stronger agent: {pct(g['task_alone_base_rate']['rate'])}.")
+if _S120:
+    P(f"Extending the stronger-agent framing test to all {_S120['n']} development items (an extension for "
+      f"precision, not the pre-registered test): {_S120['agent']} complied "
+      f"{pct(_S120['arms']['raw']['rate'])} raw against {pct(_S120['arms'][_S120['frame']]['rate'])} framed "
+      f"({_S120['effect_points']['gemini']:+.1f} points, p="
+      f"{_S120['paired_framed_vs_raw_gemini']['p_exact']:.2g}), against qwen's "
+      f"{_S120['effect_points']['qwen']:+.1f} on the same items.")
+if _H6C and _E67:
+    _w = _H6C["per_item_working"]
+    _a6 = _E67["holdouts"]["holdout6"]["raw"]["attack"]
+    _rw = []
+    for c in ("B12", "B13", "B14", "B17", "B18"):
+        xs = [x for x, w in zip(_a6[c], _w) if w]
+        if xs:
+            _rw.append(f"{c} {sum(xs)}/{len(xs)} ({sum(xs)/len(xs):.1%})")
+    P(f"Hold-out 6's causal working subset (complied with the injection in memory and not without it): "
+      f"{_H6C['working']['k']}/{_H6C['n']}, task-alone base rate {_H6C['task_alone_base_rate']['k']}/"
+      f"{_H6C['n']}. Recall on it: " + "; ".join(_rw) + ". Matched-benign false positives are those of "
+      f"Table 17; the full-population and working-subset recalls are both reported.")
+
 if _A7 and _P7:
     H("12A. Round 7 in One Paragraph", 2)
     P(f"Round 7 tested this project's own claims against data built to break them. Of {_P7['n_scored']} "
@@ -1246,6 +1312,15 @@ for name, what, present in [
     ("eval_rejection_fresh.json", "Pre-registered radius on fresh seeds", bool(FRESH)),
     ("eval_holdout3.json", "Pre-registered third hold-out evaluation", bool(H3)),
     ("exfiltration_agent_check.json", "Three-agent-family exfiltration test", bool(EXFIL)),
+    ("eval_round7_holdouts.json", "Hold-outs 4 and 5, scored once", bool(R7E)),
+    ("eval_round7b_holdouts.json", "Hold-outs 6 and 7, scored once", bool(_E67)),
+    ("round7_predictions.json", "Round-7 pre-registered predictions, scored mechanically", bool(R7P)),
+    ("neutralise_utility.json", "Usefulness cost of the frame on benign memories", bool(_UT)),
+    ("adaptive_round7.json", "Adaptive attacker against framing and corroboration", bool(_AD)),
+    ("harm_rejudged.json", "Harm study re-judged with the adopted judge", bool(_HR)),
+    ("harm_strong_agent.json", "Harm with a stronger agent, seeded subset", bool(_HS)),
+    ("neutralise_strong_agent_n120.json", "Stronger-agent framing, all 120 dev items", bool(_S120)),
+    ("holdout6_causal.json", "Hold-out 6 causal working subset", bool(_H6C)),
 ]:
     idx.append([name, what, "yes" if present else "NOT YET RUN"])
 TBL(idx)
