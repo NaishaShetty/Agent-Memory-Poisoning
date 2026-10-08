@@ -1,7 +1,7 @@
 {
-  "n": 70,
+  "n": 71,
   "counts": {
-    "favourable": 39,
+    "favourable": 40,
     "unfavourable": 25,
     "open": 6
   },
@@ -241,7 +241,7 @@
     {
       "category": "favourable",
       "item": "Every past error's guard PROVEN by mutation testing",
-      "result": "31/31 guards fail when their error is reintroduced and pass again once restored",
+      "result": "35/35 guards fail when their error is reintroduced and pass again once restored",
       "artifact": "error_registry.json",
       "caveat": "establishing it exposed that four of eight guards had been decoration, plus CRLF shell scripts, a guard passing on exit 127, and the harness corrupting what it measured twice"
     },
@@ -318,7 +318,7 @@
     {
       "category": "favourable",
       "item": "Round-7 pre-registration scored mechanically",
-      "result": "29/35 held (CALIBRATED); failed: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7",
+      "result": "31/37 held (CALIBRATED); failed: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7",
       "artifact": "round7_predictions.json",
       "caveat": "failures stay in the table; one interval failed by 0.1 point and counts as failed"
     },
@@ -489,6 +489,13 @@
       "result": "13/22 at 0.97, 16/22 at 0.95",
       "artifact": "adaptive_ledger_exploratory.json",
       "caveat": "post-hoc upper bound on dev; the composed adaptive run (B13 + ledger) is not yet measured"
+    },
+    {
+      "category": "favourable",
+      "item": "The ledger closes corroboration's adaptive weakness (pre-registered)",
+      "result": "22/48 -> 5/48 at radius 0.95, paired +1/-18, p=7.6e-05",
+      "artifact": "adaptive_ledger_b13.json",
+      "caveat": "dev only; ledger cost = 6.4% blast radius at 0.95 (dev); B18 + ledger not measured (~40 s per B18 decision)"
     },
     {
       "category": "open",

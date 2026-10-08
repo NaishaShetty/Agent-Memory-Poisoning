@@ -1,7 +1,7 @@
 {
-  "n_predictions": 36,
-  "n_scored": 35,
-  "n_held": 29,
+  "n_predictions": 38,
+  "n_scored": 37,
+  "n_held": 31,
   "verdict": "CALIBRATED",
   "rule": "PREREGISTRATION_ROUND7.md",
   "sharpness": {
@@ -9,8 +9,8 @@
     "n_interval_held": 9,
     "mean_interval_width_points": 19.8,
     "widest": "H5-3",
-    "n_directional": 25,
-    "n_directional_held": 20,
+    "n_directional": 27,
+    "n_directional_held": 22,
     "misses": {
       "H5-3": 0.1
     },
@@ -337,6 +337,20 @@
       "prediction": "some generator's acceptance >= 8.4% + 15 points",
       "status": "HELD",
       "evidence": "best 27.5%",
+      "kind": "directional"
+    },
+    {
+      "id": "L-1",
+      "prediction": "ledger@0.95 + B13 evades on fewer seeds than B13 alone, p<0.05",
+      "status": "HELD",
+      "evidence": "22/48 -> 5/48, p=7.6e-05",
+      "kind": "directional"
+    },
+    {
+      "id": "L-2",
+      "prediction": "ledger-arm evasion <= 8/48",
+      "status": "HELD",
+      "evidence": "5/48",
       "kind": "directional"
     }
   ]

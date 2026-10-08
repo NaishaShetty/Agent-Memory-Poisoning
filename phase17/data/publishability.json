@@ -3,7 +3,7 @@
   "criteria": {
     "1_traceable": {
       "status": "PASS",
-      "detail": "66 inventory rows; missing artifacts: none"
+      "detail": "71 inventory rows; missing artifacts: none"
     },
     "2_fpr_and_both_denominators": {
       "status": "PASS",
@@ -15,22 +15,26 @@
     },
     "4_negatives_in_place": {
       "status": "PASS",
-      "detail": "29/35 held; failures reported in place: ['H5-3', 'H5-6', 'H5-7', 'H6-6', 'H7-6', 'H7-7']; unscored: none"
+      "detail": "31/37 held; failures reported in place: ['H5-3', 'H5-6', 'H5-7', 'H6-6', 'H7-6', 'H7-7']; unscored: none"
     },
     "5_full_suite_passes": {
-      "status": "PENDING",
-      "detail": "cross-phase audit predates the latest source change; re-run it"
+      "status": "PASS",
+      "detail": "14 phase suites, 3500 tests passed; failing: none"
     },
     "6_above_noise_floor": {
       "status": "PASS",
       "detail": "provenance reaches memory poisoning (HO4, B13 vs B14 recall): +29.9 vs floor 4.4 (n=157); powered composition (HO6, P2 -> P4 harm): +3.8 vs floor 2.4 (n=500); framing helps a stronger agent (Gemini): +32.5 vs floor 5.0 (n=120)"
+    },
+    "7_all_measurements_complete": {
+      "status": "PENDING",
+      "detail": "partial: ['harm_rejudged.json']"
     }
   },
   "disqualifiers_clear": {
     "unlabelled_repeated_holdout": true,
     "untested_family_reported_untested": true,
     "every_guard_mutation_proven": true,
-    "registry": "31/31 proven"
+    "registry": "35/35 proven"
   },
   "noise_floor_claims": [
     {
@@ -55,6 +59,8 @@
       "above": true
     }
   ],
-  "disclosed_partial_results": [],
+  "disclosed_partial_results": [
+    "harm_rejudged.json"
+  ],
   "standard": "PUBLISHABLE only if every criterion below passes:\n  1. every claim is traceable to an artifact that exists\n  2. every hold-out attack-detection rate carries its false-positive rate and both denominators\n     (full population AND working subset), or the working subset is declared not reportable\n     by the rule fixed before the corpus was built\n  3. hold-out-informed numbers are labelled (no superseded or unlabelled claim stands in any\n     document a reader meets)\n  4. negatives and corrections are reported in place (every pre-registered prediction has a\n     reported outcome, failures included)\n  5. the full cross-phase suite passes\n  6. no headline claim sits below the measured noise floor for its sample size\nNOT PUBLISHABLE if any of: a headline claim depends on an unlabelled, repeatedly-scored hold-out;\nan untested attack family is reported as measured; a guard is claimed without mutation proof."
 }
