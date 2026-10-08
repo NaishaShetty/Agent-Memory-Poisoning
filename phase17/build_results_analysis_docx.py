@@ -1302,6 +1302,17 @@ if _AD:
           f"{_c['by_radius']['0.95']['residual_evasion_upper_bound']}. A blocked attacker would have kept "
           f"rewriting, so this bounds the composition rather than measuring it; the composed run is "
           f"listed as open. Source: phase17/data/adaptive_ledger_exploratory.json.")
+    _LB = L("adaptive_ledger_b13.json")
+    if _LB:
+        _pp = _LB["paired_ledger_vs_control"]
+        P(f"MEASURED (pre-registration addendum 4, committed before the run): the composition, on the "
+          f"identical {_LB['n_seeds']} seeds with the same attacker and budget. Corroboration wrapped by "
+          f"the ledger at radius {_LB['radius']} was evaded on {_LB['ledger_evasion']['k']} of "
+          f"{_LB['n_seeds']} seeds against {_LB['control_evasion']['k']} without it (paired "
+          f"+{_pp['only_a']}/-{_pp['only_b']}, exact McNemar p={_pp['p_exact']:.2g}); prediction L-1 "
+          f"{'HELD' if _LB['L1_held'] else 'FAILED'}, L-2 {'HELD' if _LB['L2_held'] else 'FAILED'}. "
+          f"The ledger's cost at this radius is the 6.4% ledger-poisoning blast radius measured on "
+          f"development data. Source: phase17/data/adaptive_ledger_b13.json.")
 if _HR:
     bj = _HR["by_judge"]
     rows = [["Judge", "Task-alone base rate", "Harm undefended", "Harm with B13", "p (B13 vs undefended)"]]
@@ -1434,6 +1445,7 @@ for name, what, present in [
     ("holdout6_causal.json", "Hold-out 6 causal working subset", bool(_H6C)),
     ("publishability.json", "The computed publishability verdict", bool(PUB)),
     ("adaptive_ledger_exploratory.json", "EXPLORATORY: would the ledger block the adaptive evasions", bool(L("adaptive_ledger_exploratory.json"))),
+    ("adaptive_ledger_b13.json", "Ledger composed with corroboration, adaptive attacker (addendum 4)", bool(L("adaptive_ledger_b13.json"))),
 ]:
     idx.append([name, what, "yes" if present else "NOT YET RUN"])
 TBL(idx)

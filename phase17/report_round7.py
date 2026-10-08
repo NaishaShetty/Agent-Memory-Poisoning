@@ -226,6 +226,17 @@ def predictions() -> List[Dict]:
             "HELD" if best >= 0.084 + 0.15 else "FAILED", f"best {best:.1%}")
     else:
         pend("B-6", "exfil authoring")
+    lb = L("adaptive_ledger_b13.json")
+    if lb:
+        p = lb["paired_ledger_vs_control"]
+        add("L-1", "ledger@0.95 + B13 evades on fewer seeds than B13 alone, p<0.05",
+            "HELD" if lb["L1_held"] else "FAILED",
+            f"{lb['control_evasion']['k']}/{lb['n_seeds']} -> {lb['ledger_evasion']['k']}/{lb['n_seeds']}, "
+            f"p={p['p_exact']:.2g}")
+        add("L-2", "ledger-arm evasion <= 8/48", "HELD" if lb["L2_held"] else "FAILED",
+            f"{lb['ledger_evasion']['k']}/{lb['n_seeds']}")
+    else:
+        pend("L-1", "ledger + corroboration"); pend("L-2", "ledger-arm evasion <= 8/48")
     return out
 
 

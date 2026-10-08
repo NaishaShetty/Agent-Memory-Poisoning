@@ -617,6 +617,18 @@ def rows():
             f"{c['by_radius']['0.95']['would_block']}/{c['evasions']} at 0.95",
             "adaptive_ledger_exploratory.json",
             "post-hoc upper bound on dev; the composed adaptive run (B13 + ledger) is not yet measured")
+    lb = _L("adaptive_ledger_b13.json")
+    if lb:
+        pp = lb["paired_ledger_vs_control"]
+        add("favourable" if lb["L1_held"] else "unfavourable",
+            "The ledger " + ("closes" if lb["L1_held"] else "does NOT close") + " corroboration's adaptive weakness (pre-registered)",
+            f"{lb['control_evasion']['k']}/{lb['n_seeds']} -> {lb['ledger_evasion']['k']}/{lb['n_seeds']} at radius "
+            f"{lb['radius']}, paired +{pp['only_a']}/-{pp['only_b']}, p={pp['p_exact']:.2g}",
+            "adaptive_ledger_b13.json",
+            "dev only; ledger cost = 6.4% blast radius at 0.95 (dev); B18 + ledger not measured (~40 s per B18 decision)")
+    else:
+        add("open", "Ledger composed with B18 / with corroboration", "not yet measured", "-",
+            "B18 + ledger: an estimated 4-9 GPU hours; B18 is no longer recommended")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 

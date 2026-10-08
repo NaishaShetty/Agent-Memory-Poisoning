@@ -215,6 +215,16 @@ append_note("p_which_rule_holdout_informed",
             "the source -- is unchanged, but it is not a development-set result.]",
             contains="Per-rule attribution on 200 DEV items from the same source")
 
+LB = L("adaptive_ledger_b13.json")
+if LB:
+    _pp = LB["paired_ledger_vs_control"]
+    append_note("p_32_56_ledger_b13_measured",
+                f"[Measured under pre-registration addendum 4: B13 + evidence + ledger@{LB['radius']} was evaded "
+                f"on {LB['ledger_evasion']['k']}/{LB['n_seeds']} seeds against {LB['control_evasion']['k']}/"
+                f"{LB['n_seeds']} without the ledger (exact McNemar p={_pp['p_exact']:.2g}; L-1 "
+                f"{'HELD' if LB['L1_held'] else 'FAILED'}, L-2 {'HELD' if LB['L2_held'] else 'FAILED'}).]",
+                contains="(1) MEMORY POISONING with the owner's conversation available: B13 with evidence")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
