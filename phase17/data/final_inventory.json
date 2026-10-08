@@ -1,8 +1,8 @@
 {
-  "n": 55,
+  "n": 58,
   "counts": {
-    "favourable": 33,
-    "unfavourable": 20,
+    "favourable": 35,
+    "unfavourable": 21,
     "open": 2
   },
   "classification_rule": "Written because a summary assembled from memory is where selective reporting creeps in. Each\nrow names the artifact it came from, so any line can be checked, and the classification rule is\napplied mechanically rather than by recollection:",
@@ -384,6 +384,27 @@
       "result": "needed to separate 'the judges are strict' from 'one annotator's threshold is lower', and to measure human-to-human agreement",
       "artifact": "docs/phase17/human_labels/",
       "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "The run-to-run noise floor is measured, not assumed",
+      "result": "three independent runs: raw compliance [61, 62, 63] of 120 (SD 0.83 pts), framed [36, 40, 39] (SD 1.73), undefended harm [87, 89, 94] of 309 (SD 1.17)",
+      "artifact": "noise_repeats.json",
+      "caveat": "dev only; the ~5-point floor used throughout is conservative"
+    },
+    {
+      "category": "favourable",
+      "item": "A better harm judge, chosen on half the human labels and tested on the other half",
+      "result": "current judge TEST kappa 0.239; adopted J2_gemini_original TEST kappa 0.773 (selection not yet complete)",
+      "artifact": "harm_judge_fix.json",
+      "caveat": "agreement is with ONE annotator; harm levels are re-measured with the adopted judge BESIDE the original, never in place of it"
+    },
+    {
+      "category": "unfavourable",
+      "item": "Instruction-shaped memory poisoning only partly testable on a clean hold-out",
+      "result": "hold-out 7 (base-model author): standing instructions 23/40 valid, conditional backdoors 3/40 -- conditional backdoors remain effectively untested",
+      "artifact": "holdout7_mechanism.json",
+      "caveat": "the safety-tuned author inverted these families (hold-out 4); the base model writes standing instructions but not dormant triggers"
     },
     {
       "category": "open",

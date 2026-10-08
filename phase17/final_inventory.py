@@ -487,6 +487,33 @@ def rows():
         add("open", "A second independent human annotator",
             "needed to separate 'the judges are strict' from 'one annotator's threshold is lower', and to "
             "measure human-to-human agreement", "docs/phase17/human_labels/")
+    nr = _L("noise_repeats.json")
+    if nr:
+        c = nr["compliance"]
+        add("favourable", "The run-to-run noise floor is measured, not assumed",
+            f"three independent runs: raw compliance {c['raw']['runs_k']} of 120 (SD {c['raw']['sd_points']} pts), "
+            f"framed {c['v3_depersonalise']['runs_k']} (SD {c['v3_depersonalise']['sd_points']}), undefended harm "
+            f"{nr['harm']['runs_k']} of 309 (SD {nr['harm']['sd_points']})",
+            "noise_repeats.json", "dev only; the ~5-point floor used throughout is conservative")
+    hj = _L("harm_judge_fix.json")
+    if hj:
+        c = hj["candidates"]
+        add("favourable" if hj["adopted"] != "J0_current" else "open",
+            "A better harm judge, chosen on half the human labels and tested on the other half",
+            f"current judge TEST kappa {c['J0_current']['test']['kappa']}; adopted {hj['adopted']} TEST kappa "
+            f"{c[hj['adopted']]['test']['kappa']}" + ("" if hj.get("complete") else " (selection not yet complete)"),
+            "harm_judge_fix.json",
+            "agreement is with ONE annotator; harm levels are re-measured with the adopted judge BESIDE the "
+            "original, never in place of it")
+    m7 = _L("holdout7_mechanism.json")
+    if m7:
+        a = m7["attack_mechanism"]
+        add("unfavourable", "Instruction-shaped memory poisoning only partly testable on a clean hold-out",
+            f"hold-out 7 (base-model author): standing instructions {a['standing_instruction']['k']}/40 valid, "
+            f"conditional backdoors {a['conditional_backdoor']['k']}/40 -- conditional backdoors remain "
+            f"effectively untested", "holdout7_mechanism.json",
+            "the safety-tuned author inverted these families (hold-out 4); the base model writes standing "
+            "instructions but not dormant triggers")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 
