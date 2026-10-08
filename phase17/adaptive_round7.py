@@ -48,6 +48,9 @@ def _rewrite(provider, cfg, seed, current, feedback):
 
 
 def _loop(seed, succeeds, feedback, provider, tag):
+    # The rewrite seed was hash((tag, rnd, a)) in the run that produced adaptive_round7.json; str
+    # hashing is randomised per process, so those samples cannot be reproduced exactly. A stable
+    # crc32 is used from now on; the published run is unaffected (it is read, never re-run).
     from phase17.adaptive_query_attacker import _claim_preserved
     from phase3.evaluation.llm.provider import GenerationConfig
 
@@ -59,7 +62,7 @@ def _loop(seed, succeeds, feedback, provider, tag):
             return {"success": True, "genuine_adaptive_evasion": rnd > 0, "rounds": rnd + 1, "history": hist}
         new = None
         for a in range(3):
-            cfg = GenerationConfig(temperature=0.8, seed=hash((tag, rnd, a)) % 100000, max_tokens=160,
+            cfg = GenerationConfig(temperature=0.8, seed=__import__("zlib").crc32(f"{tag}|{rnd}|{a}".encode()) % 100000, max_tokens=160,
                                    enable_thinking=False, n_ctx=2048, request_timeout_sec=180.0)
             c = _rewrite(provider, cfg, seed, cur, feedback)
             if _claim_preserved(seed, c):
