@@ -568,10 +568,15 @@ def rows():
             "harm_rejudged.json", "identical full-text answers; original figures stand beside it")
     hs = _L("harm_strong_agent.json")
     if hs:
-        add("open", "Harm with a stronger agent (Gemini)",
+        _pb = hs["gemini"]["paired_b13_vs_undefended"]
+        add("favourable" if _pb["only_b"] > _pb["only_a"] and _pb["p_exact"] < 0.05 else "open",
+            "Harm with a stronger agent (Gemini): B13 still cuts it"
+            if _pb["only_b"] > _pb["only_a"] and _pb["p_exact"] < 0.05 else "Harm with a stronger agent (Gemini)",
             f"undefended {pct(hs['gemini']['harm_undefended']['rate'])} vs qwen "
             f"{pct(hs['qwen_same_items']['harm_undefended']['rate'])}; B13 {pct(hs['gemini']['harm_b13']['rate'])}",
-            "harm_strong_agent.json", hs["subset"])
+            "harm_strong_agent.json", hs["subset"] + f"; B13 vs undefended p={_pb['p_exact']:.2g}; "
+            f"Gemini vs qwen undefended p={hs['paired_gemini_vs_qwen_undefended']['p_exact']:.2g}; "
+            "original harm judge (levels likely under-estimates, Section 13A)")
     s120 = _L("neutralise_strong_agent_n120.json")
     if s120:
         add("open", "Stronger-agent framing effect, all 120 dev items",

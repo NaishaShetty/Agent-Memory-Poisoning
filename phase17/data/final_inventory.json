@@ -1,7 +1,7 @@
 {
-  "n": 65,
+  "n": 66,
   "counts": {
-    "favourable": 38,
+    "favourable": 39,
     "unfavourable": 24,
     "open": 3
   },
@@ -440,6 +440,13 @@
       "result": "plan_week: 30.3% -> 32.0% (p=0.68); direct_question: 63.7% -> 58.7% (p=0.082)",
       "artifact": "neutralise_utility.json",
       "caveat": "300 benign notes, agent qwen2.5:7b; largest loss direct_question +5.0 points (p=0.082), one LLM judge"
+    },
+    {
+      "category": "favourable",
+      "item": "Harm with a stronger agent (Gemini): B13 still cuts it",
+      "result": "undefended 36.0% vs qwen 31.0%; B13 14.0%",
+      "artifact": "harm_strong_agent.json",
+      "caveat": "seeded 100 of the 309 harm-study instances (seed 41); an estimate; B13 vs undefended p=4.8e-07; Gemini vs qwen undefended p=0.46; original harm judge (levels likely under-estimates, Section 13A)"
     },
     {
       "category": "open",
