@@ -90,7 +90,15 @@ def _ask(provider_name: str, template: str, it: Dict, cache: Dict) -> bool:
             from phase12.propagation.ollama_provider import OllamaProvider
             p = OllamaProvider(model="llama3.1:8b")
         cache[k] = p.generate([{"role": "user", "content": prompt}], cfg).text.strip().upper()[:3]
-        PARTIAL.write_text(json.dumps(cache, indent=1), encoding="utf-8")
+        # MERGE on write: a remote Gemini process and the GPU queue may both be adding verdicts, and a
+        # plain overwrite from either would drop the other's entries.
+        try:
+            disk = json.loads(PARTIAL.read_text(encoding="utf-8")) if PARTIAL.exists() else {}
+        except (json.JSONDecodeError, PermissionError):
+            disk = {}
+        disk.update(cache)
+        cache.update(disk)
+        PARTIAL.write_text(json.dumps(disk, indent=1), encoding="utf-8")
     return cache[k].startswith("YES")
 
 
