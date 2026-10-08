@@ -89,7 +89,18 @@ def _ask(provider_name: str, template: str, it: Dict, cache: Dict) -> bool:
         else:
             from phase12.propagation.ollama_provider import OllamaProvider
             p = OllamaProvider(model="llama3.1:8b")
-        cache[k] = p.generate([{"role": "user", "content": prompt}], cfg).text.strip().upper()[:3]
+        # The free tier answers 429 under load; a rate limit is a wait, not a failure. Round 7 lost a
+        # 40-minute stage to one uncaught 429 (ROUND7_LOG R7-27).
+        for attempt in range(8):
+            try:
+                cache[k] = p.generate([{"role": "user", "content": prompt}], cfg).text.strip().upper()[:3]
+                break
+            except Exception as exc:
+                if provider_name != "gemini" or attempt == 7:
+                    raise
+                import time
+                print(f"  gemini retry {attempt + 1} after {type(exc).__name__}", flush=True)
+                time.sleep(30 * (attempt + 1))
         # MERGE on write: a remote Gemini process and the GPU queue may both be adding verdicts, and a
         # plain overwrite from either would drop the other's entries.
         try:
@@ -243,6 +254,32 @@ def precompute_gemini_raw() -> dict:
             print(f"  gemini raw verdicts {n}", flush=True)
     return {"n": n}
 
+
+
+def precompute_gemini_nopo() -> dict:
+    """Remote-only: J2's verdicts on the 309 NO-POISON answers rejudge() generated on the GPU.
+
+    Same cache keys rejudge() looks up, so its final run makes only the local J0 calls.
+    """
+    from phase17 import harm_study_v2 as H  # noqa: F401  (same import surface as rejudge)
+
+    pub = {r["id"]: r for r in json.loads((DATA / "harm_study_v2.json").read_text(encoding="utf-8"))["rows"]}
+    cache = json.loads(PARTIAL.read_text(encoding="utf-8")) if PARTIAL.exists() else {}
+    prov, tpl = CANDIDATES["J2_gemini_original"]
+    n = 0
+    for k, ans in list(cache.items()):
+        if not k.startswith("nopo_ans:"):
+            continue
+        pid = k[len("nopo_ans:"):]
+        p = pub.get(pid)
+        if not p:
+            continue
+        _ask(prov, tpl, {"item": f"nopo:{pid}", "note": p["poison_text"], "answer": ans,
+                         "question": p["judge_question"]}, cache)
+        n += 1
+        if n % 20 == 0:
+            print(f"  gemini nopo verdicts {n}", flush=True)
+    return {"n": n}
 
 if __name__ == "__main__":
     import sys

@@ -434,3 +434,12 @@ scripts module (`test_no_module_defines_a_function_after_its_main_block`), mutat
 80 of the stronger-agent harm study's no-poison answers had been stored as
 `__ERROR__ LLMProviderTimeoutError`. The judge refused to score them (correctly), which stopped the
 queue; collect() retries errored keys, and was re-run on the remote queue while the GPU continued.
+
+## R7-27: one uncaught Gemini 429 ended a 40-minute GPU stage
+
+The harm re-measurement generated all 309 no-poison answers on the GPU (checkpointed), then died on
+the first free-tier rate limit while judging them with the adopted Gemini judge. Fixed: `_ask`
+retries a Gemini rate limit with backoff (8 attempts) instead of raising; and the Gemini verdicts on
+the no-poison answers are precomputed on the remote queue (`gemini_queue.py j2nopo`, same cache keys,
+note and question verified identical to rejudge()'s for all 309 items), so the stage's final run on
+the GPU makes only the local J0 calls. The GPU queue was relaunched with the next stages at once.
