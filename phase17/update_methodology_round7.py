@@ -235,7 +235,7 @@ append_note("p_32_46_noise",
 
 append_note("p_32_56_b17",
             "[Updated by hold-outs 6 and 7: for injection-shaped text use B17, not B18 -- B18's deberta hard "
-            "rule cost 16.3% false positives on hold-out 6 and excluded 4.9% of the user's own words on "
+            "rule cost 16.3% false positives on hold-out 6 and excluded 3.7% of hold-out 7's benign notes even as the user's own words (4.9% on its owner-matched subset), on "
             "hold-out 7, because it ignores channel trust.]",
             contains="(2) INJECTION-SHAPED text arriving in memory: B17 (or B18)")
 
@@ -346,7 +346,7 @@ _PC = L("round7_predictions.json")
 if _PC and find(contains="round-7 predictions now hold") is not None:
     upsert_note("p_table24_count", "[Prediction tally after later addenda:",
                 f"[Prediction tally after later addenda: {_PC['n_held']} of {_PC['n_scored']} held ({_PC['verdict']}); "
-                f"failures and the Holm correction are listed in the results paper, Table 16.]",
+                f"failures and the Holm correction are listed in the results paper, Table 17.]",
                 contains="round-7 predictions now hold")
 MO, MR = L("risk_monitoring_eval.json"), L("risk_monitoring_eval_realistic.json")
 if MO and MR:
@@ -364,7 +364,7 @@ if MO and MR:
 _FIGDIR = Path(__file__).resolve().parents[1] / "docs" / "figures"
 replace_figure("fig01b", "Figure 1b summarizes Sections 29-32", _FIGDIR / "round7" / "fig01b_pipeline_14_17.png")
 replace_figure("fig12", "Figure 12 traces the four real guard-group scores", _FIGDIR / "round7" / "fig12_phase10.png")
-replace_figure("fig20", "Real 3-arm agentic harm study, final numbers", _FIGDIR / "round7" / "fig20_harm.png")
+replace_figure("fig20", "Figure 20 - ", _FIGDIR / "round7" / "fig20_harm.png")
 if find(contains="Real 3-arm agentic harm study, final numbers") is not None:
     replace_in("cap_fig20", "Real 3-arm agentic harm study, final numbers.",
                "Harm study, 309 instances by family (redrawn 2026-10-09 from the artifacts; this figure "
@@ -374,6 +374,11 @@ replace_figure("fig16b", "Phase 13 Real Results: attribution accuracy", _FIGDIR 
 _cap13 = find(contains="Phase 13 Real Results: attribution accuracy")
 if _cap13 is not None and _cap13.text.startswith("Figure 17"):
     replace_in("cap_fig16b", "Figure 17", "Figure 16b", contains="Phase 13 Real Results: attribution accuracy")
+
+if find(contains="excluded 4.9% of the user's own words on") is not None:
+    replace_in("p_b18_denominator", "excluded 4.9% of the user's own words on",
+               "excluded 3.7% of hold-out 7's benign notes even as the user's own words (4.9% on its owner-matched subset), on",
+               contains="excluded 4.9% of the user's own words on")
 
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.

@@ -418,7 +418,7 @@
       "item": "The failed composition test holds when powered (hold-out 6)",
       "result": "B12 exclusion + neutralise-the-rest vs B12 alone: 246 -> 227 of 500, p=0.023",
       "artifact": "eval_round7b_holdouts.json",
-      "caveat": "adds nothing on top of B18; it helps a weak detector, not a strong one; holds at its pre-registered alpha but NOT after Holm correction across the round's nine significance predictions (adjusted p~0.07)"
+      "caveat": "adds nothing on top of B18; it helps a weak detector, not a strong one; holds at its pre-registered alpha but NOT after Holm correction across the round's 13 significance predictions (adjusted p=0.11)"
     },
     {
       "category": "unfavourable",
@@ -481,7 +481,7 @@
       "item": "Hold-out 6: the attacks that work are harder to detect (direction is corpus-specific)",
       "result": "B13 37.2% full vs 28.6% working; B14 77.4% full vs 68.4% working; B17 77.6% full vs 68.4% working; B18 98.6% full vs 98.6% working",
       "artifact": "holdout6_causal.json + eval_round7b_holdouts.json",
-      "caveat": "294/500 working, task-alone base rate 33/500 (under the 20% rule); full-population recall overstates protection; B18 holds only through its 16.3%-FPR deberta rule; on hold-outs 4 and 5 the working attacks are EASIER for B13 (~+10 points) -- Table 21"
+      "caveat": "294/500 working, task-alone base rate 33/500 (under the 20% rule); full-population recall overstates protection; B18 holds only through its 16.3%-FPR deberta rule; on hold-outs 4 and 5 the working attacks are EASIER for B13 (~+10 points) -- Table 20"
     },
     {
       "category": "open",

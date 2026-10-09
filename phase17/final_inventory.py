@@ -527,8 +527,9 @@ def rows():
             f"{d12['policies']['P4_exclude_plus_neutralise_rest']['harm_k']} of 500, "
             f"p={d12['paired_P4_vs_P2_harm']['p_exact']:.2g}",
             "eval_round7b_holdouts.json", "adds nothing on top of B18; it helps a weak detector, not a strong one; "
-            "holds at its pre-registered alpha but NOT after Holm correction across the round's nine "
-            "significance predictions (adjusted p~0.07)")
+            "holds at its pre-registered alpha but NOT after Holm correction across the round's "
+            + (lambda m: f"{m['m']} significance predictions (adjusted p={m['adjusted'].get('H6-4', float('nan')):.2g})")(
+                (_L("round7_predictions.json") or {}).get("multiplicity", {"m": "?", "adjusted": {}})))
         add("unfavourable", "Two defects of B18 found on hold-outs",
             f"its deberta hard rule cost {pct(h6['configs']['B18']['matched_benign_fpr']['rate'])} FPR on "
             f"hold-out 6 and excluded {pct(h7['configs']['B18']['benign_fpr_user_turn']['rate'])} of hold-out 7's "
@@ -611,7 +612,7 @@ def rows():
                 f"{h6c['working']['k']}/{h6c['n']} working, task-alone base rate "
                 f"{h6c['task_alone_base_rate']['k']}/{h6c['n']} (under the 20% rule); full-population recall "
                 f"overstates protection; B18 holds only through its 16.3%-FPR deberta rule; on hold-outs 4 "
-                f"and 5 the working attacks are EASIER for B13 (~+10 points) -- Table 21")
+                f"and 5 the working attacks are EASIER for B13 (~+10 points) -- Table 20")
     alx = _L("adaptive_ledger_exploratory.json")
     if alx:
         c = alx["arms"]["vs_corroboration"]

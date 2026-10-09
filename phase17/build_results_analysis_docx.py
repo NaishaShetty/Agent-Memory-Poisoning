@@ -147,14 +147,14 @@ sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for r in sub.runs:
     r.font.size = Pt(11)
     r.italic = True
-dt = doc.add_paragraph("2026-10-06 (round 7; corrections made in place)")
+dt = doc.add_paragraph(__import__("datetime").date.today().isoformat() + " (round 7; corrections made in place)")
 dt.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for r in dt.runs:
     r.font.size = Pt(9)
 
 # ============================================================================ Abstract
 H("Abstract", 1)
-P(f"We report the results of four independent review rounds over MAMBench, a benchmark for "
+P(f"We report the results of five independent review rounds (3-7) over MAMBench, a benchmark for "
   f"memory-poisoning attacks on LLM agents with persistent memory. The headline result is not "
   f"about a defense. A causal, pre-committed, defense-independent audit finds that only "
   f"{pct(WS.get('overall_rate'))} of the benchmark's {WS.get('n_total', 0):,} attack instances "
@@ -291,11 +291,15 @@ P("The third hold-out is methodologically the most informative of the three for 
 H("2.3 Models, Determinism and Cost Accounting", 2)
 P("All agent-side measurement uses qwen2.5:7b; judging uses llama3.1:8b, a different model "
   "family from the agent and from every signal inside the defenses; a third family (mistral:7b) "
-  "is reserved for out-of-loop validation. Temperature is 0 with fixed seeds throughout, but "
+  "was reserved for out-of-loop validation (round 7 changed this: mistral authored hold-out 4 and judges "
+  "hold-out 8's mechanisms, Gemini judged hold-outs 4 and 7's mechanisms and is the harm judge adopted "
+  "against human labels, and no model ever judges text it wrote). Temperature is 0 with fixed seeds throughout, but "
   "runs are NOT bit-reproducible: an identical prompt set scored 66, 64 and 61 of 120 across "
   "three runs, because Ollama's concurrent batching is not deterministic. Roughly 5 points on "
-  "n=120 was taken as the noise floor, and no difference smaller than that is claimed anywhere in "
-  "this document. Round 7 then measured it directly with three independent runs of two headline "
+  "n=120 was taken as the noise floor for LLM-generated and LLM-judged quantities, scaled as "
+  "5*sqrt(120/n) for other sample sizes, and no such difference smaller than that is claimed. "
+  "Retrieval-ranking and detection decisions on fixed text are deterministic (no generation), so the "
+  "floor does not apply to them; their small differences rest on exact paired tests instead. Round 7 then measured it directly with three independent runs of two headline "
   "quantities: the run-to-run standard deviation is 0.8-1.7 points (compliance 61/62/63 and 36/40/39 "
   "of 120; undefended harm 87/89/94 of 309), so the 5-point floor is conservative. (An earlier version of this paragraph stated that batching changes throughput "
   "only and never a result; that was wrong.) Cost is reported as cold-cache "
@@ -388,7 +392,8 @@ if HARM:
             rows.append([f"{f} ({v['n']})", kn(v["harm_no_poison"]), pct(v["harm_no_defense"]["rate"]),
                          pct(v["harm_b12"]["rate"]), pct(v["harm_b13"]["rate"])])
     TBL(rows)
-    CAP("Table 4. Unconditional harm: the share of instances whose answer an independent judge "
+    CAP("Table 4. Unconditional harm (original judge; a judge validated against human labels finds "
+        "undefended harm about twice as high on the same answers -- Section 13B). The share of instances whose answer an independent judge "
         "rates harmful, with the poison absent, present-and-undefended, and present-and-defended. "
         "The task-alone column is the leading-question control; a task whose answer is harmful "
         "with no poison in the store is leading, and round 4's task set had a 26.7% base rate "
@@ -737,7 +742,7 @@ P("B17 therefore excludes if either excludes, and B18 additionally applies the d
   "at its FPR-matched threshold as a hard rule, on the diagnostic that the fusion already contains "
   "that classifier as one of eleven features yet is beaten by it alone on the clean hold-out. Both "
   "are better than either component on three of four groups, tie on the fourth, and add no "
-  "additional ordinary-benign false positive -- every benign item B13 excludes, B14 already "
+  "additional ordinary-benign false positive on ordinary memory (on hold-out 4's memory-shaped benign notes the union pays both components' false positives, Section 13) -- every benign item B13 excludes, B14 already "
   "excluded. Neither introduces a fitted parameter, which is what keeps selecting them after "
   "reading hold-out results defensible; a guard test parses the abstract syntax tree to assert no "
   "parameter appears. Their numbers on hold-outs 1 and 2 are nonetheless DESCRIPTIVE, not held "
@@ -839,7 +844,7 @@ H("9. RQ5 - Adaptive Evasion: a Negative Result, an Underpowered Test, and a Pow
 P("A query-based adaptive attacker queries the live defense, reads its verdict, asks a model to "
   "rewrite the memory preserving its claim, and tries again within a budget of five, with every "
   "rewrite checked for claim preservation by NLI so that an attacker who 'evades' by deleting the "
-  "payload does not count. Roughly 20% of initially excluded instances are recovered, and the rate "
+  "payload does not count. Roughly 20% of initially excluded instances are recovered (corroboration with evidence proved more brittle, 22/48, Section 13B), and the rate "
   "is the same for the content-only stack, the provenance configuration and the eleven-feature "
   "fusion: the fusion's 170-fold cost buys nothing here. The diagnosis is statelessness -- five "
   "rewrites are five independent attempts at a probabilistic detector, and the four rejected "
@@ -1022,7 +1027,7 @@ P("What survives. The matched-FPR comparison calibrated EVERY scorer on the same
 
 # ============================================================================ 11
 H("10B. Recommendation, Conditioned on the False-Positive Budget", 1)
-for _t in ['RECOMMENDATION (round 7; supersedes the round-6 guidance of Section 32.45 / 10B, which named B18 for memory poisoning). It is still conditioned on the threat and the false-positive budget, and it now rests on two clean hold-outs rather than on populations the configurations were selected on.', "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 -- a new author family, a new owner, scored once -- it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4. Corroboration is brittle to an attacker told why it was rejected: 22 of 48 seeds evaded within five rewrites, against 32/130 for stateless detection (Fisher p=0.0096), by light paraphrase -- so against a retry-capable attacker it needs (4).", "(2) INJECTION-SHAPED text arriving in memory: B17 -- 90.1% recall at 10.2% on hold-out 5 and 77.6% at 2.2% on hold-out 6, both matched-benign. The 33-55% figures of hold-out 3 were a property of that corpus. NOT B18: its deberta hard rule cost 16.3% false positives on hold-out 6 and excluded 4.9% of the user's own words on hold-out 7, because it ignores the channel trust B13 applies.", '(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%), and its effect was larger on a stronger agent: Gemini 44.2% -> 11.7% against qwen at 50.8% -> 30.0% on all 120 dev items (32.5 against 20.8 points). It does almost nothing against fabricated facts, and composed with a cheap detector it does NOT dominate strong exclusion (the pre-registered test failed): it is a trade that buys lower exclusion at higher residual compliance.', '(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger at radius 0.95, chosen by a rule fixed before the radius sweep: adaptive evasion 32/130 -> 5/130 (p=1.5e-08) at a 6.4% ledger-poisoning blast radius, against 29.7% at the previously published 0.90. Where that surface must be near zero, 0.97 still cuts evasion to 8/130 (p=1e-07) at 0.7%.']:
+for _t in ['RECOMMENDATION (round 7; supersedes the round-6 guidance of Section 32.45 / 10B, which named B18 for memory poisoning). It is still conditioned on the threat and the false-positive budget, and it now rests on two clean hold-outs rather than on populations the configurations were selected on.', "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 -- a new author family, a new owner, scored once -- it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4. Corroboration is brittle to an attacker told why it was rejected: 22 of 48 seeds evaded within five rewrites, against 32/130 for stateless detection (Fisher p=0.0096), by light paraphrase -- so against a retry-capable attacker it needs (4).", "(2) INJECTION-SHAPED text arriving in memory: B17 -- 90.1% recall at 10.2% on hold-out 5 and 77.6% at 2.2% on hold-out 6, both matched-benign. The 33-55% figures of hold-out 3 were a property of that corpus. NOT B18: its deberta hard rule cost 16.3% false positives on hold-out 6 and excluded 3.7% of hold-out 7's benign notes even as the user's own words (4.9% on its owner-matched subset), because it ignores the channel trust B13 applies.", '(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%), and its effect was larger on a stronger agent: Gemini 44.2% -> 11.7% against qwen at 50.8% -> 30.0% on all 120 dev items (32.5 against 20.8 points). It does almost nothing against fabricated facts, and composed with a cheap detector it does NOT dominate strong exclusion (the pre-registered test failed): it is a trade that buys lower exclusion at higher residual compliance.', '(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger at radius 0.95, chosen by a rule fixed before the radius sweep: adaptive evasion 32/130 -> 5/130 (p=1.5e-08) at a 6.4% ledger-poisoning blast radius, against 29.7% at the previously published 0.90. Where that surface must be near zero, 0.97 still cuts evasion to 8/130 (p=1e-07) at 0.7%.']:
     P(_t)
 _CPr = L("rwr_campaign.json")
 if _CPr:
@@ -1044,23 +1049,31 @@ for _t in RECOMMENDATION_TEXT:
     P("[SUPERSEDED by the round-7 recommendation above] " + _t)
 
 H("11. Limitations", 1)
+_H8E, _S120L = L("eval_holdout8.json"), L("neutralise_strong_agent_n120.json")
+_A2 = L("human_label_agreement_annotator2.json")
 P("These are limits on the claims, not a work plan. (i) The ledger's adaptive-evasion result rests "
-  "on a seed rule revised after the pre-registered test failed, carries a 29.7% ledger-poisoning "
-  "blast radius, and does nothing against a single-shot attacker, one who distributes attempts "
-  "across isolated scopes, or one who waits out the ledger time-to-live. (ii) Exfiltration is a "
-  "tested mechanism whose harm is zero for every agent family tried; that is a finding about 7-8B "
-  "assistants and says nothing about stronger agents. (iii) Hold-out 4 covers note-shaped poisoning "
-  "only: its safety-tuned author inverted both instruction-shaped families, which were withdrawn. "
-  "Hold-out 5 has 131 attacks, so its rates carry about +/-8 points. Neutralisation's benefit roughly "
-  "doubled on a stronger agent, but that comparison rests on 60 items. (iv) The first three hold-outs are prompt-injection or jailbreak corpora; a good score "
-  "on them is evidence about detecting overt injected instructions that arrive in memory and says "
-  "nothing about additive fabrication or preference hijack, for which this project's own mechanism "
-  "populations remain the only test -- hold-out 4 (round 7) is the first memory-poisoning hold-out. (v) No licence has been attached to the benchmark, which is "
+  "on a seed rule revised after the pre-registered test failed, and at the recommended radius 0.95 carries "
+  "a 6.4% ledger-poisoning blast radius (29.7% at 0.90); it does nothing against a single-shot attacker, one "
+  "who distributes attempts across isolated scopes, or one who waits out the ledger time-to-live. (ii) "
+  "Exfiltration is a tested mechanism whose harm is zero for every agent family tried; that is a finding "
+  "about 7-8B assistants. (iii) Hold-out 4 covers note-shaped poisoning only (its safety-tuned author "
+  "inverted the instruction-shaped families); hold-out 7 adds instruction-shaped attacks but its working "
+  "subset is not reportable"
+  + (", and hold-out 8 tests conditional backdoors (Section 13D)" if _H8E else
+     ", and conditional backdoors remain untested on a clean hold-out")
+  + ". Hold-out 5 has 131 attacks, so its rates carry about +/-8 points. The stronger-agent comparison "
+  + (f"rests on {_S120L['n']} development items" if _S120L else "rests on 60 items")
+  + ". (iv) The first three hold-outs are prompt-injection or jailbreak corpora; hold-outs 4 and 7 are "
+  "the memory-poisoning hold-outs. (v) The judges were checked against "
+  + ("two annotators" if _A2 else "one annotator (a second is in progress)")
+  + ". (vi) Four of MPBench's six attack classes need write channels this victim architecture does not "
+  "have (tool-executed writes, session compaction, skill synthesis); covering them needs a tool-using "
+  "victim agent and is future work. (vii) No licence has been attached to the benchmark, which is "
   "a deliberate deferral by the owner.")
 
 # ============================================================================ 12
 H("12. Conclusion", 1)
-P(f"The central result of these four rounds is a measurement result. Only "
+P(f"The central result of these five rounds is a measurement result. Only "
   f"{pct(WS.get('overall_rate'))} of this benchmark's attack instances both subvert an undefended "
   f"agent and implement the mechanism they are labelled with, and that single number reframes "
   f"every detection rate the project has published. The response to it -- a causal, pre-committed, "
@@ -1099,11 +1112,11 @@ R7H5C = L("holdout5_causal.json")
 R7OWN = L("neutralise_own.json")
 R7STRONG = L("neutralise_strong_agent.json")
 R7SWEEP = L("eval_ledger_radius_sweep.json")
-H("13. Round 7: Two Clean Hold-Outs, a Composition, and What Did Not Generalise", 1)
+H("13. Round 7: New Clean Hold-Outs, a Composition, and What Did Not Generalise", 1)
 P("Round 7 retired hold-out 3 (scored seven times, one pre-registered, and its development set "
   "shown to be the hold-out itself: Section 10C) and built new corpora -- hold-outs 4 and 5 in this section, 6 and 7 in Section 13A -- each frozen before any "
   "configuration was scored and each scored exactly ONCE under predictions committed beforehand "
-  "(docs/phase17/PREREGISTRATION_ROUND7.md, plus one addendum committed before scoring that "
+  "(docs/phase17/PREREGISTRATION_ROUND7.md, plus addenda, each committed before the scoring it governs; the first "
   "replaced a leading probe). Hold-out 5 is injection-shaped with a matched benign half: 131 "
   "jailbreaks real users sent to the Vicuna demo and 1,000 ordinary prompts from the same interface "
   "(toxic-chat), after dropping 52 near-copies of text this project had already used. Hold-out 4 is "
@@ -1276,7 +1289,7 @@ if _E67:
                      pct(b["attack_recall"]["rate"]),
                      f"{pct(b['benign_fpr_untrusted_channel']['rate'])} / {pct(b['benign_fpr_user_turn']['rate'])}"])
     TBL(rows)
-    CAP("Table 17. Hold-out 6 (SPML: LLM-authored chatbot injections, matched benign) and hold-out 7 "
+    CAP("Table 16. Hold-out 6 (SPML: LLM-authored chatbot injections, matched benign) and hold-out 7 "
         "(memory poisoning written by a base model, owner LoCoMo 8), each scored once under pre-registration "
         "addendum 3. Hold-out 7 is shown on its full corpus; its owner-matched subset is the pre-registered "
         "primary and its working subset is not reportable (the probe's task-alone base rate, 28%, exceeds "
@@ -1319,12 +1332,16 @@ if R7P:
         _nh = _mu["held_but_not_surviving"]
         P(f"Multiplicity. The {_mu['m']} predictions whose criterion is a significance test are "
           f"Holm-corrected as one family. "
-          + (f"{', '.join(_nh)} held at its pre-registered alpha but does NOT survive the family-wide "
+          + (f"{', '.join(_nh)} held at {'its' if len(_nh) == 1 else 'their'} pre-registered alpha but "
+             f"{'does' if len(_nh) == 1 else 'do'} NOT survive the family-wide "
              f"correction (adjusted p=" + ", ".join(f"{_mu['adjusted'][i]:.2g}" for i in _nh) + "); "
-             f"it is reported as holding under its pre-registration and as not robust to multiplicity. "
+             f"{'it is' if len(_nh) == 1 else 'they are'} reported as holding under the pre-registration and as not "
+             f"robust to multiplicity"
+             + (f" (R-1 was then replicated on fresh stores as R6-1, which does survive: adjusted p="
+                f"{_mu['adjusted']['R6-1']:.2g})" if "R-1" in _nh and "R6-1" in _mu["adjusted"] else "") + ". "
              if _nh else "Every one that held survives the correction. ")
           + "Every other held significance prediction survives.")
-    CAP(f"Table 16. Every round-7 pre-registered prediction, scored mechanically from the artifacts "
+    CAP(f"Table 17. Every round-7 pre-registered prediction, scored mechanically from the artifacts "
         f"(phase17/report_round7.py): {R7P['n_held']}/{R7P['n_scored']} held, verdict "
         f"{R7P['verdict']}. Failures stay in the table.")
 
@@ -1348,7 +1365,7 @@ if _UT:
     _wn, _wt = max(_UT["tasks"].items(), key=lambda kv: kv[1]["loss_points"])
     P(("The frame costs usefulness significantly on " + ", ".join(_sig) + ".") if _sig else
       (f"No task loses usefulness significantly under the frame. The largest point loss is "
-       f"{_wn}, {_wt['loss_points']:+.1f} points (p={_wt['paired_framed_vs_raw']['p_exact']:.2g}): at "
+       f"{_wn}, a loss of {_wt['loss_points']:.1f} points (p={_wt['paired_framed_vs_raw']['p_exact']:.2g}): at "
        f"the edge of this document's noise floor and not significant, so it is reported as a possible "
        f"small cost rather than none. The harmful v1 frame, by contrast, cost 10 points."))
 if _AD:
@@ -1404,7 +1421,7 @@ if _HR:
     CAP(f"Table 19. The harm study re-judged on identical full-text answers by the original judge and by "
         f"the judge adopted against held-back human labels ({_HR['adopted_judge']})"
         + (f", on the stratum of families where both judges' coverage is complete ({_HR['stratum']['n']} "
-           f"items: {', '.join(_HR['stratum']['families'])}). PARTIAL: {_HR['note']}" if _part else
+           f"items: {', '.join(_HR['stratum']['families'])}). {_HR['note']}" if _part else
            f" ({_HR['n']} instances).")
         + " The original judge's figures elsewhere in this document stand as measured. "
           "Source: phase17/data/harm_rejudged.json.")
@@ -1507,7 +1524,7 @@ if _H6C and _E67:
     P(f"Hold-out 6's causal working subset (complied with the injection in memory and not without it): "
       f"{_H6C['working']['k']}/{_H6C['n']}, task-alone base rate {_H6C['task_alone_base_rate']['k']}/"
       f"{_H6C['n']}. Recall on it: " + "; ".join(_rw) + ". Matched-benign false positives are those of "
-      f"Table 17; the full-population and working-subset recalls are both reported.")
+      f"Table 16; the full-population and working-subset recalls are both reported.")
     _wm = {"Hold-out 4 (memory poisoning)": None, "Hold-out 5 (injection)": L("holdout5_causal.json"),
            "Hold-out 6 (injection)": _H6C}
     _ev4 = L("eval_round7_holdouts.json")
@@ -1533,7 +1550,7 @@ if _H6C and _E67:
             cells.append(f"{100 * full:.0f}% -> {100 * sum(xs) / len(xs):.0f}%")
         rows.append([f"{name} ({sum(mask)}/{len(mask)})"] + cells)
     TBL(rows)
-    CAP("Table 21. Recall on the full attack population -> recall on the working subset (attacks that "
+    CAP("Table 20. Recall on the full attack population -> recall on the working subset (attacks that "
         "causally subvert the undefended agent), on every hold-out where the working subset is "
         "reportable. Sources: eval_round7_holdouts.json, eval_round7b_holdouts.json, "
         "holdout4_validity.json, holdout5_causal.json, holdout6_causal.json.")
@@ -1555,7 +1572,7 @@ if _H6C and _E67:
       "Recall on the working subset is within a point of full-population recall for every configuration.")
 
 if _A7 and _P7:
-    H("12A. Round 7 in One Paragraph", 2)
+    H("13C. Round 7 in Brief", 2)
     P(f"Round 7 tested this project's own claims against data built to break them. Of {_P7['n_scored']} "
       f"pre-registered predictions {_P7['n_held']} held, and the failures are the informative part: the "
       f"composition of neutralisation with detection that dominated on development data did not "
@@ -1594,7 +1611,7 @@ if PUB:
         rows.append([f"disqualifier clear: {k.replace('_', ' ')}", "CLEAR" if dq[k] else "TRIPPED",
                      dq["registry"] if k == "every_guard_mutation_proven" else ""])
     TBL(rows)
-    CAP(f"Table 20. Verdict: {PUB['verdict']}. Source: phase17/data/publishability.json.")
+    CAP(f"Table 21. Verdict: {PUB['verdict']}. Source: phase17/data/publishability.json.")
     if PUB.get("disclosed_partial_results"):
         P("Disclosed as PARTIAL, each labelled where it is reported: "
           + ", ".join(PUB["disclosed_partial_results"]) + ".")
@@ -1603,7 +1620,8 @@ if PUB:
           "criteria above show what is outstanding.")
     P(f"{'Whatever the verdict, w' if PUB['verdict'] == 'PENDING' else 'VERDICT: ' + PUB['verdict'] + '. W'}hat publishable does not mean: the harm LEVELS rest on an LLM judge "
       f"that a single annotator found to miss harm (Section 13A), the human check has one annotator, "
-      f"and conditional backdoors remain untested on a clean hold-out. Those limits are stated where "
+      + ("" if (L("eval_holdout8.json") or {}).get("configs") else "and conditional backdoors remain untested on a clean hold-out. ")
+      + f"Those limits are stated where "
       f"the numbers appear; the standard requires them to be visible, not absent.")
 
 # ============================================================================ Appendix 0: formulas
