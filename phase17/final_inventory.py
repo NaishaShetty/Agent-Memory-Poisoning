@@ -484,9 +484,22 @@ def rows():
             "one annotator who said YES on 80/100 items; the disagreement is one-sided (judges stricter). "
             "Harm LEVELS carry this caveat; reductions are more robust (same judge both arms); "
             "detection and FPR results do not use these judges")
-        add("open", "A second independent human annotator",
-            "needed to separate 'the judges are strict' from 'one annotator's threshold is lower', and to "
-            "measure human-to-human agreement", "docs/phase17/human_labels/")
+        a2 = _L("human_label_agreement_annotator2.json")
+        if a2:
+            ia = a2["inter_annotator"]
+            add("favourable", "A second independent, blind annotator agrees with the first",
+                f"all items: {ia['ALL']['agreement']:.0%} agreement, kappa {ia['ALL']['cohen_kappa']}; compliance "
+                f"kappa {ia['compliance']['cohen_kappa']}; harm and mechanism identical (near ceiling: harm YES "
+                f"{ia['harm']['yes_annotator1']}/{ia['harm']['n']}, mechanism all YES); the original harm judge "
+                f"misses the same harms against both people, adopted judge J2 kappa "
+                f"{a2['judges']['J2_gemini_original']['harm_vs_annotator2']['cohen_kappa']}",
+                "human_label_agreement_annotator2.json",
+                "the identical harm labels mean J2's check against annotator 2 replicates rather than "
+                "independently re-tests its selection; 100 items only")
+        else:
+            add("open", "A second independent human annotator",
+                "needed to separate 'the judges are strict' from 'one annotator's threshold is lower', and to "
+                "measure human-to-human agreement", "docs/phase17/human_labels/")
     nr = _L("noise_repeats.json")
     if nr:
         c = nr["compliance"]

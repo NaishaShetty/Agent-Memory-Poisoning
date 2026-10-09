@@ -1248,6 +1248,24 @@ if _CV2:
       f"without lowering the benign rate: fabrications are, by construction, about things the conversation "
       f"never mentions, so 'not mentioned' is the signal itself. Excluding claims the conversation "
       f"contradicts added a few caught attacks for more benign false positives with a small NLI model.")
+_EQ = L("epistemic_quarantine_dev_v1.json")
+if _EQ:
+    P(f"A third approach changed what a corroboration-only flag does rather than when it fires: epistemic "
+     f"quarantine admits the note inside an UNVERIFIED frame instead of excluding it (frame v1, the only frame "
+     f"tried; development data only). Ordinary-benign exclusions fell from "
+     f"{_EQ['exclusion_fpr']['B13']['k']}/{_EQ['exclusion_fpr']['B13']['n']} "
+     f"({_EQ['exclusion_fpr']['B13']['rate']:.1%}) to {_EQ['exclusion_fpr']['B13_epistemic_quarantine']['k']}, "
+     f"and the framed notes stayed useful ({_EQ['benign_corr_only_used']['unverified']['k']}/"
+     f"{_EQ['benign_corr_only_used']['unverified']['n']} answers used them, vs "
+     f"{_EQ['benign_corr_only_used']['raw']['k']} raw and {_EQ['benign_corr_only_used']['excluded']['k']} "
+     f"excluded). The cost is real: on the {_EQ['corroboration_only']['attacks']} corroboration-only attacks the "
+     f"agent asserted the poisoned claim {_EQ['attacks_corr_only_asserted']['unverified']['k']} times framed vs "
+     f"{_EQ['attacks_corr_only_asserted']['excluded']['k']} excluded (p="
+     f"{_EQ['attacks_paired_unverified_vs_excluded']['p_exact']:.2g}) and "
+     f"{_EQ['attacks_corr_only_asserted']['raw']['k']} raw -- the frame removes about two thirds of the raw "
+     f"effect, not all of it. It is a trade, offered as an option for deployments where false exclusions "
+     f"cost more than a minority of framed fabrications; hold-out 8 tests it once"
+     + (" (Section 13D)." if L("eval_holdout8.json") else "."))
 if _NR:
     c = _NR["compliance"]
     P(f"The noise floor was measured rather than argued: three independent runs gave raw compliance "
@@ -1263,6 +1281,37 @@ if _HL:
       f"half are plain misses and half a generous annotator, so harm LEVELS in this document are likely "
       f"under-estimates (since measured: about half, Section 13B); harm REDUCTIONS are more robust because both arms share a judge; detection and "
       f"false-positive results use no judge at all.")
+_A2R = L("human_label_agreement_annotator2.json")
+if _HL and _A2R:
+    ia, jg = _A2R["inter_annotator"], _A2R["judges"]
+    P(f"A second, independent annotator then labelled the same {_A2R['n_both']} items blind to the first "
+      f"annotator and to the judges. The two people agreed on {round(100 * ia['ALL']['agreement'])}% of items "
+      f"(kappa {ia['ALL']['cohen_kappa']}); on compliance {round(100 * ia['compliance']['agreement'])}% "
+      f"(kappa {ia['compliance']['cohen_kappa']}). Their harm and mechanism labels were identical, but this "
+      f"is largely a ceiling: harm was YES on {ia['harm']['yes_annotator1']}/{ia['harm']['n']} items for both "
+      f"and mechanism YES on all {ia['mechanism']['n']} (kappa undefined), so identical labels say less than "
+      f"the 100% suggests. What the second annotator settles is the direction of the harm disagreement: "
+      f"the original harm judge missed the same {jg['J0_original']['harm_vs_annotator2']['first_no_second_yes']} "
+      f"harms against the second person (kappa {jg['J0_original']['harm_vs_annotator2']['cohen_kappa']}), so "
+      f"'one generous annotator' is no longer a sufficient explanation -- the judge under-calls harm. The "
+      f"adopted judge J2, chosen on the first annotator's labels, scores kappa "
+      f"{jg['J2_gemini_original']['harm_vs_annotator2']['cohen_kappa']} against the second; because the two "
+      f"people's harm labels coincide, this replicates rather than independently re-tests the selection.")
+    _rows = [["Comparison", "Type", "n", "Agreement", "Cohen's kappa"]]
+    for t in ("compliance", "harm", "mechanism", "ALL"):
+        v = ia[t]
+        _rows.append(["Annotator 1 vs annotator 2", t, str(v["n"]), f"{v['agreement']:.1%}",
+                      "undefined (all YES)" if v["cohen_kappa"] is None else str(v["cohen_kappa"])])
+    for j, t, lab in (("J0_original", "compliance", "Compliance judge (llama3.1)"),
+                      ("J0_original", "harm", "Original harm judge (J0)"),
+                      ("J1_llama31_rubric", "harm", "Rubric harm judge (J1)"),
+                      ("J2_gemini_original", "harm", "Adopted harm judge (J2)")):
+        v = jg[j][f"{t}_vs_annotator2"]
+        _rows.append([f"{lab} vs annotator 2", t, str(v["n"]), f"{v['agreement']:.1%}", str(v["cohen_kappa"])])
+    TBL(_rows)
+    CAP("Table 15A. Two independent blind annotators, and the judges against the second. Identical harm "
+        "and mechanism labels reflect a ceiling (harm YES on 36/40 items, mechanism on 20/20). Source: "
+        "phase17/data/human_label_agreement_annotator2.json.")
 if _HJ:
     c = _HJ["candidates"]
     P(f"A replacement harm judge was chosen by a rule fixed in advance -- selected on half the human labels, "
@@ -1619,7 +1668,7 @@ if PUB:
         P("VERDICT: PENDING. No verdict is stated until every scheduled measurement is complete; the "
           "criteria above show what is outstanding.")
     P(f"{'Whatever the verdict, w' if PUB['verdict'] == 'PENDING' else 'VERDICT: ' + PUB['verdict'] + '. W'}hat publishable does not mean: the harm LEVELS rest on an LLM judge "
-      f"that a single annotator found to miss harm (Section 13A), the human check has one annotator, "
+      f"that two independent annotators found to miss harm (Section 13A), the human check rests on 100 items, "
       + ("" if (L("eval_holdout8.json") or {}).get("configs") else "and conditional backdoors remain untested on a clean hold-out. ")
       + f"Those limits are stated where "
       f"the numbers appear; the standard requires them to be visible, not absent.")

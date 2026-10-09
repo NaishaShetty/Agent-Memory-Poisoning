@@ -1,0 +1,179 @@
+{
+  "n_annotator1": 100,
+  "n_annotator2": 100,
+  "n_both": 100,
+  "inter_annotator": {
+    "compliance": {
+      "n": 40,
+      "agreement": 0.875,
+      "cohen_kappa": 0.731,
+      "first_yes_second_no": 1,
+      "first_no_second_yes": 4,
+      "yes_annotator1": 24,
+      "yes_annotator2": 27
+    },
+    "harm": {
+      "n": 40,
+      "agreement": 1.0,
+      "cohen_kappa": 1.0,
+      "first_yes_second_no": 0,
+      "first_no_second_yes": 0,
+      "yes_annotator1": 36,
+      "yes_annotator2": 36
+    },
+    "mechanism": {
+      "n": 20,
+      "agreement": 1.0,
+      "cohen_kappa": null,
+      "first_yes_second_no": 0,
+      "first_no_second_yes": 0,
+      "yes_annotator1": 20,
+      "yes_annotator2": 20
+    },
+    "ALL": {
+      "n": 100,
+      "agreement": 0.95,
+      "cohen_kappa": 0.834,
+      "first_yes_second_no": 1,
+      "first_no_second_yes": 4,
+      "yes_annotator1": 80,
+      "yes_annotator2": 83
+    }
+  },
+  "judges": {
+    "J0_original": {
+      "compliance_vs_annotator1": {
+        "n": 40,
+        "agreement": 0.75,
+        "cohen_kappa": 0.5,
+        "first_yes_second_no": 3,
+        "first_no_second_yes": 7
+      },
+      "compliance_vs_annotator2": {
+        "n": 40,
+        "agreement": 0.775,
+        "cohen_kappa": 0.55,
+        "first_yes_second_no": 1,
+        "first_no_second_yes": 8
+      },
+      "compliance_vs_consensus": {
+        "n": 35,
+        "agreement": 0.8,
+        "cohen_kappa": 0.596,
+        "first_yes_second_no": 1,
+        "first_no_second_yes": 6
+      },
+      "harm_vs_annotator1": {
+        "n": 40,
+        "agreement": 0.6,
+        "cohen_kappa": 0.2,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 16
+      },
+      "harm_vs_annotator2": {
+        "n": 40,
+        "agreement": 0.6,
+        "cohen_kappa": 0.2,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 16
+      },
+      "harm_vs_consensus": {
+        "n": 40,
+        "agreement": 0.6,
+        "cohen_kappa": 0.2,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 16
+      },
+      "mechanism_vs_annotator1": {
+        "n": 20,
+        "agreement": 0.75,
+        "cohen_kappa": 0.0,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 5
+      },
+      "mechanism_vs_annotator2": {
+        "n": 20,
+        "agreement": 0.75,
+        "cohen_kappa": 0.0,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 5
+      },
+      "mechanism_vs_consensus": {
+        "n": 20,
+        "agreement": 0.75,
+        "cohen_kappa": 0.0,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 5
+      }
+    },
+    "J1_llama31_rubric": {
+      "harm_vs_annotator1": {
+        "n": 40,
+        "agreement": 0.8,
+        "cohen_kappa": 0.412,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 8
+      },
+      "harm_vs_annotator2": {
+        "n": 40,
+        "agreement": 0.8,
+        "cohen_kappa": 0.412,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 8
+      },
+      "harm_vs_consensus": {
+        "n": 40,
+        "agreement": 0.8,
+        "cohen_kappa": 0.412,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 8
+      }
+    },
+    "J2_gemini_original": {
+      "harm_vs_annotator1": {
+        "n": 40,
+        "agreement": 0.925,
+        "cohen_kappa": 0.688,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 3
+      },
+      "harm_vs_annotator2": {
+        "n": 40,
+        "agreement": 0.925,
+        "cohen_kappa": 0.688,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 3
+      },
+      "harm_vs_consensus": {
+        "n": 40,
+        "agreement": 0.925,
+        "cohen_kappa": 0.688,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 3
+      }
+    },
+    "J3_gemini_rubric": {
+      "harm_vs_annotator1": {
+        "n": 40,
+        "agreement": 0.925,
+        "cohen_kappa": 0.688,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 3
+      },
+      "harm_vs_annotator2": {
+        "n": 40,
+        "agreement": 0.925,
+        "cohen_kappa": 0.688,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 3
+      },
+      "harm_vs_consensus": {
+        "n": 40,
+        "agreement": 0.925,
+        "cohen_kappa": 0.688,
+        "first_yes_second_no": 0,
+        "first_no_second_yes": 3
+      }
+    }
+  }
+}

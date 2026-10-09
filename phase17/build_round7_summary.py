@@ -180,7 +180,9 @@ def build() -> str:
       "hold-out 8 is built to test them.")
     w("- MPBench's other four classes (command, compaction and skill-synthesis write channels) need a tool-using "
       "victim agent this architecture does not have: future work.")
-    w("- The human check of the judges has one annotator; a second is open.")
+    w("- The human check of the judges rests on 100 items and two annotators (agreement 95%, kappa 0.834; "
+      "harm and mechanism labels near ceiling)." if L("human_label_agreement_annotator2.json") else
+      "- The human check of the judges has one annotator; a second is open.")
     w("- Hold-out 3 is retired after seven uses; its numbers are hold-out-informed where used.")
     w("- No LICENSE: deliberately deferred by the owner.")
     return "\n".join(out) + "\n"

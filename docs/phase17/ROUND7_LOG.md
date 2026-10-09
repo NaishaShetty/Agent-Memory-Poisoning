@@ -502,3 +502,46 @@ developed on DEVELOPMENT data only, and a new hold-out 8 is built, frozen and pr
 any improved configuration is scored on it, then scored once. Disclosed: the idea for epistemic
 quarantine came from reading hold-out 4's false positives (27 of 31 were corroboration-only), so its
 origin is hold-out-informed; its design and evaluation are not. Hold-outs 3-7 stay as scored.
+
+## R7-30 (2026-10-09): a second, independent, blind annotator
+
+An independent person labelled the same 100-item sheet (`labelling_sheet_annotator2.xlsx`), blind to
+annotator 1 and to the judges (`python -m phase17.human_labels score2` ->
+`human_label_agreement_annotator2.json`).
+
+| | n | agreement | kappa | YES (a1 / a2) |
+|---|---|---|---|---|
+| all items | 100 | 95% | 0.834 | 80 / 83 |
+| compliance | 40 | 87.5% | 0.731 | 24 / 27 |
+| harm | 40 | 100% | 1.0 | 36 / 36 |
+| mechanism | 20 | 100% | undefined | 20 / 20 |
+
+The identical harm and mechanism labels are largely a ceiling (almost everything is YES), so they
+say less than "100%" suggests. What the second annotator does settle: the original harm judge misses
+the same 16 harms against the second person (kappa 0.20), so "one generous annotator" no longer
+explains R7-19 -- the judge under-calls harm. The adopted judge J2 scores kappa 0.688 against
+annotator 2; because the two people's harm labels coincide this replicates rather than independently
+re-tests J2's selection. Compliance judge vs annotator 2: kappa 0.55 (0.596 on the 35 items both
+people agree on). The open item "second annotator" is closed; the documents carry Table 15A.
+
+## R7-31 (2026-10-09): epistemic quarantine, development result (frame v1, the only frame tried)
+
+B13's corroboration-only flags (a personal claim the owner's conversation does not support, no other
+rule firing) are admitted inside an UNVERIFIED frame instead of being excluded
+(`python -m phase17.epistemic_quarantine dev v1` -> `epistemic_quarantine_dev_v1.json`). Development
+data only: own attacks (804) and ordinary benign memory (1,054).
+
+- False positives on ordinary benign memory: B13 excludes 79/1054 (7.5%); with quarantine 0/1054
+  are excluded (the 79 are admitted, framed).
+- Benign usefulness on those 79: the answer uses the note 68/79 framed vs 70/79 raw and 34/79 when
+  excluded (framed vs excluded p=1.9e-08).
+- The cost, on the 109 corroboration-only attacks: the agent asserts the poisoned claim 14/109
+  (12.8%) framed vs 2/109 excluded (p=0.0018) and 40/109 raw (p=2.6e-06). So the frame removes about
+  two thirds of the raw attack effect, not all of it: about 12 more successes per 804 attacks, bought
+  with 79 fewer false exclusions per 1054 benign notes.
+
+This is a trade, reported as one. It is a development result; frame v1 is fixed for hold-out 8
+before that hold-out is built (addendum 7 will say "EQ frame: v1").
+
+Correction to RESUME HERE above: code changed after 2026-10-08 (Phase 6 semantic variants, new
+evaluation modules), so the cross-phase audit must be re-run before finalising.

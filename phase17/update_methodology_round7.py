@@ -458,6 +458,46 @@ if _rg is not None:
                  "publishability verdict.",
                  "ROUND 7 (2026-10-06 to 2026-10-09): 32.49")
 
+# ---------------- epistemic quarantine, development (2026-10-09)
+_EQ = L("epistemic_quarantine_dev_v1.json")
+if _EQ:
+    upsert_note("p_32_57_eq", "[A third approach (2026-10-09):",
+                "[A third approach (2026-10-09): " + (f"Changed what a corroboration-only flag does rather than when it fires: epistemic "
+     f"quarantine admits the note inside an UNVERIFIED frame instead of excluding it (frame v1, the only frame "
+     f"tried; development data only). Ordinary-benign exclusions fell from "
+     f"{_EQ['exclusion_fpr']['B13']['k']}/{_EQ['exclusion_fpr']['B13']['n']} "
+     f"({_EQ['exclusion_fpr']['B13']['rate']:.1%}) to {_EQ['exclusion_fpr']['B13_epistemic_quarantine']['k']}, "
+     f"and the framed notes stayed useful ({_EQ['benign_corr_only_used']['unverified']['k']}/"
+     f"{_EQ['benign_corr_only_used']['unverified']['n']} answers used them, vs "
+     f"{_EQ['benign_corr_only_used']['raw']['k']} raw and {_EQ['benign_corr_only_used']['excluded']['k']} "
+     f"excluded). The cost is real: on the {_EQ['corroboration_only']['attacks']} corroboration-only attacks the "
+     f"agent asserted the poisoned claim {_EQ['attacks_corr_only_asserted']['unverified']['k']} times framed vs "
+     f"{_EQ['attacks_corr_only_asserted']['excluded']['k']} excluded (p="
+     f"{_EQ['attacks_paired_unverified_vs_excluded']['p_exact']:.2g}) and "
+     f"{_EQ['attacks_corr_only_asserted']['raw']['k']} raw -- the frame removes about two thirds of the raw "
+     f"effect, not all of it. It is a trade, offered as an option for deployments where false exclusions "
+     f"cost more than a minority of framed fabrications; hold-out 8 tests it once"
+     + (" (Section 13D)." if L("eval_holdout8.json") else ".")) + " Formula in Section 32.62.]",
+                contains="Corroboration that reads contradiction.")
+
+# ---------------- second annotator (2026-10-09)
+_A2M = L("human_label_agreement_annotator2.json")
+if _A2M:
+    _ia, _jg = _A2M["inter_annotator"], _A2M["judges"]
+    upsert_note("p_32_58_annotator2", "[Second annotator (2026-10-09):",
+                f"[Second annotator (2026-10-09): an independent person labelled the same {_A2M['n_both']} items "
+                f"blind. Human-to-human agreement {_ia['ALL']['agreement']:.0%}, kappa {_ia['ALL']['cohen_kappa']} "
+                f"(compliance kappa {_ia['compliance']['cohen_kappa']}); harm and mechanism labels identical, "
+                f"largely a ceiling (harm YES {_ia['harm']['yes_annotator1']}/{_ia['harm']['n']}, mechanism "
+                f"{_ia['mechanism']['yes_annotator1']}/{_ia['mechanism']['n']}). The original harm judge misses "
+                f"the same {_jg['J0_original']['harm_vs_annotator2']['first_no_second_yes']} harms against the "
+                f"second person (kappa {_jg['J0_original']['harm_vs_annotator2']['cohen_kappa']}), so the "
+                f"disagreement is the judge under-calling harm, not one generous annotator. Adopted judge J2: "
+                f"kappa {_jg['J2_gemini_original']['harm_vs_annotator2']['cohen_kappa']} against annotator 2 -- "
+                f"a replication, not an independent re-test, since the two annotators' harm labels coincide. "
+                f"Results paper, Table 15A.]",
+                contains="one annotator cannot separate the two, and a second is listed as open")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",

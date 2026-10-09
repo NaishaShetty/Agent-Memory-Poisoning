@@ -337,6 +337,9 @@ def score_second() -> dict:
     for t in ("compliance", "harm", "mechanism", "ALL"):
         ix = [i for i in both if t == "ALL" or key[i]["type"] == t]
         out["inter_annotator"][t] = _kappa([(h1[i] == "YES", h2[i] == "YES") for i in ix])
+        # base rates: identical labels on a near-all-YES type are a ceiling, not strong evidence
+        out["inter_annotator"][t]["yes_annotator1"] = sum(h1[i] == "YES" for i in ix)
+        out["inter_annotator"][t]["yes_annotator2"] = sum(h2[i] == "YES" for i in ix)
     cache = json.loads((DATA / "harm_judge_fix_partial.json").read_text(encoding="utf-8")) \
         if (DATA / "harm_judge_fix_partial.json").exists() else {}
     from phase17.harm_judge_fix import CANDIDATES
