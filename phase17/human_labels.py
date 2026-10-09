@@ -269,10 +269,110 @@ def rebuild_harm_rows() -> dict:
     return {"harm_rows_replaced": len(harm_items), "labels_cleared_on_old_harm_rows": cleared,
             "longest_new_answer_chars": longest, "untouched_rows": len(key) - len(harm_items)}
 
+# ---------------------------------------------------------------- second annotator (2026-10-09)
+XLSX2 = DIR / "labelling_sheet_annotator2.xlsx"
+OUT2 = DATA / "human_label_agreement_annotator2.json"
+
+
+def build_second() -> dict:
+    """The SAME 100 items in the same order for an independent second annotator: no judge verdicts
+    and no first-annotator labels in the file. Built from sheet.csv (the full-text rows)."""
+    import shutil
+
+    with open(SHEET, encoding="utf-8-sig") as fh:
+        rows = list(csv.DictReader(fh))
+    key = {k["item"]: k for k in json.loads(KEY.read_text(encoding="utf-8"))}
+    items = [{"type": key[int(r["item"])]["type"], "question": r["question"], "note": r["memory_note"],
+              "answer": r["assistant_answer"] if r["assistant_answer"] and not r["assistant_answer"].startswith("(none")
+              else ""} for r in rows]
+    global XLSX
+    first = XLSX
+    try:
+        XLSX = XLSX2
+        _write_xlsx(items)
+    finally:
+        XLSX = first
+    from openpyxl import load_workbook
+
+    wb = load_workbook(XLSX2)
+    ins = wb["Instructions"]
+    ins.cell(row=1, column=1, value="How to label (SECOND annotator -- work independently)")
+    ins.cell(row=7, column=1, value="Do NOT open labelling_sheet.xlsx (the first annotator's answers) or the KEY "
+                                    "file, and do not discuss items with the first annotator until you are done. "
+                                    "When finished, save this file and run:  python -m phase17.human_labels score2")
+    wb.save(XLSX2)
+    return {"written": str(XLSX2.relative_to(ROOT)), "items": len(items)}
+
+
+def _kappa(pairs):
+    n = len(pairs)
+    if not n:
+        return {"n": 0}
+    agree = sum(a == b for a, b in pairs) / n
+    pa, pb = sum(a for a, _ in pairs) / n, sum(b for _, b in pairs) / n
+    pe = pa * pb + (1 - pa) * (1 - pb)
+    return {"n": n, "agreement": round(agree, 3),
+            "cohen_kappa": None if pe >= 1 else round((agree - pe) / (1 - pe), 3),
+            "first_yes_second_no": sum(a and not b for a, b in pairs),
+            "first_no_second_yes": sum(b and not a for a, b in pairs)}
+
+
+def _labels(path):
+    from openpyxl import load_workbook
+
+    ws = load_workbook(path)["Label these"]
+    return {int(r[0]): str(r[5] or "").strip().upper() for r in ws.iter_rows(min_row=2, values_only=True)
+            if r[0] is not None and str(r[5] or "").strip().upper() in ("YES", "NO")}
+
+
+def score_second() -> dict:
+    """Inter-annotator agreement, and every judge against EACH annotator and against items where
+    the two annotators agree -- including the harm judge adopted on annotator 1's labels (J2), which
+    annotator 2 checks independently."""
+    key = {k["item"]: k for k in json.loads(KEY.read_text(encoding="utf-8"))}
+    h1, h2 = _labels(XLSX), _labels(XLSX2)
+    both = sorted(set(h1) & set(h2))
+    out = {"n_annotator1": len(h1), "n_annotator2": len(h2), "n_both": len(both), "inter_annotator": {},
+           "judges": {}}
+    for t in ("compliance", "harm", "mechanism", "ALL"):
+        ix = [i for i in both if t == "ALL" or key[i]["type"] == t]
+        out["inter_annotator"][t] = _kappa([(h1[i] == "YES", h2[i] == "YES") for i in ix])
+    cache = json.loads((DATA / "harm_judge_fix_partial.json").read_text(encoding="utf-8")) \
+        if (DATA / "harm_judge_fix_partial.json").exists() else {}
+    from phase17.harm_judge_fix import CANDIDATES
+
+    judges = {"J0_original": {i: bool(k["judge"]) for i, k in key.items()}}
+    for name, (prov, tpl) in CANDIDATES.items():
+        v = {}
+        for i, k in key.items():
+            c = cache.get(f"{prov}|{tpl[:20]}|{i}")
+            if k["type"] == "harm" and c is not None:
+                v[i] = str(c).startswith("YES")
+        if v:
+            judges[name] = v
+    for name, v in judges.items():
+        res = {}
+        for t in ("compliance", "harm", "mechanism"):
+            for who, lab in (("annotator1", h1), ("annotator2", h2)):
+                ix = [i for i in lab if i in v and key[i]["type"] == t]
+                if ix:
+                    res[f"{t}_vs_{who}"] = _kappa([(v[i], lab[i] == "YES") for i in ix])
+            ix = [i for i in both if i in v and key[i]["type"] == t and h1[i] == h2[i]]
+            if ix:
+                res[f"{t}_vs_consensus"] = _kappa([(v[i], h1[i] == "YES") for i in ix])
+        out["judges"][name] = res
+    OUT2.write_text(json.dumps(out, indent=2), encoding="utf-8")
+    return out
+
+
 if __name__ == "__main__":
     import sys
 
-    if "score" in sys.argv:
+    if "score2" in sys.argv:
+        r = score_second()
+    elif "build2" in sys.argv:
+        r = build_second()
+    elif "score" in sys.argv:
         r = score()
     elif "rebuild-harm" in sys.argv:
         r = rebuild_harm_rows()
