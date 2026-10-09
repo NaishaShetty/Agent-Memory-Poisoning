@@ -380,6 +380,84 @@ if find(contains="excluded 4.9% of the user's own words on") is not None:
                "excluded 3.7% of hold-out 7's benign notes even as the user's own words (4.9% on its owner-matched subset), on",
                contains="excluded 4.9% of the user's own words on")
 
+# ---------------- read-through fixes (2026-10-09): scope sentences and the reader's guide
+def insert_after(anchor_par, text, marker, style=None):
+    """Insert a new paragraph after `anchor_par`, once (identified by `marker`)."""
+    if find(contains=marker) is not None:
+        skipped.append(marker[:30])
+        return
+    new = anchor_par.insert_paragraph_before("")      # placeholder, then move after the anchor
+    anchor_par._p.addnext(new._p)
+    new.add_run(text)
+    new.style = style or BODY
+    applied.append(marker[:30])
+
+
+_abs = find(startswith="Abstract")
+if _abs is not None:
+    insert_after(_abs,
+                 "How to read this document. It is cumulative: each phase was written when that phase was done, so "
+                 "a section's scope sentences ('this paper', 'not yet', 'remains open') describe the project as of "
+                 "that phase. Later findings are added as dated, bracketed notes where they change an earlier "
+                 "statement, and nothing earlier is silently rewritten. The current state of the project is Sections "
+                 "32.49-32.63 (round 7) and Section 33; the companion results paper reports every number with its "
+                 "false-positive cost and both denominators.",
+                 "How to read this document. It is cumulative")
+_R7A, _P7A, _E7A = L("adaptive_ledger_b13.json"), L("round7_predictions.json"), L("eval_round7b_holdouts.json")
+_HRA = L("harm_rejudged.json")
+if _P7A and _E7A and find(startswith="Update (2026-10-05") is not None:
+    _h7 = _E7A["holdouts"]["holdout7"]["configs"]
+    upsert_note("abs_round7", "[Round 7 (2026-10-06 to 2026-10-09):",
+                f"[Round 7 (2026-10-06 to 2026-10-09): hold-out 3 was retired after seven uses and four new hold-outs "
+                f"(4-7) were frozen and scored once under committed predictions ({_P7A['n_held']}/{_P7A['n_scored']} held). "
+                f"Provenance reaches memory poisoning on two independent hold-outs (B13 vs B14: 50.3% vs 20.4%; "
+                f"{_h7['B13']['attack_recall']['rate']:.1%} vs {_h7['B14']['attack_recall']['rate']:.1%}); the 55% "
+                f"false-positive regime was one corpus; B17, not B18, is recommended for injection-shaped text"
+                + (f"; corroboration is brittle to an adaptive attacker alone ({_R7A['control_evasion']['k']}/"
+                   f"{_R7A['n_seeds']}) but not behind the rejection ledger ({_R7A['ledger_evasion']['k']}/{_R7A['n_seeds']})" if _R7A else "")
+                + (f"; harm levels scored by the original judge are about half what a human-validated judge finds "
+                   f"({_HRA['undefended_all_items']['J2_gemini_original']['rate']:.1%} vs "
+                   f"{_HRA['undefended_all_items']['J0_current']['rate']:.1%} undefended)" if _HRA and _HRA.get("undefended_all_items") else "")
+                + ". Sections 32.49-32.63.]",
+                startswith="Update (2026-10-05")
+append_note("abs_phases_14_17", "[Phases 14-17 follow in Sections 29-32, and Section 33 concludes across all of them.]",
+            contains="This paper reports the methodology and results of the project's first thirteen phases")
+append_note("intro_phases", "[The document has since grown to Phases 1-17; see Sections 29-33.]",
+            contains="Phases 1 through 10 of the MAMBench project")
+if find(contains="closing five separate rounds of disclosed negative findings") is not None:
+    replace_in("intro_rounds", "closing five separate rounds of disclosed negative findings",
+               "closing seven rounds of fixes and external review (Sections 32.10-32.63) of disclosed negative findings",
+               contains="closing five separate rounds of disclosed negative findings")
+if find(contains="work across five rounds of fixes, ending in the current") is not None:
+    replace_in("fig1b_caption", "work across five rounds of fixes, ending in the current",
+               "work across seven review rounds (figure redrawn 2026-10-09), ending in the current",
+               contains="work across five rounds of fixes, ending in the current")
+append_note("threat_model_scope",
+            "[Written for Phases 1-3. Attacks are implemented and executed from Phase 4 (Section 17) onward.]",
+            contains="No attack is implemented or executed in the work reported in this paper.")
+append_note("p_32_10_human_closed", "[Closed since: see the update immediately above and Section 32.16.]",
+            contains="a real, blinded human evaluation of this project's own answer-correctness judgments remains open")
+append_note("p_32_12_attack_authorship",
+            "[Round 7: the attack side is now partly closed. Hold-outs 3 and 5 are human-written jailbreaks; hold-outs 4 "
+            "and 7 were written by mistral models (instruct and base) and hold-out 6 by SPML's authors -- none by "
+            "qwen -- and provenance's lead held on both memory-poisoning hold-outs (Sections 32.54, 32.59).]",
+            contains="The ATTACK side of the confound remains open on both counts")
+_rg = find(startswith="REPRODUCIBILITY AND THE ERRORS THAT MOTIVATED IT")
+if _rg is not None:
+    _ps = doc.paragraphs
+    _k = next(k for k, q in enumerate(_ps) if q._p is _rg._p)
+    _after = _ps[_k + 1] if _k + 1 < len(_ps) else _rg
+    insert_after(_after,
+                 "ROUND 7 (2026-10-06 to 2026-10-09): 32.49 the hold-out 3 development set was the hold-out; 32.50 the "
+                 "founding families under B18 with evidence; 32.51 two new hold-outs, frozen before scoring; 32.52 "
+                 "development results; 32.53 exfiltration authoring; 32.54 hold-outs 4 and 5, scored once; 32.55 "
+                 "neutralisation beyond injection text; 32.56 the round-7 recommendation; 32.57 two corroboration fixes "
+                 "that failed; 32.58 the judges checked against a person, and the noise floor measured; 32.59 hold-outs "
+                 "6 and 7; 32.60 the last measurements (utility, adaptive evasion, re-judged harm, stronger agent); 32.61 "
+                 "Phase 10's risk-weighted retrieval and monitoring, evaluated; 32.62 definitions and formulas; 32.63 the "
+                 "publishability verdict.",
+                 "ROUND 7 (2026-10-06 to 2026-10-09): 32.49")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
