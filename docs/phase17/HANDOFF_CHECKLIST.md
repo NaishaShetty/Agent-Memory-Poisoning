@@ -79,3 +79,19 @@ The verdict is computed by `phase17/publishability.py` against the two-sided sta
 as Section 14 of the results paper. **Held at PENDING by the owner's decision until the harm
 re-measurement completes** (the Gemini quota did not reset on 2026-10-09; next reset ~05:30 on 2026-10-10; see R7-29 in
 ROUND7_LOG.md). Criterion 7 enforces it.
+
+## Phase-by-phase check against the project specification (2026-10-09)
+
+| Phase | Specified | Implemented in | Status |
+|---|---|---|---|
+| 3 | Clean agent-memory environment | `phase3/` (Methodology §12) | ✓ frozen; 1,776 tests |
+| 4 | Six named attacks + sleeper behind a common interface; reconstructions labelled | `phase4/attacks/`, AttackAdapter (§17) | ✓ disclosed: AgentPoison weaker than the original; MPBench 2 of 6 classes |
+| 5 | Instrument insertion, retrieval, updates, decisions, provenance, interactions | `phase5/` (§18-19) | ✓ all six |
+| 6 | Provenance/governance admission; flag, restrict, quarantine | `phase6/defense/` (§21) | ✓ |
+| 7 | Propagation monitoring, self-reinforcing patterns | `phase7/`, `phase12/propagation/` (§22) | ✓ evaluated on all seven attacks; disclosed: never fires in Phase 14's live pilot (no ancestor memories) |
+| 8 | Sleeper detection by content, temporal, retrieval, activation signals | `phase8/detection/` (§23) | ✓ four signals |
+| 9 | Backward chain action -> memory -> origin, with uncertainty | `attribution/wiring/forensics.py` (§24) | ✓ disclosed: ambiguity unreachable by design |
+| 10 | Risk estimates influencing retrieval, monitoring, verification, quarantine | `phase6/defense/risk/` (§25) | verification + quarantine LIVE (Phase 14 B9); **retrieval ranking first evaluated 2026-10-09** (addendum 5: 88 -> 82 of 309, p=0.031, not Holm-robust; the fixed gate itself barely acts); **monitoring built and tested, not evaluated** (no measurable outcome) |
+| 11 | GNN + GLN, combined into a hybrid | `phase11/gnn`, `phase11/gln` (online), `phase11/hybrid.py` (§26) | ✓ |
+| 12-16 | PAR, PR, SDR, AMR, DGS; source accuracy, path fidelity, uncertainty, time-to-attribute; task success, utility retention, latency, memory overhead | `phase12/`-`phase15/`, `docs/phase16/` (§27-31) | ✓ every named metric computed |
+| 17 | Ablation and generalisation | `phase17/` (§32) | ✓ |

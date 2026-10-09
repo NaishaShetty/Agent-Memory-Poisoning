@@ -632,6 +632,23 @@ def rows():
     else:
         add("open", "Ledger composed with B18 / with corroboration", "not yet measured", "-",
             "B18 + ledger: an estimated 4-9 GPU hours; B18 is no longer recommended")
+    rw = _L("risk_weighted_retrieval_eval.json")
+    if rw:
+        e, dg = rw["exposure"], rw["diagnostics"]
+        add("favourable" if rw["predictions"]["R-1"] else "unfavourable",
+            "Phase 10 risk-weighted retrieval: cross-guard corroboration demotes poison (first evaluation)",
+            f"exposure {e['A1']['k']} -> {e['A3']['k']} of {rw['n']} vs the fixed gate, "
+            f"p={rw['paired_A3_vs_A1']['p_exact']:.2g}; benign displacement {rw['benign_displacement_points']['A3']} points",
+            "risk_weighted_retrieval_eval.json",
+            f"narrow: admission signals fired on the poison in {dg['instances_admission_fired_on_poison']}/{rw['n']} "
+            f"instances; dev only; not robust to a family-wide Holm correction")
+        add("unfavourable", "Phase 6's fixed-gate retrieval guard barely changes what reaches the agent",
+            f"exposure {e['A0']['k']} -> {e['A1']['k']} of {rw['n']} (p={rw['paired_A1_vs_A0']['p_exact']:.2g}); "
+            f"lexical divergence positive for only {dg['candidates_with_divergence_positive']} candidates",
+            "risk_weighted_retrieval_eval.json", "pre-registered R-4 FAILED")
+        add("open", "Phase 10 risk-weighted monitoring (forensic ordering) not evaluated",
+            "built and unit-tested; orders a human triage queue", "-",
+            "no outcome this benchmark measures")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 

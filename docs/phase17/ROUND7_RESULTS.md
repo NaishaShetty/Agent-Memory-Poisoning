@@ -1,8 +1,8 @@
 # MAMBench Phase 17 -- current results (round 7)
 
-Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` (methods, Sections 32.49-32.61); every correction is logged in `docs/phase17/ROUND7_LOG.md`.
+Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` (methods, Sections 32.49-32.62); every correction is logged in `docs/phase17/ROUND7_LOG.md`.
 
-**Publishability verdict: PENDING.** Held by the owner's rule until every scheduled measurement is complete; outstanding: harm_rejudged.json. Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PASS; 6_above_noise_floor PASS; 7_all_measurements_complete PENDING.
+**Publishability verdict: PENDING.** Held by the owner's rule until every scheduled measurement is complete; outstanding: harm_rejudged.json. Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PENDING; 6_above_noise_floor PASS; 7_all_measurements_complete PENDING.
 
 ## Recommendation, conditioned on the threat and the false-positive budget
 
@@ -46,16 +46,18 @@ Hold-outs 4 and 7 are memory poisoning (false positives on untrusted-channel ben
 - **Framing helps a stronger agent more:** Gemini 44.2% -> 11.7% vs qwen +20.8 points (n=120).
 - **B13 protects a stronger agent:** Gemini harm 36.0% -> 14.0% (p=4.8e-07, seeded 100).
 - **The frame costs no significant usefulness** on benign memories (largest loss: direct_question, 5.0 points, p=0.082).
+- **Phase 10's risk-weighted retrieval, first evaluated:** with admission signals as corroboration it keeps the poison out of the agent's context in 6 more of 309 cases than the fixed-gate guard (p=0.031), at no benign cost; the fixed gate itself barely acts on realistic stores (89 -> 88).
 - **Full-population recall can mislead in either direction:** on hold-out 6 the attacks that work are harder to detect; on hold-outs 4 and 5 they are easier for B13. Both denominators are reported.
 
 ## Pre-registered predictions
 
-31/37 held (CALIBRATED). Failed, reported in place: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7. After Holm correction across the 9 significance predictions, H6-4 no longer holds.
+34/41 held (CALIBRATED). Failed, reported in place: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4. After Holm correction across the 11 significance predictions, H6-4, R-1 no longer holds.
 
 ## Not done, partial, or untested -- stated, not hidden
 
 - Harm re-measurement: PARTIAL (Gemini daily quota); completes with `python -m phase17.harm_judge_fix rejudge`.
 - The ledger composed with B18: not measured (about 40 s per B18 decision on novel text; an estimated 4-9 GPU hours). B18 is no longer recommended.
+- Phase 10's risk-weighted monitoring (ordering forensic targets): built and tested, not evaluated.
 - Conditional backdoors: untested on a clean hold-out (a base-model author produced 3/40 valid).
 - The human check of the judges has one annotator; a second is open.
 - Hold-out 3 is retired after seven uses; its numbers are hold-out-informed where used.

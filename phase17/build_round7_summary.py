@@ -36,7 +36,7 @@ def build() -> str:
     w("# MAMBench Phase 17 -- current results (round 7)\n")
     w("Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The "
       "full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` "
-      "(methods, Sections 32.49-32.61); every correction is logged in `docs/phase17/ROUND7_LOG.md`.\n")
+      "(methods, Sections 32.49-32.62); every correction is logged in `docs/phase17/ROUND7_LOG.md`.\n")
     if PUB:
         w(f"**Publishability verdict: {PUB['verdict']}.** "
           + ("Held by the owner's rule until every scheduled measurement is complete; outstanding: "
@@ -129,6 +129,13 @@ def build() -> str:
         worst = max(UT["tasks"].items(), key=lambda kv: kv[1]["loss_points"])
         w(f"- **The frame costs no significant usefulness** on benign memories (largest loss: {worst[0]}, "
           f"{worst[1]['loss_points']:.1f} points, p={worst[1]['paired_framed_vs_raw']['p_exact']:.2g}).")
+    RW = L("risk_weighted_retrieval_eval.json")
+    if RW:
+        e = RW["exposure"]
+        w(f"- **Phase 10's risk-weighted retrieval, first evaluated:** with admission signals as corroboration "
+          f"it keeps the poison out of the agent's context in {e['A1']['k'] - e['A3']['k']} more of {RW['n']} cases "
+          f"than the fixed-gate guard (p={RW['paired_A3_vs_A1']['p_exact']:.2g}), at no benign cost; the fixed gate "
+          f"itself barely acts on realistic stores ({e['A0']['k']} -> {e['A1']['k']}).")
     w("- **Full-population recall can mislead in either direction:** on hold-out 6 the attacks that work "
       "are harder to detect; on hold-outs 4 and 5 they are easier for B13. Both denominators are reported.")
     w("")
@@ -148,6 +155,7 @@ def build() -> str:
           "`python -m phase17.harm_judge_fix rejudge`.")
     w("- The ledger composed with B18: not measured (about 40 s per B18 decision on novel text; an "
       "estimated 4-9 GPU hours). B18 is no longer recommended.")
+    w("- Phase 10's risk-weighted monitoring (ordering forensic targets): built and tested, not evaluated.")
     w("- Conditional backdoors: untested on a clean hold-out (a base-model author produced 3/40 valid).")
     w("- The human check of the judges has one annotator; a second is open.")
     w("- Hold-out 3 is retired after seven uses; its numbers are hold-out-informed where used.")

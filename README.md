@@ -10,7 +10,7 @@ statements were later corrected. The current state is:
 - **[`docs/phase17/ROUND7_RESULTS.md`](docs/phase17/ROUND7_RESULTS.md)** — one-page summary,
   generated from the artifacts (every number, every hold-out, both denominators, what is open).
 - **`MAMBench Results Analysis.docx`** — the results paper; **`Methodology Draft.docx`** — methods
-  (Sections 32.49-32.61 cover round 7); **[`docs/phase17/ROUND7_LOG.md`](docs/phase17/ROUND7_LOG.md)**
+  (Sections 32.49-32.62 cover round 7); **[`docs/phase17/ROUND7_LOG.md`](docs/phase17/ROUND7_LOG.md)**
   — every correction, as it was found.
 
 In brief, from four hold-outs each frozen and scored once under committed predictions:
@@ -177,6 +177,13 @@ injection → admission → storage → retrieval → selection → exposure/use
 ```
 
 ## Project status
+
+**All phases 3-17 are implemented and tested** (cross-phase audit, 2026-10-08: 3,502 passed, 32
+skipped, 0 failed across 14 suites). Each phase has its methodology section: Phase 3 §12, Phase 4
+§17, Phase 5 §18-19, Attribution §20, Phase 6 §21, Phase 7 §22, Phase 8 §23, Phase 9 §24, Phase 10
+§25, Phase 11 §26, Phases 12-16 §27-31, Phase 17 §32. Known partial items are listed in
+[`docs/phase17/ROUND7_RESULTS.md`](docs/phase17/ROUND7_RESULTS.md). The paragraph below is the
+2026-09-13 status, kept for the record.
 
 **Phase 3 — FROZEN.** **Phase 4 — FROZEN (2026-09-11).** **Phase 5 (Instrumentation &
 Monitoring) — COMPLETE, OFFICIALLY FROZEN (2026-09-13).** **Attribution (post-Phase-5

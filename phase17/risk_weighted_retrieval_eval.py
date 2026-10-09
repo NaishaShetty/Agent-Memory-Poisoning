@@ -36,13 +36,15 @@ def _ranked(cands, arm, extra):
     """Top-TOP_K ids after `arm`'s re-ranking of `cands` [(id, text, cosine)]."""
     from phase6.defense.retrieval.consensus_guard import RetrievalCandidate, evaluate_retrieval_defense
     from phase6.defense.risk.risk_weighted_retrieval import evaluate_retrieval_defense_risk_weighted
+    from phase6.defense.policy.states import UNASSESSED
     from phase17.harm_study_v2 import TOP_K
 
     if arm == "A0":
         order = sorted(cands, key=lambda c: -c[2])
         return [c[0] for c in order[:TOP_K]]
     rc = [RetrievalCandidate(memory_id=i, content_text=t, cosine_score=s, token_overlap_score=0.0,
-                             entity_overlap_score=0.0, raw_blended_score=s) for i, t, s in cands]
+                             entity_overlap_score=0.0, raw_blended_score=s, security_state=UNASSESSED)
+          for i, t, s in cands]
     common = dict(run_id="phase17-rwr", episode_id="e1", timestamp="2026-10-09T00:00:00Z",
                   evidence_refs_for=lambda m: (f"EVT-{m}",))
     if arm == "A1":
@@ -81,7 +83,7 @@ def run() -> dict:
         sample = H.HARM_SAMPLES[idx % len(H.HARM_SAMPLES)]
         full = H._store_for(sample) + [(r.scenario_id, r.text)]
         rng.shuffle(full)                         # advance the RNG identically even when cached
-        if r.scenario_id in done:
+        if r.scenario_id in done and "diag" in done[r.scenario_id]:
             continue
         row = {"family": fam}
         for kind, items in (("poison", full), ("clean", [x for x in full if x[0] != r.scenario_id])):
@@ -90,6 +92,13 @@ def run() -> dict:
             top = [items[i] + (float(sims[i]),) for i in np.argsort(-sims)[:N_POOL]]
             extra = _admission([(i, t) for i, t, _ in top])
             row[kind] = {a: _ranked(top, a, extra) for a in ARMS}
+            if kind == "poison":
+                from phase6.defense.retrieval.signals import pool_consensus_divergence_signals
+
+                dv = [x["consensus_divergence_score"] for x in pool_consensus_divergence_signals([t for _, t, _ in top])]
+                row["diag"] = {"n_candidates": len(top), "n_divergence_positive": sum(v > 0 for v in dv),
+                               "admission_fired_on_poison": bool(extra.get(r.scenario_id)),
+                               "admission_fired_on_benign": sum(1 for i, e in extra.items() if e and i != r.scenario_id)}
         row["exposed"] = {a: r.scenario_id in row["poison"][a] for a in ARMS}
         row["displaced"] = {a: len(set(row["clean"]["A0"]) - set(row["clean"][a])) for a in ARMS}
         done[r.scenario_id] = row
@@ -115,6 +124,13 @@ def run() -> dict:
                "R-2": sum(ex["A2"]) <= sum(ex["A1"]),
                "R-3": abs(d3 - d1) <= 5.0,
                "R-4": p10["only_b"] > p10["only_a"] and p10["p_exact"] < 0.05},
+           "diagnostics": {
+               "candidates_with_divergence_positive": f"{sum(done[i]['diag']['n_divergence_positive'] for i in ids)}/"
+                                                       f"{sum(done[i]['diag']['n_candidates'] for i in ids)}",
+               "instances_admission_fired_on_poison": sum(done[i]['diag']['admission_fired_on_poison'] for i in ids),
+               "benign_candidates_admission_fired": sum(done[i]['diag']['admission_fired_on_benign'] for i in ids),
+               "reading": "the fixed-gate guard can only act where lexical divergence is positive; A3 can only "
+                          "add corroboration where an admission signal fired"},
            "by_family": {}}
     for fam in sorted({done[i]["family"] for i in ids}):
         fi = [i for i in ids if done[i]["family"] == fam]

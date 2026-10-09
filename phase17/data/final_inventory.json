@@ -1,9 +1,9 @@
 {
-  "n": 71,
+  "n": 74,
   "counts": {
-    "favourable": 40,
-    "unfavourable": 25,
-    "open": 6
+    "favourable": 41,
+    "unfavourable": 26,
+    "open": 7
   },
   "classification_rule": "Written because a summary assembled from memory is where selective reporting creeps in. Each\nrow names the artifact it came from, so any line can be checked, and the classification rule is\napplied mechanically rather than by recollection:",
   "rows": [
@@ -318,7 +318,7 @@
     {
       "category": "favourable",
       "item": "Round-7 pre-registration scored mechanically",
-      "result": "31/37 held (CALIBRATED); failed: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7",
+      "result": "34/41 held (CALIBRATED); failed: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4",
       "artifact": "round7_predictions.json",
       "caveat": "failures stay in the table; one interval failed by 0.1 point and counts as failed"
     },
@@ -496,6 +496,27 @@
       "result": "22/48 -> 5/48 at radius 0.95, paired +1/-18, p=7.6e-05",
       "artifact": "adaptive_ledger_b13.json",
       "caveat": "dev only; ledger cost = 6.4% blast radius at 0.95 (dev); B18 + ledger not measured (~40 s per B18 decision)"
+    },
+    {
+      "category": "favourable",
+      "item": "Phase 10 risk-weighted retrieval: cross-guard corroboration demotes poison (first evaluation)",
+      "result": "exposure 88 -> 82 of 309 vs the fixed gate, p=0.031; benign displacement 0.0 points",
+      "artifact": "risk_weighted_retrieval_eval.json",
+      "caveat": "narrow: admission signals fired on the poison in 28/309 instances; dev only; not robust to a family-wide Holm correction"
+    },
+    {
+      "category": "unfavourable",
+      "item": "Phase 6's fixed-gate retrieval guard barely changes what reaches the agent",
+      "result": "exposure 89 -> 88 of 309 (p=1); lexical divergence positive for only 120/6180 candidates",
+      "artifact": "risk_weighted_retrieval_eval.json",
+      "caveat": "pre-registered R-4 FAILED"
+    },
+    {
+      "category": "open",
+      "item": "Phase 10 risk-weighted monitoring (forensic ordering) not evaluated",
+      "result": "built and unit-tested; orders a human triage queue",
+      "artifact": "-",
+      "caveat": "no outcome this benchmark measures"
     },
     {
       "category": "open",

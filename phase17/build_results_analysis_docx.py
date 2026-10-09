@@ -1391,6 +1391,27 @@ if _S120:
       f"({_S120['effect_points']['gemini']:+.1f} points, p="
       f"{_S120['paired_framed_vs_raw_gemini']['p_exact']:.2g}), against qwen's "
       f"{_S120['effect_points']['qwen']:+.1f} on the same items.")
+_RW = L("risk_weighted_retrieval_eval.json")
+if _RW:
+    _e, _dg = _RW["exposure"], _RW["diagnostics"]
+    P(f"Phase 10's risk-weighted retrieval ranking, evaluated for the first time (pre-registration "
+      f"addendum 5). It was built and unit-tested in Phase 10 but never measured: the offline pipeline "
+      f"gives every candidate one constant retrieval score, and Phase 14's live path is exclusion-only, "
+      f"so a downrank changed nothing there. On the {_RW['n']} harm-study stores, re-ranking the top "
+      f"{_RW['n_pool']} and passing the top {_RW['top_k']} to the agent, the poison reached the agent in "
+      f"{_e['A0']['k']} cases undefended, {_e['A1']['k']} under the fixed-gate consensus guard, "
+      f"{_e['A2']['k']} under risk-weighted ranking alone and {_e['A3']['k']} when the admission guard's "
+      f"fired signals were supplied as corroboration (+{_RW['paired_A3_vs_A1']['only_a']}/"
+      f"-{_RW['paired_A3_vs_A1']['only_b']} against the fixed gate, p={_RW['paired_A3_vs_A1']['p_exact']:.2g}), "
+      f"displacing {_RW['benign_displacement_points']['A3']} points of benign memories. Both readings are "
+      f"narrow and the reason is measured, not assumed: the fixed gate's lexical divergence is positive for "
+      f"only {_dg['candidates_with_divergence_positive']} candidates, so it almost never acts on a realistic "
+      f"store (prediction R-4 FAILED: the existing guard does not measurably reduce exposure), and "
+      f"corroboration can only help where an admission signal fired -- on the poison in "
+      f"{_dg['instances_admission_fired_on_poison']} of {_RW['n']} instances and on no benign memory. "
+      f"Risk-weighted monitoring (ordering forensic targets) remains built and tested but not evaluated: "
+      f"it orders a human's triage queue and has no outcome this benchmark measures.")
+
 if _H6C and _E67:
     _w = _H6C["per_item_working"]
     _a6 = _E67["holdouts"]["holdout6"]["raw"]["attack"]
@@ -1534,6 +1555,7 @@ for name, what, present in [
     ("publishability.json", "The computed publishability verdict", bool(PUB)),
     ("adaptive_ledger_exploratory.json", "EXPLORATORY: would the ledger block the adaptive evasions", bool(L("adaptive_ledger_exploratory.json"))),
     ("adaptive_ledger_b13.json", "Ledger composed with corroboration, adaptive attacker (addendum 4)", bool(L("adaptive_ledger_b13.json"))),
+    ("risk_weighted_retrieval_eval.json", "Phase 10 risk-weighted retrieval ranking, first evaluation (addendum 5)", bool(L("risk_weighted_retrieval_eval.json"))),
 ]:
     idx.append([name, what, "yes" if present else "NOT YET RUN"])
 TBL(idx)

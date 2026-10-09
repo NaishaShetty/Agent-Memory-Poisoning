@@ -237,6 +237,21 @@ def predictions() -> List[Dict]:
             f"{lb['ledger_evasion']['k']}/{lb['n_seeds']}")
     else:
         pend("L-1", "ledger + corroboration"); pend("L-2", "ledger-arm evasion <= 8/48")
+    rw = L("risk_weighted_retrieval_eval.json")
+    if rw:
+        e, pr = rw["exposure"], rw["predictions"]
+        p31, p10 = rw["paired_A3_vs_A1"], rw["paired_A1_vs_A0"]
+        add("R-1", "risk-weighted ranking + admission corroboration exposes poison less than the fixed gate, p<0.05",
+            "HELD" if pr["R-1"] else "FAILED", f"{e['A1']['k']} -> {e['A3']['k']} of {rw['n']}, p={p31['p_exact']:.2g}")
+        add("R-2", "risk-weighted ranking (divergence only) exposes no more than the fixed gate",
+            "HELD" if pr["R-2"] else "FAILED", f"{e['A2']['k']} vs {e['A1']['k']}")
+        add("R-3", "A3 benign displacement within 5 points of A1's", "HELD" if pr["R-3"] else "FAILED",
+            f"{rw['benign_displacement_points']['A3']} vs {rw['benign_displacement_points']['A1']} points")
+        add("R-4", "the fixed-gate guard exposes poison less than no defense, p<0.05",
+            "HELD" if pr["R-4"] else "FAILED", f"{e['A0']['k']} -> {e['A1']['k']} of {rw['n']}, p={p10['p_exact']:.2g}")
+    else:
+        for pid in ("R-1", "R-2", "R-3", "R-4"):
+            pend(pid, "risk-weighted retrieval")
     return out
 
 

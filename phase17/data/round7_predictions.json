@@ -1,23 +1,26 @@
 {
-  "n_predictions": 38,
-  "n_scored": 37,
-  "n_held": 31,
+  "n_predictions": 42,
+  "n_scored": 41,
+  "n_held": 34,
   "multiplicity": {
     "method": "Holm, one family: every scored prediction with a p<0.05 criterion",
-    "m": 9,
+    "m": 11,
     "adjusted": {
-      "H6-3": 2.88e-58,
-      "H4-2": 1.12e-13,
-      "B-3": 3.3599999999999996e-06,
-      "H5-5": 0.000132,
-      "L-1": 0.00038,
-      "H6-5": 0.0012,
-      "H6-4": 0.069,
-      "H5-6": 0.46,
-      "H6-6": 1.0
+      "H6-3": 3.52e-58,
+      "H4-2": 1.4e-13,
+      "B-3": 4.319999999999999e-06,
+      "H5-5": 0.000176,
+      "L-1": 0.000532,
+      "H6-5": 0.0018,
+      "H6-4": 0.11499999999999999,
+      "R-1": 0.124,
+      "H5-6": 0.6900000000000001,
+      "H6-6": 1.0,
+      "R-4": 1.0
     },
     "held_but_not_surviving": [
-      "H6-4"
+      "H6-4",
+      "R-1"
     ]
   },
   "verdict": "CALIBRATED",
@@ -27,8 +30,8 @@
     "n_interval_held": 9,
     "mean_interval_width_points": 19.8,
     "widest": "H5-3",
-    "n_directional": 27,
-    "n_directional_held": 22,
+    "n_directional": 31,
+    "n_directional_held": 25,
     "misses": {
       "H5-3": 0.1
     },
@@ -90,7 +93,7 @@
       "status": "HELD",
       "evidence": "37.4% -> 18.3%, p=2.2e-05",
       "kind": "directional",
-      "holm_p": 0.000132
+      "holm_p": 0.000176
     },
     {
       "id": "H5-6",
@@ -98,7 +101,7 @@
       "status": "FAILED",
       "evidence": "20 -> 15 of 131, p=0.23",
       "kind": "directional",
-      "holm_p": 0.46
+      "holm_p": 0.6900000000000001
     },
     {
       "id": "H5-7",
@@ -134,7 +137,7 @@
       "status": "HELD",
       "evidence": "50.3% vs 20.4%, p=1.4e-14",
       "kind": "directional",
-      "holm_p": 1.12e-13
+      "holm_p": 1.4e-13
     },
     {
       "id": "H4-3",
@@ -226,7 +229,7 @@
       "status": "HELD",
       "evidence": "77.4% vs 37.2%, p=3.2e-59",
       "kind": "directional",
-      "holm_p": 2.88e-58
+      "holm_p": 3.52e-58
     },
     {
       "id": "H6-4",
@@ -234,7 +237,7 @@
       "status": "HELD",
       "evidence": "246 -> 227 of 500, p=0.023",
       "kind": "directional",
-      "holm_p": 0.069
+      "holm_p": 0.11499999999999999
     },
     {
       "id": "H6-6",
@@ -250,7 +253,7 @@
       "status": "HELD",
       "evidence": "64.8% -> 57.4%, p=0.0003",
       "kind": "directional",
-      "holm_p": 0.0012
+      "holm_p": 0.0018
     },
     {
       "id": "H6-7",
@@ -342,7 +345,7 @@
       "status": "HELD",
       "evidence": "50.0% -> 13.3%, p=4.8e-07",
       "kind": "directional",
-      "holm_p": 3.3599999999999996e-06
+      "holm_p": 4.319999999999999e-06
     },
     {
       "id": "B-4",
@@ -371,7 +374,7 @@
       "status": "HELD",
       "evidence": "22/48 -> 5/48, p=7.6e-05",
       "kind": "directional",
-      "holm_p": 0.00038
+      "holm_p": 0.000532
     },
     {
       "id": "L-2",
@@ -379,6 +382,36 @@
       "status": "HELD",
       "evidence": "5/48",
       "kind": "directional"
+    },
+    {
+      "id": "R-1",
+      "prediction": "risk-weighted ranking + admission corroboration exposes poison less than the fixed gate, p<0.05",
+      "status": "HELD",
+      "evidence": "88 -> 82 of 309, p=0.031",
+      "kind": "directional",
+      "holm_p": 0.124
+    },
+    {
+      "id": "R-2",
+      "prediction": "risk-weighted ranking (divergence only) exposes no more than the fixed gate",
+      "status": "HELD",
+      "evidence": "88 vs 88",
+      "kind": "directional"
+    },
+    {
+      "id": "R-3",
+      "prediction": "A3 benign displacement within 5 points of A1's",
+      "status": "HELD",
+      "evidence": "0.0 vs 0.0 points",
+      "kind": "directional"
+    },
+    {
+      "id": "R-4",
+      "prediction": "the fixed-gate guard exposes poison less than no defense, p<0.05",
+      "status": "FAILED",
+      "evidence": "89 -> 88 of 309, p=1",
+      "kind": "directional",
+      "holm_p": 1.0
     }
   ]
 }

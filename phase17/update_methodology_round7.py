@@ -276,6 +276,18 @@ if UT0 and find(contains="Utility: on") is not None:
                ", ".join(f"{n} {-t['loss_points']:+.1f} points" for n, t in list(UT["tasks"].items())[1:2]),
                contains="Utility: on")
 
+RW = L("risk_weighted_retrieval_eval.json")
+if RW:
+    _e = RW["exposure"]
+    append_note("p_25_2_wiring_status",
+                f"[Status as of round 7: the first surface (risk band -> action) was wired into the live defended "
+                f"agent by Phase 14 as configuration B9 (Section 29). The risk-weighted retrieval ranking was "
+                f"evaluated for the first time in round 7 (Section 32.61): poison exposure {_e['A1']['k']} -> "
+                f"{_e['A3']['k']} of {RW['n']} against the fixed gate when admission signals corroborate "
+                f"(p={RW['paired_A3_vs_A1']['p_exact']:.2g}), at no benign displacement. Risk-weighted monitoring "
+                f"remains built and tested but not evaluated.]",
+                contains="A RiskEstimate drives three real, separately-tested surfaces")
+
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
 replace_in("s33_ledger",
@@ -695,8 +707,25 @@ if UT and AD and HS and HR and S120 and H6C and section(
     body(" ".join(parts) + " None of these was pre-registered as a prediction; each is reported as "
          "measured, beside the corresponding earlier figure, and nothing was tuned on it.")
 
+if RW and section("32.61 Phase 10's Risk-Weighted Retrieval Ranking, Evaluated"):
+    _dg = RW["diagnostics"]
+    body(f"Pre-registration addendum 5. On the {RW['n']} harm-study stores (each poison in its owner's "
+         f"100-turn store, the study's own query and retriever), the top {RW['n_pool']} candidates were "
+         f"re-ranked and the top {RW['top_k']} passed to the agent. Poison exposure: no defense "
+         f"{_e['A0']['k']}, fixed-gate consensus guard {_e['A1']['k']}, risk-weighted ranking "
+         f"{_e['A2']['k']}, risk-weighted with the admission guard's fired signals as corroboration "
+         f"{_e['A3']['k']} (paired against the fixed gate p={RW['paired_A3_vs_A1']['p_exact']:.2g}); "
+         f"benign displacement {RW['benign_displacement_points']['A3']} points on the same stores without "
+         f"the poison. R-1, R-2, R-3 held; R-4 FAILED: the fixed gate does not measurably reduce exposure "
+         f"(p={RW['paired_A1_vs_A0']['p_exact']:.2g}), because its lexical divergence is positive for only "
+         f"{_dg['candidates_with_divergence_positive']} candidates on realistic stores. Corroboration's reach "
+         f"is bounded the same way: an admission signal fired on the poison in "
+         f"{_dg['instances_admission_fired_on_poison']} of {RW['n']} instances (and on no benign memory), "
+         f"all in the founding families. Risk-weighted monitoring is not evaluated: it orders a human's "
+         f"forensic queue and has no outcome this benchmark measures.")
+
 PUBV = L("publishability.json")
-if PUBV and PUBV["verdict"] != "PENDING" and section("32.61 Publishability Verdict"):
+if PUBV and PUBV["verdict"] != "PENDING" and section("32.62 Publishability Verdict"):
     body(f"Computed by phase17/publishability.py against the two-sided standard: {PUBV['verdict']}. "
          + " ".join(f"{k}: {v['status']}." for k, v in PUBV["criteria"].items())
          + f" Guards: {PUBV['disqualifiers_clear']['registry']}.")
