@@ -1,6 +1,6 @@
 # MAMBench Phase 17 -- current results (round 7)
 
-Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` (methods, Sections 32.49-32.62); every correction is logged in `docs/phase17/ROUND7_LOG.md`.
+Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` (methods, Sections 32.49-32.63); every correction is logged in `docs/phase17/ROUND7_LOG.md`.
 
 **Publishability verdict: PENDING.** Held by the owner's rule until every scheduled measurement is complete; outstanding: harm_rejudged.json. Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PENDING; 6_above_noise_floor PASS; 7_all_measurements_complete PENDING.
 
@@ -10,6 +10,7 @@ Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit b
 2. **Injection-shaped text: B17, not B18.** 90.1% at 10.2% (hold-out 5) and 77.6% at 2.2% (hold-out 6), matched benign. B18's deberta rule costs 16.3% on hold-out 6.
 3. **Neutralisation** (admit untrusted memory framed as data) as a zero-exclusion layer under either.
 4. **Retry-capable attackers: add the rejection ledger at radius 0.95.** With B13 + evidence, adaptive evasion 22/48 -> 5/48 (pre-registered, p=7.6e-05).
+5. **Retrieval ranking: run the consensus guard with semantic divergence** (not its lexical default) -- against coordinated campaigns 99 -> 63 of 302 reach the agent, at 2.78 points of benign displacement; inert against a single poison by design. Development data, not a hold-out. On Phase 6's own corpus it trades detection for false positives (B8 70.6% -> B8s 100.0%, FPR 7.3% -> 14.6%).
 
 ## Hold-outs 4-7, each frozen and scored once
 
@@ -47,18 +48,20 @@ Hold-outs 4 and 7 are memory poisoning (false positives on untrusted-channel ben
 - **B13 protects a stronger agent:** Gemini harm 36.0% -> 14.0% (p=4.8e-07, seeded 100).
 - **The frame costs no significant usefulness** on benign memories (largest loss: direct_question, 5.0 points, p=0.082).
 - **Phase 10's risk-weighted retrieval, first evaluated:** with admission signals as corroboration it keeps the poison out of the agent's context in 6 more of 309 cases than the fixed-gate guard (p=0.031), at no benign cost; the fixed gate itself barely acts on realistic stores (89 -> 88).
+- **The retrieval consensus guard works on the threat it was built for:** against coordinated campaigns (poison + 2 paraphrases) any copy reached the agent 99 -> 63 of 302 with semantic divergence (lexical: 100); against a single poison it is inert.
 - **Full-population recall can mislead in either direction:** on hold-out 6 the attacks that work are harder to detect; on hold-outs 4 and 5 they are easier for B13. Both denominators are reported.
 
 ## Pre-registered predictions
 
-34/41 held (CALIBRATED). Failed, reported in place: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4. After Holm correction across the 11 significance predictions, H6-4, R-1 no longer holds.
+38/45 held (CALIBRATED). Failed, reported in place: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4. After Holm correction across the 13 significance predictions, H6-4, R-1 no longer holds.
 
 ## Not done, partial, or untested -- stated, not hidden
 
 - Harm re-measurement: PARTIAL (Gemini daily quota); completes with `python -m phase17.harm_judge_fix rejudge`.
 - The ledger composed with B18: not measured (about 40 s per B18 decision on novel text; an estimated 4-9 GPU hours). B18 is no longer recommended.
-- Phase 10's risk-weighted monitoring (ordering forensic targets): built and tested, not evaluated.
-- Conditional backdoors: untested on a clean hold-out (a base-model author produced 3/40 valid).
+- Phase 10's risk-weighted monitoring: evaluated on development data -- it ranks the poison first in 39 of 43 listed cases (33.5 by default), but realistic review lists are about one item long, so it has little to do.
+- Conditional backdoors: untested on a clean hold-out so far (a base-model author produced 3/40 valid); hold-out 8 is built to test them.
+- MPBench's other four classes (command, compaction and skill-synthesis write channels) need a tool-using victim agent this architecture does not have: future work.
 - The human check of the judges has one annotator; a second is open.
 - Hold-out 3 is retired after seven uses; its numbers are hold-out-informed where used.
 - No LICENSE: deliberately deferred by the owner.

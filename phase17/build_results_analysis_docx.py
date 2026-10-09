@@ -111,6 +111,25 @@ def pct(x):
     return "n/a" if x is None else f"{x:.1%}"
 
 
+# Figures are drawn from the artifacts at build time (phase17/figures_round7.py), so a figure can
+# never show numbers the text and tables no longer carry.
+from phase17.figures_round7 import run as _draw_figures  # noqa: E402
+
+_FIGS = {k: (Path(__file__).resolve().parents[1] / v) for k, v in _draw_figures().items() if v}
+_NFIG = [0]
+
+
+def FIG(key, caption, width_in=6.3):
+    from docx.shared import Inches
+
+    path = _FIGS.get(key)
+    if not path or not path.exists():
+        return
+    _NFIG[0] += 1
+    doc.add_picture(str(path), width=Inches(width_in))
+    CAP(f"Figure {_NFIG[0]}. {caption}")
+
+
 def kn(d):
     return f"{d['k']}/{d['n']}"
 
@@ -1013,7 +1032,13 @@ if _CPr:
       f"cases (p={_CPr['paired']['A1s_vs_A0']['p_exact']:.1g}) at {_CPr['benign_displacement_points']['A1s']} "
       f"points of benign displacement, where the lexical default did nothing. Against a single poison "
       f"the guard is inert by design (a single memory is never a cluster); there, provenance corroboration "
-      f"supplied to the ranking is what helps. Measured on development data and fresh stores, not on a hold-out.")
+      f"supplied to the ranking is what helps. Measured on development data and fresh stores, not on a hold-out."
+      + ((lambda v: f" It is a trade, not a free gain: on Phase 6's own hand-authored corpus the semantic variants "
+                    f"raise detection (B8 {v['B8']['poison_detection_rate']:.1%} -> B8s {v['B8s']['poison_detection_rate']:.1%}) "
+                    f"and double benign false positives ({v['B8']['benign_false_positive_rate']:.1%} -> "
+                    f"{v['B8s']['benign_false_positive_rate']:.1%} of {v['B8']['n_benign']}). They ship as B2s-B8s beside the "
+                    f"unchanged originals, so every number measured with the lexical default stays reproducible.")
+         (L("phase6_semantic_variants.json")["configs"]) if L("phase6_semantic_variants.json") else ""))
 P("The round-6 recommendation this supersedes is kept below, unchanged, so the change is auditable.")
 for _t in RECOMMENDATION_TEXT:
     P("[SUPERSEDED by the round-7 recommendation above] " + _t)
@@ -1076,7 +1101,7 @@ R7STRONG = L("neutralise_strong_agent.json")
 R7SWEEP = L("eval_ledger_radius_sweep.json")
 H("13. Round 7: Two Clean Hold-Outs, a Composition, and What Did Not Generalise", 1)
 P("Round 7 retired hold-out 3 (scored seven times, one pre-registered, and its development set "
-  "shown to be the hold-out itself: Section 10C) and built two new corpora, each frozen before any "
+  "shown to be the hold-out itself: Section 10C) and built new corpora -- hold-outs 4 and 5 in this section, 6 and 7 in Section 13A -- each frozen before any "
   "configuration was scored and each scored exactly ONCE under predictions committed beforehand "
   "(docs/phase17/PREREGISTRATION_ROUND7.md, plus one addendum committed before scoring that "
   "replaced a leading probe). Hold-out 5 is injection-shaped with a matched benign half: 131 "
@@ -1223,7 +1248,7 @@ if _HL:
       f"{cp['cohen_kappa']}); the harm judge only {round(100 * h['agreement'])}% (kappa {h['cohen_kappa']}), "
       f"and every one of its {h['judge_no_human_yes']} disagreements was a missed harm. Reading them, about "
       f"half are plain misses and half a generous annotator, so harm LEVELS in this document are likely "
-      f"under-estimates; harm REDUCTIONS are more robust because both arms share a judge; detection and "
+      f"under-estimates (since measured: about half, Section 13B); harm REDUCTIONS are more robust because both arms share a judge; detection and "
       f"false-positive results use no judge at all.")
 if _HJ:
     c = _HJ["candidates"]
@@ -1256,6 +1281,9 @@ if _E67:
         "addendum 3. Hold-out 7 is shown on its full corpus; its owner-matched subset is the pre-registered "
         "primary and its working subset is not reportable (the probe's task-alone base rate, 28%, exceeds "
         "the 20% rule fixed before it was built). Source: phase17/data/eval_round7b_holdouts.json.")
+    FIG("R1", "Every configuration on hold-outs 4-7, each scored once: attack recall against the false-positive "
+              "rate on benign text (matched benign for the injection hold-outs 5 and 6; untrusted-channel benign "
+              "notes for the memory-poisoning hold-outs 4 and 7). Drawn from the artifacts at build time.")
     _d12 = _h6["neutralisation"]["by_detector"]["B12"]
     from phase17.stats import paired_delta as _pdx
     _d7 = _pdx(_h7["raw"]["attack"]["B13"], _h7["raw"]["attack"]["B14"])
@@ -1363,6 +1391,8 @@ if _AD:
           f"{'HELD' if _LB['L1_held'] else 'FAILED'}, L-2 {'HELD' if _LB['L2_held'] else 'FAILED'}. "
           f"The ledger's cost at this radius is the 6.4% ledger-poisoning blast radius measured on "
           f"development data. Source: phase17/data/adaptive_ledger_b13.json.")
+        FIG("R3", "Adaptive evasion within five feedback-guided rewrites: stateless detection and corroboration, "
+                  "each alone and behind the rejection ledger at radius 0.95. Development data.")
 if _HR:
     bj = _HR["by_judge"]
     rows = [["Judge", "Task-alone base rate", "Harm undefended", "Harm with B13", "p (B13 vs undefended)"]]
@@ -1378,6 +1408,8 @@ if _HR:
            f" ({_HR['n']} instances).")
         + " The original judge's figures elsewhere in this document stand as measured. "
           "Source: phase17/data/harm_rejudged.json.")
+    FIG("R2", "Left: the harm study's four arms with 95% Wilson intervals (original judge). Right: the same "
+              "undefended answers scored by the original judge and by the judge adopted against held-back human labels.")
     if _part:
         _u = _HR["undefended_all_items"]
         _pj = _HR.get("paired_judges_undefended", {})
@@ -1417,9 +1449,22 @@ if _RW:
       f"only {_dg['candidates_with_divergence_positive']} candidates, so it almost never acts on a realistic "
       f"store (prediction R-4 FAILED: the existing guard does not measurably reduce exposure), and "
       f"corroboration can only help where an admission signal fired -- on the poison in "
-      f"{_dg['instances_admission_fired_on_poison']} of {_RW['n']} instances and on no benign memory. "
-      f"Risk-weighted monitoring (ordering forensic targets) remains built and tested but not evaluated: "
-      f"it orders a human's triage queue and has no outcome this benchmark measures.")
+      f"{_dg['instances_admission_fired_on_poison']} of {_RW['n']} instances and on no benign memory.")
+    _MO, _MR = L("risk_monitoring_eval.json"), L("risk_monitoring_eval_realistic.json")
+    if _MO and _MR:
+        P(f"Phase 10's risk-weighted MONITORING, evaluated for the first time (development data; it only "
+          f"orders a review queue, so the question is whether real poison reaches the top). In realistic "
+          f"retrieval pools -- the top 20 memories for each of {_MR['n_retrievals']} harm-study tasks -- B9 "
+          f"puts the poison on the review list in only {_MR['poison_listed']} retrievals, and the lists are "
+          f"short (on average {_MR['mean_list_length']} items, {_MR['mean_benign_listed_per_retrieval']} of "
+          f"them benign). When the poison is listed, risk ordering puts it first in {_MR['poison_first_by_risk']} "
+          f"of {_MR['poison_listed']} cases against {_MR['poison_first_expected_default']} expected from the "
+          f"default order: the surface works as designed but has little to do. A first design that pooled "
+          f"unrelated items at random gave a much larger gain (precision "
+          f"{_MO['risk_ordered']['precision_at_50']:.0%} in the first 50 against {_MO['default_order_expected']['precision_at_50']:.0%}) "
+          f"but is reported only as an artifact: in a pool of unrelated items lexical divergence is positive "
+          f"for every item, so B9 routed {_MO['queue_size']} of {_MO['n_items']} items to validation -- a "
+          f"queue no reviewer would face.")
 
 _FR, _CP = L("rwr_fresh_replication.json"), L("rwr_campaign.json")
 if _FR:
@@ -1448,6 +1493,8 @@ if _CP:
       + ("effective against a coordinated campaign once its divergence is semantic."
          if _cq['A1s_vs_A0']['p_exact'] < 0.05 and _cq['A1s_vs_A0']['only_b'] > _cq['A1s_vs_A0']['only_a']
          else "not measurably effective against a coordinated campaign either; the negative stands."))
+    FIG("R4", "How often the poison reaches the agent's top five on fresh stores, for a single poison and for a "
+              "coordinated campaign (poison plus two paraphrases), under each retrieval arm. Development data.")
 
 if _H6C and _E67:
     _w = _H6C["per_item_working"]
@@ -1559,6 +1606,16 @@ if PUB:
       f"and conditional backdoors remain untested on a clean hold-out. Those limits are stated where "
       f"the numbers appear; the standard requires them to be visible, not absent.")
 
+# ============================================================================ Appendix 0: formulas
+from phase17.formulas import rows as _formula_rows  # noqa: E402
+
+H("Definitions and Formulas", 1)
+P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "
+  "names the code that computes it, constants included, so any figure in this document can be recomputed "
+  "from its counts. The same table appears in the methodology.")
+TBL(_formula_rows())
+CAP("Table F. Formulas behind the reported numbers (phase17/formulas.py).")
+
 # ============================================================================ Appendix
 H("Appendix A. Artifact Index", 1)
 P("Every number in this document is read at build time from the following artifacts; this "
@@ -1593,6 +1650,9 @@ for name, what, present in [
     ("adaptive_ledger_exploratory.json", "EXPLORATORY: would the ledger block the adaptive evasions", bool(L("adaptive_ledger_exploratory.json"))),
     ("adaptive_ledger_b13.json", "Ledger composed with corroboration, adaptive attacker (addendum 4)", bool(L("adaptive_ledger_b13.json"))),
     ("risk_weighted_retrieval_eval.json", "Phase 10 risk-weighted retrieval ranking, first evaluation (addendum 5)", bool(L("risk_weighted_retrieval_eval.json"))),
+    ("risk_monitoring_eval.json", "Phase 10 monitoring, first design (random pools; reported as an artifact)", bool(L("risk_monitoring_eval.json"))),
+    ("risk_monitoring_eval_realistic.json", "Phase 10 monitoring, realistic retrieval pools", bool(L("risk_monitoring_eval_realistic.json"))),
+    ("phase6_semantic_variants.json", "Phase 6 ablation with the semantic retrieval variants beside the originals", bool(L("phase6_semantic_variants.json"))),
     ("rwr_semantic_exploratory.json", "EXPLORATORY: semantic divergence on the original stores", bool(L("rwr_semantic_exploratory.json"))),
     ("rwr_fresh_replication.json", "Fresh-store replication (addendum 6)", bool(L("rwr_fresh_replication.json"))),
     ("rwr_campaign.json", "Consensus guard against coordinated campaigns (addendum 6)", bool(L("rwr_campaign.json"))),

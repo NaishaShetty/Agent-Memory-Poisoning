@@ -10,7 +10,7 @@ statements were later corrected. The current state is:
 - **[`docs/phase17/ROUND7_RESULTS.md`](docs/phase17/ROUND7_RESULTS.md)** — one-page summary,
   generated from the artifacts (every number, every hold-out, both denominators, what is open).
 - **`MAMBench Results Analysis.docx`** — the results paper; **`Methodology Draft.docx`** — methods
-  (Sections 32.49-32.62 cover round 7); **[`docs/phase17/ROUND7_LOG.md`](docs/phase17/ROUND7_LOG.md)**
+  (Sections 32.49-32.63 cover round 7); **[`docs/phase17/ROUND7_LOG.md`](docs/phase17/ROUND7_LOG.md)**
   — every correction, as it was found.
 
 In brief, from four hold-outs each frozen and scored once under committed predictions:

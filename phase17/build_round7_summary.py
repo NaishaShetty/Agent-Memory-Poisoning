@@ -36,7 +36,7 @@ def build() -> str:
     w("# MAMBench Phase 17 -- current results (round 7)\n")
     w("Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The "
       "full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` "
-      "(methods, Sections 32.49-32.62); every correction is logged in `docs/phase17/ROUND7_LOG.md`.\n")
+      "(methods, Sections 32.49-32.63); every correction is logged in `docs/phase17/ROUND7_LOG.md`.\n")
     if PUB:
         w(f"**Publishability verdict: {PUB['verdict']}.** "
           + ("Held by the owner's rule until every scheduled measurement is complete; outstanding: "
@@ -72,7 +72,11 @@ def build() -> str:
         w(f"5. **Retrieval ranking: run the consensus guard with semantic divergence** (not its lexical "
           f"default) -- against coordinated campaigns {CPr['exposure']['A0']['k']} -> {CPr['exposure']['A1s']['k']} "
           f"of {CPr['n']} reach the agent, at {CPr['benign_displacement_points']['A1s']} points of benign "
-          f"displacement; inert against a single poison by design. Development data, not a hold-out.")
+          f"displacement; inert against a single poison by design. Development data, not a hold-out."
+          + ((lambda v: f" On Phase 6's own corpus it trades detection for false positives (B8 "
+                        f"{100*v['B8']['poison_detection_rate']:.1f}% -> B8s {100*v['B8s']['poison_detection_rate']:.1f}%, "
+                        f"FPR {100*v['B8']['benign_false_positive_rate']:.1f}% -> {100*v['B8s']['benign_false_positive_rate']:.1f}%).")
+             (L("phase6_semantic_variants.json")["configs"]) if L("phase6_semantic_variants.json") else ""))
     w("")
 
     w("## Hold-outs 4-7, each frozen and scored once\n")
@@ -167,8 +171,15 @@ def build() -> str:
           "`python -m phase17.harm_judge_fix rejudge`.")
     w("- The ledger composed with B18: not measured (about 40 s per B18 decision on novel text; an "
       "estimated 4-9 GPU hours). B18 is no longer recommended.")
-    w("- Phase 10's risk-weighted monitoring (ordering forensic targets): built and tested, not evaluated.")
-    w("- Conditional backdoors: untested on a clean hold-out (a base-model author produced 3/40 valid).")
+    MR = L("risk_monitoring_eval_realistic.json")
+    w(f"- Phase 10's risk-weighted monitoring: evaluated on development data -- it ranks the poison first in "
+      f"{MR['poison_first_by_risk']} of {MR['poison_listed']} listed cases ({MR['poison_first_expected_default']} by default), "
+      f"but realistic review lists are about one item long, so it has little to do." if MR else
+      "- Phase 10's risk-weighted monitoring (ordering forensic targets): built and tested, not evaluated.")
+    w("- Conditional backdoors: untested on a clean hold-out so far (a base-model author produced 3/40 valid); "
+      "hold-out 8 is built to test them.")
+    w("- MPBench's other four classes (command, compaction and skill-synthesis write channels) need a tool-using "
+      "victim agent this architecture does not have: future work.")
     w("- The human check of the judges has one annotator; a second is open.")
     w("- Hold-out 3 is retired after seven uses; its numbers are hold-out-informed where used.")
     w("- No LICENSE: deliberately deferred by the owner.")

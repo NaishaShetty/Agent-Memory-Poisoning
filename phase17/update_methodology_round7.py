@@ -48,6 +48,59 @@ def find(startswith=None, contains=None):
     return None
 
 
+def upsert_note(key, tag, note, startswith=None, contains=None):
+    """Like append_note, but for notes whose NUMBERS change as results land: if a run starting with
+    `tag` is already in the paragraph it is REPLACED, so a count can never freeze at an old value
+    (the round-7 s33 note had frozen '31/37' while the tally moved on)."""
+    assert note.startswith(tag), "the note must begin with its tag"
+    p = find(startswith, contains)
+    if p is None:
+        raise SystemExit(f"anchor not found for {key}: {startswith or contains!r}")
+    for r in p.runs:
+        if r.text.lstrip().startswith(tag):
+            if r.text.strip() == note:
+                skipped.append(key)
+            else:
+                r.text = " " + note
+                applied.append(key)
+            return
+    p.add_run(" " + note)
+    applied.append(key)
+
+
+def replace_figure(key, caption_contains, png_path):
+    """Swap the image next to the caption containing `caption_contains` for `png_path` (round 7,
+    2026-10-09: figures found stale are regenerated from the artifacts). Width is kept, height
+    follows the new aspect ratio; a no-op if the image is already current."""
+    from docx.oxml.ns import qn
+    from PIL import Image
+
+    png = Path(png_path)
+    if not png.exists():
+        return
+    ps = doc.paragraphs
+    i = next((k for k, q in enumerate(ps) if caption_contains in q.text), None)
+    if i is None:
+        raise SystemExit(f"caption not found for {key}: {caption_contains!r}")
+    for q in ps[max(0, i - 4):i + 4]:
+        blip = q._p.find(".//" + qn("a:blip"))
+        if blip is None:
+            continue
+        part = doc.part.related_parts[blip.get(qn("r:embed"))]
+        new = png.read_bytes()
+        if part.blob == new:
+            skipped.append(key)
+            return
+        part._blob = new
+        w, h = Image.open(png).size
+        for ext in q._p.iter():
+            if ext.tag in (qn("wp:extent"), qn("a:ext")) and ext.get("cx"):
+                ext.set("cy", str(int(int(ext.get("cx")) * h / w)))
+        applied.append(key)
+        return
+    raise SystemExit(f"no image near the caption for {key}")
+
+
 def append_note(key, note, startswith=None, contains=None):
     """Append a bracketed note to an existing paragraph, once."""
     p = find(startswith, contains)
@@ -229,15 +282,16 @@ _E7B, _PF, _LBF = L("eval_round7b_holdouts.json"), L("round7_predictions.json"),
 if _E7B and _PF and _LBF and find(contains="Round 7 (2026-10-06/07)") is not None:
     _h7c = _E7B["holdouts"]["holdout7"]["configs"]
     _h6c = _E7B["holdouts"]["holdout6"]["configs"]
-    append_note("s33_round7_final",
+    upsert_note("s33_round7_final", "[Round 7, final:",
                 f"[Round 7, final: four hold-outs were scored once each and {_PF['n_held']}/{_PF['n_scored']} "
-                f"pre-registered predictions held (one more does not survive a Holm correction). Provenance's lead "
+                f"pre-registered predictions held ({', '.join(_PF.get('multiplicity', {}).get('held_but_not_surviving', [])) or 'none'} "
+                f"not surviving a Holm correction). Provenance's lead "
                 f"on memory poisoning replicated on hold-out 7 (B13 {_h7c['B13']['attack_recall']['rate']:.1%} vs "
                 f"B14 {_h7c['B14']['attack_recall']['rate']:.1%}); B17 ran at {_h6c['B17']['matched_benign_fpr']['rate']:.1%} "
                 f"matched-benign false positives on hold-out 6; B18 is not recommended; corroboration is brittle "
                 f"to an adaptive attacker alone ({_LBF['control_evasion']['k']}/{_LBF['n_seeds']}) and not behind "
                 f"the ledger ({_LBF['ledger_evasion']['k']}/{_LBF['n_seeds']}); and harm levels scored by the "
-                f"original judge are about half what a human-validated judge finds (Sections 32.59-32.60).]",
+                f"original judge are about half what a human-validated judge finds (Sections 32.59-32.61).]",
                 contains="Round 7 (2026-10-06/07)")
 HRC = L("harm_rejudged.json")
 if HRC and HRC.get("complete") and find(startswith="32.60") is not None:
@@ -287,6 +341,39 @@ if RW:
                 f"(p={RW['paired_A3_vs_A1']['p_exact']:.2g}), at no benign displacement. Risk-weighted monitoring "
                 f"remains built and tested but not evaluated.]",
                 contains="A RiskEstimate drives three real, separately-tested surfaces")
+
+_PC = L("round7_predictions.json")
+if _PC and find(contains="round-7 predictions now hold") is not None:
+    upsert_note("p_table24_count", "[Prediction tally after later addenda:",
+                f"[Prediction tally after later addenda: {_PC['n_held']} of {_PC['n_scored']} held ({_PC['verdict']}); "
+                f"failures and the Holm correction are listed in the results paper, Table 16.]",
+                contains="round-7 predictions now hold")
+MO, MR = L("risk_monitoring_eval.json"), L("risk_monitoring_eval_realistic.json")
+if MO and MR:
+    _mon = (f"Risk-weighted monitoring was then evaluated (development data): in realistic retrieval pools B9 lists "
+            f"the poison in {MR['poison_listed']} of {MR['n_retrievals']} retrievals with review lists averaging "
+            f"{MR['mean_list_length']} items, and risk ordering puts the poison first in {MR['poison_first_by_risk']} of "
+            f"{MR['poison_listed']} against {MR['poison_first_expected_default']} expected by default -- it works but has "
+            f"little to do; a first design with randomly mixed pools inflated the queue and is reported as an artifact.")
+    for k, old_t in (("p_mon_25_2", "Risk-weighted monitoring remains built and tested but not evaluated."),
+                     ("p_mon_32_61", "Risk-weighted monitoring is not evaluated: it orders a human's forensic queue and has no outcome this benchmark measures.")):
+        if find(contains=old_t) is not None:
+            replace_in(k, old_t, _mon if k == "p_mon_25_2" else "Monitoring, evaluated afterwards: " + _mon[0].lower() + _mon[1:],
+                       contains=old_t)
+
+_FIGDIR = Path(__file__).resolve().parents[1] / "docs" / "figures"
+replace_figure("fig01b", "Figure 1b summarizes Sections 29-32", _FIGDIR / "round7" / "fig01b_pipeline_14_17.png")
+replace_figure("fig12", "Figure 12 traces the four real guard-group scores", _FIGDIR / "round7" / "fig12_phase10.png")
+replace_figure("fig20", "Real 3-arm agentic harm study, final numbers", _FIGDIR / "round7" / "fig20_harm.png")
+if find(contains="Real 3-arm agentic harm study, final numbers") is not None:
+    replace_in("cap_fig20", "Real 3-arm agentic harm study, final numbers.",
+               "Harm study, 309 instances by family (redrawn 2026-10-09 from the artifacts; this figure "
+               "previously showed an n=5-per-mechanism pilot captioned as final).",
+               contains="Real 3-arm agentic harm study, final numbers")
+replace_figure("fig16b", "Phase 13 Real Results: attribution accuracy", _FIGDIR / "figure17_phase13_results.png")
+_cap13 = find(contains="Phase 13 Real Results: attribution accuracy")
+if _cap13 is not None and _cap13.text.startswith("Figure 17"):
+    replace_in("cap_fig16b", "Figure 17", "Figure 16b", contains="Phase 13 Real Results: attribution accuracy")
 
 # Section 33: the overall conclusion is the place a reader is most likely to stop, and it still
 # carried three withdrawn claims. Its paragraphs are corrected in place with a note.
@@ -746,11 +833,24 @@ if CP5:
                 f"{CP5['exposure']['A0']['k']} -> {CP5['exposure']['A1s']['k']} of {CP5['n']} "
                 f"(p={CP5['paired']['A1s_vs_A0']['p_exact']:.1g}) at {CP5['benign_displacement_points']['A1s']} points "
                 f"of benign displacement; the lexical default did nothing. Inert against a single poison by design. "
-                f"Development data and fresh stores, not a hold-out.]",
-                contains="(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger at radius")
+                f"Development data and fresh stores, not a hold-out."
+                + ((lambda v: f" On Phase 6's own corpus it is a trade: B8 {v['B8']['poison_detection_rate']:.1%} -> B8s "
+                              f"{v['B8s']['poison_detection_rate']:.1%} detection, {v['B8']['benign_false_positive_rate']:.1%} -> "
+                              f"{v['B8s']['benign_false_positive_rate']:.1%} false positives; shipped as B2s-B8s beside the "
+                              f"unchanged originals.")(L("phase6_semantic_variants.json")["configs"])
+                   if L("phase6_semantic_variants.json") else "") + "]",
+                contains="(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger")
+
+if section("32.62 Definitions and Formulas"):
+    from phase17.formulas import rows as _formula_rows
+
+    body("Every number reported in Sections 32.49 onward is a count turned into a rate or a test by one of the "
+         "formulas below; each names the code that computes it, constants included. The same table appears in "
+         "the results paper.")
+    table(_formula_rows())
 
 PUBV = L("publishability.json")
-if PUBV and PUBV["verdict"] != "PENDING" and section("32.62 Publishability Verdict"):
+if PUBV and PUBV["verdict"] != "PENDING" and section("32.63 Publishability Verdict"):
     body(f"Computed by phase17/publishability.py against the two-sided standard: {PUBV['verdict']}. "
          + " ".join(f"{k}: {v['status']}." for k, v in PUBV["criteria"].items())
          + f" Guards: {PUBV['disqualifiers_clear']['registry']}.")

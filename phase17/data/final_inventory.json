@@ -1,7 +1,7 @@
 {
-  "n": 74,
+  "n": 76,
   "counts": {
-    "favourable": 41,
+    "favourable": 43,
     "unfavourable": 26,
     "open": 7
   },
@@ -318,7 +318,7 @@
     {
       "category": "favourable",
       "item": "Round-7 pre-registration scored mechanically",
-      "result": "34/41 held (CALIBRATED); failed: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4",
+      "result": "38/45 held (CALIBRATED); failed: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4",
       "artifact": "round7_predictions.json",
       "caveat": "failures stay in the table; one interval failed by 0.1 point and counts as failed"
     },
@@ -502,7 +502,7 @@
       "item": "Phase 10 risk-weighted retrieval: cross-guard corroboration demotes poison (first evaluation)",
       "result": "exposure 88 -> 82 of 309 vs the fixed gate, p=0.031; benign displacement 0.0 points",
       "artifact": "risk_weighted_retrieval_eval.json",
-      "caveat": "narrow: admission signals fired on the poison in 28/309 instances; dev only; not robust to a family-wide Holm correction"
+      "caveat": "narrow: admission signals fired on the poison in 28/309 instances; dev only; not robust to a family-wide Holm correction on its own -- see the fresh-store replication row"
     },
     {
       "category": "unfavourable",
@@ -513,10 +513,24 @@
     },
     {
       "category": "open",
-      "item": "Phase 10 risk-weighted monitoring (forensic ordering) not evaluated",
-      "result": "built and unit-tested; orders a human triage queue",
-      "artifact": "-",
-      "caveat": "no outcome this benchmark measures"
+      "item": "Phase 10 risk-weighted monitoring works but has little to do (first evaluation)",
+      "result": "realistic pools: poison listed in 43/309 retrievals; ranked first 39/43 vs 33.5 by default",
+      "artifact": "risk_monitoring_eval_realistic.json + risk_monitoring_eval.json",
+      "caveat": "a first design with randomly mixed pools inflated the queue (reported as an artifact); dev only"
+    },
+    {
+      "category": "favourable",
+      "item": "Corroborated risk-weighted retrieval replicates on fresh stores (pre-registered R6-1)",
+      "result": "76 -> 68 of 309, +0/-8, p=0.0078",
+      "artifact": "rwr_fresh_replication.json",
+      "caveat": "LoCoMo conversations 2/3/4/9, unused by any other phase-17 measurement; dev poisons"
+    },
+    {
+      "category": "favourable",
+      "item": "Consensus guard against coordinated campaigns (its designed threat): effective with semantic divergence",
+      "result": "any copy exposed 99 -> lexical 100, semantic 63 of 302 (p=2.9e-11); benign displacement 2.78 points",
+      "artifact": "rwr_campaign.json",
+      "caveat": "pre-registered R6-2..R6-4; the single-poison failure (R-4) stands and is reported beside it"
     },
     {
       "category": "open",

@@ -1,17 +1,19 @@
 {
-  "n_predictions": 42,
-  "n_scored": 41,
-  "n_held": 34,
+  "n_predictions": 46,
+  "n_scored": 45,
+  "n_held": 38,
   "multiplicity": {
     "method": "Holm, one family: every scored prediction with a p<0.05 criterion",
-    "m": 11,
+    "m": 13,
     "adjusted": {
-      "H6-3": 3.52e-58,
-      "H4-2": 1.4e-13,
-      "B-3": 4.319999999999999e-06,
-      "H5-5": 0.000176,
-      "L-1": 0.000532,
-      "H6-5": 0.0018,
+      "H6-3": 4.16e-58,
+      "H4-2": 1.68e-13,
+      "R6-2": 3.19e-10,
+      "B-3": 4.8e-06,
+      "H5-5": 0.000198,
+      "L-1": 0.000608,
+      "H6-5": 0.0021,
+      "R6-1": 0.046799999999999994,
       "H6-4": 0.11499999999999999,
       "R-1": 0.124,
       "H5-6": 0.6900000000000001,
@@ -30,8 +32,8 @@
     "n_interval_held": 9,
     "mean_interval_width_points": 19.8,
     "widest": "H5-3",
-    "n_directional": 31,
-    "n_directional_held": 25,
+    "n_directional": 35,
+    "n_directional_held": 29,
     "misses": {
       "H5-3": 0.1
     },
@@ -93,7 +95,7 @@
       "status": "HELD",
       "evidence": "37.4% -> 18.3%, p=2.2e-05",
       "kind": "directional",
-      "holm_p": 0.000176
+      "holm_p": 0.000198
     },
     {
       "id": "H5-6",
@@ -137,7 +139,7 @@
       "status": "HELD",
       "evidence": "50.3% vs 20.4%, p=1.4e-14",
       "kind": "directional",
-      "holm_p": 1.4e-13
+      "holm_p": 1.68e-13
     },
     {
       "id": "H4-3",
@@ -229,7 +231,7 @@
       "status": "HELD",
       "evidence": "77.4% vs 37.2%, p=3.2e-59",
       "kind": "directional",
-      "holm_p": 3.52e-58
+      "holm_p": 4.16e-58
     },
     {
       "id": "H6-4",
@@ -253,7 +255,7 @@
       "status": "HELD",
       "evidence": "64.8% -> 57.4%, p=0.0003",
       "kind": "directional",
-      "holm_p": 0.0018
+      "holm_p": 0.0021
     },
     {
       "id": "H6-7",
@@ -345,7 +347,7 @@
       "status": "HELD",
       "evidence": "50.0% -> 13.3%, p=4.8e-07",
       "kind": "directional",
-      "holm_p": 4.319999999999999e-06
+      "holm_p": 4.8e-06
     },
     {
       "id": "B-4",
@@ -374,7 +376,7 @@
       "status": "HELD",
       "evidence": "22/48 -> 5/48, p=7.6e-05",
       "kind": "directional",
-      "holm_p": 0.000532
+      "holm_p": 0.000608
     },
     {
       "id": "L-2",
@@ -412,6 +414,36 @@
       "evidence": "89 -> 88 of 309, p=1",
       "kind": "directional",
       "holm_p": 1.0
+    },
+    {
+      "id": "R6-1",
+      "prediction": "fresh stores: risk-weighted + corroboration exposes less than the fixed gate, p<0.05 (replicates R-1)",
+      "status": "HELD",
+      "evidence": "76 -> 68 of 309, p=0.0078",
+      "kind": "directional",
+      "holm_p": 0.046799999999999994
+    },
+    {
+      "id": "R6-2",
+      "prediction": "campaign: the semantic fixed gate exposes less than no defense, p<0.05",
+      "status": "HELD",
+      "evidence": "99 -> 63 of 302, p=2.9e-11",
+      "kind": "directional",
+      "holm_p": 3.19e-10
+    },
+    {
+      "id": "R6-3",
+      "prediction": "campaign: the lexical gate removes fewer exposures than the semantic gate",
+      "status": "HELD",
+      "evidence": "lexical -1 vs semantic 36",
+      "kind": "directional"
+    },
+    {
+      "id": "R6-4",
+      "prediction": "campaign: semantic gate benign displacement <= 5 points",
+      "status": "HELD",
+      "evidence": "2.78 points",
+      "kind": "directional"
     }
   ]
 }

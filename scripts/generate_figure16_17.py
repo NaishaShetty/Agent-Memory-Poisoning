@@ -109,7 +109,7 @@ ax.set_xticks(all_xpos)
 ax.set_xticklabels(all_labels, fontsize=9)
 ax.set_title("(b) Real ambiguity rate and confidence-correlation results\n(both weak/negative, root-caused — see Section 28.5)")
 
-fig.suptitle("Figure 17 — Phase 13 Real Results: Attribution Accuracy, Ambiguity, and Confidence Correlation", fontsize=13, fontweight="bold")
+fig.suptitle("Figure 16b — Phase 13 Real Results: Attribution Accuracy, Ambiguity, and Confidence Correlation", fontsize=13, fontweight="bold")
 fig.tight_layout(rect=[0, 0, 1, 0.93])
 fig.savefig("docs/figures/figure17_phase13_results.png", dpi=150)
 plt.close(fig)

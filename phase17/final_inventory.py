@@ -647,9 +647,16 @@ def rows():
             f"exposure {e['A0']['k']} -> {e['A1']['k']} of {rw['n']} (p={rw['paired_A1_vs_A0']['p_exact']:.2g}); "
             f"lexical divergence positive for only {dg['candidates_with_divergence_positive']} candidates",
             "risk_weighted_retrieval_eval.json", "pre-registered R-4 FAILED")
-        add("open", "Phase 10 risk-weighted monitoring (forensic ordering) not evaluated",
-            "built and unit-tested; orders a human triage queue", "-",
-            "no outcome this benchmark measures")
+        mr = _L("risk_monitoring_eval_realistic.json")
+        if mr:
+            add("open", "Phase 10 risk-weighted monitoring works but has little to do (first evaluation)",
+                f"realistic pools: poison listed in {mr['poison_listed']}/{mr['n_retrievals']} retrievals; ranked first "
+                f"{mr['poison_first_by_risk']}/{mr['poison_listed']} vs {mr['poison_first_expected_default']} by default",
+                "risk_monitoring_eval_realistic.json + risk_monitoring_eval.json",
+                "a first design with randomly mixed pools inflated the queue (reported as an artifact); dev only")
+        else:
+            add("open", "Phase 10 risk-weighted monitoring (forensic ordering) not evaluated",
+                "built and unit-tested; orders a human triage queue", "-", "no outcome measured yet")
     fr, cp = _L("rwr_fresh_replication.json"), _L("rwr_campaign.json")
     if fr:
         q = fr["paired"]["A3_vs_A1"]
