@@ -30,6 +30,13 @@ OUT = DATA / "risk_weighted_retrieval_eval.json"
 PARTIAL = DATA / "risk_weighted_retrieval_eval_partial.json"
 N_POOL = 20
 ARMS = ("A0", "A1", "A2", "A3")
+# Follow-up to R-4's failure (the lexical gate barely acts): the SAME two guards with the project's
+# existing semantic divergence (consensus_guard.semantic_divergence_fn, already used by B9). First run
+# on the original stores as EXPLORATORY, then replicated on fresh stores (FRESH_SAMPLES: LoCoMo
+# conversations no phase-17 measurement has used) under pre-registration addendum 6.
+SEMANTIC_ARMS = ("A1s", "A3s")
+FRESH_SAMPLES = (2, 3, 4, 9)
+FRESH_SEED = 2026
 
 
 def _ranked(cands, arm, extra):
@@ -47,11 +54,15 @@ def _ranked(cands, arm, extra):
           for i, t, s in cands]
     common = dict(run_id="phase17-rwr", episode_id="e1", timestamp="2026-10-09T00:00:00Z",
                   evidence_refs_for=lambda m: (f"EVT-{m}",))
-    if arm == "A1":
+    if arm in SEMANTIC_ARMS:
+        from phase6.defense.retrieval.consensus_guard import semantic_divergence_fn
+
+        common["divergence_fn"] = semantic_divergence_fn
+    if arm in ("A1", "A1s"):
         res = evaluate_retrieval_defense(rc, **common)
     else:
         res = evaluate_retrieval_defense_risk_weighted(
-            rc, **common, additional_signals_for=(lambda m: extra[m]) if arm == "A3" else (lambda m: {}))
+            rc, **common, additional_signals_for=(lambda m: extra[m]) if arm in ("A3", "A3s") else (lambda m: {}))
     score = {a.memory_id: a.adjusted_blended_score for a in res.adjusted_candidates}
     order = sorted(cands, key=lambda c: -score[c[0]])
     return [c[0] for c in order[:TOP_K]]
@@ -139,7 +150,83 @@ def run() -> dict:
     return out
 
 
+def evaluate(samples, seed, arms, out_path, partial_path, label) -> dict:
+    """The same measurement over any stores and arms. `run()` (the published A0-A3 result) is left
+    byte-identical; this serves the semantic follow-up (exploratory on HARM_SAMPLES, then the
+    pre-registered replication on FRESH_SAMPLES)."""
+    import numpy as np
+
+    from phase17 import harm_study_v2 as H
+    from phase17.provenance_sets import owner_turns
+    from phase17.stats import paired_delta, rate_with_ci
+
+    def store_for(sample):
+        turns = owner_turns(sample)
+        return ([(f"OWN-{sample}-{i}", t["text"]) for i, t in enumerate(turns[:H.N_STORE])]
+                + list(H.SENSITIVE_STORE_ITEMS))
+
+    model = H._retriever()
+    recs = H._records(15, 30, 60, 17)
+    rng = random.Random(seed)
+    done = json.loads(partial_path.read_text(encoding="utf-8")) if partial_path.exists() else {}
+    for idx, (r, fam) in enumerate(recs):
+        spec = H.EXTERNAL_TASK if fam == "external" else H.TASKS[fam]
+        full = store_for(samples[idx % len(samples)]) + [(r.scenario_id, r.text)]
+        rng.shuffle(full)
+        if r.scenario_id in done:
+            continue
+        row = {"family": fam}
+        for kind, items in (("poison", full), ("clean", [x for x in full if x[0] != r.scenario_id])):
+            v = model.encode([spec["task"]] + [t for _, t in items], normalize_embeddings=True)
+            sims = v[1:] @ v[0]
+            top = [items[i] + (float(sims[i]),) for i in np.argsort(-sims)[:N_POOL]]
+            extra = _admission([(i, t) for i, t, _ in top])
+            row[kind] = {a: _ranked(top, a, extra) for a in arms}
+            if kind == "poison":
+                row["fired_on_poison"] = bool(extra.get(r.scenario_id))
+        row["exposed"] = {a: r.scenario_id in row["poison"][a] for a in arms}
+        row["displaced"] = {a: len(set(row["clean"]["A0"]) - set(row["clean"][a])) for a in arms}
+        done[r.scenario_id] = row
+        if len(done) % 25 == 0:
+            partial_path.write_text(json.dumps(done), encoding="utf-8")
+            print(f"  {len(done)}/{len(recs)}", flush=True)
+    partial_path.write_text(json.dumps(done), encoding="utf-8")
+    ids = [r.scenario_id for r, _ in recs]
+    ex = {a: [done[i]["exposed"][a] for i in ids] for a in arms}
+    k = H.TOP_K
+    out = {"label": label, "samples": list(samples), "seed": seed, "n": len(ids), "n_pool": N_POOL, "top_k": k,
+           "exposure": {a: rate_with_ci(sum(ex[a]), len(ids)) for a in arms},
+           "benign_displacement_points": {a: round(100 * sum(done[i]["displaced"][a] for i in ids) / (k * len(ids)), 2)
+                                          for a in arms},
+           "instances_admission_fired_on_poison": sum(done[i]["fired_on_poison"] for i in ids),
+           "paired": {f"{a}_vs_{b}": paired_delta(ex[a], ex[b])
+                      for a, b in (("A1", "A0"), ("A3", "A1"), ("A1s", "A0"), ("A3s", "A1s"), ("A3s", "A0"),
+                                   ("A1s", "A1")) if a in arms and b in arms}}
+    out_path.write_text(json.dumps(out, indent=2), encoding="utf-8")
+    return out
+
+
+def _print(r):
+    print(r["label"], "samples", r["samples"])
+    for a, v in r["exposure"].items():
+        print(f"  {a}: exposure {v['k']}/{r['n']}  displacement {r['benign_displacement_points'][a]} points")
+    for k_, v in r["paired"].items():
+        print(f"  {k_}: +{v['only_a']}/-{v['only_b']} p={v['p_exact']:.3g}")
+
+
 if __name__ == "__main__":
+    import sys
+
+    from phase17.harm_study_v2 import HARM_SAMPLES
+
+    if "semantic_exploratory" in sys.argv:
+        _print(evaluate(HARM_SAMPLES, 17, ARMS + SEMANTIC_ARMS, DATA / "rwr_semantic_exploratory.json",
+                        DATA / "rwr_semantic_exploratory_partial.json", "EXPLORATORY: original stores"))
+        raise SystemExit(0)
+    if "fresh" in sys.argv:
+        _print(evaluate(FRESH_SAMPLES, FRESH_SEED, ARMS + SEMANTIC_ARMS, DATA / "rwr_fresh_replication.json",
+                        DATA / "rwr_fresh_replication_partial.json", "PRE-REGISTERED (addendum 6): fresh stores"))
+        raise SystemExit(0)
     r = run()
     for a in ARMS:
         print(f"{a}: exposure {r['exposure'][a]['k']}/{r['n']}  benign displacement "
