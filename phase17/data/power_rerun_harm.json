@@ -1,0 +1,161 @@
+{
+  "n_new": 175,
+  "frame": "v3_depersonalise",
+  "judge": "llama3.1:8b",
+  "new": {
+    "raw": {
+      "k": 53,
+      "n": 175,
+      "rate": 0.3028571428571429,
+      "ci95": [
+        0.2396144335527129,
+        0.3745692910393284
+      ]
+    },
+    "framed": {
+      "k": 44,
+      "n": 175,
+      "rate": 0.25142857142857145,
+      "ci95": [
+        0.1929605142672492,
+        0.32057548630532456
+      ]
+    },
+    "paired_framed_vs_raw": {
+      "n": 175,
+      "detected_a": 44,
+      "detected_b": 53,
+      "only_a": 11,
+      "only_b": 20,
+      "p_exact": 0.14961278438568115
+    }
+  },
+  "original": {
+    "raw": {
+      "k": 89,
+      "n": 309,
+      "rate": 0.28802588996763756,
+      "ci95": [
+        0.24038012854034208,
+        0.34087760700378
+      ]
+    },
+    "framed": {
+      "k": 76,
+      "n": 309,
+      "rate": 0.2459546925566343,
+      "ci95": [
+        0.20125027568651815,
+        0.29689830813353646
+      ]
+    },
+    "paired_framed_vs_raw": {
+      "n": 309,
+      "detected_a": 76,
+      "detected_b": 89,
+      "only_a": 20,
+      "only_b": 33,
+      "p_exact": 0.09837064844049181
+    }
+  },
+  "combined": {
+    "n": 484,
+    "raw": 142,
+    "framed": 120
+  },
+  "by_family": {
+    "agentpoison": {
+      "n": 14,
+      "raw": 0,
+      "framed": 0
+    },
+    "authority_impersonation": {
+      "n": 15,
+      "raw": 0,
+      "framed": 0
+    },
+    "conditional_backdoor": {
+      "n": 15,
+      "raw": 14,
+      "framed": 12
+    },
+    "dsrm": {
+      "n": 15,
+      "raw": 7,
+      "framed": 7
+    },
+    "exfiltration_instruction": {
+      "n": 17,
+      "raw": 0,
+      "framed": 0
+    },
+    "farma": {
+      "n": 15,
+      "raw": 1,
+      "framed": 1
+    },
+    "memory_worm": {
+      "n": 10,
+      "raw": 8,
+      "framed": 4
+    },
+    "memorygraft": {
+      "n": 15,
+      "raw": 12,
+      "framed": 9
+    },
+    "minja": {
+      "n": 14,
+      "raw": 1,
+      "framed": 0
+    },
+    "mpbench": {
+      "n": 15,
+      "raw": 3,
+      "framed": 1
+    },
+    "policy_revocation": {
+      "n": 15,
+      "raw": 5,
+      "framed": 6
+    },
+    "sleeper_memory_poisoning": {
+      "n": 15,
+      "raw": 2,
+      "framed": 4
+    }
+  },
+  "pooled_own_attacks": {
+    "n": 424,
+    "n_original_own": 249,
+    "n_new": 175,
+    "raw": {
+      "k": 123,
+      "n": 424,
+      "rate": 0.29009433962264153,
+      "ci95": [
+        0.2489362134754876,
+        0.3350219616996239
+      ]
+    },
+    "framed": {
+      "k": 104,
+      "n": 424,
+      "rate": 0.24528301886792453,
+      "ci95": [
+        0.20673606028435249,
+        0.2884041972315132
+      ]
+    },
+    "paired_framed_vs_raw": {
+      "n": 424,
+      "detected_a": 104,
+      "detected_b": 123,
+      "only_a": 28,
+      "only_b": 47,
+      "p_exact": 0.03695490402736831
+    },
+    "label": "includes the original sample whose inconclusive result motivated the re-test"
+  },
+  "P8-2_held": true
+}

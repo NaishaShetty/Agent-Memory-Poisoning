@@ -140,6 +140,14 @@ def score(which=None) -> dict:
         t_best = out["candidates"][best]["test"]["kappa"] or -1
         t_c0 = out["candidates"]["C0_current"]["test"]["kappa"] or -1
         out["adopted"] = best if t_best > t_c0 else "C0_current"
+        # Size of the win, in items, so a one-item TEST difference is not read as an improvement
+        # (added after scoring; it reports, it does not change the rule's outcome).
+        def correct(n, part):
+            v = out["candidates"][n][part]
+            return round(v["agreement"] * v["n"])
+        out["margin_items"] = {"test": correct(best, "test") - correct("C0_current", "test"),
+                               "all_consensus": correct(best, "all") - correct("C0_current", "all")}
+        out["material"] = out["adopted"] != "C0_current" and out["margin_items"]["all_consensus"] > 0
     out["complete"] = not out["not_scored"]
     OUT.write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out

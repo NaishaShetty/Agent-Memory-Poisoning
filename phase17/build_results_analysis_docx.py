@@ -1227,6 +1227,18 @@ if R7OWN:
       f"harm {pct(R7OWN['harm_raw_rerun']['rate'])} raw against {pct(R7OWN['harm_framed']['rate'])} framed; "
       f"B13 {pct(R7OWN['harm_b13']['rate'])} against B13 plus framing "
       f"{pct(R7OWN['harm_b13_plus_frame']['rate'])}. Source: phase17/data/neutralise_own.json.")
+_P8H = L("power_rerun_harm.json")
+if R7OWN and _P8H:
+    P(f"Re-tested with more data (pre-registration addendum 8): on {_P8H['n_new']} NEW own-attack instances "
+     f"harm went {_P8H['new']['raw']['k']} -> {_P8H['new']['framed']['k']} (p={_P8H['new']['paired_framed_vs_raw']['p_exact']:.2g}, "
+     f"not significant alone); pooled with the original own-attack rows, as the amendment committed before "
+     f"the run specifies, {_P8H['pooled_own_attacks']['raw']['k']} -> {_P8H['pooled_own_attacks']['framed']['k']} of "
+     f"{_P8H['pooled_own_attacks']['n']} ({pct(_P8H['pooled_own_attacks']['raw']['rate'])} -> "
+     f"{pct(_P8H['pooled_own_attacks']['framed']['rate'])}, p={_P8H['pooled_own_attacks']['paired_framed_vs_raw']['p_exact']:.2g}). "
+     f"P8-2 therefore holds at its pre-registered alpha, but the pooled sample includes the one whose "
+     f"inconclusive result motivated the re-test, the new sample alone does not reach significance, and "
+     f"the frame's harm reduction is about {round(100 * (_P8H['pooled_own_attacks']['raw']['rate'] - _P8H['pooled_own_attacks']['framed']['rate']), 1)} "
+     f"points -- real but small (Table 17 gives its multiplicity-corrected p).")
 if R7STRONG:
     P(f"On a stronger agent (gemini-3.5-flash-lite, 60 paired dev items): compliance "
       f"{pct(R7STRONG['arms']['raw']['rate'])} raw against {pct(R7STRONG['arms'][R7STRONG['frame']]['rate'])} "
@@ -1312,6 +1324,23 @@ if _HL and _A2R:
     CAP("Table 15A. Two independent blind annotators, and the judges against the second. Identical harm "
         "and mechanism labels reflect a ceiling (harm YES on 36/40 items, mechanism on 20/20). Source: "
         "phase17/data/human_label_agreement_annotator2.json.")
+_CJ = L("compliance_judge_fix.json")
+if _CJ and _CJ.get("chosen_on_select"):
+    P(f"The compliance judge was put through the same selection: on the {_CJ['n_items']} compliance items both "
+     f"annotators agree on (the {_CJ['n_disagreed_excluded']} they disagree on have no reliable truth), split "
+     f"by a fixed seed into SELECT and TEST, the current judge reaches kappa "
+     f"{_CJ['candidates']['C0_current']['all']['kappa']} against a human-to-human ceiling of about "
+     f"{_CJ['human_ceiling_kappa_all_compliance']}. "
+     + ", ".join(f"{n.split('_', 1)[1].replace('_', ' ')} {v['all']['kappa']}" for n, v in _CJ['candidates'].items()
+                 if n != 'C0_current') + " overall"
+     + (f"; the rule fixed in advance picks {_CJ['chosen_on_select'].split('_', 1)[1].replace('_', ' ')} (best "
+        f"of the new candidates on SELECT) and it beats the current judge on TEST, but the margin is {_CJ['margin_items']['test']} item of {_CJ['n_test']} on TEST and "
+        f"{_CJ['margin_items']['all_consensus']} over all consensus items, so no better compliance judge was "
+        f"found and the original stays in use" if not _CJ.get('material') else
+        f"; {_CJ['adopted']} is adopted and re-scores compliance beside the original")
+     + (f". Not scored (Gemini quota): {', '.join(_CJ['not_scored'])}." if _CJ['not_scored'] else ".")
+     + f" Compliance results therefore rest on a judge at kappa {_CJ['candidates']['C0_current']['all']['kappa']} "
+       f"against people who agree with each other at about {_CJ['human_ceiling_kappa_all_compliance']}.")
 if _HJ:
     c = _HJ["candidates"]
     P(f"A replacement harm judge was chosen by a rule fixed in advance -- selected on half the human labels, "
@@ -1417,6 +1446,16 @@ if _UT:
        f"{_wn}, a loss of {_wt['loss_points']:.1f} points (p={_wt['paired_framed_vs_raw']['p_exact']:.2g}): at "
        f"the edge of this document's noise floor and not significant, so it is reported as a possible "
        f"small cost rather than none. The harmful v1 frame, by contrast, cost 10 points."))
+_P8U = L("power_rerun_utility.json")
+if _UT and _P8U:
+    P(f"Re-tested with more data (addendum 8): on {_P8U['n_new']} NEW benign notes the direct-question "
+     f"task went {_P8U['new']['raw']['k']} -> {_P8U['new']['framed']['k']} "
+     f"({pct(_P8U['new']['raw']['rate'])} -> {pct(_P8U['new']['framed']['rate'])}, a loss of "
+     f"{_P8U['new']['loss_points']:.1f} points, p={_P8U['new']['paired_framed_vs_raw']['p_exact']:.2g}): P8-1 "
+     + ("HELD -- the frame has a real, small usefulness cost on direct questions about the note."
+        if _P8U['P8-1_held'] else
+        "did not hold -- no significant usefulness cost at more than three times the original sample.")
+     + "")
 if _AD:
     for key, label in (("vs_neutralisation", "the neutralisation frame"),
                        ("vs_corroboration", "corroboration (B13)")):

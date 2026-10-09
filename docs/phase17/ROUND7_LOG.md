@@ -545,3 +545,33 @@ before that hold-out is built (addendum 7 will say "EQ frame: v1").
 
 Correction to RESUME HERE above: code changed after 2026-10-08 (Phase 6 semantic variants, new
 evaluation modules), so the cross-phase audit must be re-run before finalising.
+
+## R7-32 (2026-10-09): improving the compliance judge -- none better found (local candidates)
+
+Owner asked to improve the judges the annotators graded. The harm judge was already replaced (J2).
+For the compliance judge (kappa 0.50-0.55 vs each person; human-to-human 0.731), the selection rule
+was committed BEFORE scoring (06cfcb39, `phase17/compliance_judge_fix.py`): truth = the 35 compliance
+items both annotators agree on (5 excluded), seeded SELECT 17 / TEST 18, best new candidate on SELECT,
+adopted only if its TEST kappa beats the current judge's.
+
+| candidate | SELECT kappa | TEST kappa | all 35: kappa / agreement |
+|---|---|---|---|
+| C0 current (llama3.1, original prompt) | 0.643 | 0.556 | 0.596 / 80% |
+| C1 llama3.1 + rubric | 0.493 | 0.649 | 0.565 / 80% |
+| C2 mistral, original | 0.0 | 0.265 | 0.107 / 68.6% |
+| C3 mistral + rubric | 0.469 | 0.491 | 0.484 / 80% |
+
+The rule mechanically "adopts" C1, but its TEST margin is ONE item of 18 and it is no better over all
+35 (28/35 each; it trades misses for false alarms). Reported as: no better compliance judge found; the
+original stays; compliance is not re-judged. Gemini candidates (C4/C5) are defined but unscored (quota)
+-- scored on 2026-10-10 only if quota remains after the harm re-judge and hold-out 8. The `margin_items`
+and `material` fields were added after scoring; they report the margin and do not change the outcome.
+
+## R7-33 (2026-10-09): addendum 8 harm re-test (P8-2) and a lost background job
+
+Harm (`power_rerun_harm.json`): new 175 own instances 53 -> 44 (p=0.15, not significant alone);
+pooled per the amendment 123 -> 104 of 424 (29.0% -> 24.5%, p=0.037): P8-2 HELD at its alpha, with the
+caveats that the pool includes the motivating sample and the effect is ~4.5 points. The utility
+re-test (P8-1) was killed when the previous session ended (192 checkpointed results kept) and was
+resumed; it was paused once more so the compliance-judge scoring could run without the two jobs
+swapping models on the 6 GB GPU, then resumed from its checkpoint.

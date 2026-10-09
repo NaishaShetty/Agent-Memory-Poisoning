@@ -457,6 +457,16 @@ def rows():
             f"harm {pct(own['harm_raw_rerun']['rate'])} raw -> {pct(own['harm_framed']['rate'])} framed; "
             f"B13 {pct(own['harm_b13']['rate'])} -> B13+frame {pct(own['harm_b13_plus_frame']['rate'])}",
             "neutralise_own.json", "both arms re-run in one session (noise floor ~5 points)")
+    p8h = _L("power_rerun_harm.json")
+    if p8h:
+        po, nw = p8h["pooled_own_attacks"], p8h["new"]
+        add("favourable" if p8h["P8-2_held"] else "unfavourable",
+            "Frame's harm reduction re-tested with more data (P8-2)",
+            f"pooled {po['raw']['k']} -> {po['framed']['k']} of {po['n']} "
+            f"(p={po['paired_framed_vs_raw']['p_exact']:.2g}); new {p8h['n_new']} alone {nw['raw']['k']} -> "
+            f"{nw['framed']['k']} (p={nw['paired_framed_vs_raw']['p_exact']:.2g})",
+            "power_rerun_harm.json",
+            "pooled set includes the motivating sample; the new sample alone is not significant; effect ~4.5 points")
     st = _L("neutralise_strong_agent.json")
     if st:
         add("favourable" if st["effect_points"]["gemini"] > 0 else "unfavourable",
@@ -484,6 +494,16 @@ def rows():
             "one annotator who said YES on 80/100 items; the disagreement is one-sided (judges stricter). "
             "Harm LEVELS carry this caveat; reductions are more robust (same judge both arms); "
             "detection and FPR results do not use these judges")
+        cj = _L("compliance_judge_fix.json")
+        if cj and cj.get("chosen_on_select"):
+            add("favourable" if cj.get("material") else "unfavourable",
+                "A better compliance judge" + (" adopted" if cj.get("material") else ": none found"),
+                "; ".join(f"{n} kappa {v['all']['kappa']}" for n, v in cj["candidates"].items())
+                + f" (consensus n={cj['n_items']}; human ceiling ~{cj['human_ceiling_kappa_all_compliance']})",
+                "compliance_judge_fix.json",
+                f"the rule's pick {cj['chosen_on_select']} wins TEST by {cj['margin_items']['test']} item(s) and "
+                f"{cj['margin_items']['all_consensus']} over all consensus items"
+                + (f"; not scored: {cj['not_scored']}" if cj["not_scored"] else ""))
         a2 = _L("human_label_agreement_annotator2.json")
         if a2:
             ia = a2["inter_annotator"]
@@ -568,6 +588,15 @@ def rows():
             f"{ut['n_notes']} benign notes, agent {ut['agent']}; largest loss {worst[0]} "
             f"{worst[1]['loss_points']:+.1f} points (p={worst[1]['paired_framed_vs_raw']['p_exact']:.2g}), "
             f"one LLM judge")
+    p8u = _L("power_rerun_utility.json")
+    if p8u:
+        q = p8u["new"]["paired_framed_vs_raw"]
+        add("unfavourable" if p8u["P8-1_held"] else "favourable",
+            "Frame's direct-question usefulness cost re-tested on 600 new notes (P8-1)"
+            + (": a significant cost" if p8u["P8-1_held"] else ": no significant cost"),
+            f"{p8u['new']['raw']['k']} -> {p8u['new']['framed']['k']} of {p8u['n_new']} "
+            f"({p8u['new']['loss_points']:+.1f} points lost, p={q['p_exact']:.2g})",
+            "power_rerun_utility.json", "one LLM judge; development data")
     ad = _L("adaptive_round7.json")
     if ad:
         for key in ("vs_neutralisation", "vs_corroboration"):

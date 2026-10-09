@@ -458,6 +458,58 @@ if _rg is not None:
                  "publishability verdict.",
                  "ROUND 7 (2026-10-06 to 2026-10-09): 32.49")
 
+# ---------------- addendum 8: the two inconclusive frame effects re-tested (2026-10-09)
+def pct(x):
+    return f"{100 * x:.1f}%"
+
+
+_P8H, _P8U = L("power_rerun_harm.json"), L("power_rerun_utility.json")
+if _P8H:
+    upsert_note("p_32_60_p8_2", "[Harm re-test (addendum 8):",
+                "[Harm re-test (addendum 8): " + (f"Re-tested with more data (pre-registration addendum 8): on {_P8H['n_new']} NEW own-attack instances "
+     f"harm went {_P8H['new']['raw']['k']} -> {_P8H['new']['framed']['k']} (p={_P8H['new']['paired_framed_vs_raw']['p_exact']:.2g}, "
+     f"not significant alone); pooled with the original own-attack rows, as the amendment committed before "
+     f"the run specifies, {_P8H['pooled_own_attacks']['raw']['k']} -> {_P8H['pooled_own_attacks']['framed']['k']} of "
+     f"{_P8H['pooled_own_attacks']['n']} ({pct(_P8H['pooled_own_attacks']['raw']['rate'])} -> "
+     f"{pct(_P8H['pooled_own_attacks']['framed']['rate'])}, p={_P8H['pooled_own_attacks']['paired_framed_vs_raw']['p_exact']:.2g}). "
+     f"P8-2 therefore holds at its pre-registered alpha, but the pooled sample includes the one whose "
+     f"inconclusive result motivated the re-test, the new sample alone does not reach significance, and "
+     f"the frame's harm reduction is about {round(100 * (_P8H['pooled_own_attacks']['raw']['rate'] - _P8H['pooled_own_attacks']['framed']['rate']), 1)} "
+     f"points -- real but small (Table 17 gives its multiplicity-corrected p).") + "]",
+                startswith="Utility: on ")
+if _P8U:
+    upsert_note("p_32_60_p8_1", "[Utility re-test (addendum 8):",
+                "[Utility re-test (addendum 8): " + (f"Re-tested with more data (addendum 8): on {_P8U['n_new']} NEW benign notes the direct-question "
+     f"task went {_P8U['new']['raw']['k']} -> {_P8U['new']['framed']['k']} "
+     f"({pct(_P8U['new']['raw']['rate'])} -> {pct(_P8U['new']['framed']['rate'])}, a loss of "
+     f"{_P8U['new']['loss_points']:.1f} points, p={_P8U['new']['paired_framed_vs_raw']['p_exact']:.2g}): P8-1 "
+     + ("HELD -- the frame has a real, small usefulness cost on direct questions about the note."
+        if _P8U['P8-1_held'] else
+        "did not hold -- no significant usefulness cost at more than three times the original sample.")
+     + "") + "]",
+                startswith="Utility: on ")
+
+# ---------------- compliance judge selection (2026-10-09)
+_CJ = L("compliance_judge_fix.json")
+if _CJ and _CJ.get("chosen_on_select"):
+    upsert_note("p_32_58_compliance_judge", "[Compliance judge (2026-10-09):",
+                "[Compliance judge (2026-10-09): " + (f"The compliance judge was put through the same selection: on the {_CJ['n_items']} compliance items both "
+     f"annotators agree on (the {_CJ['n_disagreed_excluded']} they disagree on have no reliable truth), split "
+     f"by a fixed seed into SELECT and TEST, the current judge reaches kappa "
+     f"{_CJ['candidates']['C0_current']['all']['kappa']} against a human-to-human ceiling of about "
+     f"{_CJ['human_ceiling_kappa_all_compliance']}. "
+     + ", ".join(f"{n.split('_', 1)[1].replace('_', ' ')} {v['all']['kappa']}" for n, v in _CJ['candidates'].items()
+                 if n != 'C0_current') + " overall"
+     + (f"; the rule fixed in advance picks {_CJ['chosen_on_select'].split('_', 1)[1].replace('_', ' ')} (best "
+        f"of the new candidates on SELECT) and it beats the current judge on TEST, but the margin is {_CJ['margin_items']['test']} item of {_CJ['n_test']} on TEST and "
+        f"{_CJ['margin_items']['all_consensus']} over all consensus items, so no better compliance judge was "
+        f"found and the original stays in use" if not _CJ.get('material') else
+        f"; {_CJ['adopted']} is adopted and re-scores compliance beside the original")
+     + (f". Not scored (Gemini quota): {', '.join(_CJ['not_scored'])}." if _CJ['not_scored'] else ".")
+     + f" Compliance results therefore rest on a judge at kappa {_CJ['candidates']['C0_current']['all']['kappa']} "
+       f"against people who agree with each other at about {_CJ['human_ceiling_kappa_all_compliance']}.") + "]",
+                contains="one annotator cannot separate the two")
+
 # ---------------- epistemic quarantine, development (2026-10-09)
 _EQ = L("epistemic_quarantine_dev_v1.json")
 if _EQ:
