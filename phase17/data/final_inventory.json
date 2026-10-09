@@ -1,7 +1,7 @@
 {
-  "n": 80,
+  "n": 81,
   "counts": {
-    "favourable": 47,
+    "favourable": 48,
     "unfavourable": 27,
     "open": 6
   },
@@ -352,6 +352,13 @@
     },
     {
       "category": "favourable",
+      "item": "An instruction-aware frame (v6) for instruction-shaped memory (H7-7 follow-up)",
+      "result": "rule-stating own attacks: harm 22 raw / 22 v3 / 10 v6 of 76 (p=0.0075 vs v3); benign rule-word notes useful 31 v6 vs 27 v3",
+      "artifact": "frame_instruction_dev.json",
+      "caveat": "development data, one design measured once; hold-out 8 is its test"
+    },
+    {
+      "category": "favourable",
       "item": "Frame's harm reduction re-tested with more data (P8-2)",
       "result": "pooled 123 -> 104 of 424 (p=0.037); new 175 alone 53 -> 44 (p=0.15)",
       "artifact": "power_rerun_harm.json",
@@ -387,7 +394,7 @@
     },
     {
       "category": "unfavourable",
-      "item": "A better compliance judge: none found",
+      "item": "A better compliance judge, round 1: none found (superseded by round 2, below)",
       "result": "C0_current kappa 0.596; C1_llama31_rubric kappa 0.565; C2_mistral_original kappa 0.107; C3_mistral_rubric kappa 0.484 (consensus n=35; human ceiling ~0.731)",
       "artifact": "compliance_judge_fix.json",
       "caveat": "the rule's pick C1_llama31_rubric wins TEST by 1 item(s) and 0 over all consensus items; not scored: ['C4_gemini_original', 'C5_gemini_rubric']"

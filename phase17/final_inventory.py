@@ -506,7 +506,8 @@ def rows():
         cj = _L("compliance_judge_fix.json")
         if cj and cj.get("chosen_on_select"):
             add("favourable" if cj.get("material") else "unfavourable",
-                "A better compliance judge" + (" adopted" if cj.get("material") else ": none found"),
+                "A better compliance judge, round 1" + (" adopted" if cj.get("material") else ": none found")
+                + (" (superseded by round 2, below)" if _L("compliance_judge_fix_round2.json") else ""),
                 "; ".join(f"{n} kappa {v['all']['kappa']}" for n, v in cj["candidates"].items())
                 + f" (consensus n={cj['n_items']}; human ceiling ~{cj['human_ceiling_kappa_all_compliance']})",
                 "compliance_judge_fix.json",
