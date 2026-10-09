@@ -207,3 +207,8 @@ divergence; no escalation (no prior flags). Nothing is fitted.
 | R-2 | A2 exposes the poison no more often than A1 | directional |
 | R-3 | A3's benign displacement on poison-free stores is within 5 points of A1's | interval |
 | R-4 | A1 exposes the poison less often than A0 | exact McNemar, p < 0.05 |
+
+Clarification to addendum 5, committed before the run: A3 supplies only the admission signals that
+FIRED (> 0) for a candidate. The guard returns 14 keys, mostly zero; the risk-weighted penalty
+weights every supplied signal equally, so supplying zeros as "evidence" would dilute divergence by
+construction rather than test corroboration.
