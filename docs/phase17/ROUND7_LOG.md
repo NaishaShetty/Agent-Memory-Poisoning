@@ -493,3 +493,12 @@ the original single-score results and pre-registered outcomes stay reported unch
 from a re-tuned configuration is labelled HOLD-OUT-INFORMED at every point of use and is never
 presented as a clean generalisation estimate; hold-out 3 stays retired. Historical errors that were
 fixed stay as recorded.
+
+## Owner decision revised (2026-10-09, later the same day): NO re-tuning on hold-outs -- build hold-out 8
+
+The permission above is withdrawn before anything was re-tuned or re-scored (the epistemic-quarantine
+module had been written against hold-outs 4/7 but never run). Instead: every improvement is
+developed on DEVELOPMENT data only, and a new hold-out 8 is built, frozen and pre-registered before
+any improved configuration is scored on it, then scored once. Disclosed: the idea for epistemic
+quarantine came from reading hold-out 4's false positives (27 of 31 were corroboration-only), so its
+origin is hold-out-informed; its design and evaluation are not. Hold-outs 3-7 stay as scored.
