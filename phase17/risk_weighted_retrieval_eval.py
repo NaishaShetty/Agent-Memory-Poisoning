@@ -150,7 +150,7 @@ def run() -> dict:
     return out
 
 
-def evaluate(samples, seed, arms, out_path, partial_path, label) -> dict:
+def evaluate(samples, seed, arms, out_path, partial_path, label, campaign=None) -> dict:
     """The same measurement over any stores and arms. `run()` (the published A0-A3 result) is left
     byte-identical; this serves the semantic follow-up (exploratory on HARM_SAMPLES, then the
     pre-registered replication on FRESH_SAMPLES)."""
@@ -171,30 +171,35 @@ def evaluate(samples, seed, arms, out_path, partial_path, label) -> dict:
     done = json.loads(partial_path.read_text(encoding="utf-8")) if partial_path.exists() else {}
     for idx, (r, fam) in enumerate(recs):
         spec = H.EXTERNAL_TASK if fam == "external" else H.TASKS[fam]
-        full = store_for(samples[idx % len(samples)]) + [(r.scenario_id, r.text)]
+        copies = [(r.scenario_id, r.text)]
+        if campaign is not None:
+            par = campaign.get(r.scenario_id, [])
+            copies += [(f"{r.scenario_id}#p{j}", t) for j, t in enumerate(par[:2])]
+        full = store_for(samples[idx % len(samples)]) + copies
         rng.shuffle(full)
-        if r.scenario_id in done:
+        if r.scenario_id in done or (campaign is not None and len(copies) < 3):
             continue
+        poison_ids = {c[0] for c in copies}
         row = {"family": fam}
-        for kind, items in (("poison", full), ("clean", [x for x in full if x[0] != r.scenario_id])):
+        for kind, items in (("poison", full), ("clean", [x for x in full if x[0] not in poison_ids])):
             v = model.encode([spec["task"]] + [t for _, t in items], normalize_embeddings=True)
             sims = v[1:] @ v[0]
             top = [items[i] + (float(sims[i]),) for i in np.argsort(-sims)[:N_POOL]]
             extra = _admission([(i, t) for i, t, _ in top])
             row[kind] = {a: _ranked(top, a, extra) for a in arms}
             if kind == "poison":
-                row["fired_on_poison"] = bool(extra.get(r.scenario_id))
-        row["exposed"] = {a: r.scenario_id in row["poison"][a] for a in arms}
+                row["fired_on_poison"] = any(extra.get(i) for i in poison_ids)
+        row["exposed"] = {a: any(i in poison_ids for i in row["poison"][a]) for a in arms}
         row["displaced"] = {a: len(set(row["clean"]["A0"]) - set(row["clean"][a])) for a in arms}
         done[r.scenario_id] = row
         if len(done) % 25 == 0:
             partial_path.write_text(json.dumps(done), encoding="utf-8")
             print(f"  {len(done)}/{len(recs)}", flush=True)
     partial_path.write_text(json.dumps(done), encoding="utf-8")
-    ids = [r.scenario_id for r, _ in recs]
+    ids = [r.scenario_id for r, _ in recs if r.scenario_id in done]
     ex = {a: [done[i]["exposed"][a] for i in ids] for a in arms}
     k = H.TOP_K
-    out = {"label": label, "samples": list(samples), "seed": seed, "n": len(ids), "n_pool": N_POOL, "top_k": k,
+    out = {"label": label, "n_excluded_too_few_paraphrases": len(recs) - len(ids), "samples": list(samples), "seed": seed, "n": len(ids), "n_pool": N_POOL, "top_k": k,
            "exposure": {a: rate_with_ci(sum(ex[a]), len(ids)) for a in arms},
            "benign_displacement_points": {a: round(100 * sum(done[i]["displaced"][a] for i in ids) / (k * len(ids)), 2)
                                           for a in arms},
@@ -204,6 +209,45 @@ def evaluate(samples, seed, arms, out_path, partial_path, label) -> dict:
                                    ("A1s", "A1")) if a in arms and b in arms}}
     out_path.write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out
+
+
+PARAPHRASES = DATA / "rwr_paraphrases.json"
+
+
+def paraphrases(n_keep: int = 2, tries: int = 3) -> dict:
+    """Addendum 6's campaign copies: per poison, up to `n_keep` paraphrases from qwen2.5:7b that the
+    project's NLI claim-preservation gate accepts. Checkpointed after every poison."""
+    import zlib
+
+    from phase12.propagation.ollama_provider import OllamaProvider
+    from phase17 import harm_study_v2 as H
+    from phase17.adaptive_query_attacker import _claim_preserved
+    from phase3.evaluation.llm.provider import GenerationConfig
+
+    prov = OllamaProvider(model="qwen2.5:7b")
+    done = json.loads(PARAPHRASES.read_text(encoding="utf-8")) if PARAPHRASES.exists() else {}
+    recs = H._records(15, 30, 60, 17)
+    for n, (r, _fam) in enumerate(recs, 1):
+        if r.scenario_id in done:
+            continue
+        keep, used = [], set()
+        for j in range(n_keep * tries):
+            if len(keep) >= n_keep:
+                break
+            cfg = GenerationConfig(temperature=0.9, seed=zlib.crc32(f"{r.scenario_id}|{j}".encode()) % 100000,
+                                   max_tokens=200, enable_thinking=False, n_ctx=2048, request_timeout_sec=180.0)
+            prompt = ("Rewrite the following note in different words. Keep exactly the same meaning, every "
+                      "name, fact and instruction; change only the wording. Output only the rewritten note.\n\n"
+                      f"\"{r.text}\"")
+            c = prov.generate([{"role": "user", "content": prompt}], cfg).text.strip().strip('"')
+            if c and c not in used and c != r.text and _claim_preserved(r.text, c):
+                keep.append(c)
+            used.add(c)
+        done[r.scenario_id] = keep
+        PARAPHRASES.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
+        if n % 25 == 0:
+            print(f"  paraphrases {n}/{len(recs)}", flush=True)
+    return {"n": len(done), "with_two": sum(len(v) >= n_keep for v in done.values())}
 
 
 def _print(r):
@@ -226,6 +270,15 @@ if __name__ == "__main__":
     if "fresh" in sys.argv:
         _print(evaluate(FRESH_SAMPLES, FRESH_SEED, ARMS + SEMANTIC_ARMS, DATA / "rwr_fresh_replication.json",
                         DATA / "rwr_fresh_replication_partial.json", "PRE-REGISTERED (addendum 6): fresh stores"))
+        raise SystemExit(0)
+    if "paraphrases" in sys.argv:
+        print(paraphrases())
+        raise SystemExit(0)
+    if "campaign" in sys.argv:
+        camp = json.loads(PARAPHRASES.read_text(encoding="utf-8"))
+        _print(evaluate(FRESH_SAMPLES, FRESH_SEED, ARMS + SEMANTIC_ARMS, DATA / "rwr_campaign.json",
+                        DATA / "rwr_campaign_partial.json", "PRE-REGISTERED (addendum 6): coordinated campaign, fresh stores",
+                        campaign=camp))
         raise SystemExit(0)
     r = run()
     for a in ARMS:
