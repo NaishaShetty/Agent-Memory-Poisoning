@@ -44,6 +44,10 @@ registry) has proven: it fails when the error is reintroduced and passes once re
 | 1 | B17/B18 lack a clean estimate | **Done**: HO4, HO5, HO6, HO7 each scored once. B18 then failed: 16.3% FPR on HO6, excludes 4.9% of user_turn on HO7 |
 | 2 | No memory-poisoning hold-out | **Done**: HO4 (mistral author, LoCoMo owner 7) and HO7 (base-model author, owner 8). Conditional backdoors remain untested on a clean hold-out (3/40 valid) — reported as untested |
 | 3 | LICENSE | **Deferred by the owner — not added** |
+| 4 | Second human annotator | **Done** (2026-10-09): independent, blind; 95% / kappa 0.834 with annotator 1; harm and mechanism labels at ceiling; original harm judge misses the same 16 harms (R7-30) |
+| 5 | Compliance judge vs people (kappa 0.596) | **Improved, not proven**: majority vote of three judges, kappa 0.736 (human-to-human 0.731), selected by a rule committed before scoring; 5 fixed / 2 broken on 35 items (p=0.45). Dev frame effect -20.8 -> -34.2 pts under it (R7-32, R7-34) |
+| 6 | B13 false positives on untrusted notes | **Dev result**: epistemic quarantine (frame v1) 79/1054 -> 0 excluded; corroboration-only attacks asserted 14/109 framed vs 2 excluded vs 40 raw (R7-31). Tested once on hold-out 8 |
+| 7 | Conditional backdoors on a clean hold-out | **Scheduled 2026-10-10**: hold-out 8 (Gemini author) |
 
 ## Phase A leads
 
@@ -62,16 +66,21 @@ registry) has proven: it fails when the error is reintroduced and passes once re
 |---|---|
 | Ledger composed with B18 | **NOT measured.** ~40 s per B18 decision on novel text → an estimated 4–9 GPU hours; B18 is no longer recommended. Measured instead: ledger + B13-with-evidence (the actual memory-poisoning recommendation), pre-registration addendum 4 |
 | Ledger radius sweep vs denial-of-service | Done: 0.95 recommended (5/130 evasion, 6.4% blast radius) |
-| Neutralisation on own attacks | Done: harm 28.8% → 24.6% (p=0.098, n.s.); with B13 9.1% → 6.5% |
+| Neutralisation on own attacks | Done: harm 28.8% → 24.6% (p=0.098, n.s.); with B13 9.1% → 6.5%. Re-tested with more data (addendum 8, P8-2): pooled 123 → 104 of 424, p=0.037 (HELD at its alpha; not after Holm; new 175 alone p=0.15) |
 | Neutralisation on a stronger agent | Done: Gemini 44.2% → 11.7% vs qwen 50.8% → 30.0% (n=120, p=2e-10) |
 
 ## Found and measured beyond the handoff (round 7)
 
 - Harm levels were under-estimated by about half: 58.3% vs 32.0% undefended under a judge selected
-  against held-back human labels (p=6e-18). PARTIAL: 166 Gemini verdicts outstanding (daily quota).
+  against held-back human labels (p=6e-18). PARTIAL: 163 Gemini verdicts outstanding (daily quota); scheduled for 2026-10-10.
 - Corroboration is brittle to an adaptive attacker: 22/48 evasions (Fisher p=0.0096 vs stateless).
 - On hold-out 6, the attacks that work are ~9 points harder to detect than the population.
-- The frame costs no significant utility on benign memories (largest −5.0 points, p=0.08).
+- The frame costs no significant utility on benign memories (largest −5.0 points, p=0.08); re-tested on 600
+  new notes (P8-1): −3.8 points, p=0.056 — a small consistent cost of ~4 points, not proven.
+- Compliance levels judged by the original judge are under-estimates (as harm levels were); the frame's
+  reduction holds under both judges (R7-34).
+- Predictions: 39/47 held; after Holm across 15 significance predictions, H6-4, R-1, R6-1 and P8-2 hold
+  at their own alpha only.
 
 ## Phase C
 
