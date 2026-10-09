@@ -256,3 +256,10 @@ generator and harm judge (the published llama3.1 judge, for comparability). Deve
 | P8-2 | the frame reduces own-attack harm on the new instances | exact McNemar, p < 0.05 |
 
 Both are reported whichever way they go; the original and combined figures are reported beside them.
+
+Amendment to addendum 8, committed before the harm re-run started: the harm study's own generator
+yields only 175 own-attack instances disjoint from the original 309 (its families are small). That
+is fewer than the original, so the new sample alone is reported but cannot settle P8-2. P8-2 is
+therefore tested on the POOLED own-attack instances (the original run's own-attack rows plus the
+175 new), labelled as including the sample whose inconclusive result motivated the re-test; the new
+sample alone is reported beside it. P8-1 (utility, 600 new notes) is unchanged.
