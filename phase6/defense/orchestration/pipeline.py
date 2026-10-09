@@ -27,7 +27,7 @@ module or any it calls ever receives these two fields -- verified directly by
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Dict, Optional, Sequence, Tuple
 
 from phase6.defense.admission.reasoning_guard import evaluate_admission
@@ -220,6 +220,25 @@ SLEEPER_ONLY = DefenseConfiguration("SLEEPER", sleeper_enabled=True)
 B8_ALL_FOUR = DefenseConfiguration(
     "B8", admission_enabled=True, retrieval_enabled=True, propagation_enabled=True, sleeper_enabled=True,
     sibling_propagation_enabled=True,
+)
+
+# SEMANTIC RETRIEVAL VARIANTS (2026-10-09, owner-authorised post-freeze fix, additive): the same
+# configurations with the retrieval guard's divergence switched from lexical (D1) to semantic (D2).
+# Stage 6.9 shipped lexical after finding no matched-FPR advantage for semantic on a 6+8-pool dev
+# corpus. Round 7 measured the guard where a ranking has consequences (phase17/
+# risk_weighted_retrieval_eval.py, addendum 6): against coordinated campaigns (a poison plus two
+# paraphrases, 302 instances, fresh stores) the lexical default changed nothing (99 -> 100 exposed)
+# and the semantic gate cut exposure 99 -> 63 (p=2.9e-11) at 2.8 points of benign displacement.
+# These are therefore the RECOMMENDED retrieval configurations. The original B2-B8 definitions are
+# deliberately left unchanged so every number recorded with them stays reproducible; the disclosed
+# FC-01 limit still applies (a flood that outnumbers the genuine memories reads as the majority).
+B2S_RETRIEVAL_ONLY = replace(B2_RETRIEVAL_ONLY, name="B2s", retrieval_metric="semantic")
+B4S_ADMISSION_RETRIEVAL = replace(B4_ADMISSION_RETRIEVAL, name="B4s", retrieval_metric="semantic")
+B5S_RETRIEVAL_PROPAGATION = replace(B5_RETRIEVAL_PROPAGATION, name="B5s", retrieval_metric="semantic")
+B7S_ALL_THREE = replace(B7_ALL_THREE, name="B7s", retrieval_metric="semantic")
+B8S_ALL_FOUR = replace(B8_ALL_FOUR, name="B8s", retrieval_metric="semantic")
+SEMANTIC_RETRIEVAL_CONFIGS: Tuple[DefenseConfiguration, ...] = (
+    B2S_RETRIEVAL_ONLY, B4S_ADMISSION_RETRIEVAL, B5S_RETRIEVAL_PROPAGATION, B7S_ALL_THREE, B8S_ALL_FOUR,
 )
 
 B0_TO_B7: Tuple[DefenseConfiguration, ...] = (

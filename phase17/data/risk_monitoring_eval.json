@@ -1,0 +1,30 @@
+{
+  "n_items": 1858,
+  "n_poison": 804,
+  "queue_size": 1706,
+  "poison_in_queue": 738,
+  "base_rate_in_queue": 0.4326,
+  "risk_ordered": {
+    "precision_at_10": 1.0,
+    "precision_at_50": 1.0,
+    "average_precision": 0.5768,
+    "benign_before_half_the_poison": 370
+  },
+  "default_order_expected": {
+    "precision_at_10": 0.4365,
+    "precision_at_50": 0.4294,
+    "average_precision": 0.4356,
+    "benign_before_half_the_poison": 481.25
+  },
+  "id_sorted_default": {
+    "precision_at_10": 0.0,
+    "precision_at_50": 0.0,
+    "average_precision": 0.2570124455092965,
+    "benign_before_half_the_poison": 968
+  },
+  "actions": {
+    "ALLOW": 152,
+    "QUARANTINE": 17,
+    "REQUIRE_VALIDATION": 1689
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "corpus": "Phase 6's own 75-scenario ablation corpus (run_b0_b7.all_pools)",
+  "configs": {
+    "B2": {
+      "poison_detection_rate": 0.29411764705882354,
+      "benign_false_positive_rate": 0.07317073170731707,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.5,
+        "Sleeper": 0.0,
+        "propagated": 0.0,
+        "FARMA": 0.0
+      }
+    },
+    "B4": {
+      "poison_detection_rate": 0.5294117647058824,
+      "benign_false_positive_rate": 0.07317073170731707,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.5,
+        "Sleeper": 0.0,
+        "propagated": 0.5,
+        "FARMA": 1.0
+      }
+    },
+    "B5": {
+      "poison_detection_rate": 0.35294117647058826,
+      "benign_false_positive_rate": 0.07317073170731707,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.5,
+        "Sleeper": 0.0,
+        "propagated": 1.0,
+        "FARMA": 0.0
+      }
+    },
+    "B7": {
+      "poison_detection_rate": 0.5588235294117647,
+      "benign_false_positive_rate": 0.07317073170731707,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.5,
+        "Sleeper": 0.0,
+        "propagated": 1.0,
+        "FARMA": 1.0
+      }
+    },
+    "B8": {
+      "poison_detection_rate": 0.7058823529411765,
+      "benign_false_positive_rate": 0.07317073170731707,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.5,
+        "Sleeper": 1.0,
+        "propagated": 1.0,
+        "FARMA": 1.0
+      }
+    },
+    "B2s": {
+      "poison_detection_rate": 0.35294117647058826,
+      "benign_false_positive_rate": 0.14634146341463414,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.6,
+        "Sleeper": 0.0,
+        "propagated": 0.0,
+        "FARMA": 0.0
+      }
+    },
+    "B4s": {
+      "poison_detection_rate": 0.5882352941176471,
+      "benign_false_positive_rate": 0.14634146341463414,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.6,
+        "Sleeper": 0.0,
+        "propagated": 0.5,
+        "FARMA": 1.0
+      }
+    },
+    "B5s": {
+      "poison_detection_rate": 0.4117647058823529,
+      "benign_false_positive_rate": 0.14634146341463414,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.6,
+        "Sleeper": 0.0,
+        "propagated": 1.0,
+        "FARMA": 0.0
+      }
+    },
+    "B7s": {
+      "poison_detection_rate": 0.6176470588235294,
+      "benign_false_positive_rate": 0.14634146341463414,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 0.6,
+        "Sleeper": 0.0,
+        "propagated": 1.0,
+        "FARMA": 1.0
+      }
+    },
+    "B8s": {
+      "poison_detection_rate": 1.0,
+      "benign_false_positive_rate": 0.14634146341463414,
+      "n_poison": 34,
+      "n_benign": 41,
+      "per_family": {
+        "MemoryGraft-style-volume": 1.0,
+        "Sleeper": 1.0,
+        "propagated": 1.0,
+        "FARMA": 1.0
+      }
+    }
+  },
+  "exclusions": []
+}
