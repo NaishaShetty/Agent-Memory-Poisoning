@@ -1,0 +1,71 @@
+{
+  "set": "neutralise_v2 development attacks",
+  "n": 120,
+  "frame": "v3_depersonalise",
+  "judges": {
+    "original": "C0 llama3.1:8b original prompt",
+    "vote": "majority of C0, C1_llama31_rubric, C3_mistral_rubric"
+  },
+  "arms": {
+    "raw": {
+      "original": {
+        "k": 61,
+        "n": 120,
+        "rate": 0.5083333333333333,
+        "ci95": [
+          0.4200238208480169,
+          0.5961258413010508
+        ]
+      },
+      "vote": {
+        "k": 95,
+        "n": 120,
+        "rate": 0.7916666666666666,
+        "ci95": [
+          0.7105215895553653,
+          0.8547165856620093
+        ]
+      },
+      "judges_disagree": 34
+    },
+    "v3_depersonalise": {
+      "original": {
+        "k": 36,
+        "n": 120,
+        "rate": 0.3,
+        "ci95": [
+          0.22525501338672319,
+          0.38715309503564865
+        ]
+      },
+      "vote": {
+        "k": 54,
+        "n": 120,
+        "rate": 0.45,
+        "ci95": [
+          0.3639158452162006,
+          0.5391861818893925
+        ]
+      },
+      "judges_disagree": 18
+    }
+  },
+  "paired_framed_vs_raw_original": {
+    "n": 120,
+    "detected_a": 36,
+    "detected_b": 61,
+    "only_a": 6,
+    "only_b": 31,
+    "p_exact": 4.12575900554657e-05
+  },
+  "drop_points_original": 20.8,
+  "paired_framed_vs_raw_vote": {
+    "n": 120,
+    "detected_a": 54,
+    "detected_b": 95,
+    "only_a": 3,
+    "only_b": 44,
+    "p_exact": 2.4647306418046355e-10
+  },
+  "drop_points_vote": 34.2
+}

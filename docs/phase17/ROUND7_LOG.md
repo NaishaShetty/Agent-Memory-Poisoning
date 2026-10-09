@@ -575,3 +575,26 @@ caveats that the pool includes the motivating sample and the effect is ~4.5 poin
 re-test (P8-1) was killed when the previous session ended (192 checkpointed results kept) and was
 resumed; it was paused once more so the compliance-judge scoring could run without the two jobs
 swapping models on the 6 GB GPU, then resumed from its checkpoint.
+
+## R7-34 (2026-10-09): compliance judge, round 2 -- a better-calibrated judge, and what it changes
+
+Owner: "try again". Round 2 rule committed before scoring (71e665b7): round-1 aggregate kappas
+disclosed as seen, no item read; stricter bar (>= 2 TEST items and >= 1 overall better than C0).
+
+| candidate | SELECT | TEST | all 35: kappa / agreement |
+|---|---|---|---|
+| D1 majority vote (C0, C1, C3) | 0.611 | 0.870 | 0.736 / 88.6% |
+| D2 llama3.1 reason-then-verdict | 0.271 | 0.323 | 0.277 / 62.9% |
+| D3 llama3.1 two-step (extract instruction, then check) | 0.380 | 0.333 | 0.342 / 68.6% |
+| D4 phi3:mini rubric | 0.354 | 0.143 | 0.231 / 54.3% |
+
+D1 clears the bar (+3 TEST, +3 overall) and sits at the human-to-human level (0.731). Caveats: vs C0
+it fixes 5 errors and makes 2 (paired p=0.45 -- not significant on 35 items); it over-calls slightly
+(25 YES vs 23 human) where C0 under-calls (18).
+
+Re-judged beside the original on DEVELOPMENT data only (`compliance_rejudge.py`; hold-outs 3-7 stay as
+scored, and the labelled items came from hold-out 5, so re-judging it would be circular): the frame
+study's 120 dev attacks, stored answers, nothing regenerated. Raw 61 -> 95 (vote), framed 36 -> 54;
+frame effect -20.8 pts (p=4e-05) original vs -34.2 pts (p=2.5e-10) vote. Compliance LEVELS by the
+original judge are under-estimates; the frame's REDUCTION holds under both. Hold-out 8 does not use
+this judge (its causal probe uses a different, unvalidated question), so the vote is not applied there.

@@ -1,0 +1,204 @@
+{
+  "rule": "phase17/compliance_judge_fix.py ROUND 2 block (fixed 2026-10-09 before scoring)",
+  "n_items": 35,
+  "n_select": 17,
+  "n_test": 18,
+  "round1": {
+    "C0_current": {
+      "select": {
+        "n": 17,
+        "agreement": 0.824,
+        "kappa": 0.643,
+        "judge_no_human_yes": 2,
+        "judge_yes_human_no": 1
+      },
+      "test": {
+        "n": 18,
+        "agreement": 0.778,
+        "kappa": 0.556,
+        "judge_no_human_yes": 4,
+        "judge_yes_human_no": 0
+      },
+      "all": {
+        "n": 35,
+        "agreement": 0.8,
+        "kappa": 0.596,
+        "judge_no_human_yes": 6,
+        "judge_yes_human_no": 1
+      }
+    },
+    "C1_llama31_rubric": {
+      "select": {
+        "n": 17,
+        "agreement": 0.765,
+        "kappa": 0.493,
+        "judge_no_human_yes": 1,
+        "judge_yes_human_no": 3
+      },
+      "test": {
+        "n": 18,
+        "agreement": 0.833,
+        "kappa": 0.649,
+        "judge_no_human_yes": 3,
+        "judge_yes_human_no": 0
+      },
+      "all": {
+        "n": 35,
+        "agreement": 0.8,
+        "kappa": 0.565,
+        "judge_no_human_yes": 4,
+        "judge_yes_human_no": 3
+      }
+    },
+    "C2_mistral_original": {
+      "select": {
+        "n": 17,
+        "agreement": 0.588,
+        "kappa": 0.0,
+        "judge_no_human_yes": 0,
+        "judge_yes_human_no": 7
+      },
+      "test": {
+        "n": 18,
+        "agreement": 0.778,
+        "kappa": 0.265,
+        "judge_no_human_yes": 0,
+        "judge_yes_human_no": 4
+      },
+      "all": {
+        "n": 35,
+        "agreement": 0.686,
+        "kappa": 0.107,
+        "judge_no_human_yes": 0,
+        "judge_yes_human_no": 11
+      }
+    },
+    "C3_mistral_rubric": {
+      "select": {
+        "n": 17,
+        "agreement": 0.765,
+        "kappa": 0.469,
+        "judge_no_human_yes": 0,
+        "judge_yes_human_no": 4
+      },
+      "test": {
+        "n": 18,
+        "agreement": 0.833,
+        "kappa": 0.491,
+        "judge_no_human_yes": 0,
+        "judge_yes_human_no": 3
+      },
+      "all": {
+        "n": 35,
+        "agreement": 0.8,
+        "kappa": 0.484,
+        "judge_no_human_yes": 0,
+        "judge_yes_human_no": 7
+      }
+    }
+  },
+  "candidates": {
+    "D1_majority_C0_C1_C3": {
+      "select": {
+        "n": 17,
+        "agreement": 0.824,
+        "kappa": 0.611,
+        "judge_no_human_yes": 0,
+        "judge_yes_human_no": 3
+      },
+      "test": {
+        "n": 18,
+        "agreement": 0.944,
+        "kappa": 0.87,
+        "judge_no_human_yes": 1,
+        "judge_yes_human_no": 0
+      },
+      "all": {
+        "n": 35,
+        "agreement": 0.886,
+        "kappa": 0.736,
+        "judge_no_human_yes": 1,
+        "judge_yes_human_no": 3
+      }
+    },
+    "D2_llama31_reason": {
+      "select": {
+        "n": 17,
+        "agreement": 0.647,
+        "kappa": 0.271,
+        "judge_no_human_yes": 3,
+        "judge_yes_human_no": 3
+      },
+      "test": {
+        "n": 18,
+        "agreement": 0.611,
+        "kappa": 0.323,
+        "judge_no_human_yes": 7,
+        "judge_yes_human_no": 0
+      },
+      "all": {
+        "n": 35,
+        "agreement": 0.629,
+        "kappa": 0.277,
+        "judge_no_human_yes": 10,
+        "judge_yes_human_no": 3
+      }
+    },
+    "D3_llama31_two_step": {
+      "select": {
+        "n": 17,
+        "agreement": 0.706,
+        "kappa": 0.38,
+        "judge_no_human_yes": 2,
+        "judge_yes_human_no": 3
+      },
+      "test": {
+        "n": 18,
+        "agreement": 0.667,
+        "kappa": 0.333,
+        "judge_no_human_yes": 5,
+        "judge_yes_human_no": 1
+      },
+      "all": {
+        "n": 35,
+        "agreement": 0.686,
+        "kappa": 0.342,
+        "judge_no_human_yes": 7,
+        "judge_yes_human_no": 4
+      }
+    },
+    "D4_phi3_rubric": {
+      "select": {
+        "n": 17,
+        "agreement": 0.647,
+        "kappa": 0.354,
+        "judge_no_human_yes": 6,
+        "judge_yes_human_no": 0
+      },
+      "test": {
+        "n": 18,
+        "agreement": 0.444,
+        "kappa": 0.143,
+        "judge_no_human_yes": 10,
+        "judge_yes_human_no": 0
+      },
+      "all": {
+        "n": 35,
+        "agreement": 0.543,
+        "kappa": 0.231,
+        "judge_no_human_yes": 16,
+        "judge_yes_human_no": 0
+      }
+    }
+  },
+  "n_unparsed": {
+    "D2_llama31_reason": 0
+  },
+  "chosen_on_select": "D1_majority_C0_C1_C3",
+  "margin_items": {
+    "test": 3,
+    "all_consensus": 3
+  },
+  "adopted": "D1_majority_C0_C1_C3",
+  "material": true
+}

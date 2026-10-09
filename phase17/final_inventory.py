@@ -504,6 +504,17 @@ def rows():
                 f"the rule's pick {cj['chosen_on_select']} wins TEST by {cj['margin_items']['test']} item(s) and "
                 f"{cj['margin_items']['all_consensus']} over all consensus items"
                 + (f"; not scored: {cj['not_scored']}" if cj["not_scored"] else ""))
+        cj2, rj = _L("compliance_judge_fix_round2.json"), _L("compliance_rejudged_dev.json")
+        if cj2 and rj:
+            d1 = cj2["candidates"]["D1_majority_C0_C1_C3"]["all"]
+            add("favourable",
+                "A better-calibrated compliance judge (majority vote), and the frame's effect under it",
+                f"vote kappa {d1['kappa']} ({d1['agreement']:.0%}) vs original 0.596 on 35 consensus items; dev "
+                f"frame effect {rj['drop_points_original']} pts (original) vs {rj['drop_points_vote']} pts (vote), "
+                f"both significant",
+                "compliance_judge_fix_round2.json, compliance_rejudged_dev.json",
+                "vote vs original on 35 items not significant (5 fixed, 2 broken, p=0.45); vote over-calls "
+                "slightly (25 vs 23 human YES), original under-calls (18); development data only")
         a2 = _L("human_label_agreement_annotator2.json")
         if a2:
             ia = a2["inter_annotator"]

@@ -184,6 +184,12 @@ def build() -> str:
       "harm and mechanism labels near ceiling)." if L("human_label_agreement_annotator2.json") else
       "- The human check of the judges has one annotator; a second is open.")
     w("- Hold-out 3 is retired after seven uses; its numbers are hold-out-informed where used.")
+    _cj2, _rj = L("compliance_judge_fix_round2.json"), L("compliance_rejudged_dev.json")
+    if _cj2 and _rj:
+        w(f"- Compliance judge: a majority vote of three judges matches the people at the human-to-human level "
+          f"(kappa {_cj2['candidates']['D1_majority_C0_C1_C3']['all']['kappa']}), not significantly better than "
+          f"the original on 35 items; under it the frame's dev effect is {_rj['drop_points_vote']} points "
+          f"(original judge {_rj['drop_points_original']}). Compliance levels by the original judge are under-estimates.")
     w("- No LICENSE: deliberately deferred by the owner.")
     return "\n".join(out) + "\n"
 

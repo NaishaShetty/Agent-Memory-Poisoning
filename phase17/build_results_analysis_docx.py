@@ -1335,12 +1335,31 @@ if _CJ and _CJ.get("chosen_on_select"):
                  if n != 'C0_current') + " overall"
      + (f"; the rule fixed in advance picks {_CJ['chosen_on_select'].split('_', 1)[1].replace('_', ' ')} (best "
         f"of the new candidates on SELECT) and it beats the current judge on TEST, but the margin is {_CJ['margin_items']['test']} item of {_CJ['n_test']} on TEST and "
-        f"{_CJ['margin_items']['all_consensus']} over all consensus items, so no better compliance judge was "
-        f"found and the original stays in use" if not _CJ.get('material') else
+        f"{_CJ['margin_items']['all_consensus']} over all consensus items, so round 1 found no better compliance "
+        f"judge" if not _CJ.get('material') else
         f"; {_CJ['adopted']} is adopted and re-scores compliance beside the original")
      + (f". Not scored (Gemini quota): {', '.join(_CJ['not_scored'])}." if _CJ['not_scored'] else ".")
      + f" Compliance results therefore rest on a judge at kappa {_CJ['candidates']['C0_current']['all']['kappa']} "
        f"against people who agree with each other at about {_CJ['human_ceiling_kappa_all_compliance']}.")
+_CJ2, _RJ = L("compliance_judge_fix_round2.json"), L("compliance_rejudged_dev.json")
+if _CJ2 and _RJ:
+    P(f"A second round, committed before scoring with a stricter bar (beat the current judge by at least two "
+     f"TEST items and one item overall), tried four more designs: "
+     + ", ".join(f"{n.split('_', 1)[1].replace('_', ' ')} kappa {v['all']['kappa']}" for n, v in _CJ2['candidates'].items())
+     + f". The majority vote of the three round-1 judges cleared the bar (+{_CJ2['margin_items']['test']} TEST "
+       f"items, +{_CJ2['margin_items']['all_consensus']} overall) and reaches kappa "
+       f"{_CJ2['candidates']['D1_majority_C0_C1_C3']['all']['kappa']} "
+       f"({_CJ2['candidates']['D1_majority_C0_C1_C3']['all']['agreement']:.1%} agreement) -- the human-to-human "
+       f"level -- but on 35 items it is not significantly better than the original (it fixes 5 of its "
+       f"errors and makes 2 new ones, p=0.45), and it leans the other way (23 human YES; vote 25, original 18). "
+       f"Re-judged with it on development data only (hold-outs 3-7 stay as scored, and the labelled items "
+       f"came from hold-out 5): on the frame-selection study's {_RJ['n']} attacks, raw compliance is "
+       f"{_RJ['arms']['raw']['original']['k']} by the original judge and {_RJ['arms']['raw']['vote']['k']} by the "
+       f"vote, framed {_RJ['arms'][_RJ['frame']]['original']['k']} and {_RJ['arms'][_RJ['frame']]['vote']['k']}; the "
+       f"frame's effect is {_RJ['drop_points_original']} points (p={_RJ['paired_framed_vs_raw_original']['p_exact']:.1g}) "
+       f"by the original judge and {_RJ['drop_points_vote']} (p={_RJ['paired_framed_vs_raw_vote']['p_exact']:.1g}) "
+       f"by the vote. So compliance LEVELS judged by the original judge are under-estimates, as harm levels "
+       f"were, while the frame's REDUCTION holds under both judges and is larger under the better-calibrated one.")
 if _HJ:
     c = _HJ["candidates"]
     P(f"A replacement harm judge was chosen by a rule fixed in advance -- selected on half the human labels, "
