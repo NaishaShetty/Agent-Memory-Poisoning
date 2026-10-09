@@ -771,3 +771,22 @@ member lets the noisy anomaly threshold tighten without losing recall:
 Caveat, disclosed: the semantic member is supervised on dev families, so its HO8 transfer is the real
 test; the all-unsupervised fallback (union2 @ 99th pct) is 82% / 10% / 62%. HO8 union arm uses union3 at
 the 99th percentile; both the supervised and unsupervised numbers are reported there.
+
+## R7-43 (2026-10-09): GNN-GLN hybrid -- works, and the principled way to improve it
+
+Checked per owner request: Phase 11 suite passes (167 tests). B10 (GNN+GLN hybrid) matches B8/B9 at
+70.6% detection / 7.3% FPR -- disclosed as "parity, not improvement" (WEIGHTED_SUM degenerated to
+100%/100%; GROUPED_GATED with a MIN-of-both-learned-scores fix recovered parity). So it functions.
+
+Why it adds nothing in the current evaluation, and the fix (honest, NOT rushed tonight): the ablation
+(ablation_results.json) shows removing -propagation and -sibling_propagation changes nothing, because
+B0-B8 run in ISOLATED single-poison arenas with no ancestor edges and no sibling batches -- the exact
+relational structure a GNN exists to use. Scoring the GNN on flat poisons cannot exercise it.
+
+The principled improvement: evaluate the GNN-GLN hybrid on the DERIVED-MEMORY / consolidation setting
+(derived_memory_eval), which DOES have real ancestor edges (poison -> summary) and sibling structure --
+precisely where propagation (the union's weakest axis, 72%) lives. This needs the Phase 11 graph
+feature pipeline built over the consolidation data; it is a substantial, separate experiment, specified
+here as the next step rather than rushed the night before HO8. Candidate: add the cluster-outlier
+anomaly as a learned-group input signal (good separation, 88% recall) to lift the GNN's weak benign/
+poison margin (0.638 vs 0.982). Logged as future work; not claimed as done.
