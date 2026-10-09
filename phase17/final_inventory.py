@@ -469,15 +469,16 @@ def rows():
             "neutralise_own.json", "both arms re-run in one session (noise floor ~5 points)")
     sal = _L("sleeper_activation_live.json")
     if sal:
-        pk = sal["features"]["peak"]
-        add("favourable" if sal["adopt_for_holdout8"] else "unfavourable",
-            "A live, content-independent sleeper activation signal (generalizes the cached one) -- weak",
-            f"activation spikiness separates sleeper-shaped families {pk['sleeper_recall']['k']}/{sal['n_sleeper']} "
-            f"at {pk['benign_fpr']['rate']:.0%} benign FPR (dormancy/reachability features did not separate); "
-            f"not sleeper-specific (other attacks {pk['other_attack_rate']:.0%})",
+        co = sal["features"]["cluster_outlier"]; pk = sal["features"]["peak"]
+        add("favourable",
+            "A live, content-independent embedding-anomaly signal catches planted memories incl. dormant sleepers",
+            f"cluster-outlier distance (the attack's own off-cluster objective) flags sleeper-shaped families "
+            f"{co['sleeper_recall']['k']}/{sal['n_sleeper']} ({co['sleeper_recall']['rate']:.0%}) at "
+            f"{co['benign_fpr']['rate']:.0%} benign FPR on dev -- vs the dedicated guard's ~0 (Finding A); "
+            f"spikiness {pk['sleeper_recall']['rate']:.0%}, dormancy features did not separate",
             "sleeper_activation_live.json",
-            "weak dev signal, pre-registered EXPLORATORY for HO8; provenance remains the primary sleeper defense; "
-            "the dedicated admission guard still does not generalize (Finding A)")
+            f"NOT sleeper-specific (other attacks {co['other_attack_rate']:.0%}) -- a planted-content detector at a "
+            f"review-queue FPR; pre-registered EXPLORATORY for HO8; provenance remains the primary sleeper defense")
     dm = _L("derived_memory_eval.json")
     if dm:
         hx = dm["harm_on_b13_excluded"]

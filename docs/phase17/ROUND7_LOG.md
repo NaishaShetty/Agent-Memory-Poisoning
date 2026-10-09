@@ -735,3 +735,16 @@ one (which returned 0 off its single poison). Pre-registered EXPLORATORY for HO8
 its FPR, not a headline. Provenance (B13) remains the primary sleeper defense; the dedicated admission
 guard's Finding A limit is unchanged. This is the honest ceiling found tonight: sleeper detection is
 strengthened at the margin by a behavioral signal, not solved by a content one.
+
+## R7-40b (2026-10-09): embedding-anomaly beats spikiness for sleeper -- 88% at 10% FPR
+
+Second angle (same dev module), outside the dormancy/spikiness box: a planted memory lands in an
+anomalous embedding region -- the AgentPoison objective itself (push the poison embedding away from
+where benign content clusters), turned into a detector (benign_cluster_outlier_scores, already in the
+repo). Dev: cluster-outlier distance flags sleeper-shaped families 28/32 = 88% at 10% benign FPR, vs
+spikiness 31% and dormancy ~5%. Composite (spiky OR outlier) 91% at 19% FPR -- outlier alone is the
+pick. Honest limits: NOT sleeper-specific (89% of other attacks too -- it is a planted-content anomaly
+detector), and 10% benign FPR is a review-queue posture, not admission control. But it catches dormant
+sleepers that the dedicated content guard cannot (Finding A, ~0), content-independently and without any
+construction-pattern circularity. S8-2 upgraded to cluster-outlier (primary) for HO8; spikiness kept as
+secondary. Provenance (B13) remains the primary sleeper defense; this is a second, independent net.

@@ -74,10 +74,11 @@ FORMULAS = [
     ("Defenses", "Unions",
      "B17(x) = B13(x) ∨ B14(x);  B18(x) = B17(x) ∨ [deberta(x) ≥ τ_oracle]",
      "phase17/b17_live.py, phase17/b18_live.py"),
-    ("Defenses", "Sleeper activation spikiness (live, exploratory)",
-     "peak(M) = max_q cos(M, q) - mean_q cos(M, q) over a bank of ordinary user queries;  flag if peak >= "
-     "tau_dev (content-independent; weak, non-specific -- provenance is the primary sleeper defense)",
-     "phase17/sleeper_activation_live.py; phase17/eval_holdout8.py"),
+    ("Defenses", "Planted-memory embedding anomaly (live sleeper signal, exploratory)",
+     "outlier(M) = min_c ||e(M) - c||  over benign cluster centroids c (KMeans on benign);  flag if "
+     "outlier >= tau_dev (10% benign FPR).  Catches dormant sleepers; content-independent; not "
+     "sleeper-specific -- provenance is the primary sleeper defense",
+     "phase17/sleeper_activation_live.py (benign_cluster_outlier_scores); phase17/eval_holdout8.py"),
     ("Defenses", "Propagation containment: lineage taint (lexical / semantic)",
      "taint(D) = max_a SEVERITY(state_a) * decay(dist_a) * retention(D, a);  retention = Jaccard tokens "
      "(lexical, as built) or embedding cosine (semantic);  action by the same bands as the risk score",

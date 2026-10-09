@@ -83,6 +83,39 @@ def run() -> dict:
             "benign_fpr": rate_with_ci(int((b <= thr).sum() if lower_is_sleeper else (b >= thr).sum()), len(b)),
             "other_attack_rate": round(float(o_rec), 4),
             "separates": bool(s_rec > 2 * b_fpr and s_rec >= 0.30)}
+    # Second angle: embedding-space outlier distance. A planted memory lands far from where benign
+    # content clusters (the attack's own optimization objective, turned into a detector). Non-circular,
+    # content-independent. Fit clusters on HALF the benign, threshold at a 10% FPR on the other half.
+    from sklearn.cluster import KMeans
+
+    from phase17.query_trigger_signal import benign_cluster_outlier_scores
+    from phase17.semantic_detector import _embed
+
+    ben_fit, ben_eval = benign[0::2], benign[1::2]
+    km = KMeans(n_clusters=8, n_init=10, random_state=17).fit(_embed(ben_fit))
+    od_s = benign_cluster_outlier_scores(sleeper, km.cluster_centers_)
+    od_b = benign_cluster_outlier_scores(ben_eval, km.cluster_centers_)
+    od_o = benign_cluster_outlier_scores(other_atk, km.cluster_centers_) if other_atk else np.array([])
+    othr = float(np.percentile(od_b, 90))
+    out["features"]["cluster_outlier"] = {
+        "threshold": round(othr, 4), "lower_is_sleeper": False,
+        "sleeper_mean": round(float(od_s.mean()), 4), "benign_mean": round(float(od_b.mean()), 4),
+        "sleeper_recall": rate_with_ci(int((od_s >= othr).sum()), len(od_s)),
+        "benign_fpr": rate_with_ci(int((od_b >= othr).sum()), len(od_b)),
+        "other_attack_rate": round(float((od_o >= othr).mean()) if other_atk else 0.0, 4),
+        "separates": bool((od_s >= othr).mean() > 2 * (od_b >= othr).mean() and (od_s >= othr).mean() >= 0.30)}
+
+    # Composite: flag if spiky OR outlier. Measured at the union of the two dev-fitted thresholds.
+    pthr = out["features"]["peak"]["threshold"]
+    peak_s = fs["peak"] >= pthr
+    peak_bE = fb["peak"][1::2] >= pthr        # align with the outlier eval-half benign
+    comp_s = peak_s | (od_s >= othr)
+    comp_b = peak_bE | (od_b >= othr)
+    out["features"]["composite_peak_or_outlier"] = {
+        "sleeper_recall": rate_with_ci(int(comp_s.sum()), len(comp_s)),
+        "benign_fpr": rate_with_ci(int(comp_b.sum()), len(comp_b)),
+        "separates": bool(comp_s.mean() > 2 * comp_b.mean() and comp_s.mean() >= 0.30)}
+
     best = max(out["features"], key=lambda n: out["features"][n]["sleeper_recall"]["rate"]
                - out["features"][n]["benign_fpr"]["rate"])
     out["best_feature"] = best
@@ -98,7 +131,7 @@ def run() -> dict:
 if __name__ == "__main__":
     r = run()
     for n, v in r["features"].items():
-        print(f"  {n:5s} thr {v['threshold']:.3f}  sleeper {v['sleeper_recall']['k']}/{r['n_sleeper']} "
+        print(f"  {n:16s} thr {v.get('threshold','-')}  sleeper {v['sleeper_recall']['k']}/{r['n_sleeper']} "
               f"({v['sleeper_recall']['rate']:.0%})  benign FPR {v['benign_fpr']['rate']:.0%}  "
               f"other-attack {v['other_attack_rate']:.0%}  sep={v['separates']}")
     print("best:", r["best_feature"], "| adopt for HO8:", r["adopt_for_holdout8"])

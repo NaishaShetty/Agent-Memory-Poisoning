@@ -181,35 +181,46 @@ def _sleeper(recs, btexts) -> Dict:
     out["note"] = ("diagnostic: documents Finding A (directive signal 0 on extracted memory, "
                    "activation-shape covers only cached poisons) on a clean hold-out; detection of these "
                    "attacks comes from the provenance configs, not this guard.")
-    # Live, content-independent activation-spikiness signal (dev-fitted threshold), EXPLORATORY.
-    dev = DATA / "sleeper_activation_live.json"
-    if dev.exists():
+    # Content-independent embedding-anomaly signal for planted memory (incl. dormant sleepers), the
+    # generalization of the cached activation shape. Two dev-validated variants (sleeper_activation_live):
+    # cluster-outlier distance (88% sleeper recall at 10% FPR on dev -- the primary) and activation
+    # spikiness (31%, secondary). Self-contained on HO8: clusters fit on half the benign, threshold at a
+    # 10% FPR on the other half, applied to attacks and the eval-half benign. Reported with its FPR; a
+    # ~10% benign cost is a review-queue posture, not admission control. Provenance stays primary.
+    if (DATA / "sleeper_activation_live.json").exists():
         import numpy as np
+        from sklearn.cluster import KMeans
 
         from phase17 import harm_study_v2 as H
-        from phase17.query_trigger_signal import _reference_queries
+        from phase17.query_trigger_signal import _reference_queries, benign_cluster_outlier_scores
+        from phase17.semantic_detector import _embed
 
-        d = json.loads(dev.read_text(encoding="utf-8"))
-        thr = d["features"]["peak"]["threshold"]
+        d = json.loads((DATA / "sleeper_activation_live.json").read_text(encoding="utf-8"))
+        fams = sorted({r.family for r in recs})
+        atk_texts = [r.text for r in recs]
+        ben_fit, ben_eval = btexts[0::2], btexts[1::2]
+        km = KMeans(n_clusters=8, n_init=10, random_state=17).fit(_embed(ben_fit))
+        oa = benign_cluster_outlier_scores(atk_texts, km.cluster_centers_)
+        ob = benign_cluster_outlier_scores(ben_eval, km.cluster_centers_)
+        othr = float(np.percentile(ob, 90))
         model = H._retriever()
         QE = model.encode(_reference_queries()[:d["n_queries"]], normalize_embeddings=True)
-
-        def peak(texts):
-            ME = model.encode(texts, normalize_embeddings=True)
-            sims = ME @ QE.T
-            return sims.max(axis=1) - sims.mean(axis=1)
-
-        ap, bp = peak([r.text for r in recs]), peak(btexts)
-        fams = sorted({r.family for r in recs})
-        pa = {r.scenario_id: bool(v >= thr) for r, v in zip(recs, ap)}
-        out["activation_spikiness"] = {
-            "exploratory": True, "dev_threshold": thr,
-            "attack_recall": rate_with_ci(int((ap >= thr).sum()), len(recs)),
-            "benign_fpr": rate_with_ci(int((bp >= thr).sum()), len(btexts)),
-            "by_family": {f: rate_with_ci(sum(pa[r.scenario_id] for r in recs if r.family == f),
-                                          sum(r.family == f for r in recs)) for f in fams},
-            "note": "weak, non-sleeper-specific dev signal (31% at 10% FPR); pre-registered exploratory, "
-                    "provenance remains the primary sleeper defense."}
+        pa = (model.encode(atk_texts, normalize_embeddings=True) @ QE.T)
+        pa = pa.max(axis=1) - pa.mean(axis=1)
+        pthr = d["features"]["peak"]["threshold"]
+        flag = {r.scenario_id: bool(oa[i] >= othr) for i, r in enumerate(recs)}
+        out["activation_anomaly"] = {
+            "exploratory": True, "primary": "cluster_outlier", "dev_recall_at_10pct_fpr": 0.88,
+            "cluster_outlier": {
+                "attack_recall": rate_with_ci(int((oa >= othr).sum()), len(recs)),
+                "benign_fpr": rate_with_ci(int((ob >= othr).sum()), len(ben_eval)),
+                "by_family": {f: rate_with_ci(sum(flag[r.scenario_id] for r in recs if r.family == f),
+                                              sum(r.family == f for r in recs)) for f in fams}},
+            "spikiness": {"attack_recall": rate_with_ci(int((pa >= pthr).sum()), len(recs))},
+            "note": "embedding-anomaly signal (the attack's own off-cluster objective); catches planted "
+                    "memories incl. dormant sleepers that the dedicated guard (Finding A) cannot, but is "
+                    "NOT sleeper-specific (flags planted content generally) and costs ~10% benign FPR -- a "
+                    "review-queue posture. Provenance remains the primary sleeper defense."}
     return out
 
 
