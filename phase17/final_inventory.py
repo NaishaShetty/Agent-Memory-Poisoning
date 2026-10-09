@@ -467,6 +467,17 @@ def rows():
             f"harm {pct(own['harm_raw_rerun']['rate'])} raw -> {pct(own['harm_framed']['rate'])} framed; "
             f"B13 {pct(own['harm_b13']['rate'])} -> B13+frame {pct(own['harm_b13_plus_frame']['rate'])}",
             "neutralise_own.json", "both arms re-run in one session (noise floor ~5 points)")
+    sal = _L("sleeper_activation_live.json")
+    if sal:
+        pk = sal["features"]["peak"]
+        add("favourable" if sal["adopt_for_holdout8"] else "unfavourable",
+            "A live, content-independent sleeper activation signal (generalizes the cached one) -- weak",
+            f"activation spikiness separates sleeper-shaped families {pk['sleeper_recall']['k']}/{sal['n_sleeper']} "
+            f"at {pk['benign_fpr']['rate']:.0%} benign FPR (dormancy/reachability features did not separate); "
+            f"not sleeper-specific (other attacks {pk['other_attack_rate']:.0%})",
+            "sleeper_activation_live.json",
+            "weak dev signal, pre-registered EXPLORATORY for HO8; provenance remains the primary sleeper defense; "
+            "the dedicated admission guard still does not generalize (Finding A)")
     dm = _L("derived_memory_eval.json")
     if dm:
         hx = dm["harm_on_b13_excluded"]

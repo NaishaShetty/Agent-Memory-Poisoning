@@ -714,3 +714,24 @@ on a clean hold-out, to be caught by provenance, and the guard's limit is measur
 stated. Self-propagation genuinely improved (laundering attack + semantic containment fix, now
 generalization-tested). The guards still never fire in Phase 14's single-poison live pilot; that
 remains disclosed.
+
+## R7-40 (2026-10-09): a live, generalizing sleeper activation signal -- weak but real
+
+Owner: "find a way to strengthen sleeper." The cached activation_shape_signal captures a real
+behavioral property (a sleeper activates on its trigger topic, dormant otherwise) but is a lookup keyed
+to one poison. `sleeper_activation_live.py` computes the same KIND of property live with the main-env
+retriever, content-INDEPENDENTLY (no trigger/construction patterns -- those would be circular against
+HO8), validated on DEV before any adoption.
+
+Dev result (sleeper_memory_poisoning + conditional_backdoor, 32, vs 300 benign, 200-query bank):
+- Dormancy (low reachability: max/mean/top5 cosine) did NOT separate -- sleepers are as reachable as
+  benign (3-6% recall at 10% FPR). The intuitive hypothesis failed; reported.
+- Spikiness (peak = max - mean) DID, weakly: 31% sleeper recall at 10% benign FPR. Sleepers have a
+  topically-concentrated activation profile. But it is NOT sleeper-specific (other attacks 23% at the
+  same threshold) -- it flags off-topic/planted memories generally.
+
+Honest status: a weak, non-specific, content-independent signal that genuinely generalizes the cached
+one (which returned 0 off its single poison). Pre-registered EXPLORATORY for HO8 (S8-2), reported with
+its FPR, not a headline. Provenance (B13) remains the primary sleeper defense; the dedicated admission
+guard's Finding A limit is unchanged. This is the honest ceiling found tonight: sleeper detection is
+strengthened at the margin by a behavioral signal, not solved by a content one.

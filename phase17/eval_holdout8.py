@@ -181,6 +181,35 @@ def _sleeper(recs, btexts) -> Dict:
     out["note"] = ("diagnostic: documents Finding A (directive signal 0 on extracted memory, "
                    "activation-shape covers only cached poisons) on a clean hold-out; detection of these "
                    "attacks comes from the provenance configs, not this guard.")
+    # Live, content-independent activation-spikiness signal (dev-fitted threshold), EXPLORATORY.
+    dev = DATA / "sleeper_activation_live.json"
+    if dev.exists():
+        import numpy as np
+
+        from phase17 import harm_study_v2 as H
+        from phase17.query_trigger_signal import _reference_queries
+
+        d = json.loads(dev.read_text(encoding="utf-8"))
+        thr = d["features"]["peak"]["threshold"]
+        model = H._retriever()
+        QE = model.encode(_reference_queries()[:d["n_queries"]], normalize_embeddings=True)
+
+        def peak(texts):
+            ME = model.encode(texts, normalize_embeddings=True)
+            sims = ME @ QE.T
+            return sims.max(axis=1) - sims.mean(axis=1)
+
+        ap, bp = peak([r.text for r in recs]), peak(btexts)
+        fams = sorted({r.family for r in recs})
+        pa = {r.scenario_id: bool(v >= thr) for r, v in zip(recs, ap)}
+        out["activation_spikiness"] = {
+            "exploratory": True, "dev_threshold": thr,
+            "attack_recall": rate_with_ci(int((ap >= thr).sum()), len(recs)),
+            "benign_fpr": rate_with_ci(int((bp >= thr).sum()), len(btexts)),
+            "by_family": {f: rate_with_ci(sum(pa[r.scenario_id] for r in recs if r.family == f),
+                                          sum(r.family == f for r in recs)) for f in fams},
+            "note": "weak, non-sleeper-specific dev signal (31% at 10% FPR); pre-registered exploratory, "
+                    "provenance remains the primary sleeper defense."}
     return out
 
 
