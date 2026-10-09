@@ -485,7 +485,9 @@ if _P8U:
      f"{_P8U['new']['loss_points']:.1f} points, p={_P8U['new']['paired_framed_vs_raw']['p_exact']:.2g}): P8-1 "
      + ("HELD -- the frame has a real, small usefulness cost on direct questions about the note."
         if _P8U['P8-1_held'] else
-        "did not hold -- no significant usefulness cost at more than three times the original sample.")
+        f"did not hold, narrowly. Both samples point the same way (combined {_P8U['combined']['raw']} -> "
+        f"{_P8U['combined']['framed']} of {_P8U['combined']['n']}), so the frame is read as costing about 4 points "
+        f"of usefulness on direct questions -- small, not proven, and not zero.")
      + "") + "]",
                 startswith="Utility: on ")
 

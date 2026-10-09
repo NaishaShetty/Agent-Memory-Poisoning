@@ -607,7 +607,9 @@ def rows():
             + (": a significant cost" if p8u["P8-1_held"] else ": no significant cost"),
             f"{p8u['new']['raw']['k']} -> {p8u['new']['framed']['k']} of {p8u['n_new']} "
             f"({p8u['new']['loss_points']:+.1f} points lost, p={q['p_exact']:.2g})",
-            "power_rerun_utility.json", "one LLM judge; development data")
+            "power_rerun_utility.json",
+            f"p just above 0.05; combined {p8u['combined']['raw']} -> {p8u['combined']['framed']} of "
+            f"{p8u['combined']['n']}: a small consistent cost (~4 points), not proven; one LLM judge; development data")
     ad = _L("adaptive_round7.json")
     if ad:
         for key in ("vs_neutralisation", "vs_corroboration"):

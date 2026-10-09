@@ -1434,8 +1434,11 @@ if R7P:
              f"correction (adjusted p=" + ", ".join(f"{_mu['adjusted'][i]:.2g}" for i in _nh) + "); "
              f"{'it is' if len(_nh) == 1 else 'they are'} reported as holding under the pre-registration and as not "
              f"robust to multiplicity"
-             + (f" (R-1 was then replicated on fresh stores as R6-1, which does survive: adjusted p="
-                f"{_mu['adjusted']['R6-1']:.2g})" if "R-1" in _nh and "R6-1" in _mu["adjusted"] else "") + ". "
+             + (f" (R-1 was then replicated on fresh stores as R6-1, which "
+                + ("does survive" if _mu['adjusted']['R6-1'] < 0.05 else "replicates it at its own alpha but also "
+                   "does not survive the correction")
+                + f": adjusted p={_mu['adjusted']['R6-1']:.2g})"
+                if "R-1" in _nh and "R6-1" in _mu["adjusted"] and "R6-1" not in _nh else "") + ". "
              if _nh else "Every one that held survives the correction. ")
           + "Every other held significance prediction survives.")
     CAP(f"Table 17. Every round-7 pre-registered prediction, scored mechanically from the artifacts "
@@ -1473,7 +1476,9 @@ if _UT and _P8U:
      f"{_P8U['new']['loss_points']:.1f} points, p={_P8U['new']['paired_framed_vs_raw']['p_exact']:.2g}): P8-1 "
      + ("HELD -- the frame has a real, small usefulness cost on direct questions about the note."
         if _P8U['P8-1_held'] else
-        "did not hold -- no significant usefulness cost at more than three times the original sample.")
+        f"did not hold, narrowly. Both samples point the same way (combined {_P8U['combined']['raw']} -> "
+        f"{_P8U['combined']['framed']} of {_P8U['combined']['n']}), so the frame is read as costing about 4 points "
+        f"of usefulness on direct questions -- small, not proven, and not zero.")
      + "")
 if _AD:
     for key, label in (("vs_neutralisation", "the neutralisation frame"),

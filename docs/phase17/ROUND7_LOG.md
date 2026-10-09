@@ -598,3 +598,14 @@ study's 120 dev attacks, stored answers, nothing regenerated. Raw 61 -> 95 (vote
 frame effect -20.8 pts (p=4e-05) original vs -34.2 pts (p=2.5e-10) vote. Compliance LEVELS by the
 original judge are under-estimates; the frame's REDUCTION holds under both. Hold-out 8 does not use
 this judge (its causal probe uses a different, unvalidated question), so the vote is not applied there.
+
+## R7-35 (2026-10-09): utility re-test (P8-1) and the multiplicity family
+
+Utility (`power_rerun_utility.json`): 600 new benign notes, direct question, 372 -> 349 (62.0% -> 58.2%,
+-3.8 points, p=0.056). P8-1 FAILED, narrowly. Combined with the original 300: 563 -> 525 of 900. Read
+as a small, consistent ~4-point cost -- not proven, not zero.
+
+Adding P8-1/P8-2 to the Holm family (now 15 significance predictions) moved R6-1's adjusted p to
+0.062: R6-1 no longer survives the correction (it held at its own alpha, p=0.0078). The results paper
+had a hard-coded "R6-1 ... does survive" clause; it is now computed. Held but not surviving Holm:
+H6-4, R-1, R6-1, P8-2. Predictions: 39/47 held.

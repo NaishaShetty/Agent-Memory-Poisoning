@@ -1,0 +1,70 @@
+{
+  "n_new": 600,
+  "pool_size_excluding_original": 754,
+  "frame": "v3_depersonalise",
+  "task": "direct_question",
+  "new": {
+    "raw": {
+      "k": 372,
+      "n": 600,
+      "rate": 0.62,
+      "ci95": [
+        0.5805137798708313,
+        0.6579593561303982
+      ]
+    },
+    "framed": {
+      "k": 349,
+      "n": 600,
+      "rate": 0.5816666666666667,
+      "ci95": [
+        0.5417983767584683,
+        0.6204958407979241
+      ]
+    },
+    "loss_points": 3.8,
+    "paired_framed_vs_raw": {
+      "n": 600,
+      "detected_a": 349,
+      "detected_b": 372,
+      "only_a": 55,
+      "only_b": 78,
+      "p_exact": 0.05602788183890049
+    }
+  },
+  "original": {
+    "raw": {
+      "k": 191,
+      "n": 300,
+      "rate": 0.6366666666666667,
+      "ci95": [
+        0.5808305794961457,
+        0.68904688297114
+      ]
+    },
+    "framed": {
+      "k": 176,
+      "n": 300,
+      "rate": 0.5866666666666667,
+      "ci95": [
+        0.5301895702243481,
+        0.6409522352427112
+      ]
+    },
+    "loss_points": 5.0,
+    "paired_framed_vs_raw": {
+      "n": 300,
+      "detected_a": 176,
+      "detected_b": 191,
+      "only_a": 25,
+      "only_b": 40,
+      "p_exact": 0.08168153394154005
+    }
+  },
+  "combined": {
+    "n": 900,
+    "raw": 563,
+    "framed": 525
+  },
+  "P8-1_held": false
+}
