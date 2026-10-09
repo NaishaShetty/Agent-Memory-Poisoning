@@ -153,7 +153,18 @@ def harm(workers: int = 4) -> dict:
                              "raw": sum(v for v, j in zip(vec["raw"], jobs) if j["family"] == f),
                              "framed": sum(v for v, j in zip(vec["framed"], jobs) if j["family"] == f)}
                          for f in sorted({j["family"] for j in jobs})}}
-    pp = out["new"]["paired_framed_vs_raw"]
+    # Addendum 8 amendment: P8-2 is tested POOLED over own-attack instances -- the original run's
+    # own-attack rows (external excluded) from its checkpoint, plus the new ones.
+    op = json.loads((DATA / "neutralise_own_partial.json").read_text(encoding="utf-8"))
+    own_orig = [r.scenario_id for r, f in H._records(15, 30, 60, 17) if f != "external"]
+    o_raw = [bool(op[f"raw:{i}"]["harm"]) for i in own_orig]
+    o_fr = [bool(op[f"framed:{i}"]["harm"]) for i in own_orig]
+    pr, pf = o_raw + vec["raw"], o_fr + vec["framed"]
+    out["pooled_own_attacks"] = {"n": len(pr), "n_original_own": len(own_orig), "n_new": n,
+                                 "raw": rate_with_ci(sum(pr), len(pr)), "framed": rate_with_ci(sum(pf), len(pf)),
+                                 "paired_framed_vs_raw": paired_delta(pf, pr),
+                                 "label": "includes the original sample whose inconclusive result motivated the re-test"}
+    pp = out["pooled_own_attacks"]["paired_framed_vs_raw"]
     out["P8-2_held"] = pp["only_b"] > pp["only_a"] and pp["p_exact"] < 0.05
     H_OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     return out
