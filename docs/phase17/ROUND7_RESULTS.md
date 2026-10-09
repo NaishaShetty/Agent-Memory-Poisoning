@@ -2,7 +2,7 @@
 
 Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` (methods, Sections 32.49-32.63); every correction is logged in `docs/phase17/ROUND7_LOG.md`.
 
-**Publishability verdict: PENDING.** Held by the owner's rule until every scheduled measurement is complete; outstanding: harm_rejudged.json. Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PENDING; 6_above_noise_floor PASS; 7_all_measurements_complete PENDING.
+**Publishability verdict: PENDING.** Held by the owner's rule until every scheduled measurement is complete; outstanding: compliance_judge_fix.json, harm_rejudged.json. Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PENDING; 6_above_noise_floor PASS; 7_all_measurements_complete PENDING.
 
 ## Recommendation, conditioned on the threat and the false-positive budget
 
@@ -53,7 +53,7 @@ Hold-outs 4 and 7 are memory poisoning (false positives on untrusted-channel ben
 
 ## Pre-registered predictions
 
-38/45 held (CALIBRATED). Failed, reported in place: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4. After Holm correction across the 13 significance predictions, H6-4, R-1 no longer holds.
+39/47 held (CALIBRATED). Failed, reported in place: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4, P8-1. After Holm correction across the 15 significance predictions, H6-4, R-1, R6-1, P8-2 no longer holds.
 
 ## Not done, partial, or untested -- stated, not hidden
 
@@ -62,6 +62,7 @@ Hold-outs 4 and 7 are memory poisoning (false positives on untrusted-channel ben
 - Phase 10's risk-weighted monitoring: evaluated on development data -- it ranks the poison first in 39 of 43 listed cases (33.5 by default), but realistic review lists are about one item long, so it has little to do.
 - Conditional backdoors: untested on a clean hold-out so far (a base-model author produced 3/40 valid); hold-out 8 is built to test them.
 - MPBench's other four classes (command, compaction and skill-synthesis write channels) need a tool-using victim agent this architecture does not have: future work.
-- The human check of the judges has one annotator; a second is open.
+- The human check of the judges rests on 100 items and two annotators (agreement 95%, kappa 0.834; harm and mechanism labels near ceiling).
 - Hold-out 3 is retired after seven uses; its numbers are hold-out-informed where used.
+- Compliance judge: a majority vote of three judges matches the people at the human-to-human level (kappa 0.736), not significantly better than the original on 35 items; under it the frame's dev effect is 34.2 points (original judge 20.8). Compliance levels by the original judge are under-estimates.
 - No LICENSE: deliberately deferred by the owner.

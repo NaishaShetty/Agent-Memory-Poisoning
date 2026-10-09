@@ -1,28 +1,32 @@
 {
-  "n_predictions": 46,
-  "n_scored": 45,
-  "n_held": 38,
+  "n_predictions": 48,
+  "n_scored": 47,
+  "n_held": 39,
   "multiplicity": {
     "method": "Holm, one family: every scored prediction with a p<0.05 criterion",
-    "m": 13,
+    "m": 15,
     "adjusted": {
-      "H6-3": 4.16e-58,
-      "H4-2": 1.68e-13,
-      "R6-2": 3.19e-10,
-      "B-3": 4.8e-06,
-      "H5-5": 0.000198,
-      "L-1": 0.000608,
-      "H6-5": 0.0021,
-      "R6-1": 0.046799999999999994,
-      "H6-4": 0.11499999999999999,
-      "R-1": 0.124,
+      "H6-3": 4.8e-58,
+      "H4-2": 1.96e-13,
+      "R6-2": 3.77e-10,
+      "B-3": 5.759999999999999e-06,
+      "H5-5": 0.000242,
+      "L-1": 0.00076,
+      "H6-5": 0.0026999999999999997,
+      "R6-1": 0.0624,
+      "H6-4": 0.161,
+      "R-1": 0.186,
+      "P8-2": 0.186,
+      "P8-1": 0.224,
       "H5-6": 0.6900000000000001,
       "H6-6": 1.0,
       "R-4": 1.0
     },
     "held_but_not_surviving": [
       "H6-4",
-      "R-1"
+      "R-1",
+      "R6-1",
+      "P8-2"
     ]
   },
   "verdict": "CALIBRATED",
@@ -32,8 +36,8 @@
     "n_interval_held": 9,
     "mean_interval_width_points": 19.8,
     "widest": "H5-3",
-    "n_directional": 35,
-    "n_directional_held": 29,
+    "n_directional": 37,
+    "n_directional_held": 30,
     "misses": {
       "H5-3": 0.1
     },
@@ -95,7 +99,7 @@
       "status": "HELD",
       "evidence": "37.4% -> 18.3%, p=2.2e-05",
       "kind": "directional",
-      "holm_p": 0.000198
+      "holm_p": 0.000242
     },
     {
       "id": "H5-6",
@@ -139,7 +143,7 @@
       "status": "HELD",
       "evidence": "50.3% vs 20.4%, p=1.4e-14",
       "kind": "directional",
-      "holm_p": 1.68e-13
+      "holm_p": 1.96e-13
     },
     {
       "id": "H4-3",
@@ -231,7 +235,7 @@
       "status": "HELD",
       "evidence": "77.4% vs 37.2%, p=3.2e-59",
       "kind": "directional",
-      "holm_p": 4.16e-58
+      "holm_p": 4.8e-58
     },
     {
       "id": "H6-4",
@@ -239,7 +243,7 @@
       "status": "HELD",
       "evidence": "246 -> 227 of 500, p=0.023",
       "kind": "directional",
-      "holm_p": 0.11499999999999999
+      "holm_p": 0.161
     },
     {
       "id": "H6-6",
@@ -255,7 +259,7 @@
       "status": "HELD",
       "evidence": "64.8% -> 57.4%, p=0.0003",
       "kind": "directional",
-      "holm_p": 0.0021
+      "holm_p": 0.0026999999999999997
     },
     {
       "id": "H6-7",
@@ -347,7 +351,7 @@
       "status": "HELD",
       "evidence": "50.0% -> 13.3%, p=4.8e-07",
       "kind": "directional",
-      "holm_p": 4.8e-06
+      "holm_p": 5.759999999999999e-06
     },
     {
       "id": "B-4",
@@ -376,7 +380,7 @@
       "status": "HELD",
       "evidence": "22/48 -> 5/48, p=7.6e-05",
       "kind": "directional",
-      "holm_p": 0.000608
+      "holm_p": 0.00076
     },
     {
       "id": "L-2",
@@ -391,7 +395,7 @@
       "status": "HELD",
       "evidence": "88 -> 82 of 309, p=0.031",
       "kind": "directional",
-      "holm_p": 0.124
+      "holm_p": 0.186
     },
     {
       "id": "R-2",
@@ -421,7 +425,7 @@
       "status": "HELD",
       "evidence": "76 -> 68 of 309, p=0.0078",
       "kind": "directional",
-      "holm_p": 0.046799999999999994
+      "holm_p": 0.0624
     },
     {
       "id": "R6-2",
@@ -429,7 +433,7 @@
       "status": "HELD",
       "evidence": "99 -> 63 of 302, p=2.9e-11",
       "kind": "directional",
-      "holm_p": 3.19e-10
+      "holm_p": 3.77e-10
     },
     {
       "id": "R6-3",
@@ -444,6 +448,22 @@
       "status": "HELD",
       "evidence": "2.78 points",
       "kind": "directional"
+    },
+    {
+      "id": "P8-1",
+      "prediction": "the frame reduces direct-question usefulness on 600 new benign notes, p<0.05",
+      "status": "FAILED",
+      "evidence": "372 -> 349 of 600, p=0.056",
+      "kind": "directional",
+      "holm_p": 0.224
+    },
+    {
+      "id": "P8-2",
+      "prediction": "the frame reduces own-attack harm (pooled over original + new instances, amendment), p<0.05",
+      "status": "HELD",
+      "evidence": "123 -> 104 of 424, p=0.037 (new 175 alone: 53 -> 44, p_new 0.15)",
+      "kind": "directional",
+      "holm_p": 0.186
     }
   ]
 }

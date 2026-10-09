@@ -1,9 +1,9 @@
 {
-  "n": 76,
+  "n": 80,
   "counts": {
-    "favourable": 43,
-    "unfavourable": 26,
-    "open": 7
+    "favourable": 47,
+    "unfavourable": 27,
+    "open": 6
   },
   "classification_rule": "Written because a summary assembled from memory is where selective reporting creeps in. Each\nrow names the artifact it came from, so any line can be checked, and the classification rule is\napplied mechanically rather than by recollection:",
   "rows": [
@@ -318,7 +318,7 @@
     {
       "category": "favourable",
       "item": "Round-7 pre-registration scored mechanically",
-      "result": "38/45 held (CALIBRATED); failed: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4",
+      "result": "39/47 held (CALIBRATED); failed: H5-3, H5-6, H5-7, H6-6, H7-6, H7-7, R-4, P8-1",
       "artifact": "round7_predictions.json",
       "caveat": "failures stay in the table; one interval failed by 0.1 point and counts as failed"
     },
@@ -352,6 +352,13 @@
     },
     {
       "category": "favourable",
+      "item": "Frame's harm reduction re-tested with more data (P8-2)",
+      "result": "pooled 123 -> 104 of 424 (p=0.037); new 175 alone 53 -> 44 (p=0.15)",
+      "artifact": "power_rerun_harm.json",
+      "caveat": "pooled set includes the motivating sample; the new sample alone is not significant; effect ~4.5 points"
+    },
+    {
+      "category": "favourable",
       "item": "Neutralisation on a stronger agent (Phase B)",
       "result": "gemini 50.0% -> 13.3% (+36.7 pts) vs qwen +20.0 on the same 60 items",
       "artifact": "neutralise_strong_agent.json",
@@ -379,11 +386,25 @@
       "caveat": "one annotator who said YES on 80/100 items; the disagreement is one-sided (judges stricter). Harm LEVELS carry this caveat; reductions are more robust (same judge both arms); detection and FPR results do not use these judges"
     },
     {
-      "category": "open",
-      "item": "A second independent human annotator",
-      "result": "needed to separate 'the judges are strict' from 'one annotator's threshold is lower', and to measure human-to-human agreement",
-      "artifact": "docs/phase17/human_labels/",
-      "caveat": ""
+      "category": "unfavourable",
+      "item": "A better compliance judge: none found",
+      "result": "C0_current kappa 0.596; C1_llama31_rubric kappa 0.565; C2_mistral_original kappa 0.107; C3_mistral_rubric kappa 0.484 (consensus n=35; human ceiling ~0.731)",
+      "artifact": "compliance_judge_fix.json",
+      "caveat": "the rule's pick C1_llama31_rubric wins TEST by 1 item(s) and 0 over all consensus items; not scored: ['C4_gemini_original', 'C5_gemini_rubric']"
+    },
+    {
+      "category": "favourable",
+      "item": "A better-calibrated compliance judge (majority vote), and the frame's effect under it",
+      "result": "vote kappa 0.736 (89%) vs original 0.596 on 35 consensus items; dev frame effect 20.8 pts (original) vs 34.2 pts (vote), both significant",
+      "artifact": "compliance_judge_fix_round2.json, compliance_rejudged_dev.json",
+      "caveat": "vote vs original on 35 items not significant (5 fixed, 2 broken, p=0.45); vote over-calls slightly (25 vs 23 human YES), original under-calls (18); development data only"
+    },
+    {
+      "category": "favourable",
+      "item": "A second independent, blind annotator agrees with the first",
+      "result": "all items: 95% agreement, kappa 0.834; compliance kappa 0.731; harm and mechanism identical (near ceiling: harm YES 36/40, mechanism all YES); the original harm judge misses the same harms against both people, adopted judge J2 kappa 0.688",
+      "artifact": "human_label_agreement_annotator2.json",
+      "caveat": "the identical harm labels mean J2's check against annotator 2 replicates rather than independently re-tests its selection; 100 items only"
     },
     {
       "category": "favourable",
@@ -418,7 +439,7 @@
       "item": "The failed composition test holds when powered (hold-out 6)",
       "result": "B12 exclusion + neutralise-the-rest vs B12 alone: 246 -> 227 of 500, p=0.023",
       "artifact": "eval_round7b_holdouts.json",
-      "caveat": "adds nothing on top of B18; it helps a weak detector, not a strong one; holds at its pre-registered alpha but NOT after Holm correction across the round's 13 significance predictions (adjusted p=0.11)"
+      "caveat": "adds nothing on top of B18; it helps a weak detector, not a strong one; holds at its pre-registered alpha but NOT after Holm correction across the round's 15 significance predictions (adjusted p=0.16)"
     },
     {
       "category": "unfavourable",
@@ -440,6 +461,13 @@
       "result": "plan_week: 30.3% -> 32.0% (p=0.68); direct_question: 63.7% -> 58.7% (p=0.082)",
       "artifact": "neutralise_utility.json",
       "caveat": "300 benign notes, agent qwen2.5:7b; largest loss direct_question +5.0 points (p=0.082), one LLM judge"
+    },
+    {
+      "category": "favourable",
+      "item": "Frame's direct-question usefulness cost re-tested on 600 new notes (P8-1): no significant cost",
+      "result": "372 -> 349 of 600 (+3.8 points lost, p=0.056)",
+      "artifact": "power_rerun_utility.json",
+      "caveat": "p just above 0.05; combined 563 -> 525 of 900: a small consistent cost (~4 points), not proven; one LLM judge; development data"
     },
     {
       "category": "open",
