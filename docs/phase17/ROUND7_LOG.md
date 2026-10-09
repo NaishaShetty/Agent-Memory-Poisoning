@@ -692,3 +692,23 @@ ledger event, which a synthetic consolidation has none of -- disclosed, scoring 
 This is a new attack surface (laundering) with a measured defense (semantic containment), developed and
 measured on DEVELOPMENT data; it is not a clean-hold-out generalisation claim. Phase-checklist rows 7
 and 9 updated: Phase 7 is now exercised with real ancestors; Phase 9 ambiguity is now reachable.
+
+## R7-39 (2026-10-09): self-propagation and sleeper carried onto the clean hold-out (pre-registered)
+
+To make self-propagation and sleeper generalization claims rather than dev-only results, eval_holdout8
+gained two arms, each reusing existing tested code and each pre-registered (docs/phase17/
+HOLDOUT8_PLANNED_PREDICTIONS.md, drafted before HO8 is built):
+
+- derived_memory (L8-1, L8-2): consolidate each HO8 attack with the owner's memories, score payload
+  carry and lexical-vs-semantic propagation containment -- the generalization test for R7-38/Section 13D.
+- sleeper (S8-1 + a diagnostic): the genuine claim is that provenance (B13) catches the
+  conditional_backdoor family above FPR; the dedicated sleeper admission guard is run as a DIAGNOSTIC and
+  is expected ~0 on clean extracted text (Finding A), measured on fresh data rather than asserted. A
+  detector built from HO8's own construction patterns would be circular and is deliberately NOT used.
+
+Honest scope: the sleeper admission guard was not made more powerful tonight -- its structural limit
+(Finding A) is real and unchanged. What improved is the EVIDENCE: sleeper-shaped attacks are now shown,
+on a clean hold-out, to be caught by provenance, and the guard's limit is measured rather than only
+stated. Self-propagation genuinely improved (laundering attack + semantic containment fix, now
+generalization-tested). The guards still never fire in Phase 14's single-poison live pilot; that
+remains disclosed.
