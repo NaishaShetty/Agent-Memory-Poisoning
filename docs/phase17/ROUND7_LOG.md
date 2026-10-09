@@ -483,3 +483,13 @@ reset** rather than finalize as PARTIAL or enable billing.
 2. `python -m phase17.harm_judge_fix rejudge` (163 Gemini calls; everything else cached).
 3. `python scripts/finalize_round7.py`, then commit. No code change is planned, so the 2026-10-08
    audit (3,502 passed / 0 failed) stays valid; the verdict is then computed.
+
+## Owner decision (2026-10-09): re-tuning on the round-7 hold-outs is allowed
+
+The owner authorised re-tuning to improve the failed hold-out predictions (H5-x, H6-6, H7-6, H7-7,
+H6-4), a new approach to B13's 11.8-15.3% false positives on untrusted memory notes, and a
+conditional-backdoor hold-out authored once Gemini's quota returns. Conditions applied throughout:
+the original single-score results and pre-registered outcomes stay reported unchanged; every number
+from a re-tuned configuration is labelled HOLD-OUT-INFORMED at every point of use and is never
+presented as a clean generalisation estimate; hold-out 3 stays retired. Historical errors that were
+fixed stay as recorded.
