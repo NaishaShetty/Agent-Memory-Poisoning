@@ -619,11 +619,13 @@ verdict PENDING (harm re-judge incomplete). Gemini daily budget ~500 requests.
 2. `python -m phase17.harm_judge_fix rejudge` (163 Gemini calls).
 3. `python -m phase17.holdout8_corpus` (52 Gemini calls) -> inspect -> `--freeze`.
 4. `python -m phase17.holdout8_validity` (local: mistral mechanism judge, causal probe).
-5. Write addendum 7 in PREREGISTRATION_ROUND7.md: predictions, HO8 digest, `EQ frame: v1`, and the
-   neutralisation arms if `frame_instruction_dev.json` says `goes_to_holdout8` (R7-36). Commit BEFORE step 6.
-6. `python -m phase17.eval_holdout8` -- once.
+5. Write addendum 7 in PREREGISTRATION_ROUND7.md from docs/phase17/HOLDOUT8_PLANNED_PREDICTIONS.md:
+   HO8 digest, `EQ frame: v1`, L8-1/L8-2 (laundering+containment), S8-1 (provenance catches backdoors),
+   F8-1 (v6 frame). Commit BEFORE step 6.
+6. `python -m phase17.eval_holdout8` -- once. Now also scores derived_memory (L8-1/L8-2), sleeper
+   (S8-1 + diagnostic) and neutralisation (F8-1) arms; ~320 extra local calls for the laundering arm.
 7. Only if Gemini quota remains: `python -m phase17.compliance_judge_fix C4_gemini_original C5_gemini_rubric`.
-8. Write HO8 into the documents (13D), audit (`--all`, Git Bash), registry, `python scripts/finalize_round7.py`,
+8. Write HO8 into the documents (13D laundering generalization, sleeper, frames); update checklist rows 7/9, audit (`--all`, Git Bash), registry, `python scripts/finalize_round7.py`,
    verdict (32.63), commit.
 
 ## R7-36 (2026-10-09): an instruction-aware frame (v6), development result -- goes to hold-out 8
