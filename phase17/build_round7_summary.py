@@ -67,6 +67,12 @@ def build() -> str:
         w(f"4. **Retry-capable attackers: add the rejection ledger at radius {SW['recommended_radius']}.** "
           f"With B13 + evidence, adaptive evasion {LB['control_evasion']['k']}/{LB['n_seeds']} -> "
           f"{LB['ledger_evasion']['k']}/{LB['n_seeds']} (pre-registered, p={LB['paired_ledger_vs_control']['p_exact']:.2g}).")
+    CPr = L("rwr_campaign.json")
+    if CPr:
+        w(f"5. **Retrieval ranking: run the consensus guard with semantic divergence** (not its lexical "
+          f"default) -- against coordinated campaigns {CPr['exposure']['A0']['k']} -> {CPr['exposure']['A1s']['k']} "
+          f"of {CPr['n']} reach the agent, at {CPr['benign_displacement_points']['A1s']} points of benign "
+          f"displacement; inert against a single poison by design. Development data, not a hold-out.")
     w("")
 
     w("## Hold-outs 4-7, each frozen and scored once\n")

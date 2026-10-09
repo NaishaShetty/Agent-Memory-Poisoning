@@ -738,6 +738,17 @@ if FR6 and CP6 and find(startswith="32.61 Phase 10") is not None:
                 f"displacement.]",
                 contains="Pre-registration addendum 5. On the")
 
+CP5 = L("rwr_campaign.json")
+if CP5:
+    append_note("p_rec5_retrieval",
+                f"[(5) RETRIEVAL ranking (round 7, addendum 6): run the consensus guard with semantic divergence "
+                f"rather than its lexical default -- against coordinated campaigns any copy reached the agent "
+                f"{CP5['exposure']['A0']['k']} -> {CP5['exposure']['A1s']['k']} of {CP5['n']} "
+                f"(p={CP5['paired']['A1s_vs_A0']['p_exact']:.1g}) at {CP5['benign_displacement_points']['A1s']} points "
+                f"of benign displacement; the lexical default did nothing. Inert against a single poison by design. "
+                f"Development data and fresh stores, not a hold-out.]",
+                contains="(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger at radius")
+
 PUBV = L("publishability.json")
 if PUBV and PUBV["verdict"] != "PENDING" and section("32.62 Publishability Verdict"):
     body(f"Computed by phase17/publishability.py against the two-sided standard: {PUBV['verdict']}. "
