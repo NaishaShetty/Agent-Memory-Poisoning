@@ -93,6 +93,16 @@ def rows():
     add("favourable", "AgentPoison published records function once probed correctly",
         "0/6 -> 3/6 working, task-alone base rate 0; four prior readings were measurement error",
         "attack_validity_audit.json")
+    apt = _L("agentpoison_trigger_check.json")
+    if apt:
+        h = apt["harm"]
+        add("favourable", "AgentPoison trigger-absence also reached the harm study (confirmed, underpowered)",
+            f"undefended harm {h['control']['k']}/{apt['n']} -> {h['triggered']['k']}/{apt['n']} with the "
+            f"trigger in the question ({h['paired_triggered_vs_control']['only_a']} flips, 0 regressions, "
+            f"p={h['paired_triggered_vs_control']['p_exact']:.2g}); retrieved "
+            f"{apt['retrieved_with_poison']['triggered']}/{apt['n']} both arms",
+            "agentpoison_trigger_check.json",
+            "directional confirmation of the subversion-level finding; n=17, not independently significant")
     if vr:
         w = vr["families"]["memory_worm"]["heldout"]
         add("favourable", "memory_worm regeneration",

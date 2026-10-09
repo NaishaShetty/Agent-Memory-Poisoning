@@ -348,6 +348,18 @@ P("Three specific published conclusions change. The published AgentPoison record
   "measured without an opening. Third, Mosscap -- a headline hold-out column in this project's "
   "own summary table -- appeared in no audit and no register at all, which is precisely why the "
   "instability discussed in Section 6 could not previously be diagnosed.")
+_APT = L("agentpoison_trigger_check.json")
+if _APT:
+    _h = _APT["harm"]
+    P(f"The same trigger-absence error reached the harm study's AgentPoison subset, which asked its task "
+      f"without the trigger. Re-run through the identical pipeline with each instance's own trigger in the "
+      f"question, undefended harm moved {_h['control']['k']}/{_APT['n']} to {_h['triggered']['k']}/{_APT['n']} "
+      f"({pct(_h['control']['rate'])} to {pct(_h['triggered']['rate'])}): {_h['paired_triggered_vs_control']['only_a']} "
+      f"instances turned harmful and none the other way, but at n={_APT['n']} this is not significant "
+      f"(p={_h['paired_triggered_vs_control']['p_exact']:.2g}). The poison was retrieved in "
+      f"{_APT['retrieved_with_poison']['triggered']}/{_APT['n']} of both arms, so retrieval was never the "
+      f"limiter. It is reported as directionally consistent with the subversion finding above, not as an "
+      f"independent powered result.")
 
 # ============================================================================ 4
 H("4. RQ2 - Provenance-Aware Admission", 1)
