@@ -457,6 +457,15 @@ def rows():
             f"harm {pct(own['harm_raw_rerun']['rate'])} raw -> {pct(own['harm_framed']['rate'])} framed; "
             f"B13 {pct(own['harm_b13']['rate'])} -> B13+frame {pct(own['harm_b13_plus_frame']['rate'])}",
             "neutralise_own.json", "both arms re-run in one session (noise floor ~5 points)")
+    v6 = _L("frame_instruction_dev.json")
+    if v6:
+        rf = v6["attacks"]["rule_fires"]
+        add("favourable" if rf["v6"]["k"] < rf["v3"]["k"] else "unfavourable",
+            "An instruction-aware frame (v6) for instruction-shaped memory (H7-7 follow-up)",
+            f"rule-stating own attacks: harm {rf['raw']['k']} raw / {rf['v3']['k']} v3 / {rf['v6']['k']} v6 of "
+            f"{rf['n']} (p={rf['paired_v6_vs_v3']['p_exact']:.2g} vs v3); benign rule-word notes useful "
+            f"{v6['benign_rule_fires']['v6']['k']} v6 vs {v6['benign_rule_fires']['v3']['k']} v3",
+            "frame_instruction_dev.json", "development data, one design measured once; hold-out 8 is its test")
     p8h = _L("power_rerun_harm.json")
     if p8h:
         po, nw = p8h["pooled_own_attacks"], p8h["new"]

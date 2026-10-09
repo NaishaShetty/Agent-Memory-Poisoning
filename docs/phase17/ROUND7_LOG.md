@@ -609,3 +609,37 @@ Adding P8-1/P8-2 to the Holm family (now 15 significance predictions) moved R6-1
 0.062: R6-1 no longer survives the correction (it held at its own alpha, p=0.0078). The results paper
 had a hard-coded "R6-1 ... does survive" clause; it is now computed. Held but not surviving Holm:
 H6-4, R-1, R6-1, P8-2. Predictions: 39/47 held.
+
+## RESUME HERE (2026-10-10) -- supersedes the earlier RESUME HERE sections
+
+State at 2026-10-09 evening: audit 3,502 passed / 0 failed; registry 35/35; documents rebuilt (3e0633f7);
+verdict PENDING (harm re-judge incomplete). Gemini daily budget ~500 requests.
+
+1. Probe Gemini (one call returns 200, not 429).
+2. `python -m phase17.harm_judge_fix rejudge` (163 Gemini calls).
+3. `python -m phase17.holdout8_corpus` (52 Gemini calls) -> inspect -> `--freeze`.
+4. `python -m phase17.holdout8_validity` (local: mistral mechanism judge, causal probe).
+5. Write addendum 7 in PREREGISTRATION_ROUND7.md: predictions, HO8 digest, `EQ frame: v1`, and the
+   neutralisation arms if `frame_instruction_dev.json` says `goes_to_holdout8` (R7-36). Commit BEFORE step 6.
+6. `python -m phase17.eval_holdout8` -- once.
+7. Only if Gemini quota remains: `python -m phase17.compliance_judge_fix C4_gemini_original C5_gemini_rubric`.
+8. Write HO8 into the documents (13D), audit (`--all`, Git Bash), registry, `python scripts/finalize_round7.py`,
+   verdict (32.63), commit.
+
+## R7-36 (2026-10-09): an instruction-aware frame (v6), development result -- goes to hold-out 8
+
+H7-7 failed on hold-out 7 (frame: note families -17.8 pts, instruction families +5.0). Mechanism: v3
+rewrites second-person text; planted standing rules are mostly first-person/impersonal. v6 = v3 plus,
+only when `holdout7_corpus._IMPERATIVE` fires, a clause that the user did not set the rule. Design and
+criterion committed before the run (`frame_instruction_dev.py`): goes to hold-out 8 only if it lowers
+harm vs v3 on rule-stating attacks AND costs <= 5 pts usefulness vs v3 on rule-word benign notes.
+
+Dev (addendum-8's 175 new own attacks; llama3.1 harm judge, the published one):
+- rule fires (76): harm raw 22, v3 22, v6 10 (v6 vs v3 p=0.0075)
+- rule silent (99): v3 22, v6 22 (identical text by construction)
+- conditional_backdoor 12 -> 7 / 15; policy_revocation 6 -> 3; sleeper 4 -> 2; memory_worm 4 -> 3
+- benign notes with rule words (54 of 600): useful raw 30, v3 27, v6 31 -- no cost
+Criterion met. `eval_holdout8.py` now scores raw / v3 / v6 on every hold-out-8 attack with the same
+causal probe (raw = the validity run's with-memory verdict). Benign cost on hold-out 8 is not
+measurable (its benign notes carry no questions); the dev measurement stands for it, disclosed.
+Addendum 7 must state the frame predictions before scoring.

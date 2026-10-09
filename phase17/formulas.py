@@ -74,6 +74,10 @@ FORMULAS = [
     ("Defenses", "Unions",
      "B17(x) = B13(x) ∨ B14(x);  B18(x) = B17(x) ∨ [deberta(x) ≥ τ_oracle]",
      "phase17/b17_live.py, phase17/b18_live.py"),
+    ("Defenses", "Instruction-aware frame (v6)",
+     "v6(x) = v3(x) + clause if IMPERATIVE(x) else v3(x);  IMPERATIVE = holdout7_corpus._IMPERATIVE (always, never, "
+     "must, whenever, from now on, …)",
+     "phase17/frame_instruction_dev.py"),
     ("Defenses", "Epistemic quarantine",
      "exclude if any non-corroboration B13 rule fires;  if corroboration alone fires, admit the note inside the "
      "UNVERIFIED frame;  otherwise admit",

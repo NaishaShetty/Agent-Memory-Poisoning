@@ -534,6 +534,24 @@ if _CJ2 and _RJ:
        f"were, while the frame's REDUCTION holds under both judges and is larger under the better-calibrated one.") + "]",
                 contains="one annotator cannot separate the two")
 
+_V6 = L("frame_instruction_dev.json")
+if _V6:
+    upsert_note("p_32_60_v6", "[Instruction-aware frame (2026-10-09):",
+                "[Instruction-aware frame (2026-10-09): " + (f"Hold-out 7 showed the frame does nothing against instruction-shaped memory (H7-7 failed). The reason is "
+     f"mechanical: its rewrite targets second-person text, and a planted standing rule is usually first-person or "
+     f"impersonal. An instruction-aware variant (v6: the same frame, plus -- only when the note states a rule or "
+     f"trigger -- a clause that the user did not set it) was designed from that mechanism and tested once on "
+     f"development data under a criterion committed before the run. On the {_V6['attacks']['rule_fires']['n']} "
+     f"own attacks that state a rule, harm went {_V6['attacks']['rule_fires']['raw']['k']} raw, "
+     f"{_V6['attacks']['rule_fires']['v3']['k']} under the current frame and {_V6['attacks']['rule_fires']['v6']['k']} "
+     f"under v6 (p={_V6['attacks']['rule_fires']['paired_v6_vs_v3']['p_exact']:.2g} vs the current frame); conditional "
+     f"backdoors {_V6['by_family']['conditional_backdoor']['v3']} -> {_V6['by_family']['conditional_backdoor']['v6']} of "
+     f"{_V6['by_family']['conditional_backdoor']['n']}. On the {_V6['benign_rule_fires']['n']} benign notes containing "
+     f"rule words, usefulness was {_V6['benign_rule_fires']['v6']['k']} under v6 against "
+     f"{_V6['benign_rule_fires']['v3']['k']} under the current frame -- no cost. One design, measured once, on "
+     f"development data: hold-out 8 tests it" + (" (Section 13D)." if L("eval_holdout8.json") else ".")) + "]",
+                startswith="Utility: on ")
+
 # ---------------- epistemic quarantine, development (2026-10-09)
 _EQ = L("epistemic_quarantine_dev_v1.json")
 if _EQ:
