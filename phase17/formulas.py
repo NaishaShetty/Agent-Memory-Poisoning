@@ -74,6 +74,10 @@ FORMULAS = [
     ("Defenses", "Unions",
      "B17(x) = B13(x) ∨ B14(x);  B18(x) = B17(x) ∨ [deberta(x) ≥ τ_oracle]",
      "phase17/b17_live.py, phase17/b18_live.py"),
+    ("Defenses", "Generalized union defense",
+     "flag(M) = B13(M) OR anomaly(M);  generalizes across attack types because the detectors are "
+     "complementary (no single one covers all).  A type-router applies only one detector and does not beat it",
+     "phase17/union_defense_dev.py; phase17/eval_holdout8.py"),
     ("Defenses", "Planted-memory embedding anomaly (live sleeper signal, exploratory)",
      "outlier(M) = min_c ||e(M) - c||  over benign cluster centroids c (KMeans on benign);  flag if "
      "outlier >= tau_dev (10% benign FPR).  Catches dormant sleepers; content-independent; not "

@@ -347,6 +347,48 @@ def run() -> dict:
     out["neutralisation"] = _neutralisation(recs, val)
     out["derived_memory"] = _derived_memory(recs, list(A["B13"]))
     out["sleeper"] = _sleeper(recs, b8)
+    # Generalized union defense: B13 (already scored) OR the anomaly flag (from the sleeper arm).
+    _an = out["sleeper"].get("activation_anomaly")
+    if _an:
+        from phase17.stats import rate_with_ci as _rc
+        _b13a, _b13b = list(A["B13"]), list(B["B13"])
+        # recompute the anomaly per-item flags on attacks and benign at the HO8-fitted threshold
+        import numpy as _np
+        from sklearn.cluster import KMeans as _KM
+
+        from phase17.query_trigger_signal import benign_cluster_outlier_scores as _oc
+        from phase17.semantic_detector import _embed as _emb
+        _bf, _be = b8[0::2], b8[1::2]
+        _km = _KM(n_clusters=8, n_init=10, random_state=17).fit(_emb(_bf))
+        _oa = _oc([r.text for r in recs], _km.cluster_centers_)
+        _ob = _oc(_be, _km.cluster_centers_)
+        _thr = float(_np.percentile(_ob, 99))        # 99th pct: the improved operating point (R7-42)
+        _anom_a = _oa >= _thr
+        _b13b_eval = [_b13b[i] for i in range(1, len(b8), 2)]
+        _anom_b_eval = (_ob >= _thr)
+        # supervised member: trained on DEV attacks vs benign, applied to HO8 -- the transfer test
+        from phase17.epistemic_quarantine import _dev_sets
+        from phase17.semantic_detector import EmbeddingDetector
+        _dr, _, _db, _, _ = _dev_sets()
+        _det = EmbeddingDetector(c=1.0)
+        _det.fit([r.text for r in _dr], list(_db))
+        _sem_a = _np.array(_det.flags([r.text for r in recs]))
+        _sem_b_eval = _np.array(_det.flags(_be))
+        _u2a = [bool(_b13a[i] or _anom_a[i]) for i in range(len(recs))]
+        _u2b = [bool(_b13b_eval[i] or _anom_b_eval[i]) for i in range(len(_be))]
+        _u3a = [bool(_u2a[i] or _sem_a[i]) for i in range(len(recs))]
+        _u3b = [bool(_u2b[i] or _sem_b_eval[i]) for i in range(len(_be))]
+        out["union_defense"] = {
+            "union2_B13_or_anomaly": {"recall": _rc(sum(_u2a), len(recs)),
+                                      "benign_fpr_eval_half": _rc(sum(_u2b), len(_be))},
+            "union3_plus_supervised": {"recall": _rc(sum(_u3a), len(recs)),
+                                       "benign_fpr_eval_half": _rc(sum(_u3b), len(_be))},
+            "b13_recall": _rc(sum(bool(x) for x in _b13a), len(recs)),
+            "anomaly_recall_pct99": _rc(int(_anom_a.sum()), len(recs)),
+            "supervised_recall": _rc(int(_sem_a.sum()), len(recs)),
+            "note": "generalized defense (U-1). union2 = B13 OR cluster-outlier anomaly (99th pct, "
+                    "unsupervised). union3 also OR a supervised detector trained on DEV (transfer test). "
+                    "FPR on eval-half benign; review-queue posture."}
     fams = sorted({r.family for r in recs})
     out["recall_by_family"] = {f: {c: f"{sum(x for x, r in zip(A[c], recs) if r.family == f)}/"
                                       f"{sum(r.family == f for r in recs)}" for c in ("B12", "B13", "B14", "B17")}

@@ -467,6 +467,28 @@ def rows():
             f"harm {pct(own['harm_raw_rerun']['rate'])} raw -> {pct(own['harm_framed']['rate'])} framed; "
             f"B13 {pct(own['harm_b13']['rate'])} -> B13+frame {pct(own['harm_b13_plus_frame']['rate'])}",
             "neutralise_own.json", "both arms re-run in one session (noise floor ~5 points)")
+    ud = _L("union_defense_dev.json")
+    if ud:
+        de = ud["detectors"]
+        add("favourable", "A generalized UNION defense beats every single detector across all attack types",
+            f"recall B13 {de['B13_provenance']['recall']['rate']:.0%} / anomaly "
+            f"{de['anomaly_cluster_outlier']['recall']['rate']:.0%} / UNION "
+            f"{de['union_B13_or_anomaly']['recall']['rate']:.0%} at {de['union_B13_or_anomaly']['fpr']['rate']:.0%} FPR "
+            f"(dev); per-group union recall provenance "
+            f"{ud['by_group_recall_test']['provenance']['union']['rate']:.0%}, sleeper "
+            f"{ud['by_group_recall_test']['sleeper']['union']['rate']:.0%}, propagation "
+            f"{ud['by_group_recall_test']['propagation']['union']['rate']:.0%}",
+            "union_defense_dev.json", "a precise supervised detector (71% at 0.4% FPR) lets the noisy anomaly "
+            "threshold tighten: union3 reaches 89% recall at 10% FPR with 72% propagation (vs the 2-way union's "
+            "88%/17%/68%) -- FPR and propagation BOTH improved; supervised member has an HO8 transfer caveat; "
+            "all-unsupervised fallback 82%/10%/62%; pre-registered for HO8 (U-1)")
+        add("unfavourable" if not ud["U-2_router_earns_place"] else "favourable",
+            "An attack-type ROUTER does not beat the union",
+            f"router recall {de['router']['recall']['rate']:.0%} at {de['router']['fpr']['rate']:.0%} FPR vs union "
+            f"{de['union_B13_or_anomaly']['recall']['rate']:.0%}/{de['union_B13_or_anomaly']['fpr']['rate']:.0%}; "
+            f"group-classification accuracy only {ud['router_group_accuracy_test']:.0%}",
+            "union_defense_dev.json", "routing trades recall for precision but cannot match the union -- "
+            "attack-type classification is itself error-prone; honest conclusion: run the union")
     sal = _L("sleeper_activation_live.json")
     if sal:
         co = sal["features"]["cluster_outlier"]; pk = sal["features"]["peak"]

@@ -748,3 +748,26 @@ detector), and 10% benign FPR is a review-queue posture, not admission control. 
 sleepers that the dedicated content guard cannot (Finding A, ~0), content-independently and without any
 construction-pattern circularity. S8-2 upgraded to cluster-outlier (primary) for HO8; spikiness kept as
 secondary. Provenance (B13) remains the primary sleeper defense; this is a second, independent net.
+
+## R7-41 (2026-10-09): the generalized UNION defense, and the router that does not beat it
+
+Dev (own attacks 804, benign 1054, 50/50 train/test). Each specialized detector is strong on its own
+attack type and weak elsewhere; the honest generalized defense is their UNION, no attack-type
+classification needed. Test-split recall/FPR:
+- B13 (provenance) 58% / 8%; anomaly (cluster-outlier) 74% / 11%; UNION(B13 OR anomaly) 88% / 17% (U-1 holds).
+- Per group the union dominates: provenance 92%, sleeper 90%, propagation 68% -- the detectors are
+  complementary (B13 and anomaly catch different attacks).
+- ROUTER (LR group-classifier -> apply that group's detector): 50% / 0%. Its group accuracy is only 62%,
+  so it misroutes and loses recall; it is a high-precision alternative, NOT a win (U-2 fails). Honest
+  conclusion: run the union, do not route.
+
+## R7-42 (2026-10-09): reducing union FPR and lifting propagation together
+
+Owner: reduce FPR, raise propagation. A supervised embedding detector (EmbeddingDetector, trained on
+train-split attacks vs benign) is very precise: 71% recall at 0.4% FPR. Adding it as a third union
+member lets the noisy anomaly threshold tighten without losing recall:
+- union3 (B13 OR anomaly@99th-pct OR semantic) = 89% recall, 10.2% FPR, propagation 72%
+  -- vs the 2-way union's 88% / 17% / 68%: FPR AND propagation both improved, recall steady.
+Caveat, disclosed: the semantic member is supervised on dev families, so its HO8 transfer is the real
+test; the all-unsupervised fallback (union2 @ 99th pct) is 82% / 10% / 62%. HO8 union arm uses union3 at
+the 99th percentile; both the supervised and unsupervised numbers are reported there.
