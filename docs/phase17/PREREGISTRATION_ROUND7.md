@@ -236,3 +236,23 @@ without poison, as before. Nothing is fitted.
 | R6-2 | campaign: A1s exposes less than A0 | exact McNemar, p < 0.05 |
 | R6-3 | campaign: A1 (lexical) reduces exposure less than A1s | directional (fewer seeds removed) |
 | R6-4 | campaign: A1s benign displacement within 5 points of A0 (0) | interval |
+
+## Addendum 8 (2026-10-09, committed before the run): two inconclusive frame effects, re-tested with more data
+
+Two effects were inconclusive at their sample sizes: the frame's usefulness cost on benign notes'
+direct questions (191 -> 176 of 300, -5.0 points, p=0.082) and its reduction of own-attack harm
+(89 -> 76 of 309, p=0.098). Each is re-tested on a NEW, DISJOINT sample with the identical
+procedure (`phase17/power_reruns.py`): same agent, judge, store, frame (v3_depersonalise), question
+generator and harm judge (the published llama3.1 judge, for comparability). Development data only.
+
+  utility  600 benign notes from the same pool, excluding the original 300 (seed 62); the
+           direct-question task only (plan_week showed no loss: +1.7 points)
+  harm     new own-attack instances from the harm study's own generator (seed 18), excluding the
+           original 309 ids, fixed per-family tasks and retrieval exactly as published
+
+| id | prediction | test |
+|---|---|---|
+| P8-1 | the frame reduces direct-question usefulness on the new 600 notes | exact McNemar, p < 0.05 |
+| P8-2 | the frame reduces own-attack harm on the new instances | exact McNemar, p < 0.05 |
+
+Both are reported whichever way they go; the original and combined figures are reported beside them.
