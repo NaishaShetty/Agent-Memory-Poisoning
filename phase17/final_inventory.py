@@ -467,6 +467,28 @@ def rows():
             f"harm {pct(own['harm_raw_rerun']['rate'])} raw -> {pct(own['harm_framed']['rate'])} framed; "
             f"B13 {pct(own['harm_b13']['rate'])} -> B13+frame {pct(own['harm_b13_plus_frame']['rate'])}",
             "neutralise_own.json", "both arms re-run in one session (noise floor ~5 points)")
+    dm = _L("derived_memory_eval.json")
+    if dm:
+        hx = dm["harm_on_b13_excluded"]
+        add("unfavourable", "Laundering: a poison B13 excludes returns through a consolidated summary",
+            f"{dm['payload_carried']['k']}/{dm['n']} summaries carry the payload; on the {dm['n_b13_excluded']} "
+            f"B13-excluded instances, harm {hx['B13']['k']} -> {hx['B13+D']['k']} when the summary is served "
+            f"(p={hx['paired_laundering_vs_B13']['p_exact']:.1g})",
+            "derived_memory_eval.json", "development data; consolidation is a real bypass of provenance exclusion")
+        add("favourable", "Semantic propagation-containment stops laundering where the lexical guard cannot",
+            f"lexical withholds {dm['withheld_payload_carrying']['lexical']['k']}/{dm['withheld_payload_carrying']['lexical']['n']} "
+            f"payload summaries (harm {hx['B13+D']['k']} -> {hx['B13+D+lexical']['k']}, p={hx['paired_lexical_vs_laundering']['p_exact']:.1g}); "
+            f"semantic withholds {dm['withheld_payload_carrying']['semantic']['k']} (harm -> {hx['B13+D+semantic']['k']}, "
+            f"p={hx['paired_semantic_vs_laundering']['p_exact']:.1g})",
+            "derived_memory_eval.json",
+            f"collateral {dm['collateral_benign_false_positives']['semantic']['k']}/{dm['collateral_benign_false_positives']['n']} "
+            f"benign summaries withheld; the frozen guard's own scoring functions, lexical->semantic retention; dev data")
+        ph9 = dm["phase9_backward_chain"]
+        add("favourable", "Phase 9 lineage ambiguity is now reachable and measured (was 'unreachable by design')",
+            f"{ph9['n_harmful_laundered']} harmful laundered answers; {ph9['answer_traced_to_derived']['k']} trace to the "
+            f"derived memory; content-only origin correct {ph9['origin_correct_content_only']['k']}/{ph9['n_harmful_laundered']}, "
+            f"ambiguous {ph9['ambiguous_content_only']['k']}",
+            "derived_memory_eval.json", "state-informed attribution unique by construction; content-only is the ambiguous case")
     v6 = _L("frame_instruction_dev.json")
     if v6:
         rf = v6["attacks"]["rule_fires"]

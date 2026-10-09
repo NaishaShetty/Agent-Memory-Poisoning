@@ -552,6 +552,24 @@ if _V6:
      f"development data: hold-out 8 tests it" + (" (Section 13D)." if L("eval_holdout8.json") else ".")) + "]",
                 startswith="Utility: on ")
 
+_DM = L("derived_memory_eval.json")
+if _DM:
+    _hx = _DM["harm_on_b13_excluded"]
+    upsert_note("p_32_60_derived", "[Derived memory (2026-10-09):",
+                f"[Derived memory (2026-10-09): consolidation (an LLM summary of recent memories) launders a "
+                f"poison past provenance -- on the {_DM['n_b13_excluded']} instances B13 excludes, serving the "
+                f"summary returns harm {_hx['B13']['k']}->{_hx['B13+D']['k']} (p={_hx['paired_laundering_vs_B13']['p_exact']:.1g}). "
+                f"The propagation containment guard's lexical lineage-taint barely acts ({_hx['B13+D+lexical']['k']}, "
+                f"p={_hx['paired_lexical_vs_laundering']['p_exact']:.1g}); a semantic retention measure in the same "
+                f"guard cuts it to {_hx['B13+D+semantic']['k']} (p={_hx['paired_semantic_vs_laundering']['p_exact']:.1g}), "
+                f"collateral {_DM['collateral_benign_false_positives']['semantic']['k']}/{_DM['collateral_benign_false_positives']['n']} "
+                f"benign. First real exercise of Phase 7's guard (Phase 14's pilot wrote no derived memories) and of "
+                f"Phase 9's backward chain, whose content-only origin attribution is ambiguous in "
+                f"{_DM['phase9_backward_chain']['ambiguous_content_only']['k']} of "
+                f"{_DM['phase9_backward_chain']['n_harmful_laundered']} -- the ambiguity previously called "
+                f"unreachable. Development data. Results paper, Section 13D.]",
+                startswith="Utility: on ")
+
 # ---------------- epistemic quarantine, development (2026-10-09)
 _EQ = L("epistemic_quarantine_dev_v1.json")
 if _EQ:

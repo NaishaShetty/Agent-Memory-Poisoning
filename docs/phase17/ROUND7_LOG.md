@@ -662,3 +662,33 @@ subversion-level finding, but n=17 cannot establish it. Reported as directional 
 powered result; the harm study's headline numbers are unchanged (AgentPoison stays out of headline
 claims, benchmark card). No attempt was made to reach significance by enlarging or re-selecting the
 sample -- that would be fishing; the honest reading is "underpowered, directionally positive".
+
+## R7-38 (2026-10-09): derived memory -- laundering through consolidation, and a semantic containment fix
+
+First time Phase 7's propagation containment guard is exercised with REAL ancestors, and Phase 9's
+backward chain with a real chain. Phase 14's live pilot never wrote derived memories, so both were
+dormant; real memory systems consolidate (an LLM summarises recent memories into one). Design and
+expectations D-1..D-4 committed before the run (`derived_memory_eval.py`). 249 own-attack instances,
+same store/retriever/agent/judge as harm_study_v2; the containment math is the frozen guard's own
+`_action_for_score`/`SEVERITY`/`distance_decay` (the MGPDecisionRecord wrapper needs a real Phase 5
+ledger event, which a synthetic consolidation has none of -- disclosed, scoring functions used directly).
+
+- Payload survives consolidation (D-1): 148/249 summaries repeat the poison's claim; 102/161 on the
+  B13-excluded instances where laundering is the question.
+- Laundering is real (D-2): on the 161 instances B13 excludes (harm 0 by convention), serving the
+  derived summary instead gives 33/161 harmful (p=2.3e-10). Provenance excludes the poison; the summary
+  carries it back.
+- The guard as built does nothing (D-3): lexical lineage-taint withholds 2 of 102 payload-carrying
+  summaries; harm 33 -> 31 (p=0.5). A summary is a paraphrase -- token overlap with its poison ancestor
+  is low, so Jaccard retention is near zero.
+- A semantic retention measure fixes it (D-4): cosine (all-MiniLM-L6-v2, the same lexical->semantic
+  swap as Phase 6's B2s-B8s) withholds 76 of 102; harm 33 -> 10 (p=2.4e-07). Collateral on 79 benign
+  corroboration-only false positives: semantic withholds 4, lexical 0.
+- Phase 9 backward chain on the 33 harmful laundered answers: 30 trace to the derived memory; content-only
+  origin attribution picks the poison ancestor in 16/33 and is ambiguous (top-2 cosine within 0.05) in 4
+  -- the lineage ambiguity previously called unreachable, now reached and measured. State-informed
+  attribution is unique by construction (the poison is the only tainted ancestor), reported as such.
+
+This is a new attack surface (laundering) with a measured defense (semantic containment), developed and
+measured on DEVELOPMENT data; it is not a clean-hold-out generalisation claim. Phase-checklist rows 7
+and 9 updated: Phase 7 is now exercised with real ancestors; Phase 9 ambiguity is now reachable.

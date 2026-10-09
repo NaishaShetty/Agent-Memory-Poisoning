@@ -1495,6 +1495,48 @@ if _V6:
      f"rule words, usefulness was {_V6['benign_rule_fires']['v6']['k']} under v6 against "
      f"{_V6['benign_rule_fires']['v3']['k']} under the current frame -- no cost. One design, measured once, on "
      f"development data: hold-out 8 tests it" + (" (Section 13D)." if L("eval_holdout8.json") else "."))
+_DM = L("derived_memory_eval.json")
+if _DM:
+    _hx = _DM["harm_on_b13_excluded"]
+    H("13D. Derived Memory: Laundering Through Consolidation, and a Semantic Containment Fix", 2)
+    P(f"Every result so far treats each poison as a standalone memory. Real memory systems consolidate: "
+      f"an LLM periodically summarises recent memories into a new one. This is the first measurement of "
+      f"what that does to a poison, and it exercises two components Phase 14's live pilot never reached -- "
+      f"the propagation containment guard (no derived memories were ever written, so it had no ancestors) "
+      f"and the backward-chain origin attribution. On this project's {_DM['n']} own-attack instances "
+      f"(development data; same store, retriever, agent and harm judge as the harm study), "
+      f"{_DM['payload_carried']['k']} of {_DM['n']} consolidated summaries repeat the poison's claim.")
+    P(f"The consequence is a bypass of provenance. On the {_DM['n_b13_excluded']} instances B13 correctly "
+      f"excludes -- harm zero by the study's own convention -- serving the consolidated summary instead "
+      f"returns the payload: undefended harm {_hx['B13']['k']} to {_hx['B13+D']['k']} of {_DM['n_b13_excluded']} "
+      f"(p={_hx['paired_laundering_vs_B13']['p_exact']:.1g}). The propagation containment guard as built "
+      f"does almost nothing about it: its lexical lineage-taint withholds "
+      f"{_DM['withheld_payload_carrying']['lexical']['k']} of {_DM['withheld_payload_carrying']['lexical']['n']} "
+      f"payload-carrying summaries ({_hx['B13+D']['k']} to {_hx['B13+D+lexical']['k']}, "
+      f"p={_hx['paired_lexical_vs_laundering']['p_exact']:.1g}), because a summary is a paraphrase and shares "
+      f"few tokens with its source. Substituting a semantic retention measure into the same guard "
+      f"(sentence-embedding cosine, the same lexical-to-semantic swap as Phase 6's B2s-B8s) withholds "
+      f"{_DM['withheld_payload_carrying']['semantic']['k']} and cuts harm to {_hx['B13+D+semantic']['k']} "
+      f"(p={_hx['paired_semantic_vs_laundering']['p_exact']:.1g}), at a collateral cost of "
+      f"{_DM['collateral_benign_false_positives']['semantic']['k']} of "
+      f"{_DM['collateral_benign_false_positives']['n']} benign corroboration-only summaries withheld.")
+    TBL([["Policy on a B13-excluded poison", "Harmful of " + str(_DM['n_b13_excluded'])],
+         ["B13 excludes it (study convention)", str(_hx["B13"]["k"])],
+         ["+ consolidation serves the summary (laundering)", str(_hx["B13+D"]["k"])],
+         ["+ lexical propagation containment", str(_hx["B13+D+lexical"]["k"])],
+         ["+ semantic propagation containment", str(_hx["B13+D+semantic"]["k"])]])
+    _p9 = _DM["phase9_backward_chain"]
+    CAP("Table 22. Laundering through consolidation on the B13-excluded instances, and the containment "
+        "guard's lexical vs semantic retention. Source: phase17/data/derived_memory_eval.json.")
+    P(f"The backward chain, run on the {_p9['n_harmful_laundered']} harmful laundered answers, traces "
+      f"{_p9['answer_traced_to_derived']['k']} to the derived memory and then to an ancestor. Content-only "
+      f"origin attribution names the poison ancestor in {_p9['origin_correct_content_only']['k']} of "
+      f"{_p9['n_harmful_laundered']} and is ambiguous (its top two ancestors within "
+      f"{_p9['ambiguity_margin']} cosine) in {_p9['ambiguous_content_only']['k']} -- the lineage ambiguity "
+      f"this project had reported as unreachable by design is, under consolidation, reachable and now "
+      f"measured. With taint states the poison is the only tainted ancestor, so state-informed "
+      f"attribution is unique by construction. This is a development result on a new attack surface, not "
+      f"a clean-hold-out generalisation claim.")
 _P8U = L("power_rerun_utility.json")
 if _UT and _P8U:
     P(f"Re-tested with more data (addendum 8): on {_P8U['n_new']} NEW benign notes the direct-question "

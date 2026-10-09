@@ -74,6 +74,10 @@ FORMULAS = [
     ("Defenses", "Unions",
      "B17(x) = B13(x) ∨ B14(x);  B18(x) = B17(x) ∨ [deberta(x) ≥ τ_oracle]",
      "phase17/b17_live.py, phase17/b18_live.py"),
+    ("Defenses", "Propagation containment: lineage taint (lexical / semantic)",
+     "taint(D) = max_a SEVERITY(state_a) * decay(dist_a) * retention(D, a);  retention = Jaccard tokens "
+     "(lexical, as built) or embedding cosine (semantic);  action by the same bands as the risk score",
+     "phase6/defense/propagation/containment_guard.py; phase17/derived_memory_eval.py (semantic)"),
     ("Defenses", "Instruction-aware frame (v6)",
      "v6(x) = v3(x) + clause if IMPERATIVE(x) else v3(x);  IMPERATIVE = holdout7_corpus._IMPERATIVE (always, never, "
      "must, whenever, from now on, …)",
