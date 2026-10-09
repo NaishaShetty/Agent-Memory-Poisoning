@@ -1412,6 +1412,34 @@ if _RW:
       f"Risk-weighted monitoring (ordering forensic targets) remains built and tested but not evaluated: "
       f"it orders a human's triage queue and has no outcome this benchmark measures.")
 
+_FR, _CP = L("rwr_fresh_replication.json"), L("rwr_campaign.json")
+if _FR:
+    _fe, _fp = _FR["exposure"], _FR["paired"]
+    P(f"Replication on fresh stores (pre-registration addendum 6: LoCoMo conversations no phase-17 "
+      f"measurement had used). Corroboration's gain replicated: {_fe['A1']['k']} -> {_fe['A3']['k']} of "
+      f"{_FR['n']} against the fixed gate (+{_fp['A3_vs_A1']['only_a']}/-{_fp['A3_vs_A1']['only_b']}, "
+      f"p={_fp['A3_vs_A1']['p_exact']:.2g}), so across the two independent store sets it removes the poison "
+      f"from the context in {_RW['paired_A3_vs_A1']['only_b'] + _fp['A3_vs_A1']['only_b'] if _RW else '-'} cases "
+      f"and adds it in none. The lexical fixed gate again did nothing ({_fe['A0']['k']} -> {_fe['A1']['k']}); "
+      f"the semantic gate, pre-specified as an arm but carrying no prediction, did act on these stores "
+      f"({_fe['A0']['k']} -> {_fe['A1s']['k']}, p={_fp['A1s_vs_A0']['p_exact']:.2g}, at "
+      f"{_FR['benign_displacement_points']['A1s']} points of benign displacement) where on the original "
+      f"stores it had not -- so its single-poison benefit is store-dependent, and is reported as such.")
+if _CP:
+    _ce, _cq = _CP["exposure"], _CP["paired"]
+    P(f"The consensus guard on the threat it was built for (addendum 6). The guard flags clusters of "
+      f"near-duplicate memories, and a single planted poison is never a cluster -- the diagnosis behind "
+      f"R-4's failure. With each poison planted alongside two NLI-validated paraphrases (a coordinated "
+      f"campaign; {_CP['n']} instances, {_CP['n_excluded_too_few_paraphrases']} excluded for lacking two "
+      f"valid paraphrases), any copy reached the agent in {_ce['A0']['k']} cases undefended, "
+      f"{_ce['A1']['k']} under the lexical gate and {_ce['A1s']['k']} under the semantic gate "
+      f"(p={_cq['A1s_vs_A0']['p_exact']:.2g} against none), at "
+      f"{_CP['benign_displacement_points']['A1s']} points of benign displacement; with corroboration, "
+      f"{_ce['A3s']['k']}. Read together: the retrieval guard is inert against a single poison and "
+      + ("effective against a coordinated campaign once its divergence is semantic."
+         if _cq['A1s_vs_A0']['p_exact'] < 0.05 and _cq['A1s_vs_A0']['only_b'] > _cq['A1s_vs_A0']['only_a']
+         else "not measurably effective against a coordinated campaign either; the negative stands."))
+
 if _H6C and _E67:
     _w = _H6C["per_item_working"]
     _a6 = _E67["holdouts"]["holdout6"]["raw"]["attack"]
@@ -1556,6 +1584,9 @@ for name, what, present in [
     ("adaptive_ledger_exploratory.json", "EXPLORATORY: would the ledger block the adaptive evasions", bool(L("adaptive_ledger_exploratory.json"))),
     ("adaptive_ledger_b13.json", "Ledger composed with corroboration, adaptive attacker (addendum 4)", bool(L("adaptive_ledger_b13.json"))),
     ("risk_weighted_retrieval_eval.json", "Phase 10 risk-weighted retrieval ranking, first evaluation (addendum 5)", bool(L("risk_weighted_retrieval_eval.json"))),
+    ("rwr_semantic_exploratory.json", "EXPLORATORY: semantic divergence on the original stores", bool(L("rwr_semantic_exploratory.json"))),
+    ("rwr_fresh_replication.json", "Fresh-store replication (addendum 6)", bool(L("rwr_fresh_replication.json"))),
+    ("rwr_campaign.json", "Consensus guard against coordinated campaigns (addendum 6)", bool(L("rwr_campaign.json"))),
 ]:
     idx.append([name, what, "yes" if present else "NOT YET RUN"])
 TBL(idx)

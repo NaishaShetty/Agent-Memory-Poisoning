@@ -136,6 +136,12 @@ def build() -> str:
           f"it keeps the poison out of the agent's context in {e['A1']['k'] - e['A3']['k']} more of {RW['n']} cases "
           f"than the fixed-gate guard (p={RW['paired_A3_vs_A1']['p_exact']:.2g}), at no benign cost; the fixed gate "
           f"itself barely acts on realistic stores ({e['A0']['k']} -> {e['A1']['k']}).")
+    CP = L("rwr_campaign.json")
+    if CP:
+        e = CP["exposure"]
+        w(f"- **The retrieval consensus guard works on the threat it was built for:** against coordinated "
+          f"campaigns (poison + 2 paraphrases) any copy reached the agent {e['A0']['k']} -> {e['A1s']['k']} of "
+          f"{CP['n']} with semantic divergence (lexical: {e['A1']['k']}); against a single poison it is inert.")
     w("- **Full-population recall can mislead in either direction:** on hold-out 6 the attacks that work "
       "are harder to detect; on hold-outs 4 and 5 they are easier for B13. Both denominators are reported.")
     w("")

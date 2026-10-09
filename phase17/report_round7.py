@@ -252,6 +252,29 @@ def predictions() -> List[Dict]:
     else:
         for pid in ("R-1", "R-2", "R-3", "R-4"):
             pend(pid, "risk-weighted retrieval")
+    fr, cp = L("rwr_fresh_replication.json"), L("rwr_campaign.json")
+    if fr:
+        q = fr["paired"]["A3_vs_A1"]
+        ok = q["only_b"] > q["only_a"] and q["p_exact"] < 0.05
+        add("R6-1", "fresh stores: risk-weighted + corroboration exposes less than the fixed gate, p<0.05 (replicates R-1)",
+            "HELD" if ok else "FAILED",
+            f"{fr['exposure']['A1']['k']} -> {fr['exposure']['A3']['k']} of {fr['n']}, p={q['p_exact']:.2g}")
+    else:
+        pend("R6-1", "fresh replication")
+    if cp:
+        e, q = cp["exposure"], cp["paired"]["A1s_vs_A0"]
+        ok = q["only_b"] > q["only_a"] and q["p_exact"] < 0.05
+        add("R6-2", "campaign: the semantic fixed gate exposes less than no defense, p<0.05",
+            "HELD" if ok else "FAILED", f"{e['A0']['k']} -> {e['A1s']['k']} of {cp['n']}, p={q['p_exact']:.2g}")
+        r1, r1s = e["A0"]["k"] - e["A1"]["k"], e["A0"]["k"] - e["A1s"]["k"]
+        add("R6-3", "campaign: the lexical gate removes fewer exposures than the semantic gate",
+            "HELD" if r1 < r1s else "FAILED", f"lexical {r1} vs semantic {r1s}")
+        d = cp["benign_displacement_points"]["A1s"]
+        add("R6-4", "campaign: semantic gate benign displacement <= 5 points", "HELD" if d <= 5 else "FAILED",
+            f"{d} points")
+    else:
+        for pid in ("R6-2", "R6-3", "R6-4"):
+            pend(pid, "campaign")
     return out
 
 

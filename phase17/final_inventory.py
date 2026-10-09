@@ -641,7 +641,8 @@ def rows():
             f"p={rw['paired_A3_vs_A1']['p_exact']:.2g}; benign displacement {rw['benign_displacement_points']['A3']} points",
             "risk_weighted_retrieval_eval.json",
             f"narrow: admission signals fired on the poison in {dg['instances_admission_fired_on_poison']}/{rw['n']} "
-            f"instances; dev only; not robust to a family-wide Holm correction")
+            f"instances; dev only; not robust to a family-wide Holm correction on its own -- see the "
+            f"fresh-store replication row")
         add("unfavourable", "Phase 6's fixed-gate retrieval guard barely changes what reaches the agent",
             f"exposure {e['A0']['k']} -> {e['A1']['k']} of {rw['n']} (p={rw['paired_A1_vs_A0']['p_exact']:.2g}); "
             f"lexical divergence positive for only {dg['candidates_with_divergence_positive']} candidates",
@@ -649,6 +650,24 @@ def rows():
         add("open", "Phase 10 risk-weighted monitoring (forensic ordering) not evaluated",
             "built and unit-tested; orders a human triage queue", "-",
             "no outcome this benchmark measures")
+    fr, cp = _L("rwr_fresh_replication.json"), _L("rwr_campaign.json")
+    if fr:
+        q = fr["paired"]["A3_vs_A1"]
+        add("favourable" if q["p_exact"] < 0.05 and q["only_b"] > q["only_a"] else "unfavourable",
+            "Corroborated risk-weighted retrieval replicates on fresh stores (pre-registered R6-1)",
+            f"{fr['exposure']['A1']['k']} -> {fr['exposure']['A3']['k']} of {fr['n']}, +{q['only_a']}/-{q['only_b']}, "
+            f"p={q['p_exact']:.2g}", "rwr_fresh_replication.json",
+            "LoCoMo conversations 2/3/4/9, unused by any other phase-17 measurement; dev poisons")
+    if cp:
+        q = cp["paired"]["A1s_vs_A0"]
+        good = q["p_exact"] < 0.05 and q["only_b"] > q["only_a"]
+        add("favourable" if good else "unfavourable",
+            "Consensus guard against coordinated campaigns (its designed threat)"
+            + (": effective with semantic divergence" if good else ": not effective"),
+            f"any copy exposed {cp['exposure']['A0']['k']} -> lexical {cp['exposure']['A1']['k']}, semantic "
+            f"{cp['exposure']['A1s']['k']} of {cp['n']} (p={q['p_exact']:.2g}); benign displacement "
+            f"{cp['benign_displacement_points']['A1s']} points", "rwr_campaign.json",
+            "pre-registered R6-2..R6-4; the single-poison failure (R-4) stands and is reported beside it")
     add("open", "LICENSE not attached", "deliberately deferred by the owner", "-")
     return out
 

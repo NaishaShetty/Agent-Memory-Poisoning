@@ -724,6 +724,20 @@ if RW and section("32.61 Phase 10's Risk-Weighted Retrieval Ranking, Evaluated")
          f"all in the founding families. Risk-weighted monitoring is not evaluated: it orders a human's "
          f"forensic queue and has no outcome this benchmark measures.")
 
+FR6, CP6 = L("rwr_fresh_replication.json"), L("rwr_campaign.json")
+if FR6 and CP6 and find(startswith="32.61 Phase 10") is not None:
+    _q, _c = FR6["paired"]["A3_vs_A1"], CP6["paired"]["A1s_vs_A0"]
+    append_note("p_32_61_addendum6",
+                f"[Addendum 6, pre-registered: on fresh stores corroboration replicated "
+                f"({FR6['exposure']['A1']['k']} -> {FR6['exposure']['A3']['k']} of {FR6['n']}, p={_q['p_exact']:.2g}); the "
+                f"lexical gate again did nothing. The diagnosis of R-4 -- the guard flags clusters and one poison is "
+                f"never a cluster -- was tested on coordinated campaigns (each poison plus two NLI-validated "
+                f"paraphrases): any copy reached the agent in {CP6['exposure']['A0']['k']} of {CP6['n']} undefended, "
+                f"{CP6['exposure']['A1']['k']} under the lexical gate, {CP6['exposure']['A1s']['k']} under the semantic "
+                f"gate (p={_c['p_exact']:.2g}), at {CP6['benign_displacement_points']['A1s']} points of benign "
+                f"displacement.]",
+                contains="Pre-registration addendum 5. On the")
+
 PUBV = L("publishability.json")
 if PUBV and PUBV["verdict"] != "PENDING" and section("32.62 Publishability Verdict"):
     body(f"Computed by phase17/publishability.py against the two-sided standard: {PUBV['verdict']}. "
