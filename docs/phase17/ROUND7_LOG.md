@@ -467,3 +467,19 @@ code: `publishability.py` criterion 7 holds the verdict at PENDING while any art
 2. `python scripts/finalize_round7.py` -- rebuilds predictions, inventory, both documents and the
    verdict in order; refuses while anything else runs.
 3. Commit. The audit does not need re-running unless a .py file changed after it.
+
+## R7-29 (2026-10-09 09:44): the Gemini quota had NOT reset; the verdict waits one more day
+
+The 429 at 16:55 on 2026-10-08 said "retry in 12h44m"; at 09:44 the next morning the same key
+returned 429 RESOURCE_EXHAUSTED with "retry in 19h46m" (next reset ~05:30 on 2026-10-10). Three new
+verdicts were cached before it (146/309 now, 163 outstanding); nothing was lost or overwritten
+(the cache was checked key by key against the committed copy). Switching the judge to another model
+was rejected: J2 is the judge adopted against the human labels, and mixing models would make the
+"adopted judge" column a blend of two judges, one never validated. **Owner's decision: wait for the
+reset** rather than finalize as PARTIAL or enable billing.
+
+### RESUME HERE (2026-10-10, after ~05:30)
+1. Probe first: a single call that returns 200 (not 429) means the quota is back.
+2. `python -m phase17.harm_judge_fix rejudge` (163 Gemini calls; everything else cached).
+3. `python scripts/finalize_round7.py`, then commit. No code change is planned, so the 2026-10-08
+   audit (3,502 passed / 0 failed) stays valid; the verdict is then computed.

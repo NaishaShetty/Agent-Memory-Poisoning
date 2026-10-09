@@ -77,5 +77,5 @@ registry) has proven: it fails when the error is reintroduced and passes once re
 
 The verdict is computed by `phase17/publishability.py` against the two-sided standard and rendered
 as Section 14 of the results paper. **Held at PENDING by the owner's decision until the harm
-re-measurement completes** (Gemini quota resets ~05:40 on 2026-10-09; see "RESUME HERE" in
+re-measurement completes** (the Gemini quota did not reset on 2026-10-09; next reset ~05:30 on 2026-10-10; see R7-29 in
 ROUND7_LOG.md). Criterion 7 enforces it.
