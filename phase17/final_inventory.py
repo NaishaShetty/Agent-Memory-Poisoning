@@ -90,6 +90,21 @@ def rows():
             f"{ws['n_working_set']}/{ws['n_total']} = {pct(ws['overall_rate'])} of instances both "
             f"subvert an undefended agent and implement their label; per-population floors break "
             f"CI on drift", "working_set.json")
+    h8 = _L("eval_holdout8.json")
+    if h8 and h8.get("configs"):
+        c = h8["configs"]; u = h8.get("union_defense", {})
+        la = h8.get("derived_memory", {}).get("laundered_admitted_of_carried_excluded", {})
+        an = h8.get("sleeper", {}).get("activation_anomaly", {}).get("cluster_outlier", {})
+        add("favourable", "Hold-out 8: every generalized defense held on unseen attacks (scored once)",
+            f"provenance B13 {c['B13']['attack_recall']['k']}/{h8['n_attacks']} vs fusion B14 "
+            f"{c['B14']['attack_recall']['k']} (p={h8['paired_B13_vs_B14_recall']['p_exact']:.1g}); UNION "
+            f"{u.get('union2_B13_or_anomaly',{}).get('recall',{}).get('k','?')}-"
+            f"{u.get('union3_plus_supervised',{}).get('recall',{}).get('k','?')}/{h8['n_attacks']} beats every "
+            f"single detector; laundering semantic-vs-lexical admitted {la.get('semantic','?')} vs "
+            f"{la.get('lexical','?')}; sleeper anomaly {an.get('attack_recall',{}).get('k','?')}/{h8['n_attacks']}",
+            "eval_holdout8.json",
+            "fourth clean memory-poisoning hold-out, different author/owner, pre-registered (addendum 7); "
+            "U-1/L8-1/L8-2/S8-2/F8-1 all held; working subset leans to fact_contradiction/additive_fabrication")
     add("favourable", "AgentPoison published records function once probed correctly",
         "0/6 -> 3/6 working, task-alone base rate 0; four prior readings were measurement error",
         "attack_validity_audit.json")

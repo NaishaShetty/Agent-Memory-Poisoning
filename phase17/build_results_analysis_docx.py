@@ -1537,6 +1537,51 @@ if _DM:
       f"measured. With taint states the poison is the only tainted ancestor, so state-informed "
       f"attribution is unique by construction. This is a development result on a new attack surface, not "
       f"a clean-hold-out generalisation claim.")
+
+# ---- 13E: the generalized defenses tested once on hold-out 8
+_H8 = L("eval_holdout8.json")
+if _H8 and _H8.get("configs"):
+    H("13E. Hold-Out 8: The Generalized Defenses, Tested Once on Unseen Attacks", 2)
+    _c = _H8["configs"]
+    _b13r, _b14r = _c["B13"]["attack_recall"], _c["B14"]["attack_recall"]
+    P(f"Hold-out 8 is a fourth frozen memory-poisoning / sleeper-shaped corpus ({_H8['n_attacks']} attacks, "
+      f"{_H8['n_benign']} benign; standing instructions, conditional backdoors, fact contradictions, additive "
+      f"fabrications), authored by a different model for a different owner and scored once under predictions "
+      f"committed before it was built (addendum 7). It tests every generalized defense this round introduced. "
+      f"Provenance again beats fusion on memory poisoning: B13 {_b13r['k']}/{_H8['n_attacks']} "
+      f"({pct(_b13r['rate'])}) against B14 {_b14r['k']}/{_H8['n_attacks']} ({pct(_b14r['rate'])}), "
+      f"p={_H8['paired_B13_vs_B14_recall']['p_exact']:.2g} -- the provenance lead holds on a third independent "
+      f"memory-poisoning hold-out.")
+    _u = _H8.get("union_defense", {})
+    if _u:
+        _u2, _u3 = _u["union2_B13_or_anomaly"], _u["union3_plus_supervised"]
+        P(f"The generalized UNION defense (U-1) holds: B13 alone reaches {_u['b13_recall']['k']}, the anomaly "
+          f"signal {_u['anomaly_recall_pct99']['k']}, but their union {_u2['recall']['k']}/{_H8['n_attacks']} "
+          f"({pct(_u2['recall']['rate'])}) -- and with the supervised detector "
+          f"{_u3['recall']['k']}/{_H8['n_attacks']} ({pct(_u3['recall']['rate'])}) -- beating every single "
+          f"detector on unseen attacks, as on development. No single detector generalises across the attack "
+          f"types; their union does.")
+    _dm = _H8.get("derived_memory", {})
+    if _dm and _dm.get("laundered_admitted_of_carried_excluded"):
+        _la = _dm["laundered_admitted_of_carried_excluded"]
+        P(f"Self-propagation generalises (L8-1, L8-2): {_dm['payload_carried']['k']}/{_H8['n_attacks']} consolidated "
+          f"summaries carry the payload, and on the {_dm['n_carried_and_excluded']} that launder a B13-excluded "
+          f"poison, lexical propagation containment admits {_la['lexical']} of them while the SEMANTIC measure "
+          f"admits {_la['semantic']} -- the development finding (Section 13D) reproduced on a clean hold-out.")
+    _sl = _H8.get("sleeper", {})
+    _an = _sl.get("activation_anomaly", {}).get("cluster_outlier") if _sl else None
+    if _an:
+        P(f"Sleeper generalises (S8-2): the dedicated admission guard flags "
+          f"{_sl['attack_recall']['k']}/{_H8['n_attacks']} (Finding A, confirmed on fresh data), but the "
+          f"content-independent embedding-anomaly signal flags {_an['attack_recall']['k']}/{_H8['n_attacks']} "
+          f"({pct(_an['attack_recall']['rate'])}) at {_an['benign_fpr']['k']} benign false positives -- a "
+          f"planted-memory detector that catches dormant sleepers the dedicated guard cannot.")
+    _ne = _H8.get("neutralisation", {})
+    _nf = _ne.get("rule_fires", {})
+    if _nf.get("v6"):
+        P(f"The instruction-aware frame generalises (F8-1): on the {_nf['raw']['n']} rule-stating attacks, harm "
+          f"is {_nf['raw']['k']} raw, {_nf['v3']['k']} under the current frame and {_nf['v6']['k']} under v6. "
+          f"Every defence introduced this round that was pre-registered for hold-out 8 held on it.")
 _P8U = L("power_rerun_utility.json")
 if _UT and _P8U:
     P(f"Re-tested with more data (addendum 8): on {_P8U['n_new']} NEW benign notes the direct-question "
