@@ -103,7 +103,8 @@
       }
     }
   },
-  "not_scored": [
+  "not_scored": [],
+  "blocked_by_content_policy": [
     "C4_gemini_original",
     "C5_gemini_rubric"
   ],
@@ -114,5 +115,6 @@
     "all_consensus": 0
   },
   "material": false,
-  "complete": false
+  "complete": true,
+  "note_blocked": "Gemini's content filter refuses the adversarial compliance items (blockReason PROHIBITED); these candidates cannot be scored by Gemini -- a disclosed permanent limitation, not an incomplete run. Selection is among the local candidates."
 }
