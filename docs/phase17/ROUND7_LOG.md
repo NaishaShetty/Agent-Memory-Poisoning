@@ -790,3 +790,33 @@ feature pipeline built over the consolidation data; it is a substantial, separat
 here as the next step rather than rushed the night before HO8. Candidate: add the cluster-outlier
 anomaly as a learned-group input signal (good separation, 88% recall) to lift the GNN's weak benign/
 poison margin (0.638 vs 0.982). Logged as future work; not claimed as done.
+
+## RESUME HERE (2026-10-12) -- fixes first, then ONE audit, then verdict
+
+State at 2026-10-11 end: harm re-judge COMPLETE (undefended 58.3% J2 vs 32.0% J0, B13 halves it p=3.6e-29);
+HO8 built, frozen (sha256 111abd3c...), validity done (63/160 working), addendum 7 committed, SCORED ONCE
+(6d0fe190) -- provenance beats fusion 118 vs 69/160 p=4.6e-14; UNION 141-148/160 beats every single detector
+(U-1 held); laundering real 138/160 and semantic containment crushes lexical (admitted 12 vs 93, L8-1/L8-2
+held); sleeper anomaly 145/160 (S8-2 held; dedicated guard 0, Finding A confirmed); v6 frame held (F8-1).
+Compliance C4/C5 blocked by Gemini content policy (recorded). HO8 write-ups in docs (13E).
+
+Verdict is PENDING on ONE thing only: criterion 5 (audit mtime). The audit (3,502/0) is valid, but the
+mutation registry's mutate-restore cycle bumped phase17/*.py mtimes AFTER it, so the staleness check trips
+(git confirms NO .py content changed). Lesson: run code fixes + registry BEFORE the audit; audit LAST.
+
+PLAN (owner's order -- fixes first, then audit):
+1. Sleeper guard wiring: add the validated cluster-outlier anomaly signal to the live
+   evaluate_sleeper_admission (phase6/defense/sleeper/sleeper_guard.py) as a third signal, so the deployed
+   guard uses what works (the HO8 pre-registered number 0/160 is NOT changed -- this is a code fix for
+   future use, disclosed). Needs benign cluster centroids plumbed in. Add/adjust tests.
+2. GNN graph experiment: evaluate the GNN-GLN hybrid where graph structure exists -- the derived-memory/
+   consolidation setting (real poison->summary ancestor edges). Build ScenarioPool graphs over that data,
+   score the GNN, report whether it lifts propagation. Substantial; report whichever way it goes.
+3. Any other fixes.
+4. python scripts/run_registry.py (mutate-restore -- BEFORE the audit).
+5. bash phase17/_audit_all_phases.sh --all (Git Bash) -- LAST, nothing touches .py after.
+6. python scripts/finalize_round7.py -> verdict computes (all other criteria already PASS).
+7. Commit. The verdict should be the real one (not PENDING) once the audit is freshest.
+
+Also running before the restart: Ollama must be up (phase13 needs the external llama-server at 127.0.0.1:8811
+too -- it was up for the audit). Start Ollama if down.
