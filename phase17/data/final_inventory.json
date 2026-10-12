@@ -1,7 +1,7 @@
 {
-  "n": 89,
+  "n": 90,
   "counts": {
-    "favourable": 54,
+    "favourable": 55,
     "unfavourable": 29,
     "open": 6
   },
@@ -48,6 +48,13 @@
       "result": "1117/2628 = 42.5% of instances both subvert an undefended agent and implement their label; per-population floors break CI on drift",
       "artifact": "working_set.json",
       "caveat": ""
+    },
+    {
+      "category": "favourable",
+      "item": "GNN-GLN evaluated where graph structure exists: fixed, and max-over-lineage is the right op",
+      "result": "the GNN's own features give poison and benign identical scores; adding the anomaly node feature makes it discriminative; its MEAN message passing still adds nothing (laundered-summary 37 vs content-only 36 of 79); MAX over DERIVED_FROM lineage lifts it 47% -> 97%",
+      "artifact": "gnn_consolidation_eval.json",
+      "caveat": "mean-pooling dilutes one poison ancestor among ~4 benign co-parents; a learned max-aggregating GNN (added, tested) does NOT beat it either (43%) -- learned graph models stay at parity-or-worse at this data scale; the GLN saturates alone but the lineage-max feature rescues it (92%/16% FPR). Deployable answer: the explicit max-over-lineage rule (= containment guard), not a learned GNN"
     },
     {
       "category": "favourable",

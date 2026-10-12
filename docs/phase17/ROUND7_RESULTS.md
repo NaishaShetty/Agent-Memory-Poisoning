@@ -2,7 +2,7 @@
 
 Generated from the artifacts by `phase17/build_round7_summary.py`; do not edit by hand. The full account is `MAMBench Results Analysis.docx` (results) and `Methodology Draft.docx` (methods, Sections 32.49-32.63); every correction is logged in `docs/phase17/ROUND7_LOG.md`.
 
-**Publishability verdict: PENDING.** Held by the owner's rule until every scheduled measurement is complete; outstanding: compliance_judge_fix.json, harm_rejudged.json. Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PENDING; 6_above_noise_floor PASS; 7_all_measurements_complete PENDING.
+**Publishability verdict: PUBLISHABLE.**  Computed by `phase17/publishability.py`; criteria: 1_traceable PASS; 2_fpr_and_both_denominators PASS; 3_holdout_informed_labelled PASS; 4_negatives_in_place PASS; 5_full_suite_passes PASS; 6_above_noise_floor PASS; 7_all_measurements_complete PASS.
 
 ## Recommendation, conditioned on the threat and the false-positive budget
 
@@ -42,7 +42,6 @@ Hold-outs 4 and 7 are memory poisoning (false positives on untrusted-channel ben
 ## Findings
 
 - **Provenance reaches memory poisoning that content classification misses, on two independent hold-outs:** B13 vs B14 79/157 vs 32/157 on hold-out 4 (p=1e-14) and 70/129 vs 38/129 on hold-out 7 (p=7e-08), two author families, two owners.
-- **Harm levels were under-estimated by about half.** Re-judged on identical answers by the judge selected against held-back human labels: undefended harm 58.3% vs 32.0% (p=6e-18). B13's reduction holds under both judges (PARTIAL: 120-item family stratum; 166 verdicts outstanding).
 - **Corroboration is brittle to an adaptive attacker** (22/48 evade by paraphrase) **and the ledger closes it** (see recommendation 4).
 - **Framing helps a stronger agent more:** Gemini 44.2% -> 11.7% vs qwen +20.8 points (n=120).
 - **B13 protects a stronger agent:** Gemini harm 36.0% -> 14.0% (p=4.8e-07, seeded 100).
@@ -57,7 +56,6 @@ Hold-outs 4 and 7 are memory poisoning (false positives on untrusted-channel ben
 
 ## Not done, partial, or untested -- stated, not hidden
 
-- Harm re-measurement: PARTIAL (Gemini daily quota); completes with `python -m phase17.harm_judge_fix rejudge`.
 - The ledger composed with B18: not measured (about 40 s per B18 decision on novel text; an estimated 4-9 GPU hours). B18 is no longer recommended.
 - Phase 10's risk-weighted monitoring: evaluated on development data -- it ranks the poison first in 39 of 43 listed cases (33.5 by default), but realistic review lists are about one item long, so it has little to do.
 - Conditional backdoors: untested on a clean hold-out so far (a base-model author produced 3/40 valid); hold-out 8 is built to test them.

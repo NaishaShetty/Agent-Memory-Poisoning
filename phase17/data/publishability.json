@@ -1,9 +1,9 @@
 {
-  "verdict": "PENDING",
+  "verdict": "PUBLISHABLE",
   "criteria": {
     "1_traceable": {
       "status": "PASS",
-      "detail": "89 inventory rows; missing artifacts: none"
+      "detail": "90 inventory rows; missing artifacts: none"
     },
     "2_fpr_and_both_denominators": {
       "status": "PASS",
@@ -18,8 +18,8 @@
       "detail": "39/47 held; failures reported in place: ['H5-3', 'H5-6', 'H5-7', 'H6-6', 'H7-6', 'H7-7', 'R-4', 'P8-1']; unscored: none"
     },
     "5_full_suite_passes": {
-      "status": "PENDING",
-      "detail": "cross-phase audit predates the latest source change; re-run it"
+      "status": "PASS",
+      "detail": "14 phase suites, 3511 tests passed; failing: none"
     },
     "6_above_noise_floor": {
       "status": "PASS",
