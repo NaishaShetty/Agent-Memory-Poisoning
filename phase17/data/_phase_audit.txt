@@ -32,7 +32,7 @@ phase3/evaluation/tests/test_hybrid_selection.py::test_select_by_hybrid_score_re
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1776 passed, 17 skipped, 2 warnings in 353.82s (0:05:53)
+1776 passed, 17 skipped, 2 warnings in 374.11s (0:06:14)
 
 ### phase4
 ........................................................................ [ 45%]
@@ -46,7 +46,7 @@ phase4/tests/test_attack_adapters.py::SharedExecuteCollectTests::test_collect_ru
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-160 passed, 2 warnings in 26.22s
+160 passed, 2 warnings in 30.38s
 
 ### phase5
 ........................................................................ [ 33%]
@@ -60,7 +60,7 @@ phase5/tests/test_attribution_readiness.py::test_chain_c_propagation_through_exp
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-214 passed, 2 skipped, 2 warnings in 20.27s
+214 passed, 2 skipped, 2 warnings in 24.54s
 
 ### phase6
 ........................................................................ [ 16%]
@@ -82,7 +82,7 @@ phase6\tests\test_consolidation_guard_real_benign_fpr.py:35
     @pytest.mark.slow
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-437 passed, 3 warnings in 1200.36s (0:20:00)
+437 passed, 3 warnings in 1192.80s (0:19:52)
 sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
 
 ### phase7
@@ -96,7 +96,7 @@ phase7/tests/test_adaptive_evasion_check.py::test_structural_signals_are_bit_ide
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-87 passed, 6 skipped, 2 warnings in 50.37s
+87 passed, 6 skipped, 2 warnings in 53.56s
 
 ### phase8
 ..........sssssss....................                                    [100%]
@@ -108,7 +108,7 @@ phase8/tests/test_activation_shape_signal_wiring.py::test_tuned_corpus_b8_unchan
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-30 passed, 7 skipped, 2 warnings in 34.84s
+30 passed, 7 skipped, 2 warnings in 31.46s
 
 ### phase11
 ........................................................................ [ 41%]
@@ -122,7 +122,7 @@ phase11/gnn/tests/test_real_attack_corpus_detector_tuned_comparison.py::test_tun
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-172 passed, 2 warnings in 151.27s (0:02:31)
+172 passed, 2 warnings in 151.76s (0:02:31)
 
 ### phase12
 ..............................                                           [100%]
@@ -138,7 +138,7 @@ phase12/tests/test_dgs.py::test_dgs_never_modifies_held_out_pools
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-30 passed, 3 warnings in 459.32s (0:07:39)
+30 passed, 3 warnings in 464.26s (0:07:44)
 
 ### phase13
 ...............................................                          [100%]
@@ -170,7 +170,7 @@ phase13/tests/test_confidence_correlation.py::test_high_resolution_pairing_has_m
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-47 passed, 7 warnings in 1994.80s (0:33:14)
+47 passed, 7 warnings in 2009.59s (0:33:29)
 
 ### phase14
 ....................................                                     [100%]
@@ -186,7 +186,7 @@ phase14/tests/test_campaign.py::test_run_track_a_returns_a_summary_per_real_conf
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-36 passed, 3 warnings in 532.97s (0:08:52)
+36 passed, 3 warnings in 513.21s (0:08:33)
 
 ### phase15
 ......................                                                   [100%]
@@ -202,7 +202,7 @@ phase15/tests/test_attribution_track_b_ledger.py::test_b9_admits_none
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-22 passed, 3 warnings in 382.62s (0:06:22)
+22 passed, 3 warnings in 341.85s (0:05:41)
 
 ### phase17
 ........................................................................ [ 40%]
@@ -231,18 +231,18 @@ phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after
   <unknown>:111: DeprecationWarning: invalid escape sequence '\w'
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-179 passed, 7 warnings in 104.79s (0:01:44)
+179 passed, 7 warnings in 84.58s (0:01:24)
 sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
 
 ### attribution
 ..............................................................           [100%]
-62 passed in 11.47s
+62 passed in 8.20s
 
 ### tests
 ........................................................................ [ 27%]
 ........................................................................ [ 55%]
 ........................................................................ [ 83%]
 ...........................................                              [100%]
-259 passed in 1089.49s (0:18:09)
+259 passed in 800.18s (0:13:20)
 
 AUDIT COMPLETE
