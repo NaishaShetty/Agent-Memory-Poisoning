@@ -127,6 +127,60 @@ def evaluate_sleeper_admission(
     )
 
 
+def evaluate_sleeper_admission_augmented(
+    context: SignalContext,
+    *,
+    run_id: str,
+    episode_id: str,
+    timestamp: str,
+    evidence_refs: Sequence[str],
+) -> MGPDecisionRecord:
+    """Opt-in variant (added 2026-10-12): evaluate_sleeper_admission PLUS the
+    content-independent activation-anomaly signal (signals.activation_anomaly_signal).
+
+    WHY THIS EXISTS. The frozen admission guard's content signals do not generalise to
+    clean extracted sleeper memory: imperative_write_directive is structurally 0 (Finding A)
+    and activation_shape is cached to one poison. On hold-out 8 the frozen guard flagged
+    0/160 (a pre-registered diagnostic). The activation-anomaly signal -- a planted memory
+    lands far from where benign content clusters -- flags dormant sleepers content-
+    independently (dev 88%, hold-out 8 145/160). This variant wires it in so a deployment
+    can actually catch sleepers.
+
+    It is a SEPARATE function, never substituted for evaluate_sleeper_admission, so every
+    frozen B0-B8/B14 result is unchanged; the hold-out-8 guard number (0/160) is NOT altered.
+    DISCLOSED COST: the anomaly signal carries ~10% benign false positives on development
+    benign and its centroids are development-fit, so it is a REVIEW-QUEUE posture (action
+    QUARANTINE, reversible), not a zero-cost admission filter; on benign distributions far
+    from the fitted one its false-positive rate can be higher."""
+    from phase6.defense.sleeper.signals import activation_anomaly_signal
+    from phase8.detection.activation_shape_signal import activation_shape_signal
+
+    directive_signal = imperative_write_directive_signal(context)
+    shape_signal = activation_shape_signal(context)
+    anomaly_signal = activation_anomaly_signal(context)
+    signal = {**directive_signal, **shape_signal, **anomaly_signal}
+    score = max(directive_signal["imperative_write_directive_score"],
+                shape_signal["activation_shape_score"],
+                anomaly_signal["activation_anomaly_score"])
+    action = QUARANTINE if score >= ADMISSION_THRESHOLD_QUARANTINE else ALLOW
+    reason = (
+        f"imperative_write_directive_score={directive_signal['imperative_write_directive_score']:.1f}, "
+        f"activation_shape_score={shape_signal['activation_shape_score']:.1f}, "
+        f"activation_anomaly_score={anomaly_signal['activation_anomaly_score']:.1f} "
+        f"({GUARD_VERSION}+anomaly); action={action}"
+    )
+    return build_decision(
+        candidate_memory_id=context.memory_id,
+        signals_used=signal,
+        action=action,
+        reason=reason,
+        run_id=run_id,
+        episode_id=episode_id,
+        timestamp=timestamp,
+        evidence_refs=evidence_refs,
+    )
+
+
 def evaluate_sleeper_retrieval_risk(
     memory_id: str,
     content_context: SignalContext,

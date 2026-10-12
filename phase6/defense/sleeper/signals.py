@@ -48,8 +48,10 @@ scenarios modeled on the attack's own documented mechanism.
 
 from __future__ import annotations
 
+import json
 import re
 from datetime import datetime
+from pathlib import Path
 from typing import Dict
 
 from phase6.defense.policy.records import FORBIDDEN_SIGNAL_KEYS, EvaluatorOnlyLeakageError
@@ -194,4 +196,60 @@ def age_based_dormancy_gate_signal(
     offending = set(signal.keys()) & FORBIDDEN_SIGNAL_KEYS
     if offending:  # unreachable given the fixed key name, kept for parity/defense-in-depth
         raise EvaluatorOnlyLeakageError(f"age_based_dormancy_gate_signal leaked {offending!r}")
+    return signal
+
+
+# --------------------------------------------------------------------------------
+# Activation-anomaly signal (added 2026-10-12): a planted sleeper memory lands in an
+# anomalous embedding region -- far from where benign content clusters (the attack's
+# own off-cluster objective, turned into a detector). Content-INDEPENDENT (no trigger
+# or construction patterns), it catches DORMANT sleepers whose wording is innocuous,
+# which `imperative_write_directive_signal` (keyed to injection-document framing,
+# Finding A) and `activation_shape_signal` (cached to one poison) structurally cannot.
+# Validated: phase17/sleeper_activation_live.py (dev 88% sleeper recall at ~10% benign
+# FPR) and phase17/eval_holdout8.py (hold-out 8, 145/160). It is a review-queue-posture
+# signal (~10% benign FPR); it is NOT part of the FROZEN admission guard -- it is wired
+# ONLY into evaluate_sleeper_admission_augmented (sleeper_guard.py), an opt-in variant,
+# so every frozen B0-B8/B14 number is unchanged.
+_ANOMALY_CACHE = Path(__file__).parent / "activation_anomaly_centroids.json"
+_anomaly_state: Dict[str, object] = {}
+
+
+def _load_anomaly():
+    if "centroids" not in _anomaly_state:
+        import numpy as _np
+
+        if _ANOMALY_CACHE.exists():
+            d = json.loads(_ANOMALY_CACHE.read_text(encoding="utf-8"))
+            _anomaly_state["centroids"] = _np.asarray(d["centroids"], dtype=float)
+            _anomaly_state["threshold"] = float(d["threshold"])
+        else:                                   # no cache -> signal is a no-op (disclosed default 0.0)
+            _anomaly_state["centroids"] = None
+            _anomaly_state["threshold"] = None
+    return _anomaly_state["centroids"], _anomaly_state["threshold"]
+
+
+def activation_anomaly_signal(context: SignalContext) -> Dict[str, float]:
+    """Score in {0.0, 1.0}: 1.0 if this memory's embedding is farther than the committed
+    benign threshold from every benign cluster centroid (a planted-content anomaly), else
+    0.0. Returns 0.0 (a disclosed default, not 'confident benign') when the centroid cache
+    is absent. Uses the same all-MiniLM-L6-v2 model as every other embedding signal here.
+
+    Manually leakage-checked (not `@signal_function`-wrapped): it loads a committed cache
+    and embeds, mirroring `phase8.detection.activation_shape_signal`'s own cache pattern."""
+    import numpy as _np
+
+    from phase6.defense.retrieval.embedding_signals import _get_model
+
+    centroids, threshold = _load_anomaly()
+    if centroids is None:
+        score = 0.0
+    else:
+        v = _get_model().encode([context.content_text], normalize_embeddings=True)[0]
+        dist = float(_np.linalg.norm(centroids - v, axis=1).min())
+        score = 1.0 if dist >= threshold else 0.0
+    signal = {"activation_anomaly_score": score}
+    offending = set(signal.keys()) & FORBIDDEN_SIGNAL_KEYS
+    if offending:  # unreachable given the fixed key name, kept for parity/defense-in-depth
+        raise EvaluatorOnlyLeakageError(f"activation_anomaly_signal leaked {offending!r}")
     return signal

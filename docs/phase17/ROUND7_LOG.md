@@ -820,3 +820,19 @@ PLAN (owner's order -- fixes first, then audit):
 
 Also running before the restart: Ollama must be up (phase13 needs the external llama-server at 127.0.0.1:8811
 too -- it was up for the audit). Start Ollama if down.
+
+## R7-44 (2026-10-12): sleeper guard wiring -- the anomaly signal added as an opt-in augmented guard
+
+Owner: wire the validated anomaly signal into the live sleeper guard. Done WITHOUT touching the frozen
+guard (it feeds B0-B8/B14, whose numbers must not move):
+- New `activation_anomaly_signal` (phase6/defense/sleeper/signals.py): a planted memory lands far from
+  benign cluster centroids (committed cache built by phase17/build_sleeper_anomaly_centroids.py: 8
+  centroids, threshold 0.7024, 10.1% dev-benign FPR). Content-independent; no-op (0.0) without the cache.
+- New `evaluate_sleeper_admission_augmented` (sleeper_guard.py): OR of the frozen signals plus the anomaly.
+  The frozen `evaluate_sleeper_admission` is unchanged, so every frozen result and the HO8 pre-registered
+  guard number (0/160) are preserved.
+- Verified: on a clean extracted sleeper the frozen guard ALLOWs (Finding A), the augmented guard
+  QUARANTINEs. 5 new tests pass; the 69 frozen sleeper/admission/contract tests still pass.
+Disclosed cost: ~10% benign FPR (review-queue posture, action QUARANTINE), centroids are development-fit
+so FPR can be higher on far-from-fitted benign. This is a code fix for future deployment, not a change to
+any reported hold-out number.
