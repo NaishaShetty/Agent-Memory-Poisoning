@@ -1154,6 +1154,24 @@ if R7E and R7P2:
             f"dominated on development data failed its pre-registered test and is a trade, not a win.")
         np_.style = BODY
         applied.append("s33_round7")
+# Round-7 reference additions: the GLN paper (Phase 11 online-learning component) and BIPIA (an
+# external injection corpus used in Phase 17), neither cited in the base References section.
+_qd = find(contains="Qdrant") if find(contains="Qdrant") is not None else None
+if _qd is None:
+    _qd = find(startswith="16. References")
+if _qd is not None:
+    insert_after(_qd,
+                 "Yi, J., et al. \"Benchmarking and Defending Against Indirect Prompt Injection Attacks on "
+                 "Large Language Models\" (BIPIA), 2023 (arXiv:2312.14197) - CITATION NEEDS VERIFICATION of the "
+                 "full author list and identifier. One of the external injection corpora from which Phase 17's "
+                 "injection-shaped attack texts were drawn (with MINJA, AgentPoison, InjecAgent and AgentDojo).",
+                 "Yi, J., et al. \"Benchmarking and Defending")
+    insert_after(_qd,
+                 "Veness, J., et al. \"Gated Linear Networks.\" AAAI 2021 (arXiv:1910.01526) - CITATION NEEDS "
+                 "VERIFICATION of the full author list. Implemented from scratch as the online-learning (GLN) "
+                 "component of the Phase 11 GNN-GLN hybrid (phase11/gln/).",
+                 "Veness, J., et al. \"Gated Linear Networks.\"")
+
 doc.save(PATH)
 print(f"applied {len(applied)}: {applied}")
 print(f"already present {len(skipped)}: {skipped}")
