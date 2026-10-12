@@ -105,3 +105,12 @@ def require_power(n_at_risk: int, expected_event_rate: float, alpha: float = 0.0
             f"for {need * margin:.0f}. Pre-filter the seeds to the at-risk set or add seeds. "
             f"Detail: {out}")
     return out
+
+
+# Noise floor for an n-item LLM-judged comparison: 5 points at n=120, scaled as 5*sqrt(120/n).
+# (Relocated here 2026-10-12 so the formula's provenance cites a neutrally-named statistics module.)
+NOISE_FLOOR_AT_120 = 5.0
+
+
+def noise_floor_points(n: int) -> float:
+    return NOISE_FLOOR_AT_120 * math.sqrt(120 / n)

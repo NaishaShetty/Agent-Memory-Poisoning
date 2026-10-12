@@ -1086,6 +1086,17 @@ if CP5:
                    if L("phase6_semantic_variants.json") else "") + "]",
                 contains="(4) RETRY-CAPABLE attackers: compose the chosen configuration with the rejection ledger")
 
+# the formulas table was baked into the doc on an earlier build; correct the relocated reference in place
+for _tbl in doc.tables:
+    for _row in _tbl.rows:
+        for _cell in _row.cells:
+            if "publishability.py: floor" in _cell.text:
+                for _p in _cell.paragraphs:
+                    for _r in _p.runs:
+                        if "publishability.py: floor" in _r.text:
+                            _r.text = _r.text.replace("phase17/publishability.py: floor",
+                                                      "phase17/stats.py: noise_floor_points")
+                applied.append("formula_floor_ref_fix")
 if section("32.62 Definitions and Formulas"):
     from phase17.formulas import rows as _formula_rows
 

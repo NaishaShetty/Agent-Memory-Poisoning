@@ -30,11 +30,9 @@ OUT = DATA / "publishability.json"
 
 # The measured floor: three repeats on n=120 gave SDs of 0.8-1.7 points; the document applies
 # 5 points at n=120 and scales it with 1/sqrt(n).
-FLOOR_AT_120 = 5.0
 
 
-def floor(n: int) -> float:
-    return FLOOR_AT_120 * math.sqrt(120 / n)
+from phase17.stats import noise_floor_points as floor  # relocated to stats.py
 
 
 def _L(name):
