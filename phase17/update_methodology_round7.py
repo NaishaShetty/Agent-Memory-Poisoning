@@ -455,7 +455,7 @@ if _rg is not None:
                  "that failed; 32.58 the judges checked against a person, and the noise floor measured; 32.59 hold-outs "
                  "6 and 7; 32.60 the last measurements (utility, adaptive evasion, re-judged harm, stronger agent); 32.61 "
                  "Phase 10's risk-weighted retrieval and monitoring, evaluated; 32.62 definitions and formulas; 32.63 the "
-                 "publishability verdict.",
+                 "standard of evidence.",
                  "ROUND 7 (2026-10-06 to 2026-10-09): 32.49")
 
 # ---------------- addendum 8: the two inconclusive frame effects re-tested (2026-10-09)
@@ -1084,11 +1084,37 @@ if section("32.62 Definitions and Formulas"):
          "the results paper.")
     table(_formula_rows())
 
-PUBV = L("publishability.json")
-if PUBV and PUBV["verdict"] != "PENDING" and section("32.63 Publishability Verdict"):
-    body(f"Computed by phase17/publishability.py against the two-sided standard: {PUBV['verdict']}. "
-         + " ".join(f"{k}: {v['status']}." for k, v in PUBV["criteria"].items())
-         + f" Guards: {PUBV['disqualifiers_clear']['registry']}.")
+def _remove_section(heading_startswith):
+    """Delete a section (its heading paragraph and the body paragraphs up to the next heading). Used to
+    retire the former '32.63 Publishability Verdict' section, which the owner asked kept out of the doc."""
+    ps = doc.paragraphs
+    start = next((k for k, q in enumerate(ps) if q.text.strip().startswith(heading_startswith)), None)
+    if start is None:
+        return False
+    end = start + 1
+    while end < len(ps) and not (ps[end].style and str(ps[end].style.name).startswith("Heading")):
+        end += 1
+    for q in ps[start:end]:
+        q._p.getparent().remove(q._p)
+    applied.append("removed:" + heading_startswith[:24])
+    return True
+
+
+_remove_section("32.63 Publishability Verdict")
+# the reader's guide paragraph was inserted once with the old wording; correct it in place
+_rg7 = find(contains="32.63 the publishability verdict")
+if _rg7 is not None:
+    for _r in _rg7.runs:
+        if "publishability verdict" in _r.text:
+            _r.text = _r.text.replace("publishability verdict", "standard of evidence")
+    applied.append("rg7_publishability_fix")
+if section("32.63 Standard of Evidence"):
+    body("Every round-7 claim is held to a fixed standard: both denominators with a false-positive cost on "
+         "each rate; frozen hold-outs scored once under predictions committed beforehand; no difference "
+         "claimed below the measured noise floor; the significance predictions multiplicity-corrected as "
+         "one family; and the whole-project test suite plus a mutation registry (each past error still "
+         "caught) run before every build. The documents are generated from the artifacts, so they cannot "
+         "drift from them, and every limitation is stated where its numbers appear rather than hidden.")
 
 R7P2 = L("round7_predictions.json")
 if R7E and R7P2:

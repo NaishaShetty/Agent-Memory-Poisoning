@@ -40,10 +40,13 @@ def r1_holdouts():
     plt = _plt()
     E = (L("eval_round7_holdouts.json") or {}).get("holdouts", {})
     E.update((L("eval_round7b_holdouts.json") or {}).get("holdouts", {}))
+    _h8 = L("eval_holdout8.json")
+    if _h8 and _h8.get("configs"):
+        E["holdout8"] = _h8
     if not E:
         return None
     fig, ax = plt.subplots(figsize=(8, 5.2))
-    marks = {"holdout4": "o", "holdout5": "s", "holdout6": "^", "holdout7": "D"}
+    marks = {"holdout4": "o", "holdout5": "s", "holdout6": "^", "holdout7": "D", "holdout8": "P"}
     colors = {"B12": "#7f8c8d", "B13": "#2980b9", "B14": "#e67e22", "B17": "#27ae60", "B18": "#c0392b"}
     for h, m in marks.items():
         if h not in E:
@@ -58,7 +61,7 @@ def r1_holdouts():
         ax.scatter([], [], marker=m, color="white", edgecolor="black", label=h.replace("holdout", "hold-out "))
     ax.set_xlabel("False positives on benign text (%)  [matched benign, or untrusted-channel notes]")
     ax.set_ylabel("Attack recall (%), full population")
-    ax.set_title("Hold-outs 4-7, each scored once: recall against false-positive cost")
+    ax.set_title("Hold-outs 4-8, each scored once: recall against false-positive cost")
     ax.grid(alpha=0.3)
     ax.legend(ncol=2, fontsize=8, loc="lower right")
     out = FIG / "R1_holdouts_recall_vs_fpr.png"
