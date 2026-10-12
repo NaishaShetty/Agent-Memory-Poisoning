@@ -90,6 +90,19 @@ def rows():
             f"{ws['n_working_set']}/{ws['n_total']} = {pct(ws['overall_rate'])} of instances both "
             f"subvert an undefended agent and implement their label; per-population floors break "
             f"CI on drift", "working_set.json")
+    gc = _L("gnn_consolidation_eval.json")
+    if gc:
+        mx = gc["max_lineage_propagation"]
+        add("favourable", "GNN-GLN evaluated where graph structure exists: fixed, and max-over-lineage is the right op",
+            f"the GNN's own features give poison and benign identical scores; adding the anomaly node feature makes "
+            f"it discriminative; its MEAN message passing still adds nothing (laundered-summary "
+            f"{gc['gnn_mean_with_graph']['laundered_summary_detection']['k']} vs content-only "
+            f"{gc['gnn_content_only']['laundered_summary_detection']['k']} of "
+            f"{gc['gnn_mean_with_graph']['laundered_summary_detection']['n']}); MAX over DERIVED_FROM lineage "
+            f"lifts it {mx['summary_own_anomaly_detection']['rate']:.0%} -> {mx['laundered_summary_detection']['rate']:.0%}",
+            "gnn_consolidation_eval.json",
+            "mean-pooling dilutes one poison ancestor among ~4 benign co-parents; max-over-lineage is the "
+            "containment guard's own logic, confirmed on the consolidation surface; a max-aggregating GNN layer is future work")
     h8 = _L("eval_holdout8.json")
     if h8 and h8.get("configs"):
         c = h8["configs"]; u = h8.get("union_defense", {})

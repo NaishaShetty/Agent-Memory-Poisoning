@@ -836,3 +836,27 @@ guard (it feeds B0-B8/B14, whose numbers must not move):
 Disclosed cost: ~10% benign FPR (review-queue posture, action QUARANTINE), centroids are development-fit
 so FPR can be higher on far-from-fitted benign. This is a code fix for future deployment, not a change to
 any reported hold-out number.
+
+## R7-45 (2026-10-12): GNN-GLN evaluated where graph structure exists -- fixed, and a real finding
+
+Owner: evaluate the GNN where graph structure exists, and fix it if it improves. Built consolidation
+pools from the laundering episodes (phase17/gnn_consolidation_eval.py): each pool = the retrieved benign
+memories + the poison, plus a DERIVED_FROM-linked summary node an LLM wrote from them. 249 episodes,
+50/50 train/test split, no agent calls (summaries from the derived_memory cache).
+
+1. FIX: the GNN's own features (consensus divergence) give poison and benign IDENTICAL scores (0.268 vs
+   0.268) -- non-discriminative, so the graph has nothing to propagate. Adding the validated cluster-
+   outlier anomaly as a node feature fixes it: the GNN becomes a real detector (78% node-level poison
+   detection at 10% FPR). This is the unique GNN improvement (learned features alone were inadequate).
+2. FINDING: the GNN's MEAN message passing still adds nothing over content-only on laundered summaries
+   (37 vs 36 of 79) -- it dilutes the single poison ancestor among ~4 benign co-parents.
+3. The RIGHT graph operation is MAX over DERIVED_FROM lineage (the containment guard's own max-over-
+   ancestors logic): laundered-summary detection 47% (summary's own anomaly) -> 97% (max over its
+   poison-bearing lineage), G-2 held. A laundered summary looks clean on its own but inherits its poison
+   ancestor's anomaly through the lineage max.
+
+So the GNN is fixed (discriminative with the anomaly feature), and the honest graph lesson is mechanistic:
+mean-pooling is wrong for lineage laundering, max-over-lineage is right and nearly perfect (97%). This is
+the same operation the semantic propagation-containment guard already uses -- the GNN experiment
+independently confirms it on the consolidation surface. A max-aggregating GNN layer is the concrete model
+change (future work; the max-lineage rule is reported directly here).
