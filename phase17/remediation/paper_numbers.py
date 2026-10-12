@@ -63,6 +63,14 @@ def macros() -> Dict[str, str]:
             m[f"JS{key}Vote"] = pc(r["fitted_probe_working_vote"]["rate"])
         else:
             m[f"JS{key}Czero"] = m[f"JS{key}Vote"] = PENDING
+    if js:
+        a = js["results"]["ALL"]
+        m["JSFlips"] = f"{a['working_only_C0'] + a['working_only_vote']}/{a['n']}"
+        m["JSFlipsPct"] = pc((a['working_only_C0'] + a['working_only_vote']) / a['n'], 0)
+        m["JSBaseCzero"] = pc(a["task_alone_base_rate_C0"]["rate"])
+        m["JSBaseVote"] = pc(a["task_alone_base_rate_vote"]["rate"])
+    else:
+        m["JSFlips"] = m["JSFlipsPct"] = m["JSBaseCzero"] = m["JSBaseVote"] = PENDING
 
     T3 = _t("T3_two_denominators")
     shifts = [abs(v["shift_points"]) for r in T3["rows"] for k, v in r.items() if k.startswith("B")]

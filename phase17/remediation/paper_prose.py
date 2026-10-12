@@ -40,9 +40,11 @@ def prose(sa: Dict, p2: Dict) -> Dict[str, str]:
 
     sa_abs = (f"a pre-registered experiment with 60 conditional backdoors and 60 benign conditional lookalikes found "
               f"activation on a natural trigger in {_f(A['activation_on_trigger'])} attacks and on an unrelated message "
-              f"in {_f(A['activation_on_non_trigger'])}; admission-time B13 excluded "
-              f"{D['B13_untrusted']['attack_excluded']}/60 attacks and {D['B13_untrusted']['lookalike_excluded']}/60 "
-              f"lookalikes.")
+              f"in {_f(A['activation_on_non_trigger'])}; admission-time content detection excluded "
+              f"{D['B12']['attack_excluded']}/60 attacks and {D['B12']['lookalike_excluded']}/60 lookalikes before "
+              f"activation---because these backdoors state their malicious action explicitly, not because any "
+              f"sleeper-specific signal worked (a dedicated sleeper guard flagged "
+              f"{Ad['sleeper_guard_phase8']['excluded']['k']}/60).")
     sa_body = (
         f"Each of 60 conditional backdoors and 60 benign conditional lookalikes (same author, owner, prompt and "
         f"third-person syntax) carries a natural trigger message and an unrelated message. The note was retrieved "
@@ -72,7 +74,11 @@ def prose(sa: Dict, p2: Dict) -> Dict[str, str]:
         f"{_f(A['activation_on_trigger_v6_frame'])} ({_st(pr, 'SA-8')}, $p$="
         f"{_p(A['paired_v6_vs_unframed_activation']['p_exact'])}) and lookalike activation from "
         f"{_f(L['activation_on_trigger'])} to {_f(L['activation_on_trigger_v6_frame'])} ({_st(pr, 'SA-9')}). "
-        f"B13's corroboration thresholds were calibrated on this owner's conversation among others (\\S\\ref{{sec:limits}}).")
+        f"The interpretation matters: B12 alone excluded every attack, so detection here rests on the explicit "
+        f"payload (a named outside company and a covert action), not on dormancy; mundane, instruction-free sleeper "
+        f"notes are not caught by content detection (0\\% on the project's sleeper family) and only partly by "
+        f"corroboration. B13's corroboration thresholds were calibrated on this owner's conversation among others "
+        f"(\\S\\ref{{sec:limits}}).")
 
     o = p2
     W, NC = o["withheld_payload_carrying_gen2"], o["withheld_non_carrying_gen2"]
@@ -81,7 +87,7 @@ def prose(sa: Dict, p2: Dict) -> Dict[str, str]:
               f"containing those second-generation summaries depends on inheriting the intermediate summary's "
               f"state (withheld carrying summaries: {_f(W['S-inh'])} with inheritance, {_f(W['S-noinh'])} without).")
     p2_body = (
-        f"Second-generation summaries carried the poison's payload in {_f(o['payload_carried_gen2'])} of 249 instances "
+        f"Second-generation summaries carried the poison's payload in {_f(o['payload_carried_gen2'])} instances "
         f"({_f(o['carried_gen2_given_gen1'])} of those whose first summary carried it; {_st(pp, 'P2-1')}). Serving them on "
         f"B13-excluded instances produced harm in {_f(o['harm_gen2_on_b13_excluded']['A0'])} "
         f"({_st(pp, 'P2-4')}). Of the {W['S-inh']['n']} carrying summaries of excluded poisons, containment withheld "
@@ -98,7 +104,7 @@ def prose(sa: Dict, p2: Dict) -> Dict[str, str]:
     rem = ("Holm-adjusted $p$: " + "; ".join(f"{i} {_p(a)}" for i, _, a in hol) + ".") if hol else "no significance predictions."
 
     concl = (
-        "Re-scoring defenses on attacks shown to work changes the measured recall by up to ten points in either "
+        "Re-scoring defenses on attacks shown to work changes the measured recall by up to \TwoDenMaxShift{} points in either "
         "direction, so validity filtering belongs in memory-poisoning evaluation. For admission, corroborating "
         "untrusted personal claims against the owner's conversation reached memory poisoning that content classifiers "
         "missed on three single-use hold-outs, at a benign cost, while the channel label itself added nothing and "
@@ -106,9 +112,10 @@ def prose(sa: Dict, p2: Dict) -> Dict[str, str]:
         f"of poisons admission already caught; at the second generation it withheld {_f(W['S-inh'])} carrying "
         f"summaries when the intermediate summary inherited its state and {_f(W['S-noinh'])} when it did not. "
         "For sleeper rules, "
-        f"SA-1 measured dormancy and trigger activation with benign lookalikes: B13 excluded "
-        f"{D['B13_untrusted']['attack_excluded']}/60 attacks and {D['B13_untrusted']['lookalike_excluded']}/60 lookalikes "
-        "before activation. Each conclusion holds within an in-context evaluation harness, a 7B agent and "
+        f"SA-1 confirmed dormancy and natural trigger activation, and showed that conditional rules with an explicit "
+        f"malicious action are stopped before activation by content detection ({D['B12']['attack_excluded']}/60) "
+        f"with little cost to benign conditional rules ({D['B12']['lookalike_excluded']}/60); no sleeper-specific "
+        "signal worked, and stealthy, instruction-free sleepers remain largely undetected. Each conclusion holds within an in-context evaluation harness, a 7B agent and "
         "evaluator-assigned channels, and should be re-tested in a production memory system.")
     return {"SAoneAbstract": sa_abs, "SAoneBody": sa_body, "PtwoAbstract": p2_abs, "PtwoBody": p2_body,
             "RemHolm": rem, "Conclusion": concl}

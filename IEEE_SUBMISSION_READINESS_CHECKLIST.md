@@ -18,7 +18,8 @@ Every item is objective: it either can be checked from a file or command, or it 
 | A4 | Compiles to PDF | ❌ | No TeX toolchain on this machine (pdflatex, xelatex and pandoc are absent). Compile on Overleaf or TeX Live and check the page count. |
 | A5 | Anonymised | ✅ | No author names, institutions or repository URLs in `paper/`. The Open Science section refers to an anonymised repository. |
 | A6 | Ethics and Open Science sections | ✅ | Present in `paper/main.tex`. |
-| A7 | Page budget | ❌ | Unknown until compiled (A4). Overflow should move to the appendix: full tables live in `results/tables`. |
+| A7 | Page budget | ❌ | Unknown until compiled (A4). The draft body is about 3,700 words plus 4 tables, likely 6–8 two-column pages: **under** typical limits, not over. Expand from `THREE_RESEARCH_GAPS_AUDIT.md` and `results/tables` as needed. The best candidates are a B13 method figure, the per-family table, SA-1 and P2 tables, and the formulas appendix. |
+| A8 | LaTeX structure lint | ✅ | Environments balanced; all citations resolve, none unused; all `\ref`s have labels; braces balanced. Checked with a lint script, not a compile. |
 
 **Venue note (A1).** The SaTML 2027 paper deadline was **29 September 2026, so it has passed** (satml.org/participate-cfp, read 2026-10-12). The likely options about a month out are:
 
@@ -32,7 +33,7 @@ The owner decides.
 
 | # | Item | Status | Evidence |
 |---|---|---|---|
-| B1 | Research questions answerable and answered | ⚠️ | Gaps 1–3 assessed separately (`THREE_RESEARCH_GAPS_AUDIT.md`). Gap 1 demonstrated within its assumptions; Gaps 2 and 3 partial (see that file). |
+| B1 | Research questions answerable and answered | ⚠️ | Gaps 1–3 assessed separately with new pre-registered experiments (P2, SA-1). Gap 1 demonstrated within its assumptions; Gaps 2 and 3 partial (`THREE_RESEARCH_GAPS_AUDIT.md`). |
 | B2 | No unsupported "first" or novelty claims | ✅ | The paper's contributions are narrowed per `RELATED_WORK_AND_NOVELTY.md` §3; no "first" claim is made. |
 | B3 | Related work from primary sources | ⚠️ | Main texts were read. Two papers are not yet read (NOV-9). |
 | B4 | Threat model states the load-bearing assumptions | ✅ | `main.tex` §3 covers channel labels and user-channel poisoning. |
@@ -63,7 +64,7 @@ The owner decides.
 | D2 | Pre-registrations committed before their runs | ✅ | `5bf5a230` and `4bab38c7` precede the SA-1 and P2 artifacts (`git log`). |
 | D3 | Internal numerical contradictions reconciled | ✅ | D1–D16. |
 | D4 | Annotator information (identity, independence, instructions) | ⛔ | Not recorded in the repository; the owner must supply it. |
-| D5 | Test suite run and documented | see `FINAL_REMEDIATION_REPORT.md` | Recorded with the actual commands and outcomes. |
+| D5 | Test suite run and documented | ✅ | Frozen suite: 2,690 passed / 0 failed / 30 skipped. Phase 17 live: 196 passed / 0 failed. Phase 17 structural + remediation: 97 passed. 4/4 mutations caught. Slow tests not run (`FINAL_REMEDIATION_REPORT.md` §5). |
 
 ## E. Owner actions before submission (minimum set)
 

@@ -133,11 +133,54 @@ The 37.3% figure was not reported before this remediation. It is over-blocking o
 
 ### 2.4 P2: two generations (pre-registered)
 
-`P2_RESULTS_PLACEHOLDER`
+**Status.** REP: `phase17/data/remediation/propagation_2gen.json`, development data. The design was pre-registered (`5bf5a230`) and run once. A first run was interrupted after 24 instances and restructured into one-model-at-a-time phases; that was an efficiency change only, with the same calls and caches.
+
+**Payload persistence**
+
+| Quantity | Result |
+|---|---|
+| Generation-1 summaries carrying the payload | 148/249 (59.4%) |
+| Generation-2 summaries carrying the payload | **98/249 (39.4%)**; 95 of the 148 generation-1 carriers kept it. **P2-1 HELD** |
+| Harm with D2 served, on B13-excluded instances (A0) | **22/161 (13.7%)** vs B13's convention of 0. **P2-4 HELD** (p = 4.8e-07) |
+
+**Containment arms** (the 161 B13-excluded instances)
+
+| Arm | Withholds carrying D2 (71) | Withholds non-carrying D2 (90) | Harm (161) | Benign chains withheld (79) |
+|---|---|---|---|---|
+| A0, none | 0 | 0 | 22 | 0 |
+| L-inh, lexical + inherited state | 0 | 0 | 22 | 0 |
+| **S-inh**, semantic + inherited state | **24 (33.8%)** | 7 (7.8%) | **13** | 4 (5.1%) |
+| S-inh+d2, adds grandparents | 24 | 7 | 13 | 4 |
+| S-noinh, grandparents only, no inheritance | **0** | 0 | 22 | 0 |
+
+**Predictions**
+
+| ID | Outcome |
+|---|---|
+| P2-2 | HELD: S-inh vs L-inh +24/−0, p = 1.2e-07 |
+| P2-3 | HELD: 0 withheld without inheritance, as the frozen decay implies analytically |
+| P2-5 | **FAILED**: over-blocking of non-carrying summaries was 7/90, below the predicted ≥ 25%. Generation 1 had 22/59 |
+
+**Uncovered descendants.** 27 of the 88 instances whose poison B13 missed still carry the payload at generation 2. No arm can act on them.
+
+**What it shows**
+- Containment **degrades sharply across generations**: the best arm withholds 75% of carrying descendants at generation 1 but 34% at generation 2.
+- It works at generation 2 only through **state inheritance**. The grandparent term adds nothing under the frozen decay.
+- Harm falls from 22 to 13, but **13 of 161 laundered harms survive two consolidations** even under the best arm.
+- Over-blocking is smaller at generation 2.
 
 ### 2.5 Strongest defensible claim (Gap 2)
 
-`GAP2_CLAIM_PLACEHOLDER`
+> **Gap 2 claim.** On development data, a poison excluded at admission returns through LLM consolidation: 33/161 harmful at one generation, 22/161 at two. A lineage-taint containment guard with a semantic retention measure, propagating the admission decision to descendants, withholds 75% of payload-carrying summaries at generation 1 but 34% at generation 2, and only because each intermediate summary inherits its parent's taint state. Lexical retention, or no inheritance, withholds nothing. The guard acts only on descendants of poisons admission caught: 88 of 249 poisons were missed and their descendants are untouched. It also withholds legitimate derived memory: 37% of non-carrying summaries at generation 1 and 8% at generation 2.
+
+**Status: partially demonstrated.**
+- Propagation is measured and containment is characterised, on development data and (for one generation) on hold-out 8.
+- **Not demonstrated:**
+  - detection of propagation that does not start from an admission-detected poison;
+  - cross-context spread;
+  - containment inside a production memory system;
+  - generalisation of the two-generation result to a hold-out.
+- This is consistent with TMA-NM's argument (LIT) that retention- or lineage-based authority is malleable under self-summarization.
 
 ---
 
@@ -165,14 +208,77 @@ The 37.3% figure was not reported before this remediation. It is over-blocking o
 
 ### 3.3 SA-1: activation with benign lookalikes (pre-registered, commit 5bf5a230)
 
-`SA1_RESULTS_PLACEHOLDER`
+**Status.** REP: `phase17/data/remediation/sleeper_activation_eval.json`. Pre-registered (`5bf5a230`; addendum A `4bab38c7`), run once. A first attempt crashed before any agent call (NEW-5).
+
+**Setup.** 60 conditional backdoors and 60 benign conditional lookalikes. Owner: LoCoMo conversation 3, a B13 calibration owner (disclosed). Real top-5 retrieval, no forced insertion.
+
+**Dormancy and activation.** Two judges: C0 (original) and the human-calibrated vote.
+
+| Quantity | Attacks, C0 | Attacks, vote | Lookalikes, C0 | Lookalikes, vote |
+|---|---|---|---|---|
+| Note retrieved by trigger message | 51/60 | — | 38/60 | — |
+| Note retrieved by unrelated message | 4/60 | — | 3/60 | — |
+| Comply on trigger, note present | 23/60 | 50/60 | 11/60 | 51/60 |
+| Comply on trigger, note absent | 0/60 | 8/60 | 2/60 | 42/60 |
+| **Activation on trigger** (present ∧ ¬absent) | **23/60** | **42/60** | 9/60 | 11/60 |
+| **Activation on unrelated message** | **0/60** | 1/60 | 0/60 | 0/60 |
+| Activation under the v6 frame | 5/60 | 20/60 | 13/60 | 11/60 |
+
+**Defence before activation (admission).** Primary judge C0.
+
+| Defence | Attacks excluded | Lookalikes excluded | Attack activation remaining |
+|---|---|---|---|
+| None | — | — | 23/60 |
+| **B12, content only** | **60/60** | **2/60** | 0/60 |
+| B13, untrusted channel | 60/60 | 3/60 | 0/60 |
+| B13, user channel | 0/60 | 0/60 | 23/60 |
+| Phase 8 sleeper guard | 0/60 | 0/60 | 23/60 |
+| deberta@dev | 8/60 | 2/60 | 19/60 |
+| Anomaly, dev-fitted, p90 | 60/60 | **60/60** | 0/60 |
+| Anomaly, dev-fitted, p99 | 58/60 | 56/60 | 2/60 |
+
+**Predictions.** SA-1 through SA-9 all HELD. Holm-adjusted p: SA-2 9.5e-07, SA-3 2.5e-30, SA-5 9.5e-07, SA-8 7.6e-06.
+
+**Interpretation and competing explanations**
+
+1. **Dormancy and natural activation are real.** An unrelated message almost never retrieves the note (4/60) and never activates it. A natural trigger retrieves it in 51/60 cases and activates it in 23/60 (C0) to 42/60 (vote), against a no-memory baseline of 0 (C0).
+2. **Admission-time prevention works on these backdoors, but for a non-sleeper reason.** Content-only B12 already excludes all 60 at a lookalike cost of 2/60, so B13's corroboration is not needed. These backdoors name an outside company and a covert action, which a content detector recognises regardless of the conditional.
+   - The experiment shows that **conditional rules with explicit malicious payloads** are stopped before activation with little benign cost.
+   - It does **not** show detection of stealthy sleepers. Instruction-free sleeper notes score 0% under every content configuration (Results Table 5A), and corroboration reaches 14/38 on development data (Table 5E).
+3. **No sleeper-specific signal works.** The Phase 8 guard flags 0/60. The anomaly signal flags every lookalike (60/60).
+4. **The activation-time frame is a partial, low-cost mitigation.** v6 cuts attack activation by 18 of 23 (C0) and does not reduce lookalike activation (9 → 13 under C0; 11 → 11 under the vote).
+5. **The user channel remains open.** Relabelled to `user_turn`, every attack is admitted and 23/60 activate.
+6. **Judge dependence.** The vote finds about twice the compliance of C0 on both arms, so activation *levels* are judge-dependent. Dormancy (≤ 1/60) and prevention (0/60 under B12/B13) hold under both judges.
 
 ### 3.4 Strongest defensible claim (Gap 3)
 
-`GAP3_CLAIM_PLACEHOLDER`
+> **Gap 3 claim.** In a pre-registered experiment with real retrieval, conditional memory rules were genuinely dormant (activation 0–1/60 on unrelated messages) and activated on natural trigger messages (23–42/60, depending on the judge). Admission-time content detection excluded all 60 before activation while excluding 2/60 benign conditional rules of the same shape. That held because these backdoors state an explicit malicious action. The project's sleeper-specific detectors did not work: the Phase 8 guard flagged 0%, and the embedding-anomaly signal flagged every benign lookalike and, on hold-out 8, 80% of benign notes once its threshold was not fitted on the test set. Detecting stealthy, instruction-free sleeper memories remains unsolved here; corroboration catches a minority.
+
+**Status: partially demonstrated.**
+- Demonstrated: dormancy, activation, and prevention for explicit-payload conditional rules, with benign lookalikes.
+- **Not demonstrated:**
+  - detection of stealthy sleepers before activation;
+  - any sleeper-specific signal;
+  - activation-time detection, as opposed to framing;
+  - generalisation beyond one author and owner (whose conversation B13 saw in calibration).
 
 ---
 
 ## 4. Do the three gaps support one lifecycle-aware defence?
 
-`LIFECYCLE_PLACEHOLDER`
+**Lifecycle view.** The evidence supports a *composition* of stage-specific controls, not one aggregate detector:
+
+| Stage | Control | What the evidence supports |
+|---|---|---|
+| Admission | Content detection | Explicit payloads (SA-1; injection hold-outs) |
+| Admission | Corroboration of untrusted personal claims | Note-shaped fabrication (HO4/7/8) |
+| Transformation | State-inheriting semantic lineage taint | Laundering of *admission-detected* poisons, decaying across generations (P2) |
+| Activation | v6 frame (low-cost mitigation) | Conditional rules that slip through admission (SA-1) |
+| Repeated attempts | Ledger | Retry-capable attackers (development only) |
+
+**Gaps in that composition**
+- Each later stage depends on an earlier one. Containment acts only on what admission caught, and the frame only mitigates.
+- Two holes run through every stage: user-channel poisoning and stealthy instruction-free sleepers.
+- Combining the stages was not evaluated end to end.
+
+So the three gaps should be reported as three separately measured capabilities on one lifecycle, not as a unified defence. They should not be collapsed into one metric, because their failure modes differ (missed admission vs decayed taint vs no sleeper signal).

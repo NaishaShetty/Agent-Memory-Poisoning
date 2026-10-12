@@ -233,3 +233,22 @@ Gap 1 (provenance/governance), Gap 2 (self-propagation) and Gap 3 (sleeper) are 
 > (iii) whether conditional (sleeper) rules can be stopped before activation without excluding benign conditional rules.
 
 The three original research questions stay in the project documentation (`THREE_RESEARCH_GAPS_AUDIT.md`). The paper reports each gap at the level of evidence it actually has.
+
+## 5. Addendum: the two papers previously unread (NOV-9, read 2026-10-12, abstract pages)
+
+Neither changes the contribution boundaries in §3.
+
+**SMSR.** Sharma, *SMSR: Certified Defence Against Runtime Memory Poisoning in Persistent LLM Agent Systems*, arXiv:2606.12703 (10 Jun 2026).
+
+- **Mechanism.** HMAC-SHA256 write-time provenance blocks unsigned injections, cutting ASR from 93–100% to 0%. Randomized memory ablation with verdict-based majority voting carries a hypergeometric certificate against authenticated writers.
+- **Results.** 8.0% ASR with one authenticated injection. The query-only live attack drops from 65.3% to 5.3%.
+- **Utility.** Clean-query utility is 90% / 85%.
+- **Relevance.** Another provenance defence (NOV-1). It addresses the *authenticated* writer that B13's channel trust cannot.
+
+**Leong (retrieval observability).** Leong, *Retrieval Observability Bounds on Provenance Detection for Agent Memory Poisoning: Measured Coverage and a Falsified Standalone Detector*, arXiv:2606.30566 (v3, 27 Sep 2026).
+
+- **Mechanism.** A retrieval-before-send trajectory signature.
+- **Results.** Benign memory-grounded actions are trajectory-identical to attacks: false-positive rate 24.7–57.6% across 13 models (N = 4,160). The detector was withdrawn as a standalone detector.
+- **Relevance.** This is the closest prior evidence on **benign lookalikes**. Detectors keyed to attack *structure* fire on benign instances of the same structure. SA-1 tests the same question for conditional *memory rules* at admission.
+
+With these two papers read, the matrix sentence "Benign *lookalikes* of sleeper/conditional rules: not found in the papers read" still holds for conditional rules. Benign structural lookalikes in general are studied by Leong.

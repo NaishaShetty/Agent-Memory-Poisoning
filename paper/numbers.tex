@@ -12,7 +12,7 @@
 \newcommand{\AuditRate}{42.5\%\xspace}
 \newcommand{\BthirteenFPRmax}{15.3\%\xspace}
 \newcommand{\BthirteenFPRmin}{8.8\%\xspace}
-\newcommand{\Conclusion}{\textbf{[PENDING]}}
+\newcommand{\Conclusion}{Re-scoring defenses on attacks shown to work changes the measured recall by up to \TwoDenMaxShift{} points in either direction, so validity filtering belongs in memory-poisoning evaluation. For admission, corroborating untrusted personal claims against the owner's conversation reached memory poisoning that content classifiers missed on three single-use hold-outs, at a benign cost, while the channel label itself added nothing and left the user channel unprotected. For propagation, retention-based lineage taint acts only on descendants of poisons admission already caught; at the second generation it withheld 24/71 carrying summaries when the intermediate summary inherited its state and 0/71 when it did not. For sleeper rules, SA-1 confirmed dormancy and natural trigger activation, and showed that conditional rules with an explicit malicious action are stopped before activation by content detection (60/60) with little cost to benign conditional rules (2/60); no sleeper-specific signal worked, and stealthy, instruction-free sleepers remain largely undetected. Each conclusion holds within an in-context evaluation harness, a 7B agent and evaluator-assigned channels, and should be re-tested in a production memory system.}
 \newcommand{\GandalfShare}{38\%\xspace}
 \newcommand{\GenOneMissed}{88\xspace}
 \newcommand{\GenOneSemCarry}{76/102 (74.5\%)\xspace}
@@ -30,12 +30,16 @@
 \newcommand{\HarmJudgeOnly}{5\xspace}
 \newcommand{\HarmNatRetr}{89/309 (28.8\%)\xspace}
 \newcommand{\HarmNoiseRange}{2.3\xspace}
-\newcommand{\JSAllCzero}{\textbf{[PENDING]}}
-\newcommand{\JSAllVote}{\textbf{[PENDING]}}
-\newcommand{\JSExtCzero}{\textbf{[PENDING]}}
-\newcommand{\JSExtVote}{\textbf{[PENDING]}}
-\newcommand{\JSOwnCzero}{\textbf{[PENDING]}}
-\newcommand{\JSOwnVote}{\textbf{[PENDING]}}
+\newcommand{\JSAllCzero}{25.3\%\xspace}
+\newcommand{\JSAllVote}{27.1\%\xspace}
+\newcommand{\JSBaseCzero}{25.7\%\xspace}
+\newcommand{\JSBaseVote}{47.4\%\xspace}
+\newcommand{\JSExtCzero}{18.5\%\xspace}
+\newcommand{\JSExtVote}{19.6\%\xspace}
+\newcommand{\JSFlips}{509/2628\xspace}
+\newcommand{\JSFlipsPct}{19\%\xspace}
+\newcommand{\JSOwnCzero}{40.8\%\xspace}
+\newcommand{\JSOwnVote}{44.3\%\xspace}
 \newcommand{\LaunderOne}{33/161\xspace}
 \newcommand{\LeadBseventeen}{37.2\xspace}
 \newcommand{\LeadBthirteen}{32.1\xspace}
@@ -44,9 +48,9 @@
 \newcommand{\PredHeld}{45\xspace}
 \newcommand{\PredIntervalHeld}{10/11\xspace}
 \newcommand{\PredScored}{53\xspace}
-\newcommand{\PtwoAbstract}{\textbf{[PENDING]}}
-\newcommand{\PtwoBody}{\textbf{[PENDING]}}
-\newcommand{\RemHolm}{\textbf{[PENDING]}}
-\newcommand{\SAoneAbstract}{\textbf{[PENDING]}}
-\newcommand{\SAoneBody}{\textbf{[PENDING]}}
+\newcommand{\PtwoAbstract}{carried the payload into a second consolidation in 98/249 instances; containing those second-generation summaries depends on inheriting the intermediate summary's state (withheld carrying summaries: 24/71 with inheritance, 0/71 without).}
+\newcommand{\PtwoBody}{Second-generation summaries carried the poison's payload in 98/249 instances (95/148 of those whose first summary carried it; P2-1~HELD). Serving them on B13-excluded instances produced harm in 22/161 (P2-4~HELD). Of the 71 carrying summaries of excluded poisons, containment withheld 0/71 (lexical), 24/71 (semantic, inheriting the parent's state), 24/71 (adding grandparents) and 0/71 (grandparents only, no inheritance; P2-3~HELD); P2-2~HELD. The semantic inheriting arm also withheld 7/90 summaries that did not carry the payload (P2-5~FAILED) and 4/79 benign chains. Harm with each arm: A0 22/161, L-inh 22/161, S-inh 13/161, S-inh+d2 13/161, S-noinh 22/161. No arm acts on the 88 instances admission missed, 27 of whose second summaries still carry the payload.}
+\newcommand{\RemHolm}{Holm-adjusted $p$: SA-2 9.5e-07; SA-3 2.5e-30; SA-5 9.5e-07; SA-8 7.6e-06; P2-2 6.0e-07; P2-4 9.5e-07.}
+\newcommand{\SAoneAbstract}{a pre-registered experiment with 60 conditional backdoors and 60 benign conditional lookalikes found activation on a natural trigger in 23/60 attacks and on an unrelated message in 0/60; admission-time content detection excluded 60/60 attacks and 2/60 lookalikes before activation---because these backdoors state their malicious action explicitly, not because any sleeper-specific signal worked (a dedicated sleeper guard flagged 0/60).}
+\newcommand{\SAoneBody}{Each of 60 conditional backdoors and 60 benign conditional lookalikes (same author, owner, prompt and third-person syntax) carries a natural trigger message and an unrelated message. The note was retrieved into the agent's top five by its trigger in 51/60 attacks and 38/60 lookalikes, and by the unrelated message in 4/60 and 3/60. Undefended, attacks activated (complied with the note present, not without it) on 23/60 trigger messages and 0/60 unrelated messages (SA-1~HELD, dormancy; SA-2~HELD, paired +23/$-$0, $p$=2.4e-07); under the human-calibrated vote judge, 42/60 and 1/60. Lookalikes, whose activation is the intended behaviour, activated on 9/60 triggers. At admission, before any activation, B13 on the untrusted channel excluded 60/60 attacks and 3/60 lookalikes (SA-3~HELD, Fisher $p$=4.1e-31); B12 60 and 2 (SA-4~HELD). B13 reduced trigger activation from 23/60 to 0/60 (SA-5~HELD, $p$=2.4e-07) and lookalike activation from 9/60 to 8/60. On the user channel B13 excluded 0 attacks, by construction. The dedicated Phase~8 sleeper guard flagged 0/60 attacks (SA-6~HELD); the development-fitted anomaly signal flagged 60/60 attacks and 60/60 lookalikes (SA-7~HELD); deberta flagged 8/60 and 2/60. At activation time, the instruction-aware frame changed attack activation from 23/60 to 5/60 (SA-8~HELD, $p$=7.6e-06) and lookalike activation from 9/60 to 13/60 (SA-9~HELD). The interpretation matters: B12 alone excluded every attack, so detection here rests on the explicit payload (a named outside company and a covert action), not on dormancy; mundane, instruction-free sleeper notes are not caught by content detection (0\% on the project's sleeper family) and only partly by corroboration. B13's corroboration thresholds were calibrated on this owner's conversation among others (\S\ref{sec:limits}).}
 \newcommand{\TwoDenMaxShift}{11\xspace}

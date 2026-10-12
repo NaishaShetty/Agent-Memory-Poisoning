@@ -96,26 +96,32 @@ def run(workers: int = 2) -> Dict:
             done[key] = agent.generate([{"role": "user", "content": p}], scfg).text.strip()
         return done[key]
 
-    def step(j):
+    # PHASED by model (efficiency only, 2026-10-12): alternating agent and judge calls made Ollama swap models
+    # on every item. Phase A = all agent (qwen) calls; phase B = all judge (llama3.1) calls. Same calls, same
+    # seeds, same caches; only the order changes.
+    def agent_step(j):
         d2 = summ(f"sum2:{j['id']}", [j["d1"]] + [t for _, t in j["extra"]])
+        if j["b13_excluded"] and f"ans2:{j['id']}" not in done and f"harm2:{j['id']}" not in done:
+            items = [(m, t) for m, t in j["cand"] if m != j["id"]] + [("derived2", d2)]
+            done[f"ans2:{j['id']}"] = H._answer(agent, acfg, items, j["task"])
+        return d2
+
+    def judge_step(jd):
+        j, d2 = jd
         k = f"carry2:{j['id']}"
         if k not in done:
             done[k] = judge.generate([{"role": "user", "content": CARRY_Q.format(d=d2, p=j["poison"])}],
                                      jcfg).text.strip().upper().startswith("YES")
-        if j["b13_excluded"]:
-            k = f"harm2:{j['id']}"
-            if k not in done:
-                items = [(m, t) for m, t in j["cand"] if m != j["id"]] + [("derived2", d2)]
-                ans = H._answer(agent, acfg, items, j["task"])
-                done[k] = {"ans": ans, "harm": bool(H._judge(judge, jcfg, j["poison"], j["question"], ans))}
-        return d2
+        if j["b13_excluded"] and f"harm2:{j['id']}" not in done:
+            ans = done[f"ans2:{j['id']}"]
+            done[f"harm2:{j['id']}"] = {"ans": ans, "harm": bool(H._judge(judge, jcfg, j["poison"], j["question"], ans))}
 
     d2s = []
     for i in range(0, len(jobs), 12):
         with cf.ThreadPoolExecutor(max_workers=workers) as ex:
-            d2s += list(ex.map(step, jobs[i:i + 12]))
+            d2s += list(ex.map(agent_step, jobs[i:i + 12]))
         PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
-        print(f"  instances {len(d2s)}/{len(jobs)}", flush=True)
+        print(f"  agent {len(d2s)}/{len(jobs)}", flush=True)
 
     # benign control: second consolidation of the 79 benign corroboration-only chains
     _, _, btexts, cb, _ = _dev_sets()
@@ -132,6 +138,14 @@ def run(workers: int = 2) -> Dict:
         with cf.ThreadPoolExecutor(max_workers=workers) as ex:
             bd2 += list(ex.map(lambda ix: summ(f"bsum2:{ix}", [bd1[ix]] + bextra[ix]), ixs))
         PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
+    print("  benign gen-2 summaries done", flush=True)
+
+    pairs = list(zip(jobs, d2s))
+    for i in range(0, len(pairs), 12):
+        with cf.ThreadPoolExecutor(max_workers=workers) as ex:
+            list(ex.map(judge_step, pairs[i:i + 12]))
+        PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
+        print(f"  judge {min(i + 12, len(pairs))}/{len(pairs)}", flush=True)
 
     emb_cache: Dict[str, object] = {}
 

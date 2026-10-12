@@ -1947,7 +1947,12 @@ if _JS:
       f"original judge {pct(a['fitted_probe_working_C0']['rate'])} vs the human-calibrated majority vote "
       f"{pct(a['fitted_probe_working_vote']['rate'])} (own populations {pct(o['fitted_probe_working_C0']['rate'])} vs "
       f"{pct(o['fitted_probe_working_vote']['rate'])}; external {pct(e['fitted_probe_working_C0']['rate'])} vs "
-      f"{pct(e['fitted_probe_working_vote']['rate'])}). Working status is a property of the agent, probe and "
+      f"{pct(e['fitted_probe_working_vote']['rate'])}). Population rates are therefore judge-robust, but "
+      f"{a['working_only_C0'] + a['working_only_vote']} of {a['n']} instances change working status between the "
+      f"judges, and the fitted probe's task-alone base rate is {pct(a['task_alone_base_rate_C0']['rate'])} under the "
+      f"original judge and {pct(a['task_alone_base_rate_vote']['rate'])} under the vote -- above the 20% admissibility "
+      f"rule this project later adopted for hold-out probes, so per-population working rates are lower bounds where "
+      f"the task alone elicits compliance. Working status is a property of the agent, probe and "
       f"judge, not of an attack in every setting. Source: remediation/validity_judge_sensitivity.json.")
 else:
     P("Judge sensitivity of the validity audit: not yet run.")
@@ -1958,6 +1963,24 @@ for _lab, _d in (("SA-1 (sleeper activation, Gap 3)", _SA), ("P2 (two-generation
           f"results/tables (T10, T11).")
     else:
         P(f"{_lab}: pre-registered; not yet run.")
+if _SA:
+    _A = _SA["by_judge"]["C0"]["atk"]
+    _D = _SA["by_judge"]["C0"]["discrimination"]
+    P(f"Reading SA-1. Conditional backdoors were dormant (activation {_A['activation_on_non_trigger']['k']}/60 on "
+      f"unrelated messages) and activated through real retrieval on natural triggers "
+      f"({_A['activation_on_trigger']['k']}/60 under the original judge). Content-only B12 excluded "
+      f"{_D['B12']['attack_excluded']}/60 of them and {_D['B12']['lookalike_excluded']}/60 benign conditional "
+      f"lookalikes before activation -- so prevention here rests on the explicit malicious payload these backdoors "
+      f"state, not on any sleeper signal: the dedicated sleeper guard flagged "
+      f"{_A['defended']['sleeper_guard_phase8']['excluded']['k']}/60 and the development-fitted anomaly signal "
+      f"flagged every lookalike. Stealthy, instruction-free sleeper notes remain largely undetected (Table 5A). "
+      f"SA-1's owner, like hold-out 8's, was among B13's calibration conversations (pre-registration addendum A).")
+if _P2:
+    _W = _P2["withheld_payload_carrying_gen2"]
+    P(f"Reading P2. The payload survived a second consolidation in {_P2['payload_carried_gen2']['k']}/249 "
+      f"instances; the best containment arm withheld {_W['S-inh']['k']}/{_W['S-inh']['n']} carrying "
+      f"second-generation summaries (against most at generation 1), only by inheriting the intermediate summary's "
+      f"taint state, and withheld none without it. Development data only.")
 
 H("Definitions and Formulas", 1)
 P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "

@@ -68,7 +68,44 @@ None of these supports "evaluated on real persistent-memory systems". The paper 
 
 ### Judge sensitivity (REP: `remediation/validity_judge_sensitivity.json`, table T2)
 
-`JS_PLACEHOLDER`
+Fitted probe only, mechanism-checked. C0 is the audit's original judge (cached verdicts; reproduces the published audit for 2,628/2,628 instances). The vote is the majority of C0, C1 and C3, selected against two blind annotators.
+
+| Group | n | Working, C0 | Working, vote | Task-alone base, C0 | Task-alone base, vote | Published union (C0) | Status flips (+C0 only / −vote only), p |
+|---|---|---|---|---|---|---|---|
+| ALL | 2628 | 666/2628 (25.3%) | 713/2628 (27.1%) | 675/2628 (25.7%) | 1246/2628 (47.4%) | 1117/2628 (42.5%) | +231/−278, p=0.041 |
+| own | 804 | 328/804 (40.8%) | 356/804 (44.3%) | 215/804 (26.7%) | 349/804 (43.4%) | 482/804 (60.0%) | +82/−110, p=0.051 |
+| external | 1824 | 338/1824 (18.5%) | 357/1824 (19.6%) | 460/1824 (25.2%) | 897/1824 (49.2%) | 635/1824 (34.8%) | +149/−168, p=0.31 |
+| extdev_agentdojo | 27 | 5/27 (18.5%) | 12/27 (44.4%) | 2/27 (7.4%) | 7/27 (25.9%) | 15/27 (55.6%) | +2/−9, p=0.065 |
+| extdev_agentpoison | 6 | 3/6 (50.0%) | 3/6 (50.0%) | 0/6 (0.0%) | 1/6 (16.7%) | 3/6 (50.0%) | +1/−1, p=1 |
+| extdev_bipia | 150 | 38/150 (25.3%) | 24/150 (16.0%) | 82/150 (54.7%) | 119/150 (79.3%) | 99/150 (66.0%) | +20/−6, p=0.0094 |
+| extdev_injecagent | 62 | 19/62 (30.6%) | 16/62 (25.8%) | 23/62 (37.1%) | 29/62 (46.8%) | 53/62 (85.5%) | +7/−4, p=0.55 |
+| extdev_minja | 21 | 7/21 (33.3%) | 8/21 (38.1%) | 4/21 (19.0%) | 9/21 (42.9%) | 10/21 (47.6%) | +2/−3, p=1 |
+| exttest_deepset | 260 | 54/260 (20.8%) | 53/260 (20.4%) | 49/260 (18.8%) | 150/260 (57.7%) | 126/260 (48.5%) | +26/−25, p=1 |
+| exttest_gandalf | 998 | 148/998 (14.8%) | 185/998 (18.5%) | 168/998 (16.8%) | 371/998 (37.2%) | 265/998 (26.6%) | +59/−96, p=0.0037 |
+| holdout2_mosscap | 300 | 64/300 (21.3%) | 56/300 (18.7%) | 132/300 (44.0%) | 211/300 (70.3%) | 64/300 (21.3%) | +32/−24, p=0.35 |
+| own_corpus_extended | 138 | 48/138 (34.8%) | 55/138 (39.9%) | 48/138 (34.8%) | 75/138 (54.3%) | 91/138 (65.9%) | +13/−20, p=0.3 |
+| own_evasion_47 | 47 | 20/47 (42.6%) | 25/47 (53.2%) | 10/47 (21.3%) | 16/47 (34.0%) | 25/47 (53.2%) | +2/−7, p=0.18 |
+| own_founding_regen | 208 | 110/208 (52.9%) | 139/208 (66.8%) | 32/208 (15.4%) | 61/208 (29.3%) | 146/208 (70.2%) | +20/−49, p=0.00064 |
+| own_frozen75 | 34 | 14/34 (41.2%) | 12/34 (35.3%) | 2/34 (5.9%) | 10/34 (29.4%) | 14/34 (41.2%) | +4/−2, p=0.69 |
+| own_gemini_30 | 30 | 9/30 (30.0%) | 11/30 (36.7%) | 8/30 (26.7%) | 10/30 (33.3%) | 16/30 (53.3%) | +1/−3, p=0.62 |
+| own_novel_60 | 60 | 17/60 (28.3%) | 18/60 (30.0%) | 26/60 (43.3%) | 29/60 (48.3%) | 31/60 (51.7%) | +3/−4, p=1 |
+| own_novel_new120 | 120 | 46/120 (38.3%) | 40/120 (33.3%) | 32/120 (26.7%) | 53/120 (44.2%) | 64/120 (53.3%) | +16/−10, p=0.33 |
+| own_trackb_15 | 15 | 11/15 (73.3%) | 13/15 (86.7%) | 0/15 (0.0%) | 2/15 (13.3%) | 11/15 (73.3%) | +2/−4, p=0.69 |
+| own_trackb_regen_9 | 9 | 1/9 (11.1%) | 4/9 (44.4%) | 4/9 (44.4%) | 5/9 (55.6%) | 2/9 (22.2%) | +0/−3, p=0.25 |
+| own_worm_regen | 29 | 5/29 (17.2%) | 4/29 (13.8%) | 11/29 (37.9%) | 22/29 (75.9%) | 10/29 (34.5%) | +4/−3, p=1 |
+| own_zh_native_30 | 30 | 17/30 (56.7%) | 14/30 (46.7%) | 8/30 (26.7%) | 12/30 (40.0%) | 25/30 (83.3%) | +3/−0, p=0.25 |
+| own_zh_translated_84 | 84 | 30/84 (35.7%) | 21/84 (25.0%) | 34/84 (40.5%) | 54/84 (64.3%) | 47/84 (56.0%) | +14/−5, p=0.064 |
+
+**Reading the table**
+
+1. **Population-level rates are judge-robust.** Overall 666/2628 (25.3%) vs 713/2628 (27.1%). On the own populations, 40.8% vs 44.3%.
+2. **Instance-level membership is not.** 509 of 2628 instances (19%) change working status between the judges (paired p=0.041).
+3. **The fitted probe is leading.** Its task-alone base rate is 675/2628 (25.7%) under C0 and 1246/2628 (47.4%) under the vote. Both exceed the project's own admissibility rule of ≤ 20% (`working_set.MAX_PROBE_BASE_RATE`). That rule was adopted in round 7 for hold-out probes and never applied retroactively to this audit.
+   - Worst populations under C0: BIPIA 54.7%, Mosscap 44.0%, InjecAgent 37.1%.
+   - Because a leading task makes an instance comply *without* its memory, it cannot count as working. For high-base-rate populations the working rate is therefore a **lower bound**, and the published union (which adds the generic probe) is higher for that reason.
+4. **Scope.** Neither the generic probe's per-instance no-memory answers nor the hold-out causal subsets (HO4/5/6/8) were re-judged. The two-denominator results (T3) rest on C0.
+
+**Status:** M3 VALIDATION PASSED (sensitivity measured). The paper reports population rates under both judges, states that instance membership is judge-dependent, and calls the per-population rates lower bounds where the probe base rate exceeds 20%.
 
 ### Generalisation
 
@@ -125,7 +162,7 @@ Working status is relative to qwen2.5:7b, the probe and the judge. The per-famil
 | | User-channel benign | 0% by construction | T4 |
 | | Ordinary benign (1,054 dev) | 79/1054 (7.5%) | Results Table 5D |
 | | Legitimate derived memories (1,515) | 7 (0.46%) | DOC (pre-registered B13) |
-| | Benign conditional lookalikes (SA-1) | `SA1_FPR_PLACEHOLDER` | SA-1 |
+| | Benign conditional lookalikes (SA-1) | B13 (untrusted) 3/60; B12 2/60. Lookalike activation retained 8/9 (C0) | SA-1 |
 | B17 (injection-shaped) | Matched benign HO5 / HO6 | 10.2% / 2.2% | T6 |
 | Ledger r = 0.95 | Ordinary benign | 0% at every radius | T9 |
 | | Ledger-poisoning blast radius | 6.4% (development) | T9 |

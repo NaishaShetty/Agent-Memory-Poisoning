@@ -81,7 +81,8 @@ def _admission(notes: List[str]) -> Dict[str, List[bool]]:
     out["sleeper_guard_phase8"] = _sleeper_guard(notes)
     out["deberta_pi_v2@dev"] = _deberta_dev(notes)
     out.update(_anomaly_devfit(notes))
-    return out
+    # numpy bools are not JSON-serialisable (first run, 2026-10-12 21:52, failed here before any agent call)
+    return {k: [bool(x) for x in v] for k, v in out.items()}
 
 
 def _judges(note: str, answer: str, cache: Dict, providers: Dict, cfg) -> Dict[str, bool]:
@@ -95,13 +96,14 @@ def _judges(note: str, answer: str, cache: Dict, providers: Dict, cfg) -> Dict[s
     return {"C0": cache[f"C0:{k}"]}
 
 
-def _vote_extra(note: str, answer: str, cache: Dict, providers: Dict, cfg) -> Dict[str, bool]:
+def _vote_extra(note: str, answer: str, cache: Dict, providers: Dict, cfg,
+                only=(("C1", "llama3.1:8b"), ("C3", "mistral:7b"))) -> Dict[str, bool]:
     from phase12.propagation.ollama_provider import OllamaProvider
     from phase17.compliance_judge_fix import RUBRIC
 
     k = hashlib.sha256((note + "||" + answer).encode("utf-8")).hexdigest()[:24]
     res = {}
-    for name, model in (("C1", "llama3.1:8b"), ("C3", "mistral:7b")):
+    for name, model in only:
         if f"{name}:{k}" not in cache:
             p = providers.setdefault(model, OllamaProvider(model=model))
             cache[f"{name}:{k}"] = p.generate([{"role": "user", "content": RUBRIC.format(note=note, answer=answer)}],
@@ -176,11 +178,13 @@ def run(workers: int = 2) -> Dict:
             list(ex.map(lambda na: _judges(na[0], na[1], jc, providers, jcfg), answers[i:i + 24]))
         PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
         print(f"  C0 {min(i + 24, len(answers))}/{len(answers)}", flush=True)
-    for i in range(0, len(answers), 24):          # C1 then C3 per batch is fine: the vote is secondary
-        with cf.ThreadPoolExecutor(max_workers=workers) as ex:
-            list(ex.map(lambda na: _vote_extra(na[0], na[1], jc, providers, jcfg), answers[i:i + 24]))
-        PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
-        print(f"  vote {min(i + 24, len(answers))}/{len(answers)}", flush=True)
+    for judge_spec in (("C1", "llama3.1:8b"), ("C3", "mistral:7b")):   # one model at a time (no GPU swapping)
+        for i in range(0, len(answers), 24):
+            with cf.ThreadPoolExecutor(max_workers=workers) as ex:
+                list(ex.map(lambda na: _vote_extra(na[0], na[1], jc, providers, jcfg, only=(judge_spec,)),
+                            answers[i:i + 24]))
+            PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
+            print(f"  vote {judge_spec[0]} {min(i + 24, len(answers))}/{len(answers)}", flush=True)
 
     def verdict(x, slot, judge):
         note, ans = x["note"], done[f"ans:{x['id']}:{slot}"]
