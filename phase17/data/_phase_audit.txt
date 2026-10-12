@@ -19,21 +19,7 @@
 ........................................................................ [ 72%]
 ........................................................................ [ 76%]
 ......................ssss.............................................. [ 80%]
-...........sss.......................................................... [ 84%]
-........................................................................ [ 88%]
-........................................................................ [ 92%]
-........................................................................ [ 96%]
-.................................................................        [100%]
-============================== warnings summary ===============================
-phase3/evaluation/tests/test_hybrid_selection.py::test_select_by_hybrid_score_respects_top_k
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase3/evaluation/tests/test_hybrid_selection.py::test_select_by_hybrid_score_respects_top_k
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1776 passed, 17 skipped, 2 warnings in 289.16s (0:04:49)
-
+...........ss
 ### phase4
 ........................................................................ [ 45%]
 ........................................................................ [ 90%]
@@ -46,7 +32,7 @@ phase4/tests/test_attack_adapters.py::SharedExecuteCollectTests::test_collect_ru
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-160 passed, 2 warnings in 23.56s
+160 passed, 2 warnings in 23.62s
 
 ### phase5
 ........................................................................ [ 33%]
@@ -60,188 +46,8 @@ phase5/tests/test_attribution_readiness.py::test_chain_c_propagation_through_exp
   <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-214 passed, 2 skipped, 2 warnings in 19.79s
+214 passed, 2 skipped, 2 warnings in 22.41s
 
 ### phase6
 ........................................................................ [ 16%]
-........................................................................ [ 33%]
-........................................................................ [ 50%]
-........................................................................ [ 66%]
-........................................................................ [ 83%]
-........................................................................ [100%]
-============================== warnings summary ===============================
-<frozen importlib._bootstrap>:241
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-<frozen importlib._bootstrap>:241
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
-phase6\tests\test_consolidation_guard_real_benign_fpr.py:35
-  C:\Agent Memory Poisoning\phase6\tests\test_consolidation_guard_real_benign_fpr.py:35: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-432 passed, 3 warnings in 1161.77s (0:19:21)
-sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
-
-### phase7
-.......sss.............................................................. [ 77%]
-...............sss...                                                    [100%]
-============================== warnings summary ===============================
-phase7/tests/test_adaptive_evasion_check.py::test_structural_signals_are_bit_identical_under_paraphrase
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase7/tests/test_adaptive_evasion_check.py::test_structural_signals_are_bit_identical_under_paraphrase
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-87 passed, 6 skipped, 2 warnings in 41.92s
-
-### phase8
-..........sssssss....................                                    [100%]
-============================== warnings summary ===============================
-phase8/tests/test_activation_shape_signal_wiring.py::test_tuned_corpus_b8_unchanged_by_this_update
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase8/tests/test_activation_shape_signal_wiring.py::test_tuned_corpus_b8_unchanged_by_this_update
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-30 passed, 7 skipped, 2 warnings in 28.92s
-
-### phase11
-........................................................................ [ 42%]
-........................................................................ [ 85%]
-........................                                                 [100%]
-============================== warnings summary ===============================
-phase11/gnn/tests/test_real_attack_corpus_detector_tuned_comparison.py::test_tuned_vs_real_generalization_is_real_and_positive
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase11/gnn/tests/test_real_attack_corpus_detector_tuned_comparison.py::test_tuned_vs_real_generalization_is_real_and_positive
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-168 passed, 2 warnings in 95.57s (0:01:35)
-
-### phase12
-..............................                                           [100%]
-============================== warnings summary ===============================
-phase12\tests\test_propagation_rate.py:86
-  C:\Agent Memory Poisoning\phase12\tests\test_propagation_rate.py:86: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
-phase12/tests/test_dgs.py::test_dgs_never_modifies_held_out_pools
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase12/tests/test_dgs.py::test_dgs_never_modifies_held_out_pools
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-30 passed, 3 warnings in 436.17s (0:07:16)
-
-### phase13
-...............................................                          [100%]
-============================== warnings summary ===============================
-phase13\tests\test_confidence_correlation.py:46
-  C:\Agent Memory Poisoning\phase13\tests\test_confidence_correlation.py:46: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
-phase13\tests\test_guard_allow_path_check.py:12
-  C:\Agent Memory Poisoning\phase13\tests\test_guard_allow_path_check.py:12: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
-phase13\tests\test_guard_decision_attribution.py:22
-  C:\Agent Memory Poisoning\phase13\tests\test_guard_decision_attribution.py:22: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
-phase13\tests\test_guard_decision_attribution.py:52
-  C:\Agent Memory Poisoning\phase13\tests\test_guard_decision_attribution.py:52: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
-phase13\tests\test_ledger_setup.py:17
-  C:\Agent Memory Poisoning\phase13\tests\test_ledger_setup.py:17: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
-phase13/tests/test_confidence_correlation.py::test_high_resolution_pairing_has_more_real_spread_than_the_banded_one
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase13/tests/test_confidence_correlation.py::test_high_resolution_pairing_has_more_real_spread_than_the_banded_one
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-47 passed, 7 warnings in 1936.93s (0:32:16)
-
-### phase14
-....................................                                     [100%]
-============================== warnings summary ===============================
-phase14\tests\test_track_b_consolidation_stage.py:12
-  C:\Agent Memory Poisoning\phase14\tests\test_track_b_consolidation_stage.py:12: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
-phase14/tests/test_campaign.py::test_run_track_a_returns_a_summary_per_real_config
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase14/tests/test_campaign.py::test_run_track_a_returns_a_summary_per_real_config
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-36 passed, 3 warnings in 511.25s (0:08:31)
-
-### phase15
-......................                                                   [100%]
-============================== warnings summary ===============================
-phase15\tests\test_attribution_track_b_ledger.py:58
-  C:\Agent Memory Poisoning\phase15\tests\test_attribution_track_b_ledger.py:58: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.slow
-
-phase15/tests/test_attribution_track_b_ledger.py::test_b9_admits_none
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase15/tests/test_attribution_track_b_ledger.py::test_b9_admits_none
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-22 passed, 3 warnings in 368.70s (0:06:08)
-
-### phase17
-........................................................................ [ 40%]
-........................................................................ [ 80%]
-...................................                                      [100%]
-============================== warnings summary ===============================
-phase17/tests/test_b11_and_extended.py::test_b11_registered_and_two_tier
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
-
-phase17/tests/test_b11_and_extended.py::test_b11_registered_and_two_tier
-  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
-
-phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
-  <unknown>:35: DeprecationWarning: invalid escape sequence '\h'
-
-phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
-  <unknown>:96: DeprecationWarning: invalid escape sequence '\w'
-
-phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
-  <unknown>:97: DeprecationWarning: invalid escape sequence '\s'
-
-phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
-  <unknown>:110: DeprecationWarning: invalid escape sequence '\w'
-
-phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
-  <unknown>:111: DeprecationWarning: invalid escape sequence '\w'
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-179 passed, 7 warnings in 105.11s (0:01:45)
-sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
-
-### attribution
-..............................................................           [100%]
-62 passed in 12.44s
-
-### tests
-........................................................................ [ 27%]
-........................................................................ [ 55%]
-........................................................................ [ 83%]
-...........................................                              [100%]
-259 passed in 1391.70s (0:23:11)
-
-AUDIT COMPLETE
+..............

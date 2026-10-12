@@ -1,0 +1,21 @@
+OR of b13_components == B13's own exclusion on every item: verified
+
+### memory_poisoning_with_evidence: attacks=own_* (804)  benign=ordinary (1,054), tool_output channel
+  B13: recall  59.7%  benign FPR   79/1054 =   7.5%  discrimination +52.2
+  B14: recall  49.6%  benign FPR   21/1054 =   2.0%  discrimination +47.6
+  B17: recall  64.4%  benign FPR   80/1054 =   7.6%  discrimination +56.8
+  B18: recall  64.6%  benign FPR   81/1054 =   7.7%  discrimination +56.9
+  B20: recall  56.1%  benign FPR   80/1054 =   7.6%  discrimination +48.5
+  B21: recall  56.6%  benign FPR   81/1054 =   7.7%  discrimination +48.9
+  B13 components firing on benign: {'base': 0, 'content': 0, 'lineage': 0, 'worm': 0, 'corroboration': 79}
+
+### injection_no_evidence: attacks=external dev (266; InjecAgent, BIPIA, AgentDojo, MINJA, AgentPoison)  benign=toxic-chat dev (400), disjoint from hold-out 5
+  B12: recall  33.8%  benign FPR    5/400 =   1.2%  discrimination +32.6
+  B13: recall  37.6%  benign FPR    9/400 =   2.2%  discrimination +35.3
+  B14: recall  53.4%  benign FPR   25/400 =   6.2%  discrimination +47.1
+  B17: recall  56.0%  benign FPR   25/400 =   6.2%  discrimination +49.8
+  B18: recall  56.4%  benign FPR   28/400 =   7.0%  discrimination +49.4
+  B20: recall  53.4%  benign FPR   25/400 =   6.2%  discrimination +47.1
+  B21: recall  54.1%  benign FPR   28/400 =   7.0%  discrimination +47.1
+  B13 components firing on benign: {'base': 0, 'content': 5, 'lineage': 0, 'worm': 4, 'corroboration': 0}
+DONE

@@ -1,0 +1,10 @@
+  dev attack excluded: 2/109
+  dev attack raw: 40/109
+  dev attack unverified: 14/109
+  dev benign excluded: 34/79
+  dev benign raw: 70/79
+  dev benign unverified: 68/79
+corr-only {'attacks': 109, 'benign': 79} | FPR {'B13': 79, 'B13_epistemic_quarantine': 0} / 1054
+attacks asserting the claim: {'excluded': '2/109', 'raw': '40/109', 'unverified': '14/109'}
+benign info used: {'excluded': '34/79', 'raw': '70/79', 'unverified': '68/79'}
+DONE

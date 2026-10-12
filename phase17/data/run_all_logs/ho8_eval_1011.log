@@ -1,0 +1,102 @@
+precomputing fusion features for 331 unique texts
+  deberta_pi_v2: 64/331  (0s elapsed)
+  deberta_pi_v2: 331/331  (1s elapsed)
+  deberta_pi_v2 done in 1.2s (failed 0)
+  perplexity_gpt2: 64/331  (0s elapsed)
+  perplexity_gpt2: 331/331  (1s elapsed)
+  perplexity_gpt2 done in 1.3s (failed 0)
+  llama_guard3: 64/331  (0s elapsed)
+  llama_guard3: 331/331  (1s elapsed)
+  llama_guard3 done in 1.2s (failed 0)
+  unloading llama-guard3:8b before qwen2.5:7b
+  llm_prompt_qwen: 64/331  (0s elapsed)
+  llm_prompt_qwen: 331/331  (1s elapsed)
+  llm_prompt_qwen done in 1.2s (failed 0)
+  unloading qwen2.5:7b before llama3.1:8b
+  llm_prompt_llama31: 64/331  (0s elapsed)
+  llm_prompt_llama31: chunk 1 FAILED (ConnectionError); continuing
+  llm_prompt_llama31: chunk 2 FAILED (ConnectionError); continuing
+  llm_prompt_llama31: chunk 3 FAILED (ConnectionError); continuing
+  llm_prompt_llama31: chunk 4 FAILED (ConnectionError); continuing
+  llm_prompt_llama31: chunk 5 FAILED (ConnectionError); continuing
+  llm_prompt_llama31: 331/331  (274s elapsed)
+  llm_prompt_llama31 done in 273.7s (failed 267)
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 4726.21it/s]
+Traceback (most recent call last):
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 1348, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\http\client.py", line 1283, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\http\client.py", line 1329, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\http\client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\http\client.py", line 1038, in _send_output
+    self.send(msg)
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\http\client.py", line 976, in send
+    self.connect()
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\http\client.py", line 942, in connect
+    self.sock = self._create_connection(
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\socket.py", line 851, in create_connection
+    raise exceptions[0]
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\socket.py", line 836, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Agent Memory Poisoning\phase17\eval_holdout8.py", line 401, in <module>
+    r = run()
+        ^^^^^
+  File "C:\Agent Memory Poisoning\phase17\eval_holdout8.py", line 309, in run
+    A = {c: E._decide(c, a8, f"H8A{c}", done, f"h8:atk:{c}", ev, names) for c in E.CONFIGS}
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\eval_holdout8.py", line 309, in <dictcomp>
+    A = {c: E._decide(c, a8, f"H8A{c}", done, f"h8:atk:{c}", ev, names) for c in E.CONFIGS}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\eval_round7_holdouts.py", line 66, in _decide
+    _, dec = apply_defense(cfg, chunk, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase14\defended_retrieval.py", line 357, in apply_defense
+    actions = b12_actions(items)
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\b12_live.py", line 38, in b12_actions
+    excl, flag = det.decide(texts, 0.005), det.decide(texts, 0.02)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\stacked_detector.py", line 87, in decide
+    X = self._features(texts)
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\stacked_detector.py", line 33, in _features
+    z = np.array([self.judge.score(t) for t in texts])[:, None] / 10.0
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\stacked_detector.py", line 33, in <listcomp>
+    z = np.array([self.judge.score(t) for t in texts])[:, None] / 10.0
+                  ^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\judge_scores.py", line 95, in score
+    self._cache[key] = _logit_yes(self._prompt(text, group))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\judge_scores.py", line 49, in _logit_yes
+    r = json.loads(urllib.request.urlopen(urllib.request.Request(URL, data=body, headers={"Content-Type": "application/json"}),
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 519, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 536, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 496, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 1377, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 1351, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>

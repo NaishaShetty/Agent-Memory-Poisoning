@@ -1,0 +1,20 @@
+........................................................................ [ 16%]
+........................................................................ [ 33%]
+........................................................................ [ 50%]
+........................................................................ [ 66%]
+........................................................................ [ 83%]
+........................................................................ [100%]
+============================== warnings summary ===============================
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+phase6\tests\test_consolidation_guard_real_benign_fpr.py:35
+  C:\Agent Memory Poisoning\phase6\tests\test_consolidation_guard_real_benign_fpr.py:35: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+432 passed, 3 warnings in 1504.04s (0:25:04)
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

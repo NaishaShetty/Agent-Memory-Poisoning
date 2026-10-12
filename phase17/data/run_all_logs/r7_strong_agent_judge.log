@@ -1,0 +1,53 @@
+    answers raw 24/60
+    answers raw 48/60
+    answers raw 60/60
+    answers v3_depersonalise 24/60
+    answers v3_depersonalise 48/60
+    answers v3_depersonalise 60/60
+{
+ "agent": "gemini-3.5-flash-lite",
+ "judge": "llama3.1:8b",
+ "n": 60,
+ "frame": "v3_depersonalise",
+ "paired_framed_vs_raw_gemini": {
+  "n": 60,
+  "detected_a": 8,
+  "detected_b": 30,
+  "only_a": 0,
+  "only_b": 22,
+  "p_exact": 4.76837158203125e-07
+ },
+ "qwen_same_items": {
+  "raw": {
+   "k": 31,
+   "n": 60,
+   "rate": 0.5166666666666667,
+   "ci95": [
+    0.39307594850843575,
+    0.6382515871422999
+   ]
+  },
+  "framed": {
+   "k": 19,
+   "n": 60,
+   "rate": 0.31666666666666665,
+   "ci95": [
+    0.21305705841174333,
+    0.4423400494301654
+   ]
+  },
+  "paired_framed_vs_raw": {
+   "n": 60,
+   "detected_a": 19,
+   "detected_b": 31,
+   "only_a": 4,
+   "only_b": 16,
+   "p_exact": 0.01181793212890625
+  }
+ },
+ "effect_points": {
+  "gemini": 36.7,
+  "qwen": 20.0
+ }
+}
+DONE

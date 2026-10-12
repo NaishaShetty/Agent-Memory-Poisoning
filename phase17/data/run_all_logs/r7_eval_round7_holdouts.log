@@ -1,0 +1,366 @@
+precomputing fusion features for 1550 unique texts
+  deberta_pi_v2: 64/1550  (0s elapsed)
+  deberta_pi_v2: 384/1550  (1s elapsed)
+  deberta_pi_v2: 704/1550  (1s elapsed)
+  deberta_pi_v2: 1024/1550  (2s elapsed)
+  deberta_pi_v2: 1344/1550  (2s elapsed)
+  deberta_pi_v2 done in 2.7s (failed 0)
+  perplexity_gpt2: 64/1550  (0s elapsed)
+  perplexity_gpt2: 384/1550  (1s elapsed)
+  perplexity_gpt2: 704/1550  (1s elapsed)
+  perplexity_gpt2: 1024/1550  (2s elapsed)
+  perplexity_gpt2: 1344/1550  (2s elapsed)
+  perplexity_gpt2 done in 2.7s (failed 0)
+  llama_guard3: 64/1550  (0s elapsed)
+  llama_guard3: 384/1550  (1s elapsed)
+  llama_guard3: 704/1550  (1s elapsed)
+  llama_guard3: 1024/1550  (2s elapsed)
+  llama_guard3: 1344/1550  (2s elapsed)
+  llama_guard3 done in 2.6s (failed 0)
+  unloading llama-guard3:8b before qwen2.5:7b
+  llm_prompt_qwen: 64/1550  (0s elapsed)
+  llm_prompt_qwen: 384/1550  (1s elapsed)
+  llm_prompt_qwen: 704/1550  (1s elapsed)
+  llm_prompt_qwen: 1024/1550  (2s elapsed)
+  llm_prompt_qwen: 1344/1550  (2s elapsed)
+  llm_prompt_qwen done in 2.5s (failed 0)
+  unloading qwen2.5:7b before llama3.1:8b
+  llm_prompt_llama31: 64/1550  (0s elapsed)
+  llm_prompt_llama31: 384/1550  (1s elapsed)
+  llm_prompt_llama31: 704/1550  (1s elapsed)
+  llm_prompt_llama31: 1024/1550  (2s elapsed)
+  llm_prompt_llama31: 1344/1550  (2s elapsed)
+  llm_prompt_llama31 done in 2.5s (failed 0)
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<?, ?it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 15669.19it/s]
+    h5:ben:B12 164/1000
+    h5:ben:B12 204/1000
+    h5:ben:B12 244/1000
+    h5:ben:B12 284/1000
+    h5:ben:B12 324/1000
+    h5:ben:B12 364/1000
+    h5:ben:B12 404/1000
+    h5:ben:B12 444/1000
+    h5:ben:B12 484/1000
+    h5:ben:B12 524/1000
+    h5:ben:B12 564/1000
+    h5:ben:B12 604/1000
+    h5:ben:B12 644/1000
+    h5:ben:B12 684/1000
+    h5:ben:B12 724/1000
+    h5:ben:B12 764/1000
+    h5:ben:B12 804/1000
+    h5:ben:B12 844/1000
+    h5:ben:B12 884/1000
+    h5:ben:B12 924/1000
+    h5:ben:B12 964/1000
+    h5:ben:B13 4/1000
+    h5:ben:B13 44/1000
+    h5:ben:B13 84/1000
+    h5:ben:B13 124/1000
+    h5:ben:B13 164/1000
+    h5:ben:B13 204/1000
+    h5:ben:B13 244/1000
+    h5:ben:B13 284/1000
+    h5:ben:B13 324/1000
+    h5:ben:B13 364/1000
+    h5:ben:B13 404/1000
+    h5:ben:B13 444/1000
+    h5:ben:B13 484/1000
+    h5:ben:B13 524/1000
+    h5:ben:B13 564/1000
+    h5:ben:B13 604/1000
+    h5:ben:B13 644/1000
+    h5:ben:B13 684/1000
+    h5:ben:B13 724/1000
+    h5:ben:B13 764/1000
+    h5:ben:B13 804/1000
+    h5:ben:B13 844/1000
+    h5:ben:B13 884/1000
+    h5:ben:B13 924/1000
+    h5:ben:B13 964/1000
+    h5:ben:B14 4/1000
+    h5:ben:B14 44/1000
+    h5:ben:B14 84/1000
+    h5:ben:B14 124/1000
+    h5:ben:B14 164/1000
+    h5:ben:B14 204/1000
+    h5:ben:B14 244/1000
+    h5:ben:B14 284/1000
+    h5:ben:B14 324/1000
+    h5:ben:B14 364/1000
+    h5:ben:B14 404/1000
+    h5:ben:B14 444/1000
+    h5:ben:B14 484/1000
+    h5:ben:B14 524/1000
+    h5:ben:B14 564/1000
+    h5:ben:B14 604/1000
+    h5:ben:B14 644/1000
+    h5:ben:B14 684/1000
+    h5:ben:B14 724/1000
+    h5:ben:B14 764/1000
+    h5:ben:B14 804/1000
+    h5:ben:B14 844/1000
+    h5:ben:B14 884/1000
+    h5:ben:B14 924/1000
+    h5:ben:B14 964/1000
+    h5:ben:B15 4/1000
+    h5:ben:B15 44/1000
+    h5:ben:B15 84/1000
+    h5:ben:B15 124/1000
+    h5:ben:B15 164/1000
+    h5:ben:B15 204/1000
+    h5:ben:B15 244/1000
+    h5:ben:B15 284/1000
+    h5:ben:B15 324/1000
+    h5:ben:B15 364/1000
+    h5:ben:B15 404/1000
+    h5:ben:B15 444/1000
+    h5:ben:B15 484/1000
+    h5:ben:B15 524/1000
+    h5:ben:B15 564/1000
+    h5:ben:B15 604/1000
+    h5:ben:B15 644/1000
+    h5:ben:B15 684/1000
+    h5:ben:B15 724/1000
+    h5:ben:B15 764/1000
+    h5:ben:B15 804/1000
+    h5:ben:B15 844/1000
+    h5:ben:B15 884/1000
+    h5:ben:B15 924/1000
+    h5:ben:B15 964/1000
+    h5:ben:B17 4/1000
+    h5:ben:B17 44/1000
+    h5:ben:B17 84/1000
+    h5:ben:B17 124/1000
+    h5:ben:B17 164/1000
+    h5:ben:B17 204/1000
+    h5:ben:B17 244/1000
+    h5:ben:B17 284/1000
+    h5:ben:B17 324/1000
+    h5:ben:B17 364/1000
+    h5:ben:B17 404/1000
+    h5:ben:B17 444/1000
+    h5:ben:B17 484/1000
+    h5:ben:B17 524/1000
+    h5:ben:B17 564/1000
+    h5:ben:B17 604/1000
+    h5:ben:B17 644/1000
+    h5:ben:B17 684/1000
+    h5:ben:B17 724/1000
+    h5:ben:B17 764/1000
+    h5:ben:B17 804/1000
+    h5:ben:B17 844/1000
+    h5:ben:B17 884/1000
+    h5:ben:B17 924/1000
+    h5:ben:B17 964/1000
+    h5:ben:B18 4/1000
+    h5:ben:B18 44/1000
+    h5:ben:B18 84/1000
+    h5:ben:B18 124/1000
+    h5:ben:B18 164/1000
+    h5:ben:B18 204/1000
+    h5:ben:B18 244/1000
+    h5:ben:B18 284/1000
+    h5:ben:B18 324/1000
+    h5:ben:B18 364/1000
+    h5:ben:B18 404/1000
+    h5:ben:B18 444/1000
+    h5:ben:B18 484/1000
+    h5:ben:B18 524/1000
+    h5:ben:B18 564/1000
+    h5:ben:B18 604/1000
+    h5:ben:B18 644/1000
+    h5:ben:B18 684/1000
+    h5:ben:B18 724/1000
+    h5:ben:B18 764/1000
+    h5:ben:B18 804/1000
+    h5:ben:B18 844/1000
+    h5:ben:B18 884/1000
+    h5:ben:B18 924/1000
+    h5:ben:B18 964/1000
+    comp:h5:ben 4/1000
+    comp:h5:ben 44/1000
+    comp:h5:ben 84/1000
+    comp:h5:ben 124/1000
+    comp:h5:ben 164/1000
+    comp:h5:ben 204/1000
+    comp:h5:ben 244/1000
+    comp:h5:ben 284/1000
+    comp:h5:ben 324/1000
+    comp:h5:ben 364/1000
+    comp:h5:ben 404/1000
+    comp:h5:ben 444/1000
+    comp:h5:ben 484/1000
+    comp:h5:ben 524/1000
+    comp:h5:ben 564/1000
+    comp:h5:ben 604/1000
+    comp:h5:ben 644/1000
+    comp:h5:ben 684/1000
+    comp:h5:ben 724/1000
+    comp:h5:ben 764/1000
+    comp:h5:ben 804/1000
+    comp:h5:ben 844/1000
+    comp:h5:ben 884/1000
+    comp:h5:ben 924/1000
+    comp:h5:ben 964/1000
+    answers raw 24/131
+    answers raw 48/131
+    answers raw 72/131
+    answers raw 96/131
+    answers raw 120/131
+    answers raw 131/131
+    answers v3_depersonalise 24/131
+    answers v3_depersonalise 48/131
+    answers v3_depersonalise 72/131
+    answers v3_depersonalise 96/131
+    answers v3_depersonalise 120/131
+    answers v3_depersonalise 131/131
+    h4:atk:B12 4/157
+    h4:atk:B12 44/157
+    h4:atk:B12 84/157
+    h4:atk:B12 124/157
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6112.12it/s]
+    h4:atk:B13 4/157
+    h4:atk:B13 44/157
+    h4:atk:B13 84/157
+    h4:atk:B13 124/157
+    h4:atk:B14 4/157
+    h4:atk:B14 44/157
+    h4:atk:B14 84/157
+    h4:atk:B14 124/157
+    h4:atk:B15 4/157
+    h4:atk:B15 44/157
+    h4:atk:B15 84/157
+    h4:atk:B15 124/157
+    h4:atk:B17 4/157
+    h4:atk:B17 44/157
+    h4:atk:B17 84/157
+    h4:atk:B17 124/157
+    h4:atk:B18 4/157
+    h4:atk:B18 44/157
+    h4:atk:B18 84/157
+    h4:atk:B18 124/157
+    comp:h4:atk 4/157
+    comp:h4:atk 44/157
+    comp:h4:atk 84/157
+    comp:h4:atk 124/157
+    h4:ben:B12 4/262
+    h4:ben:B12 44/262
+    h4:ben:B12 84/262
+    h4:ben:B12 124/262
+    h4:ben:B12 164/262
+    h4:ben:B12 204/262
+    h4:ben:B12 244/262
+    h4:ben:B13 4/262
+    h4:ben:B13 44/262
+    h4:ben:B13 84/262
+    h4:ben:B13 124/262
+    h4:ben:B13 164/262
+    h4:ben:B13 204/262
+    h4:ben:B13 244/262
+    h4:ben:B14 4/262
+    h4:ben:B14 44/262
+    h4:ben:B14 84/262
+    h4:ben:B14 124/262
+    h4:ben:B14 164/262
+    h4:ben:B14 204/262
+    h4:ben:B14 244/262
+    h4:ben:B15 4/262
+    h4:ben:B15 44/262
+    h4:ben:B15 84/262
+    h4:ben:B15 124/262
+    h4:ben:B15 164/262
+    h4:ben:B15 204/262
+    h4:ben:B15 244/262
+    h4:ben:B17 4/262
+    h4:ben:B17 44/262
+    h4:ben:B17 84/262
+    h4:ben:B17 124/262
+    h4:ben:B17 164/262
+    h4:ben:B17 204/262
+    h4:ben:B17 244/262
+    h4:ben:B18 4/262
+    h4:ben:B18 44/262
+    h4:ben:B18 84/262
+    h4:ben:B18 124/262
+    h4:ben:B18 164/262
+    h4:ben:B18 204/262
+    h4:ben:B18 244/262
+    comp:h4:ben 4/262
+    comp:h4:ben 44/262
+    comp:h4:ben 84/262
+    comp:h4:ben 124/262
+    comp:h4:ben 164/262
+    comp:h4:ben 204/262
+    comp:h4:ben 244/262
+    h4:benu:B12 4/262
+    h4:benu:B12 44/262
+    h4:benu:B12 84/262
+    h4:benu:B12 124/262
+    h4:benu:B12 164/262
+    h4:benu:B12 204/262
+    h4:benu:B12 244/262
+    h4:benu:B13 4/262
+    h4:benu:B13 44/262
+    h4:benu:B13 84/262
+    h4:benu:B13 124/262
+    h4:benu:B13 164/262
+    h4:benu:B13 204/262
+    h4:benu:B13 244/262
+    h4:benu:B14 4/262
+    h4:benu:B14 44/262
+    h4:benu:B14 84/262
+    h4:benu:B14 124/262
+    h4:benu:B14 164/262
+    h4:benu:B14 204/262
+    h4:benu:B14 244/262
+    h4:benu:B15 4/262
+    h4:benu:B15 44/262
+    h4:benu:B15 84/262
+    h4:benu:B15 124/262
+    h4:benu:B15 164/262
+    h4:benu:B15 204/262
+    h4:benu:B15 244/262
+    h4:benu:B17 4/262
+    h4:benu:B17 44/262
+    h4:benu:B17 84/262
+    h4:benu:B17 124/262
+    h4:benu:B17 164/262
+    h4:benu:B17 204/262
+    h4:benu:B17 244/262
+    h4:benu:B18 4/262
+    h4:benu:B18 44/262
+    h4:benu:B18 84/262
+    h4:benu:B18 124/262
+    h4:benu:B18 164/262
+    h4:benu:B18 204/262
+    h4:benu:B18 244/262
+    comp:h4:benu 4/262
+    comp:h4:benu 44/262
+    comp:h4:benu 84/262
+    comp:h4:benu 124/262
+    comp:h4:benu 164/262
+    comp:h4:benu 204/262
+    comp:h4:benu 244/262
+
+### holdout5: 131 attacks / 1000 benign
+  B12   recall  51.1%  benign FPR   2.6%
+  B13   recall  55.0%  benign FPR   5.1%
+  B14   recall  90.1%  benign FPR  10.0%
+  B15   recall  77.9%  benign FPR   6.9%
+  B17   recall  90.1%  benign FPR  10.2%
+  B18   recall  90.1%  benign FPR  11.0%
+  B20   recall  90.1%  benign FPR  10.0%
+  B21   recall  90.1%  benign FPR  10.8%
+
+### holdout4: 157 attacks / 262 benign
+  B12   recall   1.9%  benign FPR   1.5%
+  B13   recall  50.3%  benign FPR  11.8%
+  B14   recall  20.4%  benign FPR   9.2%
+  B15   recall  48.4%  benign FPR  14.1%
+  B17   recall  50.3%  benign FPR  16.0%
+  B18   recall  50.3%  benign FPR  16.0%
+  B20   recall  48.4%  benign FPR  16.0%
+  B21   recall  48.4%  benign FPR  16.0%
+DONE

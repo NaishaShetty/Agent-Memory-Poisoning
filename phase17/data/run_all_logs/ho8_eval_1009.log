@@ -1,0 +1,19 @@
+precomputing fusion features for 331 unique texts
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5702.23it/s]
+  deberta_pi_v2: 64/331  (10s elapsed)
+  deberta_pi_v2: 331/331  (32s elapsed)
+  deberta_pi_v2 done in 32.4s (failed 0)
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 5648.95it/s]
+[transformers] `loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
+  perplexity_gpt2: 64/331  (7s elapsed)
+  perplexity_gpt2: 331/331  (18s elapsed)
+  perplexity_gpt2 done in 17.7s (failed 0)
+  llama_guard3: 64/331  (59s elapsed)
+  llama_guard3: 331/331  (270s elapsed)
+  llama_guard3 done in 270.2s (failed 0)
+  unloading llama-guard3:8b before qwen2.5:7b
+  llm_prompt_qwen: 64/331  (55s elapsed)
+  llm_prompt_qwen: 331/331  (266s elapsed)
+  llm_prompt_qwen done in 266.1s (failed 0)
+  unloading qwen2.5:7b before llama3.1:8b
+  llm_prompt_llama31: 64/331  (57s elapsed)

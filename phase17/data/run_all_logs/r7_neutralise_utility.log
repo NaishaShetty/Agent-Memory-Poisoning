@@ -1,0 +1,119 @@
+  plan_week raw 24/300
+  plan_week raw 48/300
+  plan_week raw 72/300
+  plan_week raw 96/300
+  plan_week raw 120/300
+  plan_week raw 144/300
+  plan_week raw 168/300
+  plan_week raw 192/300
+  plan_week raw 216/300
+  plan_week raw 240/300
+  plan_week raw 264/300
+  plan_week raw 288/300
+  plan_week raw 300/300
+  plan_week framed 24/300
+  plan_week framed 48/300
+  plan_week framed 72/300
+  plan_week framed 96/300
+  plan_week framed 120/300
+  plan_week framed 144/300
+  plan_week framed 168/300
+  plan_week framed 192/300
+  plan_week framed 216/300
+  plan_week framed 240/300
+  plan_week framed 264/300
+  plan_week framed 288/300
+  plan_week framed 300/300
+  direct_question raw 24/300
+  direct_question raw 48/300
+  direct_question raw 72/300
+  direct_question raw 96/300
+  direct_question raw 120/300
+  direct_question raw 144/300
+  direct_question raw 168/300
+  direct_question raw 192/300
+  direct_question raw 216/300
+  direct_question raw 240/300
+  direct_question raw 264/300
+  direct_question raw 288/300
+  direct_question raw 300/300
+  direct_question framed 24/300
+  direct_question framed 48/300
+  direct_question framed 72/300
+  direct_question framed 96/300
+  direct_question framed 120/300
+  direct_question framed 144/300
+  direct_question framed 168/300
+  direct_question framed 192/300
+  direct_question framed 216/300
+  direct_question framed 240/300
+  direct_question framed 264/300
+  direct_question framed 288/300
+  direct_question framed 300/300
+{
+ "n_notes": 300,
+ "frame": "v3_depersonalise",
+ "agent": "qwen2.5:7b",
+ "judge": "llama3.1:8b",
+ "tasks": {
+  "plan_week": {
+   "raw": {
+    "k": 91,
+    "n": 300,
+    "rate": 0.30333333333333334,
+    "ci95": [
+     0.25407027929306525,
+     0.35756946983937743
+    ]
+   },
+   "framed": {
+    "k": 96,
+    "n": 300,
+    "rate": 0.32,
+    "ci95": [
+     0.26977448682270544,
+     0.37477714797647943
+    ]
+   },
+   "loss_points": -1.7,
+   "paired_framed_vs_raw": {
+    "n": 300,
+    "detected_a": 96,
+    "detected_b": 91,
+    "only_a": 50,
+    "only_b": 45,
+    "p_exact": 0.6817425059181855
+   }
+  },
+  "direct_question": {
+   "raw": {
+    "k": 191,
+    "n": 300,
+    "rate": 0.6366666666666667,
+    "ci95": [
+     0.5808305794961457,
+     0.68904688297114
+    ]
+   },
+   "framed": {
+    "k": 176,
+    "n": 300,
+    "rate": 0.5866666666666667,
+    "ci95": [
+     0.5301895702243481,
+     0.6409522352427112
+    ]
+   },
+   "loss_points": 5.0,
+   "paired_framed_vs_raw": {
+    "n": 300,
+    "detected_a": 176,
+    "detected_b": 191,
+    "only_a": 25,
+    "only_b": 40,
+    "p_exact": 0.08168153394154005
+   }
+  }
+ }
+}
+DONE

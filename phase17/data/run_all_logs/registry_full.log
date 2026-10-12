@@ -1,0 +1,55 @@
+  agentpoison_trigger        PROVEN
+  thread_unsafe_cache        PROVEN
+  gpu_contention             PROVEN
+  corroboration_inert        PROVEN
+  b17_parameter_creep        PROVEN
+  b16_state_leak             PROVEN
+  missing_checkpoint         UNPROVEN
+  frozen_corpus_edited       PROVEN_ELSEWHERE
+  dev_holdout_overlap        PROVEN
+  holdout3_reuse             PROVEN
+  ledger_fit_wrong_distribution UNPROVEN
+  orphan_killer_kills_caller PROVEN
+  ast_guard_docstring        PROVEN
+  computed_arm_unreported    PROVEN
+  underpowered_preregistration PROVEN
+  harmful_neutralisation_frame PROVEN
+  superseded_claim_results_paper PROVEN
+  superseded_claim_methodology PROVEN
+  superseded_claim_summary   PROVEN
+  nondeterminism_denied      PROVEN
+  test_writes_data_artifact  PROVEN
+  prediction_omitted         PROVEN
+  orphan_killer_pid_list     PROVEN
+  leading_task               PROVEN
+  holdout3_use_undercount    PROVEN
+  leading_probe_in_union     PROVEN
+  pipeline_rescores_holdout  PROVEN
+{"n": 27, "n_proven": 25, "method": "each error is reintroduced by a concrete source mutation; its guard must fail, then pass again once restored. An untested guard is decoration."}
+PROVEN agentpoison_trigger 
+PROVEN thread_unsafe_cache 
+PROVEN gpu_contention 
+PROVEN corroboration_inert 
+PROVEN b17_parameter_creep 
+PROVEN b16_state_leak 
+UNPROVEN missing_checkpoint guard does not pass on clean code
+PROVEN_ELSEWHERE frozen_corpus_edited data artifacts are never mutated in place; this case is proven on a temporary copy by its own test
+PROVEN dev_holdout_overlap 
+PROVEN holdout3_reuse 
+UNPROVEN ledger_fit_wrong_distribution guard does not pass on clean code
+PROVEN orphan_killer_kills_caller 
+PROVEN ast_guard_docstring 
+PROVEN computed_arm_unreported 
+PROVEN underpowered_preregistration 
+PROVEN harmful_neutralisation_frame 
+PROVEN superseded_claim_results_paper 
+PROVEN superseded_claim_methodology 
+PROVEN superseded_claim_summary 
+PROVEN nondeterminism_denied 
+PROVEN test_writes_data_artifact 
+PROVEN prediction_omitted 
+PROVEN orphan_killer_pid_list 
+PROVEN leading_task 
+PROVEN holdout3_use_undercount 
+PROVEN leading_probe_in_union 
+PROVEN pipeline_rescores_holdout 

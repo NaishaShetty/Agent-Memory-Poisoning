@@ -1,0 +1,18 @@
+precomputing fusion features for 400 unique texts
+  deberta_pi_v2: 64/400  (0s elapsed)
+  deberta_pi_v2: 384/400  (0s elapsed)
+  deberta_pi_v2 done in 0.5s (failed 0)
+  perplexity_gpt2: 64/400  (0s elapsed)
+  perplexity_gpt2: 384/400  (0s elapsed)
+  perplexity_gpt2 done in 0.5s (failed 0)
+  llama_guard3: 64/400  (0s elapsed)
+  llama_guard3: 384/400  (1s elapsed)
+  llama_guard3 done in 1.1s (failed 0)
+  unloading llama-guard3:8b before qwen2.5:7b
+  llm_prompt_qwen: 64/400  (0s elapsed)
+  llm_prompt_qwen: 384/400  (0s elapsed)
+  llm_prompt_qwen done in 0.6s (failed 0)
+  unloading qwen2.5:7b before llama3.1:8b
+  llm_prompt_llama31: 64/400  (0s elapsed)
+  llm_prompt_llama31: 384/400  (0s elapsed)
+  llm_prompt_llama31 done in 0.5s (failed 0)

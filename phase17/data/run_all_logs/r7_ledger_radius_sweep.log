@@ -1,0 +1,58 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 5503.21it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 4874.96it/s]
+  screening 0/685 -> 2 at risk
+  screening 100/685 -> 39 at risk
+  screening 200/685 -> 77 at risk
+  screening 300/685 -> 114 at risk
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 4349.24it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s][ALoading weights: 100%|##########| 202/202 [00:00<00:00, 21479.26it/s]
+Loading weights: 100%|##########| 202/202 [00:00<00:00, 14421.51it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5310.54it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6508.19it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 3787.85it/s]
+[transformers] [1mGPT2LMHeadModel LOAD REPORT[0m from: gpt2
+Key            | Status  | 
+---------------+---------+-
+lm_head.weight | MISSING | 
+
+Notes:
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[transformers] `loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|##########| 148/148 [00:00<00:00, 9545.11it/s]
+[transformers] [1mGPT2LMHeadModel LOAD REPORT[0m from: gpt2
+Key            | Status  | 
+---------------+---------+-
+lm_head.weight | MISSING | 
+
+Notes:
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+  B16@0.95: 10/80
+  B16@0.95: 20/80
+  B16@0.95: 30/80
+  B16@0.95: 40/80
+  B16@0.95: 50/80
+  B16@0.95: 60/80
+  B16@0.95: 70/80
+  B16@0.95: 80/80
+  B16@0.97: 10/130
+  B16@0.97: 20/130
+  B16@0.97: 30/130
+  B16@0.97: 40/130
+  B16@0.97: 50/130
+  B16@0.97: 60/130
+  B16@0.97: 70/130
+  B16@0.97: 80/130
+  B16@0.97: 90/130
+  B16@0.97: 100/130
+  B16@0.97: 110/130
+  B16@0.97: 120/130
+  B16@0.97: 130/130
+control evasion 32/130
+  radius 0.86: evasion   0/130  blast radius 42.5%  vs control p=4.7e-10  vs 0.90 p=1
+  radius 0.90: evasion   1/130  blast radius 29.7%  vs control p=9.3e-10  vs 0.90 p=1
+  radius 0.93: evasion   5/130  blast radius 18.5%  vs control p=1.5e-08  vs 0.90 p=0.12
+  radius 0.95: evasion   5/130  blast radius 6.4%  vs control p=1.5e-08  vs 0.90 p=0.12
+  radius 0.97: evasion   8/130  blast radius 0.7%  vs control p=1.2e-07  vs 0.90 p=0.016
+VERDICT: radius 0.95 keeps the adaptive-evasion effect with a ledger-poisoning blast radius of 6.4% (0.90: 29.7%)
+DONE

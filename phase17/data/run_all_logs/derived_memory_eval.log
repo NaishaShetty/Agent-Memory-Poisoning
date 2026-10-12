@@ -1,0 +1,42 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 5808.04it/s]
+249 own-attack instances
+  instances 12/249
+  instances 24/249
+  instances 36/249
+  instances 48/249
+  instances 60/249
+  instances 72/249
+  instances 84/249
+  instances 96/249
+  instances 108/249
+  instances 120/249
+  instances 132/249
+  instances 144/249
+  instances 156/249
+  instances 168/249
+  instances 180/249
+  instances 192/249
+  instances 204/249
+  instances 216/249
+  instances 228/249
+  instances 240/249
+  instances 249/249
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Agent Memory Poisoning\phase17\derived_memory_eval.py", line 250, in <module>
+    r = run()
+        ^^^^^
+  File "C:\Agent Memory Poisoning\phase17\derived_memory_eval.py", line 156, in run
+    rec = evaluate_propagation_containment(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase6\defense\propagation\containment_guard.py", line 115, in evaluate_propagation_containment
+    return build_decision(
+           ^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase6\defense\policy\records.py", line 208, in build_decision
+    return MGPDecisionRecord(
+           ^^^^^^^^^^^^^^^^^^
+  File "<string>", line 14, in __init__
+  File "C:\Agent Memory Poisoning\phase6\defense\policy\records.py", line 145, in __post_init__
+    raise ValueError(
+ValueError: MGPDecisionRecord.evidence_refs must cite at least one real Phase 3/5 event id -- a decision with no evidence reference is a bare claim, forbidden by Policy document Section 4.

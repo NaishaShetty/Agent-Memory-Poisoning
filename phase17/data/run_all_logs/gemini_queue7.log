@@ -1,0 +1,14 @@
+== j2nopo
+  gemini nopo verdicts 20
+  gemini nopo verdicts 40
+  gemini nopo verdicts 60
+  gemini nopo verdicts 80
+  gemini nopo verdicts 100
+  gemini nopo verdicts 120
+  gemini nopo verdicts 140
+  gemini retry 1 after LLMProviderTimeoutError
+  gemini retry 2 after LLMProviderTimeoutError
+  gemini retry 3 after LLMProviderConnectionError
+  gemini retry 4 after LLMProviderTimeoutError
+  gemini retry 5 after LLMProviderTimeoutError
+  gemini retry 6 after LLMProviderTimeoutError

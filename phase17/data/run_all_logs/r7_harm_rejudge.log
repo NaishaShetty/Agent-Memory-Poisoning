@@ -1,0 +1,41 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 7206.35it/s]
+Traceback (most recent call last):
+  File "C:\Agent Memory Poisoning\phase17\gemini_provider.py", line 107, in generate
+    with urllib.request.urlopen(req, timeout=config.request_timeout_sec) as resp:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 525, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 634, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 563, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 496, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "C:\Users\naish\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py", line 643, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 429: Too Many Requests
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Agent Memory Poisoning\phase17\harm_judge_fix.py", line 251, in <module>
+    print(json.dumps(rejudge(), indent=1))
+                     ^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\harm_judge_fix.py", line 202, in rejudge
+    vec[arm].append(_ask(prov, tpl, it, cache))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\harm_judge_fix.py", line 92, in _ask
+    cache[k] = p.generate([{"role": "user", "content": prompt}], cfg).text.strip().upper()[:3]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Agent Memory Poisoning\phase17\gemini_provider.py", line 116, in generate
+    raise LLMProviderTimeoutError(f"Gemini rate-limited (free tier): {exc}") from exc
+phase3.evaluation.llm.provider.LLMProviderTimeoutError: Gemini rate-limited (free tier): HTTP Error 429: Too Many Requests
