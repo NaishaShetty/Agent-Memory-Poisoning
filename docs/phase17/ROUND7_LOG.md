@@ -860,3 +860,26 @@ mean-pooling is wrong for lineage laundering, max-over-lineage is right and near
 the same operation the semantic propagation-containment guard already uses -- the GNN experiment
 independently confirms it on the consolidation surface. A max-aggregating GNN layer is the concrete model
 change (future work; the max-lineage rule is reported directly here).
+
+## R7-46 (2026-10-12): making the graph work (learned max-GNN) and the GLN -- honest outcome
+
+Owner: make the graph genuinely work and look into the GLN before the audit. Added a learned
+MAX-aggregating GNN (phase11/gnn/model.py::MaxAggregatingGNN, a SEPARATE class; MinimalGNN and all
+frozen Phase 11 results unchanged; 4 new tests, phase11 171 passed) and a GLN arm.
+
+Result (same consolidation data, 10% benign FPR unless noted):
+- Explicit MAX-over-lineage rule (the containment guard's logic): 97% laundered-summary detection vs
+  47% from a summary's own content. The GRAPH GENUINELY CARRIES THE SIGNAL.
+- Learned mean-GNN: 47% (no lift over content-only 46%) -- dilutes the poison 1:4.
+- Learned MAX-aggregating GNN: 43% -- does NOT beat the mean-GNN. A learned graph model does not
+  realise the lineage signal at this project's data scale (the Phase 11 small-scale limitation,
+  honestly reconfirmed), even with the right aggregation operator.
+- GLN (graph-agnostic, per-node online): node-only scores SATURATE (100% detection at 100% FPR --
+  non-discriminative); fed the graph-derived max-lineage anomaly as an input feature it becomes a real
+  detector (92% at 16% FPR). So the GLN benefits from the lineage signal only as a feature, never from
+  graph structure (it has none).
+
+Honest conclusion: the graph's value is real and large (97%), but it is best realised by the EXPLICIT
+max-over-lineage propagation already in the semantic containment guard, NOT by a learned GNN/GLN at this
+scale. The learned models are reconfirmed at parity-or-worse -- consistent with Phase 11's own disclosed
+"parity, not improvement". Deployable self-propagation defense = max-over-lineage anomaly/containment.

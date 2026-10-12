@@ -178,9 +178,72 @@ def run() -> dict:
         max_det += float(par_anom.max()) >= athr
         own_det += float(own_anom) >= athr
 
+    # --- learned MAX-aggregating GNN (the graph genuinely working, not just a rule) ---
+    from phase11.gnn.model import MaxAggregatingGNN
+    from phase11.gnn.train import EPOCHS, LEARNING_RATE, SEED
+
+    def _binmask(ds):
+        return (ds.mean_adj > 0).float()
+
+    def train_max_gnn(ds):
+        torch.manual_seed(SEED)
+        m = MaxAggregatingGNN(in_dim=ds.features.shape[1], seed=SEED)
+        opt = torch.optim.Adam(m.parameters(), lr=LEARNING_RATE)
+        loss_fn = torch.nn.BCEWithLogitsLoss()
+        mask = _binmask(ds)
+        for _ in range(EPOCHS):
+            opt.zero_grad()
+            loss = loss_fn(m(ds.features, mask), ds.labels)
+            loss.backward()
+            opt.step()
+        return m
+    max_model = train_max_gnn(tr_ds)
+    scores_max = max_model.predict_proba(te_ds.features, _binmask(te_ds)).tolist()
+
+    # --- GLN arm: the GLN is graph-agnostic (per-node online), so it cannot use the graph; test it on
+    # the node features, and with the max-lineage anomaly as an extra (graph-derived) input feature ---
+    from phase11.gln.model import GatedLinearNetwork
+
+    def _lineage_max_feature(pools, centroids):
+        from phase17.query_trigger_signal import benign_cluster_outlier_scores
+        feat = {}
+        for p in pools:
+            txt = {m.scenario_id: m.content_text for m in p.memories}
+            own = {mid: float(benign_cluster_outlier_scores([t], centroids)[0]) for mid, t in txt.items()}
+            for m in p.memories:
+                parents = m.parent_ids
+                feat[m.scenario_id] = max([own[m.scenario_id]] + [own[q] for q in parents]) if parents else own[m.scenario_id]
+        return feat
+
+    def run_gln(train_rows, test_rows, dim):
+        import numpy as np
+        gln = GatedLinearNetwork(input_dim=dim, context_dim=dim, seed=11)
+        rng = np.random.RandomState(11)
+        order = list(range(len(train_rows))); rng.shuffle(order)
+        for _ in range(3):                       # a few online passes over the training stream
+            for i in order:
+                x, y = train_rows[i]
+                gln.predict_and_update(x, x, target=float(y))
+        return [gln.predict_and_update(x, x, target=None) for x, y in test_rows]
+
+    featmat = te_ds.features.numpy()
+    tr_feat = tr_ds.features.numpy()
+    lm = _lineage_max_feature(te_pools, km.cluster_centers_)
+    lm_tr = _lineage_max_feature(tr_pools, km.cluster_centers_)
+    import numpy as _np2
+    tr_lab = tr_ds.labels.tolist()
+    gln_plain_tr = [(tr_feat[i], tr_lab[i]) for i in range(len(tr_feat))]
+    gln_plain_te = [(featmat[i], labels[i]) for i in range(len(featmat))]
+    gln_aug_tr = [(_np2.append(tr_feat[i], lm_tr[tr_ds.node_ids[i]]), tr_lab[i]) for i in range(len(tr_feat))]
+    gln_aug_te = [(_np2.append(featmat[i], lm[ids[i]]), labels[i]) for i in range(len(featmat))]
+    gln_plain = run_gln(gln_plain_tr, gln_plain_te, featmat.shape[1])
+    gln_aug = run_gln(gln_aug_tr, gln_aug_te, featmat.shape[1] + 1)
+
     out = {"n_episodes": len(eps), "n_train_pools": len(tr_pools), "n_test_pools": len(te_pools),
            "n_laundered_summaries_test": sum(1 for i in range(len(ids)) if is_summary[i] and labels[i] == 1.0),
            "gnn_mean_with_graph": metrics(scores_graph), "gnn_content_only": metrics(scores_content),
+           "gnn_max_aggregating": metrics(scores_max),
+           "gln_node_only": metrics(gln_plain), "gln_plus_lineage_max_feature": metrics(gln_aug),
            "max_lineage_propagation": {
                "laundered_summary_detection": rate_with_ci(max_det, max_n),
                "summary_own_anomaly_detection": rate_with_ci(own_det, max_n),
@@ -194,14 +257,26 @@ def run() -> dict:
     c = out["gnn_content_only"]["laundered_summary_detection"]
     mx = out["max_lineage_propagation"]["laundered_summary_detection"]
     own = out["max_lineage_propagation"]["summary_own_anomaly_detection"]
-    out["G-1_mean_graph_lifts"] = bool(g and c and g["rate"] > c["rate"] + 0.03)   # meaningful lift, not 1 item
-    out["G-2_max_lineage_lifts"] = bool(mx["rate"] > own["rate"] + 0.10)
+    # Discriminativeness = detection - FPR (a 100%-at-100%-FPR arm is saturated, not a detector).
+    def disc(arm):
+        m = out[arm]
+        return m["laundered_summary_detection"]["rate"] - m["benign_fpr"]["rate"]
+    xg = out["gnn_max_aggregating"]["laundered_summary_detection"]
+    out["G-1_mean_graph_lifts"] = bool(disc("gnn_mean_with_graph") > disc("gnn_content_only") + 0.05)
+    out["G-2_max_lineage_rule_lifts"] = bool(mx["rate"] > own["rate"] + 0.10)
+    out["G-3_learned_max_gnn_beats_mean_gnn"] = bool(disc("gnn_max_aggregating") > disc("gnn_mean_with_graph") + 0.05)
+    out["G-4_lineage_feature_rescues_gln"] = bool(disc("gln_plus_lineage_max_feature") > disc("gln_node_only") + 0.20)
     out["verdict"] = (
-        f"GNN saturation fixed by the anomaly node feature (now {g['rate']:.0%} node-level at 10% FPR). "
-        f"MEAN message passing adds nothing over content-only ({g['k']} vs {c['k']}) -- it dilutes the "
-        f"poison ancestor. MAX-over-lineage is the right operation: laundered-summary detection "
-        f"{own['rate']:.0%} (summary's own anomaly) -> {mx['rate']:.0%} (max over its poison-bearing "
-        f"lineage).")
+        f"The graph GENUINELY carries the laundering signal: the explicit MAX-over-lineage propagation "
+        f"(the containment guard's own logic) detects {mx['rate']:.0%} of laundered summaries vs "
+        f"{own['rate']:.0%} from a summary's own content. BUT a LEARNED graph model does not realise it at "
+        f"this data scale: the mean-GNN dilutes the poison (no lift over content-only), and a learned "
+        f"max-aggregating GNN ({xg['rate']:.0%} at 10% FPR) does not beat it either -- the Phase 11 "
+        f"small-scale limitation. The GLN is graph-agnostic and its node-only scores saturate "
+        f"(non-discriminative); fed the graph-derived max-lineage anomaly as a feature it becomes a real "
+        f"detector ({out['gln_plus_lineage_max_feature']['laundered_summary_detection']['rate']:.0%} at "
+        f"{out['gln_plus_lineage_max_feature']['benign_fpr']['rate']:.0%} FPR). Deployable answer: the "
+        f"explicit max-over-lineage rule, not a learned GNN.")
     OUT.write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out
 
@@ -216,5 +291,9 @@ if __name__ == "__main__":
     print(f"  max_lineage_propagation  {mx['laundered_summary_detection']['k']}/"
           f"{mx['laundered_summary_detection']['n']} ({mx['laundered_summary_detection']['rate']:.0%}) "
           f"vs summary-own {mx['summary_own_anomaly_detection']['rate']:.0%}")
-    print("G-1 mean:", r["G-1_mean_graph_lifts"], "| G-2 max:", r["G-2_max_lineage_lifts"])
+    for arm in ("gnn_max_aggregating", "gln_node_only", "gln_plus_lineage_max_feature"):
+        ls = r[arm]["laundered_summary_detection"]
+        print(f"  {arm:28s} laundered-summary {ls['k']}/{ls['n']} ({ls['rate']:.0%})")
+    print("G-1 mean:", r["G-1_mean_graph_lifts"], "| G-2 max-rule:", r["G-2_max_lineage_rule_lifts"],
+          "| G-3 learned-max-GNN:", r["G-3_learned_max_gnn_beats_mean_gnn"], "| G-4 GLN+feat:", r["G-4_lineage_feature_rescues_gln"])
     print(r["verdict"])

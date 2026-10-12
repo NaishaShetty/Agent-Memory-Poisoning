@@ -63,6 +63,96 @@
       ]
     }
   },
+  "gnn_max_aggregating": {
+    "threshold": 0.4167,
+    "laundered_summary_detection": {
+      "k": 34,
+      "n": 79,
+      "rate": 0.43037974683544306,
+      "ci95": [
+        0.3269364765548295,
+        0.5402799943969628
+      ]
+    },
+    "all_poison_detection": {
+      "k": 167,
+      "n": 215,
+      "rate": 0.7767441860465116,
+      "ci95": [
+        0.716499061759458,
+        0.8272732374743257
+      ]
+    },
+    "benign_fpr": {
+      "k": 60,
+      "n": 601,
+      "rate": 0.09983361064891846,
+      "ci95": [
+        0.07834938127426447,
+        0.12640108562483768
+      ]
+    }
+  },
+  "gln_node_only": {
+    "threshold": 0.0,
+    "laundered_summary_detection": {
+      "k": 79,
+      "n": 79,
+      "rate": 1.0,
+      "ci95": [
+        0.9536271631644004,
+        1.0
+      ]
+    },
+    "all_poison_detection": {
+      "k": 215,
+      "n": 215,
+      "rate": 1.0,
+      "ci95": [
+        0.9824457507164999,
+        1.0
+      ]
+    },
+    "benign_fpr": {
+      "k": 601,
+      "n": 601,
+      "rate": 1.0,
+      "ci95": [
+        0.9936485850179617,
+        1.0
+      ]
+    }
+  },
+  "gln_plus_lineage_max_feature": {
+    "threshold": 1.0,
+    "laundered_summary_detection": {
+      "k": 73,
+      "n": 79,
+      "rate": 0.9240506329113924,
+      "ci95": [
+        0.8440439721363859,
+        0.9647284320663336
+      ]
+    },
+    "all_poison_detection": {
+      "k": 186,
+      "n": 215,
+      "rate": 0.8651162790697674,
+      "ci95": [
+        0.8129960320645248,
+        0.9044178417145007
+      ]
+    },
+    "benign_fpr": {
+      "k": 96,
+      "n": 601,
+      "rate": 0.15973377703826955,
+      "ci95": [
+        0.1326178149285689,
+        0.1911720831207716
+      ]
+    }
+  },
   "max_lineage_propagation": {
     "laundered_summary_detection": {
       "k": 77,
@@ -86,6 +176,8 @@
   },
   "note": "The GNN's MEAN message passing (gnn_mean_with_graph) barely beats content-only because it dilutes the single poison ancestor among ~4 benign co-parents. MAX aggregation over DERIVED_FROM parents (the containment guard's logic) is the right operation and catches nearly all laundered summaries. Features = GNN features + the anomaly signal (the fix for the GNN's non-discriminative saturation).",
   "G-1_mean_graph_lifts": false,
-  "G-2_max_lineage_lifts": true,
-  "verdict": "GNN saturation fixed by the anomaly node feature (now 47% node-level at 10% FPR). MEAN message passing adds nothing over content-only (37 vs 36) -- it dilutes the poison ancestor. MAX-over-lineage is the right operation: laundered-summary detection 47% (summary's own anomaly) -> 97% (max over its poison-bearing lineage)."
+  "G-2_max_lineage_rule_lifts": true,
+  "G-3_learned_max_gnn_beats_mean_gnn": false,
+  "G-4_lineage_feature_rescues_gln": true,
+  "verdict": "The graph GENUINELY carries the laundering signal: the explicit MAX-over-lineage propagation (the containment guard's own logic) detects 97% of laundered summaries vs 47% from a summary's own content. BUT a LEARNED graph model does not realise it at this data scale: the mean-GNN dilutes the poison (no lift over content-only), and a learned max-aggregating GNN (43% at 10% FPR) does not beat it either -- the Phase 11 small-scale limitation. The GLN is graph-agnostic and its node-only scores saturate (non-discriminative); fed the graph-derived max-lineage anomaly as a feature it becomes a real detector (92% at 16% FPR). Deployable answer: the explicit max-over-lineage rule, not a learned GNN."
 }

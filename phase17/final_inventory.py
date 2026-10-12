@@ -101,8 +101,10 @@ def rows():
             f"{gc['gnn_mean_with_graph']['laundered_summary_detection']['n']}); MAX over DERIVED_FROM lineage "
             f"lifts it {mx['summary_own_anomaly_detection']['rate']:.0%} -> {mx['laundered_summary_detection']['rate']:.0%}",
             "gnn_consolidation_eval.json",
-            "mean-pooling dilutes one poison ancestor among ~4 benign co-parents; max-over-lineage is the "
-            "containment guard's own logic, confirmed on the consolidation surface; a max-aggregating GNN layer is future work")
+            "mean-pooling dilutes one poison ancestor among ~4 benign co-parents; a learned max-aggregating "
+            "GNN (added, tested) does NOT beat it either (43%) -- learned graph models stay at parity-or-worse "
+            "at this data scale; the GLN saturates alone but the lineage-max feature rescues it (92%/16% FPR). "
+            "Deployable answer: the explicit max-over-lineage rule (= containment guard), not a learned GNN")
     h8 = _L("eval_holdout8.json")
     if h8 and h8.get("configs"):
         c = h8["configs"]; u = h8.get("union_defense", {})

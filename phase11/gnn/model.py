@@ -71,3 +71,62 @@ class MinimalGNN(nn.Module):
     def predict_proba(self, features: torch.Tensor, mean_adj: torch.Tensor) -> torch.Tensor:
         with torch.no_grad():
             return torch.sigmoid(self(features, mean_adj))
+
+
+# --------------------------------------------------------------------------------
+# Max-aggregating variant (added 2026-10-12). MinimalGNN mean-pools neighbor
+# messages (`mean_adj @ h`), which DILUTES a single high-signal neighbor (e.g. a
+# poison ancestor) among many benign co-parents -- on the consolidation/laundering
+# surface that makes the graph add nothing (phase17/gnn_consolidation_eval.py). MAX
+# aggregation (each node takes the elementwise max over its neighbors) propagates the
+# strongest neighbor signal instead, which is the right operation for lineage laundering
+# (a laundered summary inherits its poison ancestor's anomaly). This is a SEPARATE class;
+# MinimalGNN and every frozen Phase 11 result are unchanged.
+def masked_neighbor_max(h: torch.Tensor, neighbor_mask: torch.Tensor) -> torch.Tensor:
+    """For each node i, the elementwise max of h[j] over neighbors j (neighbor_mask[i,j]=1).
+    Nodes with no neighbors get a zero message (no neighbor evidence)."""
+    n, d = h.shape
+    very_neg = torch.finfo(h.dtype).min
+    expanded = h.unsqueeze(0).expand(n, n, d).clone()
+    expanded[neighbor_mask == 0] = very_neg
+    msg = expanded.max(dim=1).values
+    has_neighbor = neighbor_mask.sum(dim=1, keepdim=True) > 0
+    return torch.where(has_neighbor, msg, torch.zeros_like(msg))
+
+
+class MaxMessagePassingLayer(nn.Module):
+    def __init__(self, in_dim: int, out_dim: int):
+        super().__init__()
+        self.self_linear = nn.Linear(in_dim, out_dim)
+        self.neigh_linear = nn.Linear(in_dim, out_dim)
+        self.activation = nn.ReLU()
+
+    def forward(self, h: torch.Tensor, neighbor_mask: torch.Tensor) -> torch.Tensor:
+        neighbor_messages = masked_neighbor_max(h, neighbor_mask)
+        return self.activation(self.self_linear(h) + self.neigh_linear(neighbor_messages))
+
+
+class MaxAggregatingGNN(nn.Module):
+    """MinimalGNN's structure with MAX neighbor aggregation. Consumes a BINARY neighbor
+    mask (not a mean-normalized adjacency)."""
+
+    GNN_VERSION = "phase11-gnn-max-0.1.0"
+
+    def __init__(self, in_dim: int, hidden_dim: int = 8, num_layers: int = 2, seed: int = 11):
+        super().__init__()
+        torch.manual_seed(seed)
+        dims = [in_dim] + [hidden_dim] * num_layers
+        self.layers = nn.ModuleList(
+            [MaxMessagePassingLayer(dims[i], dims[i + 1]) for i in range(num_layers)]
+        )
+        self.readout = nn.Linear(dims[-1], 1)
+
+    def forward(self, features: torch.Tensor, neighbor_mask: torch.Tensor) -> torch.Tensor:
+        h = features
+        for layer in self.layers:
+            h = layer(h, neighbor_mask)
+        return self.readout(h).squeeze(-1)
+
+    def predict_proba(self, features: torch.Tensor, neighbor_mask: torch.Tensor) -> torch.Tensor:
+        with torch.no_grad():
+            return torch.sigmoid(self(features, neighbor_mask))
