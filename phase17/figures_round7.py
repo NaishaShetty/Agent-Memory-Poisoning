@@ -1,7 +1,7 @@
 """Figures drawn from the artifacts at build time, so they cannot drift from the data (2026-10-09).
 
 Results paper (new; it had no figures):
-  R1  hold-outs 4-7: attack recall against the matched / untrusted-benign false-positive rate
+  R1  hold-outs 4-8: attack recall against the matched / untrusted-benign false-positive rate
   R2  harm study: undefended / B12 / B13 / no-poison, and undefended under both judges
   R3  adaptive attackers: stateless vs ledger, corroboration vs corroboration + ledger
   R4  retrieval ranking: single poison vs coordinated campaign, lexical vs semantic consensus guard
@@ -166,14 +166,16 @@ def _boxes(ax, boxes, title):
 
 def fig01b():
     plt = _plt()
-    P, PUB = L("round7_predictions.json"), L("publishability.json")
+    P = L("round7_predictions.json")
     fig, ax = plt.subplots(figsize=(12, 10))
     h8 = (DATA / "eval_holdout8.json").exists()
+    _mp = "three" if h8 else "two"
     p17 = ("Ablation, generalisation, seven external review rounds. Hold-outs 1-3 (3 retired after seven uses);\n"
            f"round 7 built hold-outs 4-{8 if h8 else 7}, each frozen and scored once under committed predictions"
-           + (f"\n({P['n_held']}/{P['n_scored']} held, {P['verdict']})" if P else "") + ".\n"
-           "Working-attack discipline (42.5% of 2,628 instances work); provenance reaches memory poisoning on two\n"
-           "independent hold-outs; rejection ledger closes adaptive evasion; harm re-judged against human labels.")
+           + (f"\n({P['n_held']}/{P['n_scored']} held)" if P else "") + ".\n"
+           f"Working-attack discipline (42.5% of 2,628 instances work); provenance reaches memory poisoning on {_mp}\n"
+           "independent hold-outs; a generalized union defense beats every single detector across attack types;\n"
+           "consolidation laundering met by semantic containment; harm re-judged against human labels.")
     boxes = [
         (0.5, 7.3, 9, 1.4, "PHASE 14 - Scalability / Systems Evaluation",
          "Live B0-B10 per-task decisions: benign QA utility (Track A) and real poison exclusion (Track B).\n"
@@ -189,8 +191,8 @@ def fig01b():
     _boxes(ax, boxes, "Figure 1b - Overall Pipeline, continued (Phases 14-17)")
     for y in (7.3, 5.4, 3.7):
         ax.annotate("", xy=(5, y - 0.35), xytext=(5, y), arrowprops=dict(arrowstyle="->", lw=1.5))
-    ax.text(5, 0.45, "Updated 2026-10-09 from the artifacts (phase17/figures_round7.py)"
-            + (f"; publishability verdict: {PUB['verdict']}" if PUB else ""), ha="center", fontsize=8.5, style="italic")
+    ax.text(5, 0.45, "Drawn from the artifacts at build time (phase17/figures_round7.py)",
+            ha="center", fontsize=8.5, style="italic")
     out = FIG / "fig01b_pipeline_14_17.png"
     fig.savefig(out, dpi=150, bbox_inches="tight"); plt.close(fig)
     return out
@@ -225,7 +227,7 @@ def fig12():
     for x in (1.8, 5.0, 8.2):
         ax.annotate("", xy=(x, 5.35), xytext=(5, 5.9), arrowprops=dict(arrowstyle="->", lw=1.3))
     ax.annotate("", xy=(5, 7.15), xytext=(5, 7.6), arrowprops=dict(arrowstyle="->", lw=1.3))
-    ax.text(5, 0.2, "Updated 2026-10-09 from the artifacts (phase17/figures_round7.py)", ha="center", fontsize=8.5, style="italic")
+    ax.text(5, 0.2, "Drawn from the artifacts at build time (phase17/figures_round7.py)", ha="center", fontsize=8.5, style="italic")
     out = FIG / "fig12_phase10.png"
     fig.savefig(out, dpi=150, bbox_inches="tight"); plt.close(fig)
     return out

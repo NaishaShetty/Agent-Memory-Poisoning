@@ -405,13 +405,23 @@ if _abs is not None:
                  "How to read this document. It is cumulative")
 _R7A, _P7A, _E7A = L("adaptive_ledger_b13.json"), L("round7_predictions.json"), L("eval_round7b_holdouts.json")
 _HRA = L("harm_rejudged.json")
+_H8A = L("eval_holdout8.json")
 if _P7A and _E7A and find(startswith="Update (2026-10-05") is not None:
     _h7 = _E7A["holdouts"]["holdout7"]["configs"]
-    upsert_note("abs_round7", "[Round 7 (2026-10-06 to 2026-10-09):",
-                f"[Round 7 (2026-10-06 to 2026-10-09): hold-out 3 was retired after seven uses and four new hold-outs "
-                f"(4-7) were frozen and scored once under committed predictions ({_P7A['n_held']}/{_P7A['n_scored']} held). "
-                f"Provenance reaches memory poisoning on two independent hold-outs (B13 vs B14: 50.3% vs 20.4%; "
-                f"{_h7['B13']['attack_recall']['rate']:.1%} vs {_h7['B14']['attack_recall']['rate']:.1%}); the 55% "
+    _nh8 = " and hold-out 8 (a fifth, scored once)" if _H8A and _H8A.get("configs") else ""
+    _mp3 = "three" if _H8A and _H8A.get("configs") else "two"
+    _h8extra = (f"; {_H8A['configs']['B13']['attack_recall']['rate']:.1%} vs "
+                f"{_H8A['configs']['B14']['attack_recall']['rate']:.1%} on hold-out 8, p="
+                f"{_H8A['paired_B13_vs_B14_recall']['p_exact']:.1g}) and a generalized union of provenance and "
+                f"an embedding-anomaly signal beats every single detector across attack types"
+                if _H8A and _H8A.get("configs") else ")")
+    upsert_note("abs_round7", "[Round 7 (2026-10-06",
+                f"[Round 7 (2026-10-06 to 2026-10-12): hold-out 3 was retired after seven uses and hold-outs 4-7"
+                f"{_nh8} were frozen and scored once under committed predictions ({_P7A['n_held']}/{_P7A['n_scored']} held). "
+                f"Provenance reaches memory poisoning on {_mp3} independent hold-outs (B13 vs B14: 50.3% vs 20.4%; "
+                f"{_h7['B13']['attack_recall']['rate']:.1%} vs {_h7['B14']['attack_recall']['rate']:.1%}"
+                + _h8extra
+                + f"; the 55% "
                 f"false-positive regime was one corpus; B17, not B18, is recommended for injection-shaped text"
                 + (f"; corroboration is brittle to an adaptive attacker alone ({_R7A['control_evasion']['k']}/"
                    f"{_R7A['n_seeds']}) but not behind the rejection ledger ({_R7A['ledger_evasion']['k']}/{_R7A['n_seeds']})" if _R7A else "")
