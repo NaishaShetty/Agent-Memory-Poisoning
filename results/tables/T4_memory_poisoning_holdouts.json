@@ -1,0 +1,138 @@
+{
+  "title": "Memory-poisoning hold-outs (each scored once; B13 with the owner's conversation as evidence)",
+  "sources": [
+    "eval_round7_holdouts.json",
+    "eval_round7b_holdouts.json",
+    "eval_holdout8.json"
+  ],
+  "rows": [
+    {
+      "holdout": "holdout4",
+      "n_attacks": 157,
+      "n_benign": 262,
+      "configs": {
+        "B12": {
+          "recall": "3/157 (1.9%)",
+          "fpr_untrusted": "4/262 (1.5%)",
+          "fpr_user_turn": "4/262 (1.5%)"
+        },
+        "B13": {
+          "recall": "79/157 (50.3%)",
+          "fpr_untrusted": "31/262 (11.8%)",
+          "fpr_user_turn": "0/262 (0.0%)"
+        },
+        "B14": {
+          "recall": "32/157 (20.4%)",
+          "fpr_untrusted": "24/262 (9.2%)",
+          "fpr_user_turn": "0/262 (0.0%)"
+        },
+        "B17": {
+          "recall": "79/157 (50.3%)",
+          "fpr_untrusted": "42/262 (16.0%)",
+          "fpr_user_turn": "0/262 (0.0%)"
+        },
+        "B18": {
+          "recall": "79/157 (50.3%)",
+          "fpr_untrusted": "42/262 (16.0%)",
+          "fpr_user_turn": "4/262 (1.5%)"
+        }
+      },
+      "B13_vs_B14": "+47/-0 (p=1.4e-14)",
+      "baselines": {
+        "llama_guard3@dev": "1/157 (0.6%)",
+        "llama_guard3@oracle": "0/157 (0.0%)",
+        "deberta_pi_v2@dev": "0/157 (0.0%)",
+        "deberta_pi_v2@oracle": "0/157 (0.0%)",
+        "perplexity_gpt2@dev": "3/157 (1.9%)",
+        "perplexity_gpt2@oracle": "0/157 (0.0%)",
+        "llm_prompt_qwen@dev": "0/157 (0.0%)",
+        "llm_prompt_qwen@oracle": "0/157 (0.0%)",
+        "llm_prompt_llama31@dev": "1/157 (0.6%)",
+        "llm_prompt_llama31@oracle": "0/157 (0.0%)"
+      }
+    },
+    {
+      "holdout": "holdout7",
+      "n_attacks": 129,
+      "n_benign": 189,
+      "configs": {
+        "B12": {
+          "recall": "48/129 (37.2%)",
+          "fpr_untrusted": "8/189 (4.2%)",
+          "fpr_user_turn": "8/189 (4.2%)"
+        },
+        "B13": {
+          "recall": "70/129 (54.3%)",
+          "fpr_untrusted": "29/189 (15.3%)",
+          "fpr_user_turn": "0/189 (0.0%)"
+        },
+        "B14": {
+          "recall": "38/129 (29.5%)",
+          "fpr_untrusted": "26/189 (13.8%)",
+          "fpr_user_turn": "0/189 (0.0%)"
+        },
+        "B17": {
+          "recall": "73/129 (56.6%)",
+          "fpr_untrusted": "43/189 (22.8%)",
+          "fpr_user_turn": "0/189 (0.0%)"
+        },
+        "B18": {
+          "recall": "74/129 (57.4%)",
+          "fpr_untrusted": "43/189 (22.8%)",
+          "fpr_user_turn": "7/189 (3.7%)"
+        }
+      },
+      "B13_vs_B14": "+35/-3 (p=6.7e-08)",
+      "baselines": {
+        "llama_guard3@dev": "5/129 (3.9%)",
+        "llama_guard3@oracle": "1/129 (0.8%)",
+        "deberta_pi_v2@dev": "9/129 (7.0%)",
+        "deberta_pi_v2@oracle": "8/129 (6.2%)",
+        "perplexity_gpt2@dev": "1/129 (0.8%)",
+        "perplexity_gpt2@oracle": "0/129 (0.0%)",
+        "llm_prompt_qwen@dev": "4/129 (3.1%)",
+        "llm_prompt_qwen@oracle": "7/129 (5.4%)",
+        "llm_prompt_llama31@dev": "7/129 (5.4%)",
+        "llm_prompt_llama31@oracle": "4/129 (3.1%)"
+      }
+    },
+    {
+      "holdout": "holdout8",
+      "n_attacks": 160,
+      "n_benign": 171,
+      "configs": {
+        "B12": {
+          "recall": "59/160 (36.9%)",
+          "fpr_untrusted": "7/171 (4.1%)",
+          "fpr_user_turn": "7/171 (4.1%)"
+        },
+        "B13": {
+          "recall": "118/160 (73.8%)",
+          "fpr_untrusted": "15/171 (8.8%)",
+          "fpr_user_turn": "0/171 (0.0%)"
+        },
+        "B14": {
+          "recall": "69/160 (43.1%)",
+          "fpr_untrusted": "10/171 (5.8%)",
+          "fpr_user_turn": "0/171 (0.0%)"
+        },
+        "B17": {
+          "recall": "119/160 (74.4%)",
+          "fpr_untrusted": "18/171 (10.5%)",
+          "fpr_user_turn": "0/171 (0.0%)"
+        },
+        "B18": {
+          "recall": "119/160 (74.4%)",
+          "fpr_untrusted": "18/171 (10.5%)",
+          "fpr_user_turn": "3/171 (1.8%)"
+        }
+      },
+      "B13_vs_B14": "+50/-1 (p=4.6e-14)",
+      "baselines": {}
+    }
+  ],
+  "notes": [
+    "Benign 'untrusted' = benign notes scored on the tool_output channel (strict); 'user_turn' = same notes on the trusted channel, where B13-B17 exclude nothing by construction.",
+    "Attacks were assigned the tool_output channel by the evaluator (see T5)."
+  ]
+}

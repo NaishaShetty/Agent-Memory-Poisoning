@@ -184,6 +184,18 @@ P(f"On the defenses: provenance-aware admission (B13) reaches attack classes tha
   f"configurations that beat both components at no additional false-positive cost on ordinary "
   f"memory -- though on matched memory-shaped benign text (hold-out 4) the union pays both "
   f"components' false positives (Section 13).")
+# REMEDIATION 2026-10-12 (register D6): the lead over published detectors is COMPUTED from
+# baseline_breakdown_round6.json; the earlier hand-typed "nearly 39 points" matched no artifact.
+_BB = L("baseline_breakdown_round6.json")
+if _BB:
+    _own = _BB["aggregate_own"]
+    _blr = {k: v["rate"] for k, v in _own.items() if isinstance(v, dict) and "rate" in v and "@" in k}
+    _bbest = max(_blr, key=_blr.get)
+    _LEAD = (f"{100 * (_own['B13']['rate'] - _blr[_bbest]):.1f} (B13) to "
+             f"{100 * (_own['B17']['rate'] - _blr[_bbest]):.1f} (B17) points over the strongest published "
+             f"baseline ({_bbest.replace('_', ' ')}, {pct(_blr[_bbest])})")
+else:
+    _LEAD = "a margin computed in Table 8"
 P("We also report the route to one positive result in full, including the failures on the way. A "
   "stateful defense built for adaptive evasion -- a per-scope ledger of previously rejected "
   "content -- showed no significant effect at its frozen development radius; a pre-registered "
@@ -194,7 +206,7 @@ P("We also report the route to one positive result in full, including the failur
   "sweep found radius 0.95 keeps the effect (5/130 evasions) at 6.4%, a surface that a "
   "deployment must accept deliberately. We conclude that for this threat model the "
   "pooled comparison against published prompt-injection detectors should not be cited in either "
-  "direction: disaggregated, bespoke provenance signals lead by nearly 39 points on memory "
+  f"direction: disaggregated, this project's configurations lead by {_LEAD} on memory "
   "poisoning while trailing an off-the-shelf classifier on one corpus that constitutes almost half "
   "the pooled denominator and is plausibly within that classifier's training data.")
 
@@ -204,9 +216,14 @@ if _A7 and _P7:
     _h5, _h4 = _A7["holdouts"]["holdout5"], _A7["holdouts"]["holdout4"]
     _n5 = _h5["neutralisation"]
     P(f"A seventh round retired a hold-out that had been scored seven times, discovered that its "
-      f"'development set' was the hold-out itself under a different wrapper, and built four new corpora "
-      f"-- two memory-poisoning, two injection -- each scored once under predictions committed in "
-      f"advance ({_P7['n_held']}/{_P7['n_scored']} held). On the first memory-poisoning hold-out -- a new "
+      f"'development set' was the hold-out itself under a different wrapper, and built five new corpora "
+      f"-- three memory-poisoning, two injection -- each scored once under predictions committed in "
+      f"advance ("
+      + ((lambda t: f"{t['held']}/{t['scored']} held across every round-7 prediction including hold-out 8's; "
+                    f"one more, U-2, was pre-registered but never scored")(
+          L("remediation/predictions_tally.json")["all_round7_including_holdout8"])
+         if L("remediation/predictions_tally.json") else f"{_P7['n_held']}/{_P7['n_scored']} held")
+      + f"). On the first memory-poisoning hold-out -- a new "
       f"author family writing about a new owner -- provenance-aware admission reaches "
       f"{pct(_h4['configs']['B13']['attack_recall']['rate'])} against "
       f"{pct(_h4['configs']['B14']['attack_recall']['rate'])} for the fused content classifier and near "
@@ -263,7 +280,7 @@ P(f"Attack instances are grouped into four evaluation groups: this project's own
   f"ordinary conversational-memory populations totalling 1,088 texts, a set of 40 legitimate "
   f"standing instructions written in the imperative voice attacks use, and -- new in round 6 -- "
   f"995 matched ordinary prompts drawn from the same platforms as the third hold-out's attacks.")
-H("2.2 The Three Frozen Hold-Outs", 2)
+H("2.2 The First Three Frozen Hold-Outs (Hold-Outs 4-8: Section 13)", 2)
 TBL([
     ["Hold-out", "Content", "Authorship / licence", "Frozen before", "Clean for"],
     ["1. external_test (1,258)", "998 Gandalf game prompts + 260 deepset",
@@ -1008,7 +1025,9 @@ P("Authorship confound, partly closed. The first and second hold-outs (998 and 1
 P("Hold-out informedness is uneven and is labelled per configuration. B15's architecture was "
   "chosen after reading hold-out 1's baseline results; B17 and B18 were chosen after reading "
   "hold-out results outright. Hold-out 2 is therefore clean for B12-B15 and hold-out 3 for "
-  "B12-B18, and no configuration has more than one clean estimate.")
+  "B12-B18. As of round 6 no configuration had more than one clean estimate; round 7 added five "
+  "single-use hold-outs (Section 13), giving B12-B18 three clean memory-poisoning estimates (hold-outs "
+  "4, 7, 8) and two clean injection estimates (hold-outs 5, 6).")
 P("Translation confound, measured rather than assumed. Chinese-language attacks were initially "
   "evaluated via translation, which suppressed results; natively authored Chinese attacks score "
   "22/30 against the translated set's 30/84, so the translation pipeline, not the language, was "
@@ -1071,11 +1090,11 @@ P("These are limits on the claims, not a work plan. (i) The ledger's adaptive-ev
   "about 7-8B assistants. (iii) Hold-out 4 covers note-shaped poisoning only (its safety-tuned author "
   "inverted the instruction-shaped families); hold-out 7 adds instruction-shaped attacks but its working "
   "subset is not reportable"
-  + (", and hold-out 8 tests conditional backdoors (Section 13D)" if _H8E else
+  + (", and hold-out 8 tests conditional backdoors (Section 13E)" if _H8E else
      ", and conditional backdoors remain untested on a clean hold-out")
   + ". Hold-out 5 has 131 attacks, so its rates carry about +/-8 points. The stronger-agent comparison "
   + (f"rests on {_S120L['n']} development items" if _S120L else "rests on 60 items")
-  + ". (iv) The first three hold-outs are prompt-injection or jailbreak corpora; hold-outs 4 and 7 are "
+  + ". (iv) The first three hold-outs are prompt-injection or jailbreak corpora; hold-outs 4, 7 and 8 are "
   "the memory-poisoning hold-outs. (v) The judges were checked against "
   + ("two annotators" if _A2 else "one annotator (a second is in progress)")
   + ". (vi) Four of MPBench's six attack classes need write channels this victim architecture does not "
@@ -1289,7 +1308,7 @@ if _EQ:
      f"{_EQ['attacks_corr_only_asserted']['raw']['k']} raw -- the frame removes about two thirds of the raw "
      f"effect, not all of it. It is a trade, offered as an option for deployments where false exclusions "
      f"cost more than a minority of framed fabrications; hold-out 8 tests it once"
-     + (" (Section 13D)." if L("eval_holdout8.json") else "."))
+     + (" (Section 13E)." if L("eval_holdout8.json") else "."))
 if _NR:
     c = _NR["compliance"]
     P(f"The noise floor was measured rather than argued: three independent runs gave raw compliance "
@@ -1384,8 +1403,9 @@ if _M7:
     P(f"Instruction-shaped memory poisoning remains only partly testable on clean data. A safety-tuned "
       f"author inverted those families into protective rules (hold-out 4); a base-model author (hold-out 7) "
       f"wrote valid standing instructions ({a['standing_instruction']['k']}/40) but almost no valid dormant "
-      f"triggers ({a['conditional_backdoor']['k']}/40), so conditional backdoors are reported as untested on "
-      f"a clean hold-out rather than as measured.")
+      f"triggers ({a['conditional_backdoor']['k']}/40), so conditional backdoors were untested on a clean "
+      f"hold-out at that point; hold-out 8 later tested them (Section 13E), and their ACTIVATION was first "
+      f"measured with a real trigger in the remediation experiment SA-1 (Section 15).")
 
 _E67 = L("eval_round7b_holdouts.json")
 if _E67:
@@ -1494,7 +1514,7 @@ if _V6:
      f"{_V6['by_family']['conditional_backdoor']['n']}. On the {_V6['benign_rule_fires']['n']} benign notes containing "
      f"rule words, usefulness was {_V6['benign_rule_fires']['v6']['k']} under v6 against "
      f"{_V6['benign_rule_fires']['v3']['k']} under the current frame -- no cost. One design, measured once, on "
-     f"development data: hold-out 8 tests it" + (" (Section 13D)." if L("eval_holdout8.json") else "."))
+     f"development data: hold-out 8 tests it" + (" (Section 13E)." if L("eval_holdout8.json") else "."))
 _DM = L("derived_memory_eval.json")
 if _DM:
     _hx = _DM["harm_on_b13_excluded"]
@@ -1562,8 +1582,19 @@ if _H8 and _H8.get("configs"):
           f"signal {_u['anomaly_recall_pct99']['k']}, but their union {_u2['recall']['k']}/{_H8['n_attacks']} "
           f"({pct(_u2['recall']['rate'])}) -- and with the supervised detector "
           f"{_u3['recall']['k']}/{_H8['n_attacks']} ({pct(_u3['recall']['rate'])}) -- beating every single "
-          f"detector on unseen attacks, as on development. No single detector generalises across the attack "
-          f"types; their union does.")
+          f"detector on unseen attacks. CORRECTION (remediation 2026-10-12, register G3-4): that union, as "
+          f"pre-registered, fitted the anomaly signal's clusters on half of hold-out 8's benign notes and set "
+          f"its threshold at a percentile of the OTHER half, then reported FPR on that same half, so its "
+          f"benign FPR ({_u2['benign_fpr_eval_half']['k']}/{_u2['benign_fpr_eval_half']['n']}) is fixed by "
+          f"construction rather than measured. Re-scored without that leak (Section 15): "
+          + ((lambda f: f"with the threshold fitted on one benign half and FPR measured on the other, the union "
+                        f"reaches {f['owner_adaptive_leakfree']['p99']['union2_B13_or_anomaly']['recall']['k']}/160 at "
+                        f"{f['owner_adaptive_leakfree']['p99']['union2_B13_or_anomaly']['benign_fpr']['k']}/85 benign; "
+                        f"with the development-fitted model the shipped signal uses, the anomaly flags "
+                        f"{f['shipped_committed_centroids']['p90']['anomaly']['benign_fpr']['k']}/171 of hold-out 8's "
+                        f"benign notes. The union generalises only with per-owner benign calibration.")(
+              L("remediation/ho8_anomaly_devfit.json")["arms"]) if L("remediation/ho8_anomaly_devfit.json") else
+             "see remediation/ho8_anomaly_devfit.json."))
         FIG("R5", "The generalized union defense on development data: provenance and the planted-memory "
                   "anomaly are each strong on their own attack type and weak elsewhere; their union covers "
                   "every type. A learned attack-type router does not beat the union. Drawn from the artifacts.")
@@ -1580,14 +1611,18 @@ if _H8 and _H8.get("configs"):
         P(f"Sleeper generalises (S8-2): the dedicated admission guard flags "
           f"{_sl['attack_recall']['k']}/{_H8['n_attacks']} (Finding A, confirmed on fresh data), but the "
           f"content-independent embedding-anomaly signal flags {_an['attack_recall']['k']}/{_H8['n_attacks']} "
-          f"({pct(_an['attack_recall']['rate'])}) at {_an['benign_fpr']['k']} benign false positives -- a "
-          f"planted-memory detector that catches dormant sleepers the dedicated guard cannot.")
+          f"({pct(_an['attack_recall']['rate'])}) at {_an['benign_fpr']['k']}/{_an['benign_fpr']['n']} benign -- a "
+          f"result whose threshold was set on hold-out 8's own benign notes (see the correction above): it shows "
+          f"in-corpus separability, not a deployable detector; the shipped dev-fitted signal flags most of "
+          f"hold-out 8's benign notes (Section 15).")
     _ne = _H8.get("neutralisation", {})
     _nf = _ne.get("rule_fires", {})
     if _nf.get("v6"):
         P(f"The instruction-aware frame generalises (F8-1): on the {_nf['raw']['n']} rule-stating attacks, harm "
           f"is {_nf['raw']['k']} raw, {_nf['v3']['k']} under the current frame and {_nf['v6']['k']} under v6. "
-          f"Every defence introduced this round that was pre-registered for hold-out 8 held on it.")
+          f"Every hold-out-8 prediction that was scored held, but all seven were directional, U-2 (the router) "
+          f"was never scored on hold-out 8, F8-1's difference is not significant (paired p="
+          f"{_nf['paired_v6_vs_v3']['p_exact']:.2g}), and U-1/S8-2 rest on the transductive threshold above.")
 _P8U = L("power_rerun_utility.json")
 if _UT and _P8U:
     P(f"Re-tested with more data (addendum 8): on {_P8U['n_new']} NEW benign notes the direct-question "
@@ -1847,6 +1882,82 @@ P("The limitations are stated where the numbers appear, not hidden: the harm LEV
 
 # ============================================================================ Appendix 0: formulas
 from phase17.formulas import rows as _formula_rows  # noqa: E402
+
+H("15. Remediation After the Independent Review (2026-10-12)", 1)
+P("An independent pre-submission review (docs/review/INDEPENDENT_IEEE_REVIEW_2026-10-12.md) found "
+  "under-disclosed assumptions, a hold-out-calibrated threshold, and internal inconsistencies. Every item "
+  "has a status in REMEDIATION_MASTER_REGISTER.md. This section reports the analyses and the two "
+  "pre-registered experiments it triggered (docs/phase17/PREREGISTRATION_REMEDIATION_2026-10-12.md, "
+  "committed before either ran). Nothing earlier in this document was silently changed: corrected "
+  "statements are marked where they appear.")
+_DEC = L("remediation/b13_decomposition.json")
+if _DEC:
+    rows = [["Hold-out", "B12 (stored)", "B13 minus corroboration", "Corroboration alone", "B13",
+             "Attacks on user channel"]]
+    for h, v in _DEC["holdouts"].items():
+        a = v["arms"]
+        rows.append([h] + [f"{a[k]['recall']['k']}/{v['n_attacks']} | FP {a[k]['benign_fpr_untrusted']['k']}"
+                           f"/{v['n_benign_untrusted']}" for k in ("B12_stored", "channel_plus_rules",
+                                                                   "corroboration_only", "B13")]
+                    + [f"0 excluded; {a['user_channel_poisoning']['flagged_but_admitted']['k']} flagged"])
+    TBL(rows)
+    CAP("Table 23. What B13's hold-out result depends on (post-hoc decomposition of the stored per-item "
+        "decisions, reproduced item for item). Source: remediation/b13_decomposition.json.")
+    P("On every memory-poisoning hold-out, B13 without corroboration excludes exactly what content-only B12 "
+      "excludes: the channel label adds no recall of its own. All of B13's gain comes from corroborating "
+      "personal claims against the owner's conversation, at the benign cost shown. The channel label's "
+      "role is to exempt the user's own words -- so a poison that reaches the store through the user "
+      "channel (MINJA's query-only threat model, or any mislabelled source) is never excluded, by "
+      "construction. Every attack in every evaluation here was assigned the untrusted tool-output "
+      "channel by the evaluator; B13's results hold under that assumption only.")
+_FX = L("remediation/ho8_anomaly_devfit.json")
+if _FX:
+    A = _FX["arms"]
+    rows = [["Threshold / clusters fitted on", "Anomaly recall", "Anomaly benign FP", "Union (B13 OR anomaly)",
+             "Union benign FP"]]
+    for k, lab in (("original_transductive", "HO8 benign, FPR read on the same half (as published)"),
+                   ("owner_adaptive_leakfree", "HO8 benign half A; FPR on unseen half B"),
+                   ("dev_fitted", "development benign only"),
+                   ("shipped_committed_centroids", "committed dev-fitted centroids (shipped signal)")):
+        for p_ in [q for q in ("p90", "p99") if q in A[k]]:
+            x = A[k][p_]
+            rows.append([f"{lab} ({p_})", f"{x['anomaly']['recall']['k']}/160",
+                         f"{x['anomaly']['benign_fpr']['k']}/{x['anomaly']['benign_fpr']['n']}",
+                         f"{x['union2_B13_or_anomaly']['recall']['k']}/160",
+                         f"{x['union2_B13_or_anomaly']['benign_fpr']['k']}/{x['union2_B13_or_anomaly']['benign_fpr']['n']}"])
+    TBL(rows)
+    CAP("Table 24. Hold-out 8's anomaly signal and union under thresholds that do and do not see the "
+        "evaluation data. The first rows reproduce the published numbers exactly. Source: "
+        "remediation/ho8_anomaly_devfit.json.")
+_PT = L("remediation/predictions_tally.json")
+if _PT:
+    t = _PT["all_round7_including_holdout8"]
+    P(f"Prediction tallies, reconciled. The three counts in circulation are snapshots of different scopes, "
+      f"all reproducible from git: 17/20 (commit 175263b8, hold-outs 4-5 plus Phase B before B-5 was scored), "
+      f"34/41 (before addenda 6 and 8) and 39/47 (the current round-7 file). Adding hold-out 8's seven "
+      f"addendum-7 predictions, which no tally had included: {t['held']}/{t['scored']} scored predictions "
+      f"held, with U-2 pre-registered but never scored. By kind: "
+      + "; ".join(f"{k} {v['held']}/{v['scored']}" for k, v in t["by_kind"].items()) + ".")
+_SA = L("remediation/sleeper_activation_eval.json")
+_P2 = L("remediation/propagation_2gen.json")
+_JS = L("remediation/validity_judge_sensitivity.json")
+if _JS:
+    a, o, e = (_JS["results"][k] for k in ("ALL", "own", "external"))
+    P(f"Judge sensitivity of the validity audit (fitted probe, mechanism-checked). Working rate under the "
+      f"original judge {pct(a['fitted_probe_working_C0']['rate'])} vs the human-calibrated majority vote "
+      f"{pct(a['fitted_probe_working_vote']['rate'])} (own populations {pct(o['fitted_probe_working_C0']['rate'])} vs "
+      f"{pct(o['fitted_probe_working_vote']['rate'])}; external {pct(e['fitted_probe_working_C0']['rate'])} vs "
+      f"{pct(e['fitted_probe_working_vote']['rate'])}). Working status is a property of the agent, probe and "
+      f"judge, not of an attack in every setting. Source: remediation/validity_judge_sensitivity.json.")
+else:
+    P("Judge sensitivity of the validity audit: not yet run.")
+for _lab, _d in (("SA-1 (sleeper activation, Gap 3)", _SA), ("P2 (two-generation propagation, Gap 2)", _P2)):
+    if _d:
+        P(f"{_lab}, pre-registered predictions: " + "; ".join(
+            f"{x['id']} {x['status']} ({x['evidence']})" for x in _d["predictions"]) + ". Full tables in "
+          f"results/tables (T10, T11).")
+    else:
+        P(f"{_lab}: pre-registered; not yet run.")
 
 H("Definitions and Formulas", 1)
 P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "

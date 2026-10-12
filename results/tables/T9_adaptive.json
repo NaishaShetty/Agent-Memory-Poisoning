@@ -1,0 +1,236 @@
+{
+  "title": "Adaptive paraphrase attacker vs the rejection ledger (development data only)",
+  "sources": [
+    "eval_rejection_powered.json",
+    "eval_ledger_radius_sweep.json",
+    "adaptive_ledger_b13.json",
+    "rejection_memory_config.json"
+  ],
+  "powered_radius_0.90": {
+    "control": "{'B15': {'n_seeds': 130, 'n_initially_excluded': 130, 'baseline_miss': {'k': 0, 'n': 130, 'rate': 0.0, 'ci95': [0.0, 0.02870258574314712]}, 'genuine_adaptive_evasion_of_initially_excluded': {'k': 32, 'n': 130, 'rate': 0.24615384615384617, 'ci95': [0.18009686195009064, 0.32678291235027634]}, 'attacker_self_destructed': {'k': 0, 'n': 130, 'rate': 0.0, 'ci95': [0.0, 0.02870258574314712]}, 'mean_round",
+    "paired": {
+      "n": 130,
+      "detected_a": 1,
+      "detected_b": 32,
+      "only_a": 0,
+      "only_b": 31,
+      "p_exact": 9.313225746154785e-10
+    }
+  },
+  "radius_sweep": {
+    "n_seeds": 130,
+    "power_check": {
+      "n_at_risk": 130,
+      "expected_control_events": 32.0,
+      "min_events_for_alpha": 6,
+      "required_with_margin": 12.0,
+      "alpha": 0.05
+    },
+    "control": {
+      "k": 32,
+      "n": 130,
+      "rate": 0.24615384615384617,
+      "ci95": [
+        0.18009686195009064,
+        0.32678291235027634
+      ]
+    },
+    "curve": [
+      {
+        "radius": 0.86,
+        "radius_on_curve": 0.86,
+        "ledger_poisoning_blast_radius": 0.42474,
+        "ordinary_benign_fpr": 0.0,
+        "dev_paraphrase_caught": 0.8298,
+        "adaptive_evasion": {
+          "k": 0,
+          "n": 130,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.02870258574314712
+          ]
+        },
+        "paired_vs_control": {
+          "n": 130,
+          "detected_a": 0,
+          "detected_b": 32,
+          "only_a": 0,
+          "only_b": 32,
+          "p_exact": 4.656612873077393e-10
+        },
+        "paired_vs_0.90": {
+          "n": 130,
+          "detected_a": 0,
+          "detected_b": 1,
+          "only_a": 0,
+          "only_b": 1,
+          "p_exact": 1.0
+        }
+      },
+      {
+        "radius": 0.9,
+        "radius_on_curve": 0.9,
+        "ledger_poisoning_blast_radius": 0.29657,
+        "ordinary_benign_fpr": 0.0,
+        "dev_paraphrase_caught": 0.5532,
+        "adaptive_evasion": {
+          "k": 1,
+          "n": 130,
+          "rate": 0.007692307692307693,
+          "ci95": [
+            0.0013591392530527095,
+            0.04228648363250753
+          ]
+        },
+        "paired_vs_control": {
+          "n": 130,
+          "detected_a": 1,
+          "detected_b": 32,
+          "only_a": 0,
+          "only_b": 31,
+          "p_exact": 9.313225746154785e-10
+        },
+        "paired_vs_0.90": {
+          "n": 130,
+          "detected_a": 1,
+          "detected_b": 1,
+          "only_a": 0,
+          "only_b": 0,
+          "p_exact": 1.0
+        }
+      },
+      {
+        "radius": 0.93,
+        "radius_on_curve": 0.93,
+        "ledger_poisoning_blast_radius": 0.1848,
+        "ordinary_benign_fpr": 0.0,
+        "dev_paraphrase_caught": 0.4255,
+        "adaptive_evasion": {
+          "k": 5,
+          "n": 130,
+          "rate": 0.038461538461538464,
+          "ci95": [
+            0.016538182454457935,
+            0.08687958900075479
+          ]
+        },
+        "paired_vs_control": {
+          "n": 130,
+          "detected_a": 5,
+          "detected_b": 32,
+          "only_a": 0,
+          "only_b": 27,
+          "p_exact": 1.4901161193847656e-08
+        },
+        "paired_vs_0.90": {
+          "n": 130,
+          "detected_a": 5,
+          "detected_b": 1,
+          "only_a": 4,
+          "only_b": 0,
+          "p_exact": 0.125
+        }
+      },
+      {
+        "radius": 0.95,
+        "radius_on_curve": 0.95,
+        "ledger_poisoning_blast_radius": 0.06408,
+        "ordinary_benign_fpr": 0.0,
+        "dev_paraphrase_caught": 0.3191,
+        "adaptive_evasion": {
+          "k": 5,
+          "n": 130,
+          "rate": 0.038461538461538464,
+          "ci95": [
+            0.016538182454457935,
+            0.08687958900075479
+          ]
+        },
+        "paired_vs_control": {
+          "n": 130,
+          "detected_a": 5,
+          "detected_b": 32,
+          "only_a": 0,
+          "only_b": 27,
+          "p_exact": 1.4901161193847656e-08
+        },
+        "paired_vs_0.90": {
+          "n": 130,
+          "detected_a": 5,
+          "detected_b": 1,
+          "only_a": 4,
+          "only_b": 0,
+          "p_exact": 0.125
+        }
+      },
+      {
+        "radius": 0.97,
+        "radius_on_curve": 0.97,
+        "ledger_poisoning_blast_radius": 0.00745,
+        "ordinary_benign_fpr": 0.0,
+        "dev_paraphrase_caught": 0.1702,
+        "adaptive_evasion": {
+          "k": 8,
+          "n": 130,
+          "rate": 0.06153846153846154,
+          "ci95": [
+            0.0315089074737391,
+            0.11673797540871297
+          ]
+        },
+        "paired_vs_control": {
+          "n": 130,
+          "detected_a": 8,
+          "detected_b": 32,
+          "only_a": 0,
+          "only_b": 24,
+          "p_exact": 1.1920928955078125e-07
+        },
+        "paired_vs_0.90": {
+          "n": 130,
+          "detected_a": 8,
+          "detected_b": 1,
+          "only_a": 7,
+          "only_b": 0,
+          "p_exact": 0.015625
+        }
+      }
+    ],
+    "selection_rule": "largest radius significantly below control (p<0.05) and not significantly above the 0.90 arm (p>=0.05)",
+    "recommended_radius": 0.95,
+    "recommended_blast_radius": 0.06408,
+    "verdict": "radius 0.95 keeps the adaptive-evasion effect with a ledger-poisoning blast radius of 6.4% (0.90: 29.7%)"
+  },
+  "ledger_plus_B13": {
+    "control": {
+      "k": 22,
+      "n": 48,
+      "rate": 0.4583333333333333,
+      "ci95": [
+        0.3257502185455351,
+        0.5970916690505266
+      ]
+    },
+    "ledger": {
+      "k": 5,
+      "n": 48,
+      "rate": 0.10416666666666667,
+      "ci95": [
+        0.045321050901178245,
+        0.2216768812614093
+      ]
+    },
+    "paired": {
+      "n": 48,
+      "detected_a": 5,
+      "detected_b": 22,
+      "only_a": 1,
+      "only_b": 18,
+      "p_exact": 7.62939453125e-05
+    }
+  },
+  "notes": [
+    "Attacker: 5 feedback-guided LLM paraphrases with NLI claim preservation, one scope. Not tested: single-shot, cross-scope, TTL expiry, optimisation attacks. Seed rule revised after a failed pre-registered test; radius 0.95 selected by a pre-fixed rule on the same 130 seeds. Never run on a hold-out."
+  ]
+}

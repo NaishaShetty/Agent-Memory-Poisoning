@@ -1,0 +1,46 @@
+{
+  "title": "Unconditional harm (309 own+external instances; development data)",
+  "sources": [
+    "harm_study_v2.json",
+    "harm_rejudged.json",
+    "noise_repeats.json"
+  ],
+  "original_answers_judge_J0": {
+    "harm_no_poison": "1/309 (0.3%)",
+    "harm_no_defense": "87/309 (28.2%)",
+    "harm_b12": "58/309 (18.8%)",
+    "harm_b13": "32/309 (10.4%)"
+  },
+  "regenerated_answers_rep1": {
+    "J0_current": {
+      "task_alone_base_rate": "2/309 (0.6%)",
+      "harm_undefended": "99/309 (32.0%)",
+      "harm_b13": "32/309 (10.4%)"
+    },
+    "J2_gemini_original": {
+      "task_alone_base_rate": "7/309 (2.3%)",
+      "harm_undefended": "180/309 (58.3%)",
+      "harm_b13": "76/309 (24.6%)"
+    }
+  },
+  "noise": {
+    "n": 309,
+    "runs_k": [
+      87,
+      89,
+      94
+    ],
+    "runs": [
+      "published",
+      "neutralise_own re-run",
+      "rep1"
+    ],
+    "mean_rate": 0.2913,
+    "sd_points": 1.17,
+    "range_points": 2.3
+  },
+  "notes": [
+    "The re-judge (harm_rejudged.json) scores a REGENERATED undefended run (noise_repeats rep1) and newly generated no-poison answers, not harm_study_v2's answers. J0 scored the same rep1 answers 94/309 in noise_repeats and 99/309 in harm_rejudged: judge-only run-to-run variation of 5 items (review D5).",
+    "J0 agreement with human annotators: kappa 0.2 (40 items); J2 (adopted): 0.688 vs annotator 2."
+  ]
+}

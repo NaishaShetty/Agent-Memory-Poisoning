@@ -143,6 +143,16 @@ def run() -> Dict:
         "description": "KMeans AND threshold fitted on HO8 benign[0::2]; FPR on benign[1::2], unseen by both",
         "p90": _arm(oa_o, ob_eval_o, float(np.percentile(ob_fit_o, 90)), b13a, b13b[ev_idx], sem_a, sem_b[ev_idx], fam),
         "p99": _arm(oa_o, ob_eval_o, float(np.percentile(ob_fit_o, 99)), b13a, b13b[ev_idx], sem_a, sem_b[ev_idx], fam)}
+    # SHIPPED: the committed centroids + threshold the live phase6 signal loads
+    # (phase6/defense/sleeper/activation_anomaly_centroids.json, fitted on ALL development benign by
+    # build_sleeper_anomaly_centroids.py). This is what evaluate_sleeper_admission_augmented would do.
+    shipped = json.loads((DATA.parents[1] / "phase6" / "defense" / "sleeper" / "activation_anomaly_centroids.json")
+                         .read_text(encoding="utf-8"))
+    C = np.asarray(shipped["centroids"], dtype=float)
+    oa_s, ob_s = oc(atk, C), oc(b8, C)
+    out["arms"]["shipped_committed_centroids"] = {
+        "description": "the committed live signal (activation_anomaly_centroids.json, dev-fitted); all 171 HO8 benign",
+        "p90": _arm(oa_s, ob_s, float(shipped["threshold"]), b13a, b13b, sem_a, sem_b, fam)}
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out
@@ -152,7 +162,7 @@ if __name__ == "__main__":
     r = run()
     print("reproduction ok:", r["reproduction_ok"], r["reproduces_published"])
     for arm, v in r["arms"].items():
-        for p in ("p90", "p99"):
+        for p in [q for q in ("p90", "p99") if q in v]:
             a = v[p]
             print(f"{arm:26s} {p}: anomaly {a['anomaly']['recall']['k']}/160 fpr {a['anomaly']['benign_fpr']['k']}/"
                   f"{a['anomaly']['benign_fpr']['n']} | union2 {a['union2_B13_or_anomaly']['recall']['k']} "
