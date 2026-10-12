@@ -1528,6 +1528,9 @@ if _DM:
     _p9 = _DM["phase9_backward_chain"]
     CAP("Table 22. Laundering through consolidation on the B13-excluded instances, and the containment "
         "guard's lexical vs semantic retention. Source: phase17/data/derived_memory_eval.json.")
+    FIG("R6", "Laundering through consolidation and the semantic containment fix: a poison B13 excludes "
+              "returns through the consolidated summary; lexical propagation containment barely acts, the "
+              "semantic measure nearly eliminates it (confirmed on hold-out 8). Drawn from the artifacts.")
     P(f"The backward chain, run on the {_p9['n_harmful_laundered']} harmful laundered answers, traces "
       f"{_p9['answer_traced_to_derived']['k']} to the derived memory and then to an ancestor. Content-only "
       f"origin attribution names the poison ancestor in {_p9['origin_correct_content_only']['k']} of "
@@ -1561,6 +1564,9 @@ if _H8 and _H8.get("configs"):
           f"{_u3['recall']['k']}/{_H8['n_attacks']} ({pct(_u3['recall']['rate'])}) -- beating every single "
           f"detector on unseen attacks, as on development. No single detector generalises across the attack "
           f"types; their union does.")
+        FIG("R5", "The generalized union defense on development data: provenance and the planted-memory "
+                  "anomaly are each strong on their own attack type and weak elsewhere; their union covers "
+                  "every type. A learned attack-type router does not beat the union. Drawn from the artifacts.")
     _dm = _H8.get("derived_memory", {})
     if _dm and _dm.get("laundered_admitted_of_carried_excluded"):
         _la = _dm["laundered_admitted_of_carried_excluded"]

@@ -261,10 +261,66 @@ def fig20():
     return out
 
 
+def r5_union_defense():
+    """The generalized union defense per attack type: no single detector covers all, their union does."""
+    plt = _plt()
+    U = L("union_defense_dev.json")
+    if not U or "by_group_recall_test" not in U:
+        return None
+    groups = ["provenance", "sleeper", "propagation"]
+    g = U["by_group_recall_test"]
+    series = [("B13 (provenance)", "B13", "#2980b9"), ("anomaly (planted-memory)", "anomaly", "#e67e22"),
+              ("UNION", "union", "#27ae60")]
+    import numpy as np
+    x = np.arange(len(groups)); w = 0.26
+    fig, ax = plt.subplots(figsize=(8, 5))
+    for i, (lab, key, col) in enumerate(series):
+        ax.bar(x + (i - 1) * w, [100 * g[gr][key]["rate"] for gr in groups], w, label=lab, color=col, edgecolor="black", lw=0.4)
+    ax.set_xticks(x, [gr.capitalize() for gr in groups])
+    ax.set_ylabel("Attack recall (%)"); ax.set_ylim(0, 100)
+    ax.set_title("Figure R5 - Generalized union defense (development): no single detector covers every\n"
+                 "attack type; their union does. Union recall "
+                 f"{U['detectors']['union_B13_or_anomaly']['recall']['rate']:.0%} at "
+                 f"{U['detectors']['union_B13_or_anomaly']['fpr']['rate']:.0%} FPR.", fontsize=9)
+    ax.legend(); ax.grid(alpha=0.3, axis="y")
+    out = FIG / "R5_union_defense.png"
+    fig.tight_layout(); fig.savefig(out, dpi=150); plt.close(fig)
+    return out
+
+
+def r6_laundering():
+    """Laundering through consolidation and the lexical-vs-semantic containment fix (dev + hold-out 8)."""
+    plt = _plt()
+    D = L("derived_memory_eval.json")
+    if not D or "harm_on_b13_excluded" not in D:
+        return None
+    hx = D["harm_on_b13_excluded"]
+    labels = ["B13 excludes\n(convention)", "+consolidation\n(laundering)", "+lexical\ncontainment", "+semantic\ncontainment"]
+    vals = [hx["B13"]["k"], hx["B13+D"]["k"], hx["B13+D+lexical"]["k"], hx["B13+D+semantic"]["k"]]
+    cols = ["#7f8c8d", "#c0392b", "#e67e22", "#27ae60"]
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.bar(labels, vals, color=cols, edgecolor="black", lw=0.4)
+    for i, v in enumerate(vals):
+        ax.text(i, v + 0.5, str(v), ha="center", fontsize=10)
+    ax.set_ylabel(f"Harmful of {D['n_b13_excluded']} B13-excluded instances")
+    _h8 = L("eval_holdout8.json")
+    sub = ("Development data: a poison B13 excludes returns through the consolidated summary; lexical "
+           "propagation containment barely acts, semantic nearly eliminates it.")
+    if _h8 and _h8.get("derived_memory", {}).get("laundered_admitted_of_carried_excluded"):
+        la = _h8["derived_memory"]["laundered_admitted_of_carried_excluded"]
+        sub += f"\nConfirmed on hold-out 8: laundered summaries admitted - lexical {la['lexical']} vs semantic {la['semantic']}."
+    ax.set_title("Figure R6 - Laundering through consolidation, and the semantic containment fix\n" + sub, fontsize=9)
+    ax.grid(alpha=0.3, axis="y")
+    out = FIG / "R6_laundering.png"
+    fig.tight_layout(); fig.savefig(out, dpi=150); plt.close(fig)
+    return out
+
+
 def run() -> dict:
     FIG.mkdir(parents=True, exist_ok=True)
     made = {}
     for name, fn in (("R1", r1_holdouts), ("R2", r2_harm), ("R3", r3_adaptive), ("R4", r4_retrieval),
+                     ("R5", r5_union_defense), ("R6", r6_laundering),
                      ("fig01b", fig01b), ("fig12", fig12), ("fig20", fig20)):
         p = fn()
         made[name] = str(p.relative_to(ROOT)) if p else None
