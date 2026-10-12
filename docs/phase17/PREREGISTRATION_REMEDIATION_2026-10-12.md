@@ -115,3 +115,25 @@ D2 is withheld when the action is QUARANTINE or REQUIRE_VALIDATION.
 - harm under every arm
 - benign collateral under every arm
 - the share of D2 derived from a poison that B13 missed, which no arm can act on
+
+---
+
+## Addendum A (2026-10-12, committed BEFORE SA-1 or P2 ran on any model; design unchanged)
+
+**Disclosure found during the remediation audit.** B13's two corroboration thresholds
+(`SUPPORT_EXCLUDE`, `SUPPORT_FLAG`) were calibrated by `phase17/b13_dev_calibration.py` on
+`provenance_sets.DEV_SAMPLES = (1, 2, 3, 4)`:
+- the owner turns of LoCoMo conversations 1–4 as evidence;
+- their `observation` memories as the benign control;
+- qwen-authored fabrications about them as attacks.
+
+**Consequences.**
+- **SA-1.** Its owner, conversation 3, is therefore a B13 *calibration* owner, not an unseen one. It was chosen in the belief that it had been used only as a retrieval background store; that belief was wrong.
+- **Hold-out 8.** Its owner, conversation 1, is likewise a calibration owner. The hold-out-8 builder's statement "used by no phase-17 measurement, never evidence" is incorrect for B13.
+- **Clean owners.** Hold-outs 4 and 7 (owners 7 and 8) are `TEST_SAMPLES` and are unaffected.
+
+**What overlaps and what does not.**
+- The calibration fitted two scalar percentiles of NLI support scores on those conversations' observation memories.
+- It never saw SA-1's or hold-out 8's attack or benign texts, which were generated later and filtered for near-duplicates.
+
+**What changes.** SA-1 runs exactly as pre-registered. Its B13 results, and hold-out 8's, are labelled "owner seen in B13 calibration" wherever they appear. The provenance claim's clean-owner evidence is hold-outs 4 and 7.
