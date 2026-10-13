@@ -1,0 +1,304 @@
+{
+ "rule": "max dev withheld-carrying gen2-4 s.t. non-carrying withheld <= 25% and flagged-benign gen4 <= RCL+10pts; ties -> simpler",
+ "taus_searched": [
+  0.0007395017077215016,
+  0.0010207527549937368,
+  0.0014639621600508691,
+  0.001681457948870957,
+  0.0022015541326254606,
+  0.0025241915602236984,
+  0.0030244820285588504,
+  0.004737174604088068,
+  0.006002380419522523,
+  0.010277370922267437
+ ],
+ "candidates": [
+  {
+   "score": "S0",
+   "tau": null,
+   "withheld_carrying": [
+    "76/102",
+    "43/71",
+    "22/41",
+    "10/31"
+   ],
+   "obj_gen2_4": 75,
+   "noncarrying_withheld": 0.1203,
+   "flagged_benign_gen4": 0.0127
+  },
+  {
+   "score": "S1",
+   "tau": 0.0007395017077215016,
+   "withheld_carrying": [
+    "100/102",
+    "68/71",
+    "37/41",
+    "27/31"
+   ],
+   "obj_gen2_4": 132,
+   "noncarrying_withheld": 0.6566,
+   "flagged_benign_gen4": 0.443
+  },
+  {
+   "score": "S1",
+   "tau": 0.0010207527549937368,
+   "withheld_carrying": [
+    "97/102",
+    "62/71",
+    "35/41",
+    "26/31"
+   ],
+   "obj_gen2_4": 123,
+   "noncarrying_withheld": 0.5739,
+   "flagged_benign_gen4": 0.3291
+  },
+  {
+   "score": "S1",
+   "tau": 0.0014639621600508691,
+   "withheld_carrying": [
+    "92/102",
+    "58/71",
+    "34/41",
+    "24/31"
+   ],
+   "obj_gen2_4": 116,
+   "noncarrying_withheld": 0.4737,
+   "flagged_benign_gen4": 0.2532
+  },
+  {
+   "score": "S1",
+   "tau": 0.001681457948870957,
+   "withheld_carrying": [
+    "87/102",
+    "53/71",
+    "32/41",
+    "24/31"
+   ],
+   "obj_gen2_4": 109,
+   "noncarrying_withheld": 0.4311,
+   "flagged_benign_gen4": 0.2152
+  },
+  {
+   "score": "S1",
+   "tau": 0.0022015541326254606,
+   "withheld_carrying": [
+    "84/102",
+    "48/71",
+    "29/41",
+    "23/31"
+   ],
+   "obj_gen2_4": 100,
+   "noncarrying_withheld": 0.3509,
+   "flagged_benign_gen4": 0.1519
+  },
+  {
+   "score": "S1",
+   "tau": 0.0025241915602236984,
+   "withheld_carrying": [
+    "78/102",
+    "43/71",
+    "27/41",
+    "23/31"
+   ],
+   "obj_gen2_4": 93,
+   "noncarrying_withheld": 0.3233,
+   "flagged_benign_gen4": 0.1392
+  },
+  {
+   "score": "S1",
+   "tau": 0.0030244820285588504,
+   "withheld_carrying": [
+    "71/102",
+    "43/71",
+    "25/41",
+    "20/31"
+   ],
+   "obj_gen2_4": 88,
+   "noncarrying_withheld": 0.2957,
+   "flagged_benign_gen4": 0.1266
+  },
+  {
+   "score": "S1",
+   "tau": 0.004737174604088068,
+   "withheld_carrying": [
+    "67/102",
+    "39/71",
+    "23/41",
+    "18/31"
+   ],
+   "obj_gen2_4": 80,
+   "noncarrying_withheld": 0.2481,
+   "flagged_benign_gen4": 0.0886
+  },
+  {
+   "score": "S1",
+   "tau": 0.006002380419522523,
+   "withheld_carrying": [
+    "63/102",
+    "37/71",
+    "21/41",
+    "14/31"
+   ],
+   "obj_gen2_4": 72,
+   "noncarrying_withheld": 0.2281,
+   "flagged_benign_gen4": 0.0886
+  },
+  {
+   "score": "S1",
+   "tau": 0.010277370922267437,
+   "withheld_carrying": [
+    "59/102",
+    "32/71",
+    "19/41",
+    "13/31"
+   ],
+   "obj_gen2_4": 64,
+   "noncarrying_withheld": 0.193,
+   "flagged_benign_gen4": 0.0506
+  },
+  {
+   "score": "S2",
+   "tau": 0.0007395017077215016,
+   "withheld_carrying": [
+    "101/102",
+    "70/71",
+    "39/41",
+    "28/31"
+   ],
+   "obj_gen2_4": 137,
+   "noncarrying_withheld": 0.6667,
+   "flagged_benign_gen4": 0.443
+  },
+  {
+   "score": "S2",
+   "tau": 0.0010207527549937368,
+   "withheld_carrying": [
+    "99/102",
+    "67/71",
+    "39/41",
+    "28/31"
+   ],
+   "obj_gen2_4": 134,
+   "noncarrying_withheld": 0.5965,
+   "flagged_benign_gen4": 0.3291
+  },
+  {
+   "score": "S2",
+   "tau": 0.0014639621600508691,
+   "withheld_carrying": [
+    "99/102",
+    "64/71",
+    "38/41",
+    "26/31"
+   ],
+   "obj_gen2_4": 128,
+   "noncarrying_withheld": 0.5113,
+   "flagged_benign_gen4": 0.2532
+  },
+  {
+   "score": "S2",
+   "tau": 0.001681457948870957,
+   "withheld_carrying": [
+    "98/102",
+    "63/71",
+    "37/41",
+    "26/31"
+   ],
+   "obj_gen2_4": 126,
+   "noncarrying_withheld": 0.4712,
+   "flagged_benign_gen4": 0.2152
+  },
+  {
+   "score": "S2",
+   "tau": 0.0022015541326254606,
+   "withheld_carrying": [
+    "97/102",
+    "60/71",
+    "36/41",
+    "25/31"
+   ],
+   "obj_gen2_4": 121,
+   "noncarrying_withheld": 0.3985,
+   "flagged_benign_gen4": 0.1519
+  },
+  {
+   "score": "S2",
+   "tau": 0.0025241915602236984,
+   "withheld_carrying": [
+    "96/102",
+    "57/71",
+    "34/41",
+    "25/31"
+   ],
+   "obj_gen2_4": 116,
+   "noncarrying_withheld": 0.3734,
+   "flagged_benign_gen4": 0.1392
+  },
+  {
+   "score": "S2",
+   "tau": 0.0030244820285588504,
+   "withheld_carrying": [
+    "95/102",
+    "57/71",
+    "33/41",
+    "23/31"
+   ],
+   "obj_gen2_4": 113,
+   "noncarrying_withheld": 0.3509,
+   "flagged_benign_gen4": 0.1266
+  },
+  {
+   "score": "S2",
+   "tau": 0.004737174604088068,
+   "withheld_carrying": [
+    "94/102",
+    "55/71",
+    "33/41",
+    "22/31"
+   ],
+   "obj_gen2_4": 110,
+   "noncarrying_withheld": 0.3258,
+   "flagged_benign_gen4": 0.0886
+  },
+  {
+   "score": "S2",
+   "tau": 0.006002380419522523,
+   "withheld_carrying": [
+    "94/102",
+    "54/71",
+    "31/41",
+    "18/31"
+   ],
+   "obj_gen2_4": 103,
+   "noncarrying_withheld": 0.3083,
+   "flagged_benign_gen4": 0.0886
+  },
+  {
+   "score": "S2",
+   "tau": 0.010277370922267437,
+   "withheld_carrying": [
+    "91/102",
+    "53/71",
+    "31/41",
+    "18/31"
+   ],
+   "obj_gen2_4": 102,
+   "noncarrying_withheld": 0.2832,
+   "flagged_benign_gen4": 0.0506
+  }
+ ],
+ "chosen": {
+  "score": "S1",
+  "tau": 0.004737174604088068,
+  "withheld_carrying": [
+   "67/102",
+   "39/71",
+   "23/41",
+   "18/31"
+  ],
+  "obj_gen2_4": 80,
+  "noncarrying_withheld": 0.2481,
+  "flagged_benign_gen4": 0.0886
+ },
+ "status": "satisfies dev constraints"
+}
