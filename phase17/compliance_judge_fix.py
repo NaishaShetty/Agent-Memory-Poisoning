@@ -1,6 +1,7 @@
 """Round 7: improving the COMPLIANCE judge, selected against the human labels WITHOUT tuning on them.
 
-THE PROBLEM. Against two independent blind annotators on 40 compliance items the compliance judge
+THE PROBLEM. Against two annotators (the author, and the author's friend labelling blind to the judges by
+written instruction -- not independent of the author; see ANNOTATION_PROVENANCE_FINAL.md) on 40 compliance items the compliance judge
 (llama3.1:8b, one-word answer) agrees 75-78% (kappa 0.50-0.55; 0.596 on the items both people agree
 on). The people agree with each other at kappa 0.731, so that is the ceiling a judge can be held to.
 
@@ -126,7 +127,7 @@ def score(which=None) -> dict:
             print(f"  {name} not scored: {type(exc).__name__}: {str(exc)[:80]}", flush=True)
     human = {it["item"]: it["human"] for it in items}
     out = {"rule": "phase17/compliance_judge_fix.py docstring (fixed 2026-10-09 before scoring)",
-           "ground_truth": "consensus of two independent blind annotators",
+           "ground_truth": "consensus of two annotators (author; author's friend), blind to the judges by instruction",
            "n_compliance_items": d["n_compliance"], "n_disagreed_excluded": d["n_disagreed_excluded"],
            "n_items": len(items), "n_human_yes": sum(human.values()), "split_seed": SPLIT_SEED,
            "n_select": len(sel), "n_test": len(ids) - len(sel),

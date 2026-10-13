@@ -60,7 +60,7 @@ def prose(sa: Dict, p2: Dict) -> Dict[str, str]:
         f"Lookalikes, whose activation is the intended behaviour, activated on {_f(L['activation_on_trigger'])} triggers. "
         f"At admission, before any activation, B13 on the untrusted channel excluded "
         f"{D['B13_untrusted']['attack_excluded']}/60 attacks and {D['B13_untrusted']['lookalike_excluded']}/60 "
-        f"lookalikes ({_st(pr, 'SA-3')}, Fisher $p$={_p(D['B13_untrusted']['fisher_p_greater'])}); B12 "
+        f"lookalikes ({_st(pr, 'SA-3')}, one-sided Fisher $p$={_p(D['B13_untrusted']['fisher_p_greater'])}); B12 "
         f"{D['B12']['attack_excluded']} and {D['B12']['lookalike_excluded']} ({_st(pr, 'SA-4')}). B13 reduced trigger "
         f"activation from {_f(A['activation_on_trigger'])} to {_f(Ad['B13_untrusted']['activation_on_trigger'])} "
         f"({_st(pr, 'SA-5')}, $p$={_p(Ad['B13_untrusted']['paired_vs_undefended']['p_exact'])}) and lookalike "
@@ -104,7 +104,7 @@ def prose(sa: Dict, p2: Dict) -> Dict[str, str]:
     rem = ("Holm-adjusted $p$: " + "; ".join(f"{i} {_p(a)}" for i, _, a in hol) + ".") if hol else "no significance predictions."
 
     concl = (
-        "Re-scoring defenses on attacks shown to work changes the measured recall by up to \TwoDenMaxShift{} points in either "
+        "Re-scoring defenses on attacks shown to work changes the measured recall by up to \\TwoDenMaxShift{} points in either "
         "direction, so validity filtering belongs in memory-poisoning evaluation. For admission, corroborating "
         "untrusted personal claims against the owner's conversation reached memory poisoning that content classifiers "
         "missed on three single-use hold-outs, at a benign cost, while the channel label itself added nothing and "

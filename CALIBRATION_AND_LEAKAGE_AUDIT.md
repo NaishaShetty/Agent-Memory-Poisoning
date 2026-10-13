@@ -1,5 +1,8 @@
 # Calibration and Leakage Audit
 
+> **Correction (targeted phase, 2026-10-13).** The claim that B13's corroboration thresholds "move about 3x with the calibration owners" is **withdrawn**. It compared the nominal 2%/5% budget at `SUPPORT_TOP_K=20` against shipped constants that sit at a 0.49%/2.05% budget at top-20 (they were calibrated at top_k=5). Leave-one-owner-out calibration over all 10 owners at the shipped budget reproduces B13 (detection 116/200, benign exclusion 15/2,541; thresholds vary 1.15x). See `B13_OWNER_GENERALISATION_REPORT.md`. Annotator 2 was the owner's friend, who labelled on the owner's laptop (owner's clarification); see `ANNOTATION_PROVENANCE_FINAL.md`. No new annotation study is recommended by default.
+
+
 **Date:** 2026-10-13. **Deliverable 5.**
 
 **Sources.** Code paths were inspected for this audit. Dates come from git. Recomputations come from `phase17/data/remediation/corroboration_robustness.json` (a NEW ANALYSIS: not pre-registered, run on frozen texts, with no fitting on any hold-out).
@@ -71,7 +74,7 @@ Cross-checks:
 **Interpretation**
 
 1. **The owner overlap did not inflate HO8's recall.** Excluding owners 1 and 3 from calibration *raises* the thresholds, which raises both recall and false positives on every set. The frozen thresholds were the more conservative operating point for HO8.
-2. **The bigger problem is threshold instability.** With only 2–4 calibration owners, the 2% quantile moves about 3×, and benign exclusion on the clean hold-outs moves from 12–15% to 29–35%. The operating point is not a property of corroboration; it is a property of which owners calibrate it. A deployment would need per-owner or much broader calibration.
+2. ~~**The bigger problem is threshold instability.**~~ (Withdrawn, see correction above.) With only 2–4 calibration owners, the 2% quantile moves about 3×, and benign exclusion on the clean hold-outs moves from 12–15% to 29–35%. The operating point is not a property of corroboration; it is a property of which owners calibrate it. A deployment would need per-owner or much broader calibration.
 3. **Corroboration needs the right owner's conversation, where it discriminates at all.**
    - On HO4 and HO8, another owner's conversation removes most of the attack–benign gap. Corroboration-only firing goes from 76/157 vs 28/262 to 60/157 vs 60/262 on HO4, and from 81/160 vs 8/171 to 64/160 vs 61/171 on HO8. The discrimination there comes from owner-specific support, not text style.
    - **On HO7, corroboration barely discriminates even with the right owner** (23/129 attacks vs 23/189 benign corroboration-only). HO7's B13 lead over B14 comes mostly from its content and judge rules (48 attacks), with corroboration adding 22.

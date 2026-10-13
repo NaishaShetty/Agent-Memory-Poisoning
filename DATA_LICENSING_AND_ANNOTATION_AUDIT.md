@@ -1,5 +1,8 @@
 # Data, Licensing and Annotation Audit
 
+> **Correction (targeted phase, 2026-10-13).** The claim that B13's corroboration thresholds "move about 3x with the calibration owners" is **withdrawn**. It compared the nominal 2%/5% budget at `SUPPORT_TOP_K=20` against shipped constants that sit at a 0.49%/2.05% budget at top-20 (they were calibrated at top_k=5). Leave-one-owner-out calibration over all 10 owners at the shipped budget reproduces B13 (detection 116/200, benign exclusion 15/2,541; thresholds vary 1.15x). See `B13_OWNER_GENERALISATION_REPORT.md`. Annotator 2 was the owner's friend, who labelled on the owner's laptop (owner's clarification); see `ANNOTATION_PROVENANCE_FINAL.md`. No new annotation study is recommended by default.
+
+
 **Date:** 2026-10-13. **Deliverable 6.**
 
 Every entry below was inspected on 2026-10-13. "Recorded in" says where the information came from:
@@ -107,7 +110,7 @@ These are the only human labels used anywhere: the two blind sheets in `docs/pha
 - So the "human-calibrated" judges (the compliance vote and harm judge J2) are calibrated against labels from **at most one plausibly independent person, possibly zero**.
 - Selection used about 20 items per half. Kappa estimates on 20–40 items have wide intervals.
 - **Wording for the paper.** "Two annotators, one of whom was an author; the second annotator's independence is not documented." Do not write "independent annotators".
-- **Action before submission.** The owner should record who annotator 2 was and their relation to the project. If they were not independent, say so. Ideally, have an unaffiliated annotator label a fresh blind sample.
+- **Resolved (2026-10-13).** The owner states annotator 2 was their friend, who labelled on the owner's laptop. Use the wording in `ANNOTATION_PROVENANCE_FINAL.md`. (Superseded text: have an unaffiliated annotator label a fresh blind sample.)
 
 ### 3.3 Automated adjudication (ADJ-1)
 

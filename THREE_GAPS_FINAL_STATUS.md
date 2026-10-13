@@ -1,5 +1,8 @@
 # Three Research Gaps: Final Status
 
+> **Correction (targeted phase, 2026-10-13).** The claim that B13's corroboration thresholds "move about 3x with the calibration owners" is **withdrawn**. It compared the nominal 2%/5% budget at `SUPPORT_TOP_K=20` against shipped constants that sit at a 0.49%/2.05% budget at top-20 (they were calibrated at top_k=5). Leave-one-owner-out calibration over all 10 owners at the shipped budget reproduces B13 (detection 116/200, benign exclusion 15/2,541; thresholds vary 1.15x). See `B13_OWNER_GENERALISATION_REPORT.md`. Annotator 2 was the owner's friend, who labelled on the owner's laptop (owner's clarification); see `ANNOTATION_PROVENANCE_FINAL.md`. No new annotation study is recommended by default.
+
+
 **Date:** 2026-10-13. **Deliverable 4.**
 
 This supersedes the "final status" lines of `THREE_RESEARCH_GAPS_AUDIT.md`, which remains the 2026-10-12 record.
@@ -44,7 +47,7 @@ All numbers trace to `results/tables/` (T1–T18).
    - thresholds suited to the owner.
 3. **No relevant evidence.** The wrong owner and sparse-evidence arms above.
 4. **Paraphrased or incomplete legitimate memories.** These are the benign false positives. Mem0's extracted memories test the paraphrase case directly (MEM-1 benign line).
-5. **Threshold validity on unseen owners.** Not established: thresholds move about 3× with the calibration owners.
+5. **Threshold validity on unseen owners.** Established for these 10 owners by leave-one-owner-out calibration (thresholds vary 1.15x; per-owner benign exclusion <= 1.5%). Not established beyond LoCoMo.
 
 **Remaining limitations**
 - Adversarial channel mislabelling and metadata forgery are untested.

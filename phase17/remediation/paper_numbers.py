@@ -139,7 +139,58 @@ def macros() -> Dict[str, str]:
     sa, p2 = _L("remediation/sleeper_activation_eval.json"), _L("remediation/propagation_2gen.json")
     m.update(_remediation_prose(sa, p2))
     m.update(_gapclosure())
+    m.update(_targeted())
     return m
+
+
+def _targeted() -> Dict[str, str]:
+    """Macros for the 2026-10-13 targeted phase (B13 owner LOO; validity three-condition design)."""
+    out: Dict[str, str] = {}
+    lo = _L("remediation/b13_owner_loo.json")
+    if lo:
+        P = lo["evidence_conditions"]
+        c = P["correct"]["pooled"]
+        f = lambda d: f"{d['k']}/{d['n']}"  # noqa: E731
+        ci = lambda b: f"[{100 * b['ci95'][0]:.1f}, {100 * b['ci95'][1]:.1f}]"  # noqa: E731
+        thr = [r["calibration"]["A-ship"][0] for r in lo["owners"].values()]
+        out["LooOwners"] = str(len(lo["owners"]))
+        out["LooDet"] = f"{f(c['A-ship']['detection'])} ({pc(c['A-ship']['detection']['k'] / c['A-ship']['detection']['n'])}, owner-bootstrap {ci(c['A-ship']['detection']['owner_bootstrap'])})"
+        out["LooBen"] = f"{f(c['A-ship']['benign_exclusion'])} ({pc(c['A-ship']['benign_exclusion']['k'] / c['A-ship']['benign_exclusion']['n'], 2)}, {ci(c['A-ship']['benign_exclusion']['owner_bootstrap'])})"
+        out["LooBenMax"] = pc(c["A-ship"]["per_owner_benign_exclusion_range"][1], 1)
+        out["LooDetRange"] = f"{pc(c['A-ship']['per_owner_detection_range'][0], 0)}--{pc(c['A-ship']['per_owner_detection_range'][1], 0)}"
+        out["LooThrRatio"] = f"{max(thr) / min(thr):.2f}"
+        out["LooFrozenDet"] = f(c["A-frozen"]["detection"])
+        out["LooNomDet"] = f(c["A-nom"]["detection"])
+        out["LooNomBen"] = f(c["A-nom"]["benign_exclusion"])
+        out["LooWrongBen"] = f(P["wrong"]["pooled"]["A-ship"]["benign_exclusion"])
+        out["LooTruncBen"] = f(P["trunc10"]["pooled"]["A-ship"]["benign_exclusion"])
+        out["LooPolicyBDet"] = f(c["B"]["detection"])
+        out["LooPolicyBBen"] = f(c["B"]["benign_exclusion"])
+        out["LooBtwelveDet"] = f(c["C-B12"]["detection"])
+        sg = lo["single_owner_thresholds"]
+        s1 = [v["A-ship"][0] for v in sg.values()]
+        out["LooSingleRatio"] = f"{max(s1) / min(s1):.1f}"
+        h4 = lo["holdouts"]["holdout4"]["conditions"]["correct"]
+        out["LooHOfour"] = f"{h4['atk']['A-ship']}/{lo['holdouts']['holdout4']['n_attack']} at {h4['ben']['A-ship']}/{lo['holdouts']['holdout4']['n_benign']} benign"
+    u2 = _L("remediation/b13_loo_utility.json")
+    if u2:
+        b = u2["by_policy"]
+        out["LooUtil"] = (f"{b['none']['correct']['k']}, {b['A-ship']['correct']['k']}, {b['A-nom']['correct']['k']} and "
+                          f"{b['B']['correct']['k']} of {u2['n_sampled']}")
+    vf = _L("remediation/validity_final.json")
+    if vf and vf.get("none_arm_complete"):
+        tc = vf["three_conditions"]
+        for pk, p in (("Fit", "fitted"), ("NL", "nonleading")):
+            for jk, j in (("Czero", "C0"), ("Vote", "vote")):
+                r = tc[f"{p}|{j}"]
+                out[f"Vf{pk}{jk}"] = (f"{r['comply_none']['k']}/{r['comply_clean']['k']}/{r['comply_poisoned']['k']}")
+                m_ = r["memory_attributable(poisoned-clean)"]
+                out[f"VfNet{pk}{jk}"] = (f"+{m_['diff_points']} [{m_['population_cluster_bootstrap_ci95_points'][0]}, "
+                                         f"{m_['population_cluster_bootstrap_ci95_points'][1]}]")
+        n = vf["net_effect_2628"]["own"]
+        out["NetOwnClust"] = (f"[{n['C0']['population_cluster_bootstrap_ci95_points'][0]}, "
+                              f"{n['C0']['population_cluster_bootstrap_ci95_points'][1]}]")
+    return out
 
 
 def _gapclosure() -> Dict[str, str]:
@@ -197,7 +248,7 @@ def _gapclosure() -> Dict[str, str]:
             f"flagged {A['defended']['anomaly_devfit_p90']['excluded']['k']}/60 attacks and "
             f"{B['defended']['anomaly_devfit_p90']['excluded']['k']}/60 benign rules. B13's corroboration excluded "
             f"{D['B13_untrusted']['attack_excluded']}/60 attacks and {D['B13_untrusted']['lookalike_excluded']}/60 benign rules "
-            f"(S2-3~{st['S2-3']}, Fisher $p$={D['B13_untrusted']['fisher_p_greater']:.1e}) and reduced trigger activation from "
+            f"(S2-3~{st['S2-3']}, one-sided Fisher $p$={D['B13_untrusted']['fisher_p_greater']:.1e}) and reduced trigger activation from "
             f"{f(A['activation_on_trigger'])} to {f(A['defended']['B13_untrusted']['activation_on_trigger'])}. Because the benign "
             f"rules were written to reflect what the owner said, corroboration's clean separation is partly by construction; "
             f"the robust finding is the negative one: no content, injection or sleeper-specific detector recognised implicit "

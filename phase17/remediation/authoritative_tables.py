@@ -324,7 +324,12 @@ def t15_corroboration_robustness() -> Dict:
                          | ({"reproduces": v["reproduces_cached_corroboration"]} if "reproduces_cached_corroboration" in v else {})
                          for k, v in s["arms"].items()}}
     return {"title": "Corroboration under evidence and calibration-owner variation (new analysis, frozen texts)",
-            "sources": ["remediation/corroboration_robustness.json"], "thresholds": d["thresholds"], "sets": rows}
+            "sources": ["remediation/corroboration_robustness.json"], "thresholds": d["thresholds"], "sets": rows,
+            "CORRECTION_2026-10-13": "The 'disjoint' arm is NOT an owner effect: it re-ran the nominal 2%/5% rule at "
+                                     "SUPPORT_TOP_K=20, whereas the frozen constants were set at top_k=5 and sit at the "
+                                     "0.49%/2.05% quantiles at top_k=20. The same 2%/5% rule on the original owners 1-4 gives "
+                                     "the same thresholds (0.00555/0.01574). The 'disjoint' column is the nominal budget, not "
+                                     "a different owner set. Owner-disjoint calibration at a fixed budget is T19."}
 
 
 def t16_mem0() -> Dict:
@@ -369,7 +374,54 @@ def t18_probe() -> Dict:
                          for j, blk in d["by_judge"].items()}, "predictions": d["predictions"]}
 
 
+def t19_b13_owner_loo() -> Dict:
+    d = _L("b13_owner_loo.json", REM)
+    if not d:
+        return _pending("T19", "B13 leave-one-owner-out", "remediation/b13_owner_loo.json")
+    pols = ("A-ship", "A-nom", "A-frozen", "B", "C-B12")
+    per_owner = {o: {"split": r["split"], "calibration_owners": r["calibration"]["calibration_owners"],
+                     "frozen_thresholds_A-ship": [round(x, 5) for x in r["calibration"]["A-ship"]],
+                     "n_attack": r["n_attack"], "n_benign": r["n_benign"],
+                     **{p: {k: r[p][k] for k in ("TP", "FN", "FP", "TN", "precision")} for p in pols},
+                     "B_deferred_attack/benign": [r["B"]["deferred_attack"], r["B"]["deferred_benign"]]}
+                 for o, r in d["owners"].items()}
+    cond = {c: {p: {"detection": f"{v['pooled'][p]['detection']['k']}/{v['pooled'][p]['detection']['n']}",
+                    "benign_exclusion": f"{v['pooled'][p]['benign_exclusion']['k']}/{v['pooled'][p]['benign_exclusion']['n']}",
+                    "owner_bootstrap_detection": v["pooled"][p]["detection"]["owner_bootstrap"]["ci95"],
+                    "owner_bootstrap_benign": v["pooled"][p]["benign_exclusion"]["owner_bootstrap"]["ci95"],
+                    "per_owner_benign_range": v["pooled"][p]["per_owner_benign_exclusion_range"]} for p in pols}
+            for c, v in d["evidence_conditions"].items()}
+    ho = {h: {"owner": v["owner"], "clean_owner": v["clean_owner"], "n_attack": v["n_attack"], "n_benign": v["n_benign"],
+              "label": v["label"], **{c: {s: {p: v["conditions"][c][s][p] for p in pols + ("B_deferred",)}
+                                          for s in ("atk", "ben")} for c in v["conditions"]}}
+          for h, v in d["holdouts"].items()}
+    u2 = _L("b13_loo_utility.json", REM)
+    return {"title": "B13 owner-disjoint (leave-one-owner-out) calibration; policies A/B/C; evidence conditions (pre-specified re-analysis)",
+            "sources": ["remediation/b13_owner_loo.json", "remediation/b13_loo_utility.json"],
+            "reproduction": d["reproduction"], "per_owner_correct_evidence": per_owner, "pooled_by_evidence_condition": cond,
+            "comparisons_vs_A_ship": d["comparisons_vs_A_ship"], "improvement_criterion_B": d["improvement_criterion_B"],
+            "holdouts_repeated_evaluation": ho, "single_owner_thresholds": d["single_owner_thresholds"],
+            "U2_task_completion": (u2 or {}).get("by_policy"), "predictions": d["predictions"]}
+
+
+def t20_validity_final() -> Dict:
+    d = _L("validity_final.json", REM)
+    if not d:
+        return _pending("T20", "Attack validity final", "remediation/validity_final.json")
+    return {"title": "Attack validity: none / clean / poisoned memory x fitted / non-leading probe; clustered net effect; "
+                     "definitions; judge disagreement (pre-registered targeted phase)",
+            "sources": ["remediation/validity_final.json"], "terminology": d["terminology"],
+            "net_effect_2628": d["net_effect_2628"], "three_conditions_150": d["three_conditions"],
+            "probe_contrast": d["probe_contrast"],
+            "definitions": {k: ({"n": v["n"], **{c: f"{v[c]['k']}/{v[c]['n']}" for c in ("B12", "B13", "B14", "B15", "B17") if v.get(c)},
+                                 "ranking": v["ranking"]} if v.get("available", True) else v) for k, v in d["definitions"].items()},
+            "status_changes": d["status_changes_fitted_to_nonleading"], "status_change_drivers_C0": d["status_change_drivers_C0"],
+            "judge_disagreement_by_probe_150": d["judge_disagreement_by_probe_150"],
+            "working_count_sensitivity": d["working_count_sensitivity"], "predictions": d["predictions"]}
+
+
 TABLES: Dict[str, Callable[[], Dict]] = {
+    "T19_b13_owner_loo": t19_b13_owner_loo, "T20_validity_final": t20_validity_final,
     "T13_validity_adjusted": t13_validity_adjusted, "T14_adjudication": t14_adjudication,
     "T15_corroboration_robustness": t15_corroboration_robustness, "T16_mem0_pipeline": t16_mem0,
     "T17_sa2": t17_sa2, "T18_probe_robustness": t18_probe,

@@ -1327,8 +1327,10 @@ if _HL:
 _A2R = L("human_label_agreement_annotator2.json")
 if _HL and _A2R:
     ia, jg = _A2R["inter_annotator"], _A2R["judges"]
-    P(f"A second, independent annotator then labelled the same {_A2R['n_both']} items blind to the first "
-      f"annotator and to the judges. The two people agreed on {round(100 * ia['ALL']['agreement'])}% of items "
+    P(f"A second annotator -- a friend of the author, labelling on the author's laptop -- then labelled the same "
+      f"{_A2R['n_both']} items, instructed not to look at the first annotator's labels or the judges' answers "
+      f"(compliance with that instruction is not verifiable from the records, and the annotator is not "
+      f"independent of the author). The two people agreed on {round(100 * ia['ALL']['agreement'])}% of items "
       f"(kappa {ia['ALL']['cohen_kappa']}); on compliance {round(100 * ia['compliance']['agreement'])}% "
       f"(kappa {ia['compliance']['cohen_kappa']}). Their harm and mechanism labels were identical, but this "
       f"is largely a ceiling: harm was YES on {ia['harm']['yes_annotator1']}/{ia['harm']['n']} items for both "
@@ -1352,7 +1354,8 @@ if _HL and _A2R:
         v = jg[j][f"{t}_vs_annotator2"]
         _rows.append([f"{lab} vs annotator 2", t, str(v["n"]), f"{v['agreement']:.1%}", str(v["cohen_kappa"])])
     TBL(_rows)
-    CAP("Table 15A. Two independent blind annotators, and the judges against the second. Identical harm "
+    CAP("Table 15A. Two annotators (the author; the author's friend, blind to the judges by written instruction), "
+        "and the judges against the second. Identical harm "
         "and mechanism labels reflect a ceiling (harm YES on 36/40 items, mechanism on 20/20). Source: "
         "phase17/data/human_label_agreement_annotator2.json.")
 _CJ = L("compliance_judge_fix.json")
@@ -1872,7 +1875,7 @@ P("This document holds every claim to a fixed standard: each rate is reported on
   "each past error would still be caught) are run before every build, and this document is generated from "
   "the artifacts so it cannot drift from them.")
 P("The limitations are stated where the numbers appear, not hidden: the harm LEVELS rest on an LLM judge "
-  "that two independent blind annotators found to under-count harm (Section 13A), so undefended harm is "
+  "that two annotators (the author and the author's friend) found to under-count harm (Section 13A), so undefended harm is "
   "reported beside a human-validated judge that finds it roughly twice as high; the human check rests on "
   "100 items; several results hold at their pre-registered alpha but not after the family-wide correction "
   "(Table 17); the learned graph models stay at parity, not improvement, at this data scale; and the "
@@ -2008,10 +2011,9 @@ if _PR:
       + "; ".join(f"{p['id']} {p['status']}" for p in _PR["predictions"]) + ".")
 _CR = L("remediation/corroboration_robustness.json")
 if _CR:
-    t = _CR["thresholds"]["disjoint"]
-    P(f"Corroboration robustness (new analysis): thresholds re-calibrated on owners {t['owners']} (excluding hold-out 8's "
-      f"and SA-1's owners) are about threefold higher, raising both recall and benign exclusion; with another owner's "
-      f"conversation as evidence corroboration stops discriminating on hold-outs 4 and 8. See CALIBRATION_AND_LEAKAGE_AUDIT.md.")
+    P("Corroboration robustness (new analysis): with another owner's conversation as evidence corroboration stops "
+      "discriminating on hold-outs 4 and 8. (The 'threefold' threshold difference first reported here compared two benign "
+      "budgets, not two owner sets; it is withdrawn -- see Section 17.)")
 _S2 = L("remediation/sa2_eval.json")
 if _S2:
     D2 = _S2["by_judge"]["C0"]["discrimination"]
@@ -2028,6 +2030,40 @@ if _M0:
       + "; ".join(f"{p['id']} {p['status']}" for p in _M0["predictions"]) + ". REAL_MEMORY_PIPELINE_EVALUATION.md.")
 else:
     P("Real pipeline (Mem0, infer=True): not yet run.")
+
+H("17. Targeted Phase (2026-10-13): Owner-Disjoint B13 and Attack Validity", 1)
+P("Pre-registered in docs/phase17/PREREGISTRATION_TARGETED_2026-10-13.md before any outcome was computed; all data had "
+  "been used before, so these are pre-specified re-analyses (hold-outs: repeated evaluations).")
+_LO = L("remediation/b13_owner_loo.json")
+if _LO:
+    c = _LO["evidence_conditions"]["correct"]["pooled"]
+    w = _LO["evidence_conditions"]["wrong"]["pooled"]["A-ship"]["benign_exclusion"]
+    t = _LO["evidence_conditions"]["trunc10"]["pooled"]["A-ship"]["benign_exclusion"]
+    a_ = c["A-ship"]
+    P(f"Leave-one-owner-out B13 over the 10 LoCoMo owners (thresholds fitted on the other nine owners, frozen before the "
+      f"held-out owner was scored): detection {a_['detection']['k']}/{a_['detection']['n']}, benign exclusion "
+      f"{a_['benign_exclusion']['k']}/{a_['benign_exclusion']['n']} (per owner at most "
+      f"{pct(a_['per_owner_benign_exclusion_range'][1])}), matching the shipped thresholds. Wrong-owner evidence raised "
+      f"benign exclusion to {w['k']}/{w['n']} and a 10% conversation to {t['k']}/{t['n']}. A conservative policy (defer "
+      f"unrelated, exclude contradicted) detected {c['B']['detection']['k']} and excluded {c['B']['benign_exclusion']['k']} "
+      f"benign and was rejected under its pre-declared criterion. Content-only B12 detected {c['C-B12']['detection']['k']} "
+      f"of these fabrications. The earlier 'threefold owner instability' compared two benign budgets (the shipped constants "
+      f"were set at top_k 5 and sit at a 0.5% budget at top_k 20) and is withdrawn. B13_OWNER_GENERALISATION_REPORT.md.")
+_VF = L("remediation/validity_final.json")
+if _VF and _VF.get("none_arm_complete"):
+    tc = _VF["three_conditions"]
+    f_, n_ = tc["fitted|C0"], tc["nonleading|C0"]
+    P(f"Attack validity with an empty-memory arm (150 items; 'without memory' in earlier sections is the clean-memory arm): "
+      f"under the fitted probe the empty store was judged compliant more often than the clean store "
+      f"({f_['comply_none']['k']} vs {f_['comply_clean']['k']}), so the fitted probe leaks the note's content; under the "
+      f"non-leading probe they coincide ({n_['comply_none']['k']} vs {n_['comply_clean']['k']}). The memory-attributable "
+      f"effect (poisoned minus clean) is +{f_['memory_attributable(poisoned-clean)']['diff_points']} and "
+      f"+{n_['memory_attributable(poisoned-clean)']['diff_points']} points under C0 for the two probes, positive with "
+      f"cluster-robust intervals under both judges; defence ranking is identical across all definitions and probes. "
+      f"PROBE_AND_ATTACK_VALIDITY_FINAL.md.")
+P("Annotation: annotator 1 is the author; annotator 2 is the author's friend, who labelled on the author's laptop under "
+  "written blinding instructions. Neither is independent of the author; the labels are used only to choose between LLM "
+  "judges. ANNOTATION_PROVENANCE_FINAL.md.")
 
 H("Definitions and Formulas", 1)
 P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "

@@ -1,5 +1,8 @@
 # Remediation Master Register
 
+> **Correction (targeted phase, 2026-10-13).** The claim that B13's corroboration thresholds "move about 3x with the calibration owners" is **withdrawn**. It compared the nominal 2%/5% budget at `SUPPORT_TOP_K=20` against shipped constants that sit at a 0.49%/2.05% budget at top-20 (they were calibrated at top_k=5). Leave-one-owner-out calibration over all 10 owners at the shipped budget reproduces B13 (detection 116/200, benign exclusion 15/2,541; thresholds vary 1.15x). See `B13_OWNER_GENERALISATION_REPORT.md`. Annotator 2 was the owner's friend, who labelled on the owner's laptop (owner's clarification); see `ANNOTATION_PROVENANCE_FINAL.md`. No new annotation study is recommended by default.
+
+
 **Source review:** `docs/review/INDEPENDENT_IEEE_REVIEW_2026-10-12.md`.
 **Branch:** `remediation/2026-10-12`. **Checkpoint tag:** `pre-remediation-2026-10-12` (= `d853404a`).
 The pre-remediation copies of both `.docx` deliverables (which had uncommitted changes) are saved outside the repo; their hashes are in §6.

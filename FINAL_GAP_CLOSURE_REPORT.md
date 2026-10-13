@@ -1,5 +1,8 @@
 # Final Gap-Closure Report
 
+> **Correction (targeted phase, 2026-10-13).** The claim that B13's corroboration thresholds "move about 3x with the calibration owners" is **withdrawn**. It compared the nominal 2%/5% budget at `SUPPORT_TOP_K=20` against shipped constants that sit at a 0.49%/2.05% budget at top-20 (they were calibrated at top_k=5). Leave-one-owner-out calibration over all 10 owners at the shipped budget reproduces B13 (detection 116/200, benign exclusion 15/2,541; thresholds vary 1.15x). See `B13_OWNER_GENERALISATION_REPORT.md`. Annotator 2 was the owner's friend, who labelled on the owner's laptop (owner's clarification); see `ANNOTATION_PROVENANCE_FINAL.md`. No new annotation study is recommended by default.
+
+
 **Date:** 2026-10-13. **Deliverable 1.**
 
 **Branch:** `remediation/2026-10-12`, continued. Nothing was pushed or published.
@@ -86,7 +89,7 @@ See `THREE_GAPS_FINAL_STATUS.md`.
 - B18's deberta "oracle" threshold was **fitted on ordinary-benign test data**.
 - Frame v6 was **designed after a hold-out-7 failure**.
 - Judge selection used **items from HO5**.
-- The B13 operating point is **calibration-unstable**.
+- ~~The B13 operating point is **calibration-unstable**.~~ Withdrawn (see correction above): owner-disjoint calibration is stable; the cost depends on evidence quality and on how grounded benign notes are.
 
 ---
 
@@ -110,9 +113,9 @@ See `THREE_GAPS_FINAL_STATUS.md`.
 
 | # | Remaining gap | Severity | Closed / narrowed / open | Why |
 |---|---|---|---|---|
-| 1 | **Human validation**: the author is annotator 1; annotator 2 is unverified | High (a reviewer will ask) | **Open** | Cannot be fixed without a new, independent annotator. Disclosed in the paper |
+| 1 | **Human validation**: annotator 1 is the author; annotator 2 is the author's friend (labelled on the author's laptop, blind by instruction) | Medium | **Disclosed** | Labels only choose between judges; defence, ranking and net-effect results do not depend on them (`ANNOTATION_PROVENANCE_FINAL.md`). Disclosed in the paper |
 | 2 | Stealthy / implicit sleeper detection | High (scientific) | **Open (negative result)** | SA-2 shows only owner evidence separates them, and partly by construction |
-| 3 | Corroboration's calibration instability (thresholds move about 3×) | Medium–High | **Narrowed** | Measured, not fixed. Per-owner calibration would be the next experiment |
+| 3 | ~~Corroboration's calibration instability~~ (withdrawn; LOO over 10 owners is stable) — evidence dependence remains | Medium | **Narrowed** | LOO done (targeted phase). experiment |
 | 4 | End-to-end evaluation covers one memory system and two corpora | Medium | **Narrowed** | MEM-1 and MEM-2 done; A-MEM with evolution not run |
 | 5 | Propagation is development-only, two generations, retention-based taint | Medium | **Unchanged** | Documented |
 | 6 | Instance-level working labels are probe- and judge-dependent | Medium | **Narrowed** | Population-level and ranking conclusions shown robust |

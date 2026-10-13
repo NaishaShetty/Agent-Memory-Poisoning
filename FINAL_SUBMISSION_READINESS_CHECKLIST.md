@@ -1,5 +1,8 @@
 # Final Submission-Readiness Checklist
 
+> **Correction (targeted phase, 2026-10-13).** The claim that B13's corroboration thresholds "move about 3x with the calibration owners" is **withdrawn**. It compared the nominal 2%/5% budget at `SUPPORT_TOP_K=20` against shipped constants that sit at a 0.49%/2.05% budget at top-20 (they were calibrated at top_k=5). Leave-one-owner-out calibration over all 10 owners at the shipped budget reproduces B13 (detection 116/200, benign exclusion 15/2,541; thresholds vary 1.15x). See `B13_OWNER_GENERALISATION_REPORT.md`. Annotator 2 was the owner's friend, who labelled on the owner's laptop (owner's clarification); see `ANNOTATION_PROVENANCE_FINAL.md`. No new annotation study is recommended by default.
+
+
 **Date:** 2026-10-13. **Deliverable 8.**
 
 This supersedes `IEEE_SUBMISSION_READINESS_CHECKLIST.md` (2026-10-12). The venue and its cycle are handled by the owner. This checklist covers whether the work is **IEEE-worthy and defensible**.
@@ -66,7 +69,7 @@ This supersedes `IEEE_SUBMISSION_READINESS_CHECKLIST.md` (2026-10-12). The venue
 ## F. Owner actions remaining (minimum set)
 
 1. **Compile** `paper/` and check page count, overflow and figures. A figure of the lifecycle-stage funnel from T16 would help reviewers.
-2. **Annotators.** Record who annotator 2 was. Ideally, add an unaffiliated annotator on a fresh blind sample (about 100 items); the human-calibrated judge rests on this.
+2. **Annotators.** Done: annotator 2 was the owner's friend (labelled on the owner's laptop); wording in `ANNOTATION_PROVENANCE_FINAL.md`. No new study needed for the claims as written. (Superseded: the human-calibrated judge rests on this.)
 3. **Licence decision** and anonymised artifact repository (CC BY-NC constraints documented).
 4. **Venue.** Owner-handled; check the official call before formatting to a page limit.
-5. **Optional, highest scientific value next:** per-owner leave-one-out calibration of corroboration (Gap 1 stability), and a fresh independent human annotation (gap 1 in the severity table).
+5. **Done in the targeted phase:** per-owner leave-one-out calibration (`B13_OWNER_GENERALISATION_REPORT.md`). (Superseded: and a fresh independent human annotation (gap 1 in the severity table).)

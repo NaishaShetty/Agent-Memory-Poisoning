@@ -624,7 +624,7 @@ def rows():
         a2 = _L("human_label_agreement_annotator2.json")
         if a2:
             ia = a2["inter_annotator"]
-            add("favourable", "A second independent, blind annotator agrees with the first",
+            add("favourable", "A second annotator (the author's friend, blind to the judges by written instruction) agrees with the first",
                 f"all items: {ia['ALL']['agreement']:.0%} agreement, kappa {ia['ALL']['cohen_kappa']}; compliance "
                 f"kappa {ia['compliance']['cohen_kappa']}; harm and mechanism identical (near ceiling: harm YES "
                 f"{ia['harm']['yes_annotator1']}/{ia['harm']['n']}, mechanism all YES); the original harm judge "
@@ -632,7 +632,8 @@ def rows():
                 f"{a2['judges']['J2_gemini_original']['harm_vs_annotator2']['cohen_kappa']}",
                 "human_label_agreement_annotator2.json",
                 "the identical harm labels mean J2's check against annotator 2 replicates rather than "
-                "independently re-tests its selection; 100 items only")
+                "independently re-tests its selection; 100 items only; annotator 1 is the author and annotator 2 a friend "
+                "of the author who labelled on the author's laptop, so neither is independent of the author")
         else:
             add("open", "A second independent human annotator",
                 "needed to separate 'the judges are strict' from 'one annotator's threshold is lower', and to "
