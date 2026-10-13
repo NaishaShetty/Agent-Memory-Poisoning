@@ -173,3 +173,12 @@ Disclosed asymmetries, measured before any scoring:
 - Mean note length is 134 characters for attacks and 150 for benign rules.
 
 **Mem0 environment.** The core install, without `[extras]`. Mem0 reports that BM25 keyword search is disabled (fastembed is not installed), so retrieval is **vector-only**. Extras are not installed; installing them would change the environment between the check and the runs. The check ran on synthetic text, not experiment data, and confirmed that `search` with filters, `infer=False` inserts and `delete_all` isolation behave as intended.
+
+## Addendum B (2026-10-13): implementation defects found before any outcome was analysed
+
+During MEM-1 stage 1, the frozen baseline file showed 47 ADD events but only 20 stored memories. Two Mem0 2.0.19 API defects in `run_pipeline.py` explain it:
+
+1. **Truncated baseline.** `get_all` defaults to `top_k=20`, so the baseline was cut to 20 of its 47 extracted memories.
+2. **Wrong retrieval depth.** `search` takes `top_k`, not `limit`. The `limit` keyword was silently ignored, so retrieval returned up to 20 memories instead of the pre-registered top 5.
+
+**Fix.** Both calls now pass `top_k` explicitly. The partial outputs of the defective run are kept as `*_DEFECTIVE_run1.json` and were not analysed. Stage 1 is re-run from the start, including the baseline extraction. The design and predictions are unchanged. Each per-item record now also stores `store_size_after`.

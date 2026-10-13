@@ -29,12 +29,14 @@ def _results(r) -> list:
 
 
 def _search(m, uid, query):
-    r = m.search(query, filters={"user_id": uid}, limit=TOP_K)
+    # Mem0 2.0.19: the size argument is `top_k` (an unknown `limit` kwarg is silently ignored -> default 20)
+    r = m.search(query, filters={"user_id": uid}, top_k=TOP_K)
     return [{"id": x["id"], "memory": x["memory"], "score": float(x.get("score", 0.0))} for x in _results(r)]
 
 
 def _all(m, uid):
-    return [{"id": x["id"], "memory": x["memory"]} for x in _results(m.get_all(filters={"user_id": uid}))]
+    # get_all defaults to top_k=20 (would truncate); ask for everything
+    return [{"id": x["id"], "memory": x["memory"]} for x in _results(m.get_all(filters={"user_id": uid}, top_k=100000))]
 
 
 def baseline(m, owner: str, batches) -> list:
@@ -64,7 +66,8 @@ def one(m, uid, base, text, channel, queries):
     t0 = time.time()
     ev = _results(m.add(msgs, user_id=uid, infer=True))
     derived = {e["id"] for e in ev if e.get("event") in ("ADD", "UPDATE")}
-    rec = {"events": ev, "derived_ids": sorted(derived),
+    n_store = len(_all(m, uid))
+    rec = {"events": ev, "derived_ids": sorted(derived), "store_size_after": n_store,
            "derived_texts": [e["memory"] for e in ev if e.get("event") in ("ADD", "UPDATE")],
            "deleted": [e for e in ev if e.get("event") == "DELETE"], "ingest_seconds": round(time.time() - t0, 1),
            "retrieval": {}}
