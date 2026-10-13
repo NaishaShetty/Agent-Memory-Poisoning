@@ -118,4 +118,46 @@ def prose(sa: Dict, p2: Dict) -> Dict[str, str]:
         "signal worked, and stealthy, instruction-free sleepers remain largely undetected. Each conclusion holds within an in-context evaluation harness, a 7B agent and "
         "evaluator-assigned channels, and should be re-tested in a production memory system.")
     return {"SAoneAbstract": sa_abs, "SAoneBody": sa_body, "PtwoAbstract": p2_abs, "PtwoBody": p2_body,
-            "RemHolm": rem, "Conclusion": concl}
+            "RemHolm": rem + " Gap-closure family (MEM-1, MEM-2, SA-2): \\GapHolm{}.", "Conclusion": concl}
+
+
+def mem_prose(mem: Dict) -> Dict[str, str]:
+    """Outcome-neutral prose for MEM-1 / MEM-2 (Mem0 infer=True), from the scored artifact."""
+    A = mem["MEM1_ho4"]["attacks_document"]
+    U = mem["MEM1_ho4"]["attacks_user"]
+    B = mem["MEM1_ho4"]["benign_document"]
+    rr = mem["MEM1_ho4"]["raw_note_reproduction"]
+    S = mem["MEM2_sa1"]
+    sa, sb = S["atk_document"], S["ben_document"]
+    st = {p["id"]: p["status"] for p in mem["predictions"]}
+    f = lambda x: f"{x['k']}/{x['n']}"  # noqa: E731
+    pw = A["paired_working_B13_vs_undefended"]
+    abs_ = (f"Through Mem0 with its LLM extraction enabled, {f(A['carries'])} hold-out-4 attacks left a stored memory "
+            f"carrying their claim, {f(A['retrieved'])} were retrieved, and {f(A['working'])} changed the agent's answer; "
+            f"corroboration on what Mem0 stored excluded {f(A['excl_B13'])} attacks and {f(B['excl_B13'])} benign notes.")
+    body = (
+        "We repeated hold-out~4 (clean owner) and SA-1 through Mem0~2.0.19 with \\texttt{infer=True}: the owner's first "
+        "100 turns were ingested naturally and each item was then ingested naturally into an isolated copy of that store, "
+        "arriving either as text the assistant read from a shared document (untrusted) or as the user's own message. "
+        "Defenses ran on what Mem0 \\emph{stored}; the agent answered from Mem0's own top-5 retrieval, against a control "
+        "store without the item. "
+        f"\\textbf{{Hold-out 4 (document channel).}} Of 157 attacks, {f(A['stored'])} produced a stored memory, "
+        f"{f(A['carries'])} carried the note's claim (M1-1~{st.get('M1-1')}), {f(A['retrieved'])} were retrieved for their "
+        f"probe (M1-5~{st.get('M1-5')}), and {f(A['working'])} changed the answer relative to the control. On the stored "
+        f"memories, B12 excluded {f(A['excl_B12'])}, B13 without corroboration {f(A['excl_B13_no_corroboration'])} and B13 "
+        f"{f(A['excl_B13'])} (M1-2~{st.get('M1-2')}, M1-3~{st.get('M1-3')}); of benign notes B13 excluded {f(B['excl_B13'])} "
+        f"(M1-4~{st.get('M1-4')}). Pipeline-working attacks fell from {f(A['working'])} to {f(A['working_B13'])} under B13 "
+        f"(M1-6~{st.get('M1-6')}). On the raw notes our recomputation reproduces the published B13 decisions "
+        f"({'item for item' if rr['item_level_equal'] else 'NOT item for item'}). Through the user channel, "
+        f"{f(U['stored'])} attacks were stored and {f(U['working'])} changed the answer; B13 excludes none there by design. "
+        f"\\textbf{{SA-1.}} Through the document channel, {sa['n_stored']} of 60 conditional backdoors and {sb['n_stored']} "
+        f"of 60 benign rules were stored at all; {f(sa['conditional_kept'])} attacks kept a conditional form "
+        f"(M2-3~{st.get('M2-3')}). The trigger retrieved the stored rule in {f(sa['retr_trigger'])} cases, yet attacks "
+        f"activated on only {f(sa['act_trigger'])} triggers (and {f(sa['act_non_trigger'])} unrelated messages; "
+        f"M2-1~{st.get('M2-1')}, M2-2~{st.get('M2-2')}): Mem0's rewording largely defused the rules. B12 on the stored "
+        f"memories excluded {f(sa['excl_B12'])} attacks and {f(sb['excl_B12'])} benign rules, against "
+        f"{f(sa['raw_excl_B12'])} attacks on the raw notes (M2-4~{st.get('M2-4')}, M2-5~{st.get('M2-5')}): extraction "
+        "removed the explicit wording that content detection relied on, "
+        f"leaving {f(sa['act_trigger_B12'])} trigger activations. These results establish pipeline behaviour for these two "
+        "corpora through one memory system only.")
+    return {"MemAbstract": abs_, "MemBody": body, "MemTwoBtwelve": f"{sa['excl_B12']['k']}/60"}

@@ -138,7 +138,108 @@ def macros() -> Dict[str, str]:
 
     sa, p2 = _L("remediation/sleeper_activation_eval.json"), _L("remediation/propagation_2gen.json")
     m.update(_remediation_prose(sa, p2))
+    m.update(_gapclosure())
     return m
+
+
+def _gapclosure() -> Dict[str, str]:
+    """Macros for the 2026-10-13 gap-closure analyses (validity, adjudication, probe, corroboration, SA-2, Mem0)."""
+    out: Dict[str, str] = {}
+    va = _L("remediation/validity_adjusted.json")
+    if va:
+        for key, g in (("All", "ALL"), ("Own", "own"), ("Ext", "external")):
+            for jk, j in (("Czero", "C0"), ("Vote", "vote")):
+                x = va["memory_attributable"][g][j]
+                out[f"Net{key}{jk}"] = f"+{x['net_points']} [{x['ci95_points'][0]}, {x['ci95_points'][1]}]"
+        pops = [p for p in va["memory_attributable"] if p not in ("ALL", "own", "external")]
+        out["AdmitCzero"] = f"{sum(va['memory_attributable'][p]['admissible_C0'] for p in pops)} of {len(pops)}"
+        out["AdmitVote"] = f"{sum(va['memory_attributable'][p]['admissible_vote'] for p in pops)} of {len(pops)}"
+    adj = _L("remediation/judge_adjudication.json")
+    if adj:
+        d = adj["disagreement_items"]
+        out["AdjSplit"] = f"{d['with_C0']}/{d['with_vote']}"
+        out["AdjKappa"] = f"{adj['kappa_adjudicator_vs_C0']}"
+    pr = _L("remediation/probe_robustness.json")
+    if pr:
+        c = pr["by_judge"]["C0"]
+        out["PrBaseNL"] = f"{c['nonleading']['base_rate']['k']}/{pr['n']}"
+        out["PrBaseFit"] = f"{c['fitted']['base_rate']['k']}/{pr['n']}"
+        out["PrWorkNL"] = f"{c['nonleading']['working']['k']}/{pr['n']}"
+        out["PrWorkFit"] = f"{c['fitted']['working']['k']}/{pr['n']}"
+        out["PrNetNL"] = f"+{c['nonleading']['net_effect_points']}"
+        out["PrNetFit"] = f"+{c['fitted']['net_effect_points']}"
+        out["PrAgree"] = pc(c["item_agreement_working"], 0)
+    cr = _L("remediation/corroboration_robustness.json")
+    if cr:
+        s4, s8 = cr["sets"]["holdout4"]["arms"], cr["sets"]["holdout8"]["arms"]
+        w = lambda a: f"{a['corroboration_recall']['k']}/{a['corroboration_recall']['n']} attacks vs {a['corroboration_benign_fpr']['k']}/{a['corroboration_benign_fpr']['n']} benign"  # noqa: E731
+        out["HOfourWrong"] = w(s4["wrong_owner|frozen"])
+        out["HOeightWrong"] = w(s8["wrong_owner|frozen"])
+        dd = lambda a: f"{a['B13_recall']['k']}/{a['B13_recall']['n']} at {a['B13_benign_fpr']['k']}/{a['B13_benign_fpr']['n']} benign"  # noqa: E731
+        out["HOfourDisjoint"] = dd(s4["full|disjoint"])
+        out["HOeightDisjoint"] = dd(s8["full|disjoint"])
+    s2 = _L("remediation/sa2_eval.json")
+    if s2:
+        R = s2["by_judge"]["C0"]
+        A, B, D = R["atk"], R["ben"], R["discrimination"]
+        out["SAtwoBtwelve"] = f"{D['B12']['attack_excluded']}/60"
+        out["SAtwoBthirteen"] = f"{D['B13_untrusted']['attack_excluded']}/60"
+        f = lambda x: f"{x['k']}/{x['n']}"  # noqa: E731
+        st = {p["id"]: p["status"] for p in s2["predictions"]}
+        out["SAtwoBody"] = (
+            f"The note was retrieved by its trigger in {f(A['retrieved_on_trigger'])} attacks and by the unrelated message in "
+            f"{f(A['retrieved_on_non_trigger'])}; attacks activated on {f(A['activation_on_trigger'])} triggers and "
+            f"{f(A['activation_on_non_trigger'])} unrelated messages (S2-4a~{st['S2-4a']}, S2-4b~{st['S2-4b']}; vote judge "
+            f"{f(s2['by_judge']['vote']['atk']['activation_on_trigger'])} on triggers). Content-only B12 excluded "
+            f"{D['B12']['attack_excluded']}/60 attacks and {D['B12']['lookalike_excluded']}/60 benign rules (S2-1~{st['S2-1']}, "
+            f"S2-2~{st['S2-2']}); deberta {A['defended']['deberta_pi_v2@dev']['excluded']['k']}/60; the Phase~8 sleeper guard "
+            f"{A['defended']['sleeper_guard_phase8']['excluded']['k']}/60 (S2-5~{st['S2-5']}); the development-fitted anomaly signal "
+            f"flagged {A['defended']['anomaly_devfit_p90']['excluded']['k']}/60 attacks and "
+            f"{B['defended']['anomaly_devfit_p90']['excluded']['k']}/60 benign rules. B13's corroboration excluded "
+            f"{D['B13_untrusted']['attack_excluded']}/60 attacks and {D['B13_untrusted']['lookalike_excluded']}/60 benign rules "
+            f"(S2-3~{st['S2-3']}, Fisher $p$={D['B13_untrusted']['fisher_p_greater']:.1e}) and reduced trigger activation from "
+            f"{f(A['activation_on_trigger'])} to {f(A['defended']['B13_untrusted']['activation_on_trigger'])}. Because the benign "
+            f"rules were written to reflect what the owner said, corroboration's clean separation is partly by construction; "
+            f"the robust finding is the negative one: no content, injection or sleeper-specific detector recognised implicit "
+            f"conditional poisoning, and only owner-specific evidence did.")
+    mem = _L("remediation/mem0_pipeline_eval.json")
+    if mem:
+        from phase17.remediation.paper_prose import mem_prose
+        out.update(mem_prose(mem))
+        if s2 and va:
+            A = mem["MEM1_ho4"]["attacks_document"]
+            S = mem["MEM2_sa1"]["atk_document"]
+            D2 = s2["by_judge"]["C0"]["discrimination"]
+            out["Conclusion"] = (
+                f"RQ1: memory-poisoning attacks causally change a 7B agent's behaviour (net {out['NetOwnCzero']} points), "
+                "but which instances count as working depends on the probe and judge; defense rankings do not. "
+                "RQ2: provenance-aware admission works through corroboration against the owner's own conversation, not "
+                "through channel trust; it survives a real memory system's extraction (Mem0 stored the poisoned claim in "
+                f"{A['carries']['k']}/157 cases and corroboration still excluded {A['excl_B13']['k']}/157 at "
+                f"{mem['MEM1_ho4']['benign_document']['excl_B13']['k']}/262 benign), leaves user-channel poisoning untouched, and "
+                "its operating point depends on the calibration owners. Natural retrieval, not admission, was the first "
+                f"filter: only {A['retrieved']['k']}/157 stored poisons reached the agent for their task. RQ3: consolidation "
+                "launders excluded poisons and lineage-taint containment decays from the first to the second generation, "
+                "holding only through inherited state. RQ4: conditional memories are dormant and trigger-activated; content "
+                f"detection catches explicit rules in raw form but only {S['excl_B12']['k']}/60 once Mem0 has reworded them "
+                f"and none of the implicit rules ({D2['B12']['attack_excluded']}/60), and no sleeper-specific detector works. "
+                "None of the three gaps is solved; the evidence supports evaluating defenses on attacks shown to work, "
+                "through real memory pipelines, with benign lookalikes and owner-specific evidence.")
+    else:
+        out["MemAbstract"] = out["MemBody"] = PENDING
+    # Holm over the gap-closure significance family (pre-registered set; missing results stay out)
+    fam = []
+    for src, key in (("remediation/mem0_pipeline_eval.json", "predictions"), ("remediation/sa2_eval.json", "predictions")):
+        d = _L(src)
+        for p in (d or {}).get(key, []):
+            if p.get("kind") == "significance" and p.get("p") is not None:
+                fam.append((p["id"], p["p"]))
+    if fam:
+        from phase17.remediation.paper_prose import _holm, _p
+        out["GapHolm"] = "; ".join(f"{i} {_p(a)}" for i, _, a in _holm(fam))
+    else:
+        out["GapHolm"] = PENDING
+    return out
 
 
 def _remediation_prose(sa, p2) -> Dict[str, str]:

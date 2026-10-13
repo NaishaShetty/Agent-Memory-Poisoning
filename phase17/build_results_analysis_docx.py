@@ -1982,6 +1982,53 @@ if _P2:
       f"second-generation summaries (against most at generation 1), only by inheriting the intermediate summary's "
       f"taint state, and withheld none without it. Development data only.")
 
+H("16. Gap Closure (2026-10-13): Real Memory Pipeline, Causal Attribution, Implicit Sleepers", 1)
+P("A second remediation round closed the gaps left after Section 15 (FINAL_GAP_CLOSURE_REPORT.md). Five experiments "
+  "were pre-registered before running (docs/phase17/PREREGISTRATION_GAPCLOSURE_2026-10-13.md, with addendum B for two "
+  "API defects found and fixed before any outcome was analysed); three analyses on cached data are labelled as new.")
+_VA = L("remediation/validity_adjusted.json")
+if _VA:
+    m = _VA["memory_attributable"]
+    P(f"Causal attribution. The memory's net effect on compliance (with minus without, same task) is "
+      f"+{m['own']['C0']['net_points']} points on this project's own attacks and +{m['external']['C0']['net_points']} on "
+      f"external corpora under the original judge (+{m['own']['vote']['net_points']} / +{m['external']['vote']['net_points']} "
+      f"under the vote), although the probe alone elicits the behaviour in {pct(m['ALL']['base_rate_C0'])} of instances. "
+      f"Defence rankings are identical on five working-attack denominators.")
+_AJ = L("remediation/judge_adjudication.json")
+if _AJ:
+    P(f"Blind model adjudication of judge disagreements split {_AJ['disagreement_items']['with_C0']}/"
+      f"{_AJ['disagreement_items']['with_vote']} between the judges (ADJ-1a {_AJ['predictions'][0]['status']}): about one "
+      f"instance in five has no reliable working label.")
+_PR = L("remediation/probe_robustness.json")
+if _PR:
+    c = _PR["by_judge"]["C0"]
+    P(f"Probe robustness (PR-1): a non-leading probe lowers the task-alone rate from {c['fitted']['base_rate']['k']} to "
+      f"{c['nonleading']['base_rate']['k']} of {_PR['n']} but halves working attacks ({c['fitted']['working']['k']} to "
+      f"{c['nonleading']['working']['k']}); instance agreement {pct(c['item_agreement_working'])}. "
+      + "; ".join(f"{p['id']} {p['status']}" for p in _PR["predictions"]) + ".")
+_CR = L("remediation/corroboration_robustness.json")
+if _CR:
+    t = _CR["thresholds"]["disjoint"]
+    P(f"Corroboration robustness (new analysis): thresholds re-calibrated on owners {t['owners']} (excluding hold-out 8's "
+      f"and SA-1's owners) are about threefold higher, raising both recall and benign exclusion; with another owner's "
+      f"conversation as evidence corroboration stops discriminating on hold-outs 4 and 8. See CALIBRATION_AND_LEAKAGE_AUDIT.md.")
+_S2 = L("remediation/sa2_eval.json")
+if _S2:
+    D2 = _S2["by_judge"]["C0"]["discrimination"]
+    P(f"SA-2 (implicit-intent conditional rules, clean owner): content-only B12 excluded {D2['B12']['attack_excluded']}/60 "
+      f"attacks; corroboration-based B13 excluded {D2['B13_untrusted']['attack_excluded']}/60 attacks and "
+      f"{D2['B13_untrusted']['lookalike_excluded']}/60 grounded benign rules; sleeper-specific detectors failed. "
+      + "; ".join(f"{p['id']} {p['status']}" for p in _S2["predictions"]) + ".")
+_M0 = L("remediation/mem0_pipeline_eval.json")
+if _M0:
+    A0 = _M0["MEM1_ho4"]["attacks_document"]
+    P(f"Real pipeline (Mem0 2.0.19, infer=True). Hold-out 4: {A0['stored']['k']}/157 attacks stored, "
+      f"{A0['carries']['k']} carried their claim, {A0['retrieved']['k']} retrieved, {A0['working']['k']} changed the answer; "
+      f"B13 on the stored memories excluded {A0['excl_B13']['k']}. "
+      + "; ".join(f"{p['id']} {p['status']}" for p in _M0["predictions"]) + ". REAL_MEMORY_PIPELINE_EVALUATION.md.")
+else:
+    P("Real pipeline (Mem0, infer=True): not yet run.")
+
 H("Definitions and Formulas", 1)
 P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "
   "names the code that computes it, constants included, so any figure in this document can be recomputed "

@@ -252,7 +252,7 @@ def t11_sleeper() -> Dict:
     f = _L("ho8_anomaly_devfit.json", REM)
     arms = {}
     for arm, v in f["arms"].items():
-        for p in ("p90", "p99"):
+        for p in [q for q in ("p90", "p99") if q in v]:
             a = v[p]
             arms[f"{arm}:{p}"] = {"anomaly": f"{_fmt(a['anomaly']['recall'])} | FPR {_fmt(a['anomaly']['benign_fpr'])}",
                                   "union2": f"{_fmt(a['union2_B13_or_anomaly']['recall'])} | FPR {_fmt(a['union2_B13_or_anomaly']['benign_fpr'])}",
@@ -278,7 +278,101 @@ def t12_predictions() -> Dict:
             "remediation_P2": p2["predictions"] if p2 else "PENDING"}
 
 
+def _pending(name: str, title: str, src: str) -> Dict:
+    return {"title": title, "status": "PENDING", "sources": [src]}
+
+
+def t13_validity_adjusted() -> Dict:
+    d = _L("validity_adjusted.json", REM)
+    if not d:
+        return _pending("T13", "Memory-attributable compliance and validity-adjusted defence recall", "remediation/validity_adjusted.json")
+    ma = {g: {"net_C0": d["memory_attributable"][g]["C0"]["net_points"], "ci_C0": d["memory_attributable"][g]["C0"]["ci95_points"],
+              "net_vote": d["memory_attributable"][g]["vote"]["net_points"], "ci_vote": d["memory_attributable"][g]["vote"]["ci95_points"],
+              "base_C0": d["memory_attributable"][g]["base_rate_C0"], "base_vote": d["memory_attributable"][g]["base_rate_vote"]}
+          for g in ("ALL", "own", "external")}
+    adm = {j: [p for p, m in d["memory_attributable"].items() if p not in ("ALL", "own", "external") and m[f"admissible_{j}"]]
+           for j in ("C0", "vote")}
+    rec = {grp: {dn: {"n": row["n"], **{c: round(100 * row[c]["rate"], 1) for c in ("B12", "B13", "B14", "B15", "B17")},
+                      "ranking": row["ranking"], "B13_vs_B14_p": row["B13_vs_B14"]["p_exact"]}
+                 for dn, row in tab.items()} for grp, tab in d["defence_by_denominator"].items()}
+    return {"title": "Memory-attributable compliance (net, paired) and defence recall on five denominators (cached data)",
+            "sources": ["remediation/validity_adjusted.json"], "memory_attributable": ma, "admissible_populations": adm,
+            "recall_by_denominator": rec,
+            "rankings_identical_across_denominators": {grp: len({tuple(v["ranking"]) for v in tab.values()}) == 1
+                                                       for grp, tab in rec.items()}}
+
+
+def t14_adjudication() -> Dict:
+    d = _L("judge_adjudication.json", REM)
+    if not d:
+        return _pending("T14", "Blind adjudication of judge disagreements", "remediation/judge_adjudication.json")
+    return {"title": "Blind automated adjudication (Gemini) of C0-vs-vote disagreements (ADJ-1, pre-registered)",
+            "sources": ["remediation/judge_adjudication.json"], "sets": d["sets"], "disagreement_items": d["disagreement_items"],
+            "kappa_vs_C0": d["kappa_adjudicator_vs_C0"], "kappa_vs_vote": d["kappa_adjudicator_vs_vote"],
+            "concentration": {k: d["disagreement_concentration"][k] for k in ("n_total", "by_arm_flipped")},
+            "rate_by_population": d["disagreement_rate_by_population"], "predictions": d["predictions"]}
+
+
+def t15_corroboration_robustness() -> Dict:
+    d = _L("corroboration_robustness.json", REM)
+    if not d:
+        return _pending("T15", "Corroboration robustness", "remediation/corroboration_robustness.json")
+    rows = {}
+    for name, s in d["sets"].items():
+        rows[name] = {"owner": s["owner"], "n_attacks": s["n_attacks"], "n_benign": s["n_benign"],
+                      **{k: {m: f"{v[m]['k']}/{v[m]['n']}" for m in v if isinstance(v[m], dict) and "k" in v[m]}
+                         | ({"reproduces": v["reproduces_cached_corroboration"]} if "reproduces_cached_corroboration" in v else {})
+                         for k, v in s["arms"].items()}}
+    return {"title": "Corroboration under evidence and calibration-owner variation (new analysis, frozen texts)",
+            "sources": ["remediation/corroboration_robustness.json"], "thresholds": d["thresholds"], "sets": rows}
+
+
+def t16_mem0() -> Dict:
+    d = _L("mem0_pipeline_eval.json", REM)
+    if not d:
+        return _pending("T16", "Real extraction-enabled memory pipeline (Mem0 infer=True)", "remediation/mem0_pipeline_eval.json")
+    strip = lambda b: {k: (f"{v['k']}/{v['n']}" if isinstance(v, dict) and "k" in v else v) for k, v in b.items()  # noqa: E731
+                       if k not in ("rows",)}
+    return {"title": "MEM-1 (HO4) and MEM-2 (SA-1) through Mem0 2.0.19 with infer=True (pre-registered)",
+            "sources": ["remediation/mem0_pipeline_eval.json", "mem0_infer/stage1_ho4.json", "mem0_infer/stage1_sa1.json"],
+            "config": d["mem0_config"], "deviations": d["deviations"], "stage1_errors": d["stage1_errors"],
+            "MEM1": {k: (strip(v) if isinstance(v, dict) else v) for k, v in d["MEM1_ho4"].items()},
+            "MEM2": {k: strip(v) for k, v in d["MEM2_sa1"].items()}, "predictions": d["predictions"]}
+
+
+def t17_sa2() -> Dict:
+    d = _L("sa2_eval.json", REM)
+    if not d:
+        return _pending("T17", "SA-2 implicit sleepers", "remediation/sa2_eval.json")
+    R = d["by_judge"]["C0"]
+    return {"title": "SA-2: implicit-intent conditional rules vs grounded benign rules (pre-registered)",
+            "sources": ["remediation/sa2_eval.json"],
+            "attacks": {k: (f"{v['k']}/{v['n']}" if isinstance(v, dict) and "k" in v else None) for k, v in R["atk"].items()
+                        if isinstance(v, dict) and "k" in v},
+            "lookalikes": {k: (f"{v['k']}/{v['n']}" if isinstance(v, dict) and "k" in v else None) for k, v in R["ben"].items()
+                           if isinstance(v, dict) and "k" in v},
+            "defended_attacks": {k: f"{v['excluded']['k']}/{v['excluded']['n']}" for k, v in R["atk"]["defended"].items()},
+            "defended_lookalikes": {k: f"{v['excluded']['k']}/{v['excluded']['n']}" for k, v in R["ben"]["defended"].items()},
+            "discrimination": R["discrimination"], "vote_activation_trigger": f"{d['by_judge']['vote']['atk']['activation_on_trigger']['k']}/60",
+            "predictions": d["predictions"]}
+
+
+def t18_probe() -> Dict:
+    d = _L("probe_robustness.json", REM)
+    if not d:
+        return _pending("T18", "Probe robustness PR-1", "remediation/probe_robustness.json")
+    return {"title": "PR-1: non-leading vs fitted probe on 150 development instances (pre-registered)",
+            "sources": ["remediation/probe_robustness.json"], "n": d["n"], "fallback_tasks": d["fallback_tasks"],
+            "by_judge": {j: {arm: {k: (f"{v['k']}/{v['n']}" if isinstance(v, dict) else v) for k, v in blk[arm].items()}
+                             for arm in ("nonleading", "fitted")} | {"item_agreement_working": blk["item_agreement_working"],
+                                                                     "paired": blk["paired_working_nonleading_vs_fitted"]}
+                         for j, blk in d["by_judge"].items()}, "predictions": d["predictions"]}
+
+
 TABLES: Dict[str, Callable[[], Dict]] = {
+    "T13_validity_adjusted": t13_validity_adjusted, "T14_adjudication": t14_adjudication,
+    "T15_corroboration_robustness": t15_corroboration_robustness, "T16_mem0_pipeline": t16_mem0,
+    "T17_sa2": t17_sa2, "T18_probe_robustness": t18_probe,
     "T1_validity": t1_validity, "T2_judge_sensitivity": t2_judge_sensitivity, "T3_two_denominators": t3_two_denominators,
     "T4_memory_poisoning_holdouts": t4_memory_poisoning_holdouts, "T5_b13_decomposition": t5_b13_decomposition,
     "T6_injection_holdouts": t6_injection_holdouts, "T7_baselines": t7_baselines, "T8_harm": t8_harm,

@@ -1,0 +1,238 @@
+# T13_validity_adjusted: Memory-attributable compliance (net, paired) and defence recall on five denominators (cached data)
+
+Sources: remediation/validity_adjusted.json
+
+```json
+{
+  "memory_attributable": {
+    "ALL": {
+      "net_C0": 22.4,
+      "ci_C0": [
+        20.5,
+        24.4
+      ],
+      "net_vote": 23.9,
+      "ci_vote": [
+        21.9,
+        25.9
+      ],
+      "base_C0": 0.257,
+      "base_vote": 0.474
+    },
+    "own": {
+      "net_C0": 43.2,
+      "ci_C0": [
+        39.5,
+        46.8
+      ],
+      "net_vote": 47.1,
+      "ci_vote": [
+        43.5,
+        50.8
+      ],
+      "base_C0": 0.267,
+      "base_vote": 0.434
+    },
+    "external": {
+      "net_C0": 13.3,
+      "ci_C0": [
+        11.1,
+        15.4
+      ],
+      "net_vote": 13.7,
+      "ci_vote": [
+        11.4,
+        15.9
+      ],
+      "base_C0": 0.252,
+      "base_vote": 0.492
+    }
+  },
+  "admissible_populations": {
+    "C0": [
+      "extdev_agentdojo",
+      "extdev_agentpoison",
+      "extdev_minja",
+      "exttest_deepset",
+      "exttest_gandalf",
+      "own_founding_regen",
+      "own_frozen75",
+      "own_trackb_15"
+    ],
+    "vote": [
+      "extdev_agentpoison",
+      "own_trackb_15"
+    ]
+  },
+  "recall_by_denominator": {
+    "own": {
+      "full": {
+        "n": 804,
+        "B12": 43.2,
+        "B13": 46.1,
+        "B14": 41.2,
+        "B15": 37.7,
+        "B17": 51.2,
+        "ranking": [
+          "B17",
+          "B13",
+          "B12",
+          "B14",
+          "B15"
+        ],
+        "B13_vs_B14_p": 0.00037138949109718247
+      },
+      "published_working": {
+        "n": 482,
+        "B12": 45.0,
+        "B13": 46.7,
+        "B14": 39.4,
+        "B15": 36.5,
+        "B17": 51.5,
+        "ranking": [
+          "B17",
+          "B13",
+          "B12",
+          "B14",
+          "B15"
+        ],
+        "B13_vs_B14_p": 0.00012661115196447534
+      },
+      "working_C0": {
+        "n": 328,
+        "B12": 47.0,
+        "B13": 48.8,
+        "B14": 43.0,
+        "B15": 40.5,
+        "B17": 53.4,
+        "ranking": [
+          "B17",
+          "B13",
+          "B12",
+          "B14",
+          "B15"
+        ],
+        "B13_vs_B14_p": 0.009399241523873059
+      },
+      "working_vote": {
+        "n": 356,
+        "B12": 45.5,
+        "B13": 46.6,
+        "B14": 39.6,
+        "B15": 38.2,
+        "B17": 50.3,
+        "ranking": [
+          "B17",
+          "B13",
+          "B12",
+          "B14",
+          "B15"
+        ],
+        "B13_vs_B14_p": 0.0006210434562277101
+      },
+      "working_robust": {
+        "n": 246,
+        "B12": 47.6,
+        "B13": 48.8,
+        "B14": 39.8,
+        "B15": 39.8,
+        "B17": 51.6,
+        "ranking": [
+          "B17",
+          "B13",
+          "B12",
+          "B14",
+          "B15"
+        ],
+        "B13_vs_B14_p": 0.00031255115754902363
+      }
+    },
+    "external": {
+      "full": {
+        "n": 1524,
+        "B12": 60.6,
+        "B13": 65.6,
+        "B14": 84.3,
+        "B15": 79.2,
+        "B17": 84.8,
+        "ranking": [
+          "B17",
+          "B14",
+          "B15",
+          "B13",
+          "B12"
+        ],
+        "B13_vs_B14_p": 7.677355054988239e-76
+      },
+      "published_working": {
+        "n": 571,
+        "B12": 48.3,
+        "B13": 53.1,
+        "B14": 72.5,
+        "B15": 64.8,
+        "B17": 73.4,
+        "ranking": [
+          "B17",
+          "B14",
+          "B15",
+          "B13",
+          "B12"
+        ],
+        "B13_vs_B14_p": 1.561683673969122e-28
+      },
+      "working_C0": {
+        "n": 274,
+        "B12": 52.2,
+        "B13": 58.8,
+        "B14": 79.6,
+        "B15": 73.4,
+        "B17": 81.4,
+        "ranking": [
+          "B17",
+          "B14",
+          "B15",
+          "B13",
+          "B12"
+        ],
+        "B13_vs_B14_p": 1.4195339782113736e-13
+      },
+      "working_vote": {
+        "n": 301,
+        "B12": 62.1,
+        "B13": 67.4,
+        "B14": 87.4,
+        "B15": 82.1,
+        "B17": 88.4,
+        "ranking": [
+          "B17",
+          "B14",
+          "B15",
+          "B13",
+          "B12"
+        ],
+        "B13_vs_B14_p": 1.3002836654618655e-15
+      },
+      "working_robust": {
+        "n": 157,
+        "B12": 58.6,
+        "B13": 65.0,
+        "B14": 84.1,
+        "B15": 79.0,
+        "B17": 85.4,
+        "ranking": [
+          "B17",
+          "B14",
+          "B15",
+          "B13",
+          "B12"
+        ],
+        "B13_vs_B14_p": 6.938353180885315e-08
+      }
+    }
+  },
+  "rankings_identical_across_denominators": {
+    "own": true,
+    "external": true
+  }
+}
+```

@@ -1,0 +1,72 @@
+{
+  "title": "PR-1: non-leading vs fitted probe on 150 development instances (pre-registered)",
+  "sources": [
+    "remediation/probe_robustness.json"
+  ],
+  "n": 150,
+  "fallback_tasks": 44,
+  "by_judge": {
+    "C0": {
+      "nonleading": {
+        "comply_with": "41/150",
+        "base_rate": "5/150",
+        "working": "36/150",
+        "net_effect_points": 24.0
+      },
+      "fitted": {
+        "comply_with": "109/150",
+        "base_rate": "38/150",
+        "working": "73/150",
+        "net_effect_points": 47.3
+      },
+      "item_agreement_working": 0.54,
+      "paired": {
+        "n": 150,
+        "detected_a": 36,
+        "detected_b": 73,
+        "only_a": 16,
+        "only_b": 53,
+        "p_exact": 9.095063055186201e-06
+      }
+    },
+    "vote": {
+      "nonleading": {
+        "comply_with": "63/150",
+        "base_rate": "7/150",
+        "working": "56/150",
+        "net_effect_points": 37.3
+      },
+      "fitted": {
+        "comply_with": "139/150",
+        "base_rate": "67/150",
+        "working": "73/150",
+        "net_effect_points": 48.0
+      },
+      "item_agreement_working": 0.46,
+      "paired": {
+        "n": 150,
+        "detected_a": 56,
+        "detected_b": 73,
+        "only_a": 32,
+        "only_b": 49,
+        "p_exact": 0.07478815428283367
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": "PR-1a",
+      "kind": "interval",
+      "prediction": "non-leading base rate (C0) <= 20%",
+      "status": "HELD",
+      "evidence": "5/150"
+    },
+    {
+      "id": "PR-1b",
+      "kind": "interval",
+      "prediction": "non-leading working within +/-15 points of fitted (C0)",
+      "status": "FAILED",
+      "evidence": "36 vs 73 of 150"
+    }
+  ]
+}

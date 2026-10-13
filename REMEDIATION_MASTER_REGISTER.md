@@ -127,6 +127,7 @@ Statuses: OPEN, INVESTIGATING, FIX IMPLEMENTED, VALIDATION PASSED, VALIDATION FA
 | REP-3 | Hardware / environment | **FIX IMPLEMENTED** (`docs/release/REPRODUCE.md`) |
 | REP-4 | Ollama CPU-only window 2026-10-11 17:33 → 2026-10-12 | **NEW, disclosed**: an interrupted auto-update removed CUDA libs; runs in that window used the CPU backend. Reinstall restored the GPU; the reinstall **also deleted the local model store** (re-pulled, digests identical) |
 | REP-5 | `make regression` claims "no local LLM required" but a frozen-suite test loaded `llama2` | Every Ollama-backed test in that suite is `slow`-marked or self-skips when Ollama is unreachable, so the outcome is environment-independent (2,690 passed with Ollama up). The specific test was not identified | **ACCEPTED LIMITATION** (minor) |
+| REP-7 (2026-10-13) | Device-dependent Phase 15 result. `phase15/tests/test_b10_per_dataset.py::test_corroboration_gate_fixes_the_real_heldout_false_positives_with_no_detection_loss` **passes with the GPU visible and fails on CPU only** (`CUDA_VISIBLE_DEVICES=-1`). The ungated B10 ConversationChronicles FPR is 10.4% on GPU vs 0.0% on CPU; the gated result (0% FPR, ≥ 90% detection) holds on both | **ACCEPTED LIMITATION**, documented. Phase 15's "gate fixes ConversationChronicles FPR" holds only on GPU. Regression counts are reported with the device stated. Not caused by the remediation (verified by running the single test both ways) |
 | REP-6 | Single authoritative results pipeline | **FIX IMPLEMENTED**: `results/TABLE_INDEX.md` |
 
 ## 6. Defects introduced or found during the remediation (NEW)
@@ -146,3 +147,21 @@ Statuses: OPEN, INVESTIGATING, FIX IMPLEMENTED, VALIDATION PASSED, VALIDATION FA
 |---|---|
 | Results | `3898ed8e…0882` |
 | Methodology | `80deb5f5…dc12` |
+
+
+## 7. Gap-closure round (2026-10-13)
+
+Pre-registration: `docs/phase17/PREREGISTRATION_GAPCLOSURE_2026-10-13.md` (`f177c77c`; addendum B `8786ac7d`). Details: `FINAL_GAP_CLOSURE_REPORT.md`.
+
+| ID | Issue | Action | Status |
+|---|---|---|---|
+| GC-1 | No real extraction-enabled pipeline (M1) | MEM-1 / MEM-2 through Mem0 `infer=True` | **VALIDATION PASSED**. M1-5 failed (retrieval 48/157); all other MEM predictions held |
+| GC-2 | Leading probe (25.7% task-alone) | Net memory effect (CACHED) + PR-1 non-leading probe | **VALIDATION PASSED**: the effect is robust in existence, probe-dependent in size; PR-1b failed |
+| GC-3 | 509 judge flips unexplained | ADJ-1 blind adjudication | **VALIDATION PASSED**: the adjudicator splits 60/60; labels are ambiguous (ADJ-1a failed) |
+| GC-4 | Denominator-dependence of defence conclusions | Five denominators | **VALIDATION PASSED**: rankings identical |
+| GC-5 | Corroboration assumptions untested | Evidence and calibration robustness (NEW) | **VALIDATION PASSED**: wrong owner and sparse evidence measured; thresholds about 3× calibration-sensitive |
+| GC-6 | Explicit vs implicit sleeper confound | SA-2 | **VALIDATION PASSED**: content 0/60 on implicit rules; corroboration 40/60 vs 0/60 |
+| GC-7 | Mem0 API defects (`get_all` top_k = 20; `search` ignores `limit`) | Fixed before analysis; tests added; mutation-checked | **VALIDATION PASSED** |
+| GC-8 | B18 oracle threshold fitted on test data; v6 frame designed after the HO7 result; judge selection used HO5 items | Documented in `CALIBRATION_AND_LEAKAGE_AUDIT.md` | **ACCEPTED LIMITATION** |
+| GC-9 | Annotator 1 = author; annotator 2 unverifiable | `DATA_LICENSING_AND_ANNOTATION_AUDIT.md` §3; the paper says so | **ACCEPTED LIMITATION** (owner action) |
+| GC-10 | SA-1 evaluator test pinned a signature that the refactor changed | Test now checks the property (no label input) | **VALIDATION PASSED** |

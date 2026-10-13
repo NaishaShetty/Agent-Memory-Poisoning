@@ -1,0 +1,184 @@
+{
+  "title": "Corroboration under evidence and calibration-owner variation (new analysis, frozen texts)",
+  "sources": [
+    "remediation/corroboration_robustness.json"
+  ],
+  "thresholds": {
+    "frozen": {
+      "exclude": 0.0019,
+      "flag": 0.0057,
+      "owners": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "disjoint": {
+      "exclude": 0.0055548520758748055,
+      "flag": 0.01593620702624321,
+      "n_observations": 591,
+      "owners": [
+        2,
+        4
+      ]
+    }
+  },
+  "sets": {
+    "holdout4": {
+      "owner": 7,
+      "n_attacks": 157,
+      "n_benign": 262,
+      "full|frozen": {
+        "corroboration_recall": "76/157",
+        "corroboration_benign_fpr": "28/262",
+        "B13_recall": "79/157",
+        "B13_benign_fpr": "31/262",
+        "reproduces": true
+      },
+      "full|disjoint": {
+        "corroboration_recall": "127/157",
+        "corroboration_benign_fpr": "73/262",
+        "B13_recall": "129/157",
+        "B13_benign_fpr": "76/262"
+      },
+      "trunc10|frozen": {
+        "corroboration_recall": "98/157",
+        "corroboration_benign_fpr": "68/262",
+        "B13_recall": "101/157",
+        "B13_benign_fpr": "72/262"
+      },
+      "trunc10|disjoint": {
+        "corroboration_recall": "147/157",
+        "corroboration_benign_fpr": "145/262",
+        "B13_recall": "149/157",
+        "B13_benign_fpr": "147/262"
+      },
+      "wrong_owner|frozen": {
+        "corroboration_recall": "60/157",
+        "corroboration_benign_fpr": "60/262",
+        "B13_recall": "63/157",
+        "B13_benign_fpr": "63/262"
+      },
+      "wrong_owner|disjoint": {
+        "corroboration_recall": "131/157",
+        "corroboration_benign_fpr": "148/262",
+        "B13_recall": "132/157",
+        "B13_benign_fpr": "149/262"
+      }
+    },
+    "holdout7": {
+      "owner": 8,
+      "n_attacks": 129,
+      "n_benign": 189,
+      "full|frozen": {
+        "corroboration_recall": "23/129",
+        "corroboration_benign_fpr": "23/189",
+        "B13_recall": "70/129",
+        "B13_benign_fpr": "29/189",
+        "reproduces": true
+      },
+      "full|disjoint": {
+        "corroboration_recall": "56/129",
+        "corroboration_benign_fpr": "65/189",
+        "B13_recall": "92/129",
+        "B13_benign_fpr": "67/189"
+      },
+      "trunc10|frozen": {
+        "corroboration_recall": "29/129",
+        "corroboration_benign_fpr": "33/189",
+        "B13_recall": "75/129",
+        "B13_benign_fpr": "41/189"
+      },
+      "trunc10|disjoint": {
+        "corroboration_recall": "65/129",
+        "corroboration_benign_fpr": "64/189",
+        "B13_recall": "101/129",
+        "B13_benign_fpr": "70/189"
+      },
+      "wrong_owner|frozen": {
+        "corroboration_recall": "25/129",
+        "corroboration_benign_fpr": "19/189",
+        "B13_recall": "70/129",
+        "B13_benign_fpr": "26/189"
+      },
+      "wrong_owner|disjoint": {
+        "corroboration_recall": "61/129",
+        "corroboration_benign_fpr": "53/189",
+        "B13_recall": "93/129",
+        "B13_benign_fpr": "59/189"
+      }
+    },
+    "holdout8": {
+      "owner": 1,
+      "n_attacks": 160,
+      "n_benign": 171,
+      "full|frozen": {
+        "corroboration_recall": "81/160",
+        "corroboration_benign_fpr": "8/171",
+        "B13_recall": "118/160",
+        "B13_benign_fpr": "15/171",
+        "reproduces": true
+      },
+      "full|disjoint": {
+        "corroboration_recall": "143/160",
+        "corroboration_benign_fpr": "39/171",
+        "B13_recall": "152/160",
+        "B13_benign_fpr": "43/171"
+      },
+      "trunc10|frozen": {
+        "corroboration_recall": "74/160",
+        "corroboration_benign_fpr": "28/171",
+        "B13_recall": "112/160",
+        "B13_benign_fpr": "34/171"
+      },
+      "trunc10|disjoint": {
+        "corroboration_recall": "129/160",
+        "corroboration_benign_fpr": "83/171",
+        "B13_recall": "147/160",
+        "B13_benign_fpr": "83/171"
+      },
+      "wrong_owner|frozen": {
+        "corroboration_recall": "64/160",
+        "corroboration_benign_fpr": "61/171",
+        "B13_recall": "112/160",
+        "B13_benign_fpr": "68/171"
+      },
+      "wrong_owner|disjoint": {
+        "corroboration_recall": "120/160",
+        "corroboration_benign_fpr": "121/171",
+        "B13_recall": "145/160",
+        "B13_benign_fpr": "125/171"
+      }
+    },
+    "sa1": {
+      "owner": 3,
+      "n_attacks": 60,
+      "n_benign": 60,
+      "full|frozen": {
+        "corroboration_recall": "45/60",
+        "corroboration_benign_fpr": "1/60"
+      },
+      "full|disjoint": {
+        "corroboration_recall": "60/60",
+        "corroboration_benign_fpr": "2/60"
+      },
+      "trunc10|frozen": {
+        "corroboration_recall": "51/60",
+        "corroboration_benign_fpr": "3/60"
+      },
+      "trunc10|disjoint": {
+        "corroboration_recall": "60/60",
+        "corroboration_benign_fpr": "17/60"
+      },
+      "wrong_owner|frozen": {
+        "corroboration_recall": "15/60",
+        "corroboration_benign_fpr": "6/60"
+      },
+      "wrong_owner|disjoint": {
+        "corroboration_recall": "50/60",
+        "corroboration_benign_fpr": "22/60"
+      }
+    }
+  }
+}

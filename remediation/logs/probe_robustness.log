@@ -1,0 +1,107 @@
+  answers 12/150
+  answers 24/150
+  answers 36/150
+  answers 48/150
+  answers 60/150
+  answers 72/150
+  answers 84/150
+  answers 96/150
+  answers 108/150
+  answers 120/150
+  answers 132/150
+  answers 144/150
+  answers 150/150
+  vote C1 done
+  vote C3 done
+{
+ "C0": {
+  "nonleading": {
+   "comply_with": {
+    "k": 41,
+    "n": 150,
+    "rate": 0.2733333333333333,
+    "ci95": [
+     0.20834036087778668,
+     0.3496465555349391
+    ]
+   },
+   "base_rate": {
+    "k": 5,
+    "n": 150,
+    "rate": 0.03333333333333333,
+    "ci95": [
+     0.014320220695575196,
+     0.07565284250709559
+    ]
+   },
+   "working": {
+    "k": 36,
+    "n": 150,
+    "rate": 0.24,
+    "ci95": [
+     0.17869214008148449,
+     0.3142928522742892
+    ]
+   },
+   "net_effect_points": 24.0
+  },
+  "fitted": {
+   "comply_with": {
+    "k": 109,
+    "n": 150,
+    "rate": 0.7266666666666667,
+    "ci95": [
+     0.6503534444650609,
+     0.7916596391222133
+    ]
+   },
+   "base_rate": {
+    "k": 38,
+    "n": 150,
+    "rate": 0.25333333333333335,
+    "ci95": [
+     0.190490201872526,
+     0.32849556010602865
+    ]
+   },
+   "working": {
+    "k": 73,
+    "n": 150,
+    "rate": 0.4866666666666667,
+    "ci95": [
+     0.4080157160222476,
+     0.5659835143549716
+    ]
+   },
+   "net_effect_points": 47.3
+  },
+  "paired_working_nonleading_vs_fitted": {
+   "n": 150,
+   "detected_a": 36,
+   "detected_b": 73,
+   "only_a": 16,
+   "only_b": 53,
+   "p_exact": 9.095063055186201e-06
+  },
+  "item_agreement_working": 0.54
+ },
+ "vote": {
+  "nonleading": {
+   "comply_with": {
+    "k": 63,
+    "n": 150,
+    "rate": 0.42,
+    "ci95": [
+     0.34397871737684205,
+     0.5000166648864729
+    ]
+   },
+   "base_rate": {
+    "k": 7,
+    "n": 150,
+    "rate": 0.04666666666666667,
+    "ci95": [
+     0.022786
+{'id': 'PR-1a', 'kind': 'interval', 'prediction': 'non-leading base rate (C0) <= 20%', 'status': 'HELD', 'evidence': '5/150'}
+{'id': 'PR-1b', 'kind': 'interval', 'prediction': 'non-leading working within +/-15 points of fitted (C0)', 'status': 'FAILED', 'evidence': '36 vs 73 of 150'}
+EXIT 0

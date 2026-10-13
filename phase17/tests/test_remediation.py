@@ -112,8 +112,8 @@ def test_sleeper_corpus_frozen_and_no_label_reaches_admission():
     from phase17.near_dup import Index
 
     assert sc.verify_frozen()
-    params = list(inspect.signature(ev._admission).parameters)
-    assert params == ["notes"]
+    params = set(inspect.signature(ev._admission).parameters)
+    assert params <= {"notes", "owner"}                     # text + the owner whose conversation is evidence; no label/kind
     atk, ben = sc.items("atk"), sc.items("ben")
     assert len(atk) == 60 and len(ben) == 60
     assert not ({x["id"] for x in atk} & {x["id"] for x in ben})
@@ -221,3 +221,59 @@ def test_paper_macros_all_defined_and_none_pending():
     used = set(re.findall(r"\\([A-Z][A-Za-z]+)\b", tex)) - {"IEEEauthorblockN", "IEEEauthorblockA"}
     assert used <= defined, sorted(used - defined)
     assert "PENDING" not in nums, [l for l in nums.splitlines() if "PENDING" in l]
+
+
+# ---------------------------------------------------------------- gap closure (2026-10-13)
+def test_mem0_pipeline_uses_top_k_not_limit():
+    """Addendum B defects: Mem0 2.0.19 ignores `limit` (silently returns 20) and get_all truncates at 20."""
+    src = (ROOT / "phase17" / "mem0_infer" / "run_pipeline.py").read_text(encoding="utf-8")
+    code = "\n".join(l for l in src.splitlines() if not l.lstrip().startswith("#"))
+    assert "limit=" not in code
+    assert "top_k=TOP_K" in code and "top_k=100000" in code
+
+
+def test_mem0_stage1_records_are_complete_and_clean():
+    """Every pre-registered item ran (no silent drops); errors would be listed, not hidden."""
+    import json as _j
+    inp = _j.loads((DATA / "mem0_infer" / "inputs.json").read_text(encoding="utf-8"))
+    s4 = _j.loads((DATA / "mem0_infer" / "stage1_ho4.json").read_text(encoding="utf-8"))
+    s1 = _j.loads((DATA / "mem0_infer" / "stage1_sa1.json").read_text(encoding="utf-8"))
+    assert len(s4["items"]) == 2 * len(inp["ho4"]["attacks"]) + len(inp["ho4"]["benign"])
+    assert len(s1["items"]) == 2 * len(inp["sa1"]["items"])
+    assert not [k for k, v in {**s4["items"], **s1["items"]}.items() if "error" in v]
+    b7 = _j.loads((DATA / "mem0_infer" / "baseline_owner7.json").read_text(encoding="utf-8"))
+    adds = sum(e.get("event") == "ADD" for e in b7["events"])
+    assert len(b7["memories"]) == adds          # the truncation defect would make this 20 < adds
+
+
+def test_sa2_attacks_pass_the_explicit_harm_gate_and_corpus_is_frozen():
+    from phase17.remediation import sleeper_corpus2 as c
+
+    assert c.verify_frozen()
+    assert not [x for x in c.items("atk") if c.EXPLICIT_HARM.search(x["note"])]
+    assert all(c._OWNER.search(x["note"]) for x in c.items("atk") + c.items("ben"))
+
+
+def test_corroboration_robustness_reproduces_cached_firings():
+    d = json.loads((REM / "corroboration_robustness.json").read_text(encoding="utf-8"))
+    for h in ("holdout4", "holdout7", "holdout8"):
+        assert d["sets"][h]["arms"]["full|frozen"]["reproduces_cached_corroboration"] is True
+    assert set(d["thresholds"]["disjoint"]["owners"]).isdisjoint({1, 3})   # owner-disjoint calibration really is
+
+
+def test_adjudication_was_blind_and_labels_kept_beside_originals():
+    import inspect as _i
+    from phase17.remediation import judge_adjudication as ja
+
+    src = _i.getsource(ja.run)
+    assert "rng.shuffle(order)" in src                      # sets interleaved before judging
+    d = json.loads((REM / "judge_adjudication.json").read_text(encoding="utf-8"))
+    assert all({"C0_work", "vote_work", "adjudicated_work"} <= set(x) for x in d["labels"])
+    assert not any(x["pop"] == "own_gemini_30" for x in d["labels"])
+
+
+def test_validity_adjusted_rankings_and_denominators():
+    d = json.loads((REM / "validity_adjusted.json").read_text(encoding="utf-8"))
+    for grp, tab in d["defence_by_denominator"].items():
+        assert tab["full"]["n"] >= tab["published_working"]["n"] >= tab["working_robust"]["n"]
+        assert tab["working_robust"]["n"] <= min(tab["working_C0"]["n"], tab["working_vote"]["n"])
