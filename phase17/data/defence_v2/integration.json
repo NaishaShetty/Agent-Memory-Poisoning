@@ -1,0 +1,203 @@
+{
+ "preregistration": "docs/phase17/PREREGISTRATION_DEFENCE_V2_2026-10-13.md (WS-D)",
+ "admission": {
+  "MEM-1 (HO4)": {
+   "D0 B13 stored": {
+    "atk": "59/157",
+    "ben": "37/262"
+   },
+   "D1 +SAG": {
+    "atk": "87/157",
+    "ben": "50/262"
+   },
+   "D1 +SAG, wrong lineage": {
+    "atk": "82/157",
+    "ben": "102/262"
+   },
+   "outcome_undefended": "29/157",
+   "outcome_remaining_D0": "16/157",
+   "outcome_remaining_D1": "15/157"
+  },
+  "MEM-2 (SA-1)": {
+   "D0 B13 stored": {
+    "atk": "23/60",
+    "ben": "2/60"
+   },
+   "D1 +SAG": {
+    "atk": "60/60",
+    "ben": "3/60"
+   },
+   "D1 +SAG, wrong lineage": {
+    "atk": "35/60",
+    "ben": "36/60"
+   },
+   "outcome_undefended": "7/60",
+   "outcome_remaining_D0": "1/60",
+   "outcome_remaining_D1": "0/60"
+  },
+  "SA-3 eval vs ungrounded benign": {
+   "D0 B13 stored": {
+    "atk": "18/45",
+    "ben": "9/45"
+   },
+   "D1 +SAG": {
+    "atk": "33/45",
+    "ben": "26/45"
+   },
+   "D1 +SAG, wrong lineage": {
+    "atk": "33/45",
+    "ben": "35/45"
+   },
+   "D3 +WS-C signal (stored)": {
+    "atk": "1/45",
+    "ben": "1/45"
+   },
+   "D4 SAG + WS-C signal": {
+    "atk": "4/45",
+    "ben": "1/45"
+   },
+   "note": "D3/D4 replace B13 by the selected WS-C policy (a conjunction with B13), so they are subsets of D0/D1, not additions"
+  },
+  "SA-3 eval vs grounded benign": {
+   "D0 B13 stored": {
+    "atk": "18/45",
+    "ben": "0/45"
+   },
+   "D1 +SAG": {
+    "atk": "33/45",
+    "ben": "1/45"
+   },
+   "D1 +SAG, wrong lineage": {
+    "atk": "27/45",
+    "ben": "17/45"
+   },
+   "D3 +WS-C signal (stored)": {
+    "atk": "1/45",
+    "ben": "0/45"
+   },
+   "D4 SAG + WS-C signal": {
+    "atk": "4/45",
+    "ben": "1/45"
+   },
+   "note": "D3/D4 replace B13 by the selected WS-C policy (a conjunction with B13), so they are subsets of D0/D1, not additions"
+  }
+ },
+ "propagation": {
+  "HO4 held-out": {
+   "D0 FG": [
+    "67/69",
+    "16/36",
+    "6/22",
+    "5/18"
+   ],
+   "D2 RCL": [
+    "67/69",
+    "32/36",
+    "20/22",
+    "15/18"
+   ],
+   "RECHECK": [
+    "15/69",
+    "6/36",
+    "2/22",
+    "2/18"
+   ],
+   "RCL|RECHECK": [
+    "67/69",
+    "32/36",
+    "21/22",
+    "15/18"
+   ],
+   "influence_remaining": {
+    "A0": [
+     "21/79",
+     "15/79",
+     "14/79",
+     "12/79"
+    ],
+    "FG": [
+     "1/79",
+     "7/79",
+     "7/79",
+     "8/79"
+    ],
+    "RCL": [
+     "1/79",
+     "1/79",
+     "3/79",
+     "4/79"
+    ]
+   },
+   "collateral_unflagged": {
+    "FG": [
+     "0/40",
+     "0/40",
+     "0/40",
+     "0/40"
+    ],
+    "RCL": [
+     "0/40",
+     "0/40",
+     "0/40",
+     "0/40"
+    ],
+    "RECHECK": [
+     "2/40",
+     "5/40",
+     "6/40",
+     "7/40"
+    ]
+   },
+   "collateral_flagged_benign": {
+    "FG": [
+     "24/31",
+     "8/31",
+     "5/31",
+     "4/31"
+    ],
+    "RCL": [
+     "24/31",
+     "15/31",
+     "14/31",
+     "12/31"
+    ]
+   }
+  },
+  "dev (diagnostic)": {
+   "D0 FG": [
+    "76/102",
+    "24/71",
+    "11/41",
+    "5/31"
+   ],
+   "D2 RCL": [
+    "76/102",
+    "43/71",
+    "22/41",
+    "10/31"
+   ],
+   "benign_collateral_flagged_roots": {
+    "FG": [
+     "4/79",
+     "4/79",
+     "3/79",
+     "3/79"
+    ],
+    "RCL": [
+     "4/79",
+     "3/79",
+     "2/79",
+     "1/79"
+    ]
+   }
+  }
+ },
+ "overhead": {
+  "corroboration_NLI_seconds_per_memory": 0.522,
+  "INTENT_judge_seconds_per_memory": 0.182,
+  "RCL_seconds_per_descendant_per_root": 0.0186,
+  "SAG": "one lineage lookup (O(1)); no model call",
+  "n_timed": 20,
+  "note": "single machine, warm caches excluded by appending '(timing)'; indicative only"
+ }
+}

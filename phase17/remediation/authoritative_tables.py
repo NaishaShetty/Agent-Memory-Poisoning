@@ -420,7 +420,49 @@ def t20_validity_final() -> Dict:
             "working_count_sensitivity": d["working_count_sensitivity"], "predictions": d["predictions"]}
 
 
+def t21_sag() -> Dict:
+    d = _L("defence_v2/sag_eval.json")
+    if not d:
+        return _pending("T21", "Source-anchored governance", "defence_v2/sag_eval.json")
+    return {"title": "WS-A source-anchored governance (SAG): stored-text vs lineage-intact vs wrong-lineage decisions "
+                     "(pre-registered defence programme)", "sources": ["defence_v2/sag_eval.json"],
+            "sets": {k: {X: {side: {c: (f"{v[X][side][c]['k']}/{v[X][side][c]['n']}") for c in ("lost", "intact", "wrong")}
+                             for side in ("atk", "ben") if side in v[X]} for X in ("B12", "B13")} for k, v in d["sets"].items()}}
+
+
+def t22_propagation_v2() -> Dict:
+    d = _L("defence_v2/prop_eval.json")
+    if not d:
+        return _pending("T22", "Multi-generation containment", "defence_v2/prop_eval.json")
+    f = lambda L: [f"{x['k']}/{x['n']}" for x in L]  # noqa: E731
+    dv = _L("defence_v2/prop_dev.json")
+    return {"title": "WS-B 4-generation propagation and containment (HO4 held-out; dev diagnostic)",
+            "sources": ["defence_v2/prop_eval.json", "defence_v2/prop_dev.json"],
+            "carry_flagged": f(d["carry_by_gen_flagged"]), "influence_undefended": f(d["influence_by_gen_laundering"]),
+            "withheld_carrying_flagged": {a: f(v) for a, v in d["withheld_carrying_flagged"].items()},
+            "influence_remaining": {a: f(v) for a, v in d["influence_remaining"].items()},
+            "collateral_unflagged_benign": {a: f(v) for a, v in d["collateral_unflagged_benign"].items()},
+            "collateral_flagged_benign": {a: f(v) for a, v in d["collateral_flagged_benign"].items()},
+            "recovery_after_release": f(d["recovery_flagged_benign_after_release"]), "paired": d["paired"],
+            "acceptance": d["acceptance"],
+            "dev_withheld_carrying_flagged": {a: f(v) for a, v in dv["summary"]["withheld_carrying_flagged"].items()} if dv else None}
+
+
+def t23_sleeper_v2() -> Dict:
+    d = _L("defence_v2/sleeper_v2_eval.json")
+    if not d:
+        return _pending("T23", "Implicit sleeper detection", "defence_v2/sleeper_v2_eval.json")
+    agg = lambda a: {n: {k: f"{x}/{y}" for k, (x, y) in v.items()} for n, v in a.items()}  # noqa: E731
+    return {"title": "WS-C implicit sleepers vs grounded/ungrounded benign conditional rules (SA-3; owner-disjoint dev/eval)",
+            "sources": ["defence_v2/sleeper_selection.json", "defence_v2/sleeper_v2_eval.json"],
+            "chosen_on_dev": d["chosen"], "dev": agg(d["selection"]["dev"]["aggregate"]), "eval_raw": agg(d["eval_raw"]["aggregate"]),
+            "eval_transformed": d["eval_transformed"],
+            "activation": {k: {m: (f"{v[m]['k']}/{v[m]['n']}" if isinstance(v[m], dict) and "k" in v[m] else v[m]) for m in v}
+                           for k, v in d.get("activation", {}).items()}, "acceptance": d["acceptance"]}
+
+
 TABLES: Dict[str, Callable[[], Dict]] = {
+    "T21_sag": t21_sag, "T22_propagation_v2": t22_propagation_v2, "T23_sleeper_v2": t23_sleeper_v2,
     "T19_b13_owner_loo": t19_b13_owner_loo, "T20_validity_final": t20_validity_final,
     "T13_validity_adjusted": t13_validity_adjusted, "T14_adjudication": t14_adjudication,
     "T15_corroboration_robustness": t15_corroboration_robustness, "T16_mem0_pipeline": t16_mem0,
