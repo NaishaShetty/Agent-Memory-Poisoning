@@ -176,7 +176,10 @@ def _block(rows, sel) -> Dict:
     BU = [r for r in rows if r["kind"] == "ben_unflagged"]
     BF = [r for r in rows if r["kind"] == "ben_flagged"]
     arms = {"A0": lambda r, k: False, "FG": lambda r, k: r["fg"][k] in WITHHOLD,
-            "RCL": lambda r, k: r["sem"][k] >= 0.5, "CTC": lambda r, k: _withhold(sc, r["sem"][k], r["s1"][k], tau or 0.0)}
+            # lineage arms act ONLY on descendants of a flagged (QUARANTINED) root -- pre-registered definition.
+            # (First scoring omitted this guard; that defective output is kept as ctc_eval_DEFECTIVE_unflagged_roots.json.)
+            "RCL": lambda r, k: r["flagged"] and r["sem"][k] >= 0.5,
+            "CTC": lambda r, k: r["flagged"] and _withhold(sc, r["sem"][k], r["s1"][k], tau or 0.0)}
     out = {"n_flagged_roots": len(A), "carry": [rate_with_ci(sum(r["carry"][k] for r in A), len(A)) for k in range(GENS)]}
     for a, f in arms.items():
         out[a] = {"withheld_carrying": [rate_with_ci(sum(f(r, k) for r in A if r["carry"][k]), sum(r["carry"][k] for r in A))
