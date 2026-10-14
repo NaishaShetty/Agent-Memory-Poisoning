@@ -1,0 +1,119 @@
+{
+ "rule": "max dev carry recall s.t. benign_overlap false match <= 5% and negation/action match <= 30%; ties -> larger tau_n, then larger tau_s",
+ "n_dev_roots": 80,
+ "grid": [
+  {
+   "tau_s": 0.5,
+   "tau_n": 0.00474,
+   "carry_recall": 0.9975,
+   "benign_overlap_fm": 0.9,
+   "neg_action_match": 0.98125
+  },
+  {
+   "tau_s": 0.5,
+   "tau_n": 0.01,
+   "carry_recall": 0.9975,
+   "benign_overlap_fm": 0.9,
+   "neg_action_match": 0.98125
+  },
+  {
+   "tau_s": 0.5,
+   "tau_n": 0.05,
+   "carry_recall": 0.9975,
+   "benign_overlap_fm": 0.8875,
+   "neg_action_match": 0.975
+  },
+  {
+   "tau_s": 0.5,
+   "tau_n": 0.2,
+   "carry_recall": 0.9975,
+   "benign_overlap_fm": 0.8875,
+   "neg_action_match": 0.975
+  },
+  {
+   "tau_s": 0.5,
+   "tau_n": 0.5,
+   "carry_recall": 0.9975,
+   "benign_overlap_fm": 0.8875,
+   "neg_action_match": 0.975
+  },
+  {
+   "tau_s": 0.6,
+   "tau_n": 0.00474,
+   "carry_recall": 0.9925,
+   "benign_overlap_fm": 0.8,
+   "neg_action_match": 0.94375
+  },
+  {
+   "tau_s": 0.6,
+   "tau_n": 0.01,
+   "carry_recall": 0.99,
+   "benign_overlap_fm": 0.7625,
+   "neg_action_match": 0.9375
+  },
+  {
+   "tau_s": 0.6,
+   "tau_n": 0.05,
+   "carry_recall": 0.9875,
+   "benign_overlap_fm": 0.75,
+   "neg_action_match": 0.93125
+  },
+  {
+   "tau_s": 0.6,
+   "tau_n": 0.2,
+   "carry_recall": 0.9875,
+   "benign_overlap_fm": 0.75,
+   "neg_action_match": 0.93125
+  },
+  {
+   "tau_s": 0.6,
+   "tau_n": 0.5,
+   "carry_recall": 0.985,
+   "benign_overlap_fm": 0.7375,
+   "neg_action_match": 0.925
+  },
+  {
+   "tau_s": 0.7,
+   "tau_n": 0.00474,
+   "carry_recall": 0.9825,
+   "benign_overlap_fm": 0.5375,
+   "neg_action_match": 0.85625
+  },
+  {
+   "tau_s": 0.7,
+   "tau_n": 0.01,
+   "carry_recall": 0.9775,
+   "benign_overlap_fm": 0.5,
+   "neg_action_match": 0.85
+  },
+  {
+   "tau_s": 0.7,
+   "tau_n": 0.05,
+   "carry_recall": 0.975,
+   "benign_overlap_fm": 0.475,
+   "neg_action_match": 0.8375
+  },
+  {
+   "tau_s": 0.7,
+   "tau_n": 0.2,
+   "carry_recall": 0.9725,
+   "benign_overlap_fm": 0.45,
+   "neg_action_match": 0.81875
+  },
+  {
+   "tau_s": 0.7,
+   "tau_n": 0.5,
+   "carry_recall": 0.97,
+   "benign_overlap_fm": 0.4375,
+   "neg_action_match": 0.80625
+  }
+ ],
+ "chosen": {
+  "tau_s": 0.7,
+  "tau_n": 0.5,
+  "carry_recall": 0.97,
+  "benign_overlap_fm": 0.4375,
+  "neg_action_match": 0.80625
+ },
+ "status": "FAILING: no cell meets the dev constraints"
+}
