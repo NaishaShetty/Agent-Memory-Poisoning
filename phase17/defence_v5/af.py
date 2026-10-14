@@ -52,7 +52,7 @@ def select() -> Dict:
             continue
         der = st.get(f"{x['id']}|document", {}).get("derived_texts", [])
         if der:
-            xs.append(dict(x, stored=" ".join(der)))
+            xs.append(dict(x, stored=" ".join(der), key=x["id"]))
     assert all(x["id"] in flags for x in xs)
     arms = {"stored": lambda x: x["stored"]}
     for f in FR:
@@ -64,8 +64,7 @@ def select() -> Dict:
         ks = [x for x in xs if x["kind"] == kind]
         res[kind] = {"n": len(ks), "flagged": sum(flags[x["id"]] for x in ks)}
         for arm in ["stored"] + list(FR):
-            s = V._summ(ks, done, arm, None if arm == "stored" else {x["id"]: flags[x["id"]] for x in ks}) if arm != "stored" \
-                else _summ_stored(ks, done)
+            s = _gated(ks, done, arm, {x["key"]: flags[x["id"]] for x in ks}) if arm != "stored" else _summ_stored(ks, done)
             res[kind][arm] = {k: v for k, v in s.items() if not k.startswith("_")}
     base = res["ben_unground"]["stored"]["surfaced"]["rate"]
     ok = [f for f in ("AF1", "AF2") if res["ben_unground"][f]["surfaced"]["rate"] >= 0.8 * base]
