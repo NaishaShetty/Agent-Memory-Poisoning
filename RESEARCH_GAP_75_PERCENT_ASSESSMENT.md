@@ -73,3 +73,18 @@ These figures carry the same rounding as the rubric.
 | 1 / 3 | A memory store that records **writer identity and source channel per memory** and keeps it through extraction. Adding source-span links to Mem0's ADD/UPDATE events would be enough to test this |
 | 2 | Larger generation-4 samples (≈ 300 flagged roots per payload type) to power the pre-registered tests; and a lineage-recovery method (content-addressed claim IDs) tested against lineage loss |
 | 3 | A memory system preserving conditional instruction form, or a real user-confirmation study measuring decline rates |
+
+---
+
+## Update after defence v5 (2026-10-14; `DEFENCE_V5_TARGETED_FIXES_REPORT.md`)
+
+| Gap | Previous | **After v5** | What changed |
+|---|---|---|---|
+| 1 | 59% | **59%** | Authorship provenance survives Mem0 (137/137). Laundering is closed at code level only (0 natural UPDATE events in 225 ingestions). The attribution frame (AF2) failed on SA-5. No capability score changed |
+| 2 | 58% | **65%** | 2.6 (lineage loss): 0 → 0.5. Write-time taint propagation matches RCL item for item without a stored lineage graph, and beats the frozen guard without lineage on HO7, HO8 and HO4, with 0 collateral. Registry matching without lineage was rejected twice (45–78% benign collateral; no dev-admissible threshold). Lineage deleted after writing is still unsolved |
+| 3 | 29% | **29%** | AF2 not accepted (11 → 6/45, p = 0.23). The F2 comparator's 11 → 1 is exploratory and contradicts SA-4 |
+
+**The 75% target is still not reached for any gap.** The limiting factors are unchanged:
+- authorship-free text in memory systems (Gaps 1 and 3);
+- Mem0 rewriting rules into preference facts (Gap 3);
+- lineage deleted after writing, and small generation-4 samples (Gap 2).

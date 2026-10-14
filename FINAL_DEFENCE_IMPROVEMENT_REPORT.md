@@ -138,3 +138,19 @@
 | **Evidence of defensive improvement** | Yes, on the five measured axes in §1.6 |
 | **Operational closure** | 59% / 58% / 29%. Target not met |
 | **Remaining uncertainty** | Small generation-4 samples; lenient ASK judge; single agent; LLM-authored corpora; LLM judges |
+
+---
+
+## Addendum: defence v5 (2026-10-14)
+
+See `DEFENCE_V5_TARGETED_FIXES_REPORT.md`.
+
+**Accepted:** write-time taint propagation, which gives containment without persisted lineage.
+
+**Rejected:**
+- registry matching without lineage (twice);
+- the attribution frame AF2.
+
+**Not exercisable in this harness:** provoked provenance laundering, which was demonstrated at code level only.
+
+**Closure:** Gap 1 59%, Gap 2 **65%**, Gap 3 29%.
