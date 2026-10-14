@@ -34,7 +34,7 @@ def _scores(texts, registry, cache, embed):
     for i, t in enumerate(texts):
         ms = float(S[i, fact].max()) if fact else 0.0
         cand = sorted(ins, key=lambda j: -S[i, j])[:5]
-        mn = max(nli_entail([(t, registry[j]["text"]) for j in cand], cache, CACHE)) if cand else 0.0
+        mn = max(nli_entail([(t, registry[j]["text"]) for j in cand], cache)) if cand else 0.0
         out.append((ms, mn))
     return out
 
