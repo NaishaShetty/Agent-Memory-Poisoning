@@ -27,7 +27,7 @@ GENS = 4
 _SENT = re.compile(r"(?<=[.!?])\s+")
 
 
-def nli_entail(pairs: Sequence[tuple], cache: Dict) -> List[float]:
+def nli_entail(pairs: Sequence[tuple], cache: Dict, path: Path = None) -> List[float]:
     """Entailment probability of hypothesis r given premise d: max over d's sentences and d itself."""
     from phase17.b13_live import _nli
 
@@ -39,8 +39,10 @@ def nli_entail(pairs: Sequence[tuple], cache: Dict) -> List[float]:
         pr = np.exp(logits - logits.max(1, keepdims=True))
         pr = pr / pr.sum(1, keepdims=True)
         cache[f"{d}||{r}"] = float(pr[:, ent].max())
-    if todo:
-        NLI_CACHE.write_text(json.dumps(cache), encoding="utf-8")
+    # Persist only to the cache file that belongs to THIS cache dict (default: v3's). Writing an unrelated dict to
+    # NLI_CACHE overwrote v3's cache once (v5 RAC, 2026-10-14; restored from git, values identical).
+    if todo and path is not None:
+        path.write_text(json.dumps(cache), encoding="utf-8")
     return [cache[f"{d}||{r}"] for d, r in pairs]
 
 
@@ -79,7 +81,7 @@ def _dev_rows():
 
 def _attach_s1(rows, cache):
     pairs = [(g, r["root"]) for r in rows for g in r["gens"]]
-    vals = nli_entail(pairs, cache)
+    vals = nli_entail(pairs, cache, NLI_CACHE)
     i = 0
     for r in rows:
         r["s1"] = vals[i:i + GENS]

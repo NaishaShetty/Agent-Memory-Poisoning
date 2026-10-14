@@ -71,3 +71,24 @@ def test_ctc_lineage_arms_never_act_on_unflagged_roots():
     assert all(x["k"] == 0 for x in b["RCL"]["collateral_unflagged"])
     assert all(x["k"] == 0 for x in b["CTC"]["collateral_unflagged"])
     assert b["CTC"]["withheld_carrying"][3]["k"] == 1
+
+
+def test_nli_entail_never_writes_another_programmes_cache(tmp_path, monkeypatch):
+    """Regression: v5 RAC once overwrote defence_v3/ctc_nli_cache.json via nli_entail's implicit default path."""
+    from phase17.defence_v3 import ctc
+
+    target = tmp_path / "v3.json"
+    target.write_text("{}")
+    monkeypatch.setattr(ctc, "NLI_CACHE", target)
+
+    class _M:
+        def predict(self, pairs):
+            import numpy as np
+            return np.zeros((len(pairs), 3))
+    monkeypatch.setattr("phase17.b13_live._nli", lambda: (_M(), 0))
+    other = {}
+    ctc.nli_entail([("a premise.", "a hypothesis")], other)              # no path -> must not touch v3's file
+    assert target.read_text() == "{}"
+    mine = tmp_path / "mine.json"
+    ctc.nli_entail([("b premise.", "b hypothesis")], other, mine)
+    assert mine.exists() and target.read_text() == "{}"

@@ -49,7 +49,7 @@ def _rac(texts: List[str], registry: List[Dict], tau: float, cache: Dict, embed)
         if not hit and instr_ix:
             # CTC only needs checking against instruction entries; restrict NLI to the 5 most similar to bound cost
             cand = sorted(instr_ix, key=lambda j: -sims[i, j])[:5]
-            vals = nli_entail([(t, registry[j]["text"]) for j in cand], cache)
+            vals = nli_entail([(t, registry[j]["text"]) for j in cand], cache, CACHE)
             hit = any(v >= tau for v in vals)
         out.append(bool(hit))
     return out
