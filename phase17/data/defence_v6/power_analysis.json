@@ -1,0 +1,61 @@
+{
+ "planning_inputs_spent_sets": {
+  "ho7": {
+   "flagged": 55,
+   "carry_g4": 8,
+   "FG_withheld_g4": 2,
+   "PRC_withheld_g4": 6,
+   "influence_undefended_g4": 3
+  },
+  "ho8": {
+   "flagged": 68,
+   "carry_g4": 18,
+   "FG_withheld_g4": 6,
+   "PRC_withheld_g4": 15,
+   "influence_undefended_g4": 4
+  }
+ },
+ "scenarios": {
+  "containment_pessimistic (HO7 survival 8/55, d=0.5, w=0.85)": {
+   "q": 0.14545454545454545,
+   "d": 0.5,
+   "w": 0.85
+  },
+  "containment_pooled (26/123, d=0.5, w=0.85)": {
+   "q": 0.21138211382113822,
+   "d": 0.5,
+   "w": 0.85
+  },
+  "influence_pooled (7/123 influenced, removal 0.8, w=0.95)": {
+   "q": 0.056910569105691054,
+   "d": 0.8,
+   "w": 0.95
+  }
+ },
+ "power_by_n_flagged_roots": {
+  "containment_pessimistic (HO7 survival 8/55, d=0.5, w=0.85)": {
+   "100": 0.334,
+   "150": 0.552,
+   "200": 0.719,
+   "250": 0.839,
+   "300": 0.905
+  },
+  "containment_pooled (26/123, d=0.5, w=0.85)": {
+   "100": 0.539,
+   "150": 0.783,
+   "200": 0.902,
+   "250": 0.957,
+   "300": 0.981
+  },
+  "influence_pooled (7/123 influenced, removal 0.8, w=0.95)": {
+   "100": 0.224,
+   "150": 0.533,
+   "200": 0.754,
+   "250": 0.885,
+   "300": 0.943
+  }
+ },
+ "chosen_n_flagged_instruction_roots": 250,
+ "rationale": "250 flagged instruction roots give >= 0.8 power for the generation-4 containment test even under HO7's pessimistic survival, and >= 0.8 for the behavioural test under pooled rates. 300 adds little power (see grid) at ~20% more compute; factual payloads (2.3 already 0.75, larger effects) get a secondary target of 100 flagged roots.",
+ "factual_target_n_flagged": 100
+}

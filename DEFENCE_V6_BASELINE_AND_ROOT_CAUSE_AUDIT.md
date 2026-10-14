@@ -78,3 +78,12 @@ Recomputed by `closure_scores()`.
 | G2-c | **Powered instruction-payload evaluation** of the existing root-anchored rules | Underpowered gen-4 | Compute | Power analysis, then a fresh instruction-style root corpus |
 | G3-a | **Information-boundary experiment** over conditions A–F | Unknown necessary information | None: it is a measurement | Fresh SA-6, dev-selected decision rule per condition, the same held-out notes under every condition, legitimate rules on **both** channels |
 | G3-b | **Two-stage sleeper defence** (ingestion record + retrieval-time reassessment against the original record) | Mem0 deletes the conditional form | Only as good as the preserved record | Part of G3-a (conditions D–F), plus activation prevention |
+
+## 6. Addendum: Mem0 write path, read in full before Phase 1
+
+| Finding | Location (mem0 2.0.19, `memory/main.py`) | Consequence |
+|---|---|---|
+| `add(infer=True)` is **ADD-only**. Extraction returns new memories, which are de-duplicated by md5 hash and batch-inserted. `_update_memory` is reached only from the public `update()` API | `_add_to_vector_store` (Phases 0–7); `_update_memory` called only at line 1865 (`update`) | Explains **0 UPDATE events in 225 ingestions** (v5). Laundering through the extractor is **structurally impossible** in this version. It needs an application or tool that calls `update()` |
+| History rows written on the infer path carry **no `actor_id` or `role`** (batch history records omit them). Only `infer=False` records `role` (from the message) and `actor_id` (from the message `name`) | `batch_add_history` records; `infer=False` branch | Mem0's native history keeps text events (ADD / UPDATE / DELETE with old and new text) but **not the writer**, for extracted memories |
+| `actor_id` passed in caller metadata is **stripped** (`_IDENTITY_KEYS`) | `_strip_identity_keys` | The app cannot attach a writer label via `actor_id`. Custom metadata keys (e.g. `src`) do survive |
+| The extractor emits an LLM-inferred `attributed_to` ("user" / "assistant") | `configs/prompts.py`; `main.py` line 1036 | Native but **model-generated**; never identity. Its agreement with the recorded channel is reported as exploratory |
