@@ -461,7 +461,31 @@ def t23_sleeper_v2() -> Dict:
                            for k, v in d.get("activation", {}).items()}, "acceptance": d["acceptance"]}
 
 
+def _dump(name, title, rels):
+    ds = {r: _L(r) for r in rels}
+    if not all(ds.values()):
+        return _pending(name, title, ", ".join(rels))
+    return {"title": title, "sources": list(rels), **{r.split("/")[-1].replace(".json", ""): d for r, d in ds.items()}}
+
+
+def t24_vpl() -> Dict:
+    return _dump("T24", "Defence v3 WS-A: verified payload-only lineage (VPL), selection + evaluation",
+                 ("defence_v3/vpl_selection.json", "defence_v3/vpl_eval.json"))
+
+
+def t25_containment_v3_v4() -> Dict:
+    return _dump("T25", "Defence v3/v4 WS-B: claim-tracked (CTC) and payload-routed (PRC) containment; HO8, HO7 (fresh), HO4",
+                 ("defence_v3/ctc_selection.json", "defence_v3/ctc_eval.json", "defence_v4/prc_eval.json"))
+
+
+def t26_sleeper_v3_v4() -> Dict:
+    return _dump("T26", "Defence v3/v4 WS-C: N1 steering signal (failed selection) and verify-on-activation (SA-4)",
+                 ("defence_v3/sleeper_v3_selection.json", "defence_v3/sleeper_v3_eval.json", "defence_v4/voa_selection.json",
+                  "defence_v4/voa_eval.json"))
+
+
 TABLES: Dict[str, Callable[[], Dict]] = {
+    "T24_vpl": t24_vpl, "T25_containment_v3_v4": t25_containment_v3_v4, "T26_sleeper_v3_v4": t26_sleeper_v3_v4,
     "T21_sag": t21_sag, "T22_propagation_v2": t22_propagation_v2, "T23_sleeper_v2": t23_sleeper_v2,
     "T19_b13_owner_loo": t19_b13_owner_loo, "T20_validity_final": t20_validity_final,
     "T13_validity_adjusted": t13_validity_adjusted, "T14_adjudication": t14_adjudication,

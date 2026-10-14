@@ -8,3 +8,26 @@ baselines: {'0': 45, '2': 50, '4': 47, '6': 45}
   sa3dev items 10/180
   sa3dev items 20/180
   sa3dev items 30/180
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 2818.20it/s]
+C:\mem0venv\Lib\site-packages\mem0\embeddings\huggingface.py:29: FutureWarning: The `get_sentence_embedding_dimension` method has been renamed to `get_embedding_dimension`.
+  self.config.embedding_dims = self.config.embedding_dims or self.model.get_sentence_embedding_dimension()
+baselines: {'0': 45, '2': 50, '4': 47, '6': 45}
+Failed to load spaCy lemma model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+fastembed not installed - BM25 keyword search disabled. Install it with: pip install "mem0ai[extras]"
+Failed to load spaCy full model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+  sa3dev items 40/180
+  sa3dev items 50/180
+  sa3dev items 60/180
+  sa3dev items 70/180
+  sa3dev items 80/180
+  sa3dev items 90/180
+  sa3dev items 100/180
+  sa3dev items 110/180
+  sa3dev items 120/180
+  sa3dev items 130/180
+  sa3dev items 140/180
+  sa3dev items 150/180
+  sa3dev items 160/180
+  sa3dev items 170/180
+  sa3dev items 180/180
+sa3dev: DONE
