@@ -159,12 +159,14 @@ P(f"We report the results of five independent review rounds (3-7) over MAMBench,
   f"about a defense. A causal, pre-committed, defense-independent audit finds that only "
   f"{pct(WS.get('overall_rate'))} of the benchmark's {WS.get('n_total', 0):,} attack instances "
   f"both subvert an undefended agent and implement the mechanism they are labelled with, with "
-  f"per-population rates spanning 85% to 21%. Because detection rates computed over the "
+  f"per-population rates spanning 85% to 21% (an instance-level rate that later work showed to depend on the probe "
+  f"and the judge: 435-944 of 2,628 working depending on how disputed labels resolve; the memory's net causal "
+  f"effect, by contrast, is positive under every probe and judge -- Sections 16-17). Because detection rates computed over the "
   f"remainder measure a detector's response to inert text, we report every rate on both the full "
   f"and the working-attack denominator, and find that doing so changes several published "
   f"conclusions.")
 P(f"On the defenses: provenance-aware admission (B13) reaches attack classes that content-only "
-  f"detection provably cannot -- additive fabrication 0/72 versus 37/72, pre-registered, p=1e-11 "
+  f"detection cannot, by construction, reach -- additive fabrication 0/72 versus 37/72, pre-registered, p=1e-11 "
   f"-- while costing less per memory than the content-only stack it supersedes, and reduces "
   f"unconditional harm from {pct(HARM['overall']['harm_no_defense']['rate']) if HARM else 'n/a'} "
   f"to {pct(HARM['overall']['harm_b13']['rate']) if HARM else 'n/a'} at a task-alone base rate of "
@@ -1107,7 +1109,8 @@ H("12. Conclusion", 1)
 P(f"The central result of these five rounds is a measurement result. Only "
   f"{pct(WS.get('overall_rate'))} of this benchmark's attack instances both subvert an undefended "
   f"agent and implement the mechanism they are labelled with, and that single number reframes "
-  f"every detection rate the project has published. The response to it -- a causal, pre-committed, "
+  f"every detection rate the project has published. (Later sections qualify it: which instances count as working "
+  f"depends on the probe and the judge, while the memory's net effect and the defence ranking do not -- Sections 16-17.) The response to it -- a causal, pre-committed, "
   f"defense-independent validity audit, mechanism validation by a third model family, "
   f"per-population working rates with recorded floors so that later drift fails the build, and "
   f"every rate reported on both denominators -- is more likely to outlast the specific "
@@ -2019,7 +2022,8 @@ if _S2:
     D2 = _S2["by_judge"]["C0"]["discrimination"]
     P(f"SA-2 (implicit-intent conditional rules, clean owner): content-only B12 excluded {D2['B12']['attack_excluded']}/60 "
       f"attacks; corroboration-based B13 excluded {D2['B13_untrusted']['attack_excluded']}/60 attacks and "
-      f"{D2['B13_untrusted']['lookalike_excluded']}/60 grounded benign rules; sleeper-specific detectors failed. "
+      f"{D2['B13_untrusted']['lookalike_excluded']}/60 grounded benign rules (grounded by construction; against "
+      f"ungrounded legitimate rules corroboration is not selective -- Section 18); sleeper-specific detectors failed. "
       + "; ".join(f"{p['id']} {p['status']}" for p in _S2["predictions"]) + ".")
 _M0 = L("remediation/mem0_pipeline_eval.json")
 if _M0:
@@ -2030,6 +2034,23 @@ if _M0:
       + "; ".join(f"{p['id']} {p['status']}" for p in _M0["predictions"]) + ". REAL_MEMORY_PIPELINE_EVALUATION.md.")
 else:
     P("Real pipeline (Mem0, infer=True): not yet run.")
+
+# ---- Sections 18-22 (defence programmes v2-v5; closure), generated from the artifacts (2026-10-14)
+from phase17.figures_final import run as _draw_final  # noqa: E402
+
+_FFIGS = {k: (Path(__file__).resolve().parents[1] / v) for k, v in _draw_final().items() if v}
+
+
+def FIGF(key, caption, width_in=6.3):
+    from docx.shared import Inches
+
+    path = _FFIGS.get(key)
+    if not path or not path.exists():
+        return
+    _NFIG[0] += 1
+    doc.add_picture(str(path), width=Inches(width_in))
+    CAP(f"Figure {_NFIG[0]}. {caption}")
+
 
 H("17. Targeted Phase (2026-10-13): Owner-Disjoint B13 and Attack Validity", 1)
 P("Pre-registered in docs/phase17/PREREGISTRATION_TARGETED_2026-10-13.md before any outcome was computed; all data had "
@@ -2061,9 +2082,19 @@ if _VF and _VF.get("none_arm_complete"):
       f"+{n_['memory_attributable(poisoned-clean)']['diff_points']} points under C0 for the two probes, positive with "
       f"cluster-robust intervals under both judges; defence ranking is identical across all definitions and probes. "
       f"PROBE_AND_ATTACK_VALIDITY_FINAL.md.")
+FIGF("F1", "B13 under leave-one-owner-out calibration: detection and benign exclusion per held-out owner (thresholds "
+            "fitted on the other nine owners). Source: remediation/b13_owner_loo.json.")
+FIGF("F2", "B13 under different evidence: wrong or truncated conversations, not the calibration owners, drive benign "
+            "exclusion. Source: remediation/b13_owner_loo.json.")
+FIGF("F3", "Compliance with no memory, a clean store and a poisoned store under both probes (C0, 150 items). Source: "
+            "remediation/validity_final.json.")
 P("Annotation: annotator 1 is the author; annotator 2 is the author's friend, who labelled on the author's laptop under "
   "written blinding instructions. Neither is independent of the author; the labels are used only to choose between LLM "
   "judges. ANNOTATION_PROVENANCE_FINAL.md.")
+
+from phase17.results_sections_final import write as _write_final  # noqa: E402
+
+_write_final(H, P, TBL, CAP, FIGF)
 
 H("Definitions and Formulas", 1)
 P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "
