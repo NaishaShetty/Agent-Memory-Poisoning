@@ -42,8 +42,18 @@ def _decide(texts: List[str], owner: int, cache: Dict, tag: str) -> Dict[str, Di
     for i in range(0, len(todo), 4):
         ch = todo[i:i + 4]
         items = tuple((f"V{tag}-{i + j}", t) for j, t in enumerate(ch))
-        _, b12 = apply_defense("B12", items)
-        comps = b13_components(list(items), sources={m: "tool_output" for m, _ in items}, evidence=ev, evidence_names=names)
+        for attempt in range(6):          # judge-tier timeouts under GPU contention: retry (decisions are deterministic)
+            try:
+                _, b12 = apply_defense("B12", items)
+                comps = b13_components(list(items), sources={m: "tool_output" for m, _ in items}, evidence=ev,
+                                       evidence_names=names)
+                break
+            except Exception as exc:  # noqa: BLE001
+                if attempt == 5:
+                    raise
+                print(f"  retry {attempt + 1} after {type(exc).__name__}", flush=True)
+                import time
+                time.sleep(20 * (attempt + 1))
         for (mid, t), d in zip(items, b12):
             c = comps[mid]
             dd[t] = {"B12": bool(d.excluded), "B13": bool(b13_excluded_from_components(c)),

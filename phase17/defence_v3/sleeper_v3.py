@@ -79,7 +79,17 @@ def _stored_base(split: str, cache_path: Path) -> Dict:
         if k in cache:
             continue
         texts = sorted({t for x in C.items(split=split, owner=o) for t in st.get(f"{x['id']}|document", {}).get("derived_texts", [])})
-        cache[k] = {"texts": texts, **_detect(texts, o, cache)}
+        for attempt in range(6):          # judge timeouts under GPU contention: retry (deterministic decisions)
+            try:
+                det = _detect(texts, o, cache)
+                break
+            except Exception as exc:  # noqa: BLE001
+                if attempt == 5:
+                    raise
+                print(f"  retry {attempt + 1} after {type(exc).__name__}", flush=True)
+                import time
+                time.sleep(20 * (attempt + 1))
+        cache[k] = {"texts": texts, **det}
         cache_path.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
     return cache, st
 
