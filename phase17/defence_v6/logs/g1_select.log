@@ -1,0 +1,46 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 7090.09it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 8483.99it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 5853.73it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6013.98it/s]
+{
+ "rule": "smallest delta with dev mis-link rate among validated links <= 5% (reference: NLI argmax)",
+ "n_dev_docs": 80,
+ "grid": [
+  {
+   "delta": 0.0,
+   "validated": 239,
+   "mislinked": 1,
+   "mislink_rate": 0.0041841004184100415,
+   "ref_ambiguous": 5
+  },
+  {
+   "delta": 0.02,
+   "validated": 239,
+   "mislinked": 1,
+   "mislink_rate": 0.0041841004184100415,
+   "ref_ambiguous": 5
+  },
+  {
+   "delta": 0.05,
+   "validated": 239,
+   "mislinked": 1,
+   "mislink_rate": 0.0041841004184100415,
+   "ref_ambiguous": 5
+  },
+  {
+   "delta": 0.1,
+   "validated": 238,
+   "mislinked": 0,
+   "mislink_rate": 0.0,
+   "ref_ambiguous": 5
+  }
+ ],
+ "chosen": {
+  "delta": 0.0,
+  "validated": 239,
+  "mislinked": 1,
+  "mislink_rate": 0.0041841004184100415,
+  "ref_ambiguous": 5
+ },
+ "status": "ok"
+}

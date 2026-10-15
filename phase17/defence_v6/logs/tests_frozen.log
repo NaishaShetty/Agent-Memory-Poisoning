@@ -1,0 +1,151 @@
+........................................................................ [  2%]
+........................................................................ [  4%]
+........................................................................ [  7%]
+........................................................................ [  9%]
+........................................................................ [ 11%]
+........................................................................ [ 14%]
+...........sss.......................................................... [ 16%]
+...................sss.............sssssss.............................. [ 18%]
+...............................................................F........ [ 21%]
+........................................................................ [ 23%]
+........................................................................ [ 26%]
+........................................................................ [ 28%]
+........................................................................ [ 30%]
+........................................................................ [ 33%]
+........................................................................ [ 35%]
+........................................................................ [ 37%]
+.............................ss......................................... [ 40%]
+........................................................................ [ 42%]
+........................................................................ [ 45%]
+........................................................................ [ 47%]
+........................................................................ [ 49%]
+........................................................................ [ 52%]
+........................................................................ [ 54%]
+........................................................................ [ 56%]
+........................................................................ [ 59%]
+........................................................................ [ 61%]
+..................................................sssssss............... [ 64%]
+........................................................................ [ 66%]
+........................................................................ [ 68%]
+........................................................................ [ 71%]
+........................................................................ [ 73%]
+........................................................................ [ 75%]
+........................................................................ [ 78%]
+.sss.................................................................... [ 80%]
+........................................................................ [ 83%]
+........................................................................ [ 85%]
+.......................................ssss............................. [ 87%]
+............................sss......................................... [ 90%]
+........................................................................ [ 92%]
+........................................................................ [ 94%]
+........................................................................ [ 97%]
+........................................................................ [ 99%]
+..........                                                               [100%]
+================================== FAILURES ===================================
+_______ test_real_benign_volume_stabilizes_detection_rate_across_seeds ________
+
+    def test_real_benign_volume_stabilizes_detection_rate_across_seeds():
+        """2026-09-17 real-data-expansion finding, locked in as a regression test:
+        adding real LoCoMo benign volume (not real poison diversity, and not
+        `run_gnn_feasibility_study()`'s own shipped dev-only config) makes the
+        held-out detection rate IDENTICAL across every one of seeds 11-20 --
+        a real, structural fix for the seed-instability problem investigated in
+        this module's own docstring, even though (per that same docstring) it is
+        NOT adopted as the shipped default because it comes with a real
+        false-positive-rate cost this test does not paper over.
+    
+        UPDATE (2026-09-19, Phase 11.x Option 2 follow-on, explicitly
+        authorized): `real_benign_scenarios()` was restructured from one merged
+        135-member pool into 9 real per-task pools (see its own module
+        docstring in `phase11/data/real_corpus.py`) to fix a structural-feature
+        confound found in the Option 2 investigation. That change alters this
+        graph's real topology (135 real LoCoMo nodes were previously one
+        135-clique of `RETRIEVED_WITH` edges; they are now 9 disjoint 15-cliques)
+        and therefore this GNN's real, trained message-passing behavior: the
+        real, re-measured detection rate is now 100% on EVERY seed (was 70.6%
+        on every seed under the old single-pool structure -- still perfectly
+        seed-stable, now even more so on this axis), but real FPR is now WORSE
+        and more erratic (29.5%-100% across seeds 11-20, vs. 6.8%-59.1% before).
+        This is disclosed as a real, mechanical consequence of an authorized,
+        upstream data-construction fix, not a new tuning decision -- the
+        original finding's SUBSTANCE (real benign volume stabilizes detection
+        rate across seeds, but at a real, undisclosed-away FPR cost that keeps
+        this configuration un-shipped) still holds under the corrected pool
+        structure; only the exact literal numbers changed. The sanctioned
+        9-feature raw-centroid-distance investigation (`phase11/gnn/
+        self_supervised.py`, `test_relation_aware_anomaly_investigation.py`) was
+        independently re-verified and found UNCHANGED by this same pool
+        restructuring (`consensus_divergence_score`, the only pool-composition-
+        sensitive sanctioned feature, is not meaningfully pool-size-sensitive
+        for ordinary LoCoMo conversational text) -- only GNN-trained,
+        graph-message-passing-based results shifted, not the plain sanctioned
+        feature values themselves."""
+        pools = split.all_dev_pools() + real_benign_scenarios()
+        train_ds = build_dataset(pools)
+        held_out_ds = build_dataset(split.held_out_pools())
+    
+        detection_rates = set()
+        for seed in range(11, 21):
+            model = train_model(train_ds, seed=seed)
+            scores = model.predict_proba(train_ds.features, train_ds.mean_adj).tolist()
+            threshold = _threshold_for_target_fpr(scores, train_ds.labels.tolist(), TARGET_TRAIN_FALSE_POSITIVE_RATE)
+            result = evaluate(model, held_out_ds, threshold)
+            detection_rates.add(round(result["detection_rate"], 3))
+    
+>       assert detection_rates == {1.0}  # real, re-measured under the corrected pool structure -- see Update note above
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert {0.706, 1.0} == {1.0}
+E         
+E         Extra items in the left set:
+E         0.706
+E         Use -v to get more diff
+
+phase11\tests\test_gnn_train.py:121: AssertionError
+============================== warnings summary ===============================
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+phase6\tests\test_consolidation_guard_real_benign_fpr.py:35
+  C:\Agent Memory Poisoning\phase6\tests\test_consolidation_guard_real_benign_fpr.py:35: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+phase12\tests\test_propagation_rate.py:86
+  C:\Agent Memory Poisoning\phase12\tests\test_propagation_rate.py:86: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+phase13\tests\test_confidence_correlation.py:46
+  C:\Agent Memory Poisoning\phase13\tests\test_confidence_correlation.py:46: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+phase13\tests\test_guard_allow_path_check.py:12
+  C:\Agent Memory Poisoning\phase13\tests\test_guard_allow_path_check.py:12: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+phase13\tests\test_guard_decision_attribution.py:22
+  C:\Agent Memory Poisoning\phase13\tests\test_guard_decision_attribution.py:22: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+phase13\tests\test_guard_decision_attribution.py:52
+  C:\Agent Memory Poisoning\phase13\tests\test_guard_decision_attribution.py:52: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+phase13\tests\test_ledger_setup.py:17
+  C:\Agent Memory Poisoning\phase13\tests\test_ledger_setup.py:17: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+phase14\tests\test_track_b_consolidation_stage.py:12
+  C:\Agent Memory Poisoning\phase14\tests\test_track_b_consolidation_stage.py:12: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+phase15\tests\test_attribution_track_b_ledger.py:58
+  C:\Agent Memory Poisoning\phase15\tests\test_attribution_track_b_ledger.py:58: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.slow
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED phase11/tests/test_gnn_train.py::test_real_benign_volume_stabilizes_detection_rate_across_seeds
+1 failed, 3001 passed, 32 skipped, 9 deselected, 11 warnings in 545.05s (0:09:05)
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

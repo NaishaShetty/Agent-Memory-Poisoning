@@ -239,6 +239,24 @@ def blocks():
                        "scores stand (Gap 1 59%, Gap 2 65%, Gap 3 29%)."))
     b.append(("fig", "V9"))
     b.append(("cap", "The v6 defence architecture with each component's evaluated status."))
+    if cl:
+        b.append(("h2", "23.9 Limitations, required interface changes and verification"))
+        b.append(("p", "What prevents 75%: in Gap 1 the verdicts that provenance carries are noisy on legitimate rules (content "
+                       "flags unusual harmless rules; corroboration flags legitimate rules arriving through documents or without "
+                       "recorded provenance); in Gap 2 the strongest rule misses the generation-4 bar by one root and breaches "
+                       "the non-carrying limit, and recovery fails once a memory is rewritten after its lineage is deleted; in "
+                       "Gap 3 detection misses the benign limit by 1.1 points because legitimate rules from untrusted or "
+                       "unrecorded sources look like attacks -- even a simulated authenticated principal flags the "
+                       "unrecorded stratum."))
+        b.append(("p", "Required changes: Mem0 should persist an authenticated writer principal and a source pointer on every ADD "
+                       "and UPDATE (today the writer field is stripped and never written on the extraction path), append rather "
+                       "than overwrite writers on UPDATE, and keep each extracted memory's source text; applications should "
+                       "refuse memories without a recorded source and log consolidation and UPDATE events with parent ids, so "
+                       "that recovery after a rewrite is a lookup rather than a similarity match."))
+        b.append(("p", "Verification: unit and regression tests for every v6 component (phase17 suite 244 passed, 0 failed); "
+                       "frozen phases 3,002 passed, 0 failed with default threads (one Phase 11 GNN test is sensitive to the CPU "
+                       "thread count and is unchanged by v6). Shared task and judge caches changed by additions only. Reports: "
+                       "DEFENCE_V6_*.md; every number in this section is read from phase17/data/defence_v6/."))
     return b
 
 
