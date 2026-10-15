@@ -136,6 +136,47 @@ FORMULAS = [
      "S = Σ_i w_i·s_i with s_i ∈ {0, .25, .5, .75, 1};  S ← min(S, 0.5) if a critical s_i = 0;  "
      "S ← min(S, 0.6) if a critical s_i ≤ 0.25",
      "phase17/figures_final.py: closure_scores (rubric: FINAL_DEFENCE_BASELINE_AUDIT.md §3)"),
+    # ---- 2026-10-14/15: defence programme v6
+    ("Defenses", "Provenance ledger (PL) and source union",
+     "per add: event e = (id, channel, principal [unverified], sha256(original), original, cond. parse);  per returned memory m: "
+     "link(m, e, text-at-write);  srcs(m) = all events ever linked to m;  untrusted(m) = srcs(m) = {} or any channel != user",
+     "phase17/defence_v6/ledger.py"),
+    ("Defenses", "Fail-safe lineage validation (FLV)",
+     "valid(m, e) iff e exists AND [e = payload event of m AND channel(e) = payload channel  OR  an UPDATE link (m, e) exists] "
+     "AND [sha256(text(m)) = recorded digest OR sem(text, recorded text) >= 0.490] AND max_c sem(m, c in e) >= 0.490;  "
+     "trust and inheritance use valid links only; none valid -> untrusted, re-verify",
+     "phase17/defence_v6/g1_eval.py: _valid_link"),
+    ("Defenses", "Claim-level provenance (CLP), PAB13 and PCL",
+     "for each claim c of m and each valid event e: s* = argmax_{s in e} sem(c, s), validated iff sem >= 0.490 and margin >= delta "
+     "(delta = 0, dev);  inherit iff some validated s* has B12(raw s*);  PAB13(m) = B13(m) AND untrusted(m);  "
+     "PCL(m) = PAB13(m) OR CLP(m)  [unvalidated claims: REVERIFY = B12(c)]",
+     "phase17/defence_v6/g1_eval.py: clp, arms_for"),
+    ("Defenses", "Entailment-led claim fingerprint (HFP-B)",
+     "carry(d, r) = exact(canon d, canon r) OR [sem(d, r) >= 0.30 AND (NLI(d -> r) >= 0.2 OR NLI(r -> d) >= 0.9)]  "
+     "(dev-selected; no semantic-only branch);  canon = lowercase alphanumerics",
+     "phase17/defence_v6/fpb.py: hfp_b"),
+    ("Defenses", "Root-anchored risk (RAR) and no-decay guard (ND)",
+     "RAR: withhold d iff state(root) = QUARANTINED AND carry(d, root);  ND: max_a SEVERITY(a) * ret(d, a) (the frozen guard "
+     "without the 0.5^(dist-1) factor)",
+     "phase17/defence_v6/g2_eval.py"),
+    ("Defenses", "Lineage recovery after deletion",
+     "C1: root(m) = log[sha256(canon text(m))] (append-only taint log);  C2: root(m) = roots of logged outputs o with carry(m, o);  "
+     "C3: roots r with carry(m, r);  false association = owner memory or unflagged descendant attached to a flagged root",
+     "phase17/defence_v6/g2_eval.py: recovery"),
+    ("Defenses", "Information-boundary conditions (Gap 3)",
+     "A: K(raw);  B: K(stored);  C: untrusted;  D: untrusted AND K(original record by event id);  E: untrusted AND "
+     "K(record linked by sem >= 0.490);  F: untrusted AND ACT(trigger, stored) AND NOT ACT(trigger, clean);  "
+     "K = N1 AND INTENT_v1 (dev)",
+     "phase17/defence_v6/g3_eval.py: _conditions"),
+    ("Defenses", "Two-stage sleeper defence (TS)",
+     "stage 1: keep original rule + channel + conditional parse;  stage 2: if untrusted(m) AND conditional(original): "
+     "context(m) = F2 frame + 'Original source (channel, unverified): ' + original;  else unchanged",
+     "phase17/defence_v6/g3_eval.py: _arms"),
+    ("Statistics", "Power by simulation (v6)",
+     "per root: carry ~ Bern(q), discordant | carry ~ Bern(d), win | discordant ~ Bern(w);  power = P(b + c >= 6 AND b > c AND "
+     "exact McNemar p < 0.05), 20,000 replicates, seed 2026",
+     "phase17/defence_v6/power.py"),
+
 ]
 
 

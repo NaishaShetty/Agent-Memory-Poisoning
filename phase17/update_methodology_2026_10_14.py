@@ -202,6 +202,7 @@ def run() -> dict:
     log = {"removed_previous_block": 0, "inserted": 0, "corrections": []}
     pars = doc.paragraphs
     anchor = next(p for p in pars if p.style.name.startswith("Heading 1") and p.text.startswith("33. Overall Conclusion"))
+    v6 = next((p for p in pars if p.text.startswith("[Section 32.71: Defence Programme v6")), None)
     # remove a previous block (idempotent re-run)
     body = anchor._p.getparent()
     start = next((p for p in pars if p.text == MARK), None)
@@ -209,9 +210,14 @@ def run() -> dict:
         el = start._p
         while el is not None and el is not anchor._p:
             nxt = el.getnext()
+            is_end = "".join(t.text or "" for t in el.iter() if t.tag.endswith("}t")) == END_MARK
             body.remove(el)
             log["removed_previous_block"] += 1
+            if is_end:                         # stop at this block's own end: later blocks (Defence v6) stay intact
+                break
             el = nxt
+    if v6 is not None:
+        anchor = v6                           # keep the 2026-10-14 block before the Defence v6 block
     caption_style = None                      # the document's own figure captions are Normal paragraphs
     fig_no, prev = 21, None                   # continue the document's numbering ("Figure 21 - ..." is the last)
     for kind, payload in _content():

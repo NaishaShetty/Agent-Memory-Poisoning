@@ -2096,6 +2096,26 @@ from phase17.results_sections_final import write as _write_final  # noqa: E402
 
 _write_final(H, P, TBL, CAP, FIGF)
 
+# ---- Section 23 (defence programme v6), generated from the v6 artifacts (2026-10-15)
+from phase17.figures_v6 import run as _draw_v6  # noqa: E402
+from phase17.results_sections_v6 import write as _write_v6  # noqa: E402
+
+_V6FIGS = {k: (Path(__file__).resolve().parents[1] / v) for k, v in _draw_v6().items() if v}
+
+
+def FIGV(key, caption, width_in=6.3):
+    from docx.shared import Inches
+
+    path = _V6FIGS.get(key)
+    if not path or not path.exists():
+        return
+    _NFIG[0] += 1
+    doc.add_picture(str(path), width=Inches(width_in))
+    CAP(f"Figure {_NFIG[0]}. {caption}")
+
+
+_write_v6(H, P, TBL, CAP, FIGV)
+
 H("Definitions and Formulas", 1)
 P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "
   "names the code that computes it, constants included, so any figure in this document can be recomputed "
