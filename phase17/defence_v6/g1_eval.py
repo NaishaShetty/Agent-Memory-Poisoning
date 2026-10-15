@@ -225,6 +225,18 @@ def arms_for(r, m, delta, sem, view=None, flv=True) -> Dict[str, bool]:
             "VPL_v3": bool(m["B13"]) or item}
 
 
+def _native_variant(r, delta, sem) -> bool:
+    """Ablation: trust from Mem0's NATIVE payload src after the forced UPDATE (no ledger): a memory relabelled 'user'
+    skips corroboration and has no recorded document source to inherit from."""
+    out = False
+    forced = {f["id"]: f for f in (r["forced"] or [])}
+    for m in r["mems"]:
+        src = forced[m["id"]]["native_src_after"] if m["id"] in forced else m["native_src"]
+        untr = src != "user"
+        out |= pab13(m, untr) or (bool(m["B12"]))
+    return out
+
+
 ARMS = ("B13s", "PAB13", "PCL", "PCL_ABSTAIN", "PCL_SELECTIVE", "PCL_RETRIEVE", "ITEM", "VPL_v3")
 
 
@@ -339,6 +351,11 @@ def evaluate() -> Dict:
     res["benign_increase_points_PCL_minus_B13s"] = round(100 * (sum(il[i]["PCL"] for i in ben_all)
                                                                - sum(il[i]["B13s"] for i in ben_all)) / len(ben_all), 2)
     out["single_notes"] = res
+    (DATA / "g1_items.json").write_text(json.dumps({r["id"]: {"kind": r["kind"], "channel": r["channel"], "owner": r["owner"],
+                                                              **il[i], "forced_native_src_after": [f["native_src_after"] for f in (r["forced"] or [])],
+                                                              "B12s": any(m["B12"] for m in r["mems"]),
+                                                              "PCL_if_native_metadata": _native_variant(r, delta, sem)}
+                                                    for i, r in enumerate(notes)}, indent=0), encoding="utf-8")
 
     # ---- G1-P1(b) and MSD claim-level vs item-level
     def mem_flags(r, m):

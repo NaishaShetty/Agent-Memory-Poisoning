@@ -280,6 +280,9 @@ def evaluate() -> Dict:
                                           b["P1_acceptance"]["legit_untrusted_surfaced>=80%_of_undefended"] and
                                           b["P1_acceptance"]["user_channel_unchanged"])
     out["behaviour"] = b
+    (DATA / "g3_items.json").write_text(json.dumps({x["id"]: {"kind": x["kind"], "channel": x["channel"], "owner": x["owner"],
+                                                              "untrusted": x["untrusted"], **beh[x["id"]]} for x in xs}, indent=0),
+                                        encoding="utf-8")
     out["owner_cluster_bootstrap_TS_implicit"] = _boot(imp, lambda x: beh[x["id"]]["TS"]["unconfirmed"])
     out["owner_cluster_bootstrap_stored_implicit"] = _boot(imp, lambda x: beh[x["id"]]["stored"]["unconfirmed"])
     OUT.write_text(json.dumps(out, indent=1), encoding="utf-8")
