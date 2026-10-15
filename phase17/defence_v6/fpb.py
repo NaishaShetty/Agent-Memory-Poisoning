@@ -137,17 +137,45 @@ def features(split: str) -> List[Dict]:
     ret = _sem(H._retriever())
     cache = json.loads(NLI_CACHE.read_text(encoding="utf-8")) if NLI_CACHE.exists() else {}
     pairs = [(r["variants"][t], r["root"]) for r, t in rows]
-    nli = nli_entail(pairs, cache, path=NLI_CACHE)
+    nli = nli_entail(pairs, cache, path=None)
+    rnli = nli_entail([(b, a) for a, b in pairs], cache, path=NLI_CACHE)       # reverse direction: root -> descendant
     out = []
-    for (r, t), s in zip(rows, nli):
+    for (r, t), s, rs in zip(rows, nli, rnli):
         d = r["variants"][t]
         out.append({"rid": r["rid"], "payload": r["payload"], "type": t, "carry": t in CARRY, "lineage": t in LINEAGE,
-                    "exact": exact(d, r["root"]), "sem": ret(d, r["root"]), "nli": s})
+                    "exact": exact(d, r["root"]), "sem": ret(d, r["root"]), "nli": s, "rnli": rs})
     return out
 
 
 def hfp(f: Dict, ts: float, tn: float) -> bool:
     return bool(f["exact"] or f["sem"] >= ts or (f["nli"] >= tn and f["sem"] >= FLOOR))
+
+
+GRID_BN = (0.05, 0.2, 0.5, 0.7, 0.9)
+GRID_BR = (0.5, 0.7, 0.8, 0.9, 0.95)
+SEL_B = DATA / "fpb_selection_B.json"
+
+
+def hfp_b(f: Dict, tn: float, tr: float) -> bool:
+    """Addendum A: entailment-led fingerprint (no semantic-only branch)."""
+    return bool(f["exact"] or (f["sem"] >= FLOOR and (f["nli"] >= tn or f["rnli"] >= tr)))
+
+
+def select_b() -> Dict:
+    rows = features("dev")
+    grid = []
+    for tn in GRID_BN:
+        for tr in GRID_BR:
+            r = _rates(rows, lambda f: hfp_b(f, tn, tr))
+            grid.append({"tau_n": tn, "tau_r": tr, "carry_recall": r["carry_recall"]["rate"],
+                         "benign_overlap_fm": r["benign_overlap"]["rate"], "neg_action_match": r["neg_action_match"]["rate"],
+                         "per_type": {t: r[t]["rate"] for t in TYPES}})
+    ok = [g for g in grid if g["benign_overlap_fm"] <= 0.05 and g["neg_action_match"] <= 0.30]
+    best = max(ok, key=lambda g: (g["carry_recall"], g["tau_n"], g["tau_r"])) if ok else None
+    out = {"rule": "addendum A: max dev carry recall s.t. benign_overlap fm <= 5% and neg/action <= 30%; ties larger tau_n, tau_r",
+           "grid": grid, "chosen": best, "status": "ok" if best else "FAILING"}
+    SEL_B.write_text(json.dumps(out, indent=1), encoding="utf-8")
+    return out
 
 
 def _rates(rows, pred) -> Dict:
@@ -189,7 +217,9 @@ def select() -> Dict:
 def evaluate() -> Dict:
     sel = json.loads(SEL.read_text(encoding="utf-8"))["chosen"]
     rows = features("eval")
-    arms = {"HFP": lambda f: hfp(f, sel["tau_s"], sel["tau_n"]), "digest_only": lambda f: f["exact"],
+    sb = json.loads(SEL_B.read_text(encoding="utf-8"))["chosen"]
+    arms = {"HFP": lambda f: hfp(f, sel["tau_s"], sel["tau_n"]), "HFP-B": lambda f: hfp_b(f, sb["tau_n"], sb["tau_r"]),
+            "digest_only": lambda f: f["exact"],
             "sem_only(0.5)": lambda f: f["sem"] >= 0.5, "nli_only(0.00474)": lambda f: f["nli"] >= 0.00474}
     out = {"tau": sel, "n_eval_roots": len({r['rid'] for r in rows}), "arms": {}}
     for name, p in arms.items():
@@ -234,7 +264,10 @@ if __name__ == "__main__":
         print(build(sys.argv[2], fallback="fallback" in sys.argv))
     elif cmd == "select":
         print(json.dumps(select()["chosen"]))
+    elif cmd == "select_b":
+        print(json.dumps({k: v for k, v in select_b()["chosen"].items() if k != "per_type"}))
     elif cmd == "evaluate":
-        print(json.dumps(evaluate()["arms"]["HFP"]["all"], indent=1))
+        e = evaluate()["arms"]
+        print(json.dumps({a: {k: e[a]["all"][k]["rate"] for k in ("carry_recall", "benign_overlap", "neg_action_match")} for a in e}))
     elif cmd == "judge":
         print(judge_agreement(sys.argv[2]))

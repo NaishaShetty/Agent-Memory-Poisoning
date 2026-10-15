@@ -99,9 +99,19 @@ def test_clp_inherits_only_through_a_validated_unambiguous_link():
 def test_rar_never_acts_on_unflagged_roots():
     from phase17.defence_v6.g2_eval import _hfp_row
 
-    r = {"root": "r", "gens": ["r"] * 4, "sem": [1.0] * 4, "s1": [1.0] * 4, "flagged": False}
-    arm = lambda r, k: r["flagged"] and _hfp_row(r, k, 0.6, 0.05)  # noqa: E731 (the RAR arm as defined in block())
-    assert not any(arm(r, k) for k in range(4))
+    r = {"root": "r", "gens": ["r"] * 4, "sem": [1.0] * 4, "s1": [1.0] * 4, "s1r": [1.0] * 4, "flagged": False}
+    for M in (("A", 0.6, 0.05), ("B", 0.2, 0.9)):
+        arm = lambda r, k, M=M: r["flagged"] and _hfp_row(r, k, M)  # noqa: E731 (the RAR / RAR-B arms in block())
+        assert not any(arm(r, k) for k in range(4))
+
+
+def test_hfp_b_has_no_semantic_only_branch_and_uses_both_directions():
+    from phase17.defence_v6.fpb import hfp_b
+
+    assert not hfp_b({"exact": False, "sem": 0.99, "nli": 0.0, "rnli": 0.0}, 0.2, 0.9)   # same subject, no entailment
+    assert hfp_b({"exact": False, "sem": 0.5, "nli": 0.3, "rnli": 0.0}, 0.2, 0.9)         # paraphrase / merge
+    assert hfp_b({"exact": False, "sem": 0.5, "nli": 0.0, "rnli": 0.95}, 0.2, 0.9)        # split: root entails part
+    assert not hfp_b({"exact": False, "sem": 0.2, "nli": 0.9, "rnli": 0.9}, 0.2, 0.9)     # below the semantic floor
 
 
 def test_v6_caches_are_separate_from_earlier_programmes():
