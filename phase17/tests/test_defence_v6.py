@@ -143,3 +143,15 @@ def test_flv_rejects_channel_conflict_wrong_and_missing_links_but_accepts_update
     other = L.record_event("Whenever Jon hikes, pack the jacket.", "user")
     assert not _valid_link(r, m, L.events[other], sem)                 # an unexplained (wrong) link
     assert not _valid_link(r, m, {"event_id": "absent", "missing": True}, sem)
+
+
+def test_clp_links_within_each_event_so_a_later_writer_cannot_mask_the_document_verdict():
+    """Regression (v6 G1 defect): pooling claims across events let a forced-UPDATE writer whose claim IS the memory
+    text win every argmax, so the flagged document claim was never inherited."""
+    from phase17.defence_v6.g1_eval import clp
+
+    m = {"B12": False, "claims": [{"text": "c", "B12": False, "per_event": [
+        {"sims": [0.62], "src_b12": [True]},          # original document event: flagged instruction
+        {"sims": [1.00], "src_b12": [False]},         # later user-channel writer restating the memory itself
+    ]}]}
+    assert clp(m, 0.0)

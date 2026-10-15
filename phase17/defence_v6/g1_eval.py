@@ -181,19 +181,26 @@ def pab13(m, untrusted: bool) -> bool:
 
 
 def clp(m, delta, policy="REVERIFY", linked_ok=True) -> bool:
+    """Claim-level inheritance. Each memory claim is linked, WITHIN EACH validly linked event, to that event's best
+    claim (validated iff sem >= tau_link and margin >= delta among that event's claims); it inherits if any event's
+    validated claim is flagged (provenance union). A claim with no validated link in any event follows the policy.
+    c["per_event"] = [{"sims": [...], "src_b12": [...]}, ...]; the legacy single-event form (c["sims"], c["src_b12"])
+    is treated as one event."""
     if not linked_ok:                                  # no valid link: re-verify the memory on its own text
         return bool(m["B12"])
     out = False
     for c in m["claims"]:
-        li, best = _link(c, delta)
-        if li is not None:
-            out |= bool(c["src_b12"][li])
+        evs = c.get("per_event") or [{"sims": c["sims"], "src_b12": c["src_b12"]}]
+        linked = [(e, _link(e, delta)[0]) for e in evs]
+        hits = [e["src_b12"][li] for e, li in linked if li is not None]
+        if hits:
+            out |= any(bool(h) for h in hits)
         elif policy == "REVERIFY":
             out |= bool(c["B12"])
         elif policy == "ABSTAIN":
             out = True
         elif policy == "SELECTIVE":
-            out |= any(c["src_b12"])
+            out |= any(any(e["src_b12"]) for e in evs)
     return out
 
 
@@ -209,11 +216,10 @@ def arms_for(r, m, delta, sem, view=None, flv=True) -> Dict[str, bool]:
     valid = [s for s in linked if _valid_link(r, m, s, sem)] if flv else linked
     ok = bool(valid)
     untr = (not valid) or any(s.get("channel") != "user" for s in valid)
-    src_claims = list(dict.fromkeys(c for s in valid for c in s.get("claims", [s.get("text", "")])))
-    sb12 = [bool(_DEC[c]["B12"]) for c in src_claims]
+    ev_claims = [s.get("claims", [s.get("text", "")]) for s in valid]
     for c in m["claims"]:
-        c["sims"] = [sem(c["text"], sc) for sc in src_claims] or [0.0]
-        c["src_b12"] = sb12 or [False]
+        c["per_event"] = [{"sims": [sem(c["text"], sc) for sc in cl], "src_b12": [bool(_DEC[sc]["B12"]) for sc in cl]}
+                          for cl in ev_claims] or [{"sims": [0.0], "src_b12": [False]}]
     full = [" ".join(s.get("claims", [s.get("text", "")])) for s in valid]
     item = any(bool(_DEC[t]["B12"]) and sem(m["text"], t) >= TAU_LINK for t in full if t in _DEC)
     return {"B13s": bool(m["B13"]), "PAB13": pab13(m, untr),
