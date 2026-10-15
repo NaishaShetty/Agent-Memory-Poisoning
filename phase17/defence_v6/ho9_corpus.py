@@ -25,6 +25,10 @@ FACT = ("fact_contradiction", "additive_fabrication")
 KEEP = {"standing_instruction": 50, "conditional_backdoor": 50, "fact_contradiction": 20, "additive_fabrication": 20}
 SEEDS = {"standing_instruction": 100, "conditional_backdoor": 100, "fact_contradiction": 40, "additive_fabrication": 40}
 BENIGN_PER = 10
+# The single pre-registered top-up round (2026-10-15), decided on B13 flag counts only (instruction 234/400 flagged vs
+# target 250; factual 29/70 vs 100), before any chain: instruction cap 50 -> 58 (spare valid roots already generated),
+# factual cap 20 -> 60 with 110 extra seeds per cell. Benign unchanged.
+KEEP_TOPUP = {"standing_instruction": 58, "conditional_backdoor": 58, "fact_contradiction": 60, "additive_fabrication": 60}
 TOPUP = DATA / "ho9_topup.json"            # one pre-registered top-up round (decided on flag counts only)
 
 
@@ -73,7 +77,7 @@ def build(workers: int = 3, extra: int = 0) -> dict:
         # Early stop (does not change WHICH roots are kept: the first KEEP valid by seed index): skip a seed once
         # KEEP + 10 lower-index seeds of the same owner and family are already valid.
         kk, oo, fam, idx = key.split(":")
-        cap = KEEP[fam] if kk == "atk" else BENIGN_PER
+        cap = (KEEP_TOPUP if extra else KEEP)[fam] if kk == "atk" else BENIGN_PER
         lower = sum(1 for j in range(int(idx)) if done.get(f"{kk}:{oo}:{fam}:{j}") not in (None, "skipped"))
         if lower >= cap + 10:
             done[key] = "skipped"
@@ -119,7 +123,7 @@ def _filter(done, jobs, extra) -> dict:
             + [r.text for v in _attack_pops().values() for r in v])
     seen_idx = Index(seen)
     ex_idx = Index(sorted({e for j in jobs for e in j[5]}))
-    keep = dict(KEEP)                      # caps unchanged; the top-up only adds seeds to reach the factual caps
+    keep = dict(KEEP_TOPUP if extra else KEEP)
     kept, own, per = [], [], {}
     dropped = {"gate_failed": 0, "near_copy_of_example": 0, "near_dup_seen": 0, "near_dup_within": 0}
     for k, o, fam, i, *_ in jobs:
