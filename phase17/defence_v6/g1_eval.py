@@ -83,6 +83,7 @@ def _attach(rows, sem):
         ts += r["claims"] + [" ".join(r["claims"])] + [m["text"] for m in r["mems"]]
         ts += [c for m in r["mems"] for c in claims_of(m["text"])]
     dec = _decisions(texts)
+    _DEC.update(dec)
     for r in rows:
         r["src_b12"] = [dec[c]["B12"] for c in r["claims"]]
         r["doc_b12"] = dec[" ".join(r["claims"])]["B12"]
@@ -154,18 +155,24 @@ def select_delta() -> Dict:
 
 # ------------------------------------------------------------------------------------------------ decisions
 def _valid_link(r, m, src, sem, mode="correct") -> bool:
-    """FLV: event exists, payload sev agrees, channel consistent, digest or semantic continuity, claim similarity."""
+    """FLV. A ledger link is valid only if:
+      - the event exists;
+      - it is the event named in the memory's payload (sev) AND its channel equals the payload's recorded channel, OR it
+        is a later writer recorded by an explicit UPDATE link in this store's ledger;
+      - the memory text is the text recorded at link time (digest) or semantically continuous with it (>= tau_link);
+      - the memory is semantically linked to one of the event's claims (>= tau_link)."""
     from phase17.defence_v6.ledger import sha
 
     if src.get("missing"):
         return False
-    if m.get("native_sev") is not None and src["event_id"] != m["native_sev"] and src.get("channel") != "user":
-        return False                                   # payload's event id disagrees with the ledger link
-    if m.get("native_src") is not None and src.get("channel") not in (m["native_src"], "user"):
-        return False                                   # channel conflict
     links = [l for l in r["ledger"].links if l["memory_id"] == m["id"] and l["event_id"] == src["event_id"]]
+    if src["event_id"] == m.get("native_sev"):
+        if src.get("channel") != m.get("native_src"):
+            return False                               # ledger and payload disagree on the channel
+    elif not any(l["store_event"] == "UPDATE" for l in links):
+        return False                                   # an unexplained link (wrong or duplicate mapping)
     if links and links[0]["mem_sha256"] != sha(m["text"]) and sem(links[0]["mem_text"], m["text"]) < TAU_LINK:
-        return False                                   # rewritten beyond recognition since the link was written
+        return False                                   # the memory is no longer the text the link was written for
     return max(sem(m["text"], c) for c in src.get("claims", [src.get("text", "")])) >= TAU_LINK
 
 
@@ -190,26 +197,32 @@ def clp(m, delta, policy="REVERIFY", linked_ok=True) -> bool:
     return out
 
 
-def _mem_untrusted(r, m, view=None) -> bool:
-    srcs = view if view is not None else m["sources"]
-    chans = [s.get("channel") if not s.get("missing") else None for s in srcs]
-    return (not chans) or any(c != "user" for c in chans)
+_DEC: Dict[str, Dict[str, bool]] = {}
 
 
 def arms_for(r, m, delta, sem, view=None, flv=True) -> Dict[str, bool]:
+    """Decisions for one stored memory under a ledger view. With FLV, only VALID links count: inheritance comes only
+    from validly linked events' claims, trust only from validly linked events' channels; no valid link -> untrusted and
+    re-verified on the memory's own text. Without FLV (naive), every non-missing link is believed."""
     srcs = view if view is not None else m["sources"]
-    item_srcs = [s for s in srcs if not s.get("missing") and s.get("text") != r.get("_baseline_text")]
-    ok = any(_valid_link(r, m, s, sem) for s in item_srcs) if flv else bool(item_srcs)
-    untr = _mem_untrusted(r, m, srcs) if not flv or ok else True
+    linked = [s for s in srcs if not s.get("missing")]
+    valid = [s for s in linked if _valid_link(r, m, s, sem)] if flv else linked
+    ok = bool(valid)
+    untr = (not valid) or any(s.get("channel") != "user" for s in valid)
+    src_claims = list(dict.fromkeys(c for s in valid for c in s.get("claims", [s.get("text", "")])))
+    sb12 = [bool(_DEC[c]["B12"]) for c in src_claims]
     for c in m["claims"]:
-        c["src_b12"] = r["src_b12"]
+        c["sims"] = [sem(c["text"], sc) for sc in src_claims] or [0.0]
+        c["src_b12"] = sb12 or [False]
+    full = [" ".join(s.get("claims", [s.get("text", "")])) for s in valid]
+    item = any(bool(_DEC[t]["B12"]) and sem(m["text"], t) >= TAU_LINK for t in full if t in _DEC)
     return {"B13s": bool(m["B13"]), "PAB13": pab13(m, untr),
             "PCL": pab13(m, untr) or clp(m, delta, "REVERIFY", ok),
             "PCL_ABSTAIN": pab13(m, untr) or clp(m, delta, "ABSTAIN", ok),
             "PCL_SELECTIVE": pab13(m, untr) or clp(m, delta, "SELECTIVE", ok),
-            "PCL_RETRIEVE": pab13(m, untr) or (clp(m, delta, "RETRIEVE", ok)),
-            "ITEM": pab13(m, untr) or (bool(r["doc_b12"]) and m["sem_doc"] >= TAU_LINK),
-            "VPL_v3": bool(m["B13"]) or (bool(r["doc_b12"]) and m["sem_doc"] >= TAU_LINK)}
+            "PCL_RETRIEVE": pab13(m, untr) or clp(m, delta, "RETRIEVE", ok),
+            "ITEM": pab13(m, untr) or item,
+            "VPL_v3": bool(m["B13"]) or item}
 
 
 ARMS = ("B13s", "PAB13", "PCL", "PCL_ABSTAIN", "PCL_SELECTIVE", "PCL_RETRIEVE", "ITEM", "VPL_v3")
