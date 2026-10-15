@@ -239,6 +239,17 @@ def accept(b, cand) -> Dict:
             "C6_influence": "UNDERPOWERED" if inf["only_a"] + inf["only_b"] < 6 else bool(inf["only_b"] > inf["only_a"] and inf["p_exact"] < 0.05)}
 
 
+def wtp_hfp(r, M) -> List[bool]:
+    """Condition B simulated step by step from per-step inputs only: the output's taint record = its inputs' taint
+    (the quarantined root enters at generation 1); withhold iff the output matches a carried claim (HFP). No lineage."""
+    carried, out = set(), []
+    for k in range(GENS):
+        taint = set(carried) | ({r["root"]} if k == 0 and r["flagged"] else set())
+        out.append(any(_hfp_row(r, k, M) for c in taint if c == r["root"]))
+        carried = taint
+    return out
+
+
 def recovery(rs, F: Feat, M) -> Dict:
     """Conditions A, B, C1, C2, C3 (kept separate)."""
     from phase17 import harm_study_v2 as H
@@ -262,10 +273,10 @@ def recovery(rs, F: Feat, M) -> Dict:
     # A and B
     out["A_lineage_present"] = {"withheld_carrying_g4": rate_with_ci(sum(_hfp_row(r, 3, M) for r in A if r["carry"][3]),
                                                                        sum(r["carry"][3] for r in A))}
-    out["B_never_persisted_WTP_HFP"] = {"withheld_carrying_g4": out["A_lineage_present"]["withheld_carrying_g4"],
-                                        "note": "write-time taint carries {root} from generation 1, so the decision at each "
-                                                "generation equals RAR item for item (verified below)",
-                                        "item_for_item_equal_to_A": all(True for _ in A)}
+    wtp = {r["key"]: wtp_hfp(r, M) for r in A}
+    out["B_never_persisted_WTP_HFP"] = {
+        "withheld_carrying_g4": rate_with_ci(sum(wtp[r["key"]][3] for r in A if r["carry"][3]), sum(r["carry"][3] for r in A)),
+        "item_for_item_equal_to_A": f"{sum(wtp[r['key']] == [_hfp_row(r, k, M) for k in range(GENS)] for r in A)}/{len(A)}"}
     # C1: exact digest reconciliation of the (unchanged) descendant text
     rec1 = []
     for r in A:
