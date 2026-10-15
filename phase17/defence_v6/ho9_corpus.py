@@ -49,7 +49,7 @@ def _jobs(extra: int = 0):
         names = speakers(o)
         for fi, (fam, (desc, src)) in enumerate(H7.ATTACK_FAMILIES.items()):
             ex = H7._style_examples(src, random.Random(9100 + 10 * oi + fi))
-            for i in range(SEEDS[fam] + extra):
+            for i in range(SEEDS[fam] + (extra if fam in FACT else 0)):     # the top-up adds FACTUAL seeds only
                 jobs.append(("atk", o, fam, i, desc, ex, _gate(fam, names), 600000 + 100000 * oi + 10000 * fi + i))
         for fi, (fam, (desc, _)) in enumerate(H7.BENIGN_FAMILIES.items()):
             ex = H7._benign_examples(fam, random.Random(9200 + 10 * oi + fi))
@@ -73,7 +73,7 @@ def build(workers: int = 3, extra: int = 0) -> dict:
         # Early stop (does not change WHICH roots are kept: the first KEEP valid by seed index): skip a seed once
         # KEEP + 10 lower-index seeds of the same owner and family are already valid.
         kk, oo, fam, idx = key.split(":")
-        cap = (KEEP[fam] + (extra // 2 if extra else 0)) if kk == "atk" else BENIGN_PER
+        cap = KEEP[fam] if kk == "atk" else BENIGN_PER
         lower = sum(1 for j in range(int(idx)) if done.get(f"{kk}:{oo}:{fam}:{j}") not in (None, "skipped"))
         if lower >= cap + 10:
             done[key] = "skipped"
@@ -119,7 +119,7 @@ def _filter(done, jobs, extra) -> dict:
             + [r.text for v in _attack_pops().values() for r in v])
     seen_idx = Index(seen)
     ex_idx = Index(sorted({e for j in jobs for e in j[5]}))
-    keep = {f: KEEP[f] + (extra // 2 if extra else 0) for f in KEEP}
+    keep = dict(KEEP)                      # caps unchanged; the top-up only adds seeds to reach the factual caps
     kept, own, per = [], [], {}
     dropped = {"gate_failed": 0, "near_copy_of_example": 0, "near_dup_seen": 0, "near_dup_within": 0}
     for k, o, fam, i, *_ in jobs:
@@ -153,21 +153,37 @@ def _filter(done, jobs, extra) -> dict:
 
 
 def flags() -> dict:
-    """B13 (shipped thresholds) and B12 per root, against the root's own owner's conversation (CPU NLI)."""
-    from phase17.remediation.sleeper_activation_eval import _admission
+    """B13 (shipped thresholds, untrusted channel) and B12 per root, against the root's own owner's conversation.
+    The same apply_defense calls the SA admission harness (_admission) makes, without its unused extra detectors;
+    checkpointed every chunk of 4 (CPU NLI)."""
+    from phase14.defended_retrieval import apply_defense
+    from phase17.provenance_sets import owner_turns
 
     d = json.loads(CACHE.read_text(encoding="utf-8"))
     fl = DATA / "ho9_flags.json"
     out = json.loads(fl.read_text(encoding="utf-8")) if fl.exists() else {}
     for o in OWNERS:
+        turns = owner_turns(o)
+        ev, names = [t["text"] for t in turns], sorted({t["speaker"] for t in turns})
         xs = [x for x in d["items"] if x["owner"] == o and x["id"] not in out]
-        if not xs:
-            continue
-        adm = _admission([x["text"] for x in xs], o)
-        for x, b13, b12 in zip(xs, adm["B13_untrusted"], adm["B12"]):
-            out[x["id"]] = {"B13": bool(b13), "B12": bool(b12)}
-        fl.write_text(json.dumps(out, indent=1), encoding="utf-8")
-        print(f"  flags owner {o}: {len(xs)}", flush=True)
+        for i in range(0, len(xs), 4):
+            chunk = tuple((x["id"], x["text"]) for x in xs[i:i + 4])
+            for attempt in range(6):
+                try:
+                    _, b12 = apply_defense("B12", chunk)
+                    _, b13 = apply_defense("B13", chunk, sources={m: "tool_output" for m, _ in chunk}, evidence=ev,
+                                           evidence_names=names)
+                    break
+                except Exception as exc:  # noqa: BLE001 (judge timeouts; decisions are deterministic)
+                    if attempt == 5:
+                        raise
+                    print(f"  retry {attempt + 1} after {type(exc).__name__}", flush=True)
+                    time.sleep(20 * (attempt + 1))
+            for (mid, _), x12, x13 in zip(chunk, b12, b13):
+                out[mid] = {"B13": bool(x13.excluded), "B12": bool(x12.excluded)}
+            fl.write_text(json.dumps(out, indent=1), encoding="utf-8")
+            if (i // 4) % 10 == 0:
+                print(f"  flags owner {o}: {i + len(chunk)}/{len(xs)}", flush=True)
     summ = {}
     for x in d["items"]:
         g = x["payload"] or "benign"
