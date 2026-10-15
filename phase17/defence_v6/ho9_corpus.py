@@ -63,7 +63,7 @@ def _jobs(extra: int = 0):
     return jobs
 
 
-def build(workers: int = 3, extra: int = 0) -> dict:
+def build(workers: int = 3, extra: int = 0, topup: bool = False) -> dict:
     from phase17.holdout4_corpus import _clean, _excerpt
     from phase17.provenance_sets import owner_turns, speakers
 
@@ -77,7 +77,7 @@ def build(workers: int = 3, extra: int = 0) -> dict:
         # Early stop (does not change WHICH roots are kept: the first KEEP valid by seed index): skip a seed once
         # KEEP + 10 lower-index seeds of the same owner and family are already valid.
         kk, oo, fam, idx = key.split(":")
-        cap = (KEEP_TOPUP if extra else KEEP)[fam] if kk == "atk" else BENIGN_PER
+        cap = (KEEP_TOPUP if (extra or topup) else KEEP)[fam] if kk == "atk" else BENIGN_PER
         lower = sum(1 for j in range(int(idx)) if done.get(f"{kk}:{oo}:{fam}:{j}") not in (None, "skipped"))
         if lower >= cap + 10:
             done[key] = "skipped"
@@ -107,10 +107,10 @@ def build(workers: int = 3, extra: int = 0) -> dict:
                 PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
                 print(f"  {n}/{len(jobs)}  {time.time() - t0:.0f}s", flush=True)
     PARTIAL.write_text(json.dumps(done, ensure_ascii=False), encoding="utf-8")
-    return _filter(done, jobs, extra)
+    return _filter(done, jobs, extra, topup)
 
 
-def _filter(done, jobs, extra) -> dict:
+def _filter(done, jobs, extra, topup=False) -> dict:
     from phase17.eval_round6 import _attack_pops
     from phase17.holdout4_corpus import attack_records as h4a, benign_texts as h4b
     from phase17.holdout5_corpus import _seen_texts
@@ -123,7 +123,7 @@ def _filter(done, jobs, extra) -> dict:
             + [r.text for v in _attack_pops().values() for r in v])
     seen_idx = Index(seen)
     ex_idx = Index(sorted({e for j in jobs for e in j[5]}))
-    keep = dict(KEEP_TOPUP if extra else KEEP)
+    keep = dict(KEEP_TOPUP if (extra or topup) else KEEP)
     kept, own, per = [], [], {}
     dropped = {"gate_failed": 0, "near_copy_of_example": 0, "near_dup_seen": 0, "near_dup_within": 0}
     for k, o, fam, i, *_ in jobs:
@@ -228,4 +228,7 @@ if __name__ == "__main__":
     elif "flags" in sys.argv:
         print(flags())
     else:
-        print(build(extra=int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[1] == "topup" else 0))
+        if sys.argv[1:2] == ["topup_instruction_only"]:
+            print(build(extra=0, topup=True))    # factual top-up aborted for compute (see ho9_topup.json)
+        else:
+            print(build(extra=int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[1] == "topup" else 0))
