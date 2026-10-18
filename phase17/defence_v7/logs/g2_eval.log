@@ -1,0 +1,7 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 4483.61it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 4237.58it/s]
+instruction ND|RAR-S {"C1_gen4>=60%": true, "C2_vs_FG": true, "C2_p_raw": 1.1920928955078125e-07, "C3_no_worse_than_best_single": true, "C4_unflagged<=5%": true, "C5_noncarrying<=25%": true, "C6_influence": true, "C6_p_raw": 0.001953125}
+instruction PRC {"C1_gen4>=60%": false, "C2_vs_FG": true, "C2_p_raw": 0.01463329792022705, "C3_no_worse_than_best_single": true, "C4_unflagged<=5%": true, "C5_noncarrying<=25%": true, "C6_influence": true, "C6_p_raw": 0.015625}
+factual ND|RAR-S {"C1_gen4>=60%": false, "C2_vs_FG": "UNDERPOWERED", "C2_p_raw": 0.25, "C3_no_worse_than_best_single": false, "C4_unflagged<=5%": true, "C5_noncarrying<=25%": true, "C6_influence": "UNDERPOWERED", "C6_p_raw": 0.5}
+factual PRC {"C1_gen4>=60%": false, "C2_vs_FG": "UNDERPOWERED", "C2_p_raw": 1.0, "C3_no_worse_than_best_single": false, "C4_unflagged<=5%": true, "C5_noncarrying<=25%": true, "C6_influence": "UNDERPOWERED", "C6_p_raw": 1.0}
+{"C1_deleted_log_intact": {"within_5_points_of_A": true, "false_assoc<=5%": true, "collateral<=5%": true}, "C2_deleted_then_rewritten_SIMULATION": {"within_5_points_of_A": true, "false_assoc<=5%": true, "collateral<=5%": true}}

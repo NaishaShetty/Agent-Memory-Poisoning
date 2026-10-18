@@ -168,3 +168,25 @@ Pre-registration: `docs/phase17/PREREGISTRATION_GAPCLOSURE_2026-10-13.md` (`f177
 | GC-8 | B18 oracle threshold fitted on test data; v6 frame designed after the HO7 result; judge selection used HO5 items | Documented in `CALIBRATION_AND_LEAKAGE_AUDIT.md` | **ACCEPTED LIMITATION** |
 | GC-9 | Annotator 1 = author; annotator 2 unverifiable | `DATA_LICENSING_AND_ANNOTATION_AUDIT.md` §3; the paper says so | **ACCEPTED LIMITATION** (owner action) |
 | GC-10 | SA-1 evaluator test pinned a signature that the refactor changed | Test now checks the property (no label input) | **VALIDATION PASSED** |
+
+## 8. Small reproducibility and documentation fixes (2026-10-16, alongside defence v7)
+
+| ID | Issue | Action | Status |
+|---|---|---|---|
+| SF-1 | `phase11/tests/test_gnn_train.py::test_real_benign_volume_stabilizes_detection_rate_across_seeds` failed with `OMP_NUM_THREADS=8` | Measured across torch thread counts: the un-shipped benign-volume finding (100% detection on seeds 11-20) holds at 1, 2, 4 and 10 threads and breaks at 8 and 16 (3 and 1 seeds drop to 70.6%), so it is sensitive to floating-point reduction order. Test pinned to 1 thread with the setting restored afterwards; the fragility is written into the test. The reported `run_gnn_feasibility_study()` result (55.9% / 6.8%) is identical at 1, 4, 8, 10 and 16 threads | **VALIDATION PASSED**: Phase 11 suite 172/0 at 8 threads; the test passes at 8, 16 and default threads |
+| SF-2 | 7 Methodology references marked "CITATION NEEDS VERIFICATION" (GLN, BIPIA, LongMemEval, Mem0, A-MEM, the DeBERTa NLI cross-encoder, Qdrant) | Each verified against its primary source (arXiv records, AAAI proceedings, ACL Anthology, model card, repository); `phase17/remediation/patch_citations_2026_10_16.py` (idempotent, append-only log `remediation/logs/citations_patch_log.json`). The NLI entry now also cites Sentence-BERT, DeBERTaV3, SNLI and MultiNLI; Mem0 is cited as a preprint (no venue on its arXiv record); Qdrant is cited as software | **VALIDATION PASSED**: 0 unverified citations remain; `test_remediation.py` 23/0, `test_round7_discipline.py` 31/0 |
+| SF-3 | The Phase 11 blend report said the GLN's Sleeper LOFO AUROC of 0.000 came from "the single real held-out Sleeper poison example" | Re-run unchanged: n_poison = 5 (benign 41); all five score ≈ 0 against a benign mean of 0.927, so the 0.000 is a complete inversion on 5 examples, not an n = 1 artefact. Dated correction table added to `docs/phase11/PHASE11_BLEND_WIRING_REPORT.md` (original paragraph kept); the test docstring corrected and n_poison = 5 now asserted. Not reported in either .docx | **VALIDATION PASSED**: `test_lofo_gln.py` 5/0 |
+| SF-4 | v6 ledger "append-only" by convention only: edits, deletions and reordering were undetectable | `phase17/defence_v7/ledger_chain.py`: hash-chained, optionally HMAC-keyed records with an atomic HEAD; `verify()` (v7 addendum C) | **VALIDATION PASSED**: 11 corruption tests |
+| SF-5 | Recovery after a rewrite (Gap 2.6 C2) has no logged-rewrite comparison | Condition C2L (`g2_v7.c2l`, addendum C) on a verified rewrite chain; reported beside 2.6, never credited (lineage is logged, not lost) | **FIX IMPLEMENTED**; result on HO10 pending |
+| SF-6 | v7 decision rules had example-based tests only | Property + mutation tests for GP, RAR-S, E, FLV (`phase17/defence_v7/tests/test_properties.py`) | **VALIDATION PASSED**: all properties hold; 13/13 mutants caught (one found weak and fixed) |
+
+## 9. Defence programme v7 (2026-10-15/17)
+
+| ID | Issue | Action | Status |
+|---|---|---|---|
+| V7-1 | Gap 1 critical capabilities 1.1 and 1.3 at 0.5 (PCL's benign cost) | Graded provenance (GP), pre-registered; held-out SA-7 + MSD-7 | **VALIDATION PASSED**: Gap 1 63.7% → 75.0% |
+| V7-2 | Gap 2.2 missed the 60% bar; 2.6 failed after rewrite | ND\|RAR-S; DCR (failed dev gate) → DCR-2 (addendum B); held-out HO10 | **VALIDATION PASSED** for 2.2 and 2.6 (thin margins); 2.3 lowered (strict reading); Gap 2 65.0% → 71.2% |
+| V7-3 | Gap 3 detection (3.2/3.3) at 0 | Fresh SA-7 test of E (frozen), plus DC, BF-R, HIG, F4 | **VALIDATION FAILED**: E 19/144 = 13.2% > 10%; DC and BF-R failed dev gates; HIG under-powered; TS not significant. Gap 3 unchanged at 33.8% |
+| V7-4 | Deviations D0–D5 | Logged in `docs/phase17/v7/IMPLEMENTATION_NOTES.md`; D5 output kept as INVALID | **ACCEPTED** (disclosed) |
+| V7-5 | v6 Methodology updater would erase later blocks on re-run | Now stops at its own end marker (verified on a copy: v7 block survives) | **VALIDATION PASSED** |
+| V7-6 | 2026-10-14 closure captions said "no gap reaches 75%" unqualified | Qualified in both documents (scores as of 2026-10-14; superseded by v7) | **FIX IMPLEMENTED** |

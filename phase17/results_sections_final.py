@@ -142,7 +142,7 @@ def write(H, P, TBL, CAP, FIGF):
           + ") with zero unflagged collateral, and was accepted. Lineage deleted after writing remains unsolved.")
 
     H("22. Defence Architecture and Operational Gap Closure", 1)
-    FIGF("F8", "The evaluated defence architecture, stage by stage, with each component's status.")
+    FIGF("F8", "The evaluated defence architecture, stage by stage, with each component's status (as of 2026-10-14; superseded by Sections 23 and 24).")
     from phase17.figures_final import CLOSURE, closure_scores
     sc = closure_scores()
     rows = [["Gap", "Capability (* = critical)", "Weight", "Evidence score"]]
@@ -153,5 +153,6 @@ def write(H, P, TBL, CAP, FIGF):
     TBL(rows)
     CAP("Table 22A. Operational closure per gap from the weighted evidence-strength rubric fixed before the final "
         "programmes (FINAL_DEFENCE_BASELINE_AUDIT.md section 3). Scores measure evidence strength, not accuracy; no gap "
-        "reaches the 75% target.")
-    FIGF("F7", "Operational closure per research gap.")
+        "reaches the 75% target at this point (scores as of 2026-10-14; superseded by Sections 23 and 24: after Defence v7, "
+        "Gap 1 reaches 75%).")
+    FIGF("F7", "Operational closure per research gap (as of 2026-10-14; superseded by Sections 23 and 24).")

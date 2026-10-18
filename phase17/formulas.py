@@ -176,6 +176,31 @@ FORMULAS = [
      "per root: carry ~ Bern(q), discordant | carry ~ Bern(d), win | discordant ~ Bern(w);  power = P(b + c >= 6 AND b > c AND "
      "exact McNemar p < 0.05), 20,000 replicates, seed 2026",
      "phase17/defence_v6/power.py"),
+    ("Defenses", "Graded provenance (GP, v7)",
+     "untrusted(m) as v6;  content(m) = OR over claims c: V(linked source claim) if validly linked else V(c);  no valid source: "
+     "V(stored);  V = B12 AND INTENT_v1;  EXCLUDE iff untrusted AND content;  FRAME iff untrusted AND NOT EXCLUDE AND B13(stored);  "
+     "KEEP otherwise",
+     "phase17/defence_v7/g1_v7.py: gp"),
+    ("Defenses", "Sentence-level claim fingerprint and ND|RAR-S (v7)",
+     "RAR-S(d, r) = exact(d, r) OR EXISTS sentences d_s of d, r_s of r: sem(d_s, r_s) >= 0.30 AND (NLI(d_s -> r_s) >= 0.2 OR "
+     "NLI(r_s -> d_s) >= 0.9);  withhold(d) = [frozen guard without decay withholds d] OR [root flagged AND RAR-S(d, root)]",
+     "phase17/defence_v7/g2_dev.py: rar_s_factory; g2_v7.py: arms"),
+    ("Defenses", "Distinctive-claim reconciliation DCR-2 (v7)",
+     "residual(t) = sentences of t with no RAR-S match to an owner store memory (leave-one-out);  associate(q, root) iff a "
+     "residual(q) sentence RAR-S-matches a residual(root) sentence;  withhold iff associated AND RAR-S(q, root)",
+     "phase17/defence_v7/dcr2.py"),
+    ("Defenses", "High-impact action gate (HIG, v7)",
+     "high_impact(m) = HIGH_IMPACT regex on the parsed action;  if high_impact(m) AND untrusted(m): context(m) = authorisation "
+     "frame + original rule;  user-channel memories unchanged;  beneficiary never consulted",
+     "phase17/defence_v7/g3_v7.py: arm_fns"),
+    ("Defenses", "Counterfactual second stage F4 (v7)",
+     "confirmed(m) = ACT(trigger, m) AND NOT ACT(trigger, clean) AND NOT ACT(non-trigger, m), evaluated only on E-flagged m;  "
+     "every other outcome = inconclusive (warning retained; F never clears a flag)",
+     "phase17/defence_v7/g3_v7.py: beh_items"),
+    ("Defenses", "Tamper-evident ledger (v7)",
+     "record_i.hash = SHA-256 (or HMAC-SHA-256 with key) of canonical(record_i without hash), record_i.prev = record_(i-1).hash, "
+     "record_i.seq = i;  HEAD = (last seq, last hash);  verify: every hash, prev link and seq, then HEAD",
+     "phase17/defence_v7/ledger_chain.py"),
 
 ]
 

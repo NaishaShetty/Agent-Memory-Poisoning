@@ -170,7 +170,7 @@ def _content():
 
     c.append(("h2", "32.70 Defence Architecture, Operational Closure, and Formulas Added"))
     c.append(("fig", figs.get("F8")))
-    c.append(("cap", "The evaluated defence architecture and each component's status."))
+    c.append(("cap", "The evaluated defence architecture and each component's status (as of 2026-10-14; superseded by Sections 32.71 and 32.72)."))
     sc = closure_scores()
     trows = [["Gap", "Capability (* = critical)", "Weight", "Score"]]
     for gname, caps in CLOSURE.items():
@@ -179,9 +179,10 @@ def _content():
         trows.append([gname, "Gap score (critical caps applied)", "", f"{sc[gname] * 100:.0f}%"])
     c.append(("table", trows))
     c.append(("cap", "Operational gap closure from the pre-registered rubric. Scores measure evidence strength, not accuracy; "
-                     "no gap reaches 75%."))
+                     "no gap reaches 75% (scores as of 2026-10-14; superseded by Sections 32.71 and 32.72: after Defence v7, Gap 1 "
+                     "reaches 75%)."))
     c.append(("fig", figs.get("F7")))
-    c.append(("cap", "Operational closure per research gap."))
+    c.append(("cap", "Operational closure per research gap (as of 2026-10-14; superseded by Sections 32.71 and 32.72)."))
     fr = formula_rows()
     start = next(i for i, r in enumerate(fr) if r[0] == "Cluster bootstrap (owners, populations, families, root chains)")
     c.append(("table", [fr[0]] + fr[start:]))

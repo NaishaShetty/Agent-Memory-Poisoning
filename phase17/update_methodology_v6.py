@@ -70,12 +70,21 @@ def run() -> dict:
     body = anchor._p.getparent()
     start = next((p for p in pars if p.text == MARK), None)
     if start is not None:
+        # stop at this block's own END_MARK (inclusive) so later blocks (v7, Section 32.72) are never erased
         el = start._p
         while el is not None and el is not anchor._p:
             nxt = el.getnext()
+            is_end = el.tag.endswith("}p") and "".join(t.text or "" for t in el.iter() if t.tag.endswith("}t")) == END_MARK
             body.remove(el)
             log["removed_previous_block"] += 1
             el = nxt
+            if is_end:
+                break
+        anchor_el = el if el is not None else anchor._p
+    else:
+        anchor_el = anchor._p
+    from docx.text.paragraph import Paragraph
+    anchor = Paragraph(anchor_el, anchor._parent) if anchor_el is not anchor._p else anchor
     nums = [int(m.group(1)) for p in doc.paragraphs for m in [re.match(r"Figure (\d+) - ", p.text)] if m]
     fig_no, prev = (max(nums) if nums else 0), None
     styles = {s.name for s in doc.styles}

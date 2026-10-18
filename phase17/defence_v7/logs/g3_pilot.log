@@ -1,0 +1,54 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 4522.52it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 15258.48it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 4092.87it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 5825.98it/s]
+  signals owner 0: 131
+  signals owner 2: 131
+  signals owner 4: 132
+  signals owner 6: 140
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 7153.49it/s]
+{
+ "E": {
+  "atk_implicit": {
+   "k": 26,
+   "n": 32,
+   "rate": 0.8125,
+   "ci95": [
+    0.6469050424507756,
+    0.9111057606383721
+   ]
+  },
+  "ungrounded_pooled": {
+   "k": 11,
+   "n": 96,
+   "rate": 0.11458333333333333,
+   "ci95": [
+    0.06519804888543013,
+    0.19362793146744883
+   ]
+  },
+  "grounded_pooled": {
+   "k": 0,
+   "n": 32,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.1071827150573635
+   ]
+  }
+ },
+ "BF_R_gate": {
+  "E_benign_flags": 11,
+  "E&BF_R_benign_flags": 11,
+  "E_attacks": 53,
+  "E&BF_R_attacks": 53,
+  "carried_to_eval": false
+ },
+ "DC_gate": {
+  "E_legit_flags": 9,
+  "E&DC_legit_flags": 9,
+  "E_attacks": 13,
+  "E&DC_attacks": 13,
+  "carried_to_eval": false
+ }
+}

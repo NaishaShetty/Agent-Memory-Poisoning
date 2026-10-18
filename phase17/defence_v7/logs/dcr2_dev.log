@@ -1,0 +1,65 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 2642.62it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 4563.08it/s]
+  sigma=None mode=logged_residual: rec 205/296 C2 25/65 FA store 0.082 FA bu 0.656
+  sigma=None mode=root_distinctive: rec 33/296 C2 25/65 FA store 0.022 FA bu 0.025
+  sigma=0.6 mode=logged_residual: rec 155/296 C2 24/65 FA store 0.034 FA bu 0.444
+  sigma=0.6 mode=root_distinctive: rec 31/296 C2 24/65 FA store 0.019 FA bu 0.025
+  sigma=0.5 mode=logged_residual: rec 98/296 C2 19/65 FA store 0.024 FA bu 0.291
+  sigma=0.5 mode=root_distinctive: rec 24/296 C2 18/65 FA store 0.019 FA bu 0.013
+{
+ "substrate": "HO9 (v7 development)",
+ "A_RAR-S_lineage_present_g4": {
+  "k": 31,
+  "n": 81,
+  "rate": 0.38271604938271603,
+  "ci95": [
+   0.28446372443216095,
+   0.49158953246068393
+  ]
+ },
+ "selected": {
+  "sigma": null,
+  "mode": "root_distinctive",
+  "recovery_correct_g4": {
+   "k": 33,
+   "n": 296,
+   "rate": 0.11148648648648649,
+   "ci95": [
+    0.08049322098240227,
+    0.15243509850361966
+   ]
+  },
+  "C2_withheld_carrying_g4(rewritten)": {
+   "k": 25,
+   "n": 65,
+   "rate": 0.38461538461538464,
+   "ci95": [
+    0.27594829385374525,
+    0.5061601986856494
+   ]
+  },
+  "false_association_owner_store": {
+   "k": 9,
+   "n": 416,
+   "rate": 0.021634615384615384,
+   "ci95": [
+    0.011422832083561683,
+    0.040600597705196736
+   ]
+  },
+  "false_association_unflagged_benign_desc": {
+   "k": 8,
+   "n": 320,
+   "rate": 0.025,
+   "ci95": [
+    0.01272102568324087,
+    0.04854843444788497
+   ]
+  }
+ },
+ "gate": {
+  "selected_exists(FA<=3% both)": true,
+  "C2_within_5_points_of_A": true,
+  "carried_to_HO10": true
+ }
+}

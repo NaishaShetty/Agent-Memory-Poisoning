@@ -1,0 +1,26 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 12745.64it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 10114.36it/s]
+instruction FG                                   g4 18/73 (24.7%)  noncarry 9.4%  coll 0.0%  infl_left 12
+instruction ND                                   g4 41/73 (56.2%)  noncarry 14.7%  coll 0.0%  infl_left 8
+instruction RCL                                  g4 33/73 (45.2%)  noncarry 11.6%  coll 0.0%  infl_left 11
+instruction CTC                                  g4 42/73 (57.5%)  noncarry 28.9%  coll 0.0%  infl_left 10
+instruction PRC                                  g4 43/73 (58.9%)  noncarry 29.4%  coll 0.0%  infl_left 10
+instruction RAR-B                                g4 15/73 (20.5%)  noncarry 3.0%  coll 0.0%  infl_left 15
+instruction RAR-S                                g4 30/73 (41.1%)  noncarry 4.2%  coll 0.0%  infl_left 13
+instruction ND|RAR-S                             g4 49/73 (67.1%)  noncarry 15.9%  coll 0.0%  infl_left 7
+instruction RCL|RAR-S                            g4 43/73 (58.9%)  noncarry 13.1%  coll 0.0%  infl_left 9
+instruction ND|RCL                               g4 41/73 (56.2%)  noncarry 14.7%  coll 0.0%  infl_left 8
+instruction PRC-S (instr: ND|RAR-S; fact: RCL)   g4 48/73 (65.8%)  noncarry 15.9%  coll 0.0%  infl_left 8
+instruction PRC|RAR-S                            g4 50/73 (68.5%)  noncarry 30.6%  coll 0.0%  infl_left 8
+factual     FG                                   g4 3/8 (37.5%)  noncarry 16.5%  coll 0.0%  infl_left 4
+factual     ND                                   g4 7/8 (87.5%)  noncarry 36.7%  coll 0.0%  infl_left 0
+factual     RCL                                  g4 7/8 (87.5%)  noncarry 31.6%  coll 0.0%  infl_left 0
+factual     CTC                                  g4 1/8 (12.5%)  noncarry 19.0%  coll 0.0%  infl_left 4
+factual     PRC                                  g4 7/8 (87.5%)  noncarry 41.8%  coll 0.0%  infl_left 0
+factual     RAR-B                                g4 1/8 (12.5%)  noncarry 3.8%  coll 0.0%  infl_left 4
+factual     RAR-S                                g4 1/8 (12.5%)  noncarry 2.5%  coll 0.0%  infl_left 4
+factual     ND|RAR-S                             g4 7/8 (87.5%)  noncarry 36.7%  coll 0.0%  infl_left 0
+factual     RCL|RAR-S                            g4 7/8 (87.5%)  noncarry 31.6%  coll 0.0%  infl_left 0
+factual     ND|RCL                               g4 7/8 (87.5%)  noncarry 36.7%  coll 0.0%  infl_left 0
+factual     PRC-S (instr: ND|RAR-S; fact: RCL)   g4 7/8 (87.5%)  noncarry 31.6%  coll 0.0%  infl_left 0
+factual     PRC|RAR-S                            g4 7/8 (87.5%)  noncarry 41.8%  coll 0.0%  infl_left 0

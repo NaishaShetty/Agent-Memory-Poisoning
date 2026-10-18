@@ -1,0 +1,563 @@
+{
+ "substrate": "HO9 (v6 held-out, spent) as v7 DEVELOPMENT",
+ "tau_n": 0.2,
+ "tau_r": 0.9,
+ "by_payload": {
+  "instruction": {
+   "FG": {
+    "gen4_withheld_carrying": {
+     "k": 18,
+     "n": 73,
+     "rate": 0.2465753424657534,
+     "ci95": [
+      0.16204336317654708,
+      0.3564466214151324
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 60,
+     "n": 640,
+     "rate": 0.09375,
+     "ci95": [
+      0.07352864044342047,
+      0.11881929109750514
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 12,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "ND": {
+    "gen4_withheld_carrying": {
+     "k": 41,
+     "n": 73,
+     "rate": 0.5616438356164384,
+     "ci95": [
+      0.44757571671811325,
+      0.6695483410839106
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 94,
+     "n": 640,
+     "rate": 0.146875,
+     "ci95": [
+      0.12155788435559302,
+      0.1764060869069039
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 8,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "RCL": {
+    "gen4_withheld_carrying": {
+     "k": 33,
+     "n": 73,
+     "rate": 0.4520547945205479,
+     "ci95": [
+      0.3431446980664788,
+      0.565758812531947
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 74,
+     "n": 640,
+     "rate": 0.115625,
+     "ci95": [
+      0.09311142159108962,
+      0.1427254674822477
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 11,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "CTC": {
+    "gen4_withheld_carrying": {
+     "k": 42,
+     "n": 73,
+     "rate": 0.5753424657534246,
+     "ci95": [
+      0.46099174047029373,
+      0.6821598857321799
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 185,
+     "n": 640,
+     "rate": 0.2890625,
+     "ci95": [
+      0.25528155027410515,
+      0.3253606449490678
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 10,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "PRC": {
+    "gen4_withheld_carrying": {
+     "k": 43,
+     "n": 73,
+     "rate": 0.589041095890411,
+     "ci95": [
+      0.47449015192198346,
+      0.6946890426809401
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 188,
+     "n": 640,
+     "rate": 0.29375,
+     "ci95": [
+      0.2597759628131171,
+      0.33018529473842984
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 10,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "RAR-B": {
+    "gen4_withheld_carrying": {
+     "k": 15,
+     "n": 73,
+     "rate": 0.2054794520547945,
+     "ci95": [
+      0.1286685959377339,
+      0.3117386834525963
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 19,
+     "n": 640,
+     "rate": 0.0296875,
+     "ci95": [
+      0.019086543090482966,
+      0.045900869962665514
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 15,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "RAR-S": {
+    "gen4_withheld_carrying": {
+     "k": 30,
+     "n": 73,
+     "rate": 0.410958904109589,
+     "ci95": [
+      0.30531095731906,
+      0.5255098480780166
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 27,
+     "n": 640,
+     "rate": 0.0421875,
+     "ci95": [
+      0.029153277950922075,
+      0.06068496797789024
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 13,
+    "claim_detect_on_judge_carrying_g4": 30
+   },
+   "ND|RAR-S": {
+    "gen4_withheld_carrying": {
+     "k": 49,
+     "n": 73,
+     "rate": 0.6712328767123288,
+     "ci95": [
+      0.5572879107339749,
+      0.768056694271647
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 102,
+     "n": 640,
+     "rate": 0.159375,
+     "ci95": [
+      0.1330610628565536,
+      0.1897537412816071
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 7,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "RCL|RAR-S": {
+    "gen4_withheld_carrying": {
+     "k": 43,
+     "n": 73,
+     "rate": 0.589041095890411,
+     "ci95": [
+      0.47449015192198346,
+      0.6946890426809401
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 84,
+     "n": 640,
+     "rate": 0.13125,
+     "ci95": [
+      0.10727421696416019,
+      0.15962621320375697
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 9,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "ND|RCL": {
+    "gen4_withheld_carrying": {
+     "k": 41,
+     "n": 73,
+     "rate": 0.5616438356164384,
+     "ci95": [
+      0.44757571671811325,
+      0.6695483410839106
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 94,
+     "n": 640,
+     "rate": 0.146875,
+     "ci95": [
+      0.12155788435559302,
+      0.1764060869069039
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 8,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "PRC-S (instr: ND|RAR-S; fact: RCL)": {
+    "gen4_withheld_carrying": {
+     "k": 48,
+     "n": 73,
+     "rate": 0.6575342465753424,
+     "ci95": [
+      0.5432641175004692,
+      0.7560529191047028
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 102,
+     "n": 640,
+     "rate": 0.159375,
+     "ci95": [
+      0.1330610628565536,
+      0.1897537412816071
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 8,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "PRC|RAR-S": {
+    "gen4_withheld_carrying": {
+     "k": 50,
+     "n": 73,
+     "rate": 0.684931506849315,
+     "ci95": [
+      0.5714069101601096,
+      0.7799652632459619
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 196,
+     "n": 640,
+     "rate": 0.30625,
+     "ci95": [
+      0.2717826831633779,
+      0.34302940726383285
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 8,
+    "claim_detect_on_judge_carrying_g4": null
+   }
+  },
+  "factual": {
+   "FG": {
+    "gen4_withheld_carrying": {
+     "k": 3,
+     "n": 8,
+     "rate": 0.375,
+     "ci95": [
+      0.13684175946152105,
+      0.6942621454161981
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 13,
+     "n": 79,
+     "rate": 0.16455696202531644,
+     "ci95": [
+      0.09876613959277634,
+      0.26145867499313213
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 4,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "ND": {
+    "gen4_withheld_carrying": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291051942301386,
+      0.9775830911367038
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 29,
+     "n": 79,
+     "rate": 0.3670886075949367,
+     "ci95": [
+      0.26927131273817784,
+      0.47723285907888024
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 0,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "RCL": {
+    "gen4_withheld_carrying": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291051942301386,
+      0.9775830911367038
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 25,
+     "n": 79,
+     "rate": 0.31645569620253167,
+     "ci95": [
+      0.22445138397970427,
+      0.42548294852956653
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 0,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "CTC": {
+    "gen4_withheld_carrying": {
+     "k": 1,
+     "n": 8,
+     "rate": 0.125,
+     "ci95": [
+      0.02241690886329617,
+      0.4708948057698615
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 15,
+     "n": 79,
+     "rate": 0.189873417721519,
+     "ci95": [
+      0.11858126823689083,
+      0.28992846600291133
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 4,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "PRC": {
+    "gen4_withheld_carrying": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291051942301386,
+      0.9775830911367038
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 33,
+     "n": 79,
+     "rate": 0.4177215189873418,
+     "ci95": [
+      0.3152645504906467,
+      0.5278094606341988
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 0,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "RAR-B": {
+    "gen4_withheld_carrying": {
+     "k": 1,
+     "n": 8,
+     "rate": 0.125,
+     "ci95": [
+      0.02241690886329617,
+      0.4708948057698615
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 3,
+     "n": 79,
+     "rate": 0.0379746835443038,
+     "ci95": [
+      0.012997851302069409,
+      0.10580236501437063
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 4,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "RAR-S": {
+    "gen4_withheld_carrying": {
+     "k": 1,
+     "n": 8,
+     "rate": 0.125,
+     "ci95": [
+      0.02241690886329617,
+      0.4708948057698615
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 2,
+     "n": 79,
+     "rate": 0.02531645569620253,
+     "ci95": [
+      0.006970221164761904,
+      0.08768753532473128
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 4,
+    "claim_detect_on_judge_carrying_g4": 1
+   },
+   "ND|RAR-S": {
+    "gen4_withheld_carrying": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291051942301386,
+      0.9775830911367038
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 29,
+     "n": 79,
+     "rate": 0.3670886075949367,
+     "ci95": [
+      0.26927131273817784,
+      0.47723285907888024
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 0,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "RCL|RAR-S": {
+    "gen4_withheld_carrying": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291051942301386,
+      0.9775830911367038
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 25,
+     "n": 79,
+     "rate": 0.31645569620253167,
+     "ci95": [
+      0.22445138397970427,
+      0.42548294852956653
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 0,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "ND|RCL": {
+    "gen4_withheld_carrying": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291051942301386,
+      0.9775830911367038
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 29,
+     "n": 79,
+     "rate": 0.3670886075949367,
+     "ci95": [
+      0.26927131273817784,
+      0.47723285907888024
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 0,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "PRC-S (instr: ND|RAR-S; fact: RCL)": {
+    "gen4_withheld_carrying": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291051942301386,
+      0.9775830911367038
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 25,
+     "n": 79,
+     "rate": 0.31645569620253167,
+     "ci95": [
+      0.22445138397970427,
+      0.42548294852956653
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 0,
+    "claim_detect_on_judge_carrying_g4": null
+   },
+   "PRC|RAR-S": {
+    "gen4_withheld_carrying": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291051942301386,
+      0.9775830911367038
+     ]
+    },
+    "noncarrying_withheld_pooled": {
+     "k": 33,
+     "n": 79,
+     "rate": 0.4177215189873418,
+     "ci95": [
+      0.3152645504906467,
+      0.5278094606341988
+     ]
+    },
+    "unflagged_collateral_max": 0.0,
+    "gen4_influence_left": 0,
+    "claim_detect_on_judge_carrying_g4": null
+   }
+  }
+ }
+}

@@ -1,0 +1,96 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 3414.13it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6487.71it/s]
+  DCR attacks 0/296
+  DCR attacks 25/296
+  DCR attacks 50/296
+  DCR attacks 75/296
+  DCR attacks 100/296
+  DCR attacks 125/296
+  DCR attacks 150/296
+  DCR attacks 175/296
+  DCR attacks 200/296
+  DCR attacks 225/296
+  DCR attacks 250/296
+  DCR attacks 275/296
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 3432.57it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 2474.97it/s]
+  DCR attacks 0/296
+  DCR attacks 25/296
+  DCR attacks 50/296
+  DCR attacks 75/296
+  DCR attacks 100/296
+  DCR attacks 125/296
+  DCR attacks 150/296
+  DCR attacks 175/296
+  DCR attacks 200/296
+  DCR attacks 225/296
+  DCR attacks 250/296
+  DCR attacks 275/296
+  DCR owner 2 store done
+  DCR owner 3 store done
+  DCR owner 5 store done
+  DCR owner 9 store done
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 7273.81it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 4926.36it/s]
+  DCR attacks 0/296
+  DCR attacks 25/296
+  DCR attacks 50/296
+  DCR attacks 75/296
+  DCR attacks 100/296
+  DCR attacks 125/296
+  DCR attacks 150/296
+  DCR attacks 175/296
+  DCR attacks 200/296
+  DCR attacks 225/296
+  DCR attacks 250/296
+  DCR attacks 275/296
+  DCR owner 2 store done
+  DCR owner 3 store done
+  DCR owner 5 store done
+  DCR owner 9 store done
+{
+ "substrate": "HO9 (v7 development)",
+ "C2_DCR": {
+  "recovery_correct_g4": {
+   "k": 212,
+   "n": 296,
+   "rate": 0.7162162162162162,
+   "ci95": [
+    0.6623408483843244,
+    0.7645512172930199
+   ]
+  },
+  "withheld_carrying_g4(carry judged on rewritten text)": {
+   "k": 26,
+   "n": 65,
+   "rate": 0.4,
+   "ci95": [
+    0.28971847853161004,
+    0.5214422150025321
+   ]
+  },
+  "false_association_owner_store": {
+   "k": 71,
+   "n": 416,
+   "rate": 0.17067307692307693,
+   "ci95": [
+    0.13757243385606863,
+    0.20980048011910676
+   ]
+  },
+  "false_association_unflagged_benign_desc": {
+   "k": 221,
+   "n": 320,
+   "rate": 0.690625,
+   "ci95": [
+    0.6379682632631154,
+    0.7387591244474196
+   ]
+  }
+ },
+ "gate": {
+  "recovery>=90%": false,
+  "false_association<=5%": false,
+  "carried_to_HO10": false
+ }
+}

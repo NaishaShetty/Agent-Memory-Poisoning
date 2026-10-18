@@ -1,0 +1,138 @@
+{
+"dfa4b752ab30af7dea3cbeb970f41f736b4fb127fa9019f25cdb1cb200d0812e": {
+"new": "Measuring Memory-Poisoning Defenses Against Attacks That Function",
+"orig_head": "Measuring Memory-Poisoning Defenses Against Attacks That Act"
+},
+"460d87d9a1f54c171321d92e1fcb47cd8c257e3354018c06e083e485b5336a5f": {
+"new": "We also report the full sequence of experiments behind one positive result, including the unsuccessful ones. A stateful defense against adaptive evasion -- a per-scope ledger of previously rejected content -- showed no significant effect at its frozen development radius; a pre-registered re-run at a looser radius was underpowered by design, with a single control event capping its p-value at 1.0; and a re-run with seeds pre-filtered to the metric's own denominator -- a design revision made after a failure, and labelled as such -- reduced evasion from 24.6% to 0.8% (paired +0/-31, p=9.3e-10). That radius carries a 29.7% ledger-poisoning blast radius; a later sweep found that radius 0.95 keeps the effect (5/130 evasions) at 6.4%, a cost a deployment must accept explicitly. For this threat model the pooled comparison against published prompt-injection detectors should not be cited in either direction: disaggregated, this project's configurations lead by 32.1 (B13) to 37.2 (B17) points over the strongest published baseline (deberta pi v2@dev, 14.1%) on memory poisoning, while trailing an off-the-shelf classifier on one corpus that constitutes almost half the pooled denominator and is plausibly within that classifier's training data.",
+"orig_head": "We also report the route to one positive result in full, inc"
+},
+"509d52a00b17eb5bf5f18a71dae7edaef58a31cde24704f01282bf3948b58b60": {
+"new": "A seventh round retired a hold-out that had been scored seven times, found that its 'development set' was the hold-out itself under a different wrapper, and built five new corpora -- three memory-poisoning, two injection -- each scored once under predictions committed in advance (45/53 held across every round-7 prediction including hold-out 8's; one more, U-2, was pre-registered but never scored). On the first memory-poisoning hold-out -- a new author family writing about a new owner -- provenance-aware admission reaches 50.3% against 20.4% for the fused content classifier and near zero for every published detector, and the lead replicates on the second (a base-model author, a third owner: 54.3% against 29.5%). On a new matched-benign injection corpus the union configurations run at 10.2%-11.0% false positives rather than the 55% previously reported, which was a property of one corpus. Neutralising untrusted memory as data halves compliance at no exclusion cost (37.4% to 18.3%), but the pre-registered claim that it composes with a cheap detector to dominate the strongest exclusion-only configuration failed: it is a trade-off along the false-positive axis.",
+"orig_head": "A seventh round retired a hold-out that had been scored seve"
+},
+"5f430a420c4f729009e306780dc01af54ca1f4ca19dedb8fc6f5528b493d190a": {
+"new": "The third hold-out is methodologically the most informative of the three for two reasons. It is a different kind of distribution -- unprompted attacks on deployed assistants, averaging 1,013 characters, against two corpora of short password-game prompts -- and it is the only one with a matched benign half. The first two corpora provide attacks only, so every other false-positive number in this project comes from the same four benign populations; benign text drawn from the same platforms as the attacks rules out a detector scoring well only by distinguishing one corpus's prose from another's.",
+"orig_head": "The third hold-out is methodologically the most informative "
+},
+"0d0a0b948ba7b5d2b7944ace7c52f4ee274d2679d0973cd3fa8bbe37249e2b97": {
+"new": "3. RQ1 - How Many of These Attacks Function?",
+"orig_head": "3. RQ1 - How Many of These Attacks Actually Work?"
+},
+"8a7b9529a1f2785d4f7fa0af056db4576e04aa867cfa947965eb829591776fde": {
+"new": "A single probe proved insufficient, which is itself a finding. The first audit used one generic task and reported a 33.7% working rate; a second pass using a task fitted to each instance's own subject disagreed in both directions -- memorygraft 13% to 86% and mpbench 30% to 74% under the fitted task, but minja 88% to 19% and dsrm 70% to 37%. Attack success is therefore a property of the attack and the task it meets, so no single-probe rate is a property of the attack alone. Membership is the union over probes, since an attacker chooses the context; both probes remain published, and their spread is the uncertainty on any per-family rate.",
+"orig_head": "A single probe proved insufficient, and that is itself a res"
+},
+"e42ff5b6c16f1a0ed9ef3e543d4eb05659af09e739731b04b2a0679ac6d1a969": {
+"new": "These figures are not comparable to this project's previously published 42.3% to 12.5%, because the population changed: validated worm and exfiltration instances replaced the originals (Section 5). The reduction, not the level, is the quantity to read. Two entries deserve comment. The regenerated worm population shows 83.3% undefended harm at 60% natural retrieval, reduced to 3.3%, whereas the old worm population measured near-zero harm because its instances did not propagate. The content-only stack made policy_revocation worse than undefended (33.3% versus 26.7%, n=15); this is within noise at this sample size and is reported in the table.",
+"orig_head": "The figures are NOT comparable to this project's previously "
+},
+"8b4228c8d73f9e412e287a320822840a789da191c0abe81bbc3c6bbaa3395f0b": {
+"new": "At face value this table is unfavourable, to differing degrees. Of the seven founding families only FARMA (74% full, 82% working) and AgentPoison (59%, and 86% on working attacks for the fusion configurations) are well detected. DSRM, MPBench-PCFI, MINJA and MemoryGraft sit between 11% and 32%, and sleeper memory poisoning is at 0% under every configuration, including on its 24 working instances. The later mechanism families are detected far better -- policy revocation 98%, authority impersonation 82%, conditional backdoor 52% -- which is the expected pattern, since the defense stack was designed against those classes while the founding families are its independent test.",
+"orig_head": "Read at face value this table is unflattering, and the unfla"
+},
+"29f638711ccd20977db25738555d13826171a345110eb0e3d0c96622e905ab53": {
+"new": "The sleeper result has an identifiable cause. The attack is designed to be a mundane, harmless-looking statement about a person's routine with no instruction in it, and its mechanism check requires exactly that; it is 100% mechanism-correct and 63% working, so the instances are valid and functional. A content-only detector that flagged such a note would also flag the benign personal notes that make up most of a memory store, so a 0% content-only rate here reflects the attack achieving its design goal rather than a defect in the detector. It is also the class that provenance and corroboration are designed to reach, which is the subject of the next section.",
+"orig_head": "The sleeper result has an identifiable cause rather than bei"
+},
+"1773eab8666cfcb04114f41d54ce1d77cbfb484294ab50d684a5c2084d3762ee": {
+"new": "Table 5B. The magnitude of the disabled signal, measured on the three populations for which the owner's conversation exists. Evidence is 419 turns of the owner's actual conversation (speakers Caroline, Melanie), not material constructed for the test. Source: phase17/data/evidence_available_check.json.",
+"orig_head": "Table 5B. The size of what is switched off, measured on the "
+},
+"204a7f9007325e1d20ba7dbff5fefcba06e0d1d8b52165735ebe645e7b0c7852": {
+"new": "Table 5C. Every own-attack family re-scored with the owner's conversation supplied. Source: phase17/data/evidence_round6.json; B17/B18 columns from family_union_evidence.json (an earlier version of this table printed dashes for them because their no-evidence arm had not been computed).",
+"orig_head": "Table 5C. Every own-attack family re-scored with the real co"
+},
+"1dd074bd1d733adddad303de84a801e627e77d63940192825651dd853265063f": {
+"new": "The result is mixed. B18 with evidence reaches FARMA (87%) and AgentPoison (65%; 93% of its working instances), and moves MPBench, MINJA and sleeper poisoning from near zero to 37-48%. MemoryGraft (34%) and DSRM (30%) remain weakly detected even at the best configuration measured, and on DSRM's working instances B18 is no better than B13. B18 adds nothing over B17 on any founding family. Round 6 interpreted this as the deberta hard rule earning its place on injection-shaped text instead; round 7's hold-out 6 contradicts that interpretation (16.3% false positives from that rule alone, Section 13A), so the rule is not recommended anywhere.",
+"orig_head": "Read honestly, this is mixed. B18 with evidence reaches FARM"
+},
+"24bbb88be8af9b20b370afcd70dc6ace41545806fe778ab4431767e984df294c": {
+"new": "Table 5D. The recall gain with its false-positive cost, measured on the same footing. Supplying an owner conversation makes every claim about a person who does not appear in it uncorroborated, which is a useful signal against an invented-persona attack and equally a risk to a benign note about someone the conversation never mentions; a recall gain reported without this column would not be interpretable. B17/B18's no-evidence cells are derived from the same per-item decisions (phase17/data/family_union_evidence.json); an earlier version printed dashes for them.",
+"orig_head": "Table 5D. The recall gain with its false-positive cost measu"
+},
+"b9aa1994473ff53358056fb7e6a05fcf24315c0a327b6466a7ead5c1412e171a": {
+"new": "This does not extend to the external injection corpora: they have no owner conversation, and their attacks are not claims about a person, so there is nothing to corroborate. Evidence is inapplicable there by design, so the provenance configuration's weak result on those corpora is a true limitation rather than an artifact, and it is the reason for the union configurations of Section 7.1.",
+"orig_head": "What this does not fix: the external injection corpora have "
+},
+"b387e6ad192928737bbf9ee819264abd834f253d791449496dd8fd7e1b2a1ce0": {
+"new": "Restricted to working attacks, the provenance and fusion configurations do not dominate one another. B13 wins on this project's own attacks (46.7% versus 39.4%, p=0.00013) while B14 strictly dominates on the clean hold-out (40/64 versus 8/64, +32/-0, p=5e-10). B13's 12.5% there is a weakness that an earlier version of this project's summary did not report, and the earlier unqualified recommendation of a single configuration was incorrect. The two reach different attack types -- provenance and corroboration reach poisoning shaped like an ordinary personal note; fused content classifiers reach injection-shaped text -- so they miss disjoint sets.",
+"orig_head": "Restricted to working attacks, the provenance and fusion con"
+},
+"470e689cdb661cc4220e85fa12a163d7416bed6db49744ba60794ba5620c6d10": {
+"new": "SUPERSEDED. That conclusion located the zero in the attack construction, correctly as to where but not as to why: the generator named an outbound recipient in only 6 of 32 instances and the mechanism judge passed them anyway. Deterministic structural gates (a named third-party recipient and a category of the user's own data) were added to the regeneration loop; the gate-valid set scores 87.5% under an out-of-loop judge, and all three agent families still give 0/16 causal harm -- they address the legitimate counterparty and restate the attacker's directive. Exfiltration is therefore a tested mechanism here, and its zero is a negative result about what 7-8B assistants do with a standing exfiltration instruction, not a benchmark defect. Source: phase17/data/exfiltration_final_agents.json.",
+"orig_head": "SUPERSEDED. That conclusion located the zero in the attack c"
+},
+"fdb97583f4d2f64ff8c44ef7c4b203cbb6f6c82128a98102c5ee88e4b8c25e08": {
+"new": "B16 adds that state: a per-scope ledger of content already hard-mitigated, which refuses its semantic neighbours, on the reasoning that the constraint the attacker must satisfy to keep succeeding -- the rewrite still carries the claim -- is what keeps the rewrite close to its source. Two structural properties keep the comparison fair: with no ledger threaded, the configuration reproduces its base configuration exactly (verified identical on 60 records), so only statefulness differs; and only hard mitigations enter the ledger, never advisory flags, because a blocking radius grown from uncertain flags would cascade into false positives.",
+"orig_head": "B16 adds that state: a per-scope ledger of what was already "
+},
+"2fc3312703b16558dc88ef5510f9e637f1ccc66108ec0b23ddc33cc4e502c8de": {
+"new": "This is the phenomenon identified by this project's Section 12.13 and research question RQ3: deterministic and strict semantic metrics systematically under-estimate correctness. Multi-hop was scoped out on the basis of a number this methodology had already predicted would be depressed. The accurate statement is narrower: the multi-hop oracle figure is a strict-ensemble lower bound, agents reach roughly 83% under the judge metric, and any defended multi-hop figure must be read under both metrics rather than the strict one alone.",
+"orig_head": "This is the phenomenon this project's own Section 12.13 and "
+},
+"6f6070d4734c46a59a2332bf26557d0badbf8dab1fcfdd528503942ffe554a93": {
+"new": "[SUPERSEDED by the round-7 recommendation above] Compose it with the rejection ledger where an attacker can retry against the same scope. This is the one configuration change with a large, powered effect: adaptive evasion 24.6% to 0.8%, p=9.31e-10. Its radius carries a 29.7% ledger-poisoning blast radius, a trade-off a deployment must accept explicitly.",
+"orig_head": "[SUPERSEDED by the round-7 recommendation above] Compose it "
+},
+"7bf988f126b924f30ba9e690cec2de336fa3c39d43953601d0c6a93bb86b126a": {
+"new": "Round 7 retired hold-out 3 (scored seven times, once under pre-registration, and its development set shown to be the hold-out itself: Section 10C) and built new corpora -- hold-outs 4 and 5 in this section, 6 and 7 in Section 13A -- each frozen before any configuration was scored and each scored exactly once under predictions committed beforehand (docs/phase17/PREREGISTRATION_ROUND7.md and addenda, each committed before the scoring it governs; the first replaced a leading probe). Hold-out 5 is injection-shaped with a matched benign half: 131 jailbreaks real users sent to the Vicuna demo and 1,000 ordinary prompts from the same interface (toxic-chat), after dropping 52 near-copies of text this project had already used. Hold-out 4 is the first memory-poisoning hold-out: 157 note-shaped attacks and 262 benign notes written by a model family that had authored no attack here, about a conversation whose people appear in none of the attacks the defenses were developed on.",
+"orig_head": "Round 7 retired hold-out 3 (scored seven times, one pre-regi"
+},
+"52c675cf6146ac0be427d4109a0730acea97bd3e78665a0bee8dc69ef079cbf4": {
+"new": "Re-tested with more data (pre-registration addendum 8): on 175 new own-attack instances harm went from 53 to 44 (p=0.15, not significant alone); pooled with the original own-attack rows, as the amendment committed before the run specifies, 123 -> 104 of 424 (29.0% -> 24.5%, p=0.037). P8-2 therefore holds at its pre-registered alpha, but the pooled sample includes the one whose inconclusive result motivated the re-test, the new sample alone does not reach significance, and the frame's harm reduction is about 4.5 points -- present but small (Table 17 gives its multiplicity-corrected p).",
+"orig_head": "Re-tested with more data (pre-registration addendum 8): on 1"
+},
+"387e9b6375a11edaaf3674f20d87e4276bf4d6d9fe15cb408ea9316575d36540": {
+"new": "A third approach changed what a corroboration-only flag does rather than when it fires: epistemic quarantine admits the note inside an UNVERIFIED frame instead of excluding it (frame v1, the only frame tried; development data only). Ordinary-benign exclusions fell from 79/1054 (7.5%) to 0, and the framed notes remained useful (68/79 answers used them, vs 70 raw and 34 excluded). The cost is substantial: on the 109 corroboration-only attacks the agent asserted the poisoned claim 14 times framed vs 2 excluded (p=0.0018) and 40 raw -- the frame removes about two thirds of the raw effect, not all of it. It is a trade-off, offered as an option for deployments where false exclusions cost more than a minority of framed fabrications; hold-out 8 tests it once (Section 13E).",
+"orig_head": "A third approach changed what a corroboration-only flag does"
+},
+"53b4a84a61af689167b561131881c2f9a9abf27610ad10f2359f58be75544116": {
+"new": "Instruction-shaped memory poisoning remains only partly testable on clean data. A safety-tuned author inverted those families into protective rules (hold-out 4); a base-model author (hold-out 7) wrote valid standing instructions (23/40) but almost no valid dormant triggers (3/40), so conditional backdoors were untested on a clean hold-out at that point; hold-out 8 later tested them (Section 13E), and their activation was first measured with a natural trigger in the remediation experiment SA-1 (Section 15).",
+"orig_head": "Instruction-shaped memory poisoning remains only partly test"
+},
+"3d8acc514ee4ac0c48b1d3fda36ae935e8e234fdc56e7642236499e22947828a": {
+"new": "Every result so far treats each poison as a standalone memory. Deployed memory systems consolidate: an LLM periodically summarises recent memories into a new one. This is the first measurement of the effect of consolidation on a poison, and it exercises two components Phase 14's live pilot never reached -- the propagation containment guard (no derived memories were written, so it had no ancestors) and backward-chain origin attribution. On this project's 249 own-attack instances (development data; same store, retriever, agent and harm judge as the harm study), 148 of 249 consolidated summaries repeat the poison's claim.",
+"orig_head": "Every result so far treats each poison as a standalone memor"
+},
+"8c80910b74f2f0dc8f2cf0b4c5a6874ad80011860c26ddf768070febf17d9542": {
+"new": "Phase 10's risk-weighted monitoring, evaluated for the first time (development data; it only orders a review queue, so the question is whether poison reaches the top). In realistic retrieval pools -- the top 20 memories for each of 309 harm-study tasks -- B9 places the poison on the review list in only 43 retrievals, and the lists are short (on average 0.75 items, 0.61 of them benign). When the poison is listed, risk ordering places it first in 39 of 43 cases against 33.5 expected from the default order: the surface works as designed but has little to act on. A first design that pooled unrelated items at random gave a much larger gain (precision 100% in the first 50 against 43%) but is reported only as an artifact: in a pool of unrelated items lexical divergence is positive for every item, so B9 routed 1706 of 1858 items to validation, a queue no reviewer would face.",
+"orig_head": "Phase 10's risk-weighted MONITORING, evaluated for the first"
+},
+"3d685aa5f308a6d7abc4074b7db3659d314a2422785b87d3303cbab1e6e62d78": {
+"new": "On hold-out 6 the working attacks are harder to detect: B12, B13, B14 and B17 each catch about 9 points fewer of the working subset than of the full population, so full-population recall overstates protection on this corpus. B18 is the exception only because its deberta rule excludes nearly everything injection-shaped, at 16.3% false positives. The direction is not general: on hold-outs 4 and 5 the working attacks are easier for B13 (about 10 points higher), so full-population recall can mislead in either direction, which is the reason for reporting both denominators rather than a property of any one defense.",
+"orig_head": "On hold-out 6 the attacks that actually work are HARDER to d"
+},
+"7dfe91db72ee0010854f5fd64f8da3ff867fb99e4141772cc3563690e4503301": {
+"new": "An independent pre-submission review (docs/review/INDEPENDENT_IEEE_REVIEW_2026-10-12.md) identified under-disclosed assumptions, a hold-out-calibrated threshold and internal inconsistencies. Every item has a status in REMEDIATION_MASTER_REGISTER.md. This section reports the analyses and the two pre-registered experiments the review prompted (docs/phase17/PREREGISTRATION_REMEDIATION_2026-10-12.md, committed before either ran). Corrected statements earlier in this document are marked where they appear.",
+"orig_head": "An independent pre-submission review (docs/review/INDEPENDEN"
+},
+"d80158b1dff19c35af08edb4361bfef571f64783f64cb4a78ff792983c3ffe7c": {
+"new": "Reading SA-1. Conditional backdoors were dormant (activation 0/60 on unrelated messages) and activated through retrieval on natural triggers (23/60 under the original judge). Content-only B12 excluded 60/60 of them and 2/60 benign conditional lookalikes before activation, so prevention here rests on the explicit malicious payload these backdoors state, not on any sleeper signal: the dedicated sleeper guard flagged 0/60 and the development-fitted anomaly signal flagged every lookalike. Stealthy, instruction-free sleeper notes remain largely undetected (Table 5A). SA-1's owner, like hold-out 8's, was among B13's calibration conversations (pre-registration addendum A).",
+"orig_head": "Reading SA-1. Conditional backdoors were dormant (activation"
+},
+"1dc18c8f3e3236958149bb881736fb32ce4f33e771c823c7e531dd4e0e605254": {
+"new": "16. Gap Closure (2026-10-13): Extraction-Enabled Memory Pipeline, Causal Attribution, Implicit Sleepers",
+"orig_head": "16. Gap Closure (2026-10-13): Real Memory Pipeline, Causal A"
+},
+"61962f75104b2516a07a165c570038573c20038d2d4b50c4855ae22c6c023aa2": {
+"new": "Extraction-enabled pipeline (Mem0 2.0.19, infer=True). Hold-out 4: 157/157 attacks stored, 155 carried their claim, 48 retrieved, 29 changed the answer; B13 on the stored memories excluded 59. M1-1 HELD; M1-2 HELD; M1-3 HELD; M1-4 HELD; M1-5 FAILED; M1-6 HELD; M2-1 HELD; M2-2 HELD; M2-3 HELD; M2-4 HELD; M2-5 HELD. REAL_MEMORY_PIPELINE_EVALUATION.md.",
+"orig_head": "Real pipeline (Mem0 2.0.19, infer=True). Hold-out 4: 157/157"
+},
+"34e487d156e2c27c24e02aa9aca34557c095167605c2d1246fa3772791c1de9e": {
+"new": "A provenance-recording wrapper around Mem0 kept the correct source on 137/137 derived memories. Mem0's own UPDATE path is last-writer-wins on metadata: a user-channel update relabels a document-planted memory as the user's (demonstrated at code level); the wrapper keeps both sources. Mem0's extractor produced no such update in 225 ingestions, so its frequency in practice is unmeasured. The selected attribution frame (AF2) reduced attack unconfirmed activation on Mem0-stored text from 11/45 to 6/45 (not significant; not accepted); legitimate rules arriving on the user channel were never framed (22/39 usable under every arm).",
+"orig_head": "A provenance-recording wrapper around Mem0 kept the correct "
+},
+"962634b4dbff59f4484d9142e75bf504b16273f4e94e5f5cc06c59a2bc41cc38": {
+"new": "Containment without lineage: matching new memories against a registry of flagged claims caught the payload but excluded 109/240, 125/169 and 226/291 of the owners' own benign memories; thresholds re-selected on development data (none admissible) could not reach the 3% limit. Write-time taint propagation, in which the consolidator taints its output from its own inputs, needs no stored lineage: it equals RCL-with-lineage item for item (HO7 110/110, HO8 158/158, HO4 119/119) with zero unflagged collateral, and was accepted. Lineage deleted after writing remains unsolved.",
+"orig_head": "Containment without lineage: matching new memories against a"
+},
+"c1683177cd852679fc30f2cff3a7f90d38f39e1d87c492f975f4587caefd7131": {
+"new": "23.2 Provenance through Mem0",
+"orig_head": "23.2 Provenance through a real memory system"
+},
+"f40f57cea1d1c494f803d9de24bf7bfb42786ad929685219a8b2d633ced9ddd8": {
+"new": "A tamper-evident ledger hash-chains every provenance record (optionally keyed) and detects edited, deleted, reordered and truncated records; a rewrite log on the same chain gives exact recovery after a rewrite; property and mutation tests check the v7 decision rules (13 intentionally broken copies, all caught). These additions are verified by tests only and carry no held-out claim.",
+"orig_head": "A tamper-evident ledger hash-chains every provenance record "
+}
+}

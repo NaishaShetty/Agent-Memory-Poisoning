@@ -1,0 +1,42 @@
+{
+ "frozen_utc": "2026-10-15T16:37:21Z",
+ "note": "written before any SA-7/MSD-7/CSD-7/HO10 item exists; no git commit by owner's instruction",
+ "sha256": {
+  "docs/phase17/v7/SA7_PREREGISTRATION.md": "0aaddc182a0f8bf6c45768aa89a25c6c685b75bba046e32ec75a38ed5c26730a",
+  "docs/phase17/v7/AUDIT_REPORT.md": "11806822b7eb4ae101faa0ab2285f899bfb348e4c9e7543b02daf6829c334a6f",
+  "phase17/defence_v7/g2_dev.py": "610bda72b0422705f7a25ffb2c5e60d4427e98f5d0c6cbce1c674d7e1ff1e62f",
+  "phase17/data/defence_v7/g2_dev_explore.json": "5f1bc4d0620803d0054071910c459c636b892a7d3b30a43eac794ccbe8addf58"
+ },
+ "addenda": [
+  {
+   "utc": "2026-10-15T16:39:48Z",
+   "what": "Addendum A (G2-P2 clarification)",
+   "sha256_prereg": "c7850384c243a08ac58947d9f81616bed356fae55a7108e364f61a847a515226",
+   "state": "HO10 roots being generated; no chain, flag or outcome exists; SA-7 generation in progress, no scoring"
+  },
+  {
+   "utc": "2026-10-15T16:39:59Z",
+   "what": "Correction: document dates 2026-10-16 -> 2026-10-15 (typo; no content change)",
+   "sha256_prereg": "17ffb811f5f0b11a653531b30fb9826d01b468e1b5cad7a4cc93e683f86e0fd0",
+   "sha256_audit": "53f0724beb74753315927f10950b37520952066ff4593efe13874c6350dc706e"
+  },
+  {
+   "utc": "2026-10-15T17:05:32Z",
+   "what": "g2_dev.py: one import line added (phase17.defence_v7.atomic, crash-safe writes); no logic change; its output g2_dev_explore.json is unchanged",
+   "sha256_g2_dev_py": "d4890327c04f66effc527348d94f6f070fed9036a0ec0d48c07c13386262bb36",
+   "sha256_g2_dev_explore_json": "5f1bc4d0620803d0054071910c459c636b892a7d3b30a43eac794ccbe8addf58"
+  },
+  {
+   "utc": "2026-10-16T06:37:52Z",
+   "what": "Addendum B (DCR-2 family, selection rule and gate) after the DCR dev-gate failure",
+   "sha256_prereg": "33aba3eec98188601f06dd07828abd3fe0c399f25542cf216714aa9da834b1ae",
+   "state": "HO10 roots still generating; no HO10 flag, chain or outcome exists; no SA-7 outcome exists"
+  },
+  {
+   "utc": "2026-10-16T08:47:03Z",
+   "what": "Addendum C (C2L logged-rewrite condition, reported beside 2.6, no credit; engineering additions)",
+   "sha256_prereg": "4f322af2ad3bbce1ad36e9f728388cb5b73337c9baffcdc3c90f6a5dc6acd21e",
+   "state": "HO10 roots generating (1400/1800); no HO10 flag, chain or outcome; no SA-7 outcome"
+  }
+ ]
+}

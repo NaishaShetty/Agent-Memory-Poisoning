@@ -1,0 +1,19 @@
+{
+ "utc": "2026-10-16T10:26:38Z",
+ "decided_on": "flag counts only (no chain or outcome exists)",
+ "flagged": {
+  "instruction": [
+   252,
+   480
+  ],
+  "factual": [
+   50,
+   129
+  ],
+  "benign": [
+   15,
+   118
+  ]
+ },
+ "decision": "NO top-up. Instruction target (>=250 flagged) met. Factual (50 flagged, target ~100) is a pre-registered secondary subset; its generator yield is very low (most factual seeds fail mistral's gate, e.g. owner 0: 4 valid of 90 per family), so a top-up would cost hours for a small gain. Factual reported as under-powered."
+}

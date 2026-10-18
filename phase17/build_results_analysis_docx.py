@@ -142,12 +142,12 @@ ti.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for r in ti.runs:
     r.bold = True
     r.font.size = Pt(16)
-sub = doc.add_paragraph("A Results Analysis of MAMBench Phase 17, External Review Rounds 3-7")
+sub = doc.add_paragraph("A Results Analysis of MAMBench Phase 17: External Review Rounds 3-7 and Defence Programmes v2-v7")
 sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for r in sub.runs:
     r.font.size = Pt(11)
     r.italic = True
-dt = doc.add_paragraph(__import__("datetime").date.today().isoformat() + " (round 7; corrections made in place)")
+dt = doc.add_paragraph(__import__("datetime").date.today().isoformat() + " (through Defence v7; corrections made in place)")
 dt.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for r in dt.runs:
     r.font.size = Pt(9)
@@ -251,18 +251,40 @@ if _A7 and _P7:
           f"evidence, behind the ledger; for injection-shaped text B17, not B18, whose deberta rule cost "
           f"16.3% false positives on a second injection hold-out.")
 
+_CL7 = L("defence_v7/closure_v7.json")
+if _CL7:
+    _g = {k.split(": ")[1]: v for k, v in _CL7["gaps"].items()}
+    _G1 = L("defence_v7/g1_eval_sa7.json")
+    _G2 = L("defence_v7/g2_eval_ho10.json")
+    _G3 = L("defence_v7/g3_eval_sa7.json")
+    _s, _ins, _e = _G1["single_notes"], _G2["by_payload"]["instruction"], _G3["G3_P2_at_E"]
+    P("Six pre-registered defence programmes (2026-10-13/17; Sections 18-24) then targeted three research gaps, each "
+      "scored once on fresh held-out data under a frozen evidence rubric. After the latest (v7) the operational closure "
+      + "is " + ", ".join(f"{k} {100 * v['after_v7']:.0f}%" for k, v in _g.items()) + ". Graded provenance excludes "
+      f"{_s['atk_explicit']['GP_excl']['k']}/{_s['atk_explicit']['GP_excl']['n']} explicit planted rules against "
+      f"{_s['atk_explicit']['B13s']['k']}/{_s['atk_explicit']['B13s']['n']} for provenance-aware admission on stored text while "
+      f"excluding {_s['pooled_ungrounded']['GP_excl']['k']}/{_s['pooled_ungrounded']['GP_excl']['n']} legitimate ungrounded "
+      f"rules (it frames {_s['pooled_ungrounded']['GP_frame']['k']} more for confirmation); no-decay containment withholds "
+      f"{_ins['ND|RAR-S']['withheld_carrying'][3]['k']}/{_ins['ND|RAR-S']['withheld_carrying'][3]['n']} poisoned "
+      f"fourth-generation descendants, {_ins['ND|RAR-S']['withheld_carrying'][3]['k'] - -(-6 * _ins['ND|RAR-S']['withheld_carrying'][3]['n'] // 10)} "
+      "above the 60% bar. Sleeper detection still fails its benign limit at the "
+      f"pre-registered operating point ({_e['ungrounded_pooled']['k']}/{_e['ungrounded_pooled']['n']} legitimate rules "
+      "flagged): legitimate rules that arrive through documents or without a recorded source look like planted ones.")
+
 # ============================================================================ 1
 H("1. Introduction and Scope of This Analysis", 1)
 P("This document reports and interprets results. The architecture of the agent, the attack "
   "reconstructions, the defense configurations and the instrumentation are specified in the "
   "companion methodology (`Methodology Draft.docx`, Sections 12-32); this analysis does not "
   "restate them except where a design choice is load-bearing for reading a number.")
-P("The analysis answers five questions. (RQ1) How many of the benchmark's attacks function at "
+P("The analysis answers six questions. (RQ1) How many of the benchmark's attacks function at "
   "all, and what does that do to its published detection rates? (RQ2) Does provenance-aware "
   "admission reach attack classes that content-only detection cannot, at acceptable cost? (RQ3) "
   "Do the defenses generalise across independently authored attack corpora, and if not, why? "
   "(RQ4) Do bespoke defenses beat published off-the-shelf detectors on this threat model? (RQ5) "
-  "Can a stateful defense blunt a query-based adaptive attacker?")
+  "Can a stateful defense blunt a query-based adaptive attacker? (RQ6) Do pre-registered defence programmes, "
+  "each scored once on fresh held-out data under a frozen rubric, close three research gaps -- provenance and "
+  "governance, self-propagation, and implicit sleepers (Sections 18-24)?")
 P("Two reporting commitments apply throughout and are enforced by the test suite rather than by "
   "convention. First, every attack-detection rate appears with its false-positive cost; a recall "
   "column without one is not a comparison. Second, every configuration whose design was informed "
@@ -2116,10 +2138,30 @@ def FIGV(key, caption, width_in=6.3):
 
 _write_v6(H, P, TBL, CAP, FIGV)
 
+# ---- Section 24 (defence programme v7), generated from the v7 artifacts (2026-10-17)
+from phase17.figures_v7 import run as _draw_v7  # noqa: E402
+from phase17.results_sections_v7 import write as _write_v7  # noqa: E402
+
+_V7FIGS = {k: (Path(__file__).resolve().parents[1] / v) for k, v in _draw_v7().items() if v}
+
+
+def FIGW(key, caption, width_in=6.3):
+    from docx.shared import Inches
+
+    path = _V7FIGS.get(key)
+    if not path or not path.exists():
+        return
+    _NFIG[0] += 1
+    doc.add_picture(str(path), width=Inches(width_in))
+    CAP(f"Figure {_NFIG[0]}. {caption}")
+
+
+_write_v7(H, P, TBL, CAP, FIGW)
+
 H("Definitions and Formulas", 1)
 P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "
   "names the code that computes it, constants included, so any figure in this document can be recomputed "
-  "from its counts. The same table appears in the methodology.")
+  "from its counts. The methodology prints the same formulas in Section 32.62 and the additions in Sections 32.70-32.72 (Tables 32.72.F and 32.72.G complete the set).")
 TBL(_formula_rows())
 CAP("Table F. Formulas behind the reported numbers (phase17/formulas.py).")
 
@@ -2170,6 +2212,9 @@ if MISSING:
     P("Artifacts absent from this build, whose sections above say so explicitly rather than "
       "omitting the result: " + ", ".join(sorted(set(MISSING))) + ".")
 
+from phase17.editorial_pass import apply_to as _editorial  # noqa: E402  (professional-prose edits, numbers verified)
+
+print("editorial pass:", _editorial(doc, "results"))
 doc.save(OUT)
 print(f"wrote {OUT}")
 print("missing artifacts:", sorted(set(MISSING)) or "none")

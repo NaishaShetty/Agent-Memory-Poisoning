@@ -110,6 +110,23 @@ held-out examples at their first retrieval.
 | Sleeper | **0.000** | 1.000 |
 | propagated | 0.927 | 1.000 |
 
+> **Correction (2026-10-16).** The paragraph below says Sleeper's 0.0 comes from "the single real held-out Sleeper
+> poison example". That count is wrong. Re-running `phase11/gln/lofo_gln.py` unchanged gives these held-out sizes
+> (benign n = 41 in every fold):
+>
+> | Family | n_poison | Zero-shot LOFO AUROC | Mean score, poison / benign |
+> |---|---|---|---|
+> | FARMA | 7 | 0.948 | 0.893 / 0.076 |
+> | MemoryGraft-style-volume | 20 | 0.285 | 0.566 / 0.931 |
+> | Sleeper | **5** | 0.000 | ≈0.000 / 0.927 |
+> | propagated | 2 | 0.927 | ≈0.000 / 0.073 (both near zero; the poison scores are marginally higher) |
+>
+> Sleeper's 0.0 is therefore a **complete inversion on 5 examples**: zero-shot, the GLN ranks every held-out sleeper
+> below every benign memory. It is a real, stronger finding than a one-example statistic, not a weaker one. Its
+> conclusion (the GLN does not generalise to Sleeper under LOFO) stands. "propagated" (n = 2) remains too small for a
+> stable AUROC, as the Methodology already says for that family. The original paragraph is kept below unedited, as the
+> dated record. `phase11/tests/test_lofo_gln.py` now asserts n_poison = 5 for Sleeper.
+
 **Real, mixed, honestly-reported finding: the GLN has its own real,
 family-specific generalization gaps — and they are DIFFERENT families than
 the GNN's.** FARMA (the GNN's own weakest LOFO family before the blend fix)
