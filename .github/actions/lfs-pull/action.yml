@@ -1,0 +1,19 @@
+name: Restore Git LFS objects from the Actions cache
+description: >
+  Pull this repository's Git LFS files, reusing the Actions cache so LFS bandwidth is spent
+  only when an LFS object changes. Run after actions/checkout with lfs left at its default
+  (false). The cache key is the sorted list of LFS object ids, so a changed object misses the
+  cache and is fetched; git lfs pull verifies every object against its id.
+runs:
+  using: composite
+  steps:
+    - name: List LFS object ids
+      shell: bash
+      run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
+    - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: .git/lfs
+        key: lfs-${{ hashFiles('.lfs-assets-id') }}
+    - name: Check out LFS files
+      shell: bash
+      run: git lfs pull

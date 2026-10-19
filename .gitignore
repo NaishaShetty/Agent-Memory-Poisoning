@@ -107,3 +107,6 @@ phase17/data/_*.log
 
 # Unified benchmark run outputs (python -m mambench run); results are artifacts, not sources
 /mambench_results/
+
+# Written by .github/actions/lfs-pull in CI (cache key for LFS objects)
+/.lfs-assets-id
