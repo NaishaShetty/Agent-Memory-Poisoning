@@ -7,7 +7,7 @@ retrieval/agent-decision/lineage instrumentation, trace assembly, validation), n
 "defense evaluation" direction this document's own Section 7 recommended — that
 recommendation was never binding (Section 7 says so explicitly) and a different, real
 research need (observability before defense) was chosen instead. Phase 5 is now complete
-and frozen; see [`phase5/PHASE5_CHECKLIST.md`](phase5/PHASE5_CHECKLIST.md) for its actual
+and frozen; see [`phase5/PHASE5_CHECKLIST.md`](../../phase5/PHASE5_CHECKLIST.md) for its actual
 final state and [`PHASE6_HANDOFF_REPORT.md`](PHASE6_HANDOFF_REPORT.md) for the current,
 up-to-date handoff into Phase 6. This document is kept unmodified below for chronology —
 it accurately records what Phase 4 established and what was open at that exact point in
@@ -29,7 +29,7 @@ starts from evidence rather than from re-deriving Phase 4's own state.
   during Phase 4. Verified via `git status --porcelain phase3/evaluation/`
   repeatedly throughout Phase 4's entire duration, always empty.
 - **Phase 4: frozen, as of 2026-09-11.** Full record:
-  [`phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md`](phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md).
+  [`phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md`](../../phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md).
 - **Canonical victim architecture**: V3-Hybrid (canonical, unmodified).
 - **Seven attacks**, all with at least one real, executed campaign:
   AgentPoison, MINJA, FARMA, MemoryGraft, DSRM, MPBench-PCFI, Sleeper

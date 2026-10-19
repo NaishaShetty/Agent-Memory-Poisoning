@@ -153,6 +153,11 @@ jobs:
       # corpora (MSC is never fetched: no explicit licence), so it stays BLOCKED here by design.
       - name: Fetch licensed data (pinned, digest-verified)
         run: python scripts/ci/fetch_licensed_data.py
+      # The embedding modules load models offline by design and fail if they are not cached; a
+      # fresh runner's cache is empty, so the two models are fetched here and checked against
+      # their pinned commits.
+      - name: Prefetch embedding models (pinned commits)
+        run: python scripts/ci/prefetch_models.py
       - name: Held-out split evaluations and LoCoMo-only leakage checks
         run: >
           python -m mambench run --strict --out "${{ runner.temp }}/mambench_licensed"

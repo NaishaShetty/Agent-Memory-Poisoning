@@ -441,3 +441,16 @@ No two files are byte-identical, and no Markdown pair shares more than half of i
 | `results/tables/T9_adaptive.md` | KEEP (essential artifact) | experiment output tables | 235 | 2026-10-12 | 0 | 0 |
 | `MAMBench Process Documentation.docx` | MERGE into comprehensive DOCX / NEEDS MANUAL REVIEW | Aug-2026 process document (gitignored); a source for the comprehensive DOCX; delete only after its content is verified there | - | 2026-08-21 (gitignored) | 0 | 0 |
 | `phase3/experiments/MAMBench_Phases_1-2_Methodology_Draft.docx` | NEEDS MANUAL REVIEW | early Phases 1-2 methodology draft (gitignored); superseded by Methodology Draft.docx; keep or remove locally | - | 2026-09-07 (gitignored) | 0 | 0 |
+
+## Actions taken (2026-10-19, on the owner's decision)
+
+Paths in the table above are as they were at inventory time.
+
+| Action | Files | Recoverable from |
+|---|---|---|
+| Deleted (`git rm`) | `meth_extract.txt` (verified redundant); `ref_Egyption_informatics.txt`, `ref_Engineering_applicat.txt`, `ref_From_Untrusted_Input.txt` (third-party paper full texts, unreferenced) | git history |
+| Removed to the Windows Recycle Bin (never in git) | `MAMBench Process Documentation.docx`, `phase3/experiments/MAMBench_Phases_1-2_Methodology_Draft.docx` | Recycle Bin |
+| Moved to `docs/` (`git mv`, living or legal) | `REMEDIATION_MASTER_REGISTER.md`, `DATA_LICENSING_AND_ANNOTATION_AUDIT.md`, `ANNOTATION_PROVENANCE_FINAL.md`, `RELATED_WORK_AND_NOVELTY.md`, `NOVELTY_MATRIX.md` | — |
+| Moved to `docs/archive/` (`git mv`, historical) | the other 40 root-level reports and `Methodology.pdf` (August 2026 methodology export); content unchanged except three relative links re-rooted in `PHASE5_HANDOFF_REPORT.md` | — |
+
+References updated: README links, `conftest.py` skip reason, `scripts/build_comprehensive_documentation.py`. Mentions of these files by bare name in code docstrings and in the two research documents still identify them uniquely and were left unchanged.

@@ -212,7 +212,9 @@ def _leftover_phase17() -> List[int]:
     if os.name != "nt":
         # POSIX (e.g. the Linux CI runner): no PowerShell, so read the process table with ps
         try:
-            r = subprocess.run(["ps", "-eo", "pid=,args="], capture_output=True, text=True, timeout=60)
+            # -ww: without it ps cuts each command line to 80 columns when not writing to a
+            # terminal, which hid 'phase17' behind a long interpreter path on the CI runner
+            r = subprocess.run(["ps", "-ww", "-eo", "pid=,args="], capture_output=True, text=True, timeout=60)
             out = []
             for line in r.stdout.splitlines():
                 pid, _, args = line.strip().partition(" ")

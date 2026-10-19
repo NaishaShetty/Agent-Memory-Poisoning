@@ -72,7 +72,7 @@ validated and run against an undefended agent.
 | **3. Dormant & implicit sleepers** | Can a harmless-looking note that activates later be caught without flagging ordinary notes? | Activation-shape and dormancy signals, intent judge (condition E), two-stage frame, high-impact gate |
 
 Each gap is scored with a rubric fixed before any new outcome
-([`FINAL_DEFENCE_BASELINE_AUDIT.md`](FINAL_DEFENCE_BASELINE_AUDIT.md) §3); development-only evidence
+([`docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md`](docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md) §3); development-only evidence
 earns at most 0.25 per capability, and higher scores need held-out evidence:
 
 $$
@@ -108,7 +108,7 @@ xychart-beta
    committed pre-registrations, and re-verified by the benchmark on every run. Hold-out 3, scored
    seven times and found to double as development data, was retired rather than reused.
 5. **Negative results kept.** Failed signals, under-powered tests and corrected claims are
-   reported beside the results they qualify (Results Analysis; `REMEDIATION_MASTER_REGISTER.md`).
+   reported beside the results they qualify (Results Analysis; [`docs/REMEDIATION_MASTER_REGISTER.md`](docs/REMEDIATION_MASTER_REGISTER.md)).
 
 ## Current results
 
@@ -254,4 +254,4 @@ the pinned models, and some need the isolated Mem0/A-MEM environments; see
 | `docs/`, `paper/` | phase reports, figures, specifications, manuscript sources |
 | `data/metadata/` | dataset manifests and freeze records |
 
-Data licences and annotation provenance: [`DATA_LICENSING_AND_ANNOTATION_AUDIT.md`](DATA_LICENSING_AND_ANNOTATION_AUDIT.md).
+Data licences and annotation provenance: [`docs/DATA_LICENSING_AND_ANNOTATION_AUDIT.md`](docs/DATA_LICENSING_AND_ANNOTATION_AUDIT.md). Defence-programme and audit reports: [`docs/archive/`](docs/archive/).

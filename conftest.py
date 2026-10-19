@@ -50,7 +50,7 @@ def pytest_collection_modifyitems(config, items):
     if (_ROOT / "data" / "raw").is_dir():
         return
     skip = pytest.mark.skip(reason="licensed raw data (data/raw/) not present in this checkout; "
-                                   "see DATA_LICENSING_AND_ANNOTATION_AUDIT.md")
+                                   "see docs/DATA_LICENSING_AND_ANNOTATION_AUDIT.md")
     for item in items:
         if item.get_closest_marker("requires_licensed_data"):
             item.add_marker(skip)

@@ -6,10 +6,10 @@ The Methodology Draft and the Results Analysis stay separate and authoritative; 
 summarises them and everything else a new researcher or engineer needs. Narrative text is written
 here; every table that can drift is generated at build time from the repository itself:
 phases from the Methodology's headings, references from its reference list and
-RELATED_WORK_AND_NOVELTY.md, hold-outs from the freeze records, the benchmark from
+docs/RELATED_WORK_AND_NOVELTY.md, hold-outs from the freeze records, the benchmark from
 mambench/registry.json, formulas from phase17/formulas.py, defence configurations from
 phase14/defended_retrieval.py, CI from .github/workflows/tests.yml, licences from
-DATA_LICENSING_AND_ANNOTATION_AUDIT.md, and the source mapping from docs/cleanup/CLEANUP_INVENTORY.md.
+docs/DATA_LICENSING_AND_ANNOTATION_AUDIT.md, and the source mapping from docs/cleanup/CLEANUP_INVENTORY.md.
 """
 from __future__ import annotations
 
@@ -181,7 +181,7 @@ def references():
     meth = _docx_section(METHODOLOGY, "16. References")[1:]  # first paragraph is the verification note
     seen = set(re.findall(r"arXiv:(\d{4}\.\d{4,5})", " ".join(meth)))
     rel = []
-    txt = (ROOT / "RELATED_WORK_AND_NOVELTY.md").read_text(encoding="utf-8")
+    txt = (ROOT / "docs" / "RELATED_WORK_AND_NOVELTY.md").read_text(encoding="utf-8")
     block = txt.split("## 1. The papers", 1)[1].split("## 2.", 1)[0]
     for line in block.splitlines():
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
@@ -255,7 +255,7 @@ def ci_rows():
 
 
 def licence_rows():
-    txt = (ROOT / "DATA_LICENSING_AND_ANNOTATION_AUDIT.md").read_text(encoding="utf-8")
+    txt = (ROOT / "docs" / "DATA_LICENSING_AND_ANNOTATION_AUDIT.md").read_text(encoding="utf-8")
     block = txt.split("### 1.2", 1)[1].split("### 1.3", 1)[0]
     rows = [["Dataset", "Owner", "Licence / terms", "Redistribute?"]]
     for line in block.splitlines():
@@ -367,7 +367,7 @@ def build() -> Path:
                "Engineers auditing a memory-augmented agent's admission, retrieval and consolidation paths.",
                "Reviewers reproducing a reported number from its counts (every formula names the code that computes it)."])
     D.h("7. Contributions, with qualifications", 2)
-    D.p("Classifications follow the primary-source comparison in RELATED_WORK_AND_NOVELTY.md; several elements are "
+    D.p("Classifications follow the primary-source comparison in docs/RELATED_WORK_AND_NOVELTY.md; several elements are "
         "adaptations or replications of prior work and are labelled as such.")
     D.table([["Contribution", "Classification", "Qualification"],
              ["Re-scoring defences on a causal working-attack subset", "New method / finding", "Working set depends on probe and judge (435–944 of 2,628)"],
@@ -419,7 +419,7 @@ def build() -> Path:
         "MPBench taxonomy is used for fabricated-fact attacks; Phase 1 registered MemSecBench, MEMSAD, MemAudit, "
         "A-MemGuard, ASB, AgentDojo and InjecAgent as evaluation and comparison resources.")
     D.h("13. Relationship to existing benchmarks and detectors", 2)
-    D.p("RELATED_WORK_AND_NOVELTY.md compares MAMBench with sixteen recent works from their primary sources "
+    D.p("docs/RELATED_WORK_AND_NOVELTY.md compares MAMBench with sixteen recent works from their primary sources "
         "(demonstrated / partial / not demonstrated / unclear for each capability). Published prompt-injection "
         "detectors were run as baselines (ProtectAI deberta-v3, Llama Guard 3, a plain 'is this malicious?' prompt): "
         "disaggregated, the project's configurations lead the strongest published baseline by 32.1 (B13) to 37.2 (B17) "
@@ -435,7 +435,7 @@ def build() -> Path:
     D.table(phase_rows(), widths=[1.6, 2.8, 12.6])
     D.p("After Phase 17, an independent review (2026-10-12) led to a remediation, a gap-closure round, a targeted phase "
         "and six pre-registered defence programmes (v2–v7, 2026-10-13 to 2026-10-17), recorded in "
-        "REMEDIATION_MASTER_REGISTER.md and in Results Analysis Sections 15–24.")
+        "docs/REMEDIATION_MASTER_REGISTER.md and in Results Analysis Sections 15–24.")
     D.figure(ROOT / "docs" / "figures" / "figure1_pipeline_phases_1_13.png", "Figure 1. Pipeline, Phases 1–13 (from the Methodology).")
     D.h("16. Original prototypes and initial hypotheses", 2)
     D.p("Phase 3 reached its final victim architecture, V3-Hybrid, through five validated iterations (hybrid retrieval "
@@ -491,7 +491,7 @@ def build() -> Path:
     D.h("24. Metrics and statistical methods (generated)", 2)
     D.table(formula_rows(), widths=[4.2, 8.3, 4.5], size=7.5)
     D.p("Gap closure: Gap score = Σ weightᵢ × scoreᵢ with scoreᵢ ∈ {0, 0.25, 0.5, 0.75, 1}; capped at 0.50 if any "
-        "critical capability scores 0 and at 0.60 if any scores ≤ 0.25 (FINAL_DEFENCE_BASELINE_AUDIT.md §3). Scores "
+        "critical capability scores 0 and at 0.60 if any scores ≤ 0.25 (docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md §3). Scores "
         "measure evidence strength, not accuracy.")
     D.h("25. Baselines and comparison methodology", 2)
     D.p("B0 (no defence) is the baseline for every defence comparison; published detectors are run unchanged as external "
@@ -611,7 +611,7 @@ def build() -> Path:
              ["Ollama with qwen2.5:7b, llama2, phi3:mini, mistral, llama3.1:8b, llama-guard3", "phase17/OLLAMA_MODEL_PINS.md"],
              ["Gemini API key (independent judge; optional)", "phase17/gemini_provider.py"],
              ["Isolated Mem0 / A-MEM interpreters (C:\\h4venv, C:\\mem0venv)", "phase17/ISOLATED_ENVIRONMENTS.md"],
-             ["Licensed raw data (data/raw/) and processed corpora (data/processed/)", "data/metadata/dataset_manifest.json; DATA_LICENSING_AND_ANNOTATION_AUDIT.md"],
+             ["Licensed raw data (data/raw/) and processed corpora (data/processed/)", "data/metadata/dataset_manifest.json; docs/DATA_LICENSING_AND_ANNOTATION_AUDIT.md"],
              ["HuggingFace models (all-MiniLM-L6-v2, deberta-v3 prompt-injection, NLI cross-encoder)", "downloaded on first use"]], widths=[9.5, 7.5])
     D.h("48. Error handling and failure behaviour", 2)
     D.p("Benchmark tasks fail closed (section 36). Long runs use atomic checkpoint writes and resume tooling "
@@ -784,7 +784,7 @@ def build() -> Path:
     D.p("Verified references from the Methodology Draft (Section 16):", bold_lead=None)
     for r_ in meth:
         d.add_paragraph(r_, style="List Number")
-    D.p("Additional works compared in RELATED_WORK_AND_NOVELTY.md (as recorded there; venue as stated on arXiv):")
+    D.p("Additional works compared in docs/RELATED_WORK_AND_NOVELTY.md (as recorded there; venue as stated on arXiv):")
     for r_ in rel:
         d.add_paragraph(r_, style="List Bullet")
     D.h("91. Glossary", 2)
@@ -806,19 +806,21 @@ def build() -> Path:
            "python -m phase17.build_results_analysis_docx\npython -m phase17.update_methodology_v7\n"
            "python scripts/build_comprehensive_documentation.py")
     D.h("96. Documentation inventory and source mapping (generated)", 2)
-    D.p("Every documentation file was classified before consolidation (docs/cleanup/CLEANUP_INVENTORY.md). Nothing was "
-        "deleted or moved by this consolidation.")
+    D.p("Every documentation file was classified before consolidation (docs/cleanup/CLEANUP_INVENTORY.md). Afterwards, on "
+        "the owner's decision, four unreferenced text files were deleted (a stale Methodology text extract and three "
+        "third-party paper extracts), two superseded gitignored drafts were removed, and the 45 root-level reports were "
+        "moved: five living or legal documents to docs/ and forty historical reports plus the August Methodology.pdf to docs/archive/ (content unchanged apart from three relative links re-rooted in PHASE5_HANDOFF_REPORT.md).")
     D.table(inventory_counts(), widths=[12, 5])
     D.table([["Source documents", "Destination in this document", "Preserved", "Not copied, and why"],
              ["Methodology Draft (Sections 1–4, 14–16, 33)", "Parts I–III, VIII, X", "objectives, threat model, phases, ethics, references, conclusions", "full method detail stays in the Methodology"],
              ["Results Analysis (Abstract, 2, 10–14, 22–24)", "Part VI", "headline results with denominators and sources", "tables and statistics stay in the Results Analysis"],
              ["README snapshots (docs/history/)", "Parts I, VI", "current state, superseded snapshots noted", "dated snapshots kept verbatim"],
-             ["Defence-programme reports (root *_REPORT.md, DEFENCE_V*.md)", "Parts III, VI, IX", "mechanisms, closure, failures", "originals kept as evidence"],
+             ["Defence-programme and audit reports (now docs/archive/)", "Parts III, VI, IX", "mechanisms, closure, failures", "originals kept as evidence"],
              ["Phase reports (docs/phaseN, phase3/experiments, phase5)", "Part III", "phase roadmap and design decisions", "originals kept; several are read by tests"],
              ["BENCHMARK_SPECIFICATION.md, BENCHMARK_CARD.md", "Part IV", "schema, threat model, runner", "kept as machine-facing specifications"],
-             ["DATA_LICENSING_AND_ANNOTATION_AUDIT.md", "Part VIII", "licence table", "kept (legal)"],
-             ["RELATED_WORK_AND_NOVELTY.md, NOVELTY_MATRIX.md", "Parts I–II, X", "contribution classes, compared works", "per-capability matrix kept"],
-             ["REMEDIATION_MASTER_REGISTER.md", "Parts VIII–IX", "open items and statuses", "kept (live register)"],
+             ["docs/DATA_LICENSING_AND_ANNOTATION_AUDIT.md", "Part VIII", "licence table", "kept (legal)"],
+             ["docs/RELATED_WORK_AND_NOVELTY.md, docs/NOVELTY_MATRIX.md", "Parts I–II, X", "contribution classes, compared works", "per-capability matrix kept"],
+             ["docs/REMEDIATION_MASTER_REGISTER.md", "Parts VIII–IX", "open items and statuses", "kept (live register)"],
              ["Operational guides (phase17/*.md)", "Part VII", "commands and requirements", "kept beside the code"]],
             widths=[4.6, 3.2, 4.6, 4.6], size=7.5)
     D.h("97. Known limitations and release blockers", 2)
