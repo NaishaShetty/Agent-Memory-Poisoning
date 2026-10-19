@@ -30,7 +30,9 @@ def _stored_only_ung():
     return f"{sum(v['GP_excl'] for v in xs)}/{len(xs)}"
 
 
-def blocks():
+def blocks(doc="results"):
+    """doc='results': the v7 architecture and closure figures live in Results Section 22, so Section 24 points there;
+    doc='methodology': Section 32.72 keeps both figures."""
     g1, g2, g3, csd, cl = _L("g1_eval_sa7.json"), _L("g2_eval_ho10.json"), _L("g3_eval_sa7.json"), _L("g3_csd_eval.json"), _L("closure_v7.json")
     g1d, g3p, d2 = _L("g1_dev_sa7.json"), _L("g3_pilot_sa7dev.json"), _L("dcr2_dev.json")
     b = [("h", "24. Defence Programme v7 (2026-10-15/17): Graded Provenance, No-Decay Containment, Fresh Sleeper Test")]
@@ -175,11 +177,14 @@ def blocks():
                     "; ".join(f"{c['name'].split(' ')[0]} {c['before']} -> {c['after']}" for c in v["capabilities"] if c["before"] != c["after"]) or "none"]
                    for g, v in cl["gaps"].items()]))
         b.append(("cap", "Table 24.6. Operational closure after v7 (no combined score). Details: docs/phase17/v7/RUBRIC_MAPPING.md."))
-        b.append(("fig", "W4"))
-        b.append(("cap", "Operational closure per gap after v5, v6 and v7."))
-        b.append(("fig", "W5"))
-        b.append(("cap", "The v7 defence architecture with each component's evaluated status (supersedes the v6 and "
-                         "2026-10-14 architecture figures)."))
+        if doc == "methodology":
+            b.append(("fig", "W4"))
+            b.append(("cap", "Operational closure per gap after v5, v6 and v7."))
+            b.append(("fig", "W5"))
+            b.append(("cap", "The v7 defence architecture with each component's evaluated status."))
+        else:
+            b.append(("p", "The v7 defence architecture and the per-capability closure scores, with the closure per gap after v5, "
+                           "v6 and v7, are given in Section 22."))
         b.append(("p", "Recorded interpretations: Gap 2's factual sub-test is read strictly (an under-powered failure lowers 2.3; the "
                        "lenient reading would give 75%); 2.2 passes by two descendants; 2.6 is relative to a weak lineage-present "
                        "matcher; Gap 3 stays capped because E fails the joint detection and benign limit."))
@@ -188,8 +193,7 @@ def blocks():
                        "like planted rules to every signal tested, and the 7B agent rarely acted on the sleepers in this set, which "
                        "left the behavioural tests with low base rates. SA-7 reuses the SA-6 owners and generator (items are new and "
                        "owner-disjoint between its own splits). Channel labels are application-recorded, not authenticated. Judges "
-                       "are LLMs. The next pre-registered candidate for Gap 3 is C AND K, on a fresh set; for Gap 2, a powered factual "
-                       "set; for all gaps, the authenticated-writer layer for Mem0."))
+                       "are LLMs."))
     return b
 
 

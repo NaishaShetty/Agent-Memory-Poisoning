@@ -199,8 +199,13 @@ def test_methodology_has_no_stale_or_duplicated_corrections():
     t = "\n".join(p.text for p in docx.Document(str(ROOT / "Methodology Draft.docx")).paragraphs)
     for stale in ("34/41 pre-registered predictions held", "nearly 39 points", "provably cannot"):
         assert stale not in t, stale
-    assert t.count("that comparison now exists") == 1
-    assert t.count("REMEDIATION (2026-10-12)") == 1
+    # 2026-10-19: the document states current results; the dated correction notes the patcher used to add
+    # are folded into the current text, and superseded statements are listed once in History of Corrections
+    assert t.count("docs/RELATED_WORK_AND_NOVELTY.md; several contributions") == 1
+    assert t.count("An independent pre-submission review (2026-10-12)") == 1
+    assert t.splitlines().count("History of Corrections") == 1
+    for label in ("[Status 20", "[SUPERSEDED", "[CORRECTED", "CORRECTION (", "[Round 7 note", "that comparison now exists"):
+        assert label not in t, label
     assert "publishab" not in t.lower()                     # owner's rule for the two deliverable documents
 
 

@@ -2115,6 +2115,11 @@ P("Annotation: annotator 1 is the author; annotator 2 is the author's friend, wh
   "judges. ANNOTATION_PROVENANCE_FINAL.md.")
 
 from phase17.results_sections_final import write as _write_final  # noqa: E402
+from phase17.figures_v7 import run as _draw_v7  # noqa: E402
+
+# Section 22 shows the current (v7) architecture and closure, so the v7 figures are drawn first
+_V7FIGS = {k: (Path(__file__).resolve().parents[1] / v) for k, v in _draw_v7().items() if v}
+_FFIGS.update({k: _V7FIGS[k] for k in ("W4", "W5") if k in _V7FIGS})
 
 _write_final(H, P, TBL, CAP, FIGF)
 
@@ -2139,10 +2144,7 @@ def FIGV(key, caption, width_in=6.3):
 _write_v6(H, P, TBL, CAP, FIGV)
 
 # ---- Section 24 (defence programme v7), generated from the v7 artifacts (2026-10-17)
-from phase17.figures_v7 import run as _draw_v7  # noqa: E402
 from phase17.results_sections_v7 import write as _write_v7  # noqa: E402
-
-_V7FIGS = {k: (Path(__file__).resolve().parents[1] / v) for k, v in _draw_v7().items() if v}
 
 
 def FIGW(key, caption, width_in=6.3):

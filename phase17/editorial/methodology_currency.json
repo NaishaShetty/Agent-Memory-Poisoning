@@ -1,0 +1,758 @@
+{
+"09f7b827cf95cae69fc6ce92f9f048e9aafaa685d371ee17e70ba974c8be0d34": {
+"op": "replace",
+"new": "How to read this document. The document is organised by phase (Sections 5-32) and states current results; where a later phase revised an earlier statement, the current statement is given in place and the earlier one is listed under History of Corrections at the end. The pre-registered defence programmes v2-v7 and the closure of the three research gaps are Sections 32.64-32.72, round 7 is Sections 32.49-32.63, and Section 33 summarises the project. The companion Results Analysis reports every number with its false-positive cost and on both denominators.",
+"adds": [
+"5",
+"32"
+],
+"orig_head": "How to read this document. It is cumulative: each phase was "
+},
+"5bb2b10a25665f5b4a7bf88286718de08cb94a9089b393960177db080e087526": {
+"op": "replace",
+"new": "An independent pre-submission review (2026-10-12) led to two pre-registered experiments (sleeper activation, two-generation propagation) and a separate IEEE manuscript (paper/). The authoritative numbers are in results/TABLE_INDEX.md; every review finding has a status in docs/REMEDIATION_MASTER_REGISTER.md.",
+"adds": [],
+"orig_head": "REMEDIATION (2026-10-12): an independent pre-submission revi"
+},
+"7a9b9f4ca82bdf7d3fd49c7a402f0f71b40d2127b7b0ea2dfd2fc420d9da9ce5": {
+"op": "replace",
+"new": "External review rounds 3-7 (Sections 32.19-32.63) changed the defense configuration and the way every number in this document is read. Four results dominate. First, a causal, pre-committed attack-validity audit finds that only 42.5% of this benchmark's 2,628 attack instances both subvert an undefended agent and implement the mechanism they are labelled with, so every detection rate is reported on both the full and the working-attack denominator; which instances count as working depends on the probe and the judge (435-944 of 2,628 depending on how disputed labels resolve), while the memory's net causal effect and the defence ranking are robust to both (Section 32.65). Second, provenance-aware admission reaches attack classes that content-only detection cannot reach by design – additive fabrication 0/72 against 37/72, pre-registered – and reduces unconditional harm from 28.2% to 10.4% at a task-alone base rate of 1/309, while costing less per admitted memory than the stack it supersedes; on independent memory-poisoning hold-outs it reaches 50.3% against 20.4%, 54.3% against 29.5% and 73.8% against 43.1% for the fused content classifier (B13 vs B14; hold-out 8, p=5e-14). Third, adaptive evasion, unaffected by a 170-fold increase in detector cost, is a problem of statefulness: a per-scope ledger of previously rejected content reduces it from 24.6% to 0.8% across 20 attack families (p=9e-10), at the price of a denial-of-service surface that a deployment must accept explicitly, and corroboration, brittle to an adaptive attacker alone (22/48), is robust behind the ledger (5/48). Fourth, the configurations that perform best on memory poisoning and on injection-shaped text are complementary rather than ranked, so the recommendation is conditioned on the false-positive budget: B13 with the owner's conversation for memory poisoning, B17 for injection-shaped text. Round 7 froze hold-outs 4-8 and scored each once under committed predictions (39/47 held), retiring hold-out 3 after seven uses; a generalized union of provenance and an embedding-anomaly signal needs per-owner benign calibration, since the shipped development-fitted signal flags 80% of hold-out 8's benign notes.",
+"adds": [],
+"orig_head": "Update (2026-10-05, external review rounds 3-6, final). Sect"
+},
+"04a6e76f3374f8738541cdebac4c136ed828b65ba1059cff4c64f33be89865ea": {
+"op": "replace",
+"new": "The seven security-benchmark, evaluation, and defense resources identified in Phase 1 — MemSecBench, MEMSAD, MemAudit, A-MemGuard, ASB, AgentDojo, and InjecAgent — were registered as comparison and evaluation resources for later phases (Section 5.1). A per-resource comparison from primary sources, covering what each demonstrates and what MAMBench adds, is given in docs/RELATED_WORK_AND_NOVELTY.md; several contributions of this project are adaptations of prior work and are classified as such there.",
+"adds": [],
+"orig_head": "The seven security-benchmark, evaluation, and defense resour"
+},
+"266624a77aadc78dee69d4e57560d27e02e3d1206561d6b6a055b3588f08b5db": {
+"op": "replace",
+"new": "This benchmark's fitness for a given attack class depends on whether the target agent has a functioning mechanism at the injection surface that attack requires. For example, C2-class attacks (MemoryGraft) require an agent that persists ingested content based on its own judgment — a capability the Phase 3 agent's Mem0/A-MEM ingestion path does not include in the form the source mechanism assumes; C3-class attacks (FARMA) require explicit reasoning about whether the canonical, mediated write path should be bypassed. This fitness question is addressed per attack in Phase 4 (Section 17).",
+"adds": [
+"17"
+],
+"orig_head": "This benchmark's fitness for a given attack class depends on"
+},
+"dbdc4cf4aa3473f7fac938add1504944ca6d0cc8649d937436857fad0bb4c6e7": {
+"op": "replace",
+"new": "Code and derived artifacts: the data-preparation pipeline, the Unified Memory Record schema, the benchmark organization and reproducibility manifests, the Phase 3 agent implementation (hybrid reranking, temporal resolution, and the bounded verification step) and every later phase are maintained in a public, version-controlled repository (Section 8; github.com/NaishaShetty/Agent-Memory-Poisoning). No licence has been attached to the repository; that is the authors' decision.",
+"adds": [],
+"orig_head": "Code and derived artifacts: the data-preparation pipeline, t"
+},
+"36f3db8a4f846728fddeedab22ffbd88d4b4d34b1574d2330b1560fb9b577579": {
+"op": "replace",
+"new": "Dependency reproducibility: requirements.txt lists minimum versions; requirements-ci.txt pins exact versions with hashes for the Linux, Python 3.11 environment that continuous integration installs; and requirements-lock.txt records the Windows/CUDA development environment.",
+"adds": [
+"3.11"
+],
+"orig_head": "Dependency reproducibility: this project does not currently "
+},
+"9f977d6e4c5a73c5afa91f5a1686d17078d14d07620130c6a58b3cea230d3d79": {
+"op": "replace",
+"new": "Before any instrumentation code was written, the repository was audited for existing observability. The audit found two disconnected regimes: Phase 3's CanonicalEvent/CanonicalEventLedger machinery, implemented but not adopted by Phase 4's attack campaigns, and Phase 4's print-to-stdout logging, which was neither persisted nor queryable. Fifteen observability requirements (OR-1 through OR-15) were then derived and frozen as the Instrumentation Contract, specifying what must be recorded, when, by whom, under what identifier and with what visibility and immutability guarantee, for every stage of the memory lifecycle.",
+"adds": [],
+"orig_head": "Before any instrumentation code was written, the repository "
+},
+"4305212a5d1ef3a4a89dd7873511e35a447483a08b267fcfa4de703569655f38": {
+"op": "replace",
+"new": "21.4 Corpus Design: TRUSTED Versus UNASSESSED",
+"adds": [],
+"orig_head": "21.4 A Corpus-Design Correction: TRUSTED Versus UNASSESSED"
+},
+"63048813b81fe81f3979a93f5c5818dde09c2f0b840d611332a97927ef2c6daa": {
+"op": "replace",
+"new": "The B0–B7 corpus, even expanded to 75 scenarios, remains small by evaluation standards: a single scenario's reclassification can move a reported detection or false-positive percentage by several points. The ASB comparison's primary result rests on one untuned default configuration, intentionally not recalibrated to this corpus for fairness; the supplementary threshold sweep provides context but does not replace that single-point comparison. The B0–B7 sweep evaluates only the admission-side signal for the sleeper/dormant-poisoning family, since a faithful retrieval-side sleeper simulation requires multi-query retrieval history that this synthetic, single-pass corpus does not model. Per-attack generation-configuration variance across the seven attacks' published, frozen campaign scripts is not revised, since revising it would require re-verifying each script end to end. Infrastructure-level isolation for A-MEM's sandboxing confound requires infrastructure this environment does not have; the error-swallowing part of that finding was fixed (a quantified conformance summary reports the confound rate directly), and the underlying isolation gap is a stated boundary.",
+"adds": [],
+"orig_head": "The B0–B7 corpus, even expanded to 75 scenarios, remains sma"
+},
+"a654e3b7ce7ee4610a1f05a5a07cf09a14803c666178a238674ca5ca78d146af": {
+"op": "replace",
+"new": "Sample sizes, even after §22.5's n>1 extension, support no formal statistical claim: every swept study varies topology and content parameters, not independent random seeds, and no attack-versus-attack ranking is made in this layer. The per-footprint root-splitting blind spot is closed only for the three specific constructions tested (§22.3); an attacker who never shares an observed edge with their own other memories remains invisible to every signal here, since each requires an edge to aggregate over. AgentPoison's two-stage pipeline (§22.4) does not fully discriminate benign from trigger conditions — a partial result, not a closure. The shallow-and-wide adaptive-splitting robustness check covers only the topologies constructed for it, not a general immunity guarantee. Finally, this layer avoids the frozen Phase 3 lifecycle-versioning gap reported in Section 19.6 by routing around it (footprints are built from raw derivation and propagation events, never from the affected version-reconstruction path) rather than depending on a repair this phase does not attempt.",
+"adds": [],
+"orig_head": "Sample sizes, even after §22.5's n>1 extension, support no f"
+},
+"44ea711da7f9101310b63dc45936b90a5e18f856e9f0412f5aab57c23ac73993": {
+"op": "replace",
+"new": "With the semantic consensus signal that Phase 11's generalization research fed back into Phase 6's composition (Section 26.10), B9/B10 measure 100.0% detection at a 14.6% false-positive rate on the same 75-scenario corpus, which removes the MemoryGraft-style-volume limitation described above; the 70.6%/7.3% B9 figures in this section are those of the composition before that signal.",
+"adds": [],
+"orig_head": "Update (2026-09-20) — the MemoryGraft-style-volume limitatio"
+},
+"2c9514dc8b6ebdb241f163cbf14d97eaeefd4be6516a6bde0b9e4e67188bd7a0": {
+"op": "replace",
+"new": "One further signal, identified during this investigation but independent of the GNN/GLN architecture, was fed back into Phase 6's rule-based composition rather than kept inside Phase 11: an embedding-based (semantic) counterpart to the existing lexical consensus-divergence signal, built in Phase 6.6 but never wired into B9's composition. Paraphrased but lexically diverse coordinated poison (the MemoryGraft-style-volume PARAPHRASE-POISON family) scores exactly 0.0 on the lexical (token-overlap) signal by construction, but is identified as a coordinated cluster by the semantic signal. Adding it to B9's retrieval-group score as an additional key (combined with the lexical signal via MAX, since the two are independent detection mechanisms for the same phenomenon rather than two estimates of one quantity requiring corroboration) raised B9's detection from 70.6% to 100.0%, at a traced false-positive cost (7.3% to 14.6%), entirely attributable to a known limitation of pool-consensus escalation: a minority truth record inside a coordinated poison pool reads as “divergent from consensus”. This closes the Section 21.9 and 25.5 MemoryGraft-style-volume limitation on the reported corpus; those sections give the figures before this signal.",
+"adds": [],
+"orig_head": "One further signal, identified during this investigation but"
+},
+"4977f77c5ad08e1444ed1819c1ac5a8c08232eb24fbd968a7adf36d2e0eaa4f3": {
+"op": "replace",
+"new": "One limitation is structural: origin attribution's false-attribution rate cannot be tested under cross-attack ambiguity, because the ledger's write-time data-integrity invariant (no two attack-injection events may claim the same memory id) makes a contested origin claim unreachable by construction. Testing it would require bypassing an integrity guarantee for the sake of one metric, which this project declines to do. Every other limitation raised during this phase — a narrower multi-source sweep than an exhaustive combinatorial one, an influence-attribution sweep of six cases rather than an exhaustive one, and a confidence-correlation question this corpus's signal distribution cannot answer with statistical power — is a scope boundary, not a structural impossibility.",
+"adds": [],
+"orig_head": "One limitation remains open by design: origin attribution's "
+},
+"0702c80da12ce515f48a8c300022845496d720ce6d301334677efa4c588fa81c": {
+"op": "replace",
+"new": "Section 32 is ordered by when each result was found. This guide groups its subsections by what they establish, so a reader can go to a claim rather than through a chronology. Where a later subsection revised an earlier one, the current statement is given in place and the earlier one is listed under History of Corrections. Round 7 (32.49 onward): 32.49 the hold-out 3 development set overlapped the hold-out; 32.50 the founding families under B18 with evidence; later round-7 subsections add hold-outs 4 and 5 and the compositions tested on them.",
+"adds": [],
+"orig_head": "Section 32 grew across six review rounds and is ordered by w"
+},
+"fc44225b85e82d821608852a7a7b667c4dc66dcfc6a388dd2d95776c1bf86307": {
+"op": "replace",
+"new": "32.24 provenance-aware admission (B13); 32.25 fusion and lean fusion (B14, B15); 32.28 complementarity and the union configurations (B17, B18); 32.30 adaptive evasion as a statefulness problem (B16); 32.39 adaptive evasion resolved; 32.41 the unions are mis-calibrated; 32.44 the memory-shape gate, and why it did not generalise.",
+"adds": [],
+"orig_head": "32.24 provenance-aware admission (B13); 32.25 fusion and lea"
+},
+"08292f2d46b700ad2200b96de8306d4a26734184d0ee362909ff84e849bf4444": {
+"op": "replace",
+"new": "32.34 the multi-hop ceiling is an evaluator artifact, not a reasoning limit; 32.41 B17/B18 compared at matched operating points; 32.43 exfiltration's zero harm traced to a generator defect, with the mechanism then tested; 32.56 the recommendation, conditioned on the false-positive budget.",
+"adds": [
+"32.56"
+],
+"orig_head": "32.34 the multi-hop ceiling is an evaluator artifact, not a "
+},
+"9d8d7d5958bb7931c6c0856949d10849503638a43faf31491a234c32f5e2aba2": {
+"op": "replace",
+"new": "ROUND 7 (2026-10-06 to 2026-10-09): 32.49 the hold-out 3 development set overlapped the hold-out; 32.50 the founding families under B18 with evidence; 32.51 two new hold-outs, frozen before scoring; 32.52 development results; 32.53 exfiltration authoring; 32.54 hold-outs 4 and 5, scored once; 32.55 neutralisation beyond injection text; 32.56 the round-7 recommendation; 32.57 two corroboration fixes tested on development data; 32.58 the judges checked against a person, and the noise floor measured; 32.59 hold-outs 6 and 7; 32.60 the last measurements (utility, adaptive evasion, re-judged harm, stronger agent); 32.61 Phase 10's risk-weighted retrieval and monitoring, evaluated; 32.62 definitions and formulas; 32.63 the standard of evidence.",
+"adds": [],
+"orig_head": "ROUND 7 (2026-10-06 to 2026-10-09): 32.49 the hold-out 3 dev"
+},
+"0faffce2ea0e71d38a196ce5e100db37eeeef70b962b081d5b735cde701ef732": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "Correction (external review, 2026-09-28): the Mem0 finding a"
+},
+"4374e63d57b7693476a7934d6e268fb875b7b613df88f1f4e1ce18c3e3b63328": {
+"op": "replace",
+"new": "The defense stack was built and tuned entirely against a clean-agent candidate pool (Section 12); Phase 17 tests it against two independent, previously unexercised memory foundations. A-mem-sys (`phase3/evaluation/foundations_real/amem_real_adapter.py`, run under an isolated environment, `C:\\h4venv`) was ingested and retrieved from live for 57 stores: the defense excludes 9/9 original poison cases on what A-mem-sys itself retrieves, though most evasion variants still evade, and A-mem-sys's note-evolution mechanism was traced and confirmed to consistently return a `should_evolve: false` decision for this content (model behavior, not a swallowed error). Mem0 (`phase3/evaluation/foundations_real/mem0_real_adapter.py`, LLM-free `infer=False` add path, on-disk Qdrant plus HuggingFace embeddings) was installed and exercised live for the first time in this project (a second isolated environment, `C:\\mem0venv`): the same 27 Track B cases retrieve 27/27 poison, and with each case scored against its own variant text (`phase17/mem0_live/stage2_defend.py`, per-case lookup) the defense excludes poison_original 9/9, matching A-mem-sys exactly, and plain-rewrite 1/9. There is no cross-foundation dependence.",
+"adds": [
+"9",
+"9",
+"9",
+"1"
+],
+"orig_head": "The defense stack was built and tuned entirely against a cle"
+},
+"5a5c1bc8618665efea48444cc9083ae6590c2cf30f204a459abf72687e5e9671": {
+"op": "replace",
+"new": "MAMBench establishes a verified, provenance-preserving data and agent foundation for studying memory-poisoning attacks against large language model (LLM) agents with external, persistent memory, and a benchmark, defence stack and evaluation built on it. This document reports the methodology of the project's seventeen phases: dataset identification and cleaning (Phase 1), a unified, validated benchmark substrate built on four conversational-memory datasets (Phase 2), a clean, memory-augmented question-answering agent evaluated against two third-party memory systems, Mem0 and A-MEM (Phase 3), a unified benchmark implementing seven structurally diverse memory-poisoning attacks against that unmodified agent (Phase 4), a general-purpose instrumentation, monitoring and attack-attribution layer built on the frozen Phase 3/4 evidence substrate (Phase 5), a governance defense evaluated against the same attack corpus and an external baseline (Phase 6), and the propagation, sleeper, forensic, risk-composition, learned-component, metric, utility, integrated and ablation-and-generalisation phases that follow (Phases 7-17). Phase 3's architecture was developed through five sequentially validated iterations and converged on a final composition, V3-Hybrid. A post-freeze revalidation pass found and fixed a reporting gap in the evaluation trace and scaled the campaign to a larger sample (n = 500/499/500 for Conditions A/B/C-Mem0, n = 120 for C-A-MEM): all three memory-equipped conditions correctly answer 76.4-84.2% of questions under LLM-judge scoring, against a 17.0% no-memory baseline — a large effect that a strict, conservative exact-match metric had understated by roughly a factor of 20 for gold-evidence generation. Phase 4 found that all seven attacks, under their own designed trigger conditions, wrote content into V3-Hybrid's memory and measurably influenced generated answers, confirmed by counterfactual masking. Phase 6's governance defense, evaluated in a four-signal factorial design (admission, retrieval, propagation and sleeper guards) against a 75-scenario poisoned-memory corpus, detects poisoning content at up to 100.0% at a 14.6% benign false-positive rate with the semantic consensus signal contributed back from Phase 11 (Section 26.10), and at 70.6% at a 7.3% false-positive rate without it, up from 47.1% at initial freeze after a validated false-positive fix, a threshold recalibrated against disjoint development data, the sleeper guard added to the full configuration and a regex coverage gap closed; it is compared against an unmodified external baseline (ASB's perplexity filter, which does not transfer to this threat model without recalibration and detects 0.0% at its own default threshold). Phase 7 resolves an open question from Phase 5's handoff report — whether FARMA's amplification cluster crowds out retrieval slots — with a repeatable measurement (re-entry rate 1.0 against a benign ceiling of 0.125), extends mechanism-level propagation studies to all seven attacks, and closes an embedding-based retrieval-pool-narrowing gap for two of them using a Mem0-backed two-stage pipeline (full closure for Sleeper Memory Poisoning, a partial result for AgentPoison). Phase 8 targets the sleeper/dormant-poisoning family with four detection signals over the retrieval pipeline. Its main finding is negative: the planted campaign artifact evades the content-structural signal entirely (it was never written as an imperative instruction), the one signal that catches it (activation shape) has a measured false-positive rate on ordinary benign memories (reduced from 47% to 17.6% by a refinement that preserves full sensitivity, but not eliminated), and no single signal is both sensitive to the attack and safe on benign content. Phase 9 reconstructs an attack's origin backward from a flagged incident (exposure, then full-chain lineage, then origin, then propagation), validated against all seven Phase 4 attacks: five reconstruct to a single, high-confidence origin, two (FARMA, MemoryGraft) correctly report multi-origin ambiguity rather than an arbitrary choice, and a benign incident correctly reports no attack origin. Phase 10 combines the signals of Phases 6-9 into one cross-guard risk estimate; an initial combined configuration regressed (47.1% versus 70.6% detection at the same false-positive rate), and a non-circular recalibration against disjoint development data — never the reported corpus — closed the gap, restoring detection to parity with the strongest prior configuration at no false-positive cost. Phase 11 investigates whether learned components (a relation-aware graph neural network and a gated linear network, both built from scratch) capture poisoning structure or semantics that the sanctioned rule-based signal vocabulary misses. Six negative or mixed findings (a data-scale detection ceiling, a benign-anomaly framing that collapsed to chance once a construction artifact was removed, a structural-feature confound from differences between collected and hand-authored corpora, clean- and poison-data expansion that left detection AUROC unchanged to three decimal places, and a semantic-relationship signal shown by a truthful-counterfactual control to be a text-format artifact) precede a fix: reusing the project's GROUPED_GATED rule composition as a second untrained reference score, combined by maximum rather than average or replacement, closes two leave-one-family-out generalization failures (0% to 100% and 50% to 100% detection) and raises an independent 7-attack corpus detector from 33.3% to 99.6% mean detection; the semantic signal this investigation surfaced was fed back into Phase 6, raising the reported B9/B10 configuration to 100.0% detection at 14.6% false-positive rate. Phase 12 defines four cross-cutting security metrics (Poison Admission Rate, Propagation Rate, Sleeper Detection Rate and Attribution/Mitigation Rate) plus a Defense Generalization Score over the B0–B8 evaluation matrix, ships a fifth defense component (a Consolidation Guard that re-checks a derivation's sources before persistence) after a position-robustness fix to the Propagation Rate measurement surfaced the gap, closes every borderline family miss (DSRM, FARMA, AgentPoison, MemoryGraft, MINJA) with root-caused fixes, and reports a cross-model-validated grand-mean Propagation Rate of 86.1% (2 local models × 3 distractor sets), with the new guard catching 100.0% of propagation events in every one of the 6 trials. Phase 13 runs the attribution layer described in Section 20 against corpus data at scale for the first time — all seven attribution types (origin, lineage, influence, exposure, references, propagation and the composed forensics/action layers), plus the Consolidation Guard's quarantine and allow decisions — achieving 100% source accuracy (15/15), 100% path fidelity including four constructed multi-source branches (19/19), and 100% influence and Consolidation Guard decision-tracing accuracy across every case tested. The correlation between admission-time and propagation-time confidence signals is weak and inconclusive at two independent resolutions, traced to near-binary signal firing on this corpus, and origin attribution's false-attribution rate under cross-attack ambiguity is untestable by construction, because testing it would require bypassing a ledger data-integrity invariant. Known limitations — the strictness of the multi-hop scoring ensemble (Section 32.34), a residual substring-matching gap in one additive metric, small absolute corpus sizes for the attack and defense evaluations, and an unresolved vendor identity-resolution question for A-MEM — are reported as explicit boundaries. Phases 14-17 are Sections 29-32, and Section 33 concludes across all of them.",
+"adds": [
+"32.34",
+"7"
+],
+"orig_head": "MAMBench establishes a verified, provenance-preserving data "
+},
+"efc2b5b8773337a406088981a7b55907b888f5154f48ec6ff64a0ceceec7a546": {
+"op": "replace",
+"new": "Before any attack or defense can be evaluated on a comparable footing, the underlying clean agent and memory substrate must itself be trustworthy: its correctness, provenance and behavior under normal, unpoisoned operation must be established and measured, so that a later degradation can be attributed to an attack rather than to pre-existing noise in the foundation. This document reports that foundation, the seven-attack benchmark built on it, the observability layer that makes both attributable at scale, the governance defense evaluated against the same attack corpus, the propagation-monitoring layer that resolves several of those phases' open questions, the dormant/sleeper-poisoning detection layer that documents where the combined defense falls short, the forensic layer that reconstructs an attack's origin after the fact, and the risk-composition layer that combines every prior phase's signals into one decision estimate (Phases 1 through 10), followed by the learned-component, metric, utility, integrated and ablation-and-generalisation work of Phases 11-17 (Sections 26-33), and treats each as a contribution in its own right rather than as preparatory infrastructure.",
+"adds": [
+"11",
+"26"
+],
+"orig_head": "Before any attack or defense can be evaluated on a comparabl"
+},
+"3c2775d8c8bbaa67b1618a3e1de442927c9bed9c8a5f1ed50c572693dfb73896": {
+"op": "replace",
+"new": "Phase 10 built three separately tested surfaces for a RiskEstimate: a decision surface routing MODERATE/ELEVATED risk to the existing REQUIRE_VALIDATION action (Section 24.4) rather than only ALLOW or QUARANTINE; a continuous, risk-weighted retrieval-ranking penalty generalizing the existing fixed-threshold downrank gate; and an optional sort key ordering Phase 9's forensic-target resolvers by risk, leaving the choice of what to investigate to a human, as Phase 9 established. Phase 14 wired the first surface (risk band -> action) into the live defended agent as configuration B9 (Section 29). The risk-weighted retrieval ranking, evaluated in round 7 (Section 32.61), cut poison exposure 88 -> 82 of 309 against the fixed gate when admission signals corroborate (p=0.031), at no benign displacement. Risk-weighted monitoring, evaluated on development data, lists the poison in 43 of 309 retrievals in realistic retrieval pools with review lists averaging 0.75 items, and risk ordering puts the poison first in 39 of 43 against 33.5 expected by default: it works but has little to do.",
+"adds": [
+"10"
+],
+"orig_head": "In this version a RiskEstimate drives three separately teste"
+},
+"338851194e9bac349e5f768d827a424e5ac7fa645bddb4da7fb4599f3704d560": {
+"op": "replace",
+"new": "This threat model was stated ahead of any attack implementation, because a benchmark's fitness for attack research must be judged against the threat model it is meant to support, not asserted informally after the fact. It generalizes the six attacker capability/mechanism profiles surveyed in Section 2 into a common vocabulary used by the attack and defense work from Phase 4 (Section 17) onward.",
+"adds": [],
+"orig_head": "No attack is implemented or executed in the work reported in"
+},
+"1da86c918a74587caef582729531684cb06aec56e19d12019a9c6016ca42b45e": {
+"op": "replace",
+"new": "Two reproducibility mechanisms were added later in the project:",
+"adds": [],
+"orig_head": "Two reproducibility mechanisms are explicitly not claimed:"
+},
+"75308bab53e9706c299cb2b270e06379662f4e3f600f6d02562753d87dc495ba": {
+"op": "replace",
+"new": "A dependency lock file. requirements-ci.txt pins exact versions with hashes for the Linux, Python 3.11 environment that continuous integration installs; requirements.txt keeps the minimum versions.",
+"adds": [
+"3.11"
+],
+"orig_head": "A dependency lockfile. Dependencies are pinned by version ra"
+},
+"5d188172f6d3d1c7dbbde9b786fd0d32a649c317d52d1fca292e23228af80d7c": {
+"op": "replace",
+"new": "32.10 Five Rounds of Fixes",
+"adds": [],
+"orig_head": "32.10 Five Rounds of Fixes: What Was Resolved and What Remai"
+},
+"e8acb00e449b6fe55a9981eeac2f8ce57ff233739f26e4d00f64dbdb979021ef": {
+"op": "replace",
+"new": "Table 1 - Phase 17's first five internal fix rounds and external review rounds 1-2 (full detail: docs/phase17/PHASE17_*.md). Rounds 3-6, which revise several of these conclusions, are reported in Sections 32.19-32.31.",
+"adds": [],
+"orig_head": "Table 1 - Phase 17's first five internal fix rounds and exte"
+},
+"83bb4f301c1c500493b9fd84295065530936f589430a9dc7e536a38adf99e675": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "Update (external review round 2, 2026-09-28): the blinded hu"
+},
+"5a2bad7e6d2021b13aefb178a762ab1082e20d0f19349c330060a34b4b365815": {
+"op": "replace",
+"new": "Three limits of these rounds are carried forward. Defense-aware paraphrase of non-contradictory claims and additive fabrications (a memory that adds a plausible but unverifiable detail) cannot be resolved by content analysis alone – they need provenance evidence, which provenance-aware admission later supplied (Section 32.24). A fabricated long-standing preference is close to indistinguishable from a genuine one from text alone: a deconfounded test using 100% human-written LoCoMo text found a clean corroboration signal in principle – poison is 9/9 zero-corroborated versus 11/151 for genuine preferences – but it cannot be applied to the standalone, LLM-authored preference-hijack evaluation instances, which by the harness's design have no conversational history to check against. The blinded human evaluation of this project's answer-correctness judgments was completed by the project owner on all 60 items (Section 32.16), with two LLM proxies – Gemini and phi3:mini, agreeing with each other 93.3% of the time – as a secondary reference.",
+"adds": [
+"32.24"
+],
+"orig_head": "What remains open: defense-aware paraphrase of non-contradic"
+},
+"cca61a81ebf52ef8304b128b0961b302e0aa86e355f8602b36a5e6e805333f30": {
+"op": "replace",
+"new": "Qwen2.5:7b authored nearly every synthetic attack text in Phase 17 and is also the judge model B11/B12 call – a known confound. Two tests probe it. (1) 30 fresh benign notes generated by Gemini score 0/30 (0%) excluded and flagged – lower than Qwen-authored fresh benign's 4/60 (6.7%), partial evidence against a blanket \"flags any LLM text\" effect. (2) 20 short, personal-style sentences written directly by the project owner in chat (what matters is authorship, not truth; the details stated are invented for the test) flag at 1/20 (5.0%) on B11/B12. These two counts do not establish \"content, not authorship\": 1/20 and 4/60 are close in point estimate, but their Wilson intervals overlap substantially and n=20 is too small to distinguish the two explanations, so this is a suggestive, not conclusive, data point. ConvoMem is not used as a human-written control, because its own dataset audit found \"strong circumstantial evidence of LLM generation\". On the attack side, a Gemini-authored attack result (Section 32.7) is not evidence against an authorship confound: Gemini's attacks use more overtly declarative, content-blatant phrasing (\"System Security Notice:\", \"[System Note: ...]\"), so a higher catch rate is exactly what a purely content-based detector would also produce. Round 7 addressed the attack side in part: hold-outs 3 and 5 are human-written jailbreaks; hold-outs 4 and 7 were written by mistral models (instruct and base) and hold-out 6 by SPML's authors – none by qwen – and provenance's lead held on both memory-poisoning hold-outs (Sections 32.54, 32.59).",
+"adds": [],
+"orig_head": "Qwen2.5:7b authored nearly every synthetic attack text in Ph"
+},
+"d55a247dca2da5b8c52c601697ec7622f60e1200edc5a275b0c6fc417fad8548": {
+"op": "replace",
+"new": "The no-poison baseline confirms what was previously only suspected: policy_revocation shows 5/5 \"harmful\" judged answers with no poison present, so the follow-up task prompt's leading wording, not the poison, drives that mechanism's result; memory_worm shows a partial confound (3/5 baseline harm). The other four mechanisms show 0/5 no-poison-baseline harm, so the poison is necessary for them. Overall, the difference between the no-poison baseline and no defense (poison present) is significant (26.7% vs 53.3%, exact McNemar p=0.021): the poison's presence causes harm above the task's base rate. Per-case reading does not support a drop in harm where B12 excludes at a meaningful rate (authority_impersonation, conditional_backdoor): the 15 cases in which B12 excluded the poison went from 5/15 harmful under no defense to 5/15 harmful under B12's decision, a net change of zero. One harm was prevented (a single authority_impersonation instance), offset by one policy_revocation instance flipping the other way (single-trial LLM-judge noise, not a defense effect); the excluded instances of conditional_backdoor and exfiltration_instruction had zero harm to begin with. The more precise finding: B12 excluded 0 of the 10 poison instances in the two mechanisms that caused harm here (preference_hijack 5/5, memory_worm 5/5), so its exclusions and this sample's harmful cases fell on almost entirely disjoint mechanisms. This experiment does not show B12's exclusions meaningfully reducing harm at n=30.",
+"adds": [],
+"orig_head": "The no-poison baseline confirms what was previously only sus"
+},
+"7d6d41591243ec7d6a6b996889c06c8950b02875584ea96fd901fceac83339b0": {
+"op": "replace",
+"new": "32.28 Complementarity of Provenance and Content Detection",
+"adds": [],
+"orig_head": "32.28 Complementarity, and a Correction to This Project's Re"
+},
+"22b4ae36b6979713339af13feacfedaf2e2318d227891ac5bc4f8d98fa79fbfc": {
+"op": "replace",
+"new": "Restricted to working attacks, the provenance configuration and the fusion configuration do not dominate one another: B13 wins on this project's own attacks (46.7% versus 39.4%, p=0.00013), while B14 strictly dominates on the clean hold-out (40/64 versus 8/64, +32/-0, p=5e-10); B13's 12.5% there is a weakness of provenance on injection-shaped text. The two reach different attacks — provenance and corroboration reach poisoning shaped like an ordinary personal note, fused content classifiers reach injection-shaped text — so they miss disjoint sets, and no single configuration is recommended unconditionally.",
+"adds": [],
+"orig_head": "Restricted to working attacks, the provenance configuration "
+},
+"9640df5d2fe3db1284648c6731dfacc9d754a37c04fa0753c01d9cc5e12b42d4": {
+"op": "replace",
+"new": "At the frozen development radius the paired test shows no effect: 4/30 against 5/30 for the stateless control, paired +0/-1, p=1.0. The hypothesis that the pairwise paraphrase-catch rate would compound across rounds is not supported. The mechanism did engage – the ledger was non-empty in 138 of 151 attack rounds – and the rewrites cleared the radius. This test was underpowered: on the 130 powered seeds the same 0.97 radius cuts adaptive evasion from 32/130 to 8/130 (p=1e-07) at a 0.7% ledger-poisoning blast radius, and the radius sweep recommends 0.95 (5/130 at 6.4%).",
+"adds": [],
+"orig_head": "At the frozen development radius the result is negative and "
+},
+"b237af1c09821a3e8525a529543ae74a7c56c901c34fb9953a21a28c24fb68d8": {
+"op": "replace",
+"new": "The radius is the only lever and it is not free. Benign memories are not similar to rejected attacks at any threshold tested, so the ordinary false-positive cost is 0.0% throughout and the binding constraint is instead a denial-of-service surface: if an attacker succeeds in getting innocuous text hard-mitigated, the share of benign traffic inside that entry's radius rises from 0.7% at the frozen radius to 29.7% at 0.90 and 42.5% at 0.86. An initial development fit of this mechanism measured benign-to-benign similarity instead of benign-to-rejected-attack similarity, read off a 20.8% false-positive rate, and would have discarded the idea; the ledger never contains benign text, so that quantity answers a question the mechanism does not ask. A powered re-run at the pre-registered radius (Section 32.39) reduced adaptive evasion from 32/130 to 1/130 (p=9.3e-10).",
+"adds": [],
+"orig_head": "The radius is the only lever and it is not free. Benign memo"
+},
+"60a2500746ca20fe229c66175a0986b2145e62d8708dd44861c7f332e80f3f47": {
+"op": "replace",
+"new": "Code-state stamping. Results produced by the unified benchmark runner (mambench/) record the git commit and a digest of the implementing source files; the Phase 1-2 pipeline reports are correlated with a code state by cross-reference to the version-controlled repository.",
+"adds": [
+"1",
+"2"
+],
+"orig_head": "Automatic code-state stamping. A commit hash is not automati"
+},
+"982b57abecb7ae2da34c5467bd7ee42389beb669f3357ac358aac228151b03ad": {
+"op": "replace",
+"new": "With perfect evidence supplied, the oracle condition reaches 36/60 multi-hop questions under the strict scoring ensemble, a figure first attributed to a 7B agent's reasoning limit. `multihop_multiagent.py` re-ran that condition across six agent families on the identical cases, prompt and scoring, and that attribution does not hold on either count.",
+"adds": [],
+"orig_head": "CORRECTION (round 6). The claim that multi-hop reasoning lie"
+},
+"5c6b3ba79e91d0130b81024b98c8d2eb4ad0f6a68d8cf2df0fa14d0edcad9d58": {
+"op": "replace",
+"new": "Of the five pre-registered predictions, two held and three were not supported. B18 >= B17 held but at p=0.25; B13 being poor on a jailbreak corpus held. B18 beating B14 by five points was not supported (+0.4); the prediction that the published baselines would degrade most was reversed, since this project's configurations degraded far more than the strongest baseline; and the prediction that nothing would exceed 85% recall was not supported for four configurations.",
+"adds": [],
+"orig_head": "Of the five pre-registered predictions, two held and three f"
+},
+"da5ad4fc4713d0ddafce3b5cdd88ec3ace21286d26846c7123ec30e7419b099b": {
+"op": "replace",
+"new": "Second, WHICH RULE. Per-rule attribution on 200 items from the same source shows content-only at 43.0%, provenance adding 24 exclusions, and corroboration adding 2. Corroboration is not the cause; the stacked CONTENT detector is, firing on 43.0% of long instruction-shaped prose because its threshold was calibrated on conversational-memory negatives. These 200 items are hold-out 3 prompts under a different wrapper (Section 32.49), so this attribution was measured on the hold-out's own distribution; its conclusion is unaffected.",
+"adds": [],
+"orig_head": "Second, WHICH RULE. Per-rule attribution on 200 DEV items fr"
+},
+"8cce8b03d7e86dbd56b19dfaa797eccc8c441a880edeaae7c1cb3efb9d075e89": {
+"op": "replace",
+"new": "Table 9 - The rejection-memory radius at the value fixed in the pre-registration, on 120 fresh seeds drawn by a mechanical rule from populations the adaptive attacker had never been pointed at, asserted disjoint from the 43 on which the radius was chosen. Paired result: n = 120; detected 0 (control) versus 1 (B16); discordant pairs 0 and 1; exact p = 1.0. Under the falsification rule written in advance — no reduction, or p>0.1 with at least 20 initially excluded seeds — B16 is falsified. The test could not have passed: the control arm produced exactly one evasion event, B16 prevented it, and one event caps the achievable result at a p-value of 1.0. This reflects a flaw in the seed-selection rule, which drew from populations where the defense already excludes most instances at round 0. The falsification stands as a fact about this test; the powered re-run in Section 32.39 resolved adaptive evasion.",
+"adds": [],
+"orig_head": "Table 9 - The rejection-memory radius at the value fixed in "
+},
+"b45c173c155964d5ad62b0bb7dbdf8a4d075f0cd582f36d71509734224959e6e": {
+"op": "replace",
+"new": "Table 10 - Exfiltration across three agent families, on instances a third-model judge confirms are exfiltration attacks and which are retrieved 53% of the time. All three are at zero. Section 32.43 traces the zero to the generator omitting the outbound recipient; on gate-valid instances exfiltration is a tested mechanism with zero harm across three agent families.",
+"adds": [],
+"orig_head": "Table 10 - Exfiltration across three agent families, on inst"
+},
+"833f00d2caf6f656672b412efeb5475c61aef9733679e63d0e9b1de99f75303b": {
+"op": "replace",
+"new": "The pre-registered test of the rejection ledger did not reach significance because one evasion event in its control arm capped the achievable p-value at 1.0, not because the mechanism was absent. That was a defect in the seed-selection rule rather than in the rule for interpreting the result, so the selection was corrected and the radius left untouched: seeds are now pre-filtered to those the stateless control excludes at round 0, which is the metric's own denominator, gives both arms the identical set, and cannot advantage either since the ledger configuration reproduces the stateless one exactly at round 0.",
+"adds": [],
+"orig_head": "The pre-registered test of the rejection ledger failed becau"
+},
+"e9d02fb4ed1764d0e948d6efab739e75b31ff7504052d3a985e19f15a41b70a5": {
+"op": "replace",
+"new": "Three qualifications travel with this result. The radius was pre-registered before any fresh-seed run, but the seed rule was revised after the first test – a design revision made after that result, and labelled as such; what defends it is that pre-filtering selects on the metric's own denominator rather than on the outcome, and that an effect of 32 to 1 at p=9e-10 is far too large to be manufactured by it. The cost is not optional: the 0.90 radius carries a 29.7% ledger-poisoning blast radius against 0.7% at the conservative 0.97, so a deployment must accept that denial-of-service surface to obtain this, and the finding is the trade rather than a solved problem. And the mechanism does nothing against a single-shot attacker, one who distributes attempts across isolated scopes, or one who waits out the ledger's time-to-live.",
+"adds": [],
+"orig_head": "Three qualifications travel with this result. The radius was"
+},
+"c062a62c3a7402e78457a5604a065568cef94b0e740b893016634c4d3e9d11cb": {
+"op": "replace",
+"new": "32.40 Exfiltration: Diagnosing the Zero-Harm Result",
+"adds": [],
+"orig_head": "32.40 Exfiltration Was Reported as an Untested Mechanism (Su"
+},
+"54795381f6048d5760859b7db61f561eb9bb69dda933d3cb05d31a30bb983896": {
+"op": "replace",
+"new": "Table 13 - B13 is a rule composition and cannot be traced at matched operating points, but the two unions' B14 component exposes a continuous score and therefore traces a one-parameter family. Neither shipped point is strictly dominated, but both leave substantial discrimination unused, so their hold-out-3 false-positive rates are partly a calibration defect that one threshold would fix.",
+"adds": [],
+"orig_head": "Table 13 - An earlier statement in this section held that no"
+},
+"98f74aebf1e7e3452699deacfce25c7edaaa64d1bb6147760442c91747b49f6c": {
+"op": "replace",
+"new": "32.42 Conditioning the Recommendation on the False-Positive Budget",
+"adds": [],
+"orig_head": "32.42 Recommendation, Conditioned on the False-Positive Budg"
+},
+"c28d6dbbf94249c34c250dcb9a1ff40ce9417edab3a7b5d2afe43e332123ffe6": {
+"op": "replace",
+"new": "No single configuration is right for every deployment here. The recommendation is therefore conditioned on two things a deployment knows and this benchmark does not: which threat it faces, and what false-positive rate it can absorb. The recommendation itself, tested on clean hold-outs, is given in Section 32.56.",
+"adds": [
+"32.56"
+],
+"orig_head": "RECOMMENDATION (round 6, final). No single configuration is "
+},
+"d71a6a24a1bf13f3a0af2b62047f04ed260bce354e8bf65dcc984ac57ee629c6": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "The deciding constraint is structural, not a matter of tunin"
+},
+"53f9e95a699b61c42b39b09346b28c224f347cca3b0648026fdc1e9b1867eef9": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "For MEMORY POISONING on ordinary memory traffic – the threat"
+},
+"233d651e6f31a7afdc8839ed050efea1e82838d33bef4ba4650f022f73da1201": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "Where an attacker can retry against the same scope, compose "
+},
+"8b22f9ef0472d6600ba5663267f9225c1525c817f2c253dd762fa3154d30e3d2": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "For INJECTION-SHAPED text arriving in memory, the choice dep"
+},
+"c1af3da17352d511c7c22d8fa32ce7bc0742c1cc854890ce850c752b75437f62": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "B17 and B18 remain hold-out-informed: they were selected aft"
+},
+"c54085e2fb99a62fe851a216541e2e34c213218b7fd04ace00e69bb98ec8c53d": {
+"op": "replace",
+"new": "Table 7 - Third, an OPERATING-POINT asymmetry, which the first table concealed and which ran against this project's configurations. The baselines' thresholds are suffixed `@dev` because they were calibrated on separate negatives: each baseline chose an operating point suited to the distribution, while this project's configurations ran at thresholds frozen from conversational memory. Calibrating every scorer on the same snapshot – the dataset's earlier snapshot, with 110 overlapping items dropped – and then evaluating once closes most of the gap: the strongest baseline's advantage over the best configuration falls from 17 points to 2.8. It does not close it entirely, and the baseline still leads on this corpus. Against the 38.8-point lead the provenance configuration holds over that same baseline on memory-poisoning attacks, the picture is coherent rather than contradictory: an off-the-shelf injection classifier is competitive-to-better on injection-shaped text and far behind on memory poisoning. The calibration snapshot overlaps hold-out 3 (382 of its 400 items are hold-out 3 benign prompts verbatim under a different memory wrapper, Section 32.49), so this comparison, which remains symmetric across scorers, is hold-out-calibrated rather than dev-calibrated.",
+"adds": [
+"3"
+],
+"orig_head": "Table 7 - Third, an OPERATING-POINT asymmetry, which the fir"
+},
+"92d623a1ac2a30bebc3510bb4feeeb70c87ec40152e8cbe221d33df8330a8327": {
+"op": "replace",
+"new": "exfiltration_instruction is therefore a tested mechanism, and the result is a negative finding about the attack rather than a defect in the benchmark: the instances are well-formed, they are retrieved, the agents repeat the directive, and all three families decline to execute the redirect. This is a finding about what a 7-8B assistant does with a standing exfiltration instruction. Five explanations were considered for the family's zero: mislabelling, agent refusal on invalid instances, a bare store, a task naming a legitimate recipient, and a generator omitting the recipient — the last of which was the cause; fixing it produced this measurement.",
+"adds": [],
+"orig_head": "exfiltration_instruction is therefore now a tested mechanism"
+},
+"526b647f8f6c0fdad8e725cf26e9ca825a52509c1764d17837bfb11446747420": {
+"op": "replace",
+"new": "32.44 A Memory-Shape Gate",
+"adds": [],
+"orig_head": "32.44 A Memory-Shape Gate, and Why It Failed"
+},
+"4adc8a2fc5b12e7185d821795c47f59fc05616b1e2ea8918e62f49964e3ca1fc": {
+"op": "replace",
+"new": "On development data it looked right: it refused 0 of 1,088 ordinary conversational-memory texts across all seven populations including the 447 Chinese ones, and it would have refused 56.1% of the content detector's false positives before they reached it. An earlier design carried a fifth rule that refused 32.4% of Chinese memory and was deleted on that evidence. The gate's development set proved to be near-copies of the hold-out's benign half (Section 32.49), so it was fitted on the hold-out's own distribution; measured once on the frozen corpus, it still did not generalise:",
+"adds": [],
+"orig_head": "On development data it looked right: it refused 0 of 1,088 o"
+},
+"af2a56a50feece48cec81ca6957ef976d47f145934d1c26378f39ac2f6a494d4": {
+"op": "replace",
+"new": "The negative result is informative, and it is the reason this line was stopped rather than iterated. On an in-the-wild prompt corpus the benign and malicious halves are STRUCTURALLY INDISTINGUISHABLE: both are prompts, both carry persona framing and control tokens, and the only thing separating them is intent. No shape-based pre-filter can therefore separate them, which is precisely why this corpus is hard for every configuration and every published baseline alike. The high false-positive rate on it is a stated limitation, and B19 is reported as an unsuccessful attempt rather than retained as a configuration.",
+"adds": [],
+"orig_head": "The negative result is informative, and it is the reason thi"
+},
+"2ed616b4c7f99274bbaf4f16d002baadebc304f437b597ebe77b494ce53280e4": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "So the final guidance, which supersedes every earlier recomm"
+},
+"3e518f6c8169f703c7ef0087cc2152b7b085ec9e193d5729bb1ccf93db2c657f": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "(1) MEMORY POISONING with the owner's conversation available"
+},
+"5f2bc4a7cb2cf3cf11cbdfcf0c690f28cb2d1a42ae48a8e93f6cd4cbe22cf363": {
+"op": "replace",
+"new": "Table 17 - Five frames compared on DEV attacks, each fixing one diagnosed weakness of the first. The active ingredient is RECENCY: repeating the constraint AFTER the untrusted content, so an injection's own 'ignore all previous instructions' does not get the last word. That alone cuts compliance by about 19 points at no utility cost. Pronoun depersonalisation and tagged delimiters add security but cost utility, and v5_routed reuses the shape gate that did not work as a detector as a router instead – strong frame for non-memories, cheap frame for memories – reaching the same security while slightly improving utility. The frame this project first built (v1_prefix, a prefix-only constraint) is actively HARMFUL: it raises compliance and costs 10 points of utility.",
+"adds": [],
+"orig_head": "Table 17 - Five frames compared on DEV attacks, each fixing "
+},
+"d2b861b5a8e3f14f1df8617ba5fddc2029dffadbe98f59ba2df77adfc1ce76aa": {
+"op": "replace",
+"new": "Table 18 - The dev-selected frame, run ONCE on the frozen corpus. Compliance falls 19.3 points, matching the 20.8 predicted from development data, at p=2.4e-06, while the change in benign information use is not significant. Since nothing is excluded, this is a strict improvement on that distribution over any detection-based configuration, all of which pay 33-55% false positives there. The frame was selected on DEV by a rule fixed before the comparison ran, and the hold-out was scored once. This run was hold-out 3's seventh use (the v1 frame's run was the sixth), so it is not an independent estimate even though this frame was scored once; hold-out 5, frozen and pre-registered, replicates the effect: 37.4% -> 18.3%, p=2e-05 (Section 32.54).",
+"adds": [],
+"orig_head": "Table 18 - The dev-selected frame, run ONCE on the frozen co"
+},
+"21091f0eea968625acec0a5d5d4812a202c5bb735507e580a8da875c47c7a433": {
+"op": "replace",
+"new": "Three of the five predictions in the first pre-registration were not supported, one in the reverse direction. The useful question is whether the model that produced them has improved. B17 and B18 had never been scored on hold-out 2, so five predictions with explicit intervals were committed to `docs/phase17/PREREGISTRATION_2_CALIBRATION.md` before the measurement, together with the scoring rule: four or five held means calibrated, three partially, two or fewer means not calibrated and every forward-looking statement in this document should be read with that attached.",
+"adds": [],
+"orig_head": "Three of the five predictions in the first pre-registration "
+},
+"fa02e06658f04554d4f13b9ed31130bd373963a3696040e1ea307bd6c1a519cd": {
+"op": "replace",
+"new": "Table 20 - 5/5 held. CALIBRATED: 5/5 predictions held. The first pre-registration's shortfalls reflected an incompletely characterised system rather than a habit of overclaiming. The measurement also produces a new best on that hold-out: B18 reaches 72.7% against B14's 54.2%, at 2/1054 ordinary-benign false positives. B17 adds only 0.9 points over B14 there, confirming that on injection-shaped text the provenance configuration catches almost nothing the fusion does not already catch – which is why the recommendation (Section 32.56) separates the two threats rather than naming one configuration.",
+"adds": [
+"32.56"
+],
+"orig_head": "Table 20 - 5/5 held. CALIBRATED: 5/5 predictions held. The f"
+},
+"fbf77fb222be3e98c3a9869e0e148ce72b4efbf95669d4e452b2945ea31cd10d": {
+"op": "replace",
+"new": "32.49 Hold-Out 3's Development Set Overlapped the Hold-Out",
+"adds": [],
+"orig_head": "32.49 A Correction: the Hold-Out 3 Development Set Was the H"
+},
+"f42b4d74c6e0e7332b8e517f103a4462fdfefe870c6c85121a228ae3ec86f272": {
+"op": "replace",
+"new": "What survives and what does not. The matched-FPR comparison calibrated every scorer on the same set, so it remains a symmetric matched-operating-point comparison, and its ranking is unaffected in direction – but it is hold-out-calibrated, and is labelled so where it appears. The per-rule false-positive attribution was a hold-out measurement. The memory-shape gate was fitted on the hold-out's own distribution and did not generalise to it, which strengthens that negative result. The check now strips wrappers and tests near-duplicates, a guard test fails if it regresses, and `error_registry.py` proves the guard by reintroducing the original comparison.",
+"adds": [],
+"orig_head": "What survives and what does not. The matched-FPR comparison "
+},
+"d554e95c26e424b5be5facacb049252d80192e12fcb5263a4c525eb75216db18": {
+"op": "replace",
+"new": "32.52 Development Results: a Lead That Did Not Hold, a Corpus Effect, and a Composition",
+"adds": [],
+"orig_head": "32.52 Development Results: a Failed Lead, a Corpus Effect, a"
+},
+"60690f9e96f358f12cf63431a512cb6c4548f38905e479c888e165ec10c79c67": {
+"op": "replace",
+"new": "The lead for the unions' false-positive floor was to drop B13's content detector from them (B20 = B14 OR B13's provenance rules; B21 its deberta analogue). On development data it does not hold. With the owner's conversation, B20 reaches 56.1% of this project's attacks against B17's 64.4% at the same 7.6% benign cost: every ordinary-benign exclusion by B13 comes from corroboration, and its content detector excludes no ordinary benign item while catching attacks B14 misses. On injection-shaped dev data B20 equals B14 exactly. B20/B21 are dominated in both beds; they were scored on the hold-outs only because the design had been announced.",
+"adds": [],
+"orig_head": "The lead for the unions' false-positive floor was to drop B1"
+},
+"6992f9421e01b8d7cc976208301e4c4401626d3659ee7fcfb9a0e45edca60ca3": {
+"op": "replace",
+"new": "Results that did not hold are reported with the same weight. The pre-registered primary prediction – that excluding with B12 and neutralising the rest beats B12 exclusion alone – moved harm from 20 to 15 of 131 at p=0.23: the right direction but not significant, so it was not supported. The claim that this composition dominates the strongest exclusion-only configuration was not supported either: B18 alone reached 4.6% harm at 11.0% exclusion against 11.5% at 2.6%. The development result that motivated it did not generalise: where detectors already reach 90% recall, neutralisation is a trade along the false-positive axis, not a dominating configuration. Neutralising everything still halved compliance (37.4% to 18.3%, p=2.2e-05) at no exclusion cost, and on hold-out 4's note-shaped attacks it did almost nothing, as predicted. B18's recall fell 0.1 point outside its predicted interval and is counted as not held under the strict rule. B18 adds nothing over B17 on either hold-out.",
+"adds": [],
+"orig_head": "What failed is reported with the same weight. The pre-regist"
+},
+"78d71bebc4d3b15650c20239d007706e2bad9ac1f075b6fff2aca5cdee1a4611": {
+"op": "replace",
+"new": "Recommendation. It is conditioned on the threat and the false-positive budget, and rests on two clean hold-outs rather than on populations the configurations were selected on.",
+"adds": [],
+"orig_head": "RECOMMENDATION (round 7; supersedes the round-6 guidance of "
+},
+"11a10ace6d7d78ecc8bad4473c635ee59eb587b0a1b50b9871d75a5274b51b21": {
+"op": "replace",
+"new": "(1) MEMORY POISONING with the owner's conversation available: B13 with evidence. On hold-out 4 – a new author family, a new owner, scored once – it reaches 50.3% of attacks (60.5% of working ones) at 11.8% false positives on untrusted channels and 0.0% on the user's own words. B17 and B18 match its recall exactly there and add false positives (16.0%), so they are dominated on this threat; their +4.9-point lead on this project's own attacks was measured on populations they were selected after reading. Where the budget is near zero on untrusted channels, B12 is NOT an alternative for this threat: it reaches 1.9% on hold-out 4. Corroboration alone is brittle to an attacker told why it was rejected – 22/48 evaded within five rewrites against 32/130 for stateless detection (Fisher p=0.0096), by light paraphrase – and behind the rejection ledger of item (4) at radius 0.95 it was evaded on 5/48 seeds against 22/48 without the ledger (exact McNemar p=7.6e-05, pre-registration addendum 4).",
+"adds": [],
+"orig_head": "(1) MEMORY POISONING with the owner's conversation available"
+},
+"8c7a6d0d239cce2e678a0733f8e14f5bb3e2ac51af0dcdf91fe16574511c3ba7": {
+"op": "replace",
+"new": "(2) INJECTION-SHAPED text arriving in memory: B17, where about a 10% false-positive budget is acceptable – 90.1% recall at 10.2-11.0% on hold-out 5's matched benign. The 33-55% figures of hold-out 3 were a property of that corpus. Not B18: its deberta hard rule cost 16.3% false positives on hold-out 6 and excluded 3.7% of hold-out 7's benign notes even as the user's own words (4.9% on its owner-matched subset), because it ignores channel trust.",
+"adds": [],
+"orig_head": "(2) INJECTION-SHAPED text arriving in memory: B17 (or B18) w"
+},
+"9a85947c3862fbea976d96bdf156020e6a6f3e27f3c7934f975e2063c39824a0": {
+"op": "replace",
+"new": "(3) NEUTRALISATION as a zero-exclusion layer under any of the above: admit untrusted memory verbatim, framed as data, with the constraint repeated after it. It halved compliance on hold-out 5 (37.4% -> 18.3%), and its effect was larger on a stronger agent (all 120 dev items: Gemini 44.2% -> 11.7% against qwen 50.8% -> 30.0% under the frame). It does almost nothing against fabricated facts, and composed with a cheap detector it does not dominate strong exclusion (the pre-registered test did not support it): it is a trade that buys lower exclusion at higher residual compliance.",
+"adds": [],
+"orig_head": "(3) NEUTRALISATION as a zero-exclusion layer under any of th"
+},
+"c58a82777c8758fe4bf911cf1cace2df6b5a71b81ea3a0609c8b4ce136095c28": {
+"op": "replace",
+"new": "(4) Retry-capable attackers: compose the chosen configuration with the rejection ledger at radius 0.95, accepting its denial-of-service surface explicitly (Section 9 and the radius sweep): adaptive evasion 32/130 -> 5/130 (p=1.5e-08) at a 6.4% ledger-poisoning blast radius, against 29.7% at 0.90; 0.97 gives 8/130 at 0.7% where that surface must be near zero. (5) Retrieval ranking (addendum 6): run the consensus guard with semantic divergence rather than its lexical default — against coordinated campaigns, any copy reached the agent 99 -> 63 of 302 (p=3e-11) at 2.78 points of benign displacement; the lexical default had no effect. It is inert against a single poison by design, and was measured on development data and fresh stores, not a hold-out. On Phase 6's own corpus it is a trade-off: B8 70.6% -> B8s 100.0% detection, 7.3% -> 14.6% false positives; shipped as B2s-B8s beside the unchanged originals.",
+"adds": [],
+"orig_head": "(4) Retry-capable attackers: compose the chosen configuratio"
+},
+"__hide__": [
+"[End of the 2026-10-14 update.]",
+"[End of the Defence v6 update.]",
+"[End of the Defence v7 update.]",
+"[Section 32.71: Defence Programme v6 (2026-10-14/15), generated from the committed v6 artifacts.]",
+"[Section 32.72: Defence Programme v7 (2026-10-15/17), generated from the v7 artifacts.]",
+"[Sections 32.64-32.70: methods and results of 2026-10-12 to 2026-10-14, generated from the committed artifacts.]"
+],
+"8bcf21ef7ad97386d46787143acc3fc26728525264c922c1aff142ef0d348d58": {
+"op": "replace",
+"new": "A note on hold-out discipline that belongs with this: hold-out 3 was scored seven times in total – the pre-registered run, the matched-FPR comparison, the frontier sweep, B19, the structural-only variant computed from saved decisions, and two neutralisation runs (v1, and the dev-selected v3 of Section 32.46). Only the first was pre-registered. Each further use weakens it as an independent estimate, and that is why this attempt was abandoned on a measured result instead of being followed by further variants until one appeared to work.",
+"adds": [],
+"orig_head": "A note on hold-out discipline that belongs with this: hold-o"
+},
+"c2a1c32cb21e8056992a1fe4a2278087dbe1bee7438472ac2aad589d040c9870": {
+"op": "replace",
+"new": "32.45 The Union Configurations with the Owner's Conversation",
+"adds": [],
+"orig_head": "32.45 Final Configuration Guidance"
+},
+"07e365988d011f80fafdf672b05fdae898942ed451c396e3f04f6fd6c808d07f": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "(2) Any deployment where an attacker can retry against the s"
+},
+"094284191b81949d9e8cea55e20d55d98be7388a6eb5addbe02342d59b010fc4": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "(3) INJECTION-SHAPED text arriving in memory, tight false-po"
+},
+"074553c4bd78346c6d497b1dbca7cdcdabfb7ddd2f4b43c67495d0577cf524ec": {
+"op": "replace",
+"new": "32.57 Follow-Up Work: Two Corroboration Fixes and Measurement Hygiene",
+"adds": [],
+"orig_head": "32.57 Follow-Up Work: Two Corroboration Fixes That Failed, a"
+},
+"de4559729fbbddab389c142b6ea205f1bd1c443185ab4eb41f17a84d751deb15": {
+"op": "replace",
+"new": "The owner asked for every remaining weakness to be worked through. Two of the detector changes it produced did not succeed on development data, and both are informative.",
+"adds": [],
+"orig_head": "The owner asked for every remaining weakness to be worked th"
+},
+"1f82edce304488d9794fec1e9bb8c12da41fe63b0d5d27ea0181a9b55654b593": {
+"op": "replace",
+"new": "Measurement hygiene. The working-set rule across probes is fixed in code before the next hold-out: a probe enters the union only if its task-alone base rate is at most 20%, which reproduces hold-out 4's committed 86/157 and replaces a 123/157 figure that had unioned in the leading probe. Hold-out scoring is an explicit-only pipeline stage, so a full re-run cannot re-score a frozen corpus. The two documents are versioned with the code that builds them. A blind 100-item human-annotation sheet for the LLM judges was built; the owner caught that 23 of its 40 harm answers had been stored truncated to 400 characters while the judge saw the full text, so those rows were rebuilt from a run that keeps the full answers before labelling, and the judges were then checked against the human labels (Section 32.58).",
+"adds": [
+"32.58"
+],
+"orig_head": "Measurement hygiene. The working-set rule across probes is f"
+},
+"a0da446fff94f186d64886d7032a04272a56b3d36abca2d3cda455b0afd42dad": {
+"op": "replace",
+"new": "Table 24 - Scored once under pre-registration addendum 3 (29 of 35 round-7 predictions held at that point; 39 of 47 after later addenda, with the predictions that did not hold and the Holm correction listed in the results paper, Table 17). Hold-out 6 replicates the false-positive finding on a second independent corpus (B17 at 2.2%), and the composition test that was under-powered on hold-out 5 holds with 500 attacks (246 -> 227, p=0.023). Neutralisation helps a weak detector and adds nothing on top of B18. Two defects of B18 surfaced, both on hold-outs, so any fix is hold-out-informed: its deberta hard rule excluded 16.3% of hold-out 6's ordinary prompts, and 3.7% of hold-out 7's benign notes arriving as the user's own words, because it ignores the channel trust B13 applies. The contradiction rule added nothing; framing raised compliance on instruction-shaped attacks on hold-out 7 (a prediction not supported); and hold-out 7's working subset is not reportable, because its probe's task-alone base rate (28%) exceeds the 20% rule fixed before the corpus was built.",
+"adds": [],
+"orig_head": "Table 24 - Scored once under pre-registration addendum 3; 29"
+},
+"6b7e048150adf77f0769083c7379f62e31a8faaed31350cb55b90735086061f6": {
+"op": "replace",
+"new": "Utility: on 300 benign notes the frame changed usefulness by plan_week +1.7 points (p=0.68), direct_question -5.0 points (p=0.082). An adaptive attacker with 5 feedback-guided rewrites evaded the frame on 6/31 initially-caught seeds. An adaptive attacker with 5 feedback-guided rewrites evaded corroboration on 22/48 initially-caught seeds. Harm re-judged on all 309 items: under J0_current undefended 32.0%, with B13 10.4%, task-alone 0.6% (B13 vs undefended p=2e-18); under J2_gemini_original undefended 58.3%, with B13 24.6%, task-alone 2.3% (B13 vs undefended p=4e-29). Stronger-agent harm (seeded 100): undefended 36.0% vs qwen 31.0%. Stronger-agent framing on all 120 dev items: +32.5 points (qwen +20.8). Hold-out 6 working subset: 294/500 (task-alone base rate 33/500). None of these was pre-registered as a prediction; each is reported as measured, beside the corresponding earlier figure, and nothing was tuned on it. Harm re-test (pre-registration addendum 8): on 175 new own-attack instances harm went 53 -> 44 (p=0.15, not significant alone); pooled with the original own-attack rows, as the amendment committed before the run specifies, 123 -> 104 of 424 (29.0% -> 24.5%, p=0.037). P8-2 therefore holds at its pre-registered alpha, but the pooled sample includes the one whose inconclusive result motivated the re-test, the new sample alone does not reach significance, and the frame's harm reduction is about 4.5 points — small (Table 17 gives its multiplicity-corrected p). Utility re-test (addendum 8): on 600 new benign notes the direct-question task went 372 -> 349 (62.0% -> 58.2%, a loss of 3.8 points, p=0.056): P8-1 did not hold, narrowly. Both samples point the same way (combined 563 -> 525 of 900), so the frame is read as costing about 4 points of usefulness on direct questions — small, not established, and not zero. Instruction-aware frame: hold-out 7 showed the frame has no effect against instruction-shaped memory (H7-7 was not supported). The reason is mechanical: its rewrite targets second-person text, and a planted standing rule is usually first-person or impersonal. An instruction-aware variant (v6: the same frame, plus — only when the note states a rule or trigger — a clause stating that the user did not set it) was designed from that mechanism and tested once on development data under a criterion committed before the run. On the 76 own attacks that state a rule, harm went 22 raw, 22 under the current frame and 10 under v6 (p=0.0075 vs the current frame); conditional backdoors 12 -> 7 of 15. On the 54 benign notes containing rule words, usefulness was 31 under v6 against 27 under the current frame — no cost. One design, measured once, on development data: hold-out 8 tests it (Section 13D). Derived memory: consolidation (an LLM summary of recent memories) launders a poison past provenance — on the 161 instances B13 excludes, serving the summary returns harm 0->33 (p=2e-10). The propagation containment guard's lexical lineage-taint has little effect (31, p=0.5); a semantic retention measure in the same guard cuts it to 10 (p=2e-07), collateral 4/79 benign. This is the first exercise of Phase 7's guard (Phase 14's pilot wrote no derived memories) and of Phase 9's backward chain, whose content-only origin attribution is ambiguous in 4 of 33. Development data; Results paper, Section 13D.",
+"adds": [],
+"orig_head": "Utility: on 300 benign notes the frame changed usefulness by"
+},
+"be749afe54e4d59aeb1e19c758821d4dac8fa1d7ce9a37a587b388c285b5a423": {
+"op": "replace",
+"new": "Pre-registration addendum 5. On the 309 harm-study stores (each poison in its owner's 100-turn store, the study's own query and retriever), the top 20 candidates were re-ranked and the top 5 passed to the agent. Poison exposure: no defense 89, fixed-gate consensus guard 88, risk-weighted ranking 88, risk-weighted with the admission guard's fired signals as corroboration 82 (paired against the fixed gate p=0.031); benign displacement 0.0 points on the same stores without the poison. R-1, R-2, R-3 held; R-4 was not supported: the fixed gate does not measurably reduce exposure (p=1), because its lexical divergence is positive for only 120/6180 candidates on realistic stores. Corroboration's reach is bounded the same way: an admission signal fired on the poison in 28 of 309 instances (and on no benign memory), all in the founding families. Risk-weighted monitoring (development data): in realistic retrieval pools B9 lists the poison in 43 of 309 retrievals with review lists averaging 0.75 items, and risk ordering puts the poison first in 39 of 43 against 33.5 expected by default – it works but has little to do. Addendum 6 (pre-registered): on fresh stores corroboration replicated (76 -> 68 of 309, p=0.0078) and the lexical gate again did nothing; on coordinated campaigns (each poison plus two NLI-validated paraphrases), which test the diagnosis that the guard flags clusters and a single poison is never a cluster, any copy reached the agent in 99 of 302 undefended, 100 under the lexical gate and 63 under the semantic gate (p=2.9e-11), at 2.78 points of benign displacement.",
+"adds": [],
+"orig_head": "Pre-registration addendum 5. On the 309 harm-study stores (e"
+},
+"9a8f161ebf78ad6f7516e79509fe5970c77f113986ebaf8635d80c5b5893298a": {
+"op": "replace",
+"new": "Method. B13's corroboration thresholds were re-fitted for each of the 10 LoCoMo owners using only the other nine owners' benign derived memories, at the quantile levels where the shipped constants sit (0.487% / 2.047%), frozen, and the held-out owner scored once; uncertainty uses an owner-cluster bootstrap. Evidence conditions (correct owner, another owner, first 50% or 10% of the conversation, none) were kept separate. Result: detection 116/200, benign exclusion 15/2541 (owner range up to 1.5%); wrong-owner evidence 474/2541, a 10% conversation 546/2541.",
+"adds": [],
+"orig_head": "Method. B13's corroboration thresholds were re-fitted for ea"
+},
+"5cd27b3b7e4a6d9e8bcb641c4fdd9142735d67e629ab3b630415faeebb987138": {
+"op": "replace",
+"new": "Figure 28 - The evaluated defence architecture and each component's status after the programmes of 2026-10-13/14 (v2-v5); the architecture after Defence v7 is Figure 43 (Section 32.72).",
+"adds": [
+"13",
+"43"
+],
+"orig_head": "Figure 28 - The evaluated defence architecture and each comp"
+},
+"87998b8abac2f2e945cd53fbe1da92faca91333642a24921dcfed431514541c6": {
+"op": "replace",
+"new": "Operational gap closure from the pre-registered rubric after the programmes of 2026-10-13/14; scores measure evidence strength, not accuracy. The closure after Defence v7 is given in Section 32.72.",
+"adds": [
+"13"
+],
+"orig_head": "Operational gap closure from the pre-registered rubric. Scor"
+},
+"78c28af297fd6bd9da825f369e11a3e64b44b3b555760a10fdd47f5942a2e25f": {
+"op": "replace",
+"new": "Figure 29 - Operational closure per research gap after the programmes of 2026-10-13/14 (v2-v5).",
+"adds": [
+"13"
+],
+"orig_head": "Figure 29 - Operational closure per research gap (as of 2026"
+},
+"97bd90ff300f290ada5ad7688d7e74e2b3110a182d1d01dea94ffa84599a7962": {
+"op": "replace",
+"new": "Figure 43 - The v7 defence architecture with each component's evaluated status.",
+"adds": [],
+"orig_head": "Figure 43 - The v7 defence architecture with each component'"
+},
+"5cf95d99efe32f3fbfeced3812b88562f2ead5da2e110a92023eb042f7e3e63c": {
+"op": "replace",
+"new": "MAMBench is a benchmark whose central claim is about its own measurement rather than about its defenses. The clean-agent foundation (Phases 1-3) and seven attack reconstructions (Phase 4) established a comparable, reproducible footing; the governance stack (Phases 5-13) closed the original threat model; Phases 14-17 then tested whether any of it generalises, and the external review rounds found that the most important defect was not in the defenses but in the populations they were scored against.",
+"adds": [],
+"orig_head": "MAMBench, as of external review round 6, is a benchmark whos"
+},
+"7a11404fbb73b8c7de6a4a82519e5814036a90b4bad89b7a5645783900200016": {
+"op": "replace",
+"new": "Only 42.5% of this benchmark's 2,628 attack instances both subvert an undefended agent and implement the mechanism they are labelled with. That single number reframes every detection rate here, and the project's response to it is the contribution most likely to outlast the specific configurations: a causal, pre-committed, defense-independent validity audit; mechanism validation by a third model family; per-population working rates with recorded floors so later drift fails the build; and every rate published on both denominators. Which instances count as working depends on the probe and the judge (435-944 of 2,628 depending on how disputed labels resolve); the memory's net causal effect and the defence ranking are robust to both (Section 32.65).",
+"adds": [],
+"orig_head": "Only 42.5% of this benchmark's 2,628 attack instances both s"
+},
+"07a87748c0ddd041bbdfc25b9d53f6f1367040d04744592a795901250700f9d5": {
+"op": "replace",
+"new": "On the defenses, three results hold. Provenance-aware admission reaches the attack classes content-only detection cannot, by construction, – additive fabrication 0/72 against 37/72, pre-registered – while costing less than the stack it replaces and cutting false flags on legitimate standing instructions from 14/40 to 2/40. Unconditional harm falls from 28.2% to 10.4% with a task-alone base rate of 1/309. And the configurations that win on memory poisoning and on injection-shaped text are complementary rather than ranked; their union configurations beat both components at no additional false-positive cost on ordinary memory, while on hold-out 4's matched benign notes the union excludes 42/262, against 31 for B13 and 24 for B14, so there it pays both components' false positives.",
+"adds": [],
+"orig_head": "On the defenses, three results hold. Provenance-aware admiss"
+},
+"07aa9c88ed7cb9921427b4fd8d397ee22f8a56edc614a64bfd934339179518da": {
+"op": "replace",
+"new": "Round 7 tested these conclusions on hold-outs built for it, each scored once under committed predictions; 39/47 pre-registered predictions held (H6-4, R-1, R6-1, P8-2 do not survive a Holm correction). Provenance reached 50.3% of memory poisoning written by an unseen author about an unseen owner, against 20.4% for the fused content classifier, and the lead replicated on hold-out 7 (B13 54.3% vs B14 29.5%); the unions ran at 10.2%-11.0% matched-benign false positives on hold-out 5 and B17 at 2.2% on hold-out 6, so the 55% regime was one corpus; B18 is not recommended; the composition of neutralisation with detection that dominated on development data did not hold on its pre-registered test and is a trade, not a win; corroboration is brittle to an adaptive attacker alone (22/48) but not behind the ledger (5/48); and harm levels scored by the original judge are about half what a human-validated judge finds (Sections 32.59-32.61).",
+"adds": [
+"5"
+],
+"orig_head": "Round 7 (2026-10-06/07) tested these conclusions on two hold"
+},
+"c9732468d6338464d63a7c51176449651410d53b880036bb65ed0f4da0a54f28": {
+"op": "replace",
+"new": "Results that did not hold are reported as such. Rejection memory, built to address adaptive evasion, showed no significant effect at its frozen radius, and its first pre-registered test was underpowered by design; a powered re-run then reduced evasion from 24.6% to 0.8% (p=9.3e-10, Section 32.39), at a 29.7% ledger-poisoning blast radius that must be accepted explicitly. Structural gates showed that exfiltration's zero harm came from the generator omitting the recipient; on gate-valid instances it is a tested mechanism with zero harm across three agent families (Section 32.43). Multi-hop reasoning is within what this benchmark measures (Section 32.34): every agent family answers 80-87% correctly under the LLM judge, and the oracle 'ceiling' reflects the strictness of the judge-AND-NLI ensemble, an evaluator artifact. Every harm number here is for a 7B agent.",
+"adds": [],
+"orig_head": "Results that did not hold are reported as such. Rejection me"
+},
+"fa6d9c56395703a51858598ea70907940f0160d563e52976200d7a0cebb29ce5": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "[Status 2026-10-14] After the defence programmes of 2026-10-"
+},
+"dbecd21e4ba891a492e3aa3b41972a7880db723d5046c7f7b8cf7aae1bcb1dcb": {
+"op": "delete",
+"new": "",
+"adds": [],
+"orig_head": "[Status 2026-10-15, Defence v6] After Defence v6 (Section 32"
+},
+"e7307908ab4cd532ceef5009762fd7963d13240c547557c2f540f12087d9ac78": {
+"op": "replace",
+"new": "After Defence v7 (Section 32.72) the evidence-based operational closure under the frozen rubric is: provenance and governance 75%; self-propagation 71%; implicit sleepers 34% (64%, 65% and 34% after Defence v6). Gap 1 reaches 75% through graded provenance on fresh held-out data; Gap 2 rises through no-decay containment and lineage recovery after rewriting, with its factual sub-test read strictly; Gap 3 is unchanged because the pre-registered sleeper operating point exceeds the legitimate-rule limit.",
+"adds": [],
+"orig_head": "[Status 2026-10-17, Defence v7] After Defence v7 (Section 32"
+},
+"06d6c0147977e2401e9be9e2a80b4844bc010c1a0015f94654c309473844f174": {
+"op": "replace",
+"new": "32.46 Neutralisation: Addressing the Hold-Out 3 Regime on a Different Axis",
+"adds": [
+"3"
+],
+"orig_head": "32.46 Neutralisation: Addressing the Unresolved Regime on a "
+},
+"c98966fd4a517b96b912298894b8d0f0e7f800c02d3c4808899e4928a8b0c467": {
+"op": "replace",
+"new": "32.70 Defence Architecture and Operational Closure after the Programmes of 2026-10-13/14, and Formulas Added",
+"adds": [
+"2026",
+"10",
+"13",
+"14"
+],
+"orig_head": "32.70 Defence Architecture, Operational Closure, and Formula"
+},
+"__cells__": [
+[
+"MAMBench's Phase 3 agent does not yet expose",
+"MAMBench's Phase 3 agent does not expose"
+],
+[
+"(rubric: FINAL_DEFENCE_BASELINE_AUDIT.md §3)",
+"(rubric: docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md §3)"
+],
+[
+"RAR/RAR-B fail",
+"RAR/RAR-B below the bar"
+]
+],
+"__appendix__": {
+"before": "Appendix A — Exact Prompts",
+"heading": "History of Corrections",
+"paragraphs": [
+"This document states current results. Statements that later analyses superseded are listed here with the round in which they changed and the section that now holds the current result; the complete record of every review finding is docs/REMEDIATION_MASTER_REGISTER.md, and the Results Analysis lists the corrections to the results themselves.",
+"Document form. Until 2026-10-19 this document was cumulative: each phase was written when completed, and later changes were added as dated, bracketed notes beside the original text. Those notes have been folded into the current text, and the superseded statements are summarised below.",
+"Phase 6 detection (Sections 21.9, 25.5, 26.10). The B0-B8 corpus detection rose from 47.1% at initial freeze to 70.6% at 7.3% false positives (2026-09-17) and to 100.0% at 14.6% with the semantic consensus signal from Phase 11 (2026-09-20).",
+"Phase 10 surfaces (Section 25.2). The risk-composition surfaces were first described as not wired into any live pipeline; Phase 14 wired the risk-band action into the live agent as B9, and round 7 evaluated the risk-weighted ranking and monitoring.",
+"Related work (Section 2). A per-resource comparison of the registered benchmarks and defences was first left open; it was completed from primary sources on 2026-10-12 (docs/RELATED_WORK_AND_NOVELTY.md), which reclassified several contributions as adaptations of prior work.",
+"Reproducibility (Sections 8 and 15). A dependency lock file and automatic code-state stamping were first listed as not provided, and a public release as undecided; the repository is public, requirements-ci.txt pins hashed versions for continuous integration, and the benchmark runner stamps every result with its git commit.",
+"Mem0 live foundation (Section 32). A first Mem0 run reported 0/27 exclusions and attributed it to Mem0's smaller candidate pool; on 2026-09-28 this was traced to a scoring bug (a run-wide text lookup), and the corrected per-case result matches A-mem-sys (9/9).",
+"Authorship confound (Section 32.12). The benign side of the generator/judge confound was first described as closed and attributed to content rather than authorship, and ConvoMem was cited as a human-written control; review round 3 (2026-09-28) withdrew both statements.",
+"Harm study (Section 32.15). An early n=30 harm study reported harm dropping from 66.7% to 26.7% under B12 exclusion and was then read as harm dropping where B12 excludes often; the three-arm design and per-case reading showed neither holds.",
+"Open items of rounds 1-2 (Section 32.10). The blinded human evaluation was listed as open; the project owner later rated all 60 items (Section 32.16).",
+"Recommendation (Sections 32.42, 32.45, 32.56). Earlier rounds recommended B13 unqualified, then the union configurations, and in round 6 B18 (or B17) with evidence for memory poisoning and B14 or a deberta pass under a tight false-positive budget for injection-shaped text. Round 7 replaced these with the conditioned recommendation on clean hold-outs (Section 32.56).",
+"Multi-hop performance (Section 32.34). Multi-hop reasoning was first declared outside what the benchmark measures, on the oracle condition's 36/60; the six-family re-run showed the ceiling to be the strictness of the scoring ensemble.",
+"Exfiltration (Sections 32.40, 32.43). Four explanations were advanced for the family's zero harm before structural gates traced it to the generator omitting the recipient; the family was then tested on gate-valid instances.",
+"Hold-out 3 (Sections 32.44, 32.49). Hold-out 3 was first counted as scored five times and its development set described as disjoint; round 7 counted seven scorings, found the development set overlapped the hold-out, relabelled the dependent comparisons as hold-out-calibrated, and retired the hold-out.",
+"Rejection ledger (Sections 32.30, 32.31, 32.39). Adaptive evasion was recorded as open after the frozen-radius test and the first pre-registered re-test; the powered re-run in Section 32.39 resolved it.",
+"Owner generalisation (Section 32.66). A 'threefold' owner-dependence of corroboration thresholds was reported on 2026-10-13 and withdrawn: it compared two benign budgets.",
+"Working set (Section 32.57). A working-set figure of 123/157 that unioned in a leading probe was replaced by the committed 86/157 under the fixed probe rule.",
+"Generalized union U-1 (abstract; Results Section 15). The union's benign false-positive rate on hold-out 8 was fixed by construction (register G3-4, remediation 2026-10-12); the shipped development-fitted anomaly signal needs per-owner benign calibration.",
+"Operational closure (Sections 32.70-32.72, 33). The closure under the frozen rubric was 59%, 65% and 29% (provenance and governance, self-propagation, implicit sleepers) on 2026-10-14 and 64%, 65% and 34% after Defence v6 on 2026-10-15; the current scores after Defence v7 are 75.0%, 71.2% and 33.8%."
+]
+},
+"f0ba1b400c22289e005eb3108323e48deabf736417b944b67b0e72a86207cc3b": {
+"op": "replace",
+"new": "Deviations and defects (all recorded before the affected acceptance was assessed; defective outputs kept as *_DEFECTIVE_*): (i) the HO9 author model was missing and was re-installed (same tag); (ii) the factual top-up was aborted for compute, leaving factual payloads an under-powered secondary subset; (iii) the pre-registered fingerprint did not meet its dev constraints and an entailment-led variant was pre-registered as addendum A from dev evidence only; (iv) two lineage-validation defects (a channel-conflict exemption and claim-level inheritance reading the wrong event) were fixed before any Gap-1 outcome; (v) a claim-linking defect (claims pooled across events) was found in the first Gap-1 evaluation and corrected to the pre-registered per-event rule; (vi) condition B's equality with A had been asserted by a placeholder and was recomputed (296/296). Shared task and judge caches changed by additions only.",
+"adds": [],
+"orig_head": "Deviations and defects (all recorded before the affected acc"
+},
+"54c9f7e0c2df1ced42db71b84605d29aa1669847c885a066ee44082d6595f0c0": {
+"op": "replace",
+"new": "On a fresh set sized for power, payload-routed containment (PRC, frozen since v4) withheld 43/73 payload-carrying generation-4 descendants against 18/73 for the frozen guard (+34/-9, p = 5.1e-04 after Holm) and reduced generation-4 behavioural influence (19 -> 10, p = 0.004). It missed the pre-registered 60% bar by one root (58.9%) and withheld 29.4% of non-carrying descendants (limit 25%). Removing the guard's per-hop decay alone (ND) raised generation-4 containment from 18/73 to 41/73. The root-anchored fingerprint rules did not meet the bar (RAR-B 15/73): a 2-3 sentence consolidation of the payload with four other memories neither entails nor is entailed by the root, a case the single-step benchmark did not represent.",
+"adds": [],
+"orig_head": "On a fresh set sized for power, payload-routed containment ("
+},
+"f7e02ad05179c8feb6c12fa5889274c28d7605539a3a9c52c2d0b98db9c4c649": {
+"op": "replace",
+"new": "Verification: unit and regression tests for every v6 component (phase17 suite 244 passed, 0 failed); frozen phases 3,002 passed, 0 failed with default threads (one Phase 11 GNN test is sensitive to the CPU thread count and is unchanged by v6). Shared task and judge caches changed by additions only. Reports: docs/archive/DEFENCE_V6_*.md; every number in this section is read from phase17/data/defence_v6/.",
+"adds": [],
+"orig_head": "Verification: unit and regression tests for every v6 compone"
+},
+"2a84586aa03b3f5683a50dfb9fa3d5e14ac271a49579c1b7f6414204d4969371": {
+"op": "replace",
+"new": "Deviations and defects (recorded before the affected result was reported; defective outputs kept): (D0) two development diagnostics wrote additions to v6 caches (moved to v7 caches; v6 files restored); (D1) SA-7 seed values overlap SA-6's shifted by one owner (owner-seed pairs disjoint, near-duplicate blocking applies); (D3) CSD-7 has 80 documents, not the 160 the pre-registration miscounted; (D4) Mem0 stored no memory for 110 of 880 jobs, mostly legitimate rules (40/80 unusual rules), so every benign rate is also reported on the stored-only subset; (D5) the closure script first tested Gap 1.5's reduction in the wrong direction and was fixed before any score was reported; (D6) v7's tests leaked re-pointed cache paths into v6's tests in a shared test session (fixed with a restoring fixture; no result affected). The first lineage-recovery candidate (DCR) did not pass its development gate; addendum B pre-registered DCR-2 before any HO10 chain existed.",
+"adds": [],
+"orig_head": "Deviations and defects (recorded before the affected result "
+},
+"16768da8fe87a6bf210d1696f8d600bb1de84ad12fd0d64b1f30f64a6a30b2fe": {
+"op": "replace",
+"new": "ND|RAR-S (the frozen guard without decay, or a sentence-level claim fingerprint) withholds 36/56 = 64.3% at generation 4 and meets every pre-registered criterion; the margin is two descendants and the owner-cluster interval is 54.5-72.0%. ND alone reaches 34/56, so removing decay carries most of the gain. PRC reaches 25/56. Factual payloads were under-powered (7 carrying descendants; ND|RAR-S 4/7) and, read strictly, did not meet the criterion.",
+"adds": [],
+"orig_head": "ND|RAR-S (the frozen guard without decay, or a sentence-leve"
+},
+"1d76e70c6d87c84f0ab6d9b7595670ff92a1fb265728670c8c68bc31722b121e": {
+"op": "replace",
+"new": "E does not meet its benign limit: it detects 40/48 implicit sleepers but flags 19/144 (13.2%) legitimate ungrounded rules, all from document or unrecorded sources (it already exceeded the limit on development data, 11/96). Two conditions that were not the operating point meet the numeric limits on this set – C AND K (27/48, 10/144) and the provenance-free baseline B (27/48, 12/144) – and earn nothing under the pre-registration; E's lookup of the original record adds detection together with the false positives.",
+"adds": [],
+"orig_head": "E fails again: it detects 40/48 implicit sleepers but flags "
+},
+"7cbfeeb87efee3d426dd297cc0b6de42e2f4aa95b6d07759f911eb55ddbfa4ef": {
+"op": "replace",
+"new": "Recorded interpretations: Gap 2's factual sub-test is read strictly (an under-powered result lowers 2.3; the lenient reading would give 75%); 2.2 passes by two descendants; 2.6 is relative to a weak lineage-present matcher; Gap 3 stays capped because E does not meet the joint detection and benign limit.",
+"adds": [],
+"orig_head": "Recorded interpretations: Gap 2's factual sub-test is read s"
+},
+"0b043ccc8afbcdafe5819b949e732f46ff00dd7119919f5a86ce27eeea6b492d": {
+"op": "replace",
+"new": "Limits at the end of v6, which v7 (Section 32.72) addressed in part: in Gap 1 the verdicts that provenance carries are noisy on legitimate rules (content flags unusual harmless rules; corroboration flags legitimate rules arriving through documents or without recorded provenance); in Gap 2 the strongest rule missed the generation-4 bar by one root and breached the non-carrying limit, and recovery failed once a memory was rewritten after its lineage was deleted; in Gap 3 detection missed the benign limit by 1.1 points because legitimate rules from untrusted or unrecorded sources look like attacks – even a simulated authenticated principal flags the unrecorded stratum.",
+"adds": [
+"32.72"
+],
+"orig_head": "What prevents 75%: in Gap 1 the verdicts that provenance car"
+},
+"a4fffc188e66b55ddd39830ae40e2f9f3da72d0485638eece2243e4313fd81de": {
+"op": "replace",
+"new": "The first version of this test (Section 32.7) had three defects: success required the defense's verdict to be literally ALLOW, when the security-relevant outcome measured everywhere else in this project is exclusion (QUARANTINE/BLOCK), so a FLAG-but-unexcluded result should count as evading exclusion; \"success\" conflated seeds B12 never excluded (a baseline miss, zero rewrites) with seeds evaded after adaptation; and the 20 unseen-mechanism seeds were drawn in family order, covering only 2 of 6 mechanisms. All three are fixed: success is now exclusion-based, seeds are stratified across all 6 mechanisms, and a failed rewrite triggers a retry instead of an immediate stop. The result (33 seeds, 5-query budget): any evasion 11/33 (33.3%); baseline miss (never excluded) 5/33 (15.2%); of the 28 seeds B12 excluded at round 0 – the only seeds at risk of needing adaptation – adaptive evasion (requiring at least one rewrite) is 6/28 (21.4%). DSRM fully resisted (0/3); authority_impersonation, conditional_backdoor, exfiltration_instruction and policy_revocation each fully resisted the 5-round budget (0/4); memory_worm and preference_hijack were the weakest mechanisms. The adaptive-evasion rate among initially excluded seeds (21.4%), not the raw any-evasion figure or a rate over all 33 seeds, is the correct number to cite for whether adapting to the defense's verdict helps an attacker beyond what it already gets without adaptation.",
+"adds": [],
+"orig_head": "The first version of this test (Section 32.7) had three defe"
+},
+"5bef5bc7c16adee6aec0d2d354d82cb13b6a7934d2c73fcc1f48ec1549563fb7": {
+"op": "replace",
+"new": "B14 scores 90.8% on the first frozen hold-out and 54.2% on the second, a 36.6-point gap between two human-authored corpora of the same kind. Three findings decompose it. First, attack validity: restricted to working attacks the gap narrows to 20.6 points (83.1% versus 62.5%) but remains significant at p=0.0001, so roughly 16 points are composition – the second hold-out is 21% working against the first's 31%. Second, the residual is not randomness. On the external corpora B14's decisions agree with the deberta classifier 90.1% of the time, with near-identical rates, and per item B14 catches what deberta scores near 1.0 and misses what it scores near 0; on this project's own attacks that agreement collapses and B14 is doing something else entirely. Third, B14 degrades across corpora worse than the component it tracks: deberta loses 18 points between the two hold-outs where B14 loses 37. Refitting B14 without deberta widens the gap (+32.9 to +46.6), so the deberta feature is load-bearing and the gap is a property of the fused weights (Section 32.47); the agreement evidence stands. The reason not to cite the higher figure alone is therefore mechanical rather than statistical.",
+"adds": [],
+"orig_head": "B14 scores 90.8% on the first frozen hold-out and 54.2% on t"
+}
+}
