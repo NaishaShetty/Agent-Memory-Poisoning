@@ -1,0 +1,154 @@
+{
+  "owner_clarification": {
+    "annotator1": "the project owner/author",
+    "annotator2": "the owner's friend; labelled on the owner's laptop",
+    "source": "owner statement in chat, 2026-10-13 (not recorded in the files themselves)"
+  },
+  "workbooks": {
+    "annotator1": {
+      "file": "docs\\phase17\\human_labels\\labelling_sheet.xlsx",
+      "creator": "openpyxl",
+      "last_modified_by": "naisha shetty",
+      "created_utc": "2026-10-07 06:14:33",
+      "modified_utc": "2026-10-07 17:57:01",
+      "labelled_rows": 100,
+      "comments": 4,
+      "instructions_sha256": "95f9ef853514bd77",
+      "instructions_mention_key_ban": true,
+      "instructions_mention_first_sheet_ban": false,
+      "sheet_columns": [
+        "Item",
+        "What you are judging",
+        "Question",
+        "Memory note",
+        "Assistant answer",
+        "Your answer (YES/NO)",
+        "Comment (optional)"
+      ]
+    },
+    "annotator2": {
+      "file": "docs\\phase17\\human_labels\\labelling_sheet_annotator2.xlsx",
+      "creator": "openpyxl",
+      "last_modified_by": "naisha shetty",
+      "created_utc": "2026-10-09 05:22:37",
+      "modified_utc": "2026-10-09 06:53:05",
+      "labelled_rows": 100,
+      "comments": 6,
+      "instructions_sha256": "80a61be207a8eb68",
+      "instructions_mention_key_ban": true,
+      "instructions_mention_first_sheet_ban": true,
+      "sheet_columns": [
+        "Item",
+        "What you are judging",
+        "Question",
+        "Memory note",
+        "Assistant answer",
+        "Your answer (YES/NO)",
+        "Comment (optional)"
+      ]
+    }
+  },
+  "timeline_from_files": {
+    "annotator2_sheet_generated": "commit 4fc400dd, 2026-10-09 10:52 IST (blind sheet: no judge verdicts, no first-annotator labels)",
+    "annotator2_sheet_last_saved": "2026-10-09 06:53:05 UTC",
+    "annotator2_labels_committed": "commit 601a4c06, 2026-10-09 12:30 IST"
+  },
+  "verifiable": [
+    "both sheets contain 100/100 labelled items (same items, same order)",
+    "annotator 2's sheet as generated contained no judge verdicts and no annotator-1 labels (sheet columns; commit 4fc400dd)",
+    "written instructions told annotator 2 not to open the KEY file or annotator 1's sheet and not to discuss items until done",
+    "annotator 2's labelling window: sheet generated 10:52 IST, last saved 12:23 IST on 2026-10-09",
+    "annotator 1 (the owner) labelled 2026-10-07, before the second sheet existed"
+  ],
+  "not_verifiable_from_records": [
+    "whether annotator 2 complied with the instructions (the KEY file and annotator 1's sheet were on the same laptop)",
+    "whether the owner was present or discussed items during labelling",
+    "annotator 2's qualifications or prior exposure to the project",
+    "independence of annotator 2 from the author (a friend is not independent of the author)"
+  ],
+  "instructions_framing_note": "the instructions say each row is 'one judgement an AI judge already made; you are checking it' -- no verdict is shown, but the framing is not neutral",
+  "agreement": {
+    "compliance": {
+      "n": 40,
+      "agreement": 0.875,
+      "kappa": 0.731,
+      "kappa_item_bootstrap_ci95": [
+        0.484,
+        0.939
+      ],
+      "yes_a1": 24,
+      "yes_a2": 27
+    },
+    "harm": {
+      "n": 40,
+      "agreement": 1.0,
+      "kappa": 1.0,
+      "kappa_item_bootstrap_ci95": [
+        1.0,
+        1.0
+      ],
+      "yes_a1": 36,
+      "yes_a2": 36
+    },
+    "mechanism": {
+      "n": 20,
+      "agreement": 1.0,
+      "kappa": null,
+      "kappa_item_bootstrap_ci95": null,
+      "yes_a1": 20,
+      "yes_a2": 20
+    },
+    "ALL": {
+      "n": 100,
+      "agreement": 0.95,
+      "kappa": 0.834,
+      "kappa_item_bootstrap_ci95": [
+        0.669,
+        0.962
+      ],
+      "yes_a1": 80,
+      "yes_a2": 83
+    }
+  },
+  "judge_C0_against_each_annotator": {
+    "J0_compliance_vs_annotator1": {
+      "kappa": 0.5,
+      "ci95": [
+        0.223,
+        0.749
+      ],
+      "n": 40
+    },
+    "J0_compliance_vs_annotator2": {
+      "kappa": 0.55,
+      "ci95": [
+        0.3,
+        0.789
+      ],
+      "n": 40
+    },
+    "J0_harm_vs_annotator1": {
+      "kappa": 0.2,
+      "ci95": [
+        0.045,
+        0.412
+      ],
+      "n": 40
+    },
+    "J0_harm_vs_annotator2": {
+      "kappa": 0.2,
+      "ci95": [
+        0.045,
+        0.412
+      ],
+      "n": 40
+    }
+  },
+  "what_depends_on_the_labels": {
+    "compliance vote (C0+C1+C3)": "SELECTED on 35 items where both annotators agree (compliance_judge_fix, round 2)",
+    "harm judge J2": "SELECTED on annotator 1's labels; annotator 2's harm labels are identical (ceiling 36/40 YES)",
+    "net memory effect": "reported under C0 (not human-selected) AND the vote -- both positive, so not label-dependent",
+    "defence detection / false-positive rates": "no judge and no human label involved",
+    "defence ranking on working subsets": "identical under C0, vote, robust definitions (validity_final)"
+  }
+}

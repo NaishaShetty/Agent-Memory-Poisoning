@@ -1,0 +1,33 @@
+........................................................................ [ 25%]
+........................................................................ [ 50%]
+........................................................................ [ 75%]
+........................................................................ [100%]
+============================== warnings summary ===============================
+phase17\tests\test_remediation.py:215
+  C:\Agent Memory Poisoning\phase17\tests\test_remediation.py:215: DeprecationWarning: invalid escape sequence '\M'
+    """P0-7: every \Macro used in the manuscript is generated from the tables, and none is PENDING."""
+
+phase17/tests/test_b11_and_extended.py::test_b11_registered_and_two_tier
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+phase17/tests/test_b11_and_extended.py::test_b11_registered_and_two_tier
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
+  <unknown>:35: DeprecationWarning: invalid escape sequence '\h'
+
+phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
+  <unknown>:96: DeprecationWarning: invalid escape sequence '\w'
+
+phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
+  <unknown>:97: DeprecationWarning: invalid escape sequence '\s'
+
+phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
+  <unknown>:110: DeprecationWarning: invalid escape sequence '\w'
+
+phase17/tests/test_round7_discipline.py::test_no_module_defines_a_function_after_its_main_block
+  <unknown>:111: DeprecationWarning: invalid escape sequence '\w'
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+288 passed, 8 warnings in 94.45s (0:01:34)
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

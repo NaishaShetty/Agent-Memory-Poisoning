@@ -206,9 +206,14 @@ def age_based_dormancy_gate_signal(
 # or construction patterns), it catches DORMANT sleepers whose wording is innocuous,
 # which `imperative_write_directive_signal` (keyed to injection-document framing,
 # Finding A) and `activation_shape_signal` (cached to one poison) structurally cannot.
-# Validated: phase17/sleeper_activation_live.py (dev 88% sleeper recall at ~10% benign
-# FPR) and phase17/eval_holdout8.py (hold-out 8, 145/160). It is a review-queue-posture
-# signal (~10% benign FPR); it is NOT part of the FROZEN admission guard -- it is wired
+# Measured: phase17/sleeper_activation_live.py (dev 88% sleeper recall at ~10% benign FPR).
+# CORRECTION (2026-10-12 remediation, register G3-4): the hold-out-8 figure previously cited
+# here (145/160) came from a DIFFERENT model -- clusters refit on hold-out 8's own benign notes
+# with a threshold set on the evaluated half. THIS committed signal (dev-fitted centroids) flags
+# 159/160 hold-out-8 attacks but also 137/171 (80%) of hold-out 8's benign notes
+# (phase17/data/remediation/ho8_anomaly_devfit.json, arm shipped_committed_centroids): on a new
+# owner/author it detects distribution shift, not poisoning. Do not enable it without per-owner
+# benign calibration. It is NOT part of the FROZEN admission guard -- it is wired
 # ONLY into evaluate_sleeper_admission_augmented (sleeper_guard.py), an opt-in variant,
 # so every frozen B0-B8/B14 number is unchanged.
 _ANOMALY_CACHE = Path(__file__).parent / "activation_anomaly_centroids.json"

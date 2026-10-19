@@ -32,3 +32,11 @@ phase3/datasets/candidates/memoryagentbench/raw/github_repo/.gitignore text eol=
 # after a checkout, which also made its guard test fail for a reason unrelated to the guard.
 *.sh text eol=lf
 *.ps1 text eol=crlf
+
+# Added (unified-benchmark audit, 2026-10-18): a fresh Windows clone (core.autocrlf=true)
+# checked these fingerprinted raw files out with CRLF, so four Phase 3 raw-fingerprint tests
+# failed on Windows only (Linux CI unaffected). -text keeps the committed LF bytes on every
+# platform. Scoped to the exact trees those tests hash; every file here is already LF on disk.
+phase3/datasets/candidates/convomem/raw/** -text
+phase3/datasets/candidates/memoryagentbench/raw/hf_dataset/** -text
+phase3/datasets/candidates/memoryarena/raw/hf_dataset/** -text

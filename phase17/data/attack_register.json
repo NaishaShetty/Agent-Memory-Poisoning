@@ -36,7 +36,7 @@
       ],
       "validity_audited": true,
       "working_attacks": 147,
-      "harm_measured_instances": 105,
+      "harm_measured_instances": 132,
       "note": "round 5: enlarges the 7 founding families, which had 24 records total"
     },
     {
@@ -169,8 +169,8 @@
         "extdev_agentdojo"
       ],
       "validity_audited": true,
-      "working_attacks": 177,
-      "harm_measured_instances": 60,
+      "working_attacks": 180,
+      "harm_measured_instances": 88,
       "note": "external-DEV since round 4 published its per-source results"
     },
     {
@@ -186,9 +186,22 @@
       "working_attacks": 391,
       "harm_measured_instances": 0,
       "note": "FROZEN test set; 998 of these are human-authored"
+    },
+    {
+      "population": "holdout2_mosscap_1200",
+      "n": 1200,
+      "author": "HUMAN (Mosscap players, MIT)",
+      "mechanism_validated_at_generation": false,
+      "audit_keys": [
+        "holdout2_mosscap"
+      ],
+      "validity_audited": true,
+      "working_attacks": 64,
+      "harm_measured_instances": 0,
+      "note": "FROZEN second hold-out, frozen before B15 existed; audited on a seeded random 300 of 1,200, so its working rate is an estimate with an interval"
     }
   ],
-  "total_attack_instances": 2328,
+  "total_attack_instances": 3528,
   "gaps": [
     "trackb_original_15: instances never checked against their own mechanism",
     "trackb_regen_9: instances never checked against their own mechanism",
@@ -208,6 +221,8 @@
     "frozen75_corpus: no instance has been run end-to-end against an undefended agent",
     "external_dev_266: instances never checked against their own mechanism",
     "external_test_1258: instances never checked against their own mechanism",
-    "external_test_1258: no instance has been run end-to-end against an undefended agent"
+    "external_test_1258: no instance has been run end-to-end against an undefended agent",
+    "holdout2_mosscap_1200: instances never checked against their own mechanism",
+    "holdout2_mosscap_1200: no instance has been run end-to-end against an undefended agent"
   ]
 }

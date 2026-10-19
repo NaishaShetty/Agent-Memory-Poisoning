@@ -1,0 +1,55 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 7423.93it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 5312.71it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 5749.30it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 4867.85it/s]
+{
+ "explicit": {
+  "B13s": "14/48",
+  "PCL": "36/48",
+  "GP_excl": "36/48"
+ },
+ "implicit": {
+  "B13s": "22/48",
+  "PCL": "22/48",
+  "GP_excl": "0/48"
+ },
+ "ungrounded": {
+  "B13s": "35/144",
+  "PAB13": "27/144",
+  "PCL": "41/144",
+  "GP_excl": "7/144",
+  "GP_frame": "23/144"
+ },
+ "grounded": {
+  "B13s": "1/48",
+  "PCL": "2/48",
+  "GP_excl": "0/48"
+ },
+ "msd_explicit": {
+  "B13s": "5/48",
+  "PCL": "39/48",
+  "GP_excl": "38/48"
+ },
+ "msd_benign": {
+  "B13s": "59/171",
+  "PCL": "79/171",
+  "GP_excl": "12/171",
+  "GP_excl_or_frame": "69/171"
+ },
+ "P1a": {
+  "n": 48,
+  "detected_a": 36,
+  "detected_b": 14,
+  "only_a": 22,
+  "only_b": 0,
+  "p_exact": 4.76837158203125e-07
+ },
+ "P1b": {
+  "n": 48,
+  "detected_a": 38,
+  "detected_b": 5,
+  "only_a": 34,
+  "only_b": 1,
+  "p_exact": 2.0954757928848267e-09
+ }
+}

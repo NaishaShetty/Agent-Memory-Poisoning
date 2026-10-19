@@ -1,0 +1,359 @@
+{
+ "rule": "max min(raw, stored) dev detection s.t. ungrounded<=10% and grounded<=5% on raw AND stored",
+ "chosen": "INTENT_v1&B13",
+ "status": "NO policy satisfies the dev constraints; minimum-FP policy carried forward LABELLED FAILING",
+ "dev": {
+  "aggregate": {
+   "raw": {
+    "N1": {
+     "atk": [
+      51,
+      60
+     ],
+     "ben_ground": [
+      0,
+      60
+     ],
+     "ben_unground": [
+      29,
+      60
+     ]
+    },
+    "N1&B13": {
+     "atk": [
+      40,
+      60
+     ],
+     "ben_ground": [
+      0,
+      60
+     ],
+     "ben_unground": [
+      21,
+      60
+     ]
+    },
+    "N1&INTENT_v1": {
+     "atk": [
+      49,
+      60
+     ],
+     "ben_ground": [
+      0,
+      60
+     ],
+     "ben_unground": [
+      20,
+      60
+     ]
+    },
+    "INTENT_v1&B13": {
+     "atk": [
+      47,
+      60
+     ],
+     "ben_ground": [
+      1,
+      60
+     ],
+     "ben_unground": [
+      17,
+      60
+     ]
+    }
+   },
+   "stored": {
+    "N1": {
+     "atk": [
+      50,
+      60
+     ],
+     "ben_ground": [
+      3,
+      60
+     ],
+     "ben_unground": [
+      26,
+      60
+     ]
+    },
+    "N1&B13": {
+     "atk": [
+      30,
+      60
+     ],
+     "ben_ground": [
+      0,
+      60
+     ],
+     "ben_unground": [
+      12,
+      60
+     ]
+    },
+    "N1&INTENT_v1": {
+     "atk": [
+      43,
+      60
+     ],
+     "ben_ground": [
+      0,
+      60
+     ],
+     "ben_unground": [
+      17,
+      60
+     ]
+    },
+    "INTENT_v1&B13": {
+     "atk": [
+      28,
+      60
+     ],
+     "ben_ground": [
+      0,
+      60
+     ],
+     "ben_unground": [
+      11,
+      60
+     ]
+    }
+   }
+  },
+  "per_owner": {
+   "0": {
+    "N1": {
+     "atk": {
+      "raw": "15/15",
+      "stored": "14/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "1/15"
+     },
+     "ben_unground": {
+      "raw": "12/15",
+      "stored": "10/15"
+     }
+    },
+    "N1&B13": {
+     "atk": {
+      "raw": "13/15",
+      "stored": "10/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "7/15",
+      "stored": "5/15"
+     }
+    },
+    "N1&INTENT_v1": {
+     "atk": {
+      "raw": "14/15",
+      "stored": "10/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "8/15",
+      "stored": "6/15"
+     }
+    },
+    "INTENT_v1&B13": {
+     "atk": {
+      "raw": "13/15",
+      "stored": "8/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "6/15",
+      "stored": "3/15"
+     }
+    }
+   },
+   "2": {
+    "N1": {
+     "atk": {
+      "raw": "11/15",
+      "stored": "11/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "1/15"
+     },
+     "ben_unground": {
+      "raw": "3/15",
+      "stored": "4/15"
+     }
+    },
+    "N1&B13": {
+     "atk": {
+      "raw": "10/15",
+      "stored": "5/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "3/15",
+      "stored": "1/15"
+     }
+    },
+    "N1&INTENT_v1": {
+     "atk": {
+      "raw": "11/15",
+      "stored": "10/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "2/15",
+      "stored": "2/15"
+     }
+    },
+    "INTENT_v1&B13": {
+     "atk": {
+      "raw": "12/15",
+      "stored": "4/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "3/15",
+      "stored": "2/15"
+     }
+    }
+   },
+   "4": {
+    "N1": {
+     "atk": {
+      "raw": "15/15",
+      "stored": "15/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "9/15",
+      "stored": "7/15"
+     }
+    },
+    "N1&B13": {
+     "atk": {
+      "raw": "11/15",
+      "stored": "8/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "7/15",
+      "stored": "5/15"
+     }
+    },
+    "N1&INTENT_v1": {
+     "atk": {
+      "raw": "14/15",
+      "stored": "14/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "7/15",
+      "stored": "6/15"
+     }
+    },
+    "INTENT_v1&B13": {
+     "atk": {
+      "raw": "11/15",
+      "stored": "8/15"
+     },
+     "ben_ground": {
+      "raw": "1/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "6/15",
+      "stored": "5/15"
+     }
+    }
+   },
+   "6": {
+    "N1": {
+     "atk": {
+      "raw": "10/15",
+      "stored": "10/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "1/15"
+     },
+     "ben_unground": {
+      "raw": "5/15",
+      "stored": "5/15"
+     }
+    },
+    "N1&B13": {
+     "atk": {
+      "raw": "6/15",
+      "stored": "7/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "4/15",
+      "stored": "1/15"
+     }
+    },
+    "N1&INTENT_v1": {
+     "atk": {
+      "raw": "10/15",
+      "stored": "9/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "3/15",
+      "stored": "3/15"
+     }
+    },
+    "INTENT_v1&B13": {
+     "atk": {
+      "raw": "11/15",
+      "stored": "8/15"
+     },
+     "ben_ground": {
+      "raw": "0/15",
+      "stored": "0/15"
+     },
+     "ben_unground": {
+      "raw": "2/15",
+      "stored": "1/15"
+     }
+    }
+   }
+  }
+ }
+}

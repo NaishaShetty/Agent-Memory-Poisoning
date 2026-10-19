@@ -1,0 +1,70 @@
+# T14_adjudication: Blind automated adjudication (Gemini) of C0-vs-vote disagreements (ADJ-1, pre-registered)
+
+Sources: remediation/judge_adjudication.json
+
+```json
+{
+  "sets": {
+    "disagree_C0_only": {
+      "n": 60,
+      "adjudicator_sides_with_C0": 29,
+      "adjudicator_sides_with_vote": 31
+    },
+    "disagree_vote_only": {
+      "n": 60,
+      "adjudicator_sides_with_C0": 31,
+      "adjudicator_sides_with_vote": 29
+    },
+    "agree": {
+      "n": 40,
+      "adjudicator_sides_with_C0": 34,
+      "adjudicator_sides_with_vote": 34
+    }
+  },
+  "disagreement_items": {
+    "n": 120,
+    "with_C0": 60,
+    "with_vote": 60
+  },
+  "kappa_vs_C0": 0.145,
+  "kappa_vs_vote": 0.145,
+  "concentration": {
+    "n_total": 505,
+    "by_arm_flipped": {
+      "+without": 230,
+      "with": 274,
+      "with+without": 1
+    }
+  },
+  "rate_by_population": {
+    "extdev_agentdojo": "11/27 (41%)",
+    "extdev_agentpoison": "2/6 (33%)",
+    "extdev_bipia": "26/150 (17%)",
+    "extdev_injecagent": "11/62 (18%)",
+    "extdev_minja": "5/21 (24%)",
+    "exttest_deepset": "51/260 (20%)",
+    "exttest_gandalf": "155/998 (16%)",
+    "holdout2_mosscap": "56/300 (19%)",
+    "own_corpus_extended": "33/138 (24%)",
+    "own_evasion_47": "9/47 (19%)",
+    "own_founding_regen": "69/208 (33%)",
+    "own_frozen75": "6/34 (18%)",
+    "own_novel_60": "7/60 (12%)",
+    "own_novel_new120": "26/120 (22%)",
+    "own_trackb_15": "6/15 (40%)",
+    "own_trackb_regen_9": "3/9 (33%)",
+    "own_worm_regen": "7/29 (24%)",
+    "own_zh_native_30": "3/30 (10%)",
+    "own_zh_translated_84": "19/84 (23%)"
+  },
+  "predictions": [
+    {
+      "id": "ADJ-1a",
+      "kind": "directional",
+      "prediction": "adjudicator agrees with the vote on more disagreement items than with C0",
+      "status": "FAILED",
+      "evidence": "vote 60 vs C0 60 of 120"
+    }
+  ]
+}
+```

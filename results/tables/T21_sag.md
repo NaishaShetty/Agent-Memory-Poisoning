@@ -1,0 +1,130 @@
+# T21_sag: WS-A source-anchored governance (SAG): stored-text vs lineage-intact vs wrong-lineage decisions (pre-registered defence programme)
+
+Sources: defence_v2/sag_eval.json
+
+```json
+{
+  "sets": {
+    "MEM1_document": {
+      "B12": {
+        "atk": {
+          "lost": "2/157",
+          "intact": "3/157",
+          "wrong": "5/157"
+        },
+        "ben": {
+          "lost": "6/262",
+          "intact": "9/262",
+          "wrong": "10/262"
+        }
+      },
+      "B13": {
+        "atk": {
+          "lost": "59/157",
+          "intact": "87/157",
+          "wrong": "82/157"
+        },
+        "ben": {
+          "lost": "37/262",
+          "intact": "50/262",
+          "wrong": "102/262"
+        }
+      }
+    },
+    "MEM1_user": {
+      "B12": {
+        "atk": {
+          "lost": "0/157",
+          "intact": "3/157",
+          "wrong": "3/157"
+        }
+      },
+      "B13": {
+        "atk": {
+          "lost": "0/157",
+          "intact": "0/157",
+          "wrong": "0/157"
+        }
+      }
+    },
+    "MEM2_document": {
+      "B12": {
+        "atk": {
+          "lost": "22/60",
+          "intact": "60/60",
+          "wrong": "35/60"
+        },
+        "ben": {
+          "lost": "1/60",
+          "intact": "2/60",
+          "wrong": "36/60"
+        }
+      },
+      "B13": {
+        "atk": {
+          "lost": "23/60",
+          "intact": "60/60",
+          "wrong": "35/60"
+        },
+        "ben": {
+          "lost": "2/60",
+          "intact": "3/60",
+          "wrong": "36/60"
+        }
+      }
+    },
+    "SA3eval_document_vs_ben_unground": {
+      "B12": {
+        "atk": {
+          "lost": "1/45",
+          "intact": "3/45",
+          "wrong": "3/45"
+        },
+        "ben": {
+          "lost": "0/45",
+          "intact": "0/45",
+          "wrong": "1/45"
+        }
+      },
+      "B13": {
+        "atk": {
+          "lost": "18/45",
+          "intact": "33/45",
+          "wrong": "33/45"
+        },
+        "ben": {
+          "lost": "9/45",
+          "intact": "26/45",
+          "wrong": "35/45"
+        }
+      }
+    },
+    "SA3eval_document_vs_ben_ground": {
+      "B12": {
+        "atk": {
+          "lost": "1/45",
+          "intact": "3/45",
+          "wrong": "4/45"
+        },
+        "ben": {
+          "lost": "0/45",
+          "intact": "1/45",
+          "wrong": "1/45"
+        }
+      },
+      "B13": {
+        "atk": {
+          "lost": "18/45",
+          "intact": "33/45",
+          "wrong": "27/45"
+        },
+        "ben": {
+          "lost": "0/45",
+          "intact": "1/45",
+          "wrong": "17/45"
+        }
+      }
+    }
+  }
+}
+```

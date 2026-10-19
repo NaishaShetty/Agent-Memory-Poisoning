@@ -1,0 +1,129 @@
+% MAMBench manuscript -- IEEE conference format (IEEEtran, compsoc), anonymized for double-blind review.
+% Every number is a macro defined in numbers.tex, generated from results/tables by
+% `python -m phase17.remediation.paper_numbers`. Do not type numbers into this file.
+\documentclass[conference,compsoc]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs,multirow,amsmath,amssymb,url,xspace}
+\usepackage[hidelinks]{hyperref}
+\input{numbers.tex}
+
+\begin{document}
+\title{Do the Attacks Work? A Validity-Audited Evaluation of Provenance, Propagation and Sleeper Defenses for LLM Agent Memory}
+\author{\IEEEauthorblockN{Anonymous Authors}\IEEEauthorblockA{Under double-blind review}}
+\maketitle
+
+\begin{abstract}
+Defenses against memory poisoning in LLM agents are usually scored on attacks that are assumed to work, through simplified harnesses, and without charging them for the benign memories they exclude. We audit \AuditN{} attack instances causally---the same task with and without the memory---and find that the memory's net effect on agent behaviour is large on memory-poisoning attacks (\NetOwnCzero{} points) and small on external injection corpora (\NetExtCzero{}), robustly to the judge; but which individual instances ``work'' depends on the probe and the judge (\JSFlipsPct{} change status between judges, and a non-leading probe agrees with the fitted one on \PrAgree{} of instances). Defense rankings are identical on five working-attack denominators. We then examine three gaps. \emph{Provenance and governance}: on three single-use hold-outs, admission that corroborates untrusted personal claims against the owner's own conversation excludes \HOfourBthirteen{}, \HOsevenBthirteen{} and \HOeightBthirteen{} of memory poisoning versus \HOfourBfourteen{}--\HOeightBfourteen{} for a fused content classifier, at \BthirteenFPRmin{}--\BthirteenFPRmax{} benign exclusion; the channel label contributes no recall, user-channel poisoning is never excluded, and leave-one-owner-out calibration over ten owners reproduces it (\LooDet{} detection at \LooBen{} benign exclusion), while wrong or partial evidence raises benign exclusion to \LooWrongBen{}--\LooTruncBen{}. \MemAbstract{} \emph{Propagation}: poisons \PtwoAbstract{} \emph{Sleepers}: conditional rules are dormant and activate on natural triggers; explicit malicious rules are caught by content detection in raw form but only \MemTwoBtwelve{} after Mem0 rewrites them, implicit ones evade it entirely (\SAtwoBtwelve{}) while corroboration excludes \SAtwoBthirteen{} with no grounded benign rule excluded, and every sleeper-specific detector fails. We report \PredHeld{} of \PredScored{} earlier pre-registered predictions and every gap-closure prediction, failures included.
+\end{abstract}
+
+\section{Introduction}
+LLM agents increasingly persist what they read and are told into long-term memory, and an attacker who can influence what is written can steer the agent long after the interaction that planted the content~\cite{agentpoison,minja,hiddenmem,mpbench}. Defenses now include content screening, provenance and lineage tracking~\cite{memlineage,tmanm,ppmf,aegis}, consensus checks~\cite{amemguard} and data framing~\cite{spotlighting,hiddenmem}, and benchmarks measure persistence and execution~\cite{mempoison,memsecbench,ied}. Three measurement questions remain under-examined: whether the attacks used to score defenses actually change the agent's behaviour; what defenses cost on benign memories that \emph{resemble} attacks; and whether results from simplified harnesses survive a real memory system's extraction and retrieval.
+
+\textbf{Research questions.} We organise the study around one methodological question and three security gaps on the memory lifecycle (admission $\rightarrow$ transformation $\rightarrow$ activation):
+\begin{itemize}
+\item \textbf{RQ1 (attack validity).} Do the attack instances causally change behaviour, and do defense conclusions depend on which instances are counted?
+\item \textbf{RQ2 (provenance and governance).} Can admission based on source provenance and owner-conversation corroboration exclude poisoned memories at an acceptable benign cost, and which component provides the effect?
+\item \textbf{RQ3 (self-propagation).} Does a poison survive repeated consolidation, and does lineage-taint containment hold across generations?
+\item \textbf{RQ4 (sleepers).} Do conditional memories stay dormant and activate on triggers, and can a defense recognise them without rejecting benign conditional rules?
+\end{itemize}
+
+\textbf{Contributions.} (1) A causal attack-validity protocol with judge, adjudicator and probe sensitivity analyses, showing a robust population-level memory effect, fragile instance-level labels, and defense rankings stable across five denominators (\S\ref{sec:validity}). (2) A decomposition of provenance-aware admission on single-use hold-outs, showing its effect is owner-conversation corroboration rather than channel trust, with its evidence and calibration sensitivity (\S\ref{sec:prov}), and a replication through Mem0 with its extraction pipeline enabled (\S\ref{sec:mem0}). (3) Measurements of multi-generation laundering and containment (\S\ref{sec:prop}) and of sleeper activation with benign conditional lookalikes, including implicit-intent rules (\S\ref{sec:sleeper}). We do not claim new defense mechanisms: channel trust, lineage taint, stateful rejection and data framing all have precedents~\cite{tmanm,memlineage,ppmf,statefuldet,blacklight,spotlighting}. Our contribution is evaluation methodology and the measured behaviour of these mechanisms on attacks shown to work.
+
+\section{Related Work}\label{sec:related}
+\textbf{Memory-poisoning attacks and benchmarks.} AgentPoison~\cite{agentpoison}, MINJA~\cite{minja}, MemoryGraft~\cite{memorygraft}, FARMA~\cite{farma}, DSRM~\cite{dsrm} and sleeper memory poisoning~\cite{hiddenmem} target different points of the memory pipeline; MPBench~\cite{mpbench} systematizes six attack classes over four write channels, and Agent Security Bench~\cite{asb} includes memory poisoning among broader agent attacks. MemPoison~\cite{mempoison} uses clean/poisoned paired runs and an activation-shift measure for dormant attacks; MemSecBench~\cite{memsecbench} scores persistence, execution and repair on Mem0, Mem0-Graph and A-MEM inside two agent harnesses---a broader real-system evaluation than ours; Injection--Execution Dissociation~\cite{ied} separates storage from execution with pre-registration and Holm correction. We are not aware of prior work that re-scores \emph{defense} detection on a causally filtered working subset; StrongREJECT~\cite{strongreject} raises the analogous validity issue for jailbreaks.
+
+\textbf{Provenance, lineage and laundering.} Channel-based trust appears in Aegis~\cite{aegis} (a retrieval-time prior with user turns trusted), in provenance down-weighting~\cite{priceofsafety}, and in origin-bound authority~\cite{tmanm}, which shows content- and lineage-based gates are defeated by self-summarization laundering. MemLineage~\cite{memlineage} propagates untrusted origin through derivation chains; PPMF~\cite{ppmf} names provenance laundering during consolidation; SMSR~\cite{smsr} combines HMAC provenance with certified ablation. CaMeL~\cite{camel} and StruQ~\cite{struq} separate trusted instructions from untrusted data.
+
+\textbf{Sleepers and benign lookalikes.} Trigger versus non-trigger activation is measured in MemPoison~\cite{mempoison}, HiddenMem~\cite{hiddenmem} and Plant--Persist--Trigger~\cite{ppt}. Leong~\cite{leongobs} shows a retrieval-trajectory detector fires on benign actions structurally identical to attacks; we are not aware of an evaluation of memory detectors against benign \emph{conditional rules} of the same form, or against implicit-intent sleepers.
+
+\section{Threat Model}\label{sec:threat}
+\begin{table}[t]\centering\caption{Threat model and what the defenses can observe.}\label{tab:threat}
+\footnotesize
+\begin{tabular}{p{2.6cm}p{5.1cm}}\toprule
+Attacker capability & Writes content that reaches memory through an \emph{untrusted channel} (tool output, retrieved document, agent-generated text); may retry after a rejection (\S\ref{sec:prov}); cannot alter defense parameters, platform-recorded provenance, or existing memories directly. \\
+Trusted channel & The owner's own turns. Poison written through it (e.g.\ MINJA's query-only model~\cite{minja}) or a mislabelled source is \emph{out of scope by design} and measured as such. \\
+Attack shapes & Note-shaped fabrication; instruction-shaped rules; conditional (sleeper) rules, explicit or implicit. \\
+Defense observes & Memory text; its channel label (platform-assigned; evaluator-assigned in our experiments); the owner's prior conversation; derivation parents of consolidated memories. \\
+Defense does not observe & Attack labels; triggers; future queries (admission time). \\
+Out of scope & Provenance-metadata forgery; adversarial channel mislabelling; weight or prompt tampering. \\\bottomrule
+\end{tabular}\end{table}
+
+Table~\ref{tab:threat} states the assumptions. The load-bearing one is channel integrity: every attack in our evaluations is assigned an untrusted channel by the evaluator, and provenance-aware admission inherits that assumption.
+
+\section{Evaluation Methodology}\label{sec:harness}
+\textbf{Units of evaluation.} Most experiments use a simplified harness: admission defenses classify memory text, and behaviour is measured by placing memories in an assistant prompt, either directly (validity audit) or through embedding retrieval over a store of the owner's real LoCoMo~\cite{locomo} turns. In the harm study the poison was naturally retrieved in only \HarmNatRetr{} of instances and inserted otherwise, so harm there is \emph{conditional on exposure}. We therefore add an evaluation through Mem0 with its LLM extraction and update pipeline enabled (\S\ref{sec:mem0}), and report each lifecycle stage separately: ingested, stored, carries the claim, retrieved, changes behaviour, prevented.
+
+\textbf{Models and judges.} The agent is qwen2.5:7b; judges come from other model families than the agent and every defense signal, and no model judges text it wrote. Generation uses temperature 0 with fixed seeds but is not bit-reproducible; repeated runs moved undefended harm by up to \HarmNoiseRange{} points. \textbf{Human validation is weak}: two annotators labelled 100 items, the first author and a second annotator known to the author who labelled separately under written instructions not to view the first annotator's labels or the judges' outputs; neither is independent of the author; we therefore treat the ``human-calibrated'' judge as a second judge rather than ground truth.
+
+\textbf{Hold-outs and owners.} Every hold-out was frozen with a SHA-256 digest before scoring and scored once under committed predictions. Defense thresholds were calibrated on four development owners, two of whom are the owners of hold-out~8 and SA-1; hold-outs 4 and 7 (and SA-2) have owners never used in calibration.
+
+\section{RQ1: Attack Validity and Causal Attribution}\label{sec:validity}
+\textbf{Protocol.} An instance is \emph{working} if a judge says the agent complied with the memory present, not on the same task with it absent, and a third model family confirms it implements its labelled mechanism. Working means the memory causally changed the response; it does not mean harm.
+
+\textbf{The probe is leading, but the memory effect is real.} On the fitted probe the task alone elicits the target behaviour in \JSBaseCzero{} of instances (\JSBaseVote{} under the more permissive vote judge); only \AdmitCzero{} populations under the original judge and \AdmitVote{} under the vote meet the 20\% admissibility rule we adopted later. The memory's net effect---compliance with the note minus compliance on the same task with the same benign store but without the note, paired---is nearly identical under both judges (Table~\ref{tab:validity}); resampling whole populations rather than items widens its interval (own attacks, C0: \NetOwnClust{}) but leaves it well above zero. It is conditional on the note being in context, not an end-to-end success rate.
+
+\begin{table}[t]\centering\caption{Memory-attributable compliance (net points, paired, 95\% CI) and working rates on the fitted probe.}\label{tab:validity}
+\footnotesize
+\begin{tabular}{lrrrr}\toprule
+Group & $n$ & Net (C0) & Net (vote) & Working C0 / vote \\\midrule
+All & \AuditN & \NetAllCzero & \NetAllVote & \JSAllCzero{} / \JSAllVote \\
+Own memory poisoning & \AuditOwnN & \NetOwnCzero & \NetOwnVote & \JSOwnCzero{} / \JSOwnVote \\
+External corpora & \AuditExtN & \NetExtCzero & \NetExtVote & \JSExtCzero{} / \JSExtVote \\\bottomrule
+\end{tabular}\end{table}
+
+\textbf{Instance labels are fragile.} \JSFlips{} instances change working status between the two judges. A blind third model (pre-registered adjudication of 120 disagreements) split them \AdjSplit{} between the judges ($\kappa$=\AdjKappa{} against each), so roughly one instance in five has no reliable label. A non-leading probe (pre-registered, 150 development instances) lowers the task-alone rate from \PrBaseFit{} to \PrBaseNL{} but also the working count from \PrWorkFit{} to \PrWorkNL{} (net effect \PrNetFit{} vs \PrNetNL{} points), agreeing with the fitted probe on only \PrAgree{} of instances. An added empty-memory arm on the same 150 instances (none/clean/poisoned compliance under C0: \VfFitCzero{} with the fitted probe, \VfNLCzero{} with the non-leading probe) locates the leak: with the fitted probe the agent with \emph{no} memory is judged compliant more often than with the benign store, so the fitted task itself carries the note's content; with the non-leading probe the two baselines coincide. The memory-attributable effect (poisoned minus clean; population-cluster 95\% CI) is \VfNetFitCzero{} and \VfNetFitVote{} with the fitted probe and \VfNetNLCzero{} and \VfNetNLVote{} with the non-leading probe (C0, vote). Almost every instance that stops counting as working under the non-leading probe does so because the agent no longer acts on the note at all---the task gives it no occasion---not because a probe-induced baseline disappeared. The existence of a memory effect is robust; its size and the membership of the working set are properties of the probe and judge.
+
+\textbf{Defense conclusions are not.} Across five denominators---full population, the published working set, fitted-probe working under each judge, and working under both---the defense ranking is identical on the project's own attacks and on external corpora, and also under the non-leading probe on every definition available there (B13 ties B12 on working own attacks; its advantage lies in additive fabrication, \S\ref{sec:prov}), and B13 versus B14 keeps its direction and significance in every case (Table~\ref{tab:twoden} gives the hold-out view). Restricting to working attacks shifts recall by up to \TwoDenMaxShift{} points, in opposite directions on different hold-outs.
+
+\input{tab_twoden.tex}
+
+\section{RQ2: Provenance and Governance}\label{sec:prov}
+\textbf{Configurations.} B12 is content-only admission (stacked detector, LLM judge tiers). B13 adds channel trust---user-channel memories are never excluded, others get B12's checks---and \emph{corroboration}: an untrusted memory making a personal claim is excluded when its maximum NLI entailment from the owner's 20 most similar turns falls below a development-frozen threshold. B14 is an eleven-feature fused content classifier; B17 = B13 $\lor$ B14.
+
+\input{tab_mp.tex}
+
+\textbf{The effect is corroboration, not channel trust.} Decomposing B13's stored decisions (reproduced item for item) shows B13 without corroboration excludes exactly what B12 excludes on all three hold-outs (Table~\ref{tab:decomp}). Excluding every untrusted memory would reach 100\% recall at 100\% untrusted-benign exclusion, so the label alone is not a detector; its role is the exemption that leaves user-channel poisoning unexcluded.
+
+\input{tab_decomp.tex}
+
+\textbf{Corroboration generalises across owners; it depends on the evidence.} Under leave-one-owner-out calibration over all \LooOwners{} LoCoMo owners (thresholds fitted on the other nine owners' benign derived memories at the shipped benign budget, frozen before the held-out owner was scored), B13 detected \LooDet{} of the owners' fabrications and excluded \LooBen{} of their benign derived memories, matching the shipped thresholds (\LooFrozenDet{}); no owner exceeded \LooBenMax{} benign exclusion, while detection ranged \LooDetRange{} across owners. Pooled thresholds varied by a factor of \LooThrRatio{} across held-out owners (calibrating on a single owner varies them \LooSingleRatio{}-fold). The cost is set by the evidence: with another owner's conversation, benign exclusion rose to \LooWrongBen{}, and with the first 10\% of the owner's turns to \LooTruncBen{}; with no conversation corroboration is inert, and content-only B12 detected \LooBtwelveDet{} of these fabrications. Benign notes the conversation never mentions are excluded far more often than derived memories (hold-out~4: \LooHOfour{}), because a benign new fact and a fabricated one are indistinguishable to corroboration. A looser pre-declared operating point (2\% budget) trades detection (\LooNomDet{}) for benign exclusion (\LooNomBen{}) and task completion (correct answers on the 55 affected QA items with no defense, B13, the 2\% point and policy~B: \LooUtil{}). A conservative policy that defers unrelated claims and excludes contradicted ones did worse on both axes (\LooPolicyBDet{} detected, \LooPolicyBBen{} benign excluded) and was rejected under its pre-declared criterion. On hold-out~7 corroboration discriminates weakly even with the right owner.
+
+\textbf{Injection-shaped text and published detectors.} On two injection hold-outs with matched benign prompts, B17 reaches \HOfiveBseventeen{} and \HOsixBseventeen{} recall at \HOfiveBseventeenFPR{} and \HOsixBseventeenFPR{} false positives. On the project's memory-poisoning attacks B13 and B17 lead the strongest published detector by \LeadBthirteen{} and \LeadBseventeen{} points.
+
+\textbf{Adaptive attacker.} An attacker that sees the verdict and paraphrases up to five times (claim preserved) evades corroboration on \AdaptCorr{} initially excluded seeds; a per-scope ledger of rejected content~\cite{statefuldet,blacklight} reduces this to \AdaptLedger{} at a ledger-poisoning blast radius of \LedgerBlast{} (pre-registered; development data, one attacker type).
+
+\section{Natural Memory Pipeline (Mem0, extraction enabled)}\label{sec:mem0}
+\MemBody{}
+
+\section{RQ3: Propagation Through Consolidation}\label{sec:prop}
+\textbf{Setup.} A consolidation step summarizes retrieved memories into a derived note whose parents are recorded. Containment scores a descendant by $\max_a \mathrm{SEV}(s_a)\cdot 0.5^{d_a-1}\cdot r(D,a)$ over ancestors $a$ with admission state $s_a$, distance $d_a$ and retention $r$ (lexical overlap as built, or embedding cosine), and withholds it above a fixed threshold. The only state input is the admission decision.
+
+\textbf{One generation.} A poison B13 excluded returns through its summary in \LaunderOne{} cases; semantic retention withholds \GenOneSemCarry{} of carrying summaries but also \GenOneSemNonCarry{} that did not carry the payload, and cannot act on descendants of poisons admission missed (\GenOneMissed{} of 249).
+
+\textbf{Two generations (pre-registered).} \PtwoBody{}
+
+\section{RQ4: Sleeper (Conditional) Memories}\label{sec:sleeper}
+\textbf{A correction.} An embedding-anomaly sleeper signal was earlier reported to flag 145/160 hold-out-8 attacks at 9/85 benign false positives, with clusters and threshold fitted on that hold-out's own benign notes. Without that leak it flags \AnomLeakFree{}; the development-fitted signal as shipped flags \AnomShippedAtk{} attacks and \AnomShippedFP{} benign notes---it detects a shift of owner and author, not poisoning.
+
+\textbf{SA-1: explicit conditional rules (pre-registered).} \SAoneBody{}
+
+\textbf{SA-2: implicit-intent rules (pre-registered).} Sixty conditional rules steer the owner toward a named party the owner never mentioned, phrased as an ordinary preference and filtered by a deterministic gate against explicit-harm wording; sixty benign conditional rules reflect preferences the owner actually expressed (same author, prompt template and syntax; owner never used in calibration). \SAtwoBody{}
+
+\section{Pre-registration and Statistics}\label{sec:stats}
+Paired comparisons use exact McNemar tests, unpaired comparisons Fisher's exact test, rates 95\% Wilson intervals. Every hold-out was scored once; predictions were committed before the run they govern, and design defects found before analysis are recorded as dated addenda. In the earlier final round \PredHeld{} of \PredScored{} scored predictions held (\PredIntervalHeld{} interval, \PredDirectionalHeld{} directional), with four nominal results not surviving Holm correction. The remediation experiments form separate Holm families: \RemHolm{}
+
+\section{Limitations and Responsible Disclosure}\label{sec:limits}
+(1)~One memory system (Mem0) was evaluated end to end, for two corpora; other attack families, memory systems and agents may behave differently. (2)~All agent-side measurement uses a 7B model. (3)~Human validation is weak: two annotators labelled 100 items, the first author and a second annotator known to the author who labelled separately under written blinding instructions; neither is independent of the author, and the labels are used only to choose between LLM judges; judge-dependent levels are reported under two judges, and about one instance in five has an ambiguous working label. (4)~Provenance results assume correct, unforgeable channel labels; user-channel poisoning is not addressed. Corroboration's leave-one-owner-out stability is shown on ten owners of one dataset; its cost depends on the evidence supplied and on how grounded benign memories are, and an adversary who can write to the evidence store is out of scope. (5)~Propagation and adaptive-attacker results are development data. (6)~SA-1/SA-2 corpora are LLM-authored with disclosed residual asymmetries (length; proper names), and SA-2's benign rules are grounded in the owner's conversation by construction, which favours corroboration. (7)~Some results are device-dependent (one Phase-15 baseline differs between CPU and GPU). \emph{Disclosure}: attacks target local models and public or synthetic data only; no deployed system or real user was attacked, and attack corpora describe fictitious companies.
+
+\section{Conclusion}
+\Conclusion{}
+
+\section*{Ethics Considerations}
+All attacks target a local model and synthetic or public data; no deployed system or real user was attacked. Benign memories come from a public conversational dataset (CC BY-NC 4.0).
+
+\section*{Open Science}
+Code, frozen corpus manifests with digests, pre-registrations, per-item decisions and the scripts that generate every table will be shared with reviewers in an anonymized repository. Derived data containing CC BY-NC 4.0 source text is released under those terms; one upstream dataset without an explicit licence is not redistributed.
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+\end{document}

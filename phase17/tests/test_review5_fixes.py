@@ -150,6 +150,19 @@ def test_attack_register_enumerates_every_population_the_validity_audit_covers()
     assert not orphans, f"audit populations absent from the register: {orphans}"
 
 
+def test_committed_attack_register_matches_what_build_computes(tmp_path, monkeypatch):
+    """Added 2026-10-18: the committed register had drifted (2,328 instances recorded, 3,528
+    computed, hold-out 2 missing) because nothing compared the two. build() writes its output,
+    so it is redirected to tmp_path and the committed copy is never touched by this test."""
+    import json
+
+    import phase17.attack_register as ar
+
+    committed = json.loads(ar.OUT.read_text(encoding="utf-8"))
+    monkeypatch.setattr(ar, "OUT", tmp_path / "attack_register.json")
+    assert ar.build() == committed, "phase17/data/attack_register.json is stale: run `python -m phase17.attack_register`"
+
+
 def test_harm_tasks_use_published_triggers_for_trigger_activated_families():
     from phase17.harm_tasks import KNOWN_TRIGGERS
 

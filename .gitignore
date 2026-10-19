@@ -92,6 +92,7 @@ phase3_reference/
 # the code that generated it. Backups and other .docx stay ignored.
 !/MAMBench Results Analysis.docx
 !/Methodology Draft.docx
+!/MAMBench_Comprehensive_Project_Documentation.docx
 *.doc
 *.pptx
 *.xlsx
@@ -103,3 +104,6 @@ phase3_reference/
 # of the project). ---
 .claude/
 phase17/data/_*.log
+
+# Unified benchmark run outputs (python -m mambench run); results are artifacts, not sources
+/mambench_results/

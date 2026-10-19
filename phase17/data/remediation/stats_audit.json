@@ -1,0 +1,74 @@
+{
+  "checks": [
+    {
+      "claim": "M1-2",
+      "test": "exact McNemar (paired, same items)",
+      "reported_p": 1.3877787807814457e-17,
+      "recomputed_p": 1.3877787807814457e-17,
+      "match": true,
+      "unit_of_inference": "items of one owner's corpus (HO4 owner 7 / SA-1 owner 3)",
+      "note": "",
+      "two_sided_p": null
+    },
+    {
+      "claim": "M1-6",
+      "test": "exact McNemar (paired, same items)",
+      "reported_p": 0.000244140625,
+      "recomputed_p": 0.000244140625,
+      "match": true,
+      "unit_of_inference": "items of one owner's corpus (HO4 owner 7 / SA-1 owner 3)",
+      "note": "",
+      "two_sided_p": null
+    },
+    {
+      "claim": "M2-2",
+      "test": "exact McNemar (paired, same items)",
+      "reported_p": 0.015625,
+      "recomputed_p": 0.015625,
+      "match": true,
+      "unit_of_inference": "items of one owner's corpus (HO4 owner 7 / SA-1 owner 3)",
+      "note": "",
+      "two_sided_p": null
+    },
+    {
+      "claim": "M2-4",
+      "test": "Fisher exact, ONE-SIDED (greater), two independent groups",
+      "reported_p": 3.243987317435056e-07,
+      "recomputed_p": 3.243987317435056e-07,
+      "match": true,
+      "unit_of_inference": "notes of one owner's corpus",
+      "note": "directional prediction; the paper printed it as 'Fisher p' without the sidedness",
+      "two_sided_p": 6.487974634870111e-07
+    },
+    {
+      "claim": "S2-3",
+      "test": "Fisher exact, ONE-SIDED (greater)",
+      "reported_p": 3.659182816239647e-17,
+      "recomputed_p": 3.659182816239647e-17,
+      "match": true,
+      "unit_of_inference": "notes of one owner (owner 9)",
+      "note": "directional prediction; printed without the sidedness",
+      "two_sided_p": 7.318365632479295e-17
+    },
+    {
+      "claim": "S2-4b",
+      "test": "exact McNemar",
+      "reported_p": 2.3283064365386963e-10,
+      "recomputed_p": 2.3283064365386963e-10,
+      "match": true,
+      "unit_of_inference": "notes of one owner (owner 9)",
+      "note": "",
+      "two_sided_p": null
+    }
+  ],
+  "all_match": true,
+  "holm_gapclosure_recomputed": {
+    "M1-2": 8.326672684688674e-17,
+    "M1-6": 0.00048828125,
+    "M2-2": 0.015625,
+    "M2-4": 9.731961952305168e-07,
+    "S2-3": 1.8295914081198237e-16,
+    "S2-4b": 9.313225746154785e-10
+  },
+  "family_size": 6
+}

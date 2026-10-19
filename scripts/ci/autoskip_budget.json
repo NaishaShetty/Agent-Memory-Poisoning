@@ -1,0 +1,5 @@
+{
+  "_note": "Tests the root conftest.py converts from failures into skips (missing gitignored licensed data, unreachable model download). Measured 2026-10-18 on a clean checkout with no data/raw/ and no Ollama (Windows worktree at 533cf3d9 plus the audit changes). Raise only deliberately, in review, with the reason; a Linux runner may differ slightly and the first CI run confirms these.",
+  "frozen-phases": 213,
+  "phase17": 14
+}

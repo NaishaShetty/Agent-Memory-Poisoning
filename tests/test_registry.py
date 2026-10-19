@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from preprocessing.config import load_config
 from preprocessing.registry import build_registry, build_registry_report
 
@@ -49,6 +51,7 @@ def test_registry_statuses_and_categories_are_from_known_vocabulary():
         assert e.category in _VALID_CATEGORIES, f"{e.resource_id}: unknown category {e.category}"
 
 
+@pytest.mark.requires_licensed_data
 def test_no_resource_claims_implemented_without_local_evidence():
     """Section 3: never mark something PROCESSED unless it actually has
     local data, and never claim CODE AVAILABLE == cloned/implemented."""

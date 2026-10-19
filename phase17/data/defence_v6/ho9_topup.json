@@ -1,0 +1,24 @@
+{
+ "date": "2026-10-15",
+ "decided_on": "B13 flag counts only (no chain or outcome exists)",
+ "before": {
+  "instruction_flagged": [
+   234,
+   400
+  ],
+  "factual_flagged": [
+   29,
+   70
+  ],
+  "benign_flagged": [
+   19,
+   160
+  ]
+ },
+ "targets": {
+  "instruction_flagged": 250,
+  "factual_flagged": 100
+ },
+ "action": "single top-up round: instruction cap 50->58 per owner-family (no new generation needed); factual cap 20->60 with +110 seeds per owner-family; benign unchanged",
+ "deviation": "Factual top-up ABORTED for compute after ~29 min: factual seeds cost ~15 s each (name gate, up to 6 attempts) and only ~22% are kept, so +110 seeds per cell (~3.7 h) could not reach 100 flagged. Decided on cost, before any chain or outcome. Factual seeds generated before the abort stay in ho9_partial.json but are NOT used (jobs list = the original 40 factual seeds). Applied: instruction cap 58 only. Factual payloads remain a secondary, underpowered subset."
+}

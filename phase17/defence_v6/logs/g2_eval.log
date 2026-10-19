@@ -1,0 +1,9 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 7090.09it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6802.16it/s]
+instruction RAR {'C1_gen4>=60%': False, 'C2_vs_FG': False, 'C2_p_raw': 0.5034446716308594, 'C3_no_worse_than_best_single': False, 'C4_unflagged<=5%': True, 'C5_noncarrying<=25%': True, 'C6_influence': 'UNDERPOWERED', 'C2_after_holm': False, 'credit_2.2': False}
+instruction RAR-B {'C1_gen4>=60%': False, 'C2_vs_FG': False, 'C2_p_raw': 0.6900379657745361, 'C3_no_worse_than_best_single': False, 'C4_unflagged<=5%': True, 'C5_noncarrying<=25%': True, 'C6_influence': 'UNDERPOWERED', 'C2_after_holm': False, 'credit_2.2': False}
+instruction PRC {'C1_gen4>=60%': False, 'C2_vs_FG': True, 'C2_p_raw': 0.00017015517460094998, 'C3_no_worse_than_best_single': True, 'C4_unflagged<=5%': True, 'C5_noncarrying<=25%': False, 'C6_influence': True, 'C2_after_holm': True, 'credit_2.2': False}
+factual RAR {'C1_gen4>=60%': False, 'C2_vs_FG': 'UNDERPOWERED', 'C2_p_raw': 1.0, 'C3_no_worse_than_best_single': False, 'C4_unflagged<=5%': True, 'C5_noncarrying<=25%': True, 'C6_influence': 'UNDERPOWERED'}
+factual RAR-B {'C1_gen4>=60%': False, 'C2_vs_FG': 'UNDERPOWERED', 'C2_p_raw': 0.5, 'C3_no_worse_than_best_single': False, 'C4_unflagged<=5%': True, 'C5_noncarrying<=25%': True, 'C6_influence': 'UNDERPOWERED'}
+factual PRC {'C1_gen4>=60%': True, 'C2_vs_FG': 'UNDERPOWERED', 'C2_p_raw': 0.125, 'C3_no_worse_than_best_single': True, 'C4_unflagged<=5%': True, 'C5_noncarrying<=25%': False, 'C6_influence': 'UNDERPOWERED'}
+{"C1_deleted_log_intact": {"within_5_points_of_A": true, "false_assoc<=5%": true, "collateral<=5%": true}, "C2_deleted_then_rewritten_SIMULATION": {"within_5_points_of_A": true, "false_assoc<=5%": false, "collateral<=5%": true}}

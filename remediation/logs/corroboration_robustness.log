@@ -1,0 +1,32 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7438.30it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|██████████| 202/202 [00:00<00:00, 5712.62it/s]
+holdout4 done
+holdout7 done
+holdout8 done
+sa1 done
+disjoint thresholds: {'exclude': 0.0055548520758748055, 'flag': 0.01593620702624321, 'n_observations': 591, 'owners': [2, 4]} frozen: {'exclude': 0.0019, 'flag': 0.0057, 'owners': [1, 2, 3, 4]}
+holdout4  full|frozen          corr  76/157 FP  28/262 | B13 79/157 FP 31/262 | reproduces True
+holdout4  full|disjoint        corr 127/157 FP  73/262 | B13 129/157 FP 76/262
+holdout4  trunc10|frozen       corr  98/157 FP  68/262 | B13 101/157 FP 72/262
+holdout4  trunc10|disjoint     corr 147/157 FP 145/262 | B13 149/157 FP 147/262
+holdout4  wrong_owner|frozen   corr  60/157 FP  60/262 | B13 63/157 FP 63/262
+holdout4  wrong_owner|disjoint corr 131/157 FP 148/262 | B13 132/157 FP 149/262
+holdout7  full|frozen          corr  23/129 FP  23/189 | B13 70/129 FP 29/189 | reproduces True
+holdout7  full|disjoint        corr  56/129 FP  65/189 | B13 92/129 FP 67/189
+holdout7  trunc10|frozen       corr  29/129 FP  33/189 | B13 75/129 FP 41/189
+holdout7  trunc10|disjoint     corr  65/129 FP  64/189 | B13 101/129 FP 70/189
+holdout7  wrong_owner|frozen   corr  25/129 FP  19/189 | B13 70/129 FP 26/189
+holdout7  wrong_owner|disjoint corr  61/129 FP  53/189 | B13 93/129 FP 59/189
+holdout8  full|frozen          corr  81/160 FP   8/171 | B13 118/160 FP 15/171 | reproduces True
+holdout8  full|disjoint        corr 143/160 FP  39/171 | B13 152/160 FP 43/171
+holdout8  trunc10|frozen       corr  74/160 FP  28/171 | B13 112/160 FP 34/171
+holdout8  trunc10|disjoint     corr 129/160 FP  83/171 | B13 147/160 FP 83/171
+holdout8  wrong_owner|frozen   corr  64/160 FP  61/171 | B13 112/160 FP 68/171
+holdout8  wrong_owner|disjoint corr 120/160 FP 121/171 | B13 145/160 FP 125/171
+sa1       full|frozen          corr  45/60 FP   1/60
+sa1       full|disjoint        corr  60/60 FP   2/60
+sa1       trunc10|frozen       corr  51/60 FP   3/60
+sa1       trunc10|disjoint     corr  60/60 FP  17/60
+sa1       wrong_owner|frozen   corr  15/60 FP   6/60
+sa1       wrong_owner|disjoint corr  50/60 FP  22/60
+EXIT 0

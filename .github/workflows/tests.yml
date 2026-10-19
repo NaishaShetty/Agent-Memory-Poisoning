@@ -1,108 +1,176 @@
 name: MAMBench tests
 
-# Added in response to external review (2026-09-28): "no CI, no single command that
-# reproduces everything." SCOPE, disclosed honestly: this runs the Phases 1-16 regression
-# suite, which does not require a local LLM. Most of Phase 17's own tests either need a
-# local Ollama server (qwen2.5:7b, llama2, phi3:mini) or a GEMINI_API_KEY, neither of
-# which is available in this hosted runner -- those tests are run in a separate,
-# best-effort job that is allowed to fail (`continue-on-error`) rather than block CI,
-# and a smaller set of purely-structural Phase 17 tests (no network/LLM calls) is run
-# unconditionally. This is NOT yet "one command reproduces everything" -- closing that
-# fully needs a self-hosted runner with Ollama installed, which is out of scope for this
-# fix.
+# Scope (revised 2026-10-18, unified-benchmark and CI audit). Every job is a gate; there is
+# no allowed-to-fail job any more. What a hosted runner can and cannot check:
 #
-# GREEN AS OF 2026-09-29, PRECISELY SCOPED (external review round 3, follow-up): getting
-# frozen-phases to actually pass (not just run) surfaced and fixed several real,
-# previously-invisible bugs -- a .gitignore rule silently excluding real dataset files, three
-# frozen fingerprints computed against Windows-CRLF content instead of the true committed
-# bytes, and actions/checkout not fetching this repo's git-lfs content. `frozen-phases`
-# passing means: a fresh clone installs correctly and the frozen Phases 1-16 logic +
-# Phase 17's structural tests hold on that clean checkout. It does NOT mean any
-# LLM-dependent Phase 17 result was re-verified -- 302 tests are auto-skipped by the root
-# `conftest.py` because this runner has neither the real raw datasets (gitignored for
-# licensing) nor Ollama nor the isolated foundation environments those results depend on.
+#   * No Ollama server and no GEMINI_API_KEY: OLLAMA_BASE_URL points at a closed port so no
+#     test or benchmark task can silently call a live model. LLM-judge decisions come from the
+#     committed caches; benchmark results record this as judge_source=cache_only.
+#   * No licensed raw data (data/raw/, data/processed/ are gitignored for licensing). Tests
+#     that need it are skipped explicitly (@pytest.mark.requires_licensed_data) or by the root
+#     conftest.py; the number of conftest auto-skips per job is held to a budget
+#     (scripts/ci/autoskip_budget.json) so a new hidden failure cannot pass as a skip.
+#   * No isolated A-MEM/Mem0 interpreter: those benchmark tasks report BLOCKED, never success.
+#
+# History: the first version (2026-09-28) ran only part of Phases 3-16 and a hand-picked list
+# of 9 Phase 17 test files, ran the rest of Phase 17 in a continue-on-error job, skipped
+# phase4/, phase5/ and tests/ entirely, and triggered only on main.
 
 on:
   push:
-    branches: [main]
+    branches: [main, "remediation/**"]
   pull_request:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONHASHSEED: "0"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  OLLAMA_BASE_URL: "http://127.0.0.1:9"
+
 jobs:
+  validate:
+    name: environment, syntax and registry
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies (hashed Linux lock)
+        run: pip install --require-hashes -r requirements-ci.txt
+      - name: Check installed dependencies are consistent
+        run: pip check
+      - name: Byte-compile project sources (syntax errors fail here)
+        run: >
+          python -m compileall -q -x "datasets.candidates|phase3_reference|archive"
+          attribution mambench phase3 phase4 phase5 phase6 phase7 phase8 phase11 phase12
+          phase13 phase14 phase15 phase17 preprocessing scripts tests
+      - name: Validate the benchmark registry
+        run: python -m mambench validate
+      - name: Record resolved dependency versions
+        run: pip freeze > pip-freeze.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: pip-freeze-${{ github.sha }}
+          path: pip-freeze.txt
+          retention-days: 30
+
   frozen-phases:
+    name: Phases 1-16 and attribution
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
-      # CORRECTION (external review round 3, follow-up, 2026-09-28): the FIRST real CI run
-      # of this job (after the pandas/jsonschema fix let it get this far) showed
-      # `actions/checkout@v4` without `lfs: true` leaves this repo's git-lfs-tracked file
-      # (phase3/datasets/candidates/memoryagentbench/normalized/memory_records.jsonl, see
-      # .gitattributes) as an unresolved LFS pointer on the runner, not its real content --
-      # causing digest-mismatch and JSON-parse failures in every test that reads it or a
-      # frozen fingerprint derived from it. Added `lfs: true`.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           lfs: true
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.11"
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run Phases 1-16 regression (no local LLM required)
-        # A real, fresh CI checkout also lacks: (1) real, licensed raw dataset files
-        # deliberately excluded from git for licensing (data/raw/, data/processed/ -- see
-        # .gitignore), and (2) a cached/downloadable embedding or cross-encoder model when
-        # this runner cannot reach huggingface.co. `conftest.py` at the repo root
-        # auto-skips (does not fail) any test that hits exactly these known, external
-        # causes, so this job still gates everything that only depends on this repo's own
-        # committed code and data.
+      - name: Install dependencies (hashed Linux lock)
+        run: pip install --require-hashes -r requirements-ci.txt
+      - name: Run the frozen-phase suites
+        env:
+          MAMBENCH_AUTOSKIP_REPORT: ${{ runner.temp }}/autoskip.json
         run: >
-          python -m pytest phase6/ phase8/ phase11/ phase12/ phase13/ phase14/ phase15/
-          attribution/ phase7/ phase3/ -m "not slow" -q
+          python -m pytest phase3/ phase4/ phase5/ phase6/ phase7/ phase8/ phase11/ phase12/
+          phase13/ phase14/ phase15/ attribution/ tests/ -m "not slow" -q -rs
+      - name: Hold conftest auto-skips to their budget
+        run: python scripts/ci/check_autoskip_budget.py "${{ runner.temp }}/autoskip.json" frozen-phases
 
-  phase17-structural:
+  phase17:
+    name: Phase 17 (cached judges, no live model)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           lfs: true
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.11"
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run Phase 17 tests that need no local LLM/API key
-        # CORRECTION (external review round 2, 2026-09-28): this step previously ended in
-        # `|| true`, which made it succeed unconditionally regardless of test failures --
-        # a CI job that can never fail is not a real gate. Removed. It also omitted the two
-        # newest test files (headline-number and live-foundation-stage regression guards);
-        # added. This has never actually run in CI yet (nothing has been pushed since it
-        # was added), so it is unverified against a clean runner until the next push.
+      - name: Install dependencies (hashed Linux lock)
+        run: pip install --require-hashes -r requirements-ci.txt
+      - name: Run the Phase 17 suite
+        env:
+          MAMBENCH_AUTOSKIP_REPORT: ${{ runner.temp }}/autoskip.json
+        run: python -m pytest phase17/ -m "not slow" -q -rs
+      - name: Hold conftest auto-skips to their budget
+        run: python scripts/ci/check_autoskip_budget.py "${{ runner.temp }}/autoskip.json" phase17
+
+  benchmark:
+    name: unified benchmark (tests and smoke run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies (hashed Linux lock)
+        run: pip install --require-hashes -r requirements-ci.txt
+      - name: Benchmark registry, schema and failure-path tests
+        run: python -m pytest mambench/tests -q
+      - name: Smoke run (fails on FAILED, BLOCKED or NOT_EVALUABLE)
+        run: python -m mambench run --smoke --strict --out "${{ runner.temp }}/mambench_results"
+      - name: Check the run left tracked files untouched
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: mambench-smoke-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mambench_results
+          retention-days: 30
+
+  licensed-data:
+    name: held-out splits and leakage checks (LoCoMo, pinned and verified)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies (hashed Linux lock)
+        run: pip install --require-hashes -r requirements-ci.txt
+      # LoCoMo (CC BY-NC 4.0) is fetched for this run only, from pinned upstream commits, and must
+      # match the sha256 in data/metadata/dataset_manifest.json; it is never committed. The full
+      # four-check leakage audit also needs the processed LongMemEval/MSC/Conversation Chronicles
+      # corpora (MSC is never fetched: no explicit licence), so it stays BLOCKED here by design.
+      - name: Fetch licensed data (pinned, digest-verified)
+        run: python scripts/ci/fetch_licensed_data.py
+      # The embedding modules load models offline by design and fail if they are not cached; a
+      # fresh runner's cache is empty, so the two models are fetched here and checked against
+      # their pinned commits.
+      - name: Prefetch embedding models (pinned commits)
+        run: python scripts/ci/prefetch_models.py
+      - name: Held-out split evaluations and LoCoMo-only leakage checks
         run: >
-          python -m pytest
-          phase17/tests/test_workstreams.py
-          phase17/tests/test_bench_runner.py
-          phase17/tests/test_external_review_fixes.py
-          phase17/tests/test_headline_numbers.py
-          phase17/tests/test_live_foundation_stages.py
-          phase17/tests/test_round3_fixes.py
-          phase17/tests/test_review4_fixes.py
-          phase17/tests/test_review5_fixes.py
-          phase17/tests/test_arenas.py
-          phase17/leakage_audit.py
-          -q
-
-  phase17-full-best-effort:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
+          python -m mambench run --strict --out "${{ runner.temp }}/mambench_licensed"
+          --task defence.held_out_novel.B9 --task defence.held_out_novel.B12
+          --task defence.held_out_regen.B12 --task defence.held_out_evasion.B12
+          --task integrity.leakage_text_and_metadata
+      - name: Benchmark-runner reproduction tests
+        run: python -m pytest phase17/tests/test_bench_runner.py -q -rs
+      - name: Check the run left tracked files untouched
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
         with:
-          lfs: true
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Attempt full Phase 17 suite (expected to fail without a local Ollama server)
-        run: python -m pytest phase17/ -m "not slow" -q
+          name: mambench-licensed-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mambench_licensed
+          retention-days: 30

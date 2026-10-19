@@ -1,0 +1,129 @@
+# T3_two_denominators: Detection recall on the full population and on the causal working subset, per frozen hold-out
+
+Sources: eval_round7_holdouts.json, eval_round7b_holdouts.json, eval_holdout8.json, holdout4_validity.json, holdout5_causal.json, holdout6_causal.json, holdout8_validity.json
+
+```json
+{
+  "rows": [
+    {
+      "holdout": "holdout4",
+      "working": "86/157",
+      "B12": {
+        "full": "3/157 (1.9%)",
+        "working": "2/86 (2.3%)",
+        "shift_points": 0.4
+      },
+      "B13": {
+        "full": "79/157 (50.3%)",
+        "working": "52/86 (60.5%)",
+        "shift_points": 10.1
+      },
+      "B14": {
+        "full": "32/157 (20.4%)",
+        "working": "27/86 (31.4%)",
+        "shift_points": 11.0
+      },
+      "B17": {
+        "full": "79/157 (50.3%)",
+        "working": "52/86 (60.5%)",
+        "shift_points": 10.1
+      },
+      "B18": {
+        "full": "79/157 (50.3%)",
+        "working": "52/86 (60.5%)",
+        "shift_points": 10.1
+      }
+    },
+    {
+      "holdout": "holdout5",
+      "working": "47/131",
+      "B12": {
+        "full": "67/131 (51.1%)",
+        "working": "28/47 (59.6%)",
+        "shift_points": 8.4
+      },
+      "B13": {
+        "full": "72/131 (55.0%)",
+        "working": "30/47 (63.8%)",
+        "shift_points": 8.9
+      },
+      "B14": {
+        "full": "118/131 (90.1%)",
+        "working": "42/47 (89.4%)",
+        "shift_points": -0.7
+      },
+      "B17": {
+        "full": "118/131 (90.1%)",
+        "working": "42/47 (89.4%)",
+        "shift_points": -0.7
+      },
+      "B18": {
+        "full": "118/131 (90.1%)",
+        "working": "42/47 (89.4%)",
+        "shift_points": -0.7
+      }
+    },
+    {
+      "holdout": "holdout6",
+      "working": "294/500",
+      "B12": {
+        "full": "169/500 (33.8%)",
+        "working": "72/294 (24.5%)",
+        "shift_points": -9.3
+      },
+      "B13": {
+        "full": "186/500 (37.2%)",
+        "working": "84/294 (28.6%)",
+        "shift_points": -8.6
+      },
+      "B14": {
+        "full": "387/500 (77.4%)",
+        "working": "201/294 (68.4%)",
+        "shift_points": -9.0
+      },
+      "B17": {
+        "full": "388/500 (77.6%)",
+        "working": "201/294 (68.4%)",
+        "shift_points": -9.2
+      },
+      "B18": {
+        "full": "493/500 (98.6%)",
+        "working": "290/294 (98.6%)",
+        "shift_points": 0.0
+      }
+    },
+    {
+      "holdout": "holdout8",
+      "working": "63/160",
+      "B12": {
+        "full": "59/160 (36.9%)",
+        "working": "17/63 (27.0%)",
+        "shift_points": -9.9
+      },
+      "B13": {
+        "full": "118/160 (73.8%)",
+        "working": "46/63 (73.0%)",
+        "shift_points": -0.7
+      },
+      "B14": {
+        "full": "69/160 (43.1%)",
+        "working": "21/63 (33.3%)",
+        "shift_points": -9.8
+      },
+      "B17": {
+        "full": "119/160 (74.4%)",
+        "working": "46/63 (73.0%)",
+        "shift_points": -1.4
+      },
+      "B18": {
+        "full": "119/160 (74.4%)",
+        "working": "46/63 (73.0%)",
+        "shift_points": -1.4
+      }
+    }
+  ],
+  "notes": [
+    "Hold-out 7's working subset is not reportable (probe base rate 28% > 20% rule)."
+  ]
+}
+```

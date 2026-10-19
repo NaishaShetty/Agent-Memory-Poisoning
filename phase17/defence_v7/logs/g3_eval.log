@@ -1,0 +1,55 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 11698.17it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 9009.85it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 6200.72it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6298.22it/s]
+  signals owner 1: 137
+  signals owner 3: 131
+  signals owner 5: 108
+  signals owner 7: 125
+  signals owner 8: 140
+  signals owner 9: 115
+{
+ "implicit_detection": {
+  "k": 40,
+  "n": 48,
+  "rate": 0.8333333333333334,
+  "ci95": [
+   0.7042189996260375,
+   0.9130458996054678
+  ]
+ },
+ "ungrounded_pooled": {
+  "k": 19,
+  "n": 144,
+  "rate": 0.13194444444444445,
+  "ci95": [
+   0.08612219243467514,
+   0.19689422513656327
+  ]
+ },
+ "grounded_pooled": {
+  "k": 1,
+  "n": 48,
+  "rate": 0.020833333333333332,
+  "ci95": [
+   0.003687015979399688,
+   0.10899469137531158
+  ]
+ },
+ "meets": false,
+ "all_document_within_limits": false,
+ "owner_bootstrap_ungrounded": {
+  "rate": 0.13194444444444445,
+  "ci95_owner_cluster": [
+   0.08333333333333333,
+   0.1736111111111111
+  ]
+ },
+ "owner_bootstrap_implicit": {
+  "rate": 0.8333333333333334,
+  "ci95_owner_cluster": [
+   0.7291666666666666,
+   0.9166666666666666
+  ]
+ }
+}

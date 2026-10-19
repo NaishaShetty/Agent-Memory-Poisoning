@@ -1,0 +1,737 @@
+{
+ "rule": "max dev gen4 withheld-carrying (+gens 2-3) s.t. dev observation collateral <= 3% and non-carrying <= 25%; ties -> stricter",
+ "n_dev_registry": 161,
+ "n_dev_observations": 591,
+ "grid": [
+  {
+   "s": 0.5,
+   "t": 0.00474,
+   "withheld_carrying": [
+    "82/102",
+    "56/71",
+    "31/41",
+    "22/31"
+   ],
+   "obj": 22087,
+   "noncarrying": 0.4386,
+   "obs_collateral": 0.1997
+  },
+  {
+   "s": 0.5,
+   "t": 0.01,
+   "withheld_carrying": [
+    "76/102",
+    "52/71",
+    "28/41",
+    "18/31"
+   ],
+   "obj": 18080,
+   "noncarrying": 0.4035,
+   "obs_collateral": 0.1878
+  },
+  {
+   "s": 0.5,
+   "t": 0.02,
+   "withheld_carrying": [
+    "72/102",
+    "48/71",
+    "28/41",
+    "16/31"
+   ],
+   "obj": 16076,
+   "noncarrying": 0.3684,
+   "obs_collateral": 0.1878
+  },
+  {
+   "s": 0.5,
+   "t": 0.05,
+   "withheld_carrying": [
+    "67/102",
+    "41/71",
+    "27/41",
+    "15/31"
+   ],
+   "obj": 15068,
+   "noncarrying": 0.3559,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.5,
+   "t": 0.1,
+   "withheld_carrying": [
+    "64/102",
+    "39/71",
+    "24/41",
+    "15/31"
+   ],
+   "obj": 15063,
+   "noncarrying": 0.3459,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.5,
+   "t": 0.2,
+   "withheld_carrying": [
+    "64/102",
+    "39/71",
+    "23/41",
+    "14/31"
+   ],
+   "obj": 14062,
+   "noncarrying": 0.3333,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.5,
+   "t": 0.5,
+   "withheld_carrying": [
+    "62/102",
+    "36/71",
+    "23/41",
+    "14/31"
+   ],
+   "obj": 14059,
+   "noncarrying": 0.3083,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.55,
+   "t": 0.00474,
+   "withheld_carrying": [
+    "80/102",
+    "56/71",
+    "30/41",
+    "21/31"
+   ],
+   "obj": 21086,
+   "noncarrying": 0.4261,
+   "obs_collateral": 0.1844
+  },
+  {
+   "s": 0.55,
+   "t": 0.01,
+   "withheld_carrying": [
+    "73/102",
+    "51/71",
+    "27/41",
+    "17/31"
+   ],
+   "obj": 17078,
+   "noncarrying": 0.386,
+   "obs_collateral": 0.1726
+  },
+  {
+   "s": 0.55,
+   "t": 0.02,
+   "withheld_carrying": [
+    "69/102",
+    "47/71",
+    "27/41",
+    "15/31"
+   ],
+   "obj": 15074,
+   "noncarrying": 0.3509,
+   "obs_collateral": 0.1726
+  },
+  {
+   "s": 0.55,
+   "t": 0.05,
+   "withheld_carrying": [
+    "64/102",
+    "40/71",
+    "26/41",
+    "14/31"
+   ],
+   "obj": 14066,
+   "noncarrying": 0.3383,
+   "obs_collateral": 0.1641
+  },
+  {
+   "s": 0.55,
+   "t": 0.1,
+   "withheld_carrying": [
+    "61/102",
+    "38/71",
+    "23/41",
+    "14/31"
+   ],
+   "obj": 14061,
+   "noncarrying": 0.3283,
+   "obs_collateral": 0.1641
+  },
+  {
+   "s": 0.55,
+   "t": 0.2,
+   "withheld_carrying": [
+    "61/102",
+    "37/71",
+    "22/41",
+    "13/31"
+   ],
+   "obj": 13059,
+   "noncarrying": 0.3158,
+   "obs_collateral": 0.1641
+  },
+  {
+   "s": 0.55,
+   "t": 0.5,
+   "withheld_carrying": [
+    "59/102",
+    "34/71",
+    "22/41",
+    "13/31"
+   ],
+   "obj": 13056,
+   "noncarrying": 0.2907,
+   "obs_collateral": 0.1641
+  },
+  {
+   "s": 0.6,
+   "t": 0.00474,
+   "withheld_carrying": [
+    "78/102",
+    "53/71",
+    "27/41",
+    "21/31"
+   ],
+   "obj": 21080,
+   "noncarrying": 0.406,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.6,
+   "t": 0.01,
+   "withheld_carrying": [
+    "70/102",
+    "47/71",
+    "24/41",
+    "17/31"
+   ],
+   "obj": 17071,
+   "noncarrying": 0.3634,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.6,
+   "t": 0.02,
+   "withheld_carrying": [
+    "65/102",
+    "43/71",
+    "24/41",
+    "15/31"
+   ],
+   "obj": 15067,
+   "noncarrying": 0.3233,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.6,
+   "t": 0.05,
+   "withheld_carrying": [
+    "60/102",
+    "36/71",
+    "23/41",
+    "14/31"
+   ],
+   "obj": 14059,
+   "noncarrying": 0.3108,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.6,
+   "t": 0.1,
+   "withheld_carrying": [
+    "57/102",
+    "34/71",
+    "20/41",
+    "14/31"
+   ],
+   "obj": 14054,
+   "noncarrying": 0.2982,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.6,
+   "t": 0.2,
+   "withheld_carrying": [
+    "57/102",
+    "33/71",
+    "19/41",
+    "13/31"
+   ],
+   "obj": 13052,
+   "noncarrying": 0.2857,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.6,
+   "t": 0.5,
+   "withheld_carrying": [
+    "55/102",
+    "30/71",
+    "19/41",
+    "13/31"
+   ],
+   "obj": 13049,
+   "noncarrying": 0.2607,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.65,
+   "t": 0.00474,
+   "withheld_carrying": [
+    "74/102",
+    "52/71",
+    "27/41",
+    "21/31"
+   ],
+   "obj": 21079,
+   "noncarrying": 0.406,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.65,
+   "t": 0.01,
+   "withheld_carrying": [
+    "65/102",
+    "46/71",
+    "24/41",
+    "17/31"
+   ],
+   "obj": 17070,
+   "noncarrying": 0.3634,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.65,
+   "t": 0.02,
+   "withheld_carrying": [
+    "60/102",
+    "42/71",
+    "24/41",
+    "15/31"
+   ],
+   "obj": 15066,
+   "noncarrying": 0.3233,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.65,
+   "t": 0.05,
+   "withheld_carrying": [
+    "55/102",
+    "35/71",
+    "23/41",
+    "14/31"
+   ],
+   "obj": 14058,
+   "noncarrying": 0.3108,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.65,
+   "t": 0.1,
+   "withheld_carrying": [
+    "52/102",
+    "33/71",
+    "20/41",
+    "14/31"
+   ],
+   "obj": 14053,
+   "noncarrying": 0.2982,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.65,
+   "t": 0.2,
+   "withheld_carrying": [
+    "52/102",
+    "32/71",
+    "19/41",
+    "13/31"
+   ],
+   "obj": 13051,
+   "noncarrying": 0.2857,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.65,
+   "t": 0.5,
+   "withheld_carrying": [
+    "50/102",
+    "29/71",
+    "19/41",
+    "13/31"
+   ],
+   "obj": 13048,
+   "noncarrying": 0.2581,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.7,
+   "t": 0.00474,
+   "withheld_carrying": [
+    "72/102",
+    "51/71",
+    "27/41",
+    "21/31"
+   ],
+   "obj": 21078,
+   "noncarrying": 0.4035,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.7,
+   "t": 0.01,
+   "withheld_carrying": [
+    "63/102",
+    "44/71",
+    "24/41",
+    "17/31"
+   ],
+   "obj": 17068,
+   "noncarrying": 0.3609,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.7,
+   "t": 0.02,
+   "withheld_carrying": [
+    "57/102",
+    "40/71",
+    "24/41",
+    "15/31"
+   ],
+   "obj": 15064,
+   "noncarrying": 0.3208,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.7,
+   "t": 0.05,
+   "withheld_carrying": [
+    "52/102",
+    "33/71",
+    "23/41",
+    "14/31"
+   ],
+   "obj": 14056,
+   "noncarrying": 0.3083,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.7,
+   "t": 0.1,
+   "withheld_carrying": [
+    "49/102",
+    "31/71",
+    "20/41",
+    "14/31"
+   ],
+   "obj": 14051,
+   "noncarrying": 0.2957,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.7,
+   "t": 0.2,
+   "withheld_carrying": [
+    "49/102",
+    "30/71",
+    "19/41",
+    "13/31"
+   ],
+   "obj": 13049,
+   "noncarrying": 0.2832,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.7,
+   "t": 0.5,
+   "withheld_carrying": [
+    "47/102",
+    "27/71",
+    "19/41",
+    "13/31"
+   ],
+   "obj": 13046,
+   "noncarrying": 0.2556,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.75,
+   "t": 0.00474,
+   "withheld_carrying": [
+    "71/102",
+    "50/71",
+    "26/41",
+    "21/31"
+   ],
+   "obj": 21076,
+   "noncarrying": 0.401,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.75,
+   "t": 0.01,
+   "withheld_carrying": [
+    "62/102",
+    "43/71",
+    "23/41",
+    "17/31"
+   ],
+   "obj": 17066,
+   "noncarrying": 0.3584,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.75,
+   "t": 0.02,
+   "withheld_carrying": [
+    "55/102",
+    "39/71",
+    "23/41",
+    "15/31"
+   ],
+   "obj": 15062,
+   "noncarrying": 0.3183,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.75,
+   "t": 0.05,
+   "withheld_carrying": [
+    "50/102",
+    "32/71",
+    "22/41",
+    "14/31"
+   ],
+   "obj": 14054,
+   "noncarrying": 0.3058,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.75,
+   "t": 0.1,
+   "withheld_carrying": [
+    "47/102",
+    "30/71",
+    "19/41",
+    "14/31"
+   ],
+   "obj": 14049,
+   "noncarrying": 0.2932,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.75,
+   "t": 0.2,
+   "withheld_carrying": [
+    "47/102",
+    "29/71",
+    "18/41",
+    "13/31"
+   ],
+   "obj": 13047,
+   "noncarrying": 0.2807,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.75,
+   "t": 0.5,
+   "withheld_carrying": [
+    "45/102",
+    "26/71",
+    "18/41",
+    "13/31"
+   ],
+   "obj": 13044,
+   "noncarrying": 0.2531,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.8,
+   "t": 0.00474,
+   "withheld_carrying": [
+    "71/102",
+    "50/71",
+    "26/41",
+    "21/31"
+   ],
+   "obj": 21076,
+   "noncarrying": 0.401,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.8,
+   "t": 0.01,
+   "withheld_carrying": [
+    "62/102",
+    "43/71",
+    "23/41",
+    "17/31"
+   ],
+   "obj": 17066,
+   "noncarrying": 0.3584,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.8,
+   "t": 0.02,
+   "withheld_carrying": [
+    "55/102",
+    "39/71",
+    "23/41",
+    "15/31"
+   ],
+   "obj": 15062,
+   "noncarrying": 0.3183,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.8,
+   "t": 0.05,
+   "withheld_carrying": [
+    "50/102",
+    "32/71",
+    "22/41",
+    "14/31"
+   ],
+   "obj": 14054,
+   "noncarrying": 0.3058,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.8,
+   "t": 0.1,
+   "withheld_carrying": [
+    "47/102",
+    "30/71",
+    "19/41",
+    "14/31"
+   ],
+   "obj": 14049,
+   "noncarrying": 0.2932,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.8,
+   "t": 0.2,
+   "withheld_carrying": [
+    "47/102",
+    "29/71",
+    "18/41",
+    "13/31"
+   ],
+   "obj": 13047,
+   "noncarrying": 0.2807,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.8,
+   "t": 0.5,
+   "withheld_carrying": [
+    "45/102",
+    "26/71",
+    "18/41",
+    "13/31"
+   ],
+   "obj": 13044,
+   "noncarrying": 0.2531,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.85,
+   "t": 0.00474,
+   "withheld_carrying": [
+    "70/102",
+    "50/71",
+    "26/41",
+    "21/31"
+   ],
+   "obj": 21076,
+   "noncarrying": 0.3985,
+   "obs_collateral": 0.1794
+  },
+  {
+   "s": 0.85,
+   "t": 0.01,
+   "withheld_carrying": [
+    "61/102",
+    "43/71",
+    "23/41",
+    "17/31"
+   ],
+   "obj": 17066,
+   "noncarrying": 0.3559,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.85,
+   "t": 0.02,
+   "withheld_carrying": [
+    "54/102",
+    "39/71",
+    "23/41",
+    "15/31"
+   ],
+   "obj": 15062,
+   "noncarrying": 0.3158,
+   "obs_collateral": 0.1675
+  },
+  {
+   "s": 0.85,
+   "t": 0.05,
+   "withheld_carrying": [
+    "49/102",
+    "32/71",
+    "22/41",
+    "14/31"
+   ],
+   "obj": 14054,
+   "noncarrying": 0.3033,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.85,
+   "t": 0.1,
+   "withheld_carrying": [
+    "46/102",
+    "30/71",
+    "19/41",
+    "14/31"
+   ],
+   "obj": 14049,
+   "noncarrying": 0.2907,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.85,
+   "t": 0.2,
+   "withheld_carrying": [
+    "46/102",
+    "29/71",
+    "18/41",
+    "13/31"
+   ],
+   "obj": 13047,
+   "noncarrying": 0.2782,
+   "obs_collateral": 0.1591
+  },
+  {
+   "s": 0.85,
+   "t": 0.5,
+   "withheld_carrying": [
+    "44/102",
+    "26/71",
+    "18/41",
+    "13/31"
+   ],
+   "obj": 13044,
+   "noncarrying": 0.2506,
+   "obs_collateral": 0.1591
+  }
+ ],
+ "chosen": null,
+ "status": "NO threshold pair satisfies the dev constraints"
+}

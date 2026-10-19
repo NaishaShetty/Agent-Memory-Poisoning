@@ -143,8 +143,12 @@ def evaluate_sleeper_admission_augmented(
     and activation_shape is cached to one poison. On hold-out 8 the frozen guard flagged
     0/160 (a pre-registered diagnostic). The activation-anomaly signal -- a planted memory
     lands far from where benign content clusters -- flags dormant sleepers content-
-    independently (dev 88%, hold-out 8 145/160). This variant wires it in so a deployment
-    can actually catch sleepers.
+    independently on development data (88% at ~10% benign FPR). CORRECTION (2026-10-12,
+    register G3-4): the "hold-out 8 145/160" previously cited here was measured with clusters
+    and threshold refit on hold-out 8 itself; with the committed dev-fitted centroids this
+    variant uses, hold-out 8 gives 159/160 attacks AND 137/171 (80%) benign notes flagged
+    (phase17/data/remediation/ho8_anomaly_devfit.json). It needs per-owner benign calibration
+    before it is usable.
 
     It is a SEPARATE function, never substituted for evaluate_sleeper_admission, so every
     frozen B0-B8/B14 result is unchanged; the hold-out-8 guard number (0/160) is NOT altered.

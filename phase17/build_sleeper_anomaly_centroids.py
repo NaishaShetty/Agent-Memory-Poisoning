@@ -1,8 +1,10 @@
 """Build the committed benign cluster centroids + threshold for the live sleeper activation-anomaly
 signal (phase6/defense/sleeper/signals.py::activation_anomaly_signal).
 
-The signal is the content-independent planted-memory detector validated in sleeper_activation_live.py
-(dev: 88% sleeper recall at 10% benign FPR) and on hold-out 8 (145/160). A planted memory lands in an
+The signal is the content-independent planted-memory detector measured in sleeper_activation_live.py
+(dev: 88% sleeper recall at 10% benign FPR). CORRECTION (2026-10-12, register G3-4): the hold-out-8
+figure once cited here (145/160) used clusters refit on hold-out 8; these committed dev-fitted centroids
+flag 137/171 (80%) of hold-out 8's benign notes (remediation/ho8_anomaly_devfit.json). A planted memory lands in an
 anomalous embedding region -- far from where benign content clusters. This script fits the benign
 cluster model ONCE on development benign memory and writes the centroids and a 10%-FPR threshold to a
 committed JSON, which the phase6 signal loads at runtime (the same cache pattern as activation_shape_

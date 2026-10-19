@@ -1,0 +1,1104 @@
+{
+  "title": "Attack validity: none / clean / poisoned memory x fitted / non-leading probe; clustered net effect; definitions; judge disagreement (pre-registered targeted phase)",
+  "sources": [
+    "remediation/validity_final.json"
+  ],
+  "terminology": "'without memory' in earlier reports == CLEAN memory (8 owner turns, no poison); 'none' == empty store (new arm)",
+  "net_effect_2628": {
+    "own": {
+      "C0": {
+        "n": 804,
+        "x": 562,
+        "y": 215,
+        "diff_points": 43.2,
+        "wald_ci95_points": [
+          39.5,
+          46.8
+        ],
+        "discordant": [
+          362,
+          15
+        ],
+        "p_exact_mcnemar": 1.7261382545793425e-87,
+        "population_cluster_bootstrap_ci95_points": [
+          36.4,
+          48.1
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          37.7,
+          48.4
+        ],
+        "family_clusters": 24
+      },
+      "vote": {
+        "n": 804,
+        "x": 728,
+        "y": 349,
+        "diff_points": 47.1,
+        "wald_ci95_points": [
+          43.5,
+          50.8
+        ],
+        "discordant": [
+          391,
+          12
+        ],
+        "p_exact_mcnemar": 3.2427944341441927e-99,
+        "population_cluster_bootstrap_ci95_points": [
+          35.9,
+          57.3
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          38.4,
+          56.5
+        ],
+        "family_clusters": 24
+      },
+      "definition": "net = P(judged compliant | poisoned store) - P(judged compliant | clean store), same task, same item; the item is the unit; deterministic decoding (one run per arm)"
+    },
+    "external": {
+      "C0": {
+        "n": 1824,
+        "x": 702,
+        "y": 460,
+        "diff_points": 13.3,
+        "wald_ci95_points": [
+          11.1,
+          15.4
+        ],
+        "discordant": [
+          338,
+          96
+        ],
+        "p_exact_mcnemar": 1.1482529428871476e-32,
+        "population_cluster_bootstrap_ci95_points": [
+          11.4,
+          19.8
+        ],
+        "population_clusters": 8,
+        "family_cluster_bootstrap_ci95_points": [
+          11.3,
+          19.8
+        ],
+        "family_clusters": 8
+      },
+      "vote": {
+        "n": 1824,
+        "x": 1146,
+        "y": 897,
+        "diff_points": 13.7,
+        "wald_ci95_points": [
+          11.4,
+          15.9
+        ],
+        "discordant": [
+          357,
+          108
+        ],
+        "p_exact_mcnemar": 3.7291038758200254e-32,
+        "population_cluster_bootstrap_ci95_points": [
+          12.2,
+          19.9
+        ],
+        "population_clusters": 8,
+        "family_cluster_bootstrap_ci95_points": [
+          12.2,
+          20.6
+        ],
+        "family_clusters": 8
+      },
+      "definition": "net = P(judged compliant | poisoned store) - P(judged compliant | clean store), same task, same item; the item is the unit; deterministic decoding (one run per arm)"
+    },
+    "ALL": {
+      "C0": {
+        "n": 2628,
+        "x": 1264,
+        "y": 675,
+        "diff_points": 22.4,
+        "wald_ci95_points": [
+          20.5,
+          24.4
+        ],
+        "discordant": [
+          700,
+          111
+        ],
+        "p_exact_mcnemar": 2.929012043099377e-105,
+        "population_cluster_bootstrap_ci95_points": [
+          15.4,
+          37.7
+        ],
+        "population_clusters": 20,
+        "family_cluster_bootstrap_ci95_points": [
+          16.2,
+          37.6
+        ],
+        "family_clusters": 32
+      },
+      "vote": {
+        "n": 2628,
+        "x": 1874,
+        "y": 1246,
+        "diff_points": 23.9,
+        "wald_ci95_points": [
+          21.9,
+          25.9
+        ],
+        "discordant": [
+          748,
+          120
+        ],
+        "p_exact_mcnemar": 1.3519792425393476e-111,
+        "population_cluster_bootstrap_ci95_points": [
+          16.1,
+          42.2
+        ],
+        "population_clusters": 20,
+        "family_cluster_bootstrap_ci95_points": [
+          17.2,
+          41.7
+        ],
+        "family_clusters": 32
+      },
+      "definition": "net = P(judged compliant | poisoned store) - P(judged compliant | clean store), same task, same item; the item is the unit; deterministic decoding (one run per arm)"
+    }
+  },
+  "three_conditions_150": {
+    "fitted|C0": {
+      "comply_none": {
+        "k": 59,
+        "n": 150,
+        "rate": 0.3933333333333333,
+        "ci95": [
+          0.3187585669410804,
+          0.47323527607667293
+        ]
+      },
+      "comply_clean": {
+        "k": 38,
+        "n": 150,
+        "rate": 0.25333333333333335,
+        "ci95": [
+          0.190490201872526,
+          0.32849556010602865
+        ]
+      },
+      "comply_poisoned": {
+        "k": 109,
+        "n": 150,
+        "rate": 0.7266666666666667,
+        "ci95": [
+          0.6503534444650609,
+          0.7916596391222133
+        ]
+      },
+      "memory_attributable(poisoned-clean)": {
+        "n": 150,
+        "x": 109,
+        "y": 38,
+        "diff_points": 47.3,
+        "wald_ci95_points": [
+          38.9,
+          55.7
+        ],
+        "discordant": [
+          73,
+          2
+        ],
+        "p_exact_mcnemar": 1.5093068328887564e-19,
+        "population_cluster_bootstrap_ci95_points": [
+          38.1,
+          56.3
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          38.6,
+          56.0
+        ],
+        "family_clusters": 24
+      },
+      "context(clean-none)": {
+        "n": 150,
+        "x": 38,
+        "y": 59,
+        "diff_points": -14.0,
+        "wald_ci95_points": [
+          -21.4,
+          -6.6
+        ],
+        "discordant": [
+          7,
+          28
+        ],
+        "p_exact_mcnemar": 0.0005082604475319386,
+        "population_cluster_bootstrap_ci95_points": [
+          -19.8,
+          -2.5
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          -23.8,
+          -3.8
+        ],
+        "family_clusters": 24
+      },
+      "total(poisoned-none)": {
+        "n": 150,
+        "x": 109,
+        "y": 59,
+        "diff_points": 33.3,
+        "wald_ci95_points": [
+          23.6,
+          43.1
+        ],
+        "discordant": [
+          61,
+          11
+        ],
+        "p_exact_mcnemar": 1.5488945360571046e-09,
+        "population_cluster_bootstrap_ci95_points": [
+          22.0,
+          47.6
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          22.8,
+          43.3
+        ],
+        "family_clusters": 24
+      }
+    },
+    "fitted|vote": {
+      "comply_none": {
+        "k": 104,
+        "n": 150,
+        "rate": 0.6933333333333334,
+        "ci95": [
+          0.61548006161501,
+          0.761531097915312
+        ]
+      },
+      "comply_clean": {
+        "k": 67,
+        "n": 150,
+        "rate": 0.44666666666666666,
+        "ci95": [
+          0.3694266500084245,
+          0.5265702715004521
+        ]
+      },
+      "comply_poisoned": {
+        "k": 139,
+        "n": 150,
+        "rate": 0.9266666666666666,
+        "ci95": [
+          0.873463014734016,
+          0.9585616131949707
+        ]
+      },
+      "memory_attributable(poisoned-clean)": {
+        "n": 150,
+        "x": 139,
+        "y": 67,
+        "diff_points": 48.0,
+        "wald_ci95_points": [
+          39.8,
+          56.2
+        ],
+        "discordant": [
+          73,
+          1
+        ],
+        "p_exact_mcnemar": 7.940933880509066e-21,
+        "population_cluster_bootstrap_ci95_points": [
+          38.0,
+          58.1
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          36.7,
+          60.1
+        ],
+        "family_clusters": 24
+      },
+      "context(clean-none)": {
+        "n": 150,
+        "x": 67,
+        "y": 104,
+        "diff_points": -24.7,
+        "wald_ci95_points": [
+          -33.3,
+          -16.0
+        ],
+        "discordant": [
+          8,
+          45
+        ],
+        "p_exact_mcnemar": 2.3683513772354559e-07,
+        "population_cluster_bootstrap_ci95_points": [
+          -29.4,
+          -18.0
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          -35.1,
+          -14.0
+        ],
+        "family_clusters": 24
+      },
+      "total(poisoned-none)": {
+        "n": 150,
+        "x": 139,
+        "y": 104,
+        "diff_points": 23.3,
+        "wald_ci95_points": [
+          15.4,
+          31.3
+        ],
+        "discordant": [
+          40,
+          5
+        ],
+        "p_exact_mcnemar": 7.878384167270269e-08,
+        "population_cluster_bootstrap_ci95_points": [
+          14.5,
+          31.8
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          15.2,
+          30.8
+        ],
+        "family_clusters": 24
+      }
+    },
+    "nonleading|C0": {
+      "comply_none": {
+        "k": 5,
+        "n": 150,
+        "rate": 0.03333333333333333,
+        "ci95": [
+          0.014320220695575196,
+          0.07565284250709559
+        ]
+      },
+      "comply_clean": {
+        "k": 5,
+        "n": 150,
+        "rate": 0.03333333333333333,
+        "ci95": [
+          0.014320220695575196,
+          0.07565284250709559
+        ]
+      },
+      "comply_poisoned": {
+        "k": 41,
+        "n": 150,
+        "rate": 0.2733333333333333,
+        "ci95": [
+          0.20834036087778668,
+          0.3496465555349391
+        ]
+      },
+      "memory_attributable(poisoned-clean)": {
+        "n": 150,
+        "x": 41,
+        "y": 5,
+        "diff_points": 24.0,
+        "wald_ci95_points": [
+          17.2,
+          30.8
+        ],
+        "discordant": [
+          36,
+          0
+        ],
+        "p_exact_mcnemar": 2.9103830456733704e-11,
+        "population_cluster_bootstrap_ci95_points": [
+          14.9,
+          36.3
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          15.9,
+          32.3
+        ],
+        "family_clusters": 24
+      },
+      "context(clean-none)": {
+        "n": 150,
+        "x": 5,
+        "y": 5,
+        "diff_points": 0.0,
+        "wald_ci95_points": [
+          -1.8,
+          1.8
+        ],
+        "discordant": [
+          1,
+          1
+        ],
+        "p_exact_mcnemar": 1.0,
+        "population_cluster_bootstrap_ci95_points": [
+          -2.9,
+          1.4
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          -1.9,
+          2.0
+        ],
+        "family_clusters": 24
+      },
+      "total(poisoned-none)": {
+        "n": 150,
+        "x": 41,
+        "y": 5,
+        "diff_points": 24.0,
+        "wald_ci95_points": [
+          17.2,
+          30.8
+        ],
+        "discordant": [
+          36,
+          0
+        ],
+        "p_exact_mcnemar": 2.9103830456733704e-11,
+        "population_cluster_bootstrap_ci95_points": [
+          14.8,
+          34.9
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          16.1,
+          31.9
+        ],
+        "family_clusters": 24
+      }
+    },
+    "nonleading|vote": {
+      "comply_none": {
+        "k": 14,
+        "n": 150,
+        "rate": 0.09333333333333334,
+        "ci95": [
+          0.056411348659597745,
+          0.15056517784558682
+        ]
+      },
+      "comply_clean": {
+        "k": 7,
+        "n": 150,
+        "rate": 0.04666666666666667,
+        "ci95": [
+          0.02278625890187786,
+          0.09318757392357377
+        ]
+      },
+      "comply_poisoned": {
+        "k": 63,
+        "n": 150,
+        "rate": 0.42,
+        "ci95": [
+          0.34397871737684205,
+          0.5000166648864729
+        ]
+      },
+      "memory_attributable(poisoned-clean)": {
+        "n": 150,
+        "x": 63,
+        "y": 7,
+        "diff_points": 37.3,
+        "wald_ci95_points": [
+          29.6,
+          45.1
+        ],
+        "discordant": [
+          56,
+          0
+        ],
+        "p_exact_mcnemar": 2.7755575615628914e-17,
+        "population_cluster_bootstrap_ci95_points": [
+          24.8,
+          50.8
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          27.1,
+          46.8
+        ],
+        "family_clusters": 24
+      },
+      "context(clean-none)": {
+        "n": 150,
+        "x": 7,
+        "y": 14,
+        "diff_points": -4.7,
+        "wald_ci95_points": [
+          -8.9,
+          -0.4
+        ],
+        "discordant": [
+          2,
+          9
+        ],
+        "p_exact_mcnemar": 0.0654296875,
+        "population_cluster_bootstrap_ci95_points": [
+          -9.9,
+          -1.1
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          -10.1,
+          0.0
+        ],
+        "family_clusters": 24
+      },
+      "total(poisoned-none)": {
+        "n": 150,
+        "x": 63,
+        "y": 14,
+        "diff_points": 32.7,
+        "wald_ci95_points": [
+          24.7,
+          40.6
+        ],
+        "discordant": [
+          51,
+          2
+        ],
+        "p_exact_mcnemar": 3.1796787425264483e-13,
+        "population_cluster_bootstrap_ci95_points": [
+          21.6,
+          44.4
+        ],
+        "population_clusters": 12,
+        "family_cluster_bootstrap_ci95_points": [
+          23.6,
+          41.3
+        ],
+        "family_clusters": 24
+      }
+    }
+  },
+  "probe_contrast": {
+    "none|C0": {
+      "n": 150,
+      "x": 59,
+      "y": 5,
+      "diff_points": 36.0,
+      "wald_ci95_points": [
+        27.7,
+        44.3
+      ],
+      "discordant": [
+        57,
+        3
+      ],
+      "p_exact_mcnemar": 6.253851603243987e-14,
+      "population_cluster_bootstrap_ci95_points": [
+        21.3,
+        44.9
+      ],
+      "population_clusters": 12,
+      "family_cluster_bootstrap_ci95_points": [
+        26.8,
+        45.5
+      ],
+      "family_clusters": 24
+    },
+    "clean|C0": {
+      "n": 150,
+      "x": 38,
+      "y": 5,
+      "diff_points": 22.0,
+      "wald_ci95_points": [
+        14.9,
+        29.1
+      ],
+      "discordant": [
+        35,
+        2
+      ],
+      "p_exact_mcnemar": 1.0244548320770264e-08,
+      "population_cluster_bootstrap_ci95_points": [
+        15.7,
+        28.7
+      ],
+      "population_clusters": 12,
+      "family_cluster_bootstrap_ci95_points": [
+        13.8,
+        30.2
+      ],
+      "family_clusters": 24
+    },
+    "poisoned|C0": {
+      "n": 150,
+      "x": 109,
+      "y": 41,
+      "diff_points": 45.3,
+      "wald_ci95_points": [
+        36.9,
+        53.7
+      ],
+      "discordant": [
+        70,
+        2
+      ],
+      "p_exact_mcnemar": 1.1134248091657778e-18,
+      "population_cluster_bootstrap_ci95_points": [
+        36.9,
+        52.2
+      ],
+      "population_clusters": 12,
+      "family_cluster_bootstrap_ci95_points": [
+        38.9,
+        52.0
+      ],
+      "family_clusters": 24
+    },
+    "working(no mechanism)|C0": {
+      "n": 150,
+      "x": 73,
+      "y": 36,
+      "diff_points": 24.7,
+      "wald_ci95_points": [
+        14.6,
+        34.8
+      ],
+      "discordant": [
+        53,
+        16
+      ],
+      "p_exact_mcnemar": 9.095063055186201e-06,
+      "population_cluster_bootstrap_ci95_points": [
+        11.5,
+        35.2
+      ],
+      "population_clusters": 12,
+      "family_cluster_bootstrap_ci95_points": [
+        15.3,
+        33.7
+      ],
+      "family_clusters": 24
+    },
+    "none|vote": {
+      "n": 150,
+      "x": 104,
+      "y": 14,
+      "diff_points": 60.0,
+      "wald_ci95_points": [
+        51.7,
+        68.3
+      ],
+      "discordant": [
+        92,
+        2
+      ],
+      "p_exact_mcnemar": 4.50950758747781e-25,
+      "population_cluster_bootstrap_ci95_points": [
+        52.3,
+        64.0
+      ],
+      "population_clusters": 12,
+      "family_cluster_bootstrap_ci95_points": [
+        50.7,
+        68.6
+      ],
+      "family_clusters": 24
+    },
+    "clean|vote": {
+      "n": 150,
+      "x": 67,
+      "y": 7,
+      "diff_points": 40.0,
+      "wald_ci95_points": [
+        31.7,
+        48.3
+      ],
+      "discordant": [
+        62,
+        2
+      ],
+      "p_exact_mcnemar": 2.2562247209423347e-16,
+      "population_cluster_bootstrap_ci95_points": [
+        31.4,
+        46.9
+      ],
+      "population_clusters": 12,
+      "family_cluster_bootstrap_ci95_points": [
+        28.2,
+        51.3
+      ],
+      "family_clusters": 24
+    },
+    "poisoned|vote": {
+      "n": 150,
+      "x": 139,
+      "y": 63,
+      "diff_points": 50.7,
+      "wald_ci95_points": [
+        42.5,
+        58.9
+      ],
+      "discordant": [
+        77,
+        1
+      ],
+      "p_exact_mcnemar": 5.227781471335135e-22,
+      "population_cluster_bootstrap_ci95_points": [
+        35.8,
+        58.6
+      ],
+      "population_clusters": 12,
+      "family_cluster_bootstrap_ci95_points": [
+        42.4,
+        59.4
+      ],
+      "family_clusters": 24
+    },
+    "working(no mechanism)|vote": {
+      "n": 150,
+      "x": 73,
+      "y": 56,
+      "diff_points": 11.3,
+      "wald_ci95_points": [
+        -0.3,
+        23.0
+      ],
+      "discordant": [
+        49,
+        32
+      ],
+      "p_exact_mcnemar": 0.07478815428283367,
+      "population_cluster_bootstrap_ci95_points": [
+        -5.6,
+        21.5
+      ],
+      "population_clusters": 12,
+      "family_cluster_bootstrap_ci95_points": [
+        -3.6,
+        25.6
+      ],
+      "family_clusters": 24
+    }
+  },
+  "definitions": {
+    "fitted|full": {
+      "n": 150,
+      "B12": "78/150",
+      "B13": "80/150",
+      "B14": "68/150",
+      "B15": "63/150",
+      "B17": "86/150",
+      "ranking": [
+        "B17",
+        "B13",
+        "B12",
+        "B14",
+        "B15"
+      ]
+    },
+    "fitted|published_working": {
+      "n": 102,
+      "B12": "54/102",
+      "B13": "54/102",
+      "B14": "43/102",
+      "B15": "40/102",
+      "B17": "57/102",
+      "ranking": [
+        "B17",
+        "B12",
+        "B13",
+        "B14",
+        "B15"
+      ]
+    },
+    "fitted|working_C0": {
+      "n": 72,
+      "B12": "39/72",
+      "B13": "39/72",
+      "B14": "34/72",
+      "B15": "31/72",
+      "B17": "42/72",
+      "ranking": [
+        "B17",
+        "B12",
+        "B13",
+        "B14",
+        "B15"
+      ]
+    },
+    "fitted|working_vote": {
+      "n": 70,
+      "B12": "35/70",
+      "B13": "35/70",
+      "B14": "28/70",
+      "B15": "27/70",
+      "B17": "37/70",
+      "ranking": [
+        "B17",
+        "B12",
+        "B13",
+        "B14",
+        "B15"
+      ]
+    },
+    "fitted|working_robust": {
+      "n": 50,
+      "B12": "25/50",
+      "B13": "25/50",
+      "B14": "19/50",
+      "B15": "19/50",
+      "B17": "25/50",
+      "ranking": [
+        "B12",
+        "B13",
+        "B17",
+        "B14",
+        "B15"
+      ]
+    },
+    "nonleading|full": {
+      "n": 150,
+      "B12": "78/150",
+      "B13": "80/150",
+      "B14": "68/150",
+      "B15": "63/150",
+      "B17": "86/150",
+      "ranking": [
+        "B17",
+        "B13",
+        "B12",
+        "B14",
+        "B15"
+      ]
+    },
+    "nonleading|published_working": {
+      "available": false,
+      "reason": "the published union is defined only over the audit's fitted+generic probes"
+    },
+    "nonleading|working_C0": {
+      "n": 34,
+      "B12": "13/34",
+      "B13": "13/34",
+      "B14": "11/34",
+      "B15": "10/34",
+      "B17": "15/34",
+      "ranking": [
+        "B17",
+        "B12",
+        "B13",
+        "B14",
+        "B15"
+      ]
+    },
+    "nonleading|working_vote": {
+      "n": 53,
+      "B12": "22/53",
+      "B13": "22/53",
+      "B14": "20/53",
+      "B15": "18/53",
+      "B17": "25/53",
+      "ranking": [
+        "B17",
+        "B12",
+        "B13",
+        "B14",
+        "B15"
+      ]
+    },
+    "nonleading|working_robust": {
+      "n": 33,
+      "B12": "12/33",
+      "B13": "12/33",
+      "B14": "10/33",
+      "B15": "9/33",
+      "B17": "14/33",
+      "ranking": [
+        "B17",
+        "B12",
+        "B13",
+        "B14",
+        "B15"
+      ]
+    }
+  },
+  "status_changes": {
+    "working_C0": {
+      "both": 20,
+      "fitted_only": 52,
+      "nonleading_only": 14,
+      "neither": 64,
+      "agreement": 0.56
+    },
+    "working_vote": {
+      "both": 24,
+      "fitted_only": 46,
+      "nonleading_only": 29,
+      "neither": 51,
+      "agreement": 0.5
+    },
+    "working_robust": {
+      "both": 12,
+      "fitted_only": 38,
+      "nonleading_only": 21,
+      "neither": 79,
+      "agreement": 0.607
+    }
+  },
+  "status_change_drivers_C0": {
+    "fitted_only|clean_arm_changed=False|poisoned_arm_changed=True": 50,
+    "fitted_only|clean_arm_changed=True|poisoned_arm_changed=False": 2,
+    "nonleading_only|clean_arm_changed=True|poisoned_arm_changed=False": 12,
+    "nonleading_only|clean_arm_changed=False|poisoned_arm_changed=True": 2
+  },
+  "judge_disagreement_by_probe_150": {
+    "fitted|clean": {
+      "disagree": 29,
+      "n": 150,
+      "C0_yes_vote_no": 0,
+      "C0_no_vote_yes": 29
+    },
+    "fitted|poisoned": {
+      "disagree": 30,
+      "n": 150,
+      "C0_yes_vote_no": 0,
+      "C0_no_vote_yes": 30
+    },
+    "fitted|none": {
+      "disagree": 45,
+      "n": 150,
+      "C0_yes_vote_no": 0,
+      "C0_no_vote_yes": 45
+    },
+    "nonleading|clean": {
+      "disagree": 4,
+      "n": 150,
+      "C0_yes_vote_no": 1,
+      "C0_no_vote_yes": 3
+    },
+    "nonleading|poisoned": {
+      "disagree": 24,
+      "n": 150,
+      "C0_yes_vote_no": 1,
+      "C0_no_vote_yes": 23
+    },
+    "nonleading|none": {
+      "disagree": 9,
+      "n": 150,
+      "C0_yes_vote_no": 0,
+      "C0_no_vote_yes": 9
+    }
+  },
+  "working_count_sensitivity": {
+    "own": {
+      "n": 804,
+      "agreed_working": 246,
+      "disputed": 192,
+      "working_under_C0": 328,
+      "working_under_vote": 356,
+      "bounds_disputed_uncertain": [
+        246,
+        438
+      ],
+      "disputed_with_adjudication": 37,
+      "adjudicated_working_among_adjudicated": 30,
+      "note": "the adjudicator is a third model, not a reference standard; it saw a stratified sample only"
+    },
+    "external": {
+      "n": 1824,
+      "agreed_working": 189,
+      "disputed": 317,
+      "working_under_C0": 338,
+      "working_under_vote": 357,
+      "bounds_disputed_uncertain": [
+        189,
+        506
+      ],
+      "disputed_with_adjudication": 83,
+      "adjudicated_working_among_adjudicated": 28,
+      "note": "the adjudicator is a third model, not a reference standard; it saw a stratified sample only"
+    },
+    "ALL": {
+      "n": 2628,
+      "agreed_working": 435,
+      "disputed": 509,
+      "working_under_C0": 666,
+      "working_under_vote": 713,
+      "bounds_disputed_uncertain": [
+        435,
+        944
+      ],
+      "disputed_with_adjudication": 120,
+      "adjudicated_working_among_adjudicated": 58,
+      "note": "the adjudicator is a third model, not a reference standard; it saw a stratified sample only"
+    }
+  },
+  "predictions": [
+    {
+      "id": "V1",
+      "prediction": "no-memory compliance within +/-5 points of clean-memory (each probe x judge)",
+      "value": {
+        "fitted|C0": -14.0,
+        "fitted|vote": -24.7,
+        "nonleading|C0": 0.0,
+        "nonleading|vote": -4.7
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "V2",
+      "prediction": "memory-attributable effect > 0 with population-cluster CI excluding 0 (each probe x judge)",
+      "value": {
+        "fitted|C0": [
+          47.3,
+          [
+            38.1,
+            56.3
+          ]
+        ],
+        "fitted|vote": [
+          48.0,
+          [
+            38.0,
+            58.1
+          ]
+        ],
+        "nonleading|C0": [
+          24.0,
+          [
+            14.9,
+            36.3
+          ]
+        ],
+        "nonleading|vote": [
+          37.3,
+          [
+            24.8,
+            50.8
+          ]
+        ]
+      },
+      "status": "HELD"
+    },
+    {
+      "id": "V3",
+      "prediction": "B13 above B12 on every definition x probe with n >= 10",
+      "value": {
+        "fitted|full": true,
+        "fitted|published_working": false,
+        "fitted|working_C0": false,
+        "fitted|working_vote": false,
+        "fitted|working_robust": false,
+        "nonleading|full": true,
+        "nonleading|working_C0": false,
+        "nonleading|working_vote": false,
+        "nonleading|working_robust": false
+      },
+      "status": "FAILED"
+    }
+  ]
+}

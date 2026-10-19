@@ -1,0 +1,76 @@
+{
+  "title": "Disaggregated comparison against published detectors (development thresholds reused, never re-fitted)",
+  "sources": [
+    "baseline_breakdown_round6.json"
+  ],
+  "rows": [
+    {
+      "group": "aggregate_own",
+      "n": 804,
+      "B12": "347/804 (43.2%)",
+      "B13": "371/804 (46.1%)",
+      "B14": "331/804 (41.2%)",
+      "B15": "303/804 (37.7%)",
+      "B16": "303/804 (37.7%)",
+      "B17": "412/804 (51.2%)",
+      "llama_guard3@dev": "104/804 (12.9%)",
+      "llama_guard3@oracle": "56/804 (7.0%)",
+      "deberta_pi_v2@dev": "113/804 (14.1%)",
+      "deberta_pi_v2@oracle": "84/804 (10.4%)",
+      "perplexity_gpt2@dev": "54/804 (6.7%)",
+      "perplexity_gpt2@oracle": "6/804 (0.8%)",
+      "llm_prompt_qwen@dev": "26/804 (3.2%)",
+      "llm_prompt_qwen@oracle": "44/804 (5.5%)",
+      "llm_prompt_llama31@dev": "94/804 (11.7%)",
+      "llm_prompt_llama31@oracle": "64/804 (8.0%)"
+    },
+    {
+      "group": "aggregate_external",
+      "n": 2724,
+      "B12": "1103/2724 (40.5%)",
+      "B13": "1210/2724 (44.4%)",
+      "B14": "1935/2724 (71.0%)",
+      "B15": "1726/2724 (63.4%)",
+      "B16": "1726/2724 (63.4%)",
+      "B17": "1943/2724 (71.3%)",
+      "llama_guard3@dev": "769/2724 (28.2%)",
+      "llama_guard3@oracle": "278/2724 (10.2%)",
+      "deberta_pi_v2@dev": "1917/2724 (70.4%)",
+      "deberta_pi_v2@oracle": "1857/2724 (68.2%)",
+      "perplexity_gpt2@dev": "806/2724 (29.6%)",
+      "perplexity_gpt2@oracle": "5/2724 (0.2%)",
+      "llm_prompt_qwen@dev": "1419/2724 (52.1%)",
+      "llm_prompt_qwen@oracle": "1724/2724 (63.3%)",
+      "llm_prompt_llama31@dev": "666/2724 (24.4%)",
+      "llm_prompt_llama31@oracle": "488/2724 (17.9%)"
+    }
+  ],
+  "ordinary_benign_fpr": {
+    "B12": "1/1088 (0.1%)",
+    "B13": "1/1088 (0.1%)",
+    "B14": "2/1088 (0.2%)",
+    "B15": "1/1088 (0.1%)",
+    "B16": "1/1088 (0.1%)",
+    "B17": "2/1088 (0.2%)",
+    "llama_guard3@dev": "23/1088 (2.1%)",
+    "llama_guard3@oracle": "2/1088 (0.2%)",
+    "deberta_pi_v2@dev": "8/1088 (0.7%)",
+    "deberta_pi_v2@oracle": "1/1088 (0.1%)",
+    "perplexity_gpt2@dev": "15/1088 (1.4%)",
+    "perplexity_gpt2@oracle": "0/1088 (0.0%)",
+    "llm_prompt_qwen@dev": "0/1088 (0.0%)",
+    "llm_prompt_qwen@oracle": "1/1088 (0.1%)",
+    "llm_prompt_llama31@dev": "6/1088 (0.6%)",
+    "llm_prompt_llama31@oracle": "1/1088 (0.1%)"
+  },
+  "lead_on_own_attacks_over_best_baseline": {
+    "best_baseline": "deberta_pi_v2@dev",
+    "points": {
+      "B13": 32.1,
+      "B17": 37.2
+    }
+  },
+  "notes": [
+    "Replaces the hand-typed 'nearly 39 points' (review D6), which no artifact supports."
+  ]
+}

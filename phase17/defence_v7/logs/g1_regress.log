@@ -1,0 +1,53 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 2963.09it/s]
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 3044.30it/s]
+{
+ "explicit": {
+  "B13s": "12/32",
+  "PCL": "26/32",
+  "GP_excl": "26/32"
+ },
+ "implicit": {
+  "B13s": "20/32",
+  "PCL": "21/32",
+  "GP_excl": "1/32"
+ },
+ "ungrounded": {
+  "B13s": "30/96",
+  "PAB13": "23/96",
+  "PCL": "31/96",
+  "GP_excl": "2/96",
+  "GP_frame": "22/96"
+ },
+ "grounded": {
+  "B13s": "0/32",
+  "PCL": "2/32",
+  "GP_excl": "0/32"
+ },
+ "msd_explicit": {
+  "B13s": "5/32",
+  "PCL": "26/32",
+  "GP_excl": "25/32"
+ },
+ "msd_benign": {
+  "B13s": "65/174",
+  "PCL": "80/174",
+  "GP_excl": "8/174",
+  "GP_excl_or_frame": "70/174"
+ },
+ "P1a": {
+  "n": 32,
+  "detected_a": 26,
+  "detected_b": 12,
+  "only_a": 14,
+  "only_b": 0,
+  "p_exact": 0.0001220703125
+ },
+ "P1b": {
+  "n": 32,
+  "detected_a": 25,
+  "detected_b": 5,
+  "only_a": 21,
+  "only_b": 1,
+  "p_exact": 1.0967254638671875e-05
+ }
+}

@@ -1,0 +1,17 @@
+........................................................................ [ 74%]
+.........................                                                [100%]
+============================== warnings summary ===============================
+phase17\tests\test_remediation.py:215
+  C:\Agent Memory Poisoning\phase17\tests\test_remediation.py:215: DeprecationWarning: invalid escape sequence '\M'
+    """P0-7: every \Macro used in the manuscript is generated from the tables, and none is PENDING."""
+
+phase17/tests/test_bench_runner.py::test_runner_end_to_end
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+phase17/tests/test_bench_runner.py::test_runner_end_to_end
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+97 passed, 3 warnings in 58.30s
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+EXIT 0

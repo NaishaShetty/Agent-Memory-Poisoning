@@ -1,0 +1,94 @@
+[
+ {
+  "utc": "2026-10-16T08:33:11Z",
+  "doc": "Methodology Draft.docx",
+  "changes": [
+   {
+    "id": "CIT-GLN",
+    "status": "applied",
+    "before": "Veness, J., et al. \"Gated Linear Networks.\" AAAI 2021 (arXiv:1910.01526) - CITATION NEEDS VERIFICATION of the full author list. Implemented from scratch as the online-learning (GLN) component of the Phase 11 GNN-GLN hybrid (phase11/gln/).",
+    "after": "Veness, J., Lattimore, T., Budden, D., Bhoopchand, A., Mattern, C., Grabska-Barwinska, A., Sezener, E., Wang, J., Toth, P., Schmitt, S., and Hutter, M. \"Gated Linear Networks.\" Proceedings of the AAAI Conference on Artificial Intelligence 35(11), 10015-10023, 2021. doi:10.1609/aaai.v35i11.17202 (arXiv:1910.01526). Implemented from scratch as the online-learning (GLN) component of the Phase 11 GNN-GLN hybrid (phase11/gln/)."
+   },
+   {
+    "id": "CIT-BIPIA",
+    "status": "applied",
+    "before": "Yi, J., et al. \"Benchmarking and Defending Against Indirect Prompt Injection Attacks on Large Language Models\" (BIPIA), 2023 (arXiv:2312.14197) - CITATION NEEDS VERIFICATION of the full author list and identifier. One of the external injection corpora from which Phase 17's injection-shaped attack texts were drawn (with MINJA, AgentPoison, InjecAgent and AgentDojo).",
+    "after": "Yi, J., Xie, Y., Zhu, B., Kiciman, E., Sun, G., Xie, X., and Wu, F. \"Benchmarking and Defending Against Indirect Prompt Injection Attacks on Large Language Models\" (BIPIA). KDD 2025. doi:10.1145/3690624.3709179 (arXiv:2312.14197). One of the external injection corpora from which Phase 17's injection-shaped attack texts were drawn (with MINJA, AgentPoison, InjecAgent and AgentDojo)."
+   },
+   {
+    "id": "CIT-HEADER",
+    "status": "applied",
+    "before": "The following citations are verified directly against the sources named (paper title, authors, venue, and identifier confirmed via the original publication or its official repository). Entries marked CITATION NEEDS VERIFICATION could not be confirmed against a primary source during this pass and must be resolved before submission rather than assumed.",
+    "after": "The following citations are verified directly against the sources named (paper title, authors, venue, and identifier confirmed via the original publication or its official repository). [2026-10-16: every entry previously marked \"CITATION NEEDS VERIFICATION\" has since been verified against its primary source (arXiv record, AAAI proceedings, ACL Anthology, model card or repository); Qdrant is cited as software because its repository provides no academic citation.]"
+   },
+   {
+    "id": "CIT-LME",
+    "status": "applied",
+    "before": "LongMemEval — CITATION NEEDS VERIFICATION: only the dataset host is confirmed in the project registry (https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned, MIT license); the originating paper's title, authors, and venue were not independently re-verified against a primary source during this pass and must be confirmed before submission.",
+    "after": "LongMemEval — Wu, D., Wang, H., Yu, W., Zhang, Y., Chang, K.-W., and Yu, D. \"LongMemEval: Benchmarking Chat Assistants on Long-Term Interactive Memory.\" ICLR 2025 (arXiv:2410.10813). Dataset host used by this project: https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned (MIT license)."
+   },
+   {
+    "id": "CIT-MEM0",
+    "status": "applied",
+    "before": "Mem0 (mem0ai) — CITATION NEEDS VERIFICATION: used as a real, installed library (mem0ai 2.0.19, PyPI); a formal academic citation for the Mem0 project/paper was not independently verified against a primary source during this pass.",
+    "after": "Mem0 (mem0ai) — Chhikara, P., Khant, D., Aryan, S., Singh, T., and Yadav, D. \"Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory.\" arXiv:2504.19413, 2025 (preprint; the arXiv record lists no venue). Used as the installed library mem0ai 2.0.19 (PyPI)."
+   },
+   {
+    "id": "CIT-AMEM",
+    "status": "applied",
+    "before": "A-MEM (A-mem-sys) — CITATION NEEDS VERIFICATION: used as a real, cloned implementation (https://github.com/WujiangXu/A-mem-sys, commit f303dfc71e07bdc787f4bc135d4cea328ae30e99); a formal academic citation for the underlying A-MEM paper was not independently verified against a primary source during this pass.",
+    "after": "A-MEM (A-mem-sys) — Xu, W., Liang, Z., Mei, K., Gao, H., Tan, J., and Zhang, Y. \"A-MEM: Agentic Memory for LLM Agents.\" NeurIPS 2025 (arXiv:2502.12110). Used as the cloned implementation https://github.com/WujiangXu/A-mem-sys, commit f303dfc71e07bdc787f4bc135d4cea328ae30e99."
+   },
+   {
+    "id": "CIT-NLI",
+    "status": "applied",
+    "before": "cross-encoder/nli-deberta-v3-base — CITATION NEEDS VERIFICATION: used as a real, pinned Hugging Face model checkpoint; the underlying DeBERTa-v3 architecture paper and the specific NLI fine-tuning dataset/authors were not independently re-verified against a primary source during this pass.",
+    "after": "cross-encoder/nli-deberta-v3-base — a Sentence-Transformers cross-encoder (Reimers, N., and Gurevych, I. \"Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks.\" EMNLP-IJCNLP 2019, 3982-3992, doi:10.18653/v1/D19-1410) fine-tuned from microsoft/deberta-v3-base (He, P., Gao, J., and Chen, W. \"DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing.\" ICLR 2023, arXiv:2111.09543) on SNLI (Bowman, S. R., Angeli, G., Potts, C., and Manning, C. D. \"A large annotated corpus for learning natural language inference.\" EMNLP 2015, 632-642, doi:10.18653/v1/D15-1075) and MultiNLI (Williams, A., Nangia, N., and Bowman, S. R. \"A Broad-Coverage Challenge Corpus for Sentence Understanding through Inference.\" NAACL-HLT 2018, 1112-1122, doi:10.18653/v1/N18-1101). The model card names no individual authors and recommends no citation, so the pinned checkpoint is cited by its Hugging Face identifier."
+   },
+   {
+    "id": "CIT-QDRANT",
+    "status": "applied",
+    "before": "Qdrant — CITATION NEEDS VERIFICATION: used as a real, pinned library (qdrant-client 1.19.0); cited here as open-source software (https://qdrant.tech) rather than an academic publication, pending confirmation of the target venue's preferred citation format for software dependencies.",
+    "after": "Qdrant — Qdrant vector database, open-source software (Apache-2.0), https://github.com/qdrant/qdrant; client library qdrant-client 1.19.0 as pinned in this project. The repository provides no recommended academic citation, so it is cited as software."
+   }
+  ]
+ },
+ {
+  "utc": "2026-10-16T08:33:13Z",
+  "doc": "Methodology Draft.docx",
+  "changes": [
+   {
+    "id": "CIT-GLN",
+    "status": "already applied"
+   },
+   {
+    "id": "CIT-BIPIA",
+    "status": "already applied"
+   },
+   {
+    "id": "CIT-HEADER",
+    "status": "already applied"
+   },
+   {
+    "id": "CIT-LME",
+    "status": "already applied"
+   },
+   {
+    "id": "CIT-MEM0",
+    "status": "already applied"
+   },
+   {
+    "id": "CIT-AMEM",
+    "status": "already applied"
+   },
+   {
+    "id": "CIT-NLI",
+    "status": "already applied"
+   },
+   {
+    "id": "CIT-QDRANT",
+    "status": "already applied"
+   }
+  ]
+ }
+]

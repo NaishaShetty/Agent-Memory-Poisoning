@@ -1,0 +1,97 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 2721.72it/s]
+C:\mem0venv\Lib\site-packages\mem0\embeddings\huggingface.py:29: FutureWarning: The `get_sentence_embedding_dimension` method has been renamed to `get_embedding_dimension`.
+  self.config.embedding_dims = self.config.embedding_dims or self.model.get_sentence_embedding_dimension()
+Failed to load spaCy lemma model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+fastembed not installed - BM25 keyword search disabled. Install it with: pip install "mem0ai[extras]"
+Failed to load spaCy full model: spaCy is not installed. Install it with: pip install mem0ai[nlp]
+  sa7 jobs 10/880  418s
+  sa7 jobs 20/880  559s
+  sa7 jobs 30/880  723s
+  sa7 jobs 40/880  829s
+  sa7 jobs 50/880  936s
+  sa7 jobs 60/880  1029s
+  sa7 jobs 70/880  1129s
+  sa7 jobs 80/880  1221s
+  sa7 jobs 90/880  1310s
+  sa7 jobs 100/880  1395s
+  sa7 jobs 110/880  1470s
+  sa7 jobs 120/880  1547s
+  sa7 jobs 130/880  1630s
+  sa7 jobs 140/880  1710s
+  sa7 jobs 150/880  1791s
+  sa7 jobs 160/880  1873s
+  sa7 jobs 170/880  1957s
+  sa7 jobs 180/880  2050s
+  sa7 jobs 190/880  2123s
+  sa7 jobs 200/880  2207s
+  sa7 jobs 210/880  2290s
+  sa7 jobs 220/880  2391s
+  sa7 jobs 230/880  2492s
+  sa7 jobs 240/880  2577s
+  sa7 jobs 250/880  2659s
+  sa7 jobs 260/880  2756s
+  sa7 jobs 270/880  2840s
+  sa7 jobs 280/880  2934s
+  sa7 jobs 290/880  3025s
+  sa7 jobs 300/880  3124s
+  sa7 jobs 310/880  3214s
+  sa7 jobs 320/880  3316s
+  sa7 jobs 330/880  3414s
+  sa7 jobs 340/880  3504s
+  sa7 jobs 350/880  3593s
+  sa7 jobs 360/880  3802s
+  sa7 jobs 370/880  4006s
+  sa7 jobs 380/880  4188s
+  sa7 jobs 390/880  4395s
+  sa7 jobs 400/880  4577s
+C:\mem0venv\Lib\site-packages\mem0\vector_stores\qdrant.py:246: UserWarning: Local mode is not recommended for collections with more than 20,000 points. Current collection contains 20001 points. Consider using Qdrant in Docker or Qdrant Cloud for better performance with large datasets.
+  self.client.upsert(collection_name=self.collection_name, points=points)
+  sa7 jobs 410/880  4702s
+  sa7 jobs 420/880  4823s
+  sa7 jobs 430/880  4967s
+  sa7 jobs 440/880  5095s
+  sa7 jobs 450/880  5215s
+  sa7 jobs 460/880  5345s
+  sa7 jobs 470/880  5492s
+  sa7 jobs 480/880  5617s
+  sa7 jobs 490/880  5727s
+  sa7 jobs 500/880  5842s
+  sa7 jobs 510/880  5956s
+  sa7 jobs 520/880  6078s
+  sa7 jobs 530/880  6169s
+  sa7 jobs 540/880  6320s
+  sa7 jobs 550/880  6454s
+  sa7 jobs 560/880  6614s
+  sa7 jobs 570/880  6755s
+  sa7 jobs 580/880  6893s
+  sa7 jobs 590/880  7028s
+  sa7 jobs 600/880  7156s
+  sa7 jobs 610/880  7281s
+  sa7 jobs 620/880  7422s
+  sa7 jobs 630/880  7554s
+  sa7 jobs 640/880  7690s
+  sa7 jobs 650/880  7805s
+  sa7 jobs 660/880  7941s
+  sa7 jobs 670/880  8089s
+  sa7 jobs 680/880  8244s
+  sa7 jobs 690/880  8401s
+  sa7 jobs 700/880  8535s
+  sa7 jobs 710/880  8671s
+  sa7 jobs 720/880  8816s
+  sa7 jobs 730/880  8956s
+  sa7 jobs 740/880  9112s
+  sa7 jobs 750/880  9279s
+  sa7 jobs 760/880  9428s
+  sa7 jobs 770/880  9601s
+  sa7 jobs 780/880  9773s
+  sa7 jobs 790/880  9954s
+  sa7 jobs 800/880  10109s
+  sa7 jobs 810/880  10276s
+  sa7 jobs 820/880  10439s
+  sa7 jobs 830/880  10607s
+  sa7 jobs 840/880  10765s
+  sa7 jobs 850/880  10921s
+  sa7 jobs 860/880  11080s
+  sa7 jobs 870/880  11213s
+  sa7 jobs 880/880  11361s
+sa7 mem0: DONE

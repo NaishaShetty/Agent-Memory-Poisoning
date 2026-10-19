@@ -1,0 +1,90 @@
+{
+  "preregistration": "docs/phase17/PREREGISTRATION_TARGETED_2026-10-13.md section 5 (U2, secondary)",
+  "n_candidates": 55,
+  "n_sampled": 55,
+  "scope": "QA items AFFECTED by at least one policy -- not a population utility rate",
+  "by_policy": {
+    "none": {
+      "correct": {
+        "k": 34,
+        "n": 55,
+        "rate": 0.6181818181818182,
+        "ci95": [
+          0.4860897928239239,
+          0.7348423368258477
+        ]
+      },
+      "all_linked_removed": 0
+    },
+    "A-ship": {
+      "correct": {
+        "k": 29,
+        "n": 55,
+        "rate": 0.5272727272727272,
+        "ci95": [
+          0.39791319071629383,
+          0.6530711468951917
+        ]
+      },
+      "all_linked_removed": 7
+    },
+    "A-nom": {
+      "correct": {
+        "k": 13,
+        "n": 55,
+        "rate": 0.23636363636363636,
+        "ci95": [
+          0.14366521587457487,
+          0.36348618721439613
+        ]
+      },
+      "all_linked_removed": 28
+    },
+    "B": {
+      "correct": {
+        "k": 25,
+        "n": 55,
+        "rate": 0.45454545454545453,
+        "ci95": [
+          0.33025071746446194,
+          0.5847753865163952
+        ]
+      },
+      "all_linked_removed": 9
+    }
+  },
+  "paired_vs_none": {
+    "A-ship": {
+      "n": 55,
+      "detected_a": 29,
+      "detected_b": 34,
+      "only_a": 1,
+      "only_b": 6,
+      "p_exact": 0.125
+    },
+    "A-nom": {
+      "n": 55,
+      "detected_a": 13,
+      "detected_b": 34,
+      "only_a": 0,
+      "only_b": 21,
+      "p_exact": 9.5367431640625e-07
+    },
+    "B": {
+      "n": 55,
+      "detected_a": 25,
+      "detected_b": 34,
+      "only_a": 2,
+      "only_b": 11,
+      "p_exact": 0.0224609375
+    }
+  },
+  "paired_B_vs_A_ship": {
+    "n": 55,
+    "detected_a": 25,
+    "detected_b": 29,
+    "only_a": 1,
+    "only_b": 5,
+    "p_exact": 0.21875
+  }
+}

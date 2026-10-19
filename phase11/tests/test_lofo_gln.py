@@ -38,6 +38,13 @@ def test_gln_lofo_locks_in_the_real_measured_sleeper_collapse():
     """Real, measured finding: Sleeper's GLN zero-shot AUROC collapses to
     exactly 0.0 under LOFO (every benign example outscores the single real
     Sleeper poison example) -- locked in as a regression, not smoothed
-    over."""
+    over.
+
+    CORRECTION (2026-10-16): the held-out Sleeper family has FIVE poison
+    examples, not one (n_poison = 5 vs 41 benign; re-run directly). All five
+    score ~0.0 while benign examples average 0.927, so the 0.0 AUROC is a
+    complete, real inversion on n = 5, not a single-example artefact. The
+    sample size is now asserted so the count cannot be misreported again."""
     result = run_lofo_fold("Sleeper")
+    assert result["n_poison"] == 5 and result["n_benign"] == 41
     assert result["auroc"] == 0.0

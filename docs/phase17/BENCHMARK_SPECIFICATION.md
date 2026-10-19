@@ -79,3 +79,38 @@ Propagation/Sleeper/attribution's own richer per-metric schemas (`PAR`, `PR`, `S
 `AMR`, `DGS`) are NOT re-derived under this schema — they remain reported in their own
 Phase 7/8/9/10/12/13 report formats. `phase17/canonical_matrix.py`'s own `MATRIX_LIMITS`
 disclose exactly which cells this specification's runner can and cannot currently fill.
+
+## 7. Unified benchmark runner (added 2026-10-18)
+
+`python -m mambench` is now the canonical entry point. It does not replace §4: the
+`defence.held_out_*` tasks call `phase17.bench_runner.run()` and keep its JSON artifact; the
+runner adds a registry of every task, one status vocabulary, and provenance on every result.
+
+| Item | Where |
+|---|---|
+| Tracks, tasks, metrics (numerator and denominator for every proportion), split roles, requirements | `mambench/registry.json` (version 1.0.0: 7 tracks, 19 tasks, 28 metrics) |
+| Result schema, statuses, aggregation | `mambench/schema.py` |
+| Executors (one per task, wrapping frozen components) | `mambench/tasks.py` |
+| Registry validation, requirement probes | `mambench/registry.py` |
+| CLI and execution rules | `mambench/runner.py` |
+| Tests (registry, schema, every failure path, a real smoke run) | `mambench/tests/` |
+
+**Statuses.** COMPLETED; FAILED (exception, integrity violation, or a tracked file modified
+during the task); BLOCKED (a declared requirement such as licensed data, Ollama or the
+isolated Mem0 interpreter is unavailable; the task is not run); NOT_EVALUABLE (the evidence a
+metric needs is absent; never reported as zero); UNSUPPORTED (registered as out of scope, e.g.
+the 4 inapplicable MPBench classes; never run); SKIPPED (not selected; still listed).
+
+**Result record.** `task_id`, `task_version`, `track`, `status`, `reason`, `split_role`,
+`prior_runs_of_this_split` (from `holdout_ledger.jsonl`, for `published_eval` and
+`frozen_holdout` tasks), `metrics` (each `{metric, group, kind, numerator, denominator,
+value}`), `details`, and `provenance` (`registry_version`, `schema_version`, `config_hash`,
+`implementation_digest` over the task's source files, `git_commit`, `git_dirty`, `seed`,
+`python_version`, `platform`, start and finish times). `aggregate()` refuses results from
+different registry versions or commits and reports no overall score.
+
+**Adding a task.** Add an entry to `registry.json` (declare any new metric with its
+numerator and denominator), add `run_<executor>(params, workdir)` to `mambench/tasks.py`
+returning `(metrics, details)` or raising `NotEvaluable` / `IntegrityViolation`, and run
+`python -m mambench validate` and `python -m pytest mambench/tests`. An executor writes only
+inside `workdir`.

@@ -207,14 +207,28 @@ def _kill_orphans() -> None:
 
 def _leftover_phase17() -> List[int]:
     """PIDs of python processes still running a phase17 module."""
+    import os
+    me = os.getpid()
+    if os.name != "nt":
+        # POSIX (e.g. the Linux CI runner): no PowerShell, so read the process table with ps
+        try:
+            # -ww: without it ps cuts each command line to 80 columns when not writing to a
+            # terminal, which hid 'phase17' behind a long interpreter path on the CI runner
+            r = subprocess.run(["ps", "-ww", "-eo", "pid=,args="], capture_output=True, text=True, timeout=60)
+            out = []
+            for line in r.stdout.splitlines():
+                pid, _, args = line.strip().partition(" ")
+                if pid.isdigit() and int(pid) != me and "python" in args and "phase17" in args:
+                    out.append(int(pid))
+            return out
+        except Exception:
+            return []
     try:
         r = subprocess.run(["powershell", "-NoProfile", "-Command",
                             "Get-CimInstance Win32_Process -Filter \"Name like '%python%'\" | "
                             "Where-Object { $_.CommandLine -like '*phase17*' } | "
                             "Select-Object -ExpandProperty ProcessId"],
                            capture_output=True, text=True, timeout=60)
-        import os
-        me = os.getpid()
         return [int(x) for x in r.stdout.split() if x.strip().isdigit() and int(x) != me]
     except Exception:
         return []

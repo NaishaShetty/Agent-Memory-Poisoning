@@ -8,7 +8,7 @@
 # amem-live` and `make mem0-live` run those stages assuming those environments already
 # exist at the paths that file documents.
 
-.PHONY: install regression phase17-structural phase17-live amem-live mem0-live bench-smoke review5-pipeline         review4-baselines review4-frozen-eval review4-harm review4-all
+.PHONY: install regression phase17-structural benchmark-check benchmark-all phase17-live amem-live mem0-live bench-smoke review5-pipeline         review4-baselines review4-frozen-eval review4-harm review4-all
 
 install:
 	pip install -r requirements.txt
@@ -20,12 +20,31 @@ install:
 # plus the genuinely LLM-free Phase 17 structural tests, matching what
 # `.github/workflows/tests.yml`'s `phase17-structural` job actually runs -- the claim "no
 # local LLM required" is now true of what this target runs, not just its name.
+#
+# UPDATE (unified-benchmark and CI audit, 2026-10-18): these targets now run exactly what the
+# CI jobs run (.github/workflows/tests.yml). phase4/, phase5/ and tests/ were previously in
+# neither; the full Phase 17 suite passes without a live model (cached judges), so the
+# hand-picked "structural" list is replaced by the whole suite. Set OLLAMA_BASE_URL to a
+# closed port (as CI does) to be certain nothing calls a live model.
 regression:
-	python -m pytest phase6/ phase8/ phase11/ phase12/ phase13/ phase14/ phase15/ attribution/ phase7/ phase3/ -m "not slow" -q
+	python -m pytest phase3/ phase4/ phase5/ phase6/ phase7/ phase8/ phase11/ phase12/ phase13/ phase14/ phase15/ attribution/ tests/ -m "not slow" -q -rs
 	$(MAKE) phase17-structural
+	$(MAKE) benchmark-check
 
 phase17-structural:
-	python -m pytest phase17/tests/test_workstreams.py phase17/tests/test_bench_runner.py phase17/tests/test_external_review_fixes.py phase17/tests/test_headline_numbers.py phase17/tests/test_live_foundation_stages.py phase17/tests/test_round3_fixes.py phase17/tests/test_review4_fixes.py phase17/tests/test_review5_fixes.py phase17/tests/test_arenas.py phase17/leakage_audit.py -q
+	python -m pytest phase17/ -m "not slow" -q -rs
+	# leakage_audit.py is not a test module (pytest collects nothing from it); its checks run as
+	# benchmark tasks. The full four-check audit needs data/raw and data/processed (BLOCKED otherwise).
+	python -m mambench run --task integrity.leakage_audit --task integrity.leakage_text_and_metadata
+
+# Unified benchmark (mambench/): registry validation, its own tests, and the offline smoke run.
+benchmark-check:
+	python -m mambench validate
+	python -m pytest mambench/tests -q
+	python -m mambench run --smoke --strict
+
+benchmark-all:
+	python -m mambench run --all
 
 phase17-live:
 	python -m pytest phase17/ -m "not slow" -q

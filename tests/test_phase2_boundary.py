@@ -12,6 +12,8 @@ actual frozen Phase 1 outputs, not of the pipeline code in the abstract.
 """
 from __future__ import annotations
 
+import pytest
+
 import hashlib
 import json
 
@@ -86,6 +88,7 @@ def test_unavailable_and_inspected_resources_are_not_approved():
 
 # 5. Raw source artifacts are not overwritten (checksums in the frozen
 #    dataset_manifest.json still match the files on disk).
+@pytest.mark.requires_licensed_data
 def test_raw_files_unchanged_since_dataset_manifest_was_generated():
     cfg = _cfg()
     dataset_manifest = read_json(cfg.metadata_dir / "dataset_manifest.json")
@@ -102,6 +105,7 @@ def test_raw_files_unchanged_since_dataset_manifest_was_generated():
 
 
 # 6. Phase 1 provenance links exist for representative records.
+@pytest.mark.requires_licensed_data
 def test_processed_memory_records_carry_provenance():
     cfg = _cfg()
     for ds_id in _CORE_MEMORY_DATASET_IDS:

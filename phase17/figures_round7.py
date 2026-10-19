@@ -164,6 +164,17 @@ def _boxes(ax, boxes, title):
         ax.text(x + w / 2, y + h - 0.62, body, ha="center", va="top", fontsize=8.3, wrap=True, linespacing=1.35)
 
 
+def _closure_line() -> str:
+    """Latest operational closure per gap, read from the newest closure artifact at build time."""
+    for rel, key in (("defence_v7/closure_v7.json", "after_v7"), ("defence_v6/closure_v6.json", "after")):
+        p = DATA / rel
+        if p.exists():
+            c = json.loads(p.read_text(encoding="utf-8"))
+            return ("closure " + ", ".join(f"{g.split(': ')[1]} {100 * v[key]:.0f}%" for g, v in c["gaps"].items())
+                    + f" (after {rel.split('/')[0].replace('defence_', '')}).")
+    return "closure pending."
+
+
 def fig01b():
     plt = _plt()
     P = L("round7_predictions.json")
@@ -174,8 +185,11 @@ def fig01b():
            f"round 7 built hold-outs 4-{8 if h8 else 7}, each frozen and scored once under committed predictions"
            + (f"\n({P['n_held']}/{P['n_scored']} held)" if P else "") + ".\n"
            f"Working-attack discipline (42.5% of 2,628 instances work); provenance reaches memory poisoning on {_mp}\n"
-           "independent hold-outs; a generalized union defense beats every single detector across attack types;\n"
-           "consolidation laundering met by semantic containment; harm re-judged against human labels.")
+           "independent hold-outs; consolidation laundering met by semantic containment; harm re-judged against\n"
+           "human labels. (The earlier 'union beats every detector' claim was withdrawn on 2026-10-12: its hold-out\n"
+           "threshold was fitted on the hold-out.)\n"
+           "Remediation (2026-10-12) and pre-registered defence programmes v2-v7 (2026-10-13/17), each scored once\n"
+           "on fresh held-out data: " + _closure_line())
     boxes = [
         (0.5, 7.3, 9, 1.4, "PHASE 14 - Scalability / Systems Evaluation",
          "Live B0-B10 per-task decisions: benign QA utility (Track A) and real poison exclusion (Track B).\n"
@@ -186,7 +200,7 @@ def fig01b():
         (0.5, 3.7, 9, 1.2, "PHASE 16 - Final Evaluation / Validation",
          "Synthesis of Phases 1-15; a dated qualification was added after Phase 17 showed several\n"
          "'resolved' findings held only in-sample.", "#c0e2df"),
-        (0.5, 0.9, 9, 2.3, "PHASE 17 - Ablation & Generalization (final phase)", p17, "#fde08a"),
+        (0.5, 0.7, 9, 2.62, "PHASE 17 - Ablation & Generalization (final phase)", p17, "#fde08a"),
     ]
     _boxes(ax, boxes, "Figure 1b - Overall Pipeline, continued (Phases 14-17)")
     for y in (7.3, 5.4, 3.7):
