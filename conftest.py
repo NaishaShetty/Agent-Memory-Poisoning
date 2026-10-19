@@ -22,7 +22,45 @@ exactly which phase17 tests need this same raw data.
 """
 from __future__ import annotations
 
+import json
+import os
+from pathlib import Path
+
 import pytest
+
+# Addition (unified-benchmark audit, 2026-10-18). A conversion of failures into skips is only
+# safe if its growth is visible, so every auto-skip is recorded and, when
+# MAMBENCH_AUTOSKIP_REPORT names a file, written there; CI compares the count with a budget
+# (scripts/ci/check_autoskip_budget.py) and fails if more tests are being skipped than before.
+# Tests that need the licensed raw data can instead say so with @pytest.mark.requires_licensed_data,
+# an explicit, visible skip when data/raw/ is absent that never hides any other failure.
+_ROOT = Path(__file__).resolve().parent
+_AUTOSKIPPED: list = []
+
+
+def pytest_configure(config):
+    # Some tests start a nested pytest run; only the outermost session writes the auto-skip report.
+    config._mambench_outer_session = not os.environ.get("MAMBENCH_AUTOSKIP_NESTED")
+    os.environ["MAMBENCH_AUTOSKIP_NESTED"] = "1"
+    config.addinivalue_line("markers", "requires_licensed_data: needs the gitignored, licensed data/raw/ and "
+                                       "data/processed/ trees; skipped with a stated reason when they are absent")
+
+
+def pytest_collection_modifyitems(config, items):
+    if (_ROOT / "data" / "raw").is_dir():
+        return
+    skip = pytest.mark.skip(reason="licensed raw data (data/raw/) not present in this checkout; "
+                                   "see DATA_LICENSING_AND_ANNOTATION_AUDIT.md")
+    for item in items:
+        if item.get_closest_marker("requires_licensed_data"):
+            item.add_marker(skip)
+
+
+def pytest_sessionfinish(session, exitstatus):
+    path = os.environ.get("MAMBENCH_AUTOSKIP_REPORT")
+    if path and getattr(session.config, "_mambench_outer_session", True):
+        Path(path).write_text(json.dumps({"count": len(_AUTOSKIPPED), "skipped": _AUTOSKIPPED}, indent=1),
+                              encoding="utf-8")
 
 _MISSING_DATA_MARKERS = (
     "data/raw/",
@@ -70,4 +108,8 @@ def pytest_runtest_makereport(item, call):
         return
     report = outcome.get_result()
     report.outcome = "skipped"
-    report.longrepr = reason
+    # A skip's longrepr must be (path, lineno, message): a bare string crashed pytest's `-rs`
+    # skip summary with an INTERNALERROR (exit code 1 after every test had passed).
+    path, lineno, _ = item.location
+    report.longrepr = (str(path), (lineno or 0) + 1, f"Skipped: {reason}")
+    _AUTOSKIPPED.append({"test": item.nodeid, "reason": reason[:200]})

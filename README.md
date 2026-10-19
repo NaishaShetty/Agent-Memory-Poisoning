@@ -1,304 +1,257 @@
-# MAMBench
+# MAMBench — Memory and Agent Manipulation Benchmark
 
-**Memory and Agent Manipulation Benchmark**
+MAMBench measures how LLM agents with persistent memory can be poisoned, how poison spreads
+once it is stored, and how well defences detect it, contain it, and attribute it to its source.
+It pairs a frozen victim agent with seven reconstructed memory-poisoning attacks, a layered
+defence stack (configurations B0–B19), frozen hold-out corpora scored under pre-registration, and
+a unified benchmark runner that reports every task with an explicit status and denominator.
 
-## Current results — round 7 (2026-10-08) — read this first
+> **Documents.** Methods: [`Methodology Draft.docx`](Methodology%20Draft.docx).
+> Results: [`MAMBench Results Analysis.docx`](MAMBench%20Results%20Analysis.docx).
+> Earlier README snapshots (rounds 4–7) are kept unchanged in
+> [`docs/history/`](docs/history/README_snapshots_through_2026-10-09.md).
 
-The sections below this one are dated snapshots (rounds 4-5) kept for the record; several of their
-statements were later corrected. The current state is:
+## Overview
 
-- **[`docs/phase17/ROUND7_RESULTS.md`](docs/phase17/ROUND7_RESULTS.md)** — one-page summary,
-  generated from the artifacts (every number, every hold-out, both denominators, what is open).
-- **`MAMBench Results Analysis.docx`** — the results paper; **`Methodology Draft.docx`** — methods
-  (Sections 32.49-32.63 cover round 7); **[`docs/phase17/ROUND7_LOG.md`](docs/phase17/ROUND7_LOG.md)**
-  — every correction, as it was found.
-
-In brief, from four hold-outs each frozen and scored once under committed predictions:
-
-- **Memory poisoning: B13 with the owner's conversation as evidence, behind the rejection ledger.**
-  Provenance reaches what content classification misses on two independent memory-poisoning
-  hold-outs (B13 vs B14: 79/157 vs 32/157 and 70/129 vs 38/129), at 0% false positives on the user's
-  own words but 11.8-15.3% on untrusted channels. Alone it is brittle to an adaptive attacker (22/48
-  evade); behind the ledger, 5/48.
-- **Injection-shaped text: B17, not B18** (B18's deberta rule cost 16.3% false positives on a
-  matched-benign hold-out). The B14 table below is a round-5 snapshot and no longer the recommendation.
-- **Harm levels scored by the original LLM judge are about half** what a judge validated against
-  human labels finds (58.3% vs 32.0% undefended); the reductions hold under both.
-- **Publishability:** computed by `phase17/publishability.py`; see the summary for its current status.
-
-## SNAPSHOT (round 5, 2026-10-01; superseded — see above): what the benchmark showed then
-
-A short, balanced summary for readers who won't open the long results docs. Every number
-below is sourced in [`docs/phase17/PHASE17_ROUND5_RESULTS.md`](docs/phase17/PHASE17_ROUND5_RESULTS.md)
-(round 5), [`docs/phase17/PHASE17_REVIEW4_RESULTS.md`](docs/phase17/PHASE17_REVIEW4_RESULTS.md)
-(round 4) and [`docs/phase17/PHASE17_CURRENT_RESULTS.md`](docs/phase17/PHASE17_CURRENT_RESULTS.md)
-(everything before); read those, not this summary, before citing a figure.
-
-**The single most important number**, on a frozen test set of 1,258 externally-authored
-attacks — **998 of them typed by real humans** — that no configuration was fitted or
-thresholded on:
-
-| System | Recall | FPR | sec/memory |
-|---|---|---|---|
-| **B14** (this project's best *at round 5*; superseded) | **90.8%** | 0.84% | **28.7** |
-| plain "is this malicious?" prompt, qwen2.5 | 86.5% | 0.52% | ~4 |
-| **ProtectAI deberta-v3 prompt-injection (off the shelf)** | **84.6%** | **0.13%** | **~0.02** |
-| B13 | 71.5% | 0.39% | 0.13 |
-| B12 | 66.2% | 0.39% | 0.16 |
-| Llama Guard 3 8B | 32.0% | 2.00% | ~4 |
-
-**Read that table before anything else in this repository.** B14 does beat every published
-baseline, significantly. It also costs 179× B12 per memory, and a single off-the-shelf
-classifier reaches 84.6% at a *sixth* of B14's false-positive rate for one local forward
-pass. deberta is additionally a *component* of B14, so B14's non-circular gain over its own
-best part is **+5.4 points, not +24.6**.
-
-**Shows:**
-- **The defenses reduce real, measured harm.** In an n=203 agent study with mechanism-specific
-  tasks and 100-memory stores, harm among the cases each config actually excluded went
-  34/89 → 2/89 (B12) and 48/145 → 3/145 (B13).
-- **Source-aware trust reaches what content-only detection cannot.** Additive fabrication —
-  an invented fact nothing contradicts — was documented as unreachable, and B12 scores exactly
-  0/72 on it. B13 reaches 43/72 by checking whether the user ever said anything supporting
-  the claim (pre-registered, p=2.3×10⁻¹³).
-- **Recording provenance fixes the usability cost.** On 40 legitimate standing instructions
-  ("always CC my wife on invoices"), the 35% flag rate drops to 5–10% with zero hard
-  exclusions once the memory's source is recorded.
-- The best pre-round-5 config (B12) excludes roughly 42–58% of unseen-mechanism attacks (the
-  range depends on how strictly "unseen" is defined) at 0 benign exclusions.
-- Detection generalizes somewhat beyond the exact attacks it was designed against — to
-  novel mechanisms, a different generator model, and (weakly) Chinese-language poison.
-- Detection is not purely an artifact of who authored the benign text: a genuinely
-  human-authored benign population and a Gemini-authored one both flag at rates close to
-  or below Qwen-authored benign text.
-
-**Does not show:**
-**Shows (added 2026-09-30):**
-- **That the defenses do reduce real, measured harm.** In a redesigned n=203 agent study
-  (all 13 attack families with a mechanism-specific task each, 100-memory stores, an
-  independent judge): poison present raises harm from a 1.5% task-alone base rate to 31.0%,
-  and among the cases each defense actually excludes the poison, harm goes **34/89 → 2/89
-  (B12)** and **48/145 → 3/145 (B13)**. This supersedes the earlier n=30 study whose
-  "net zero" result came from generic tasks, an invalid memory-worm population, and task
-  prompts that produced 26.7% "harm" with no poison present.
-- **That legitimate use is unaffected.** B11 flags 72.5% and B12 flags 35% of genuinely
-  legitimate standing instructions in a dedicated test; a real, harmless preference that
-  names a specific vendor gets flagged 4/6 times.
-- **That detection survives an attacker who knows about it.** B12 excludes only 4/47
-  (8.5%) of simple, fixed-prompt defense-aware rewrites; a genuine adaptive attacker that
-  queries the live defense and rewrites in response still evades 6/28 (21.4%) of the
-  seeds it was initially caught on.
-- **That the in-house stack was ever worth its complexity on overt injections.** Round 4
-  measured B12's margin over the best published baseline at **2.80x on attacks this project
-  wrote and 1.03x — none — on attacks written by others**; at a threshold chosen in the
-  baselines' favour B12 *lost*. Round 5's B14 fixes the recall gap, but an off-the-shelf
-  classifier still gets within 6 points of it at a sixth of the false-positive rate and
-  ~1/1000th of the cost. Anyone building on this should benchmark that baseline first.
-- **That B14 is practical as specified.** 28.7 seconds per admitted memory (cold, sequential)
-  is tolerable for a write path in some deployments and plainly not in others. B13 is
-  *cheaper* than B12 (0.81×) and scores higher on every population, which makes it the better
-  default of the two.
-- **Full harm coverage across attack mechanisms.** Only 3 of 7 attack families (DSRM,
-  FARMA, MPBench) have end-to-end evidence the attack actually changes what the agent
-  says; the other 4 have detection numbers but no behavioral-harm confirmation.
-- **Behavior at realistic memory-store scale — partially shown now.** Most tests use 1
-  poison memory plus 3 distractors. A first check at 100 real competing memories (24
-  instances, B12 only) found detection unchanged and cost sub-linear, plus a real 1.25%
-  baseline benign-flag cost the small pools could never have surfaced (§17). Not yet run at
-  the full population or for other configs, and it is one large retrieval snapshot, not a
-  store that grows and consolidates over time.
-
-## SNAPSHOT (2026-09-29): Phase 17 — Ablation & Generalization
-
-Phases 1–16 (dataset foundation, clean agent, attack benchmark, instrumentation,
-governance defense, propagation monitoring, sleeper detection, attribution/forensics,
-adaptive risk-based hardening, GNN/GLN learned components, security evaluation,
-attribution evaluation, scalability evaluation, integrated evaluation, final validation)
-are **COMPLETE**. Phase 17 (ablation of every defense component + generalization to
-unseen attack mechanisms/datasets/languages/memory foundations) is the **current** phase.
-
-- **Defense evaluation exists** (superseding the "No defense/mitigation evaluation
-  exists" line further down, kept below as the historical Phase-4-freeze statement it
-  was written as): `phase6/defense/` is the full provenance/governance defense stack;
-  `phase14/defended_retrieval.py::REAL_CONFIGS` names 13 live defense configurations
-  (`B0`..`B12`), evaluated for detection, false-positive rate, and utility cost across
-  Phases 6–17.
-- **Canonical benchmark artifacts** (Phase 17, Workstreams H–K):
-  [`docs/phase17/BENCHMARK_SPECIFICATION.md`](docs/phase17/BENCHMARK_SPECIFICATION.md)
-  (scenario/result schema), [`docs/BENCHMARK_CARD.md`](docs/BENCHMARK_CARD.md) (intended
-  use, threat model, known limitations), `phase17/canonical_matrix.py` (cross-phase
-  result matrix), `phase17/bench_runner.py` (a minimal, real entry point:
-  `python -m phase17.bench_runner --defense B12 --split held_out_novel`).
-- **Current numbers (read this one first)**: [`docs/phase17/PHASE17_CURRENT_RESULTS.md`](docs/phase17/PHASE17_CURRENT_RESULTS.md)
-  — the single source of truth for what each Phase 17 number IS right now (external
-  review, 2026-09-28: Phase 17's numbers drifted across five round-by-round documents; this
-  one states the current, corrected figure for each and traces it to its artifact).
-- **Full Phase 17 report**: [`docs/phase17/PHASE17_ABLATION_GENERALIZATION_REPORT.md`](docs/phase17/PHASE17_ABLATION_GENERALIZATION_REPORT.md)
-  — ablation of every defense component, generalization to 6 unseen attack mechanisms,
-  Chinese-language poison, a live A-mem-sys memory foundation, leave-mechanism-out
-  detector generalization, evaluator-independence and LLM-nondeterminism measurements,
-  adversarial provenance-integrity stress tests, and sanity/bound baselines. Historical
-  record of HOW each number was reached; where it differs from `PHASE17_CURRENT_RESULTS.md`,
-  the latter is correct.
-- **Updated methodology**: [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) reorganizes the
-  full Phase 1–17 story (the original `Methodology Draft.docx`/`Methodology.pdf` are
-  preserved unmodified as the historical draft).
-- **CI exists and is green** ([`.github/workflows/tests.yml`](.github/workflows/tests.yml))
-  — what it actually checks, precisely: a fresh clone installs and imports correctly, and
-  the frozen Phases 1–16 logic + Phase 17's structural tests hold on a genuinely clean
-  checkout (this caught several real, previously-invisible bugs — a `.gitignore` rule
-  silently excluding real dataset files, frozen fingerprints computed against
-  Windows-CRLF content instead of the true committed bytes, git-lfs content never being
-  fetched). **It does NOT re-run or re-verify any LLM-dependent result.** 302 tests are
-  auto-skipped (`conftest.py`) because CI has neither the real raw datasets (deliberately
-  gitignored for licensing) nor a local Ollama server nor the isolated `C:\h4venv`/
-  `C:\mem0venv` environments. Every number in `PHASE17_CURRENT_RESULTS.md` that depends on
-  qwen2.5:7b/llama2/phi3:mini, a live memory foundation, or the raw candidate datasets is
-  only reproducible on a machine with those in place (see
-  `phase17/ISOLATED_ENVIRONMENTS.md`, `phase17/OLLAMA_MODEL_PINS.md`) — CI passing is not
-  evidence those specific numbers still hold, only that the code that produced them still
-  imports and the parts of it that don't need those resources still work.
-
-Everything below this section is the **original Phase 4 README**, preserved as written
-at the Phase 4 freeze (2026-09-11) — including limitations later phases closed (defense
-evaluation, statistical power, CI). Read it as history, not current status.
-
----
-
-## What it is
-
-A unified benchmark for studying memory poisoning and manipulation
-attacks against LLM agents with persistent memory, covering the full
-lifecycle:
+The memory lifecycle every attack and defence is placed on:
 
 ```text
 injection → admission → storage → retrieval → selection → exposure/use
 → propagation → influence → detection → attribution
 ```
 
-## Project status
-
-**All phases 3-17 are implemented and tested** (cross-phase audit, 2026-10-08: 3,502 passed, 32
-skipped, 0 failed across 14 suites). Each phase has its methodology section: Phase 3 §12, Phase 4
-§17, Phase 5 §18-19, Attribution §20, Phase 6 §21, Phase 7 §22, Phase 8 §23, Phase 9 §24, Phase 10
-§25, Phase 11 §26, Phases 12-16 §27-31, Phase 17 §32. Known partial items are listed in
-[`docs/phase17/ROUND7_RESULTS.md`](docs/phase17/ROUND7_RESULTS.md). The paragraph below is the
-2026-09-13 status, kept for the record.
-
-**Phase 3 — FROZEN.** **Phase 4 — FROZEN (2026-09-11).** **Phase 5 (Instrumentation &
-Monitoring) — COMPLETE, OFFICIALLY FROZEN (2026-09-13).** **Attribution (post-Phase-5
-analytical layer) — PASS (2026-09-13).** Combined regression across Phase 3, Phase 4,
-Phase 5, and Attribution: 2,079 passed, 19 skipped, 0 failures. See
-[`phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md`](phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md)
-for the Phase 4 freeze record, [`phase5/PHASE5_CHECKLIST.md`](phase5/PHASE5_CHECKLIST.md)
-for the Phase 5 official freeze statement, and
-[`PHASE6_HANDOFF_REPORT.md`](PHASE6_HANDOFF_REPORT.md) for the current Phase 1–5 +
-Attribution summary, consolidated limitations, and Phase 6 starting state.
-
-Phase 5 adds a read-only instrumentation and monitoring layer over Phases 3–4 (event
-schema, run/episode identity, memory lifecycle/retrieval/agent-decision instrumentation,
-provenance/lineage, trace assembly, a derived Memory Behavior Dataset, and
-non-interference validation) — never a redesign of the victim architecture or the seven
-attacks below. Attribution is a separate, top-level, read-only analytical layer consuming
-that evidence substrate (origin, lineage, propagation, exposure, influence, and
-references attribution) — not part of Phase 5 semantics.
+```mermaid
+flowchart LR
+    subgraph Data["Data (Phases 1–2)"]
+        D1[LoCoMo · LongMemEval · MSC<br/>Conversation Chronicles · PerLTQA]
+    end
+    subgraph Victim["Frozen victim agent (Phase 3)"]
+        V1[V3-Hybrid agent] --> V2[(Memory foundation<br/>clean agent · Mem0 · A-MEM)]
+    end
+    subgraph Attacks["Attacks (Phase 4)"]
+        A1[7 reconstructed attacks<br/>common AttackAdapter]
+    end
+    subgraph Observe["Instrumentation & attribution (Phase 5, Attribution)"]
+        O1[Event ledger · lineage graph] --> O2[Origin · lineage · propagation<br/>exposure · influence · references]
+    end
+    subgraph Defend["Defences (Phases 6–17)"]
+        G1[Admission guard] --> G2[Retrieval consensus] --> G3[Propagation containment] --> G4[Sleeper guard]
+        G5[Provenance & corroboration B13] -.-> G1
+        G6[Rejection ledger] -.-> G1
+    end
+    D1 --> V1
+    A1 -->|inject| V2
+    V2 --> O1
+    V2 --> Defend
+    Defend --> B[[Unified benchmark<br/>python -m mambench]]
+    O2 --> B
+```
 
 ## Seven attacks
 
-1. **AgentPoison** — white-box, gradient-optimized retrieval trigger (this project's
-   reconstruction uses a disclosed, limited number of optimization iterations, not the
-   real paper's full white-box gradient search; Phase 17 measured directly that it does
-   NOT exhibit the broad-retrievability "universal magnet" property the real technique is
-   designed to produce — see `docs/phase17/PHASE17_ROUND5_FIXES.md` §1 — so numbers
-   reported against it should be read as a reconstruction, not the real attack's full
-   strength)
-2. **MINJA** — query-only, agent-mediated insertion
-3. **FARMA** — forged reasoning traces with self-referential amplification (MAMBench reconstruction)
-4. **MemoryGraft** — gated, LLM-judged forged "successful experience" records
-5. **DSRM** — black-box and white-box adversarial decision construction (MAMBench reconstruction)
-6. **MPBench-PCFI** — unmarked fabricated facts (MPBench taxonomy-derived reconstruction; 2 of 6 MPBench classes are applicable, the other 4 are documented architectural limitations, never simulated)
-7. **Sleeper Memory Poisoning** — dormant, trigger-activated poisoning via document-embedded memory-write instructions (reference-implementation-informed reconstruction; external-manager regime only)
+| Attack | Capability | Mechanism |
+|---|---|---|
+| **AgentPoison** | white-box | gradient-optimised retrieval trigger (reconstruction with limited optimisation; does not show the "universal magnet" property) |
+| **MINJA** | query-only | agent-mediated insertion through ordinary queries |
+| **FARMA** | black-box | forged reasoning traces with self-referential amplification |
+| **MemoryGraft** | gated | LLM-judged forged "successful experience" records |
+| **DSRM** | black- and white-box | adversarial decision construction |
+| **MPBench-PCFI** | black-box | unmarked fabricated facts (2 of 6 MPBench classes apply; 4 are architectural limits, never simulated) |
+| **Sleeper Memory Poisoning** | external manager | dormant, trigger-activated write instructions embedded in documents |
 
-## Victim architecture
+Phase 17 added novel-mechanism, external (human-written jailbreak) and Chinese-language populations;
+`phase17/data/attack_register.json` tracks every population, its author, and whether it was
+validated and run against an undefended agent.
 
-**V3-Hybrid** — the canonical, frozen victim architecture. `phase3/evaluation/`
-was never modified during any of Phase 4's attack work, verified via
-`git status --porcelain phase3/evaluation/` before and after every real
-campaign in the project.
+## Research gaps
 
-## Major infrastructure
+| Gap | Question | What was built (Defence programmes v2–v7) |
+|---|---|---|
+| **1. Provenance & governance** | Can the source of a memory, not just its text, decide whether it is trusted? | Provenance-aware admission (B13), graded provenance (exclude / frame / keep), validated source links, owner-conversation corroboration |
+| **2. Self-propagation & containment** | Can poison be stopped from spreading through consolidated (derived) memories? | Consolidation guard, write-time taint, no-decay guard ∨ sentence fingerprint (ND\|RAR-S), lineage recovery after deletion (DCR-2) |
+| **3. Dormant & implicit sleepers** | Can a harmless-looking note that activates later be caught without flagging ordinary notes? | Activation-shape and dormancy signals, intent judge (condition E), two-stage frame, high-impact gate |
 
-- **Common Attack Contract** (Revision 3, frozen) — the shared
-  `PoisonArtifact`/`InjectionEvent`/`InjectionSequence` schema all seven
-  attacks conform to.
-- **AttackAdapter** (`phase4/shared/adapter.py`) — a unified interface
-  sharing real `execute()`/`collect()` logic across all seven attacks,
-  while deliberately leaving `generate()`/`inject()` attack-specific
-  where the underlying mechanisms genuinely differ.
-- **Mem0 and A-MEM** — both of V3-Hybrid's real memory foundations have
-  real attack evidence (A-MEM at n=1, disclosed).
-- **Provenance & ground truth** — a 9-state ground-truth vocabulary
-  (`POISON_NOT_ADMITTED` → ... → `ATTACK_SUCCESS`/`ATTACK_FAILURE`),
-  attacker-origin metadata kept strictly separate from agent-visible
-  content throughout.
-- **Counterfactual masking** — single-artifact and joint (multi-artifact)
-  masking, used to test interventional dependence before any influence
-  claim.
-- **Reproducibility infrastructure** — every real result traces to a
-  persisted, citable log or artifact file; see Phase 4.11.
+Each gap is scored with a rubric fixed before any new outcome
+([`FINAL_DEFENCE_BASELINE_AUDIT.md`](FINAL_DEFENCE_BASELINE_AUDIT.md) §3); development-only evidence
+earns at most 0.25 per capability, and higher scores need held-out evidence:
 
-## Evaluation
+$$
+\text{Gap score} = \sum_i w_i\, s_i,\qquad s_i \in \{0, 0.25, 0.5, 0.75, 1\},
+$$
 
-Ground truth is tracked as a 9-state chain: `POISON_NOT_ADMITTED |
-POISON_ADMITTED | POISON_IN_CANDIDATE_POOL | POISON_SELECTED_TOP_K |
-POISON_RETRIEVED_BUT_NOT_USED | POISON_INFLUENCED_RESPONSE |
-TARGET_BEHAVIOR_TRIGGERED | ATTACK_SUCCESS | ATTACK_FAILURE`. See
-[`PHASE4_4_9_ATTACK_GROUND_TRUTH.md`](phase3/experiments/PHASE4_4_9_ATTACK_GROUND_TRUTH.md).
+capped at 0.50 if any critical capability scores 0, and at 0.60 if any scores ≤ 0.25.
 
-## Reproducibility
-
-See
-[`PHASE4_4_11_PHASE4_REPRODUCIBILITY.md`](phase3/experiments/PHASE4_4_11_PHASE4_REPRODUCIBILITY.md)
-for environment setup, the exact recipe every real campaign follows, and
-a full table of every real entry-point script with its persisted output.
-
-```bash
-cd "C:\Agent Memory Poisoning"
-python -m pytest phase4/tests/ -q
-# 97 passed
+```mermaid
+xychart-beta
+    title "Operational closure per gap (frozen rubric, %)"
+    x-axis ["v5", "v6", "v7"]
+    y-axis "closure %" 0 --> 100
+    line "Gap 1 provenance" [59, 63.7, 75.0]
+    line "Gap 2 propagation" [65, 65.0, 71.2]
+    line "Gap 3 sleepers" [29, 33.8, 33.8]
 ```
 
-The isolated `C:\h4venv` interpreter (for `mem0ai`/`a-mem-sys`) and the
-pinned Qwen3-8B GGUF model + llama-server binary are external local
-prerequisites, not committed to this repository.
+![Defence v7 architecture](docs/figures/v7/W5_architecture_v7.png)
 
-## Scientific limitations (disclosed, not hidden)
+## Contributions
 
-- A-MEM coverage is a single real trial (n=1) — real evidence the core
-  finding generalizes beyond Mem0, not general A-MEM coverage.
-- No genuine post-admission `ATTACK_FAILURE` has been observed — the
-  project's one real `ATTACK_FAILURE` evidence is pre-admission (a gate
-  refusing an artifact).
-- No defense/mitigation evaluation exists anywhere in this project.
-- MemoryGraft's content design has 1 real scenario, not the originally
-  planned 3–5.
-- Every real result is n=1 or n=2 per condition — real and reproducible,
-  not statistically powered.
-- No automated CI/re-run harness exists, by informed choice.
+1. **A benchmark that separates what attacks *are* from what they *do*.** The seven attacks share
+   one adapter interface; every population is audited for mechanism validity and for whether it
+   changes the agent's answer, so non-functional attacks are not counted as detected attacks.
+2. **Provenance reaches what content classification cannot.** On two memory-poisoning hold-outs,
+   B13 caught 79/157 and 70/129 against 32/157 and 38/129 for the fused content stack B14. On
+   additive fabrications it caught 37/72 where B12 caught 0/72 (pre-registered, p = 1×10⁻¹¹).
+3. **A stateful defence against adaptive attackers.** A rejection ledger cut adaptive evasion from
+   24.6% to 0.8% (p = 9.3×10⁻¹⁰). Its cost is a ledger-poisoning blast radius (29.7% at radius
+   0.90; 6.4% at 0.95).
+4. **Hold-out governance as code.** 18 corpora are sha256-frozen before scoring, scored under
+   committed pre-registrations, and re-verified by the benchmark on every run. Hold-out 3, scored
+   seven times and found to double as development data, was retired rather than reused.
+5. **Negative results kept.** Failed signals, under-powered tests and corrected claims are
+   reported beside the results they qualify (Results Analysis; `REMEDIATION_MASTER_REGISTER.md`).
 
-Full detail: [`PHASE4_4_12_PHASE4_FREEZE.md`](phase3/experiments/PHASE4_4_12_PHASE4_FREEZE.md) Section 5.
+## Current results
 
-## Freeze
+Selected figures. The Results Analysis holds every denominator, interval and qualification.
 
-Phase 4 is frozen as of 2026-09-11. No existing result, campaign log, or
-attack artifact is modified retroactively. Future work is additive —
-new phases, new evidence, new documents — never a silent rewrite of what
-is already here. This benchmark does not claim exhaustive attack
-coverage, statistically powered success rates, or defense evaluation.
+| Finding | Result |
+|---|---|
+| Phase 6 stack on its 75-scenario corpus (B8) | 24/34 poison detected (70.6%) at 3/41 benign false positives (7.3%); reproduced by `python -m mambench` |
+| Harm, re-judged with a judge validated on human labels (309 items) | 58.3% undefended → 24.6% with B13 (task alone 2.3%; p = 4×10⁻²⁹) |
+| Gap 1, graded provenance on SA-7 | explicit attacks excluded 36/48 vs 14/48 for B13 (Holm p = 1.9×10⁻⁶); grounded legitimate rules excluded 0/48 |
+| Gap 2, containment at generation 4 (HO10) | 36/56 payload-carrying descendants withheld (64.3%; owner interval 54.5–72%) |
+| Gap 3, implicit sleepers (SA-7) | pre-registered operating point E: 40/48 detected but 19/144 = 13.2% legitimate rules flagged (limit 10%) — **not met** |
+| Exfiltration on gate-valid instances | zero harm across three 7–8B agent families: the agents restate but do not execute the redirect |
 
-This freeze statement describes Phase 4 only; Phase 4's own frozen results are
-unmodified by all later Phase 5/Attribution work. See
-[`PHASE6_HANDOFF_REPORT.md`](PHASE6_HANDOFF_REPORT.md) for the current handoff (Phase
-1–5 + Attribution summary, limitations, Phase 6 starting state), and
-[`PHASE5_HANDOFF_REPORT.md`](PHASE5_HANDOFF_REPORT.md) for the original, historical
-Phase 4→5 handoff written at this freeze point.
+```mermaid
+xychart-beta
+    title "Frozen 75-scenario corpus: poison detected out of 34 (B0–B8)"
+    x-axis ["B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8"]
+    y-axis "detected / 34" 0 --> 34
+    bar [0, 8, 10, 2, 18, 12, 9, 19, 24]
+```
+
+Rates carry Wilson 95% intervals; paired comparisons use the exact McNemar test with Holm
+correction across each pre-registered family:
+
+$$
+\tilde p \pm \frac{z}{1+z^2/n}\sqrt{\frac{\hat p(1-\hat p)}{n}+\frac{z^2}{4n^2}},\quad
+\tilde p=\frac{\hat p+z^2/2n}{1+z^2/n};\qquad
+p_{(k)}^{\text{Holm}}=\max_{j\le k}\min\bigl(1,(m-j+1)\,p_{(j)}\bigr).
+$$
+
+## Unified benchmark
+
+One registry ([`mambench/registry.json`](mambench/registry.json): 7 tracks, 19 tasks, 28 metrics),
+one result schema ([`mambench/schema.py`](mambench/schema.py)), one entry point. Every task wraps an
+existing frozen component; none re-implements attack or defence logic.
+
+```mermaid
+flowchart LR
+    R[(registry.json<br/>tracks · tasks · metrics)] --> S{task supported?}
+    S -- no --> U[UNSUPPORTED]
+    S -- yes --> Q{requirements met?<br/>licensed data · Ollama · isolated env}
+    Q -- no --> BL[BLOCKED]
+    Q -- yes --> X[run executor in a scratch dir]
+    X --> E{outcome}
+    E -- exception / integrity violation /<br/>tracked file modified --> F[FAILED]
+    E -- evidence absent --> N[NOT_EVALUABLE]
+    E -- metrics --> C[COMPLETED]
+    U & BL & F & N & C --> A[[results.json<br/>per-task denominators,<br/>provenance, hold-out run count]]
+```
+
+A proportion is reported only as numerator/denominator; a zero denominator is `NOT_EVALUABLE`,
+never 0. There is no single overall score.
+
+| Track | Tasks |
+|---|---|
+| attack_validity | attack-population coverage · poison admission rate · MPBench inapplicable classes (UNSUPPORTED) |
+| defence_detection | B0–B8 ablation on the frozen corpus · B9/B12 on published held-out splits |
+| propagation_containment | seven-attack footprints · benign baseline · propagation rate (needs Ollama) |
+| sleeper | directive-evasion study · activation shape (needs the isolated Mem0 environment) |
+| attribution | origin, false attribution, path fidelity, lineage ambiguity |
+| provenance_integrity | ledger tamper evidence · evaluator-only field rejection |
+| data_integrity | full leakage audit (needs processed corpora) · LoCoMo-only leakage checks · sha256 of all 18 frozen hold-outs |
+
+```bash
+python -m mambench list
+```
+```bash
+python -m mambench run --smoke --strict
+```
+```bash
+python -m mambench run --all
+```
+
+Each run writes `mambench_results/<timestamp>-<commit>/` (gitignored), never overwrites an earlier
+run, and appends to `holdout_ledger.jsonl` so repeated evaluation of a held-out split is visible.
+
+## Tech stack
+
+| Layer | Tools |
+|---|---|
+| Language and tests | Python 3.11, pytest, GitHub Actions |
+| Models (local) | Ollama: qwen2.5:7b (judge/detector), llama2 (agent), phi3:mini, mistral, llama-guard3; pins in `phase17/OLLAMA_MODEL_PINS.md` |
+| Models (remote, optional) | Gemini API (independent judge) |
+| Embeddings and classifiers | sentence-transformers all-MiniLM-L6-v2, ProtectAI deberta-v3 prompt-injection, PyTorch, transformers |
+| Memory foundations | clean agent (mock Mem0), Mem0 2.0.19 with Qdrant, A-mem-sys (isolated interpreters, `phase17/ISOLATED_ENVIRONMENTS.md`) |
+| Analysis | numpy, scipy, scikit-learn, networkx, python-docx, matplotlib |
+
+Provenance records are hash-chained so edits, deletions, reordering and truncation are detectable:
+$h_i = \mathrm{SHA256}\bigl(\mathrm{canon}(r_i \cup \{\mathit{seq}=i,\ \mathit{prev}=h_{i-1}\})\bigr)$, $h_{-1}$ = genesis, with
+the head stored separately (optionally HMAC-keyed).
+
+## Running it
+
+```bash
+pip install -r requirements.txt
+```
+```bash
+python scripts/ci/fetch_licensed_data.py
+```
+```bash
+make regression
+```
+
+`make regression` runs exactly what CI runs: Phases 3–16, attribution and `tests/`; the full
+Phase 17 suite; and the benchmark checks. `fetch_licensed_data.py` downloads LoCoMo from pinned
+upstream commits and checks it against the sha256 in `data/metadata/dataset_manifest.json`; CI
+does the same to run the held-out split evaluations, and installs the hashed Linux lock
+`requirements-ci.txt`. CI (`.github/workflows/tests.yml`) runs on `main`,
+`remediation/**` and pull requests, with no live model (`OLLAMA_BASE_URL` points at a closed
+port), so LLM-judge decisions come from the committed caches. Live experiments need Ollama with
+the pinned models, and some need the isolated Mem0/A-MEM environments; see
+`phase17/RUNNING_THE_PIPELINE.md`.
+
+## Known limitations
+
+- **Gap 3 is not closed (33.8%).** No pre-registered operating point detects implicit sleepers
+  while keeping legitimate conditional notes under the 10% limit; attacks relayed through the
+  user pass every provenance defence (0/24).
+- **Small local models.** Agents and judges are 7–8B local models; harm levels depend on the judge,
+  so reductions are more reliable than absolute levels.
+- **Reconstructions.** The attacks are reconstructions of published techniques, not the authors'
+  code; AgentPoison in particular is weaker than the original.
+- **Licensed data is not redistributed.** `data/raw/` is gitignored; CI fetches only LoCoMo, pinned
+  and digest-verified. The full four-check leakage audit also needs the processed LongMemEval,
+  MSC and Conversation Chronicles corpora (about 3.6 GB, and MSC has no explicit licence), so on
+  CI it reports BLOCKED and two of its four checks run as a separate task.
+- **Reproducibility is not bit-exact for live runs.** Model sampling varies (repeated agent runs
+  differ by about one case in 150); offline tasks and cached-judge evaluations are deterministic.
+- `requirements-lock.txt` is a Windows/CUDA freeze of the development machine; CI and Linux users
+  install `requirements-ci.txt` (exact versions with hashes, Linux, Python 3.11).
+
+## Repository map
+
+| Path | Contents |
+|---|---|
+| `phase3/` | frozen victim agent, memory foundations, dataset candidates |
+| `phase4/` | the seven attacks and the shared attack contract |
+| `phase5/`, `attribution/` | instrumentation, event ledger, attribution layer |
+| `phase6/`–`phase15/` | defences, propagation, sleeper, risk composition, GNN/GLN, metrics, utility |
+| `phase17/` | ablation, generalisation, hold-outs, defence programmes v2–v7 |
+| `mambench/` | unified benchmark registry, schema, runner and tests |
+| `docs/`, `paper/` | phase reports, figures, specifications, manuscript sources |
+| `data/metadata/` | dataset manifests and freeze records |
+
+Data licences and annotation provenance: [`DATA_LICENSING_AND_ANNOTATION_AUDIT.md`](DATA_LICENSING_AND_ANNOTATION_AUDIT.md).

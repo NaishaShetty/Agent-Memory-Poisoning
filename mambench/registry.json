@@ -1,0 +1,575 @@
+{
+  "registry_version": "1.0.0",
+  "benchmark": "MAMBench - Memory and Agent Manipulation Benchmark",
+  "note": "Every task wraps an existing, frozen project component; nothing here re-implements attack or defence logic. Counts of tracks/tasks/metrics are whatever this file lists; the historical '8 tracks / 16 tasks / 33 metrics' figure was not found anywhere in the repository and is not reproduced.",
+  "split_roles": {
+    "synthetic_fixture": "hand-constructed corpus used to build or calibrate a component; in-sample by construction",
+    "published_eval": "held-out split whose numbers are already published; re-running it is a reproduction, not a fresh test",
+    "frozen_holdout": "sha256-frozen corpus scored under a pre-registration; re-scoring is recorded and visible",
+    "development": "data components were tuned on",
+    "not_applicable": "task does not evaluate on a data split (self-checks, integrity checks)"
+  },
+  "requirements": {
+    "judge_cache_or_ollama": "LLM-judge decisions available from the committed judge caches or a reachable Ollama server; results record which",
+    "ollama": "a reachable Ollama server (OLLAMA_BASE_URL, default http://127.0.0.1:11434) with the models in phase17/OLLAMA_MODEL_PINS.md",
+    "h4venv": "the isolated A-mem-sys/Mem0 interpreter at C:\\h4venv (phase17/ISOLATED_ENVIRONMENTS.md); not committed",
+    "licensed_data": "LoCoMo under data/raw/locomo/ (CC BY-NC 4.0); absent from a fresh clone. scripts/ci/fetch_licensed_data.py fetches it from pinned upstream commits and verifies the manifest sha256",
+    "processed_corpora": "the processed unified-memory corpora for LongMemEval, MSC and Conversation Chronicles (data/processed/unified_memory/, ~3.6 GB, built by preprocessing/ from raw data); MSC has no explicit dataset licence and is never fetched by CI, so this is available only on a machine that built the corpora"
+  },
+  "tracks": {
+    "attack_validity": "Do the registered attacks exist, are they admitted, and have they been validated?",
+    "defence_detection": "Detection and false-positive behaviour of the B0-B19 defence configurations",
+    "propagation_containment": "How a poisoned memory spreads after admission, and the benign baseline it is compared with",
+    "sleeper": "Dormant / trigger-activated poisoning",
+    "attribution": "Recovering the origin and lineage of poisoned memories",
+    "provenance_integrity": "Tamper evidence and evaluator-only field protection",
+    "data_integrity": "Leakage between splits and integrity of frozen hold-outs"
+  },
+  "metrics": {
+    "proportion_mechanism_validated": {
+      "kind": "proportion",
+      "numerator": "attack populations whose instances were validated against their own mechanism at generation",
+      "denominator": "attack populations with at least one instance in this checkout",
+      "direction": "higher_is_better"
+    },
+    "proportion_harm_measured": {
+      "kind": "proportion",
+      "numerator": "attack populations with at least one instance run end-to-end against an undefended agent",
+      "denominator": "attack populations with at least one instance in this checkout",
+      "direction": "higher_is_better"
+    },
+    "attack_instances": {
+      "kind": "count",
+      "definition": "attack instances across all registered populations present in this checkout"
+    },
+    "populations_not_built": {
+      "kind": "count",
+      "definition": "registered attack populations with zero instances in this checkout"
+    },
+    "poison_admission_rate": {
+      "kind": "proportion",
+      "numerator": "injection attempts whose admission_status is ADMITTED",
+      "denominator": "injection attempts (one Injector.inject() call per seed of each of the 7 Phase 4 attacks)",
+      "direction": "context"
+    },
+    "poison_detection_rate": {
+      "kind": "proportion",
+      "numerator": "poison memories whose combined action is not ALLOW",
+      "denominator": "poison memories evaluated (pools excluded by IllegalTransitionError are reported separately, not counted)",
+      "direction": "higher_is_better"
+    },
+    "benign_false_positive_rate": {
+      "kind": "proportion",
+      "numerator": "benign memories whose combined action is not ALLOW",
+      "denominator": "benign memories evaluated",
+      "direction": "lower_is_better"
+    },
+    "excluded_pools": {
+      "kind": "count",
+      "definition": "pools a configuration could not evaluate because of an IllegalTransitionError"
+    },
+    "flag_rate": {
+      "kind": "proportion",
+      "numerator": "poison records whose action is not ALLOW",
+      "denominator": "poison records in the split (one isolated pool per record)",
+      "direction": "higher_is_better"
+    },
+    "exclusion_rate": {
+      "kind": "proportion",
+      "numerator": "poison records QUARANTINEd or BLOCKed",
+      "denominator": "poison records in the split",
+      "direction": "higher_is_better"
+    },
+    "attacks_admitted": {
+      "kind": "proportion",
+      "numerator": "attacks whose footprint trial admitted a poisoned memory",
+      "denominator": "attacks in the footprint study",
+      "direction": "context"
+    },
+    "fan_out_rate": {
+      "kind": "value",
+      "definition": "Phase 7 fan_out_rate of a footprint (DERIVED_FROM edges landing on a footprint member per unit denominator)"
+    },
+    "re_entry_rate": {
+      "kind": "value",
+      "definition": "Phase 7 re_entry_rate (fraction of retrieval tasks whose top-K co-selected two or more footprint members)"
+    },
+    "cycle_reinforcement_depth": {
+      "kind": "value",
+      "definition": "Phase 7 longest DERIVED_FROM chain within a footprint"
+    },
+    "cross_task_bleed": {
+      "kind": "value",
+      "definition": "Phase 7 number of distinct tasks a footprint's members appear in"
+    },
+    "propagation_rate": {
+      "kind": "value",
+      "definition": "Phase 12 position-robust PR: mean over scenarios of the fraction of 4 context positions at which the poison propagated"
+    },
+    "guard_catch_rate": {
+      "kind": "value",
+      "definition": "Phase 12 fraction of unguarded propagation events the Consolidation Guard would quarantine"
+    },
+    "directive_hit_rate": {
+      "kind": "proportion",
+      "numerator": "Phase 8 evasion-study cases on which the imperative-write-directive signal fires",
+      "denominator": "cases in the frozen Phase 8 directive-evasion study",
+      "direction": "context"
+    },
+    "activation_shape_poison_match": {
+      "kind": "proportion",
+      "numerator": "Sleeper poison memories whose selection pattern matches the dormant activation shape",
+      "denominator": "Sleeper poison memories in the study",
+      "direction": "higher_is_better"
+    },
+    "origin_family_match": {
+      "kind": "proportion",
+      "numerator": "poison scenarios whose attributed origin family equals ground truth",
+      "denominator": "poison scenarios in the persisted Phase 13 ledger",
+      "direction": "higher_is_better"
+    },
+    "origin_false_attribution": {
+      "kind": "proportion",
+      "numerator": "poison scenarios attributed to a wrong origin, checked against ground truth captured at injection time",
+      "denominator": "poison scenarios in the persisted Phase 13 ledger",
+      "direction": "lower_is_better"
+    },
+    "path_fidelity": {
+      "kind": "proportion",
+      "numerator": "derivation events whose full lineage chain is reconstructed exactly",
+      "denominator": "derivation events in the persisted Phase 13 ledger",
+      "direction": "higher_is_better"
+    },
+    "lineage_ambiguity": {
+      "kind": "proportion",
+      "numerator": "derivation events flagged as multi-parent",
+      "denominator": "derivation events in the persisted Phase 13 ledger",
+      "direction": "context"
+    },
+    "tamper_detection": {
+      "kind": "proportion",
+      "numerator": "ledger mutations (edit, delete, reorder, truncate) that verify() reports",
+      "denominator": "ledger mutations applied",
+      "direction": "higher_is_better"
+    },
+    "clean_chain_verified": {
+      "kind": "proportion",
+      "numerator": "unmodified ledgers that verify() accepts",
+      "denominator": "unmodified ledgers checked",
+      "direction": "higher_is_better"
+    },
+    "forbidden_key_rejection": {
+      "kind": "proportion",
+      "numerator": "evaluator-only keys rejected by compute_memory_risk_score with EvaluatorOnlyLeakageError",
+      "denominator": "evaluator-only keys in FORBIDDEN_SIGNAL_KEYS",
+      "direction": "higher_is_better"
+    },
+    "leakage_checks_passed": {
+      "kind": "proportion",
+      "numerator": "phase17 leakage-audit checks that passed",
+      "denominator": "leakage-audit checks run",
+      "direction": "higher_is_better"
+    },
+    "freeze_digest_match": {
+      "kind": "proportion",
+      "numerator": "frozen corpora whose recomputed sha256 equals the digest recorded at freeze time",
+      "denominator": "frozen corpora with a freeze record",
+      "direction": "higher_is_better"
+    }
+  },
+  "tasks": [
+    {
+      "id": "attack.register_coverage",
+      "version": "1.0",
+      "track": "attack_validity",
+      "executor": "attack_register_coverage",
+      "split_role": "not_applicable",
+      "requires": [],
+      "metrics": [
+        "proportion_mechanism_validated",
+        "proportion_harm_measured",
+        "attack_instances",
+        "populations_not_built"
+      ],
+      "implementation": [
+        "phase17/attack_register.py"
+      ],
+      "cost": "fast",
+      "smoke": true
+    },
+    {
+      "id": "attack.poison_admission_rate",
+      "version": "1.0",
+      "track": "attack_validity",
+      "executor": "poison_admission_rate",
+      "split_role": "synthetic_fixture",
+      "requires": [],
+      "metrics": [
+        "poison_admission_rate"
+      ],
+      "implementation": [
+        "phase12/security_metrics.py"
+      ],
+      "cost": "fast",
+      "smoke": true
+    },
+    {
+      "id": "attack.mpbench_inapplicable_classes",
+      "version": "1.0",
+      "track": "attack_validity",
+      "executor": null,
+      "supported": false,
+      "unsupported_reason": "4 of the 6 MPBench classes are documented architectural limitations of the frozen victim architecture and are never simulated (README, 'Seven attacks')",
+      "split_role": "not_applicable",
+      "requires": [],
+      "metrics": [],
+      "implementation": [],
+      "cost": "fast",
+      "smoke": false
+    },
+    {
+      "id": "defence.frozen75_ablation",
+      "version": "1.0",
+      "track": "defence_detection",
+      "executor": "frozen75_ablation",
+      "split_role": "synthetic_fixture",
+      "requires": [],
+      "metrics": [
+        "poison_detection_rate",
+        "benign_false_positive_rate",
+        "excluded_pools"
+      ],
+      "implementation": [
+        "phase6/evaluation/ablations/run_b0_b7.py",
+        "phase6/defense/orchestration/pipeline.py",
+        "phase6/evaluation/ablations/corpus.py"
+      ],
+      "cost": "medium",
+      "smoke": false
+    },
+    {
+      "id": "defence.held_out_novel.B9",
+      "version": "1.0",
+      "track": "defence_detection",
+      "executor": "split_eval",
+      "params": {
+        "split": "held_out_novel",
+        "defense": "B9"
+      },
+      "split_role": "published_eval",
+      "requires": [
+        "licensed_data"
+      ],
+      "metrics": [
+        "flag_rate",
+        "exclusion_rate"
+      ],
+      "implementation": [
+        "phase17/bench_runner.py",
+        "phase14/defended_retrieval.py"
+      ],
+      "cost": "fast",
+      "smoke": false
+    },
+    {
+      "id": "defence.held_out_novel.B12",
+      "version": "1.0",
+      "track": "defence_detection",
+      "executor": "split_eval",
+      "params": {
+        "split": "held_out_novel",
+        "defense": "B12"
+      },
+      "split_role": "published_eval",
+      "requires": [
+        "licensed_data",
+        "judge_cache_or_ollama"
+      ],
+      "metrics": [
+        "flag_rate",
+        "exclusion_rate"
+      ],
+      "implementation": [
+        "phase17/bench_runner.py",
+        "phase14/defended_retrieval.py"
+      ],
+      "cost": "medium",
+      "smoke": false
+    },
+    {
+      "id": "defence.held_out_regen.B12",
+      "version": "1.0",
+      "track": "defence_detection",
+      "executor": "split_eval",
+      "params": {
+        "split": "held_out_regen",
+        "defense": "B12"
+      },
+      "split_role": "published_eval",
+      "requires": [
+        "licensed_data",
+        "judge_cache_or_ollama"
+      ],
+      "metrics": [
+        "flag_rate",
+        "exclusion_rate"
+      ],
+      "implementation": [
+        "phase17/bench_runner.py",
+        "phase14/defended_retrieval.py"
+      ],
+      "cost": "medium",
+      "smoke": false
+    },
+    {
+      "id": "defence.held_out_evasion.B12",
+      "version": "1.0",
+      "track": "defence_detection",
+      "executor": "split_eval",
+      "params": {
+        "split": "held_out_evasion",
+        "defense": "B12"
+      },
+      "split_role": "published_eval",
+      "requires": [
+        "licensed_data",
+        "judge_cache_or_ollama"
+      ],
+      "metrics": [
+        "flag_rate",
+        "exclusion_rate"
+      ],
+      "implementation": [
+        "phase17/bench_runner.py",
+        "phase14/defended_retrieval.py"
+      ],
+      "cost": "medium",
+      "smoke": false
+    },
+    {
+      "id": "propagation.seven_attack_footprint",
+      "version": "1.0",
+      "track": "propagation_containment",
+      "executor": "seven_attack_footprint",
+      "split_role": "synthetic_fixture",
+      "requires": [],
+      "metrics": [
+        "attacks_admitted",
+        "fan_out_rate",
+        "re_entry_rate",
+        "cycle_reinforcement_depth",
+        "cross_task_bleed"
+      ],
+      "implementation": [
+        "phase7/propagation/attack_study.py"
+      ],
+      "cost": "fast",
+      "smoke": false
+    },
+    {
+      "id": "propagation.benign_baseline",
+      "version": "1.0",
+      "track": "propagation_containment",
+      "executor": "benign_baseline",
+      "split_role": "synthetic_fixture",
+      "requires": [],
+      "metrics": [
+        "fan_out_rate",
+        "re_entry_rate",
+        "cycle_reinforcement_depth",
+        "cross_task_bleed"
+      ],
+      "implementation": [
+        "phase7/propagation/benign_baseline_study.py"
+      ],
+      "cost": "fast",
+      "smoke": true
+    },
+    {
+      "id": "propagation.propagation_rate_live",
+      "version": "1.0",
+      "track": "propagation_containment",
+      "executor": "propagation_rate_live",
+      "split_role": "synthetic_fixture",
+      "requires": [
+        "ollama"
+      ],
+      "metrics": [
+        "propagation_rate",
+        "guard_catch_rate"
+      ],
+      "implementation": [
+        "phase12/propagation/propagation_rate.py"
+      ],
+      "cost": "expensive",
+      "smoke": false
+    },
+    {
+      "id": "sleeper.directive_evasion",
+      "version": "1.0",
+      "track": "sleeper",
+      "executor": "directive_evasion",
+      "split_role": "synthetic_fixture",
+      "requires": [],
+      "metrics": [
+        "directive_hit_rate"
+      ],
+      "implementation": [
+        "phase8/detection/sleeper_directive_evasion_study.py"
+      ],
+      "cost": "fast",
+      "smoke": true
+    },
+    {
+      "id": "sleeper.activation_shape_live",
+      "version": "1.0",
+      "track": "sleeper",
+      "executor": "activation_shape_live",
+      "split_role": "synthetic_fixture",
+      "requires": [
+        "h4venv"
+      ],
+      "metrics": [
+        "activation_shape_poison_match"
+      ],
+      "implementation": [
+        "phase8/detection/sleeper_activation_shape_study.py"
+      ],
+      "cost": "medium",
+      "smoke": false
+    },
+    {
+      "id": "attribution.phase13_metrics",
+      "version": "1.0",
+      "track": "attribution",
+      "executor": "attribution_metrics",
+      "split_role": "synthetic_fixture",
+      "requires": [],
+      "metrics": [
+        "origin_family_match",
+        "origin_false_attribution",
+        "path_fidelity",
+        "lineage_ambiguity"
+      ],
+      "implementation": [
+        "phase13/attribution_metrics.py"
+      ],
+      "cost": "fast",
+      "smoke": true
+    },
+    {
+      "id": "provenance.ledger_tamper_evidence",
+      "version": "1.0",
+      "track": "provenance_integrity",
+      "executor": "ledger_tamper_evidence",
+      "split_role": "not_applicable",
+      "requires": [],
+      "metrics": [
+        "tamper_detection",
+        "clean_chain_verified"
+      ],
+      "implementation": [
+        "phase17/defence_v7/ledger_chain.py"
+      ],
+      "cost": "fast",
+      "smoke": true,
+      "integrity_critical": true
+    },
+    {
+      "id": "provenance.evaluator_field_rejection",
+      "version": "1.0",
+      "track": "provenance_integrity",
+      "executor": "evaluator_field_rejection",
+      "split_role": "not_applicable",
+      "requires": [],
+      "metrics": [
+        "forbidden_key_rejection"
+      ],
+      "implementation": [
+        "phase17/provenance_integrity.py",
+        "phase6/defense/policy/records.py"
+      ],
+      "cost": "fast",
+      "smoke": true,
+      "integrity_critical": true
+    },
+    {
+      "id": "integrity.leakage_audit",
+      "version": "1.0",
+      "track": "data_integrity",
+      "executor": "leakage_audit",
+      "split_role": "not_applicable",
+      "requires": [
+        "licensed_data",
+        "processed_corpora"
+      ],
+      "metrics": [
+        "leakage_checks_passed"
+      ],
+      "implementation": [
+        "phase17/leakage_audit.py"
+      ],
+      "cost": "fast",
+      "smoke": false,
+      "integrity_critical": true
+    },
+    {
+      "id": "integrity.leakage_text_and_metadata",
+      "version": "1.0",
+      "track": "data_integrity",
+      "executor": "leakage_text_and_metadata",
+      "split_role": "not_applicable",
+      "requires": [
+        "licensed_data"
+      ],
+      "metrics": [
+        "leakage_checks_passed"
+      ],
+      "implementation": [
+        "phase17/leakage_audit.py"
+      ],
+      "cost": "fast",
+      "smoke": false,
+      "integrity_critical": true
+    },
+    {
+      "id": "integrity.holdout_freeze_digests",
+      "version": "1.0",
+      "track": "data_integrity",
+      "executor": "holdout_freeze_digests",
+      "split_role": "frozen_holdout",
+      "requires": [],
+      "metrics": [
+        "freeze_digest_match"
+      ],
+      "implementation": [
+        "phase17/holdout2_corpus.py"
+      ],
+      "cost": "fast",
+      "smoke": true,
+      "integrity_critical": true,
+      "params": {
+        "modules": [
+          "phase17.holdout2_corpus",
+          "phase17.holdout3_corpus",
+          "phase17.holdout4_corpus",
+          "phase17.holdout5_corpus",
+          "phase17.holdout6_corpus",
+          "phase17.holdout7_corpus",
+          "phase17.holdout8_corpus",
+          "phase17.external_test_corpus",
+          "phase17.defence_v2.sa3_corpus",
+          "phase17.defence_v4.sa4_corpus",
+          "phase17.defence_v5.sa5_corpus",
+          "phase17.defence_v6.sa6_corpus",
+          "phase17.defence_v6.ho9_corpus",
+          "phase17.defence_v7.sa7_corpus",
+          "phase17.defence_v7.ho10_corpus",
+          "phase17.defence_v7.csd7",
+          "phase17.remediation.sleeper_corpus",
+          "phase17.remediation.sleeper_corpus2"
+        ]
+      }
+    }
+  ]
+}
