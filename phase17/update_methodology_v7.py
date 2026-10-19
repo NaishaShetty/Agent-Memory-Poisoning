@@ -36,7 +36,7 @@ def _content(printed=frozenset()):
                      "before any v7 data existed (addenda A-C recorded with checksums before the outcomes they concern); "
                      "development choices used development owners or roots only; every held-out set was frozen by digest and "
                      "scored once after the development selections were frozen; defects are kept as *_INVALID_* outputs."))
-    for kind, x in blocks():
+    for kind, x in blocks(doc="methodology"):
         if kind == "h":
             out.append(("h2", "32.72 " + x.split(". ", 1)[1]))
         elif kind == "h2":
@@ -62,13 +62,19 @@ def _content(printed=frozenset()):
     return out
 
 
+STATUS7_CURRENT = "After Defence v7 (Section 32.72) the evidence-based operational closure"
+
+
 def _status_text():
+    """Current-state closure line for Section 33 (2026-10-19: no dated '[Status ...]' label)."""
     c = json.loads((ROOT / "phase17" / "data" / "defence_v7" / "closure_v7.json").read_text(encoding="utf-8"))
-    parts = "; ".join(f"{g.split(': ')[-1]} {v['before_v6'] * 100:.0f}% -> {v['after_v7'] * 100:.0f}%" for g, v in c["gaps"].items())
-    return (f"{STATUS7} After Defence v7 (Section 32.72) the evidence-based operational closure under the frozen rubric is: "
-            f"{parts}. Gap 1 reaches 75% through graded provenance on fresh held-out data; Gap 2 rises through no-decay "
-            "containment and lineage recovery after rewriting, with its factual sub-test read strictly; Gap 3 is unchanged "
-            "because the pre-registered sleeper operating point again exceeds the legitimate-rule limit.")
+    g = list(c["gaps"].items())
+    now = "; ".join(f"{k.split(': ')[-1]} {v['after_v7'] * 100:.0f}%" for k, v in g)
+    before = ", ".join(f"{v['before_v6'] * 100:.0f}%" for _, v in g[:-1]) + f" and {g[-1][1]['before_v6'] * 100:.0f}%"
+    return (f"{STATUS7_CURRENT} under the frozen rubric is: {now} ({before} after Defence v6). Gap 1 reaches 75% through "
+            "graded provenance on fresh held-out data; Gap 2 rises through no-decay containment and lineage recovery after "
+            "rewriting, with its factual sub-test read strictly; Gap 3 is unchanged because the pre-registered sleeper "
+            "operating point exceeds the legitimate-rule limit.")
 
 
 GUIDE_OLD = "The current state of the project is Sections 32.49-32.63 (round 7) and Section 33;"
@@ -248,7 +254,7 @@ def run() -> dict:
 
     # conclusion status: v7 paragraph after the v6 one (replaced in place on re-runs); v6 gains a pointer
     txt = _status_text()
-    ex7 = next((p for p in doc.paragraphs if p.text.startswith(STATUS7)), None)
+    ex7 = next((p for p in doc.paragraphs if p.text.startswith((STATUS7, STATUS7_CURRENT))), None)
     ex6 = next((p for p in doc.paragraphs if p.text.startswith(STATUS6)), None)
     if ex6 is not None and not ex6.text.endswith(V6_POINTER):
         ex6.add_run(V6_POINTER)

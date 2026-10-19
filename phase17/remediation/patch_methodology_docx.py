@@ -63,6 +63,10 @@ def run() -> dict:
     import docx
 
     d = docx.Document(str(DOC))
+    if any(p.text == "History of Corrections" for p in d.paragraphs):
+        # 2026-10-19: the document states current results and its corrections live in
+        # phase17/editorial/methodology_currency.json; this one-off patcher would re-insert dated notes.
+        raise SystemExit("Methodology is in current-state form; add corrections via phase17.editorial_pass currency")
     log = []
     for cid, pat, rep, applied_marker in corrections():
         hits = [p for p in d.paragraphs if pat.search(p.text)]

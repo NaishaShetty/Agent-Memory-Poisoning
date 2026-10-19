@@ -83,6 +83,10 @@ def apply() -> dict:
     import docx
 
     d = docx.Document(str(DOC))
+    if any(p.text == "History of Corrections" for p in d.paragraphs):
+        # 2026-10-19: the document states current results and its corrections live in
+        # phase17/editorial/methodology_currency.json; this one-off patcher would re-insert dated notes.
+        raise SystemExit("Methodology is in current-state form; add corrections via phase17.editorial_pass currency")
     log = {"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "doc": DOC.name, "changes": []}
     for cid, prefix, rep in CORRECTIONS:
         hits = [p for p in d.paragraphs if p.text.startswith(prefix)]

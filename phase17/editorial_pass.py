@@ -165,6 +165,133 @@ CELL_FIXES = (
 )
 
 
+# --- currency pass (2026-10-19) ------------------------------------------------------------
+# Brings the documents to the current state: superseded status lines, labels and statements are
+# rewritten or removed, and their history is condensed into one dated appendix per document.
+# Unlike the editorial store, a currency edit may DROP numbers (a superseded figure); it may
+# INTRODUCE a number only if the edit lists it in "adds" (taken from the current artifacts).
+# Store: phase17/editorial/<doc>_currency.json =
+#   {sha: {"op": "replace"|"delete"|"delete_with_prev", "new": str, "adds": [str], "orig_head": str},
+#    "__cells__": [[old_phrase, new_phrase], ...],
+#    "__appendix__": {"before": heading prefix, "heading": str, "paragraphs": [str, ...]}}
+
+def _currency(doc: str) -> dict:
+    p = STORE / f"{doc}_currency.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+
+
+def _numbers_ok(orig: str, new: str, adds) -> Counter:
+    """Numbers in `new` that come from neither `orig` nor the declared `adds` (empty = acceptable)."""
+    return nums(new) - nums(orig) - Counter(str(a) for a in adds or ())
+
+
+def check_currency(doc: str, chunk: str) -> dict:
+    """chunk: [{'sha', 'op', 'new', 'adds'}] or {'__cells__': [...]} / {'__appendix__': {...}} entries."""
+    import docx
+
+    d = docx.Document(str(DOCS[doc]))
+    cur = {sha(p.text): p.text for p in d.paragraphs}
+    store = _currency(doc)
+    bad, ok = [], 0
+    for e in json.loads(Path(chunk).read_text(encoding="utf-8")):
+        if "__cells__" in e:
+            store.setdefault("__cells__", []).extend(e["__cells__"])
+            ok += 1
+            continue
+        if "__appendix__" in e:
+            store["__appendix__"] = e["__appendix__"]
+            ok += 1
+            continue
+        if "__hide__" in e:
+            store["__hide__"] = sorted(set(store.get("__hide__", [])) | set(e["__hide__"]))
+            ok += 1
+            continue
+        full = [k for k in cur if k.startswith(e["sha"])]
+        if len(full) == 1:
+            e["sha"] = full[0]
+        orig = cur.get(e["sha"])
+        if orig is None:
+            bad.append((e["sha"][:10], "paragraph not found"))
+            continue
+        op = e.get("op", "replace")
+        if op == "replace":
+            extra = _numbers_ok(orig, e["new"], e.get("adds"))
+            if extra:
+                bad.append((e["sha"][:10], f"undeclared new numbers {dict(extra)}"))
+                continue
+        store[e["sha"]] = {"op": op, "new": e.get("new", ""), "adds": e.get("adds", []), "orig_head": orig[:60]}
+        ok += 1
+    STORE.mkdir(parents=True, exist_ok=True)
+    (STORE / f"{doc}_currency.json").write_text(json.dumps(store, indent=0, ensure_ascii=False), encoding="utf-8")
+    print(f"merged {ok}; rejected {len(bad)}")
+    for b in bad:
+        print("  REJECTED", b)
+    return {"merged": ok, "rejected": bad}
+
+
+def _remove(el):
+    el.getparent().remove(el)
+
+
+def _apply_currency(d, doc: str) -> dict:
+    from copy import deepcopy
+
+    store = _currency(doc)
+    log = {"replaced": 0, "deleted": 0, "number_mismatch": 0, "cells": 0, "appendix": "none"}
+    for p in list(d.paragraphs):
+        e = store.get(sha(p.text))
+        if not e:
+            continue
+        op = e["op"]
+        if op == "replace":
+            if _numbers_ok(p.text, e["new"], e.get("adds")):
+                log["number_mismatch"] += 1
+                continue
+            _replace(p, e["new"])
+            log["replaced"] += 1
+        elif op in ("delete", "delete_with_prev"):
+            prev = p._p.getprevious()
+            _remove(p._p)
+            if op == "delete_with_prev" and prev is not None:
+                _remove(prev)
+            log["deleted"] += 1
+    hide = tuple(store.get("__hide__", ()))   # updater block markers: kept for the updaters, not shown
+    log["hidden"] = 0
+    for p in d.paragraphs:
+        if hide and p.text in hide and not all(r.font.hidden for r in p.runs):
+            for r in p.runs:
+                r.font.hidden = True
+            log["hidden"] += 1
+    for old, new in store.get("__cells__", []):
+        for t in d.tables:
+            for row in t.rows:
+                for c in row.cells:
+                    for p in c.paragraphs:
+                        if old in p.text and not _numbers_ok(p.text, p.text.replace(old, new), ()):
+                            _replace(p, p.text.replace(old, new))
+                            log["cells"] += 1
+    app = store.get("__appendix__")
+    if app and not any(p.text == app["heading"] for p in d.paragraphs):
+        anchor = next((p for p in d.paragraphs if p.style is not None and p.style.name == "Heading 1"
+                       and p.text.startswith(app["before"])), None)
+        if anchor is not None:
+            h = deepcopy(anchor._p)
+            anchor._p.addprevious(h)
+            from docx.text.paragraph import Paragraph
+            hp = Paragraph(h, anchor._parent)
+            _replace(hp, app["heading"])
+            body = next((p for p in d.paragraphs if p.style is not None and p.style.name == "Normal"
+                         and len(p.text) > 300 and not any(r.bold or r.italic for r in p.runs)), None)
+            for text in app["paragraphs"]:
+                np_ = deepcopy(body._p)
+                anchor._p.addprevious(np_)
+                _replace(Paragraph(np_, anchor._parent), text)
+            log["appendix"] = f"inserted {len(app['paragraphs'])} paragraphs"
+    elif app:
+        log["appendix"] = "already present"
+    return log
+
+
 def apply_to(d, doc: str) -> dict:
     store = _store(doc)
     log = {"applied": 0, "number_mismatch": 0}
@@ -178,6 +305,7 @@ def apply_to(d, doc: str) -> dict:
         _replace(p, e["new"])
         log["applied"] += 1
     log["dashes_normalised"] = _typography(d)
+    log["currency"] = _apply_currency(d, doc)
     return log
 
 
@@ -199,5 +327,7 @@ if __name__ == "__main__":
         export(a[2], a[3], "--all" in a, lo, hi)
     elif a[1] == "check":
         check(a[2], a[3])
+    elif a[1] == "currency":
+        check_currency(a[2], a[3])
     else:
         print(apply(a[2]))

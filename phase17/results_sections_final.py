@@ -141,18 +141,22 @@ def write(H, P, TBL, CAP, FIGF):
           + ", ".join(f"{k.upper()} {v['item_for_item_equal_to_RCL_with_lineage']}" for k, v in wtp["sets"].items())
           + ") with zero unflagged collateral, and was accepted. Lineage deleted after writing remains unsolved.")
 
+    # 2026-10-19: Section 22 states the current architecture and closure (after Defence v7). The 2026-10-14
+    # architecture figure and closure table it used to show are listed under History of Corrections.
     H("22. Defence Architecture and Operational Gap Closure", 1)
-    FIGF("F8", "The evaluated defence architecture, stage by stage, with each component's status (as of 2026-10-14; superseded by Sections 23 and 24).")
-    from phase17.figures_final import CLOSURE, closure_scores
-    sc = closure_scores()
+    P("This section gives the defence architecture and the operational closure of the three research gaps after the final "
+      "programme (Defence v7, Section 24). Each gap is scored with the weighted evidence-strength rubric fixed before the final "
+      "programmes (docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md section 3); scores measure evidence strength, not accuracy, "
+      "and the three gaps are never combined into one score.")
+    FIGF("W5", "The evaluated defence architecture after Defence v7, stage by stage, with each component's status.")
+    cl7 = _L("defence_v7/closure_v7.json")
     rows = [["Gap", "Capability (* = critical)", "Weight", "Evidence score"]]
-    for g, caps in CLOSURE.items():
-        for n, w, v in caps:
-            rows.append([g, n, f"{w:.2f}", f"{v:.2f}"])
-        rows.append([g, "GAP SCORE (critical caps applied)", "", f"{sc[g] * 100:.0f}%"])
+    for g, v in cl7["gaps"].items():
+        name = g.split(": ")[1]
+        for c in v["capabilities"]:
+            rows.append([name, c["name"], f"{c['weight']:.2f}", f"{c['after']:.2f}"])
+        rows.append([name, "GAP SCORE (critical caps applied)", "", f"{v['after_v7'] * 100:.1f}%"])
     TBL(rows)
-    CAP("Table 22A. Operational closure per gap from the weighted evidence-strength rubric fixed before the final "
-        "programmes (FINAL_DEFENCE_BASELINE_AUDIT.md section 3). Scores measure evidence strength, not accuracy; no gap "
-        "reaches the 75% target at this point (scores as of 2026-10-14; superseded by Sections 23 and 24: after Defence v7, "
-        "Gap 1 reaches 75%).")
-    FIGF("F7", "Operational closure per research gap (as of 2026-10-14; superseded by Sections 23 and 24).")
+    CAP("Table 22A. Operational closure per gap after Defence v7 under the frozen rubric (critical capabilities marked *). "
+        "Source: phase17/data/defence_v7/closure_v7.json.")
+    FIGF("W4", "Operational closure per research gap after Defence v5, v6 and v7.")
