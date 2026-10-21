@@ -1,0 +1,35 @@
+{
+ "authenticated_non_owner_trusted_writer": {
+  "n": 136,
+  "plain_detected": 68,
+  "gated_detected": 68,
+  "plain_rate": 0.5,
+  "gated_rate": 0.5,
+  "mcnemar_b_c": {
+   "only_plain": 0,
+   "only_gated": 0
+  }
+ },
+ "compromised_trusted_writer": {
+  "n": 136,
+  "plain_detected": 68,
+  "gated_detected": 0,
+  "plain_rate": 0.5,
+  "gated_rate": 0.0,
+  "mcnemar_b_c": {
+   "only_plain": 68,
+   "only_gated": 0
+  }
+ },
+ "unsigned_writer": {
+  "n": 136,
+  "plain_detected": 68,
+  "gated_detected": 68,
+  "plain_rate": 0.5,
+  "gated_rate": 0.5,
+  "mcnemar_b_c": {
+   "only_plain": 0,
+   "only_gated": 0
+  }
+ }
+}

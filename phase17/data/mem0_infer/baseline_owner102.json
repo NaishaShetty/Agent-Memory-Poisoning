@@ -1,0 +1,108 @@
+{
+ "owner": "102",
+ "n_turns": 50,
+ "events": [
+  {
+   "id": "326f12cd-037e-4f33-b2bf-7609c8ec93b4",
+   "memory": "Co-workers A and B had a disagreement during a meeting, with A feeling B was rude and interrupting, while B felt they were just contributing.",
+   "event": "ADD"
+  },
+  {
+   "id": "13d82eb6-4291-4fdc-97b0-283606f2f3e7",
+   "memory": "Co-workers A and B discussed the importance of respectful communication and agreed to work on improving their interaction.",
+   "event": "ADD"
+  },
+  {
+   "id": "e786e9cc-4918-4b46-8f36-2decf12d3946",
+   "memory": "Co-workers A and B expressed mutual appreciation and regret about their past disagreement, acknowledging the importance of respectful communication.",
+   "event": "ADD"
+  },
+  {
+   "id": "2bebdbc9-e6e2-4bb2-adc8-adcd710cb8c3",
+   "memory": "Co-workers A and B discussed their friendship and the change in their working relationship, reflecting on their initial negative interaction.",
+   "event": "ADD"
+  },
+  {
+   "id": "b3010a9b-e253-4e30-8d27-f9bc6ba036ea",
+   "memory": "Co-workers A and B discussed Co-workers A's community meeting where they addressed issues facing their town and gained respect from citizens.",
+   "event": "ADD"
+  },
+  {
+   "id": "b0f7be54-8c26-4653-97f8-9a36f29560c9",
+   "memory": "Co-workers A was nervous about hosting a community meeting but decided to do it anyway, emphasizing the importance of addressing town issues.",
+   "event": "ADD"
+  },
+  {
+   "id": "ff8a31ce-a221-416d-bc56-2f525612b3e0",
+   "memory": "Co-workers A tried on new dresses and received compliments, feeling reassured about their fit.",
+   "event": "ADD"
+  },
+  {
+   "id": "53214608-6516-401d-a793-1529ba7b0fc1",
+   "memory": "Co-workers B complimented Co-workers A's blue dress, noting it highlighted her eyes.",
+   "event": "ADD"
+  },
+  {
+   "id": "01a03ab8-c290-46a9-bcc7-d21a3235df6a",
+   "memory": "Co-workers A was nervous about hosting a community meeting but felt she gained respect from the citizens.",
+   "event": "ADD"
+  },
+  {
+   "id": "c3541439-cabd-4a9a-8260-6c4b74182994",
+   "memory": "Co-workers B recognized Co-workers A's passion for fashion and how it positively impacts her professional presentation.",
+   "event": "ADD"
+  },
+  {
+   "id": "16158a2e-82c4-4f28-8992-6d0f78b3533c",
+   "memory": "Co-workers A and B discussed Co-workers A's community meeting where she gained respect from the citizens.",
+   "event": "ADD"
+  },
+  {
+   "id": "0e2b353e-10ad-4814-98d3-e681a8b8d68a",
+   "memory": "Co-workers A and B complimented each other's fashion choices, with Co-workers B praising Co-workers A's blue dress.",
+   "event": "ADD"
+  },
+  {
+   "id": "f92db1f6-40f9-4cbf-82cc-5981acef1a37",
+   "memory": "Co-workers A reassured Co-workers B about the new project paperwork, expressing a willingness to help if needed.",
+   "event": "ADD"
+  },
+  {
+   "id": "7b792a41-09cb-4aa1-bc3f-77f7ee606d68",
+   "memory": "Co-workers B complimented Co-workers A's organizational skills, noting their importance in the community meeting.",
+   "event": "ADD"
+  },
+  {
+   "id": "8c19a14e-020f-4e04-8340-9ba935dc26ff",
+   "memory": "Co-workers A and B reflected on their past friendship and the positive impact of good communication and organization on their teamwork.",
+   "event": "ADD"
+  }
+ ],
+ "memories": [
+  "Co-workers A was nervous about hosting a community meeting but felt she gained respect from the citizens.",
+  "Co-workers A and B complimented each other's fashion choices, with Co-workers B praising Co-workers A's blue dress.",
+  "Co-workers A and B discussed the importance of respectful communication and agreed to work on improving their interaction.",
+  "Co-workers A and B discussed Co-workers A's community meeting where she gained respect from the citizens.",
+  "Co-workers A and B discussed their friendship and the change in their working relationship, reflecting on their initial negative interaction.",
+  "Co-workers A and B had a disagreement during a meeting, with A feeling B was rude and interrupting, while B felt they were just contributing.",
+  "Co-workers B complimented Co-workers A's blue dress, noting it highlighted her eyes.",
+  "Co-workers B complimented Co-workers A's organizational skills, noting their importance in the community meeting.",
+  "Co-workers A and B reflected on their past friendship and the positive impact of good communication and organization on their teamwork.",
+  "Co-workers A was nervous about hosting a community meeting but decided to do it anyway, emphasizing the importance of addressing town issues.",
+  "Co-workers A and B discussed Co-workers A's community meeting where they addressed issues facing their town and gained respect from citizens.",
+  "Co-workers B recognized Co-workers A's passion for fashion and how it positively impacts her professional presentation.",
+  "Co-workers A and B expressed mutual appreciation and regret about their past disagreement, acknowledging the importance of respectful communication.",
+  "Co-workers A reassured Co-workers B about the new project paperwork, expressing a willingness to help if needed.",
+  "Co-workers A tried on new dresses and received compliments, feeling reassured about their fit."
+ ],
+ "seconds": 37.0,
+ "config": {
+  "mem0": "2.0.19",
+  "infer": true,
+  "llm": "ollama/qwen2.5:7b",
+  "temperature": 0.0,
+  "embedder": "huggingface/sentence-transformers/all-MiniLM-L6-v2",
+  "vector_store": "qdrant (local, on-disk)",
+  "prompts": "Mem0 defaults (unmodified)"
+ }
+}

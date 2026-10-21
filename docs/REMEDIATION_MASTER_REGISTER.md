@@ -213,3 +213,26 @@ Pre-registration: `docs/phase17/PREREGISTRATION_GAPCLOSURE_2026-10-13.md` (`f177
 | M-1 | CI actions ran on Node 20, which GitHub is retiring | checkout, setup-python, upload-artifact moved to v7 and actions/cache v6 added (all Node 24), still pinned by commit; release notes checked for breaking changes affecting this workflow (none) | **FIX IMPLEMENTED** |
 | M-2 | `ubuntu-latest` began moving to Ubuntu 26 on 2026-10-19 | Runners pinned to `ubuntu-24.04`, the image every green run used | **FIX IMPLEMENTED** |
 | M-3 | `phase17/data/defence_v7/v7_nli_cache.json` (54.8 MB) exceeded GitHub's 50 MB recommendation; every CI job also re-downloaded the 130 MB LFS file (~650 MB of LFS bandwidth per run) | Cache file tracked by Git LFS from now on (bytes unchanged: LFS oid = file sha256 a10dbb47...; history not rewritten); `.github/actions/lfs-pull` restores LFS objects from the Actions cache keyed by object ids, so LFS bandwidth is used only when an object changes | **FIX IMPLEMENTED** |
+
+## 11. Defence programme v8 (2026-10-20/21)
+
+Pre-registered in `docs/phase17/v8/V8_PREREGISTRATION.md`, with four checksummed addenda
+(W1b, W1b-2, W2, W3), on branch `experiment/defence-v8`, cut from `main` at `v7-final`.
+`phase17/tests/test_v7_frozen.py` verified v7 unchanged at every checkpoint throughout.
+
+| ID | Workstream | Result | Status |
+|---|---|---|---|
+| V8-1 | W1: confirmatory test of C AND K on SA-8 (fresh Conversation Chronicles owners) | Detection rises to 72.9% but ungrounded false positives rise to 13.9%, over the 10% limit at the same operating point; 3.2/3.3 score 0.0, same as v7 | **CONFIRMED NULL** (reported in full, not discarded) |
+| V8-2 | W4 + W1b: authenticated-writer ledger and the C AND K + G detection gate, confirmed on SA-9 (LongMemEval owners) | 50.0% detection, 9.0% ungrounded false positives -- both limits met jointly for the first time in this project's held-out record; 3.2/3.3 rise to 0.5/0.5 | **VALIDATION PASSED** |
+| V8-3 | W1b-2: the gate's own operating boundary, stress-tested | A compromised trusted-writer key removes detection entirely on that channel (0/136); a defence-in-depth, high-impact carve-out recovers 18/136 as a diagnostic, not a credited replacement | **DISCLOSED, NOT A FIX** |
+| V8-4 | W2: two-stage frame and high-impact gate, confirmatory test on a fresh 184-item pool | Two-stage frame replicates significantly (p = 0.026); high-impact gate remains under-powered, same as v7; 3.4 stays at 0.75 | **VALIDATION PASSED** (TS); unchanged (HIG) |
+| V8-5 | W3: Gap 2 factual sub-test on HO11 (fresh Conversation Chronicles propagation-root owners) | 268 flagged roots, 55 carrying to generation 4 (comfortably powered, against v7's 7); C1 clears 60% at 70.9%, where v7 failed it; 2.3 rises to 0.75 | **VALIDATION PASSED** |
+| V8-6 | Closure under the frozen rubric | Gap 1 75.0% (unchanged), Gap 2 71.25% -> 75.0%, Gap 3 33.75% -> 61.25% | **VALIDATION PASSED**; `phase17/data/defence_v8/closure_v8.json` |
+| V8-7 | Adoption rule (fixed in `V8_PREREGISTRATION.md` before any v8 data existed: at least one gap improves, no v7 figure changes) | Both conditions met | **ADOPTED**: the user authorized updating `Methodology Draft.docx`, `MAMBench Results Analysis.docx` and the comprehensive DOCX with v8 content |
+
+Deviations (logged before the outcome they concern; full text in
+`docs/phase17/v8/IMPLEMENTATION_NOTES.md`): CC's generic role labels needed natural-name
+substitution for HO11's base-completion generator (D-V8-6); HO11's raw attack yield fell
+short in one family and was frozen as realised, not topped up (D-V8-7); the two paper
+documents and the comprehensive DOCX were removed from the v7 freeze manifest on explicit
+authorization, never affecting the permanent v7 code/data/docs guarantee (D-V8-8, D-V8-9).

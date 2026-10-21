@@ -318,7 +318,7 @@ def build() -> Path:
         ("Scope. ", "Seventeen phases: data foundations (1–2), a clean memory-augmented agent (3), seven attacks (4), "
                     "instrumentation and attribution (5), defences, monitoring and forensics (6–13), utility, integrated "
                     "and final evaluation (14–16), and ablation and generalisation with seven external review rounds (17), "
-                    "followed by six pre-registered defence programmes (v2–v7) targeting three research gaps."),
+                    "followed by seven pre-registered defence programmes (v2–v8) targeting three research gaps."),
         ("Measurement first. ", "A causal, pre-committed audit found that only 42.5% of 2,628 attack instances both subvert an "
                                "undefended agent and implement their labelled mechanism (435–944 depending on how disputed "
                                "labels resolve), so detection rates are reported on both the full and the working-attack denominator."),
@@ -326,8 +326,11 @@ def build() -> Path:
                        "ledger reduces adaptive evasion from 24.6% to 0.8% at an explicit denial-of-service cost; the best "
                        "configurations for memory poisoning and for injection-shaped text are complementary, not ranked."),
         ("Research gaps. ", "Under a rubric fixed before the final programmes, operational closure is 75.0% for provenance and "
-                            "governance, 71.2% for self-propagation and containment, and 33.8% for dormant and implicit "
-                            "sleepers (Defence v7, 2026-10-17). The sleeper gap is not closed."),
+                            "governance, 75.0% for self-propagation and containment, and 61.3% for dormant and implicit "
+                            "sleepers (Defence v8, 2026-10-21). A writer-authenticated detection gate, confirmed on a fresh "
+                            "corpus, and a properly powered factual-containment test raised the self-propagation and sleeper "
+                            "gaps from their Defence v7 values of 71.2% and 33.8%; the sleeper gap's own operating boundary "
+                            "(a compromised trusted-writer key) is measured and reported alongside the result."),
         ("Benchmark. ", "mambench/ registers 7 tracks and 19 tasks with explicit statuses and denominators; CI runs every test "
                         "suite, a strict smoke run, and the held-out split evaluations against digest-verified LoCoMo."),
     ])
@@ -407,7 +410,9 @@ def build() -> Path:
     D.p("The attribution layer answers six questions separately and never merges them into one verdict: origin, "
         "lineage, propagation, exposure, influence and references. Phase 9 composes them into a backward walk from a "
         "flagged incident whose confidence follows a worst-hop-wins rule. Provenance is recorded at write time in a "
-        "ledger; since Defence v7 the ledger is hash-chained so edits, deletions, reordering and truncation are detected.")
+        "ledger; since Defence v7 the ledger is hash-chained so edits, deletions, reordering and truncation are detected; "
+        "since Defence v8 an optional per-writer HMAC signature records who wrote each entry, verified independently of "
+        "the value the entry itself claims.")
     D.h("11. Tool-use and action-selection risks", 2)
     D.p("Exfiltration and standing-instruction attacks aim at actions rather than answers. On gate-valid exfiltration "
         "instances, three 7–8B agent families restated the attacker's directive but did not execute the redirect "
@@ -434,8 +439,8 @@ def build() -> Path:
     D.h("15. Research roadmap and phase history (generated)", 2)
     D.table(phase_rows(), widths=[1.6, 2.8, 12.6])
     D.p("After Phase 17, an independent review (2026-10-12) led to a remediation, a gap-closure round, a targeted phase "
-        "and six pre-registered defence programmes (v2–v7, 2026-10-13 to 2026-10-17), recorded in "
-        "docs/REMEDIATION_MASTER_REGISTER.md and in Results Analysis Sections 15–24.")
+        "and seven pre-registered defence programmes (v2–v8, 2026-10-13 to 2026-10-21), recorded in "
+        "docs/REMEDIATION_MASTER_REGISTER.md and in Results Analysis Sections 15–25.")
     D.figure(ROOT / "docs" / "figures" / "figure1_pipeline_phases_1_13.png", "Figure 1. Pipeline, Phases 1–13 (from the Methodology).")
     D.h("16. Original prototypes and initial hypotheses", 2)
     D.p("Phase 3 reached its final victim architecture, V3-Hybrid, through five validated iterations (hybrid retrieval "
@@ -448,8 +453,9 @@ def build() -> Path:
                "Phase 11: learned GNN/GLN components; six negative or mixed results preceded a score-composition fix; the learned models stay at parity.",
                "Phase 12: a fifth component, the Consolidation Guard, re-checks a derivation's sources before persistence.",
                "Phase 17: judge tiers (B11/B12), provenance-aware admission (B13), fusion and union configurations (B14–B19), the rejection ledger.",
-               "Defence v2–v7: lineage verification, multi-generation containment, graded provenance, no-decay containment, two-stage sleeper frame, tamper-evident ledger."])
-    D.figure(ROOT / "docs" / "figures" / "v7" / "W5_architecture_v7.png", "Figure 2. Defence architecture after Defence v7.")
+               "Defence v2–v7: lineage verification, multi-generation containment, graded provenance, no-decay containment, two-stage sleeper frame, tamper-evident ledger.",
+               "Defence v8: an authenticated-writer ledger and a writer-authenticated detection gate, confirmed on a fresh corpus; a properly powered factual-containment test on fresh propagation roots."])
+    D.figure(ROOT / "docs" / "figures" / "v8" / "X6_architecture_v8.png", "Figure 2. Defence architecture after Defence v8.")
     D.h("18. Major design decisions", 2)
     D.table([["Decision", "Justification"],
              ["Freeze each phase and add, never rewrite", "Later findings are dated notes, so the historical record stays checkable"],
@@ -478,10 +484,11 @@ def build() -> Path:
         "not dropped.")
     D.h("22. Defences and mitigation strategies (generated)", 2)
     D.table(defence_rows(), widths=[3, 14])
-    D.p("Defence programmes v2–v7 add mechanisms that are evaluated as conditions rather than numbered configurations: "
+    D.p("Defence programmes v2–v8 add mechanisms that are evaluated as conditions rather than numbered configurations: "
         "graded provenance (exclude / frame / keep), no-decay containment with a sentence-level fingerprint (ND|RAR-S), "
-        "lineage recovery after deletion (DCR-2), the two-stage sleeper frame, the high-impact gate and the "
-        "hash-chained provenance ledger.")
+        "lineage recovery after deletion (DCR-2), the two-stage sleeper frame, the high-impact gate, the hash-chained "
+        "provenance ledger, and the writer-authenticated detection gate (C AND K + G) that extends the ledger with "
+        "per-writer HMAC signatures.")
     D.h("23. Evaluation protocols", 2)
     D.bullets(["Detection: a defence's action on each poison and benign item; 'flagged' means any action other than ALLOW, 'excluded' means QUARANTINE or BLOCK.",
                "Attack validity: a two-arm causal audit (memory present versus absent) plus a mechanism check by a third model family.",
@@ -645,9 +652,9 @@ def build() -> Path:
              ["Harm (human-validated judge, 309 items)", "58.3% undefended → 24.6% with B13; task alone 2.3%", "Methodology §32.63"],
              ["Adaptive evasion", "24.6% → 0.8% behind the rejection ledger (p=9.3e-10); blast radius 29.7% at 0.90, 6.4% at 0.95", "Results §9"],
              ["Phase 6 frozen corpus (B8)", "24/34 detected (70.6%) at 3/41 false positives (7.3%), reproduced by mambench", "Methodology §21.9"],
-             ["Gap closure (v7)", "Gap 1 75.0%, Gap 2 71.2%, Gap 3 33.8%", "Results §24"]],
+             ["Gap closure (v8)", "Gap 1 75.0%, Gap 2 75.0%, Gap 3 61.3%", "Results §25"]],
             widths=[4, 9.5, 3.5])
-    D.figure(ROOT / "docs" / "figures" / "v7" / "W4_closure.png", "Figure 3. Operational closure per research gap.")
+    D.figure(ROOT / "docs" / "figures" / "v8" / "X5_closure.png", "Figure 3. Operational closure per research gap, v7 and v8.")
     D.h("54. Ablations and comparisons", 2)
     D.p("Phase 17 removed each defence component in turn with Holm-corrected exact McNemar tests against the full stack; "
         "the B0–B8 factorial on the frozen 75-scenario corpus shows the contribution of each guard (B4 18/34, B7 19/34, "
@@ -658,6 +665,7 @@ def build() -> Path:
                "Rejection memory: no effect at its frozen radius; the first pre-registered re-run was under-powered.",
                "Neutralisation composed with a cheap detector failed its pre-registered dominance test.",
                "Defence v7: condition E fails its benign limit on SA-7 (19/144 = 13.2%); two new sleeper signals failed development gates; DCR failed its gate before DCR-2.",
+               "Defence v8: C AND K's ungrounded false-positive rate exceeds the 10% limit on SA-8 (13.9%) before the writer-authentication gate is added; a compromised trusted-writer key removes the gated detector's detection entirely on that channel; HO11's non-carrying collateral exceeds its 25% ceiling (26.5%).",
                "Retracted: the multi-hop 'reasoning ceiling' (an evaluator artifact) and exfiltration's zero harm as a defect (a generator defect, now fixed)."])
     D.h("56. Generalisation", 2)
     D.p("Detection generalises partly: to novel mechanisms (B12 excludes 42.5–58.3% depending on how 'unseen' is "
@@ -705,7 +713,7 @@ def build() -> Path:
     D.p("Phase-level experiments have module entry points named in their reports; Phase 17 live stages are listed in the "
         "Makefile (review4-*, review5-pipeline, amem-live, mem0-live) and phase17/RUNNING_THE_PIPELINE.md (one job at a "
         "time; kill orphaned processes between stages). Defence-programme runs resume from checkpoints "
-        "(docs/phase17/v7/RESUME_V7.md).")
+        "(docs/phase17/v7/RESUME_V7.md, docs/phase17/v8/RESUME_V8.md).")
     D.h("69. Understanding outputs", 2)
     D.p("See section 40 for benchmark outputs. Experiment outputs live under phase17/data/ (JSON per study) and "
         "results/tables/; the Results Analysis' Appendix A indexes every artifact.")
@@ -734,8 +742,9 @@ def build() -> Path:
     D.h("74. Research integrity and historical evidence", 2)
     D.p("Historical outputs, frozen baselines, judge caches and run logs are kept unchanged; corrections are dated notes "
         "beside the original text; failed experiments and invalid outputs are kept and labelled. The pre-registrations "
-        "(docs/phase17/PREREGISTRATION_*.md, docs/phase17/v7/SA7_PREREGISTRATION.md) and freeze records establish what "
-        "was decided before each outcome.")
+        "(docs/phase17/PREREGISTRATION_*.md, docs/phase17/v7/SA7_PREREGISTRATION.md, "
+        "docs/phase17/v8/V8_PREREGISTRATION.md and its addenda) and freeze records establish what was decided before "
+        "each outcome.")
     D.h("75–76. Data governance, licensing and redistribution (generated)", 2)
     D.table(licence_rows(), widths=[3.6, 3.4, 6, 4], size=7.5)
     D.p("No licence has been applied to the repository's own code and documents; that is the owner's decision. Per-item "
@@ -753,8 +762,7 @@ def build() -> Path:
              ["Code and data licences chosen", "Open (owner decision)"],
              ["InjecAgent licence verified upstream", "Open"],
              ["Gemini output terms reviewed for generated corpora", "Open"],
-             ["Third-party paper extracts (ref_*.txt) reviewed for redistribution", "Open (manual review)"],
-             ["CI green on GitHub with the new workflow", "Verified locally on Linux (WSL); first hosted run pending a push"],
+             ["CI green on GitHub with the new workflow", "Verified locally on Linux (WSL); the two issues the first hosted run (2026-10-19) found were fixed and verified locally"],
              ["Documentation consolidated", "This document; source mapping in the appendix"]], widths=[9, 8])
     D.h("82. Open research questions", 2)
     D.p("Implicit sleeper detection within benign limits; activation control after rewriting; recovery when lineage is "
@@ -804,7 +812,7 @@ def build() -> Path:
     D.code("pip install -r requirements.txt\nmake regression\npython -m mambench run --smoke --strict\n"
            "python scripts/ci/fetch_licensed_data.py\npython -m phase17.attack_register\n"
            "python -m phase17.build_results_analysis_docx\npython -m phase17.update_methodology_v7\n"
-           "python scripts/build_comprehensive_documentation.py")
+           "python -m phase17.update_methodology_v8\npython scripts/build_comprehensive_documentation.py")
     D.h("96. Documentation inventory and source mapping (generated)", 2)
     D.p("Every documentation file was classified before consolidation (docs/cleanup/CLEANUP_INVENTORY.md). Afterwards, on "
         "the owner's decision, four unreferenced text files were deleted (a stale Methodology text extract and three "
@@ -813,10 +821,11 @@ def build() -> Path:
     D.table(inventory_counts(), widths=[12, 5])
     D.table([["Source documents", "Destination in this document", "Preserved", "Not copied, and why"],
              ["Methodology Draft (Sections 1–4, 14–16, 33)", "Parts I–III, VIII, X", "objectives, threat model, phases, ethics, references, conclusions", "full method detail stays in the Methodology"],
-             ["Results Analysis (Abstract, 2, 10–14, 22–24)", "Part VI", "headline results with denominators and sources", "tables and statistics stay in the Results Analysis"],
+             ["Results Analysis (Abstract, 2, 10–14, 22–25)", "Part VI", "headline results with denominators and sources", "tables and statistics stay in the Results Analysis"],
              ["README snapshots (docs/history/)", "Parts I, VI", "current state, superseded snapshots noted", "dated snapshots kept verbatim"],
              ["Defence-programme and audit reports (now docs/archive/)", "Parts III, VI, IX", "mechanisms, closure, failures", "originals kept as evidence"],
              ["Phase reports (docs/phaseN, phase3/experiments, phase5)", "Part III", "phase roadmap and design decisions", "originals kept; several are read by tests"],
+             ["docs/phase17/v8/ (pre-registration, four addenda, freeze manifest, resume guide)", "Parts III, VI, VIII", "v8 design, integrity record, resume state", "kept (sha256-checksummed integrity evidence)"],
              ["BENCHMARK_SPECIFICATION.md, BENCHMARK_CARD.md", "Part IV", "schema, threat model, runner", "kept as machine-facing specifications"],
              ["docs/DATA_LICENSING_AND_ANNOTATION_AUDIT.md", "Part VIII", "licence table", "kept (legal)"],
              ["docs/RELATED_WORK_AND_NOVELTY.md, docs/NOVELTY_MATRIX.md", "Parts I–II, X", "contribution classes, compared works", "per-capability matrix kept"],

@@ -2116,10 +2116,12 @@ P("Annotation: annotator 1 is the author; annotator 2 is the author's friend, wh
 
 from phase17.results_sections_final import write as _write_final  # noqa: E402
 from phase17.figures_v7 import run as _draw_v7  # noqa: E402
+from phase17.figures_v8 import run as _draw_v8  # noqa: E402
 
-# Section 22 shows the current (v7) architecture and closure, so the v7 figures are drawn first
+# Section 22 shows the current (v8) architecture and closure, so the v7 and v8 figures are drawn first
 _V7FIGS = {k: (Path(__file__).resolve().parents[1] / v) for k, v in _draw_v7().items() if v}
-_FFIGS.update({k: _V7FIGS[k] for k in ("W4", "W5") if k in _V7FIGS})
+_V8FIGS = {k: (Path(__file__).resolve().parents[1] / v) for k, v in _draw_v8().items() if v}
+_FFIGS.update({k: _V8FIGS[k] for k in ("X5", "X6") if k in _V8FIGS})
 
 _write_final(H, P, TBL, CAP, FIGF)
 
@@ -2160,10 +2162,29 @@ def FIGW(key, caption, width_in=6.3):
 
 _write_v7(H, P, TBL, CAP, FIGW)
 
+# ---- Section 25 (defence programme v8), generated from the v8 artifacts (2026-10-20/21)
+# (_V8FIGS was already drawn above, before Section 22, so Section 22 can show the v8 architecture/closure figures)
+from phase17.results_sections_v8 import write as _write_v8  # noqa: E402
+
+
+def FIGX(key, caption, width_in=6.3):
+    from docx.shared import Inches
+
+    path = _V8FIGS.get(key)
+    if not path or not path.exists():
+        return
+    _NFIG[0] += 1
+    doc.add_picture(str(path), width=Inches(width_in))
+    CAP(f"Figure {_NFIG[0]}. {caption}")
+
+
+_write_v8(H, P, TBL, CAP, FIGX)
+
 H("Definitions and Formulas", 1)
 P("Every reported number is a count turned into a rate or a test by one of the formulas below; each "
   "names the code that computes it, constants included, so any figure in this document can be recomputed "
-  "from its counts. The methodology prints the same formulas in Section 32.62 and the additions in Sections 32.70-32.72 (Tables 32.72.F and 32.72.G complete the set).")
+  "from its counts. The methodology prints the same formulas in Section 32.62 and the additions in Sections "
+  "32.70-32.73 (Tables 32.72.F, 32.72.G and 32.73.F complete the set).")
 TBL(_formula_rows())
 CAP("Table F. Formulas behind the reported numbers (phase17/formulas.py).")
 
@@ -2217,6 +2238,18 @@ if MISSING:
 from phase17.editorial_pass import apply_to as _editorial  # noqa: E402  (professional-prose edits, numbers verified)
 
 print("editorial pass:", _editorial(doc, "results"))
+
+# ---- History of Corrections: the closure entry the editorial currency pass recorded runs through v7;
+# extend it to v8 (idempotent) now that the paragraph exists in the built document.
+_CL8 = L("defence_v8/closure_v8.json")
+if _CL8:
+    _v7_closure_par = next((p for p in doc.paragraphs if p.text.startswith("Operational closure (Section 22).")), None)
+    _v8_clause = (" After Defence v8 (Section 25): " +
+                  ", ".join(f"{g.split(': ')[1]} {100 * v.get('after_v8', v.get('after_v7')):.1f}%"
+                            for g, v in _CL8["gaps"].items()) + ".")
+    if _v7_closure_par is not None and "After Defence v8" not in _v7_closure_par.text:
+        _v7_closure_par.add_run(_v8_clause)
+
 doc.save(OUT)
 print(f"wrote {OUT}")
 print("missing artifacts:", sorted(set(MISSING)) or "none")

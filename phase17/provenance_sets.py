@@ -55,11 +55,38 @@ def _raw():
 
 
 def speakers(sample_idx: int) -> List[str]:
+    if sample_idx >= 200:
+        # Defence v8 addendum W1b (docs/phase17/v8/V8_PREREG_ADDENDUM_W1b.md): SA-9
+        # owners 200-209 are LongMemEval episodes. Every path below is unchanged.
+        from phase17.defence_v8 import longmemeval_owners
+        return longmemeval_owners.speakers(sample_idx)
+    if 110 <= sample_idx <= 118:
+        # Defence v8 addendum W3 (docs/phase17/v8/V8_PREREG_ADDENDUM_W3.md): HO11
+        # propagation-root owners 110-118 are fresh Conversation Chronicles episodes,
+        # disjoint from SA-8's 100-109. Checked before the generic >=100 branch below.
+        from phase17.defence_v8 import ho11_owners
+        return ho11_owners.speakers(sample_idx)
+    if sample_idx >= 100:
+        # Defence v8 (docs/phase17/v8/V8_PREREGISTRATION.md): SA-8 owners 100-109 are
+        # Conversation Chronicles episodes, not LoCoMo samples -- the LoCoMo owner pool
+        # (indices 0-9) is exhausted after SA-1..SA-7. Every path below this line is
+        # unchanged for sample_idx < 100.
+        from phase17.defence_v8 import cc_owners
+        return cc_owners.speakers(sample_idx)
     conv = _raw()[sample_idx]["conversation"]
     return [conv["speaker_a"], conv["speaker_b"]]
 
 
 def owner_turns(sample_idx: int) -> List[Dict]:
+    if sample_idx >= 200:
+        from phase17.defence_v8 import longmemeval_owners
+        return longmemeval_owners.owner_turns(sample_idx)
+    if 110 <= sample_idx <= 118:
+        from phase17.defence_v8 import ho11_owners
+        return ho11_owners.owner_turns(sample_idx)
+    if sample_idx >= 100:
+        from phase17.defence_v8 import cc_owners
+        return cc_owners.owner_turns(sample_idx)
     conv = _raw()[sample_idx]["conversation"]
     out = []
     for k in sorted((kk for kk in conv if kk.startswith("session_") and not kk.endswith("date_time")),

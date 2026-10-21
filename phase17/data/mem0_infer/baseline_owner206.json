@@ -1,0 +1,126 @@
+{
+ "owner": "206",
+ "n_turns": 44,
+ "events": [
+  {
+   "id": "2d3b8fb9-7d36-452b-9923-509c4f335955",
+   "memory": "The user enjoys Netflix because there is something for everyone and new content is added daily.",
+   "event": "ADD"
+  },
+  {
+   "id": "9bce3ebb-a58b-494b-83d3-eac6096fadde",
+   "memory": "The user prefers series over movies and recently enjoys watching 'Black List'.",
+   "event": "ADD"
+  },
+  {
+   "id": "3141699c-331f-4fca-92af-77f468aa7b44",
+   "memory": "The user discovers new content on Netflix through upcoming releases and finds the platform good.",
+   "event": "ADD"
+  },
+  {
+   "id": "c44ed937-308a-4bb4-8996-e16869815e55",
+   "memory": "The user thinks the variety of genres and types of shows and movies on Netflix is sufficient but would like more choices.",
+   "event": "ADD"
+  },
+  {
+   "id": "407c0e0f-658f-48c7-8e48-17df8521397b",
+   "memory": "The user has tried original content produced by Netflix and has no complaints.",
+   "event": "ADD"
+  },
+  {
+   "id": "3d1f253d-3c48-4ddf-a9ca-ec8b35d49117",
+   "memory": "The user thinks Netflix offers good value for money but is unsure of the exact cost.",
+   "event": "ADD"
+  },
+  {
+   "id": "12433a63-0e94-4b48-9d1a-903186faf59b",
+   "memory": "The user suggests Netflix should allow access to all seasons of old shows.",
+   "event": "ADD"
+  },
+  {
+   "id": "07bd3b4c-87dc-47ac-84b9-260516a6ed34",
+   "memory": "The user has faced occasional access issues with Netflix, resolving them by going out and coming back.",
+   "event": "ADD"
+  },
+  {
+   "id": "aa534ba4-2851-4ff2-aa6d-d545ba2211bd",
+   "memory": "The user has no specific comment on whether Netflix has had a positive impact on their entertainment consumption.",
+   "event": "ADD"
+  },
+  {
+   "id": "e383cde3-0774-447b-9e5e-3a81cbbc6df6",
+   "memory": "The user enjoys Netflix due to the wide variety of content available.",
+   "event": "ADD"
+  },
+  {
+   "id": "0f9b43ca-0396-4e4b-9c58-0cd4a123000c",
+   "memory": "The user primarily watches series on Netflix and currently enjoys 'Black List'.",
+   "event": "ADD"
+  },
+  {
+   "id": "c1ba3fd3-3ce5-49f6-a84e-6e4d1603ab51",
+   "memory": "The user does not use specific features or recommendations to discover new content.",
+   "event": "ADD"
+  },
+  {
+   "id": "0657f8c2-ccc1-4509-a1ec-65aa3f7cce41",
+   "memory": "The user would appreciate more diversity in Netflix's content offerings, but is generally satisfied.",
+   "event": "ADD"
+  },
+  {
+   "id": "3913c4c1-4fcd-4574-89f9-86026c924fe5",
+   "memory": "The user has no particular thoughts on Netflix's original programming.",
+   "event": "ADD"
+  },
+  {
+   "id": "cec9c67d-2655-4b08-89d5-438c8dd7bd2a",
+   "memory": "The user is unsure of the pricing of Netflix but believes it offers good value for money.",
+   "event": "ADD"
+  },
+  {
+   "id": "3db9f3fc-9094-4195-abe3-90ee7c86bd12",
+   "memory": "The user suggests that Netflix should keep all seasons of old shows available for viewing.",
+   "event": "ADD"
+  },
+  {
+   "id": "df2a5180-a592-4d28-8068-47988f806aa7",
+   "memory": "The user has experienced occasional access issues with Netflix, resolving them by going out and coming back.",
+   "event": "ADD"
+  },
+  {
+   "id": "e032b31a-e2e2-4616-86b9-7daf2691cd47",
+   "memory": "The user has no opinion on whether Netflix has had a positive impact on the way they consume entertainment.",
+   "event": "ADD"
+  }
+ ],
+ "memories": [
+  "The user would appreciate more diversity in Netflix's content offerings, but is generally satisfied.",
+  "The user has faced occasional access issues with Netflix, resolving them by going out and coming back.",
+  "The user primarily watches series on Netflix and currently enjoys 'Black List'.",
+  "The user suggests Netflix should allow access to all seasons of old shows.",
+  "The user enjoys Netflix because there is something for everyone and new content is added daily.",
+  "The user discovers new content on Netflix through upcoming releases and finds the platform good.",
+  "The user has no particular thoughts on Netflix's original programming.",
+  "The user thinks Netflix offers good value for money but is unsure of the exact cost.",
+  "The user suggests that Netflix should keep all seasons of old shows available for viewing.",
+  "The user has tried original content produced by Netflix and has no complaints.",
+  "The user prefers series over movies and recently enjoys watching 'Black List'.",
+  "The user has no specific comment on whether Netflix has had a positive impact on their entertainment consumption.",
+  "The user does not use specific features or recommendations to discover new content.",
+  "The user thinks the variety of genres and types of shows and movies on Netflix is sufficient but would like more choices.",
+  "The user is unsure of the pricing of Netflix but believes it offers good value for money.",
+  "The user has experienced occasional access issues with Netflix, resolving them by going out and coming back.",
+  "The user has no opinion on whether Netflix has had a positive impact on the way they consume entertainment.",
+  "The user enjoys Netflix due to the wide variety of content available."
+ ],
+ "seconds": 40.8,
+ "config": {
+  "mem0": "2.0.19",
+  "infer": true,
+  "llm": "ollama/qwen2.5:7b",
+  "temperature": 0.0,
+  "embedder": "huggingface/sentence-transformers/all-MiniLM-L6-v2",
+  "vector_store": "qdrant (local, on-disk)",
+  "prompts": "Mem0 defaults (unmodified)"
+ }
+}

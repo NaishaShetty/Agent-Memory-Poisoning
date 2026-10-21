@@ -1,0 +1,120 @@
+{
+ "owner": "105",
+ "n_turns": 55,
+ "events": [
+  {
+   "id": "43d3dfba-e655-454b-9dd4-07da046200b3",
+   "memory": "Co-workers A and B helped a friend move into a new house on October 19, 2026",
+   "event": "ADD"
+  },
+  {
+   "id": "066022c9-351d-40c5-af48-dd4b3a6e5542",
+   "memory": "Co-workers A and B felt sore but found the experience rewarding",
+   "event": "ADD"
+  },
+  {
+   "id": "bc728f07-fbfe-47e1-8663-231d8d4cd7ac",
+   "memory": "Co-workers A was particularly helpful with unpacking boxes in the kitchen",
+   "event": "ADD"
+  },
+  {
+   "id": "ebb28cbf-9307-4c04-b683-d7c6d6d20630",
+   "memory": "Co-workers A and B plan to organize another group effort to help someone in the future",
+   "event": "ADD"
+  },
+  {
+   "id": "1f41025c-644a-4c73-97ef-f88be6c167fc",
+   "memory": "Co-workers A and B suggest relaxation techniques like meditation or yoga for stress relief",
+   "event": "ADD"
+  },
+  {
+   "id": "4e139989-8505-4b11-ad3d-6d6eeaec1787",
+   "memory": "Co-workers A was punished for being honest with friends and family",
+   "event": "ADD"
+  },
+  {
+   "id": "ee54e15e-47a4-4a4e-a575-bdebe4b0f808",
+   "memory": "Co-workers A was shunned by friends who said she was too candid",
+   "event": "ADD"
+  },
+  {
+   "id": "277bff07-23cd-4052-9184-8adc7ab4703f",
+   "memory": "Co-workers A and B discuss the benefits of spending time in nature for stress relief",
+   "event": "ADD"
+  },
+  {
+   "id": "326ae2e9-4983-471f-ac02-2975535da46c",
+   "memory": "Co-workers A takes a walk outside to relieve a headache and finds it helpful",
+   "event": "ADD"
+  },
+  {
+   "id": "c078a60a-15e3-4624-939f-4fe2217fcb46",
+   "memory": "Co-workers A confided in friends at work but they gossiped about her",
+   "event": "ADD"
+  },
+  {
+   "id": "0a99efdb-7187-4598-b6a7-c016a413a435",
+   "memory": "Co-workers A and B help a friend move into a new house on October 19, 2026",
+   "event": "ADD"
+  },
+  {
+   "id": "a3a50857-18ff-490e-881c-a5842cf98478",
+   "memory": "Co-workers A and B organize paperwork for their project",
+   "event": "ADD"
+  },
+  {
+   "id": "4748d45b-8d9b-46ba-a383-4ce47cc19118",
+   "memory": "Co-workers A had a headache so bad that she had to slow down and stop",
+   "event": "ADD"
+  },
+  {
+   "id": "06c421ac-96f0-433d-808c-b101e11a5702",
+   "memory": "Co-workers A and B discuss the importance of balancing honesty with the need to consider others' feelings",
+   "event": "ADD"
+  },
+  {
+   "id": "4954c37d-a09d-4c65-9fe3-3b4864c4691c",
+   "memory": "Co-workers A and B observe a mother and her children at the park, noting the mother's relaxation and the children's play",
+   "event": "ADD"
+  },
+  {
+   "id": "66bfdb2a-896f-4877-b5ff-1e08dd39bcf0",
+   "memory": "Co-workers A emphasizes the importance of fulfilling responsibilities, such as timely paperwork",
+   "event": "ADD"
+  },
+  {
+   "id": "30b56400-6300-4932-b440-ff566ee5ebe2",
+   "memory": "Co-workers B expresses gratitude towards Co-workers A for their organizational skills",
+   "event": "ADD"
+  }
+ ],
+ "memories": [
+  "Co-workers A and B felt sore but found the experience rewarding",
+  "Co-workers A and B discuss the importance of balancing honesty with the need to consider others' feelings",
+  "Co-workers A and B help a friend move into a new house on October 19, 2026",
+  "Co-workers A and B suggest relaxation techniques like meditation or yoga for stress relief",
+  "Co-workers A and B discuss the benefits of spending time in nature for stress relief",
+  "Co-workers B expresses gratitude towards Co-workers A for their organizational skills",
+  "Co-workers A takes a walk outside to relieve a headache and finds it helpful",
+  "Co-workers A and B helped a friend move into a new house on October 19, 2026",
+  "Co-workers A had a headache so bad that she had to slow down and stop",
+  "Co-workers A and B observe a mother and her children at the park, noting the mother's relaxation and the children's play",
+  "Co-workers A was punished for being honest with friends and family",
+  "Co-workers A emphasizes the importance of fulfilling responsibilities, such as timely paperwork",
+  "Co-workers A and B organize paperwork for their project",
+  "Co-workers A was particularly helpful with unpacking boxes in the kitchen",
+  "Co-workers A confided in friends at work but they gossiped about her",
+  "Co-workers A and B plan to organize another group effort to help someone in the future",
+  "Co-workers A was shunned by friends who said she was too candid"
+ ],
+ "seconds": 50.4,
+ "config": {
+  "mem0": "2.0.19",
+  "infer": true,
+  "llm": "ollama/qwen2.5:7b",
+  "temperature": 0.0,
+  "embedder": "huggingface/sentence-transformers/all-MiniLM-L6-v2",
+  "vector_store": "qdrant (local, on-disk)",
+  "prompts": "Mem0 defaults (unmodified)"
+ }
+}
