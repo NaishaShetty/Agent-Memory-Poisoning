@@ -1,5 +1,5 @@
 {
-  "_note": "Tests the root conftest.py converts from failures into skips (missing gitignored licensed data, unreachable model download). Measured 2026-10-18 on a clean checkout with no data/raw/ and no Ollama (Windows worktree at 533cf3d9 plus the audit changes). Raise only deliberately, in review, with the reason; a Linux runner may differ slightly and the first CI run confirms these.",
+  "_note": "Tests the root conftest.py converts from failures into skips (missing gitignored licensed data, unreachable model download). Measured 2026-10-18 on a clean checkout with no data/raw/ and no Ollama (Windows worktree at 533cf3d9 plus the audit changes). Raise only deliberately, in review, with the reason; a Linux runner may differ slightly and the first CI run confirms these. Raised 14 -> 16 (2026-10-21, defence programme v8): two new structural tests (phase17/defence_v8/tests/test_sa8_corpus.py::test_cc_owner_selection_is_reproducible, test_sa9_corpus.py::test_longmemeval_owner_selection_is_reproducible) correctly auto-skip on CI, which has no data/processed/conversation_chronicles or data/processed/longmemeval (gitignored, same as every other licensed-data test in this project); confirmed on the first hosted run against this branch.",
   "frozen-phases": 213,
-  "phase17": 14
+  "phase17": 16
 }
