@@ -201,6 +201,18 @@ FORMULAS = [
      "record_i.hash = SHA-256 (or HMAC-SHA-256 with key) of canonical(record_i without hash), record_i.prev = record_(i-1).hash, "
      "record_i.seq = i;  HEAD = (last seq, last hash);  verify: every hash, prev link and seq, then HEAD",
      "phase17/defence_v7/ledger_chain.py"),
+    ("Defenses", "Authenticated writer signature (v8)",
+     "sig(w, payload) = HMAC-SHA-256(key(w), canonical({writer_id: w} union payload));  verify(w, key, payload, sig) iff "
+     "key is not None AND sig(w, key, payload) == sig (constant-time compare);  payload = {channel, sha256(text), claims}",
+     "phase17/defence_v8/ledger_chain_v8.py: writer_signature, verify_writer_signature"),
+    ("Defenses", "Writer-authenticated detection gate C AND K + G (v8)",
+     "flagged(m) = untrusted(m) AND K(stored(m));  G: flagged(m) AND channel(m) in {document, missing} AND "
+     "verified_trusted_writer(m) => suppress;  G never adds a flag, only removes one",
+     "phase17/defence_v8/g3_v8.py: ck_plus_g"),
+    ("Defenses", "Label-independent writer assignment (v8)",
+     "assign_writer(owner, id, channel): channel=user -> device_app;  channel=missing -> unsigned;  channel=document -> "
+     "WRITER_IDS[sha256(owner, id) mod 3];  a pure function of (owner, id, channel) only, never of kind or label",
+     "phase17/defence_v8/writer_policy.py: assign_writer"),
 
 ]
 

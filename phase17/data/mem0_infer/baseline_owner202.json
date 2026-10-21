@@ -1,0 +1,16 @@
+{
+ "owner": "202",
+ "n_turns": 40,
+ "events": [],
+ "memories": [],
+ "seconds": 36.9,
+ "config": {
+  "mem0": "2.0.19",
+  "infer": true,
+  "llm": "ollama/qwen2.5:7b",
+  "temperature": 0.0,
+  "embedder": "huggingface/sentence-transformers/all-MiniLM-L6-v2",
+  "vector_store": "qdrant (local, on-disk)",
+  "prompts": "Mem0 defaults (unmodified)"
+ }
+}

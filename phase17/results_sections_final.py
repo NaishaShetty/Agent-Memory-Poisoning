@@ -141,22 +141,23 @@ def write(H, P, TBL, CAP, FIGF):
           + ", ".join(f"{k.upper()} {v['item_for_item_equal_to_RCL_with_lineage']}" for k, v in wtp["sets"].items())
           + ") with zero unflagged collateral, and was accepted. Lineage deleted after writing remains unsolved.")
 
-    # 2026-10-19: Section 22 states the current architecture and closure (after Defence v7). The 2026-10-14
+    # 2026-10-21: Section 22 states the current architecture and closure (after Defence v8). The Defence v7
     # architecture figure and closure table it used to show are listed under History of Corrections.
     H("22. Defence Architecture and Operational Gap Closure", 1)
-    P("This section gives the defence architecture and the operational closure of the three research gaps after the final "
-      "programme (Defence v7, Section 24). Each gap is scored with the weighted evidence-strength rubric fixed before the final "
-      "programmes (docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md section 3); scores measure evidence strength, not accuracy, "
-      "and the three gaps are never combined into one score.")
-    FIGF("W5", "The evaluated defence architecture after Defence v7, stage by stage, with each component's status.")
-    cl7 = _L("defence_v7/closure_v7.json")
+    P("This section gives the defence architecture and the operational closure of the three research gaps after the current "
+      "programme (Defence v8, Section 25). Each gap is scored with the weighted evidence-strength rubric fixed before the "
+      "final programmes (docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md section 3); scores measure evidence strength, not "
+      "accuracy, and the three gaps are never combined into one score.")
+    FIGF("X6", "The evaluated defence architecture after Defence v8, stage by stage, with each component's status.")
+    cl8 = _L("defence_v8/closure_v8.json")
     rows = [["Gap", "Capability (* = critical)", "Weight", "Evidence score"]]
-    for g, v in cl7["gaps"].items():
+    for g, v in cl8["gaps"].items():
         name = g.split(": ")[1]
+        after = v.get("after_v8", v.get("after_v7"))
         for c in v["capabilities"]:
             rows.append([name, c["name"], f"{c['weight']:.2f}", f"{c['after']:.2f}"])
-        rows.append([name, "GAP SCORE (critical caps applied)", "", f"{v['after_v7'] * 100:.1f}%"])
+        rows.append([name, "GAP SCORE (critical caps applied)", "", f"{after * 100:.1f}%"])
     TBL(rows)
-    CAP("Table 22A. Operational closure per gap after Defence v7 under the frozen rubric (critical capabilities marked *). "
-        "Source: phase17/data/defence_v7/closure_v7.json.")
-    FIGF("W4", "Operational closure per research gap after Defence v5, v6 and v7.")
+    CAP("Table 22A. Operational closure per gap after Defence v8 under the frozen rubric (critical capabilities marked *). "
+        "Source: phase17/data/defence_v8/closure_v8.json.")
+    FIGF("X5", "Operational closure per research gap, Defence v7 and v8.")

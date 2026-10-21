@@ -38,6 +38,7 @@ flowchart LR
         G1[Admission guard] --> G2[Retrieval consensus] --> G3[Propagation containment] --> G4[Sleeper guard]
         G5[Provenance & corroboration B13] -.-> G1
         G6[Rejection ledger] -.-> G1
+        G7[Authenticated-writer ledger<br/>HMAC per-writer signature] -.-> G4
     end
     D1 --> V1
     A1 -->|inject| V2
@@ -65,11 +66,11 @@ validated and run against an undefended agent.
 
 ## Research gaps
 
-| Gap | Question | What was built (Defence programmes v2–v7) |
+| Gap | Question | What was built (Defence programmes v2–v8) |
 |---|---|---|
 | **1. Provenance & governance** | Can the source of a memory, not just its text, decide whether it is trusted? | Provenance-aware admission (B13), graded provenance (exclude / frame / keep), validated source links, owner-conversation corroboration |
 | **2. Self-propagation & containment** | Can poison be stopped from spreading through consolidated (derived) memories? | Consolidation guard, write-time taint, no-decay guard ∨ sentence fingerprint (ND\|RAR-S), lineage recovery after deletion (DCR-2) |
-| **3. Dormant & implicit sleepers** | Can a harmless-looking note that activates later be caught without flagging ordinary notes? | Activation-shape and dormancy signals, intent judge (condition E), two-stage frame, high-impact gate |
+| **3. Dormant & implicit sleepers** | Can a harmless-looking note that activates later be caught without flagging ordinary notes? | Activation-shape and dormancy signals, intent judge (condition E), two-stage frame, high-impact gate, a writer-authenticated detection gate (C AND K + G) over a per-writer HMAC-signed ledger |
 
 Each gap is scored with a rubric fixed before any new outcome
 ([`docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md`](docs/archive/FINAL_DEFENCE_BASELINE_AUDIT.md) §3); development-only evidence
@@ -84,14 +85,14 @@ capped at 0.50 if any critical capability scores 0, and at 0.60 if any scores �
 ```mermaid
 xychart-beta
     title "Operational closure per gap (frozen rubric, %)"
-    x-axis ["v5", "v6", "v7"]
+    x-axis ["v5", "v6", "v7", "v8"]
     y-axis "closure %" 0 --> 100
-    line "Gap 1 provenance" [59, 63.7, 75.0]
-    line "Gap 2 propagation" [65, 65.0, 71.2]
-    line "Gap 3 sleepers" [29, 33.8, 33.8]
+    line "Gap 1 provenance" [59, 63.7, 75.0, 75.0]
+    line "Gap 2 propagation" [65, 65.0, 71.2, 75.0]
+    line "Gap 3 sleepers" [29, 33.8, 33.8, 61.3]
 ```
 
-![Defence v7 architecture](docs/figures/v7/W5_architecture_v7.png)
+![Defence v8 architecture](docs/figures/v8/X6_architecture_v8.png)
 
 ## Contributions
 
@@ -109,6 +110,11 @@ xychart-beta
    seven times and found to double as development data, was retired rather than reused.
 5. **Negative results kept.** Failed signals, under-powered tests and corrected claims are
    reported beside the results they qualify (Results Analysis; [`docs/REMEDIATION_MASTER_REGISTER.md`](docs/REMEDIATION_MASTER_REGISTER.md)).
+6. **A detector's apparent pass does not generalise on its own.** C AND K met the Gap-3 limits on
+   one held-out corpus (SA-7) without being pre-registered for it, and failed to replicate on a
+   second, independently sourced corpus (SA-8) at the same operating point — only a dedicated,
+   pre-registered writer-authentication mechanism, confirmed on a third corpus (SA-9), closed the
+   gap, with its own operating boundary measured and disclosed (Defence v8).
 
 ## Current results
 
@@ -120,7 +126,10 @@ Selected figures. The Results Analysis holds every denominator, interval and qua
 | Harm, re-judged with a judge validated on human labels (309 items) | 58.3% undefended → 24.6% with B13 (task alone 2.3%; p = 4×10⁻²⁹) |
 | Gap 1, graded provenance on SA-7 | explicit attacks excluded 36/48 vs 14/48 for B13 (Holm p = 1.9×10⁻⁶); grounded legitimate rules excluded 0/48 |
 | Gap 2, containment at generation 4 (HO10) | 36/56 payload-carrying descendants withheld (64.3%; owner interval 54.5–72%) |
-| Gap 3, implicit sleepers (SA-7) | pre-registered operating point E: 40/48 detected but 19/144 = 13.2% legitimate rules flagged (limit 10%) — **not met** |
+| Gap 3, implicit sleepers (SA-7, v7) | pre-registered operating point E: 40/48 detected but 19/144 = 13.2% legitimate rules flagged, over the 10% limit |
+| Gap 3, writer-authenticated detection (SA-9, v8) | C AND K + G: 20/40 detected (50.0%), 13/144 = 9.0% legitimate rules flagged — both limits met jointly for the first time in this project's held-out record |
+| Gap 3, the gate's own operating boundary (stress test, v8) | a compromised trusted-writer key removes detection entirely on that channel (0/136); the gate's benefit depends on trusted-writer keys staying uncompromised |
+| Gap 2, factual-payload containment (HO11, v8) | 55 carrying descendants to generation 4 (comfortably powered, against v7's 7); 71% withheld, clearing the 60% bar v7 fell short of |
 | Exfiltration on gate-valid instances | zero harm across three 7–8B agent families: the agents restate but do not execute the redirect |
 
 ```mermaid
@@ -225,9 +234,11 @@ the pinned models, and some need the isolated Mem0/A-MEM environments; see
 
 ## Known limitations
 
-- **Gap 3 is not closed (33.8%).** No pre-registered operating point detects implicit sleepers
-  while keeping legitimate conditional notes under the 10% limit; attacks relayed through the
-  user pass every provenance defence (0/24).
+- **Gap 3's writer-authenticated gate depends on an assumption outside the data: trusted-writer
+  keys stay uncompromised.** C AND K + G clears both the detection and legitimate-rule limits on
+  SA-9 (61.3% closure), but a stress test shows a compromised trusted-writer key removes detection
+  on that channel entirely (0/136); attacks relayed through the user pass every provenance defence
+  (0/24).
 - **Small local models.** Agents and judges are 7–8B local models; harm levels depend on the judge,
   so reductions are more reliable than absolute levels.
 - **Reconstructions.** The attacks are reconstructions of published techniques, not the authors'
@@ -241,6 +252,33 @@ the pinned models, and some need the isolated Mem0/A-MEM environments; see
 - `requirements-lock.txt` is a Windows/CUDA freeze of the development machine; CI and Linux users
   install `requirements-ci.txt` (exact versions with hashes, Linux, Python 3.11).
 
+## References
+
+Full citations, with identifiers and licences verified against the original source, are in
+Methodology Section 16. Summary:
+
+**Datasets**
+- LoCoMo — Maharana et al., "Evaluating Very Long-Term Conversational Memory of LLM Agents," ACL 2024 (arXiv:2402.17753). CC BY-NC 4.0.
+- Multi-Session Chat (MSC) — Xu, Szlam & Weston, "Beyond Goldfish Memory: Long-Term Open-Domain Conversation," ACL 2022, via ParlAI.
+- Conversation Chronicles — Jang, Boo & Kim, EMNLP 2023. CC BY 4.0.
+- LongMemEval — Wu et al., ICLR 2025 (arXiv:2410.10813). MIT-licensed host used by this project.
+
+**Attacks reconstructed**
+- AgentPoison — Chen et al., NeurIPS 2024 (arXiv:2407.12784).
+- MINJA (query-only memory injection) — Dong et al., NeurIPS 2025 (arXiv:2503.03704).
+- DSRM (deceptive semantic reasoning) — Jing et al., Engineering Applications of AI, vol. 167 (2026).
+- MemoryGraft — Srivastava & He, arXiv:2512.16962 (2025), MIT-licensed repository.
+- FARMA (forged reasoning) — Karamchandani et al., arXiv:2607.05029 (2026).
+- MPBench-PCFI — Dash et al., "From Untrusted Input to Trusted Memory," arXiv:2606.04329 (2026).
+- Sleeper Memory Poisoning — Pulipaka et al., arXiv:2605.15338 (2026).
+
+**Memory frameworks and infrastructure**
+- Mem0 — Chhikara et al., arXiv:2504.19413 (2025); installed as `mem0ai` 2.0.19.
+- A-MEM — Xu et al., NeurIPS 2025 (arXiv:2502.12110).
+- cross-encoder/nli-deberta-v3-base — Sentence-BERT cross-encoder (Reimers & Gurevych, EMNLP-IJCNLP 2019) fine-tuned from DeBERTaV3 (He, Gao & Chen, ICLR 2023) on SNLI and MultiNLI.
+- Qdrant vector database (Apache-2.0).
+- Agent Security Bench (ASB) — Zhang et al., ICLR 2025 (arXiv:2410.02644), MIT-licensed, used for taxonomy comparison.
+
 ## Repository map
 
 | Path | Contents |
@@ -249,7 +287,7 @@ the pinned models, and some need the isolated Mem0/A-MEM environments; see
 | `phase4/` | the seven attacks and the shared attack contract |
 | `phase5/`, `attribution/` | instrumentation, event ledger, attribution layer |
 | `phase6/`–`phase15/` | defences, propagation, sleeper, risk composition, GNN/GLN, metrics, utility |
-| `phase17/` | ablation, generalisation, hold-outs, defence programmes v2–v7 |
+| `phase17/` | ablation, generalisation, hold-outs, defence programmes v2–v8 |
 | `mambench/` | unified benchmark registry, schema, runner and tests |
 | `docs/`, `paper/` | phase reports, figures, specifications, manuscript sources |
 | `data/metadata/` | dataset manifests and freeze records |

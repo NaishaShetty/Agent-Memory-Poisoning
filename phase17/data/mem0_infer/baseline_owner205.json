@@ -1,0 +1,48 @@
+{
+ "owner": "205",
+ "n_turns": 40,
+ "events": [
+  {
+   "id": "1660a90e-c76b-4877-b0a3-91f4342c9e5f",
+   "memory": "Negatively geared properties are where rental income is less than expenses, while positively geared properties have a positive cash flow.",
+   "event": "ADD"
+  },
+  {
+   "id": "2df84d34-6294-401f-9984-9026f36ffe30",
+   "memory": "Positively geared properties are considered more valuable in Australia due to steady income and lower risk.",
+   "event": "ADD"
+  },
+  {
+   "id": "a56e14a6-d129-4a2f-b21b-e8531cb5305d",
+   "memory": "The Kansas City Chiefs and the Jacksonville Jaguars have played each other 23 times since 1995, with the Chiefs winning 14 games and the Jaguars 9 games.",
+   "event": "ADD"
+  },
+  {
+   "id": "a2a89706-43d4-4431-827f-42c6008c2af5",
+   "memory": "The Kansas City Chiefs and the Jacksonville Jaguars have played each other 23 times since 1995, with 12 games played in Kansas City, Missouri, and the Chiefs winning 10 of those games.",
+   "event": "ADD"
+  },
+  {
+   "id": "7338238a-940a-416f-a329-f83e85f3928f",
+   "memory": "The Philadelphia Eagles and the New York Giants have played each other 102 times, with the Eagles hosting 52 games, and the Eagles winning 31 of those home games.",
+   "event": "ADD"
+  }
+ ],
+ "memories": [
+  "Negatively geared properties are where rental income is less than expenses, while positively geared properties have a positive cash flow.",
+  "Positively geared properties are considered more valuable in Australia due to steady income and lower risk.",
+  "The Philadelphia Eagles and the New York Giants have played each other 102 times, with the Eagles hosting 52 games, and the Eagles winning 31 of those home games.",
+  "The Kansas City Chiefs and the Jacksonville Jaguars have played each other 23 times since 1995, with 12 games played in Kansas City, Missouri, and the Chiefs winning 10 of those games.",
+  "The Kansas City Chiefs and the Jacksonville Jaguars have played each other 23 times since 1995, with the Chiefs winning 14 games and the Jaguars 9 games."
+ ],
+ "seconds": 22.0,
+ "config": {
+  "mem0": "2.0.19",
+  "infer": true,
+  "llm": "ollama/qwen2.5:7b",
+  "temperature": 0.0,
+  "embedder": "huggingface/sentence-transformers/all-MiniLM-L6-v2",
+  "vector_store": "qdrant (local, on-disk)",
+  "prompts": "Mem0 defaults (unmodified)"
+ }
+}
