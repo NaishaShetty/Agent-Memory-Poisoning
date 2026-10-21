@@ -42,3 +42,13 @@ phase3/datasets/candidates/memoryagentbench/raw/github_repo/.gitignore text eol=
 phase3/datasets/candidates/convomem/raw/** -text
 phase3/datasets/candidates/memoryagentbench/raw/hf_dataset/** -text
 phase3/datasets/candidates/memoryarena/raw/hf_dataset/** -text
+
+# Added (defence programme v8, 2026-10-21): the SAME bug as the 2026-09-28 fix above, this
+# time hitting phase17/tests/test_v7_frozen.py's own sha256 manifest. The manifest was built
+# by hashing the Windows working tree (core.autocrlf=true converts the committed LF bytes to
+# CRLF on checkout), so it passed locally but failed on Linux CI, where git checks out the
+# true LF bytes. -text pins every frozen v7 path to its committed bytes on every platform;
+# the manifest is rebuilt from the renormalized working tree immediately after this.
+phase17/defence_v7/** -text
+phase17/data/defence_v7/** -text
+docs/phase17/v7/** -text
